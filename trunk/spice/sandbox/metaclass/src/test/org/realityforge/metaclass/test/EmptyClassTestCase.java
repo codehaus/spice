@@ -22,9 +22,9 @@ public class EmptyClassTestCase
     private static final int EXPECTED_MODIFIER = 0;
     private Vector _expectedAttributes;
 
-    public EmptyClassTestCase( final String name )
+    public EmptyClassTestCase()
     {
-        super( name, CLASS_NAME );
+        super( "EmptyClass", CLASS_NAME );
     }
 
     public static Test suite()

@@ -9,6 +9,8 @@ package org.realityforge.metaclass.test;
 
 import java.lang.reflect.Modifier;
 import java.util.Vector;
+import java.util.Properties;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
@@ -56,9 +58,9 @@ public class BasicMethodTestCase
 
     private MethodDescriptor[] _methodDescriptors;
 
-    public BasicMethodTestCase( final String name )
+    public BasicMethodTestCase()
     {
-        super( name, CLASS_NAME );
+        super( "BasicMethod", CLASS_NAME );
     }
 
     public static Test suite()
@@ -90,9 +92,13 @@ public class BasicMethodTestCase
             _expectedAttributes[ 1 ].add( new Attribute( "return", "the private string" ) );
             _expectedAttributes[ 2 ] = new Vector();
             _expectedAttributes[ 2 ].add( new Attribute( "param", "aPrivateString" ) );
+
+            final Properties parameters = new Properties();
+            parameters.put( "1", "2" );
             _expectedAttributes[ 3 ] = new Vector();
+            _expectedAttributes[ 3 ].add( new Attribute( "stuff", parameters ) );
         }
-        catch( final Exception e )
+        catch ( final Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );
@@ -118,7 +124,7 @@ public class BasicMethodTestCase
 
     public void testName()
     {
-        for( int i = 0; i < _methodDescriptors.length; i++ )
+        for ( int i = 0; i < _methodDescriptors.length; i++ )
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
@@ -129,7 +135,7 @@ public class BasicMethodTestCase
 
     public void testModifiers()
     {
-        for( int i = 0; i < _methodDescriptors.length; i++ )
+        for ( int i = 0; i < _methodDescriptors.length; i++ )
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
@@ -139,7 +145,7 @@ public class BasicMethodTestCase
 
     public void testReturnType()
     {
-        for( int i = 0; i < _methodDescriptors.length; i++ )
+        for ( int i = 0; i < _methodDescriptors.length; i++ )
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
@@ -149,26 +155,26 @@ public class BasicMethodTestCase
 
     public void testParameters()
     {
-        for( int i = 0; i < _methodDescriptors.length; i++ )
+        for ( int i = 0; i < _methodDescriptors.length; i++ )
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
             final ParameterDescriptor[] parameters = methodDescriptor.getParameters();
             assertNotNull( parameters );
             assertTrue( org.realityforge.metaclass.test.MetaClassTestUtility.areContentsEqual( EXPECTED_PARAMETERS[ i ],
-                                                  parameters ) );
+                                                                                               parameters ) );
         }
     }
 
     public void testGetAttributes()
     {
-        for( int i = 0; i < _methodDescriptors.length; i++ )
+        for ( int i = 0; i < _methodDescriptors.length; i++ )
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
 
             final Attribute[] attributes = methodDescriptor.getAttributes();
-            if( i < _expectedAttributes.length )
+            if ( i < _expectedAttributes.length )
             {
                 checkAttributesMatchExpected( _expectedAttributes[ i ], attributes,
                                               "Method: getAttributes" + i );

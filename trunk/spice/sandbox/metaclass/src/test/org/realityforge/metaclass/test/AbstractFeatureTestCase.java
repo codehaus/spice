@@ -8,6 +8,7 @@
 package org.realityforge.metaclass.test;
 
 import java.util.Vector;
+
 import junit.framework.TestCase;
 import org.realityforge.metaclass.MetaClassIntrospector;
 import org.realityforge.metaclass.model.Attribute;
@@ -15,7 +16,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
  * This class requires super.setUp() to be called by subclasses in their setUp()
- * in order to set up the MetaClass info.
+ * in order to set up the Attributes info.
  * This also allows the subclass to populate _attributes with expected attributes.
  */
 public abstract class AbstractFeatureTestCase
@@ -40,7 +41,7 @@ public abstract class AbstractFeatureTestCase
             final Class clazz = Class.forName( _className );
             _classDescriptor = MetaClassIntrospector.getClassInfo( clazz );
         }
-        catch( final Exception e )
+        catch ( final Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );
@@ -82,37 +83,37 @@ public abstract class AbstractFeatureTestCase
                                                  final Attribute[] attributes,
                                                  final String testName )
     {
-        if( !areContentsEqual( expectedAttributes,
-                               attributes ) )
+        if ( !areContentsEqual( expectedAttributes,
+                                attributes ) )
         {
             final StringBuffer failMessage = new StringBuffer();
             failMessage.append( "Test: " + testName + "\n" );
             failMessage.append( "Attributes are not equal:\n" );
 
             failMessage.append( "Expected:\n" );
-            if( null == expectedAttributes )
+            if ( null == expectedAttributes )
             {
                 failMessage.append( "null\n" );
             }
             else
             {
                 failMessage.append( expectedAttributes.size() + " elements\n" );
-                for( int i = 0; i < expectedAttributes.size(); i++ )
+                for ( int i = 0; i < expectedAttributes.size(); i++ )
                 {
-                    final Attribute attribute = (Attribute)expectedAttributes.elementAt( i );
+                    final Attribute attribute = (Attribute) expectedAttributes.elementAt( i );
                     failMessage.append( i + " = " + attribute + "\n" );
                 }
             }
 
             failMessage.append( "Actual:\n" );
-            if( null == attributes )
+            if ( null == attributes )
             {
                 failMessage.append( "null\n" );
             }
             else
             {
                 failMessage.append( attributes.length + " elements\n" );
-                for( int i = 0; i < attributes.length; i++ )
+                for ( int i = 0; i < attributes.length; i++ )
                 {
                     final Attribute attribute = attributes[ i ];
                     failMessage.append( i + " = " + attribute + "\n" );
@@ -134,42 +135,42 @@ public abstract class AbstractFeatureTestCase
     protected static boolean areContentsEqual( final Vector original,
                                                final Object[] other )
     {
-        if( null == original )
+        if ( null == original )
         {
-            if( null != other )
+            if ( null != other )
             {
                 return false;
             }
         }
         else
         {
-            if( null == other )
+            if ( null == other )
             {
                 return false;
             }
         }
 
-        if( null != original && null != other )
+        if ( null != original && null != other )
         {
-            if( original.size() != other.length )
+            if ( original.size() != other.length )
             {
                 return false;
             }
 
-            for( int i = 0; i < original.size(); i++ )
+            for ( int i = 0; i < original.size(); i++ )
             {
                 final Object originalElement = original.elementAt( i );
                 boolean found = false;
-                for( int j = 0; j < other.length; j++ )
+                for ( int j = 0; j < other.length; j++ )
                 {
                     final Object otherElement = other[ j ];
-                    if( originalElement.equals( otherElement ) )
+                    if ( MetaClassTestUtility.areDescriptorsEqual( originalElement, otherElement ) )
                     {
                         found = true;
                         break;
                     }
                 }
-                if( !found )
+                if ( !found )
                 {
                     return false;
                 }

@@ -220,4 +220,14 @@ public class ClassDescriptorUtility
         }
         return parameterDescriptors;
     }
+
+    public static String getJustClassName( final String fullyQualifiedClassName )
+    {
+        int lastDot = fullyQualifiedClassName.lastIndexOf( "." );
+        if ( lastDot < fullyQualifiedClassName.length() )
+        {
+            lastDot++;
+        }
+        return fullyQualifiedClassName.substring( lastDot, fullyQualifiedClassName.length() );
+    }
 }

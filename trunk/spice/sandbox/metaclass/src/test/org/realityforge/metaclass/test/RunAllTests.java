@@ -16,10 +16,14 @@ public class RunAllTests
     public static Test suite()
     {
         final TestSuite suite = new TestSuite();
+        suite.addTest( AttributeTextAndParameterTestCase.suite() );
         suite.addTest( EmptyClassTestCase.suite() );
         suite.addTest( BasicClassTestCase.suite() );
+        suite.addTest( BasicClassAttributesTestCase.suite() );
         suite.addTest( BasicFieldTestCase.suite() );
+        suite.addTest( BasicFieldAttributesTestCase.suite() );
         suite.addTest( BasicMethodTestCase.suite() );
+        suite.addTest( BasicMethodAttributesTestCase.suite() );
         suite.addTest( BasicClassLoaderTestCase.suite() );
         return suite;
     }

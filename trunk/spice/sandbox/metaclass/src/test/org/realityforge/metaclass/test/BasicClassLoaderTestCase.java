@@ -9,6 +9,7 @@ package org.realityforge.metaclass.test;
 
 import java.lang.reflect.Modifier;
 import java.util.Vector;
+import java.util.Properties;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -27,9 +28,9 @@ public class BasicClassLoaderTestCase
     private static final int EXPECTED_MODIFIER = Modifier.PUBLIC;
     private Vector _expectedAttributes;
 
-    public BasicClassLoaderTestCase( final String name )
+    public BasicClassLoaderTestCase()
     {
-        super( name, CLASS_NAME );
+        super( "BasicClassLoader", CLASS_NAME );
     }
 
     public static Test suite()
@@ -59,7 +60,9 @@ public class BasicClassLoaderTestCase
             _expectedAttributes = new Vector();
             _expectedAttributes.add( new Attribute( "test-attribute1", "true" ) );
             _expectedAttributes.add( new Attribute( "test-attribute2", "thisIsATestString" ) );
-            _expectedAttributes.add( new Attribute( "test-attribute3", "" ) );
+            final Properties parameters = new Properties();
+            parameters.put( "satan", "17.5" );
+            _expectedAttributes.add( new Attribute( "test-attribute3", parameters ) );
         }
         catch( final Exception e )
         {
