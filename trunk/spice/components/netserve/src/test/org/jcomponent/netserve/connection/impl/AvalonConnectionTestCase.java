@@ -14,6 +14,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Iterator;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
@@ -32,7 +35,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link org.jcomponent.netserve.connection.ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-31 02:27:03 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-31 03:00:16 $
  */
 public class AvalonConnectionTestCase
     extends TestCase
@@ -69,9 +72,11 @@ public class AvalonConnectionTestCase
     /**
      * Delay used to try and trick OS into unbinding socket.
      */
-    private static final int PRECREATE_DELAY = Integer.parseInt( System.getProperty( "netserve.precreate.delay", "100" ) );
+    private static final int PRECREATE_DELAY =
+        Integer.parseInt( System.getProperty( "netserve.precreate.delay", "100" ) );
 
-    ConnectionMonitor m_monitor;
+    private ConnectionMonitor m_monitor;
+    private Set m_sockets = new HashSet();
 
     public AvalonConnectionTestCase( final String name )
     {
@@ -82,6 +87,18 @@ public class AvalonConnectionTestCase
     {
         m_monitor = new AvalonConnectionMonitor();
         ContainerUtil.enableLogging( m_monitor, new ConsoleLogger() );
+    }
+
+    protected void tearDown() throws Exception
+    {
+        final HashSet copy = new HashSet();
+        copy.addAll( m_sockets );
+        final Iterator iterator = copy.iterator();
+        while( iterator.hasNext() )
+        {
+            final ServerSocket serverSocket = (ServerSocket)iterator.next();
+            shutdown( serverSocket );
+        }
     }
 
     public void testSchemaValidation()
@@ -645,6 +662,7 @@ public class AvalonConnectionTestCase
         try
         {
             final ServerSocket serverSocket = new ServerSocket( port, 5, HOST );
+            m_sockets.add( serverSocket );
             serverSocket.setSoTimeout( 50 );
             return serverSocket;
         }
@@ -671,9 +689,11 @@ public class AvalonConnectionTestCase
                 serverSocket.setSoTimeout( 1 );
             }
             serverSocket.close();
+            m_sockets.remove( serverSocket );
         }
         catch( final Exception e )
         {
+            e.printStackTrace();
         }
     }
 
