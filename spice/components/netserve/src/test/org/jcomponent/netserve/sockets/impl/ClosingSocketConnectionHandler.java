@@ -15,17 +15,17 @@ import java.io.OutputStream;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-09 08:18:59 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-10 03:52:19 $
  */
 class ClosingSocketConnectionHandler
     implements SocketConnectionHandler
 {
     static final String MESSAGE = "Bye!";
 
-    public void handleConnection( final Socket connection )
+    public void handleConnection( final Socket socket )
         throws IOException
     {
-        final OutputStream outputStream = connection.getOutputStream();
+        final OutputStream outputStream = socket.getOutputStream();
         outputStream.write( MESSAGE.getBytes() );
         outputStream.flush();
         outputStream.close();
