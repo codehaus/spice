@@ -20,6 +20,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Collection;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
@@ -30,7 +33,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  * Java Source files with qdox.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-04 10:31:39 $
+ * @version $Revision: 1.8 $ $Date: 2003-10-16 06:38:57 $
  */
 public class ClassDescriptorCompiler
 {
@@ -198,10 +201,10 @@ public class ClassDescriptorCompiler
         final List classes = collectJavaClassesToSerialize();
         m_monitor.javaClassObjectsLoaded( classes );
 
-        final List filteredClasses = filterJavaClassObjects( classes );
+        final Collection filteredClasses = filterJavaClassObjects( classes );
         m_monitor.postFilterJavaClassList( classes );
 
-        final List descriptors = buildClassDescriptors( filteredClasses );
+        final Collection descriptors = buildClassDescriptors( filteredClasses );
         writeClassDescriptors( descriptors );
     }
 
@@ -211,7 +214,7 @@ public class ClassDescriptorCompiler
      * @param classes the list containing JavaClass objects.
      * @return a list containing created ClassDescriptor objects.
      */
-    private List buildClassDescriptors( final List classes )
+    private List buildClassDescriptors( final Collection classes )
     {
         final QDoxAttributeInterceptor[] interceptors =
             (QDoxAttributeInterceptor[])m_interceptors.
@@ -234,7 +237,7 @@ public class ClassDescriptorCompiler
      *
      * @param classes the list containing ClassDescriptor objects.
      */
-    private void writeClassDescriptors( final List classes )
+    private void writeClassDescriptors( final Collection classes )
     {
         final Iterator iterator = classes.iterator();
         while( iterator.hasNext() )
@@ -291,14 +294,14 @@ public class ClassDescriptorCompiler
      * @param input the list of input classes to filter
      * @return list of classes to serialize
      */
-    private List filterJavaClassObjects( final List input )
+    private Set filterJavaClassObjects( final List input )
     {
         final JavaClassFilter[] filters = (JavaClassFilter[])m_filters.
             toArray( new JavaClassFilter[ m_filters.size() ] );
         final MulticastJavaClassFilter filter =
             new MulticastJavaClassFilter( filters );
 
-        final List classes = new ArrayList();
+        final Set classes = new HashSet();
         final int classCount = input.size();
         for( int i = 0; i < classCount; i++ )
         {

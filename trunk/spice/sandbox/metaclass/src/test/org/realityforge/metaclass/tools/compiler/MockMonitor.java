@@ -7,14 +7,14 @@
  */
 package org.realityforge.metaclass.tools.compiler;
 
-import org.realityforge.metaclass.model.ClassDescriptor;
 import java.io.File;
-import java.util.List;
+import java.util.Collection;
+import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-04 09:56:30 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-16 06:38:57 $
  */
 class MockMonitor
     extends DefaultCompilerMonitor
@@ -41,13 +41,13 @@ class MockMonitor
         return m_error;
     }
 
-    public void javaClassObjectsLoaded( List classes )
+    public void javaClassObjectsLoaded( Collection classes )
     {
         System.out.println( "javaClassObjectsLoaded(" + classes + ")" );
         super.javaClassObjectsLoaded( classes );
     }
 
-    public void postFilterJavaClassList( List classes )
+    public void postFilterJavaClassList( final Collection classes )
     {
         System.out.println( "postFilterJavaClassList(" + classes + ")" );
         super.postFilterJavaClassList( classes );
