@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<document>
+    <properties>
+        <title>NetServe</title>
+    </properties>
+    <body>
+        <section name="Introduction">
+<p>
+NetServe provides a set of components useful for creating a Network Server. 
+This includes an abstraction for creating sockets, an implementation of the 
+Acceptor/Connector pattern from ACE for both stream based and packet based connections, etc.
+</p>
+        </section>
+        <section name="Multi-Container support">
+<p>
+NetServe implementations are designed to support deployment in different 
+containers or frameworks, while honouring the same API.  
+</p>
+			<subsection name="Avalon Framework Container">
+<p>
+<a href="http://avalon.apache.org/framework">Avalon Framework</a> supports Inversion of Control (IoC),
+via a set of interfaces.  
+</p>
+<p>
+<a href="apidocs/org/jcomponent/netserve/connection/impl/AvalonConnectionManager.html">AvalonConnectionManager</a> provides an implementation of
+the <a href="apidocs/org/jcomponent/netserve/connection/ConnectionManager.html">ConnectionManager</a> interface which is Avalon-compatible.
+</p>
+			</subsection>
+			<subsection name="Pico Container">
+<p>
+<a href="http://picocontainer.org">Pico Container</a> supports IoC in a more agile and embeddable
+way, without the need to import any external interface or class.
+</p>
+<p>
+<a href="apidocs/org/jcomponent/netserve/connection/impl/PicoConnectionManager.html">PicoConnectionManager</a> provides an implementation of
+the <a href="apidocs/org/jcomponent/netserve/connection/ConnectionManager.html">ConnectionManager</a> interface which is Pico-compatible.
+</p>
+			</subsection>
+        </section>
+    </body>
+</document>
