@@ -16,6 +16,7 @@
  * Structured API Search (Find me all methods taking a java.io.File and returning a java.lang.String, and importing java.sql classes)
  * If the component is a class, show only its methods, to better convey the service offering.
  * Consider providing a means of displaying test cases that use a particular service method.  Excellent way to convey purpose and usage of the service method.
+ * Include coverage report in component metadata
 
 Done
 
@@ -23,6 +24,7 @@ November 5th
  * Stop including plug-interfaces in the repository as public interfaces.  Allow the submitter decide whats public.
  * Support multiple components in a single source tree (same jar I guess).
  * Allow the service interface to be a class (was limiting to interfaces up to this point, but thats too limiting)
+ * Made the presentation a little better looking.  Well, consistent anyway.
 
 November 2nd
  * More test cases for search stuff
