@@ -8,9 +8,11 @@
 package org.jcomponent.netserve.connection.impl;
 
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
@@ -43,16 +45,26 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-31 02:18:11 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-31 02:48:52 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
 public class AvalonConnectionManager
     extends AbstractConnectionManager
-    implements ConnectionManager, Serviceable, Configurable, Disposable, LogEnabled
+    implements ConnectionManager, Serviceable, Configurable, Initializable, Disposable, LogEnabled
 {
     /** The Avalon Logger */
-    protected Logger m_logger;
+    private Logger m_logger;
+
+    /**
+     * Enable logging
+     *
+     * @param logger the Logger
+     */
+    public void enableLogging( final Logger logger )
+    {
+        m_logger = logger;
+    }
 
     /**
      * Get ThreadPool service if present.
@@ -87,21 +99,25 @@ public class AvalonConnectionManager
     }
 
     /**
+     * Initialize Connection Manager.
+     * Essentially involves specifying a correct monitor.
+     *
+     * @throws Exception if unable to initialize COnnectionManager
+     */
+    public void initialize()
+        throws Exception
+    {
+        final AvalonConnectionMonitor monitor = new AvalonConnectionMonitor();
+        ContainerUtil.enableLogging( monitor, m_logger );
+        setMonitor( monitor );
+    }
+
+    /**
      * Dispose the ConnectionManager which involves shutting down all
      * the connected acceptors.
      */
     public void dispose()
     {
-        super.dispose();
-    }
-
-    /**
-     * Enable logging
-     *
-     * @param logger the Logger
-     */
-    public void enableLogging( final Logger logger )
-    {
-        m_logger = logger;
+        shutdownAcceptors();
     }
 }

@@ -15,7 +15,6 @@ package org.jcomponent.netserve.connection.impl;
  */
 public interface ConnectionMonitor
 {
-
     void acceptorClosed( String name );
 
     void acceptorCreated( ConnectionAcceptor acceptor );
@@ -41,5 +40,4 @@ public interface ConnectionMonitor
 
     void unexpectedError( String message,
                           Throwable t );
-
 }
