@@ -17,7 +17,6 @@ import java.util.WeakHashMap;
  *
  * @author Peter Donald
  * @author Eung-ju Park
- * @version $Revision: 1.2 $ $Date: 2004-07-11 23:52:32 $
  */
 public class ResourceManager
 {
@@ -27,14 +26,13 @@ public class ResourceManager
     private static final String POSTFIX = "Resources";
 
     /** Permission needed to clear complete cache. */
-    private static final RuntimePermission CLEAR_CACHE_PERMISSION = new RuntimePermission(
-        "i18n.clearCompleteCache" );
+    private static final RuntimePermission CLEAR_CACHE_PERMISSION = new RuntimePermission( "i18n.clearCompleteCache" );
 
     /**
      * Map of ClassLoaders onto Secondary Map. Secondary map will map basename
      * to a Resources object.
      */
-    private final static Map c_resources = new WeakHashMap();
+    private static final Map c_resources = new WeakHashMap();
 
     /**
      * Clear the cache of all resources currently loaded into the system. This
@@ -49,7 +47,7 @@ public class ResourceManager
      * @throws SecurityException if the caller does not have permission to clear
      * cache
      */
-    public synchronized static final void clearResourceCache()
+    public static final synchronized void clearResourceCache()
         throws SecurityException
     {
         final SecurityManager sm = System.getSecurityManager();
@@ -67,7 +65,7 @@ public class ResourceManager
      * @param basename the basename
      * @return the Resources
      */
-    public final static Resources getBaseResources( final String basename,
+    public static final Resources getBaseResources( final String basename,
                                                     final ClassLoader classLoader )
     {
         Resources resources = getCachedResource( basename, classLoader );
@@ -87,7 +85,7 @@ public class ResourceManager
      * @param resource the base location
      * @return the Resources
      */
-    public final static Resources getResources( final String resource,
+    public static final Resources getResources( final String resource,
                                                 final ClassLoader classLoader )
     {
         return getBaseResources( resource + POSTFIX, classLoader );
@@ -100,7 +98,7 @@ public class ResourceManager
      * @param clazz the Class
      * @return the Resources
      */
-    public final static Resources getPackageResources( final Class clazz )
+    public static final Resources getPackageResources( final Class clazz )
     {
         final String name = clazz.getName();
         final int index = name.lastIndexOf( "." );
@@ -124,7 +122,7 @@ public class ResourceManager
      * @param clazz the Class
      * @return the Resources
      */
-    public final static Resources getClassResources( final Class clazz )
+    public static final Resources getClassResources( final Class clazz )
     {
         final String resource = clazz.getName() + POSTFIX;
         return getBaseResources( resource, clazz.getClassLoader() );
@@ -136,7 +134,7 @@ public class ResourceManager
      * @param baseName the resource key
      * @param resources the resources object
      */
-    private synchronized static final void putCachedResource( final String baseName,
+    private static final synchronized void putCachedResource( final String baseName,
                                                               final ClassLoader classLoader,
                                                               final Resources resources )
     {
@@ -155,7 +153,7 @@ public class ResourceManager
      * @param baseName the resource key
      * @return resources the resources object
      */
-    private synchronized static final Resources getCachedResource( final String baseName,
+    private static final synchronized Resources getCachedResource( final String baseName,
                                                                    final ClassLoader classLoader )
     {
         Map map = (Map) c_resources.get( classLoader );
