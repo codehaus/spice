@@ -15,8 +15,8 @@ import org.codehaus.spice.netserve.sockets.SocketFactory;
 /**
  * A SocketFactory that creates vanilla sockets.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 00:25:04 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2004-03-21 23:42:59 $
  * @dna.component
  * @dna.service type="SocketFactory"
  */

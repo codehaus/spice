@@ -3,7 +3,7 @@
 
     <properties>
         <title>Attribute Model</title>
-        <author email="peter at realityforge.org">Peter Donald</author>
+        <author>Peter Donald</author>
     </properties>
 
     <body>
@@ -46,9 +46,9 @@
                 developer to associate arbitrary string data with a programming element.
             </p>
             <source><![CDATA[
-@version $Revision: 1.1 $ $Date: 2003-08-31 06:13:01 $
+@version $Revision: 1.2 $ $Date: 2004-03-21 23:37:20 $
 
-<attribute name="version" value="$Revision: 1.1 $ $Date: 2003-08-31 06:13:01 $"/>
+<attribute name="version" value="$Revision: 1.2 $ $Date: 2004-03-21 23:37:20 $"/>
 ]]></source>
          </section>
     </body>

@@ -18,8 +18,8 @@ import org.codehaus.spice.threadpool.ThreadControl;
 /**
  * A Handler that uses a thread from a pool for each different request.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 00:25:06 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2004-03-21 23:42:58 $
  */
 public class ThreadPerRequestHandler
     extends DelegatingRequestHandler

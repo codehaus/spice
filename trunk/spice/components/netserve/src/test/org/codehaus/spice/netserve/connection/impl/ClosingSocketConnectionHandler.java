@@ -14,8 +14,8 @@ import org.codehaus.spice.netserve.connection.handlers.AbstractRequestHandler;
 
 /**
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 00:25:05 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2004-03-21 23:42:59 $
  */
 class ClosingSocketConnectionHandler
    extends AbstractRequestHandler

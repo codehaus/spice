@@ -12,8 +12,8 @@ import org.codehaus.spice.threadpool.Executable;
 /**
  * A bit of work used during testing.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 00:23:45 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2004-03-21 23:42:58 $
  */
 class Work
     implements Runnable, Executable
