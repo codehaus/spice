@@ -12,8 +12,8 @@ public class ConnectorTestCase
    {
       final Connector connector = new Connector();
       final LimitingReconnectPolicy policy = new LimitingReconnectPolicy( 1, 1 );
-      connector.setPolicy( policy );
-      assertEquals( "policy", policy, connector.getPolicy() );
+      connector.setReconnectPolicy( policy );
+      assertEquals( "policy", policy, connector.getReconnectPolicy() );
    }
 
    public void testSetNullPolicy()
@@ -22,11 +22,11 @@ public class ConnectorTestCase
       final Connector connector = new Connector();
       try
       {
-         connector.setPolicy( null );
+         connector.setReconnectPolicy( null );
       }
       catch ( final NullPointerException npe )
       {
-         assertEquals( "npe.message", "policy", npe.getMessage() );
+         assertEquals( "npe.message", "reconnectPolicy", npe.getMessage() );
          return;
       }
       fail( "Expected to fail due to NPE" );
@@ -306,7 +306,7 @@ public class ConnectorTestCase
       final Connector connector = new Connector();
       connector.setConnection( connection );
       connector.setMonitor( monitor );
-      connector.setPolicy( policy );
+      connector.setReconnectPolicy( policy );
 
       connector.setActive( true );
       connector.connect();
@@ -377,7 +377,7 @@ public class ConnectorTestCase
       final Connector connector = new Connector();
       connector.setConnection( connection );
       connector.setMonitor( monitor );
-      connector.setPolicy( policy );
+      connector.setReconnectPolicy( policy );
 
       connector.setActive( true );
       connector.doValidateConnection();
@@ -412,7 +412,7 @@ public class ConnectorTestCase
       final Connector connector = new Connector();
       connector.setConnection( connection );
       connector.setMonitor( monitor );
-      connector.setPolicy( policy );
+      connector.setReconnectPolicy( policy );
 
       connector.setActive( true );
       connector.doValidateConnection();
@@ -468,7 +468,7 @@ public class ConnectorTestCase
       final Connector connector = new Connector();
       connector.setConnection( connection );
       connector.setMonitor( monitor );
-      connector.setPolicy( policy );
+      connector.setReconnectPolicy( policy );
 
       connector.setActive( false );
       final boolean result = connector.validateConnection();
@@ -526,7 +526,7 @@ public class ConnectorTestCase
 
       final Connector connector = new Connector();
       connector.setConnection( connection );
-      connector.setPolicy( policy );
+      connector.setReconnectPolicy( policy );
 
       connector.setActive( true );
       connector.setConnected( true );
@@ -555,7 +555,7 @@ public class ConnectorTestCase
 
       final Connector connector = new Connector();
       connector.setConnection( connection );
-      connector.setPolicy( policy );
+      connector.setReconnectPolicy( policy );
 
       connector.setActive( true );
       connector.setConnected( true );
@@ -582,7 +582,7 @@ public class ConnectorTestCase
 
       final Connector connector = new Connector();
       connector.setConnection( connection );
-      connector.setPolicy( policy );
+      connector.setReconnectPolicy( policy );
 
       connector.setActive( true );
       connector.setConnected( true );
