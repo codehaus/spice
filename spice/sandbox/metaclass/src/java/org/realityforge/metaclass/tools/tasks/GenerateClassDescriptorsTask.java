@@ -34,7 +34,7 @@ import org.realityforge.metaclass.tools.qdox.NonNamespaceAttributeRemovingInterc
  * A Task to generate Attributes descriptors from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2003-11-18 23:06:22 $
+ * @version $Revision: 1.16 $ $Date: 2003-11-20 09:23:19 $
  */
 public class GenerateClassDescriptorsTask
     extends Task
@@ -85,12 +85,12 @@ public class GenerateClassDescriptorsTask
     /**
      * Internal list of filter elements added by user.
      */
-    private final List m_filters = new ArrayList();
+    private final FilterSet m_filterSet = new FilterSet();
 
     /**
      * Internal list of interceptor elements added by user.
      */
-    private final List m_elements = new ArrayList();
+    private final InterceptorSet m_interceptorSet = new InterceptorSet();
 
     /**
      * Flag set to true if writing a descriptor fails.
@@ -108,17 +108,35 @@ public class GenerateClassDescriptorsTask
     private final List m_filesets = new ArrayList();
 
     /**
-     * Add an filter definition that will create filter to process metadata.
+     * Setup project for task.
+     *
+     * @param project the project
+     */
+    public void setProject( final Project project )
+    {
+        super.setProject( project );
+        m_filterSet.setProject( project );
+        m_interceptorSet.setProject( project );
+    }
+
+    /**
+     * Add a filter definition that will create filter to process metadata.
      *
      * @param element the filter definition
      */
     public void addFilter( final PluginElement element )
     {
-        if( null == element.getName() )
-        {
-            throw new BuildException( "Filter must have a name" );
-        }
-        m_filters.add( element );
+        m_filterSet.addFilter( element );
+    }
+
+    /**
+     * Add a filter definition set.
+     *
+     * @param set a filter definition set.
+     */
+    public void addFilterSet( final FilterSet set )
+    {
+        m_filterSet.addFilterSet( set );
     }
 
     /**
@@ -128,11 +146,17 @@ public class GenerateClassDescriptorsTask
      */
     public void addInterceptor( final PluginElement element )
     {
-        if( null == element.getName() )
-        {
-            throw new BuildException( "Interceptor must have a name" );
-        }
-        m_elements.add( element );
+        m_interceptorSet.addInterceptor( element );
+    }
+
+    /**
+     * Add an interceptor definition set.
+     *
+     * @param set the interceptor set
+     */
+    public void addInterceptorSet( final InterceptorSet set )
+    {
+        m_interceptorSet.addInterceptorSet( set );
     }
 
     /**
@@ -276,7 +300,7 @@ public class GenerateClassDescriptorsTask
      */
     private void setupFilters()
     {
-        final Iterator iterator = m_filters.iterator();
+        final Iterator iterator = m_filterSet.toPlugins().iterator();
         while( iterator.hasNext() )
         {
             final PluginElement element = (PluginElement)iterator.next();
@@ -293,7 +317,7 @@ public class GenerateClassDescriptorsTask
      */
     private void setupInterceptors()
     {
-        final Iterator iterator = m_elements.iterator();
+        final Iterator iterator = m_interceptorSet.toPlugins().iterator();
         while( iterator.hasNext() )
         {
             final PluginElement element = (PluginElement)iterator.next();
