@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 
 /**
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-24 05:19:34 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-26 04:33:21 $
  */
 public class CircularBufferTestCase
     extends TestCase
@@ -37,6 +37,20 @@ public class CircularBufferTestCase
                       buffer.isWrappedBuffer() );
     }
 
+    public void testWriteZero()
+        throws Exception
+    {
+        final CircularBuffer buffer = new CircularBuffer( 55 );
+        buffer.writeBytes( 0 );
+        assertEquals( "buffer.getAvailable()", 0, buffer.getAvailable() );
+        assertEquals( "buffer.getCapacity()", 55, buffer.getCapacity() );
+        assertEquals( "buffer.getSpace()", 55, buffer.getSpace() );
+        assertEquals( "buffer.getStart()", 0, buffer.getStart() );
+        assertEquals( "buffer.getEnd()", 0, buffer.getEnd() );
+        assertEquals( "buffer.isWrappedBuffer()", false,
+                      buffer.isWrappedBuffer() );
+    }
+
     public void testBufferPostRead()
         throws Exception
     {
@@ -47,6 +61,21 @@ public class CircularBufferTestCase
         assertEquals( "buffer.getCapacity()", 55, buffer.getCapacity() );
         assertEquals( "buffer.getSpace()", 45, buffer.getSpace() );
         assertEquals( "buffer.getStart()", 5, buffer.getStart() );
+        assertEquals( "buffer.getEnd()", 15, buffer.getEnd() );
+        assertEquals( "buffer.isWrappedBuffer()", false,
+                      buffer.isWrappedBuffer() );
+    }
+
+    public void testReadZero()
+        throws Exception
+    {
+        final CircularBuffer buffer = new CircularBuffer( 55 );
+        buffer.writeBytes( 15 );
+        buffer.readBytes( 0 );
+        assertEquals( "buffer.getAvailable()", 15, buffer.getAvailable() );
+        assertEquals( "buffer.getCapacity()", 55, buffer.getCapacity() );
+        assertEquals( "buffer.getSpace()", 40, buffer.getSpace() );
+        assertEquals( "buffer.getStart()", 0, buffer.getStart() );
         assertEquals( "buffer.getEnd()", 15, buffer.getEnd() );
         assertEquals( "buffer.isWrappedBuffer()", false,
                       buffer.isWrappedBuffer() );
@@ -167,20 +196,21 @@ public class CircularBufferTestCase
         throws Exception
     {
         final CircularBuffer buffer = new CircularBuffer( 55 );
+        buffer.writeBytes( 50 );
+        buffer.readBytes( 40 );
         buffer.writeBytes( 20 );
-        buffer.readBytes( 10 );
         final ByteBuffer[] byteBuffers = buffer.asWriteBuffers();
         assertEquals( "byteBuffers[ 0 ].position()",
-                      20,
+                      15,
                       byteBuffers[ 0 ].position() );
         assertEquals( "byteBuffers[ 0 ].limit()",
-                      55,
+                      40,
                       byteBuffers[ 0 ].limit() );
         assertEquals( "byteBuffers[ 1 ].position()",
                       0,
                       byteBuffers[ 1 ].position() );
         assertEquals( "byteBuffers[ 1 ].limit()",
-                      10,
+                      0,
                       byteBuffers[ 1 ].limit() );
     }
 }
