@@ -14,6 +14,14 @@
         </copy>
     </preGoal>
 
+    <preGoal name="test:test">
+        <copy todir="target/test-classes">
+            <fileset dir="src/test" filtering="no">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+    </preGoal>
+    
     <preGoal name="xdoc:transform">
         <attainGoal name="generateNavigation"/>
     </preGoal>
