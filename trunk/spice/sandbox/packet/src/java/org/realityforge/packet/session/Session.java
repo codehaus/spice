@@ -22,7 +22,7 @@ import org.realityforge.packet.events.SessionDisconnectRequestEvent;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.29 $ $Date: 2004-02-23 04:06:23 $
+ * @version $Revision: 1.30 $ $Date: 2004-02-23 04:09:57 $
  */
 public class Session
 {
@@ -607,7 +607,6 @@ public class Session
 
    public void setConnecting( final boolean connecting )
    {
-      System.out.println( "setConnecting(" + connecting + ") on " + this );
       _connecting = connecting;
       synchronized( this )
       {
