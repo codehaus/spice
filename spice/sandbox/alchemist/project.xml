@@ -5,7 +5,8 @@
     <groupId>jcomponent</groupId>
     <id>jcomponent-alchemist</id>    
     <gumpRepositoryId>sandbox</gumpRepositoryId>
-    <package>org.jcomponent.${pom.artifactId.substring(11)}</package>
+    <package>org.jcomponent.alchemist</package>
+    <siteDirectory>/home/groups/s/sp/spice/htdocs/alchemist</siteDirectory>
     <currentVersion>1.0-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
