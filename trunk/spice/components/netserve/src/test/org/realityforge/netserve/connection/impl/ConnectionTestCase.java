@@ -26,7 +26,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-04-23 08:15:50 $
+ * @version $Revision: 1.4 $ $Date: 2003-04-23 09:04:44 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -60,10 +60,36 @@ public class ConnectionTestCase
         final ConnectionManager cm = null;
     }
 
+    public void testHammerServer()
+        throws Exception
+    {
+        final ServerSocket serverSocket = getServerSocket();
+        try
+        {
+            final ConnectionAcceptor acceptor =
+                new ConnectionAcceptor( "test-" + getName() + "-",
+                                        serverSocket,
+                                        new RandmoizingHandler(),
+                                        null );
+            acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
+            start( acceptor );
+
+            for( int i = 0; i < 1000; i++ )
+            {
+                runClientConnect();
+            }
+            acceptor.close( 0, false );
+        }
+        finally
+        {
+            shutdown( serverSocket );
+        }
+    }
+
     public void testOverRunCleanShutdown()
         throws Exception
     {
-        final ServerSocket serverSocket = new ServerSocket( PORT, 5, HOST );
+        final ServerSocket serverSocket = getServerSocket();
         try
         {
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
@@ -84,16 +110,35 @@ public class ConnectionTestCase
         }
     }
 
-    private void doClientConnect() throws IOException
+    private void runClientConnect()
     {
-        final Socket socket = new Socket( HOST, PORT );
-        socket.close();
+        final Runnable runnable = new Runnable()
+        {
+            public void run()
+            {
+                doClientConnect();
+            }
+        };
+        start( runnable );
+    }
+
+    private void doClientConnect()
+    {
+        try
+        {
+            final Socket socket = new Socket( HOST, PORT );
+            socket.close();
+        }
+        catch( IOException ioe )
+        {
+            ioe.printStackTrace();
+        }
     }
 
     public void testOverRunCleanShutdownNoLogging()
         throws Exception
     {
-        final ServerSocket serverSocket = new ServerSocket( PORT, 5, HOST );
+        final ServerSocket serverSocket = getServerSocket();
         try
         {
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
@@ -117,7 +162,7 @@ public class ConnectionTestCase
     public void testOverRunForceShutdown()
         throws Exception
     {
-        final ServerSocket serverSocket = new ServerSocket( PORT, 5, HOST );
+        final ServerSocket serverSocket = getServerSocket();
         try
         {
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
@@ -141,7 +186,7 @@ public class ConnectionTestCase
     public void testOverRunForceShutdownNoLogging()
         throws Exception
     {
-        final ServerSocket serverSocket = new ServerSocket( PORT, 5, HOST );
+        final ServerSocket serverSocket = getServerSocket();
         try
         {
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
