@@ -7,27 +7,27 @@
  */
 package org.realityforge.metaclass.jmx;
 
-import junit.framework.TestCase;
-import javax.management.modelmbean.ModelMBeanOperationInfo;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.Properties;
+import javax.management.MBeanParameterInfo;
 import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.management.modelmbean.ModelMBeanConstructorInfo;
 import javax.management.modelmbean.ModelMBeanInfo;
-import javax.management.MBeanParameterInfo;
-import org.realityforge.metaclass.model.Attribute;
-import org.realityforge.metaclass.model.ParameterDescriptor;
-import org.realityforge.metaclass.model.ClassDescriptor;
-import org.realityforge.metaclass.model.MethodDescriptor;
-import org.realityforge.metaclass.model.FieldDescriptor;
+import javax.management.modelmbean.ModelMBeanOperationInfo;
+import junit.framework.TestCase;
 import org.realityforge.metaclass.introspector.MetaClassIntrospector;
-import java.util.Properties;
-import java.lang.reflect.Method;
-import java.lang.reflect.Constructor;
-import java.beans.PropertyDescriptor;
+import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.model.FieldDescriptor;
+import org.realityforge.metaclass.model.MethodDescriptor;
+import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.18 $ $Date: 2003-10-14 01:30:43 $
+ * @version $Revision: 1.19 $ $Date: 2003-10-15 02:09:07 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -893,14 +893,58 @@ public class MBeanBuilderTestCase
         assertNotNull( "info", info );
     }
 
-    public void testBuildMBeanInfoOnNonManaged()
+    public void testBuildMBeanInfosOnNonManaged()
         throws Exception
     {
         final MBeanBuilder builder = new MBeanBuilder();
         MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
 
-        final ModelMBeanInfo info = builder.buildMBeanInfo( TestBean.class );
-        assertNull( "info", info );
+        final ModelMBeanInfo[] infos = builder.buildMBeanInfos( TestBean.class );
+        assertEquals( "info.length", 0, infos.length );
+    }
+
+    public void testBuildMBeanInfosWithService()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Properties parameters = new Properties();
+        parameters.setProperty( "type", TestMxInterface.class.getName() );
+        final Attribute[] attributes =
+            new Attribute[]{new Attribute( "mx.component" ),
+                            new Attribute( "mx.interface", parameters )};
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( TestBean.class.getName(),
+                                 0,
+                                 attributes,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final ModelMBeanInfo[] infos = builder.buildMBeanInfos( TestBean.class );
+        assertEquals( "info.length", 2, infos.length );
+    }
+
+    public void testBuildMBeanInfosWithMalformedService()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Attribute[] attributes =
+            new Attribute[]{new Attribute( "mx.component" ),
+                            new Attribute( "mx.interface", new Properties() )};
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( TestBean.class.getName(),
+                                 0,
+                                 attributes,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final ModelMBeanInfo[] infos = builder.buildMBeanInfos( TestBean.class );
+        assertEquals( "info.length", 1, infos.length );
     }
 }

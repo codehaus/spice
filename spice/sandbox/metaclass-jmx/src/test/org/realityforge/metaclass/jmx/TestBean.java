@@ -10,9 +10,10 @@ package org.realityforge.metaclass.jmx;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-14 01:08:02 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-15 02:09:07 $
  */
 public class TestBean
+    implements TestMxInterface
 {
     private int m_value;
     private int m_otherValue;

@@ -13,6 +13,8 @@ import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import javax.management.Descriptor;
 import javax.management.MBeanParameterInfo;
 import javax.management.modelmbean.ModelMBeanAttributeInfo;
@@ -30,7 +32,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * description of valid attributes.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.32 $ $Date: 2003-10-14 01:27:21 $
+ * @version $Revision: 1.33 $ $Date: 2003-10-15 02:09:04 $
  */
 public class MBeanBuilder
 {
@@ -38,6 +40,12 @@ public class MBeanBuilder
      * Constant for class annotation tag.
      */
     private static final String MX_COMPONENT_CONSTANT = "mx.component";
+
+    /**
+     * Constant for class annotation tag that indicates
+     * specific interface is management interface.
+     */
+    private static final String MX_INTERFACE_CONSTANT = "mx.interface";
 
     /**
      * Constant for constructor annotation tag.
@@ -95,22 +103,67 @@ public class MBeanBuilder
     private static final String IMPACT_ACTION_INFO = "ACTION_INFO";
 
     /**
-     * Create a ModelMBeanInfo object for specified class if
-     * class is annotated.
+     * Create a set of ModelMBeanInfo objects for specified class
+     * if class is annotated.
      *
      * @param type the class
-     * @return the ModelMBeanInfo
-     * @throws Exception if unable to get BeanInfo for specified type
+     * @return the ModelMBeanInfo objects
+     * @throws Exception if unable to get resolve specified types
      */
-    public ModelMBeanInfo buildMBeanInfo( final Class type )
+    public ModelMBeanInfo[] buildMBeanInfos( final Class type )
+        throws Exception
+    {
+        final List infos = new ArrayList();
+        buildMBeanInfos( type, infos );
+        return (ModelMBeanInfo[])infos.
+            toArray( new ModelMBeanInfo[ infos.size() ] );
+    }
+
+    /**
+     * Create a set of ModelMBeanInfo objects for specified class.
+     *
+     * @param type the class
+     * @param infos the ModelMBeanInfo objects collected so far
+     * @throws Exception if unable to get resolve specified types
+     */
+    void buildMBeanInfos( final Class type,
+                          final List infos )
         throws Exception
     {
         final Attribute attribute =
             Attributes.getAttribute( type, MX_COMPONENT_CONSTANT );
-        if( null == attribute )
+        if( null != attribute )
         {
-            return null;
+            final ModelMBeanInfo info = buildMBeanInfo( type );
+            infos.add( info );
         }
+
+        final Attribute[] attributes =
+            Attributes.getAttributes( type, MX_INTERFACE_CONSTANT );
+        final ClassLoader classLoader = type.getClassLoader();
+        for( int i = 0; i < attributes.length; i++ )
+        {
+            final Attribute ifcAttribute = attributes[ i ];
+            final String classname = ifcAttribute.getParameter( "type", null );
+            if( null != classname )
+            {
+                    final Class clazz = classLoader.loadClass( classname );
+                    final ModelMBeanInfo info = buildMBeanInfo( clazz );
+                    infos.add( info );
+            }
+        }
+    }
+
+    /**
+     * Build a ModelMBeanInfo object for specific class.
+     *
+     * @param type the class
+     * @return the ModelMBeanInfo
+     * @throws Exception if unable to introspect class
+     */
+    ModelMBeanInfo buildMBeanInfo( final Class type )
+        throws Exception
+    {
         final String description = getTypeDescription( type );
 
         final ModelInfoCreationHelper helper = new ModelInfoCreationHelper();
