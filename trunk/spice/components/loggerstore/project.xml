@@ -70,9 +70,9 @@
             </properties>
         </dependency>
         <dependency>
-            <groupId>jcomponent</groupId>
-            <artifactId>jcomponent-alchemist</artifactId>
-            <version>20031025.132828</version>
+            <groupId>spice</groupId>
+            <artifactId>spice-alchemist</artifactId>
+            <version>20031120.105516</version>
         </dependency>
         <dependency>
             <id>log4j</id>
