@@ -8,13 +8,14 @@
 package org.realityforge.packet.events;
 
 import java.io.IOException;
+import java.net.SocketAddress;
 import org.realityforge.packet.transport.TcpTransport;
 
 /**
  * Abstract event for IO errors.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-17 00:20:44 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-17 02:24:03 $
  */
 public abstract class IOErrorEvent
     extends AbstractTransportEvent
@@ -43,5 +44,16 @@ public abstract class IOErrorEvent
     public IOException getIoe()
     {
         return _ioe;
+    }
+
+    /**
+     * @see Object#toString()
+     */
+    public String toString()
+    {
+        final SocketAddress address =
+            getTransport().getChannel().socket().getRemoteSocketAddress();
+        return getClass().getName() + "[" + getIoe() +
+               " error connected to " + address + "]";
     }
 }

@@ -7,13 +7,14 @@
  */
 package org.realityforge.packet.events;
 
+import java.net.SocketAddress;
 import org.realityforge.packet.transport.TcpTransport;
 
 /**
  * Event indicating IO occured.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-17 00:20:44 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-17 02:24:03 $
  */
 public abstract class IOEvent
     extends AbstractTransportEvent
@@ -41,5 +42,16 @@ public abstract class IOEvent
     public int getCount()
     {
         return _count;
+    }
+
+    /**
+     * @see Object#toString()
+     */
+    public String toString()
+    {
+        final SocketAddress address =
+            getTransport().getChannel().socket().getRemoteSocketAddress();
+        return getClass().getName() + "[" + getCount() +
+               " bytes to " + address + "]";
     }
 }
