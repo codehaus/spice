@@ -5,7 +5,8 @@
     <groupId>jcomponent</groupId>
     <id>jcomponent-netserve</id>
     <gumpRepositoryId>components</gumpRepositoryId>
-    <package>org.jcomponent.${pom.artifactId.substring(11)}</package>
+    <package>org.jcomponent.netserve</package>
+    <siteDirectory>/home/groups/s/sp/spice/htdocs/netserve</siteDirectory>
     <currentVersion>0.7</currentVersion>
     <inceptionYear>1999</inceptionYear>
 
