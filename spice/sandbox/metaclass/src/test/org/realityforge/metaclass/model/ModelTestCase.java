@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-10-22 09:19:41 $
+ * @version $Revision: 1.9 $ $Date: 2003-10-28 08:15:03 $
  */
 public class ModelTestCase
     extends TestCase
@@ -172,7 +172,6 @@ public class ModelTestCase
         assertEquals( "field.type", "type", field.getType() );
         assertEquals( "field.getAttributes().length", 0, field.getAttributes().length );
     }
-
 
     public void testMethodWithNullName()
     {

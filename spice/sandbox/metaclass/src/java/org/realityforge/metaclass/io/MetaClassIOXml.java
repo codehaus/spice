@@ -24,63 +24,63 @@ import org.xml.sax.SAXException;
  * to a stream using the xml format outlined in documentation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-28 08:11:53 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-28 08:15:02 $
  */
 public class MetaClassIOXml
-   implements MetaClassIO
+    implements MetaClassIO
 {
-   /**
-    * The current version of ClassDescriptor XML format.
-    */
-   static final String VERSION = "1.0";
+    /**
+     * The current version of ClassDescriptor XML format.
+     */
+    static final String VERSION = "1.0";
 
-   /**
-    * @see MetaClassIO#deserializeClass
-    */
-   public ClassDescriptor deserializeClass( final InputStream input )
-      throws IOException
-   {
-      throw new IOException( "Not supported yet!" );
-   }
+    /**
+     * @see MetaClassIO#deserializeClass
+     */
+    public ClassDescriptor deserializeClass( final InputStream input )
+        throws IOException
+    {
+        throw new IOException( "Not supported yet!" );
+    }
 
-   /**
-    * @see MetaClassIO#serializeClass
-    */
-   public void serializeClass( final OutputStream output,
-                               final ClassDescriptor descriptor )
-      throws IOException
-   {
-      final StreamResult result = new StreamResult( output );
-      final SAXTransformerFactory factory =
-         (SAXTransformerFactory) TransformerFactory.newInstance();
-      final TransformerHandler handler;
-      try
-      {
-         handler = factory.newTransformerHandler();
-      }
-      catch ( final Exception e )
-      {
-         throw new IOException( e.toString() );
-      }
+    /**
+     * @see MetaClassIO#serializeClass
+     */
+    public void serializeClass( final OutputStream output,
+                                final ClassDescriptor descriptor )
+        throws IOException
+    {
+        final StreamResult result = new StreamResult( output );
+        final SAXTransformerFactory factory =
+            (SAXTransformerFactory)TransformerFactory.newInstance();
+        final TransformerHandler handler;
+        try
+        {
+            handler = factory.newTransformerHandler();
+        }
+        catch( final Exception e )
+        {
+            throw new IOException( e.toString() );
+        }
 
-      final Properties format = new Properties();
-      format.put( OutputKeys.METHOD, "xml" );
-      format.put( OutputKeys.INDENT, "yes" );
-      handler.setResult( result );
-      handler.getTransformer().setOutputProperties( format );
+        final Properties format = new Properties();
+        format.put( OutputKeys.METHOD, "xml" );
+        format.put( OutputKeys.INDENT, "yes" );
+        handler.setResult( result );
+        handler.getTransformer().setOutputProperties( format );
 
-      final SAXMetaClassSerializer serializer = new SAXMetaClassSerializer();
-      try
-      {
-         serializer.serialize( handler, descriptor );
-      }
-      catch( final SAXException se )
-      {
-         throw new IOException( se.getMessage() );
-      }
-      finally
-      {
-         output.flush();
-      }
-   }
+        final SAXMetaClassSerializer serializer = new SAXMetaClassSerializer();
+        try
+        {
+            serializer.serialize( handler, descriptor );
+        }
+        catch( final SAXException se )
+        {
+            throw new IOException( se.getMessage() );
+        }
+        finally
+        {
+            output.flush();
+        }
+    }
 }

@@ -15,7 +15,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * get to the underlying accessor implementation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-28 07:01:01 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-28 08:15:01 $
  */
 public class WrapperMetaClassAccessor
     implements MetaClassAccessor
@@ -25,19 +25,19 @@ public class WrapperMetaClassAccessor
      */
     private final MetaClassAccessor m_accessor;
 
-   /**
-    * Create an accessor for specified accessor.
-    *
-    * @param accessor the accessor
-    */
-   public WrapperMetaClassAccessor( final MetaClassAccessor accessor )
-   {
-      if( null == accessor )
-      {
-         throw new NullPointerException( "accessor" );
-      }
-      m_accessor = accessor;
-   }
+    /**
+     * Create an accessor for specified accessor.
+     *
+     * @param accessor the accessor
+     */
+    public WrapperMetaClassAccessor( final MetaClassAccessor accessor )
+    {
+        if( null == accessor )
+        {
+            throw new NullPointerException( "accessor" );
+        }
+        m_accessor = accessor;
+    }
 
     /**
      * @see MetaClassAccessor#getClassDescriptor
