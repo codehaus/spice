@@ -188,11 +188,12 @@ public class SelectorManager
 
    /**
     * Register a channel with selector.
+    * Note the user MUST NOT modify the SelectionKeys attachment.
     *
     * @param channel the channel
     * @param ops the operations to register
     * @return the SelectionKey
-    * @throws java.io.IOException if channel can not be registered
+    * @throws IOException if channel can not be registered
     */
    public SelectionKey registerChannel( final SelectableChannel channel,
                                         final int ops )
