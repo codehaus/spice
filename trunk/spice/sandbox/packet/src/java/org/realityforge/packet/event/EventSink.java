@@ -8,12 +8,12 @@
 package org.realityforge.packet.event;
 
 /**
- * A Sink represents the destination for events.
+ * A EventSink represents the destination for events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2003-12-05 00:47:44 $
+ * @version $Revision: 1.1 $ $Date: 2003-12-05 00:52:48 $
  */
-public interface Sink
+public interface EventSink
 {
     /**
      * Attempt to add an event to the sink. Return false if unable to add

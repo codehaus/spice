@@ -8,20 +8,20 @@
 package org.realityforge.packet.event.impl;
 
 import org.realityforge.packet.event.EventValve;
-import org.realityforge.packet.event.Sink;
+import org.realityforge.packet.event.EventSink;
 
 /**
  * The ValveControlledSink passes events onto a destination sink unless they are
  * filtered out by a valve.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-12-05 00:47:44 $
+ * @version $Revision: 1.4 $ $Date: 2003-12-05 00:52:48 $
  */
 public class ValveControlledSink
-    implements Sink
+    implements EventSink
 {
     /** The destination sink. */
-    private final Sink _sink;
+    private final EventSink _sink;
 
     /** The valve that controls whether event passed onto sink. */
     private final EventValve _valve;
@@ -32,7 +32,7 @@ public class ValveControlledSink
      * @param sink the sink
      * @param valve the valve
      */
-    public ValveControlledSink( final Sink sink,
+    public ValveControlledSink( final EventSink sink,
                                 final EventValve valve )
     {
         if( null == sink )
@@ -48,7 +48,7 @@ public class ValveControlledSink
     }
 
     /**
-     * @see Sink#addEvent(Object)
+     * @see EventSink#addEvent(Object)
      */
     public boolean addEvent( final Object event )
     {
@@ -63,7 +63,7 @@ public class ValveControlledSink
     }
 
     /**
-     * @see Sink#addEvents(Object[])
+     * @see EventSink#addEvents(Object[])
      */
     public boolean addEvents( final Object[] events )
     {

@@ -8,12 +8,12 @@
 package org.realityforge.packet.event;
 
 /**
- * The Source represents a source of events.
+ * The EventSource represents a source of events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-12-05 00:47:44 $
+ * @version $Revision: 1.1 $ $Date: 2003-12-05 00:52:48 $
  */
-public interface Source
+public interface EventSource
 {
     /**
      * Return next event from source. Returning null indicates that there are no
