@@ -10,6 +10,7 @@ package org.realityforge.loggerstore;
 import java.util.HashMap;
 import java.util.Properties;
 
+import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.container.ContainerUtil;
@@ -117,6 +118,68 @@ public class LoggerStoreFactoryTestCase
 
 
     // LogKitLoggerStoreFactory tests
+    public void testLogKitLoggerStoreFactoryInvalidInput()
+        throws Exception
+    {
+        runInvalidInputData( new LogKitLoggerStoreFactory() );
+    }
+
+    public void testLogKitLoggerStoreFactoryWithConfigurationAndDefaultLoggerManager()
+        throws Exception
+    {
+        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        final HashMap config = new HashMap();
+        config.put( Configuration.class.getName(), 
+                    builder.build( getResource( "logkit-excalibur.xml" ) ) );
+        config.put( Logger.class.getName(), new NullLogger() );
+
+        runFactoryTest( new LogKitLoggerStoreFactory(),
+                        ConsoleLogger.LEVEL_INFO,
+                        config,
+                        "logkit-excalibur" );
+    }                
+    
+    public void testLogKitLoggerStoreFactoryWithConfigurationAndLoggerManager()
+            throws Exception
+    {
+        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        final HashMap config = new HashMap();
+        config.put( Configuration.class.getName(), 
+                    builder.build( getResource( "logkit-simple.xml" ) ) );
+        config.put( LogKitLoggerStoreFactory.LOGGER_MANAGER, 
+                    SimpleLogKitManager.class.getName() );
+
+        runFactoryTest( new LogKitLoggerStoreFactory(),
+                        ConsoleLogger.LEVEL_INFO,
+                        config,
+                        "logkit-simple" );
+    }
+
+    public void testLogKitLoggerStoreFactoryWithStreamsAndDefaultLoggerManager()
+        throws Exception
+    {
+        final HashMap config = new HashMap();
+        runStreamBasedFactoryTest( "logkit-excalibur.xml",
+                                   new LogKitLoggerStoreFactory(),
+                                   ConsoleLogger.LEVEL_INFO,
+                                   "logkit-excalibur",
+                                   config );
+    }
+    
+    public void testLogKitLoggerStoreFactoryWithStreamsAndLoggerManager()
+        throws Exception
+    {
+                                   
+        final HashMap config = new HashMap();
+        config.put( LogKitLoggerStoreFactory.LOGGER_MANAGER, 
+                    SimpleLogKitManager.class.getName() );
+        runStreamBasedFactoryTest( "logkit-simple.xml",
+                                   new LogKitLoggerStoreFactory(),
+                                   ConsoleLogger.LEVEL_INFO,
+                                   "logkit-simple",
+                                   config );
+    }
+    
     public void testExcaliburLogKitLoggerStoreFactoryInvalidInput()
         throws Exception
     {
