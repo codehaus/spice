@@ -27,7 +27,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-15 02:10:19 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-17 07:38:51 $
  */
 public class MBeanInfoBuilderTestCase
     extends TestCase
@@ -900,7 +900,7 @@ public class MBeanInfoBuilderTestCase
         MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
 
-        final ModelMBeanInfo[] infos = builder.buildMBeanInfos( TestBean.class );
+        final TopicDescriptor[] infos = builder.buildMBeanInfos( TestBean.class );
         assertEquals( "info.length", 0, infos.length );
     }
 
@@ -923,28 +923,21 @@ public class MBeanInfoBuilderTestCase
         MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( accessor );
 
-        final ModelMBeanInfo[] infos = builder.buildMBeanInfos( TestBean.class );
+        final TopicDescriptor[] infos = builder.buildMBeanInfos( TestBean.class );
         assertEquals( "info.length", 2, infos.length );
     }
 
-    public void testBuildMBeanInfosWithMalformedService()
+    public void testBuildTopic()
         throws Exception
     {
         final MBeanInfoBuilder builder = new MBeanInfoBuilder();
-        final Attribute[] attributes =
-            new Attribute[]{new Attribute( "mx.component" ),
-                            new Attribute( "mx.interface", new Properties() )};
-        final ClassDescriptor classDescriptor =
-            new ClassDescriptor( TestBean.class.getName(),
-                                 0,
-                                 attributes,
-                                 FieldDescriptor.EMPTY_SET,
-                                 MethodDescriptor.EMPTY_SET );
-        final MockAccessor accessor = new MockAccessor( classDescriptor );
-        MetaClassIntrospector.clearCompleteCache();
-        MetaClassIntrospector.setAccessor( accessor );
+        final Properties parameters = new Properties();
+        parameters.setProperty( "type", TestMxInterface.class.getName() );
+        parameters.setProperty( "topic", "TestMxInterface" );
+        final Attribute attribute = new Attribute( "mx.interface", parameters );
 
-        final ModelMBeanInfo[] infos = builder.buildMBeanInfos( TestBean.class );
-        assertEquals( "info.length", 1, infos.length );
+        final TopicDescriptor info =
+            builder.buildTopic( attribute, TestBean.class.getClassLoader() );
+        assertEquals( "name", "TestMxInterface", info.getName() );
     }
 }
