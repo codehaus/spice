@@ -8,7 +8,7 @@ import org.codehaus.spice.timeevent.triggers.PeriodicTimeTrigger;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-22 04:16:49 $
+ * @version $Revision: 1.2 $ $Date: 2004-02-23 04:48:38 $
  */
 public class TestServer
 {
@@ -46,10 +46,7 @@ public class TestServer
         c_source = new TimeEventSource( queue1 );
         final TestEventHandler handler = new TestEventHandler();
 
-        final EventPump pump = new EventPump( c_source, handler );
-        pump.setBatchSize( 10 );
-
-        return pump;
+        return new EventPump( c_source, handler );
     }
 
     private static void doPump( final EventPump pump )
