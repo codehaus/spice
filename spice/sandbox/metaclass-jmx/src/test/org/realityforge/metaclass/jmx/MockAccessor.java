@@ -14,7 +14,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-13 23:55:19 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-13 23:57:09 $
  */
 class MockAccessor
     implements MetaClassAccessor
@@ -30,6 +30,13 @@ class MockAccessor
                                                ClassLoader classLoader )
         throws MetaClassException
     {
-        return m_classDescriptor;
+        if( null != m_classDescriptor )
+        {
+            return m_classDescriptor;
+        }
+        else
+        {
+            throw new MetaClassException( "Missing " + classname );
+        }
     }
 }
