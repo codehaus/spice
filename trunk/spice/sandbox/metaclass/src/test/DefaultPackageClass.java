@@ -9,8 +9,8 @@
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-23 04:49:11 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-28 05:31:15 $
  */
-class DefaultPackageClass
+public class DefaultPackageClass
 {
 }
