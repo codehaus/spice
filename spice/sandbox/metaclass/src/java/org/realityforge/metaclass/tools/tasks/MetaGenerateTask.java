@@ -29,7 +29,7 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.15 $ $Date: 2003-08-31 05:22:12 $
+ * @version $Revision: 1.16 $ $Date: 2003-08-31 05:24:45 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -143,11 +143,30 @@ public class MetaGenerateTask
         final List classes = collectClassesToSerialize();
         log( "MetaClass Attributes Compiler compiling " + classes.size() + " files." );
 
-        writeClassDescriptors( classes );
+        final List descriptors = buildClassDescriptors( classes );
+
+        writeClassDescriptors( descriptors );
     }
 
     /**
-     * Output the ClassDescriptors for the specified JavaClass list.
+     * Build class descriptors from input JavaCLass objects.
+     */
+    private List buildClassDescriptors( final List classes )
+    {
+        final ArrayList descriptors = new ArrayList();
+        final Iterator iterator = classes.iterator();
+        while( iterator.hasNext() )
+        {
+            final JavaClass javaClass = (JavaClass)iterator.next();
+            final ClassDescriptor descriptor =
+                c_infoBuilder.buildClassDescriptor( javaClass, m_interceptor );
+            descriptors.add( descriptor );
+        }
+        return descriptors;
+    }
+
+    /**
+     * Output the specified ClassDescriptors.
      *
      * @throws IOException If there is a problem writing output
      */
@@ -157,9 +176,7 @@ public class MetaGenerateTask
         final Iterator iterator = classes.iterator();
         while( iterator.hasNext() )
         {
-            final JavaClass javaClass = (JavaClass)iterator.next();
-            final ClassDescriptor descriptor =
-                c_infoBuilder.buildClassDescriptor( javaClass, m_interceptor );
+            final ClassDescriptor descriptor = (ClassDescriptor)iterator.next();
             writeClassDescriptor( descriptor );
         }
     }
