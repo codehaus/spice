@@ -8,7 +8,7 @@ import org.codehaus.spice.netevent.transport.TcpTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-07 04:22:13 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-07 04:24:26 $
  */
 public class EventsTestCase
     extends TestCase
@@ -124,7 +124,7 @@ public class EventsTestCase
 
         final String expected =
             "org.codehaus.spice.netevent.events." +
-            "ReadErrorEvent[X error connected to null]";
+            "ReadErrorEvent[java.io.IOException: X error connected to null]";
         assertEquals( "event.toString()", expected, event.toString() );
     }
 }
