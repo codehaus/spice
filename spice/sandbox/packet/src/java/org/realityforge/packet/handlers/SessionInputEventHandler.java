@@ -10,6 +10,7 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.InputDataPresentEvent;
 import org.codehaus.spice.netevent.handlers.AbstractDirectedHandler;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
+import org.codehaus.spice.netevent.transport.TransportOutputStream;
 import org.realityforge.packet.Packet;
 import org.realityforge.packet.events.AckEvent;
 import org.realityforge.packet.events.NackEvent;
@@ -21,7 +22,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-14 03:03:57 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-15 00:58:26 $
  */
 public class SessionInputEventHandler
     extends AbstractDirectedHandler
@@ -60,6 +61,16 @@ public class SessionInputEventHandler
     public void handleEvent( final Object event )
     {
         final InputDataPresentEvent ie = (InputDataPresentEvent)event;
+        handleInput( ie );
+    }
+
+    /**
+     * Handle input from transport.
+     * 
+     * @param ie the event indicating data present
+     */
+    private void handleInput( final InputDataPresentEvent ie )
+    {
         final ChannelTransport transport = ie.getTransport();
         try
         {
@@ -68,7 +79,7 @@ public class SessionInputEventHandler
             {
                 if( null == transport.getUserData() )
                 {
-                    dataPresent = handleUnconnectedInput( transport );
+                    dataPresent = receiveGreeting( transport );
                 }
                 else
                 {
@@ -78,105 +89,10 @@ public class SessionInputEventHandler
         }
         catch( final IOException ioe )
         {
-            disconnectTransport( transport, Protocol.ERROR_IO_ERROR );
+            signalDisconnectTransport( transport,
+                                       Protocol.ERROR_IO_ERROR,
+                                       getSink() );
         }
-    }
-
-    /**
-     * Handle input from an unconnected transport.
-     * 
-     * @param transport the transport
-     * @throws IOException if an error occurs reading from transport
-     */
-    boolean handleUnconnectedInput( final ChannelTransport transport )
-        throws IOException
-    {
-        final InputStream input = transport.getInputStream();
-        final int available = input.available();
-        if( available >= Protocol.SIZEOF_GREETING )
-        {
-            if( !checkMagicNumber( input ) )
-            {
-                disconnectTransport( transport,
-                                     Protocol.ERROR_BAD_MAGIC );
-                return false;
-            }
-
-            final long sessionID = TypeIOUtil.readLong( input );
-            final short authID = TypeIOUtil.readShort( input );
-            if( -1 == sessionID )
-            {
-                final Session session = _sessionManager.newSession();
-                session.setTransport( transport );
-                sendConnectMessage( session );
-                return true;
-            }
-            else
-            {
-                final Session session =
-                    _sessionManager.findSession( sessionID );
-                if( null == session )
-                {
-                    disconnectTransport( transport,
-                                         Protocol.ERROR_BAD_SESSION );
-                    return false;
-                }
-                else if( session.getAuthID() != authID )
-                {
-                    disconnectTransport( transport,
-                                         Protocol.ERROR_BAD_AUTH );
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    /**
-     * Send message indicating serverside has connected session.
-     * 
-     * @param session the session
-     * @throws IOException if unable to write message
-     */
-    void sendConnectMessage( final Session session )
-        throws IOException
-    {
-        final OutputStream output =
-            session.getTransport().getOutputStream();
-        output.write( Protocol.S2C_CONNECTED );
-        TypeIOUtil.writeLong( output, session.getSessionID() );
-        TypeIOUtil.writeShort( output, session.getAuthID() );
-        output.flush();
-    }
-
-    /**
-     * Check if streams starts with correct magic number.
-     * 
-     * @param input the input stream.
-     * @return true if stream starts with magic number
-     * @throws IOException if error reading from stream
-     */
-    boolean checkMagicNumber( final InputStream input )
-        throws IOException
-    {
-        final byte[] magic = Protocol.MAGIC;
-        for( int i = 0; i < magic.length; i++ )
-        {
-            final byte b = magic[ i ];
-            final int in = input.read();
-            if( b != in )
-            {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -197,44 +113,167 @@ public class SessionInputEventHandler
             return false;
         }
 
-        input.mark( Protocol.SIZEOF_MSG_HEADER );
+        input.mark( Protocol.SIZEOF_BYTE );
 
         final Session session = (Session)transport.getUserData();
 
         final int msg = input.read();
         if( !session.isClient() && Protocol.C2S_ESTABLISHED == msg )
         {
-            handleEstablish( transport );
-            return true;
+            return receiveEstablish( transport );
         }
-        else if( session.isClient() && Protocol.S2C_CONNECTED == msg )
+        else if( session.isClient() && Protocol.S2C_CONNECT == msg )
         {
-            handleConnect( transport );
-            return true;
+            return receiveConnect( transport );
         }
         else if( Protocol.MSG_DISCONNECT == msg )
         {
-            return handleDisconnect( transport );
+            return receiveDisconnect( transport );
         }
         else if( Protocol.MSG_DATA == msg )
         {
-            return handleDataMessage( transport );
+            return receiveData( transport );
         }
         else if( Protocol.MSG_ACK == msg )
         {
-            handleAck( transport );
-            return true;
+            return receiveAck( transport );
         }
         else if( Protocol.MSG_NACK == msg )
         {
-            handleNack( transport );
-            return true;
+            return receiveNack( transport );
         }
         else
         {
-            disconnectTransport( transport, Protocol.ERROR_BAD_MESSAGE );
+            signalDisconnectTransport( transport,
+                                       Protocol.ERROR_BAD_MESSAGE,
+                                       getSink() );
             return false;
         }
+    }
+
+    /**
+     * Send a the greeting at start of stream.
+     * 
+     * @param transport the transport
+     */
+    private void sendGreeting( final ChannelTransport transport,
+                               final long sessionID,
+                               final short authID )
+        throws IOException
+    {
+        ensureValidSession( transport );
+        final OutputStream output = transport.getOutputStream();
+        final byte[] magic = Protocol.MAGIC;
+        for( int i = 0; i < magic.length; i++ )
+        {
+            output.write( magic[ i ] );
+        }
+        TypeIOUtil.writeLong( output, sessionID );
+        TypeIOUtil.writeShort( output, authID );
+        output.flush();
+    }
+
+    /**
+     * Receive greeting that occurs at start of stream.
+     * 
+     * @param transport the transport
+     * @throws IOException if an error occurs reading from transport
+     */
+    private boolean receiveGreeting( final ChannelTransport transport )
+        throws IOException
+    {
+        final InputStream input = transport.getInputStream();
+        final int available = input.available();
+        if( available >= Protocol.SIZEOF_GREETING )
+        {
+            if( !checkMagicNumber( input ) )
+            {
+                signalDisconnectTransport( transport,
+                                           Protocol.ERROR_BAD_MAGIC,
+                                           getSink() );
+                return false;
+            }
+
+            final long sessionID = TypeIOUtil.readLong( input );
+            final short authID = TypeIOUtil.readShort( input );
+            if( -1 == sessionID )
+            {
+                final Session session = _sessionManager.newSession();
+                session.setTransport( transport );
+                sendConnect( transport,
+                             session.getSessionID(),
+                             session.getAuthID() );
+                return true;
+            }
+            else
+            {
+                final Session session =
+                    _sessionManager.findSession( sessionID );
+                if( null == session )
+                {
+                    signalDisconnectTransport( transport,
+                                               Protocol.ERROR_BAD_SESSION,
+                                               getSink() );
+                    return false;
+                }
+                else if( session.getAuthID() != authID )
+                {
+                    signalDisconnectTransport( transport,
+                                               Protocol.ERROR_BAD_AUTH,
+                                               getSink() );
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Check if streams starts with correct magic number.
+     * 
+     * @param input the input stream.
+     * @return true if stream starts with magic number
+     * @throws IOException if error reading from stream
+     */
+    private boolean checkMagicNumber( final InputStream input )
+        throws IOException
+    {
+        final byte[] magic = Protocol.MAGIC;
+        for( int i = 0; i < magic.length; i++ )
+        {
+            final byte b = magic[ i ];
+            final int in = input.read();
+            if( b != in )
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Send a Connect message.
+     * 
+     * @param transport the transport
+     */
+    private void sendConnect( final ChannelTransport transport,
+                              final long sessionID,
+                              final short authID )
+        throws IOException
+    {
+        ensureValidSession( transport );
+        final OutputStream output = transport.getOutputStream();
+        output.write( Protocol.S2C_CONNECT );
+        TypeIOUtil.writeLong( output, sessionID );
+        TypeIOUtil.writeShort( output, authID );
+        output.flush();
     }
 
     /**
@@ -242,7 +281,7 @@ public class SessionInputEventHandler
      * 
      * @param transport the transport
      */
-    boolean handleConnect( final ChannelTransport transport )
+    private boolean receiveConnect( final ChannelTransport transport )
         throws IOException
     {
         final Session session = (Session)transport.getUserData();
@@ -266,56 +305,144 @@ public class SessionInputEventHandler
     }
 
     /**
-     * Handle an establish message.
+     * Send an establish message.
      * 
      * @param transport the transport
      */
-    void handleEstablish( final ChannelTransport transport )
+    private void sendEstablished( final ChannelTransport transport )
+        throws IOException
+    {
+        ensureValidSession( transport );
+        final TransportOutputStream output = transport.getOutputStream();
+        output.write( Protocol.C2S_ESTABLISHED );
+        output.flush();
+    }
+
+    /**
+     * Receive an establish message.
+     * 
+     * @param transport the transport
+     */
+    private boolean receiveEstablish( final ChannelTransport transport )
     {
         final Session session = (Session)transport.getUserData();
         session.setStatus( Session.STATUS_ESTABLISHED );
         getSink().addEvent( new SessionEstablishedEvent( session ) );
+        return true;
     }
 
     /**
-     * Handle an ack message.
+     * Send an ack message.
      * 
      * @param transport the transport
      * @throws IOException if io error occurs
      */
-    void handleAck( final ChannelTransport transport )
+    private void sendAck( final ChannelTransport transport,
+                          final short sequence )
+        throws IOException
+    {
+        ensureValidSession( transport );
+        final TransportOutputStream output = transport.getOutputStream();
+        output.write( Protocol.MSG_ACK );
+        TypeIOUtil.writeShort( output, sequence );
+        output.flush();
+    }
+
+    /**
+     * Receive an ack message.
+     * 
+     * @param transport the transport
+     * @throws IOException if io error occurs
+     */
+    private boolean receiveAck( final ChannelTransport transport )
+        throws IOException
+    {
+
+        ensureValidSession( transport );
+        final Session session = (Session)transport.getUserData();
+        final InputStream input = transport.getInputStream();
+        final int available = input.available();
+        if( available < Protocol.SIZEOF_SHORT )
+        {
+            input.reset();
+            return false;
+        }
+        else
+        {
+            final short sequence = TypeIOUtil.readShort( input );
+            getSink().addEvent( new AckEvent( session, sequence ) );
+            return true;
+        }
+    }
+
+    /**
+     * Send a nack message.
+     * 
+     * @param transport the transport
+     * @throws IOException if io error occurs
+     */
+    private void sendNack( final ChannelTransport transport,
+                           final short sequence )
+        throws IOException
+    {
+        ensureValidSession( transport );
+        final TransportOutputStream output = transport.getOutputStream();
+        output.write( Protocol.MSG_NACK );
+        TypeIOUtil.writeShort( output, sequence );
+        output.flush();
+    }
+
+    /**
+     * Receive a nack message.
+     * 
+     * @param transport the transport
+     * @throws IOException if io error occurs
+     */
+    private boolean receiveNack( final ChannelTransport transport )
         throws IOException
     {
         ensureValidSession( transport );
         final Session session = (Session)transport.getUserData();
         final InputStream input = transport.getInputStream();
-        final short sequence = TypeIOUtil.readShort( input );
-        getSink().addEvent( new AckEvent( session, sequence ) );
+        final int available = input.available();
+        if( available < Protocol.SIZEOF_SHORT )
+        {
+            input.reset();
+            return false;
+        }
+        else
+        {
+            final short sequence = TypeIOUtil.readShort( input );
+            getSink().addEvent( new NackEvent( session, sequence ) );
+            return true;
+        }
     }
 
     /**
-     * Handle a nack message.
+     * Receive a disconnect message.
      * 
      * @param transport the transport
      * @throws IOException if io error occurs
      */
-    void handleNack( final ChannelTransport transport )
+    private void sendDisconnect( final ChannelTransport transport,
+                                 final byte reason )
         throws IOException
     {
         ensureValidSession( transport );
-        final Session session = (Session)transport.getUserData();
-        final InputStream input = transport.getInputStream();
-        final short sequence = TypeIOUtil.readShort( input );
-        getSink().addEvent( new NackEvent( session, sequence ) );
+        final TransportOutputStream output = transport.getOutputStream();
+        output.write( Protocol.MSG_DISCONNECT );
+        output.write( reason );
+        output.flush();
     }
 
     /**
-     * Handle a disconnect message.
+     * Receive a disconnect message.
      * 
      * @param transport the transport
+     * @return if message received
      * @throws IOException if io error occurs
      */
-    boolean handleDisconnect( final ChannelTransport transport )
+    private boolean receiveDisconnect( final ChannelTransport transport )
         throws IOException
     {
         final InputStream input = transport.getInputStream();
@@ -328,37 +455,66 @@ public class SessionInputEventHandler
         else
         {
             final byte reason = (byte)input.read();
-            disconnectTransport( transport, reason );
+            signalDisconnectTransport( transport, reason,
+                                       getSink() );
             return true;
         }
     }
 
     /**
-     * Handle a data message.
+     * Send a data message.
      * 
      * @param transport the transport
      * @throws IOException if io error occurs
      */
-    boolean handleDataMessage( final ChannelTransport transport )
+    private void sendData( final ChannelTransport transport,
+                           final Packet packet )
+        throws IOException
+    {
+        ensureValidSession( transport );
+        final TransportOutputStream output = transport.getOutputStream();
+        output.write( Protocol.MSG_DATA );
+        TypeIOUtil.writeShort( output, packet.getSequence() );
+
+        final ByteBuffer data = packet.getData();
+        final int dataSize = data.limit();
+        TypeIOUtil.writeShort( output, (short)dataSize );
+        while( data.remaining() > 0 )
+        {
+            output.write( data.get() );
+        }
+        output.flush();
+        _bufferManager.releaseBuffer( data );
+    }
+
+    /**
+     * Receive a data message.
+     * 
+     * @param transport the transport
+     * @return if message received
+     * @throws IOException if io error occurs
+     */
+    private boolean receiveData( final ChannelTransport transport )
         throws IOException
     {
         ensureValidSession( transport );
         final InputStream input = transport.getInputStream();
+        final int available = input.available();
+        if( available < Protocol.SIZEOF_SHORT + Protocol.SIZEOF_SHORT )
+        {
+            input.reset();
+            return false;
+        }
+
+        final short sequence = TypeIOUtil.readShort( input );
         final short length = TypeIOUtil.readShort( input );
         if( input.available() < length )
         {
             input.reset();
             return false;
         }
-        else if( length < Protocol.SIZEOF_SHORT )
-        {
-            //Can not get sequence number out
-            disconnectTransport( transport, Protocol.ERROR_NO_SEQUENCE );
-            return false;
-        }
         else
         {
-            final short sequence = TypeIOUtil.readShort( input );
             final int count = length - Protocol.SIZEOF_SHORT;
             final ByteBuffer buffer = _bufferManager.aquireBuffer( count );
             for( int i = 0; i < count; i++ )
@@ -380,7 +536,7 @@ public class SessionInputEventHandler
      * @param transport the transport
      * @throws IOException if session is not present and established
      */
-    void ensureValidSession( final ChannelTransport transport )
+    private void ensureValidSession( final ChannelTransport transport )
         throws IOException
     {
         final Session session = (Session)transport.getUserData();
@@ -399,14 +555,17 @@ public class SessionInputEventHandler
      * 
      * @param transport the transport
      * @param reason the reason for disconnect
+     * @param sink the sink to send message to
      */
-    void disconnectTransport( final ChannelTransport transport,
-                              final byte reason )
+    private void
+        signalDisconnectTransport( final ChannelTransport transport,
+                                   final byte reason,
+                                   final EventSink sink )
     {
         final TransportDisconnectRequestEvent error =
             new TransportDisconnectRequestEvent( transport,
                                                  reason );
-        getSink().addEvent( error );
+        sink.addEvent( error );
     }
 }
 
