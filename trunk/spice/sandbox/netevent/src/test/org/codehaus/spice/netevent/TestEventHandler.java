@@ -15,7 +15,7 @@ import org.codehaus.spice.netevent.transport.MultiBufferInputStream;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-19 06:57:39 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-23 04:26:21 $
  */
 class TestEventHandler
     extends AbstractEventHandler
@@ -45,7 +45,6 @@ class TestEventHandler
      */
     public void handleEvent( final Object event )
     {
-        //System.out.println( "event = " + event );
         if( event instanceof InputDataPresentEvent )
         {
             final InputDataPresentEvent e = (InputDataPresentEvent)event;
@@ -60,55 +59,64 @@ class TestEventHandler
         {
             final ChannelClosedEvent ce = (ChannelClosedEvent)event;
             final ChannelTransport transport = ce.getTransport();
-            final MultiBufferInputStream in = transport.getInputStream();
-            final int available = in.available();
-
-            final int count = Math.min( 15, available );
-            final StringBuffer sb = new StringBuffer();
-            try
-            {
-                for( int i = 0; i < count; i++ )
-                {
-                    sb.append( (char)in.read() );
-                }
-            }
-            catch( IOException e )
-            {
-                e.printStackTrace();
-            }
-
-            output( transport, "Received " + available + " Sample: " + sb );
-
+            receiveData( transport );
         }
         else if( event instanceof ConnectEvent )
         {
             final ConnectEvent ce = (ConnectEvent)event;
             final ChannelTransport transport = ce.getTransport();
-            final SocketChannel channel = (SocketChannel)transport.getChannel();
-            final Socket socket = channel.socket();
-            final String conn =
-                socket.getLocalPort() + "<->" + socket.getPort();
-            transport.setUserData( conn );
-            final OutputStream outputStream = transport.getOutputStream();
-            try
+            transmitData( transport );
+        }
+    }
+
+    private void receiveData( final ChannelTransport transport )
+    {
+        final MultiBufferInputStream in = transport.getInputStream();
+        final int available = in.available();
+
+        final int count = Math.min( 15, available );
+        final StringBuffer sb = new StringBuffer();
+        try
+        {
+            for( int i = 0; i < count; i++ )
             {
-                long transmitCount = _transmitCount;
-                if( -1 == transmitCount )
-                {
-                    transmitCount = Math.abs( RANDOM.nextInt() % 16 * 1024 );
-                }
-                for( int i = 0; i < transmitCount; i++ )
-                {
-                    final byte ch = DATA[ i % DATA.length ];
-                    outputStream.write( ch );
-                }
-                outputStream.flush();
-                output( transport, "Transmitted " + transmitCount );
+                sb.append( (char)in.read() );
             }
-            catch( final IOException ioe )
+        }
+        catch( IOException e )
+        {
+            e.printStackTrace();
+        }
+
+        output( transport, "Received " + available + " Sample: " + sb );
+    }
+
+    private void transmitData( final ChannelTransport transport )
+    {
+        final SocketChannel channel = (SocketChannel)transport.getChannel();
+        final Socket socket = channel.socket();
+        final String conn =
+            socket.getLocalPort() + "<->" + socket.getPort();
+        transport.setUserData( conn );
+        final OutputStream outputStream = transport.getOutputStream();
+        try
+        {
+            long transmitCount = _transmitCount;
+            if( -1 == transmitCount )
             {
-                ioe.printStackTrace();
+                transmitCount = Math.abs( RANDOM.nextInt() % 16 * 1024 );
             }
+            for( int i = 0; i < transmitCount; i++ )
+            {
+                final byte ch = DATA[ i % DATA.length ];
+                outputStream.write( ch );
+            }
+            outputStream.flush();
+            output( transport, "Transmitting " + transmitCount );
+        }
+        catch( final IOException ioe )
+        {
+            ioe.printStackTrace();
         }
     }
 
