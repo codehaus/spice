@@ -16,7 +16,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 /**
  * A Utility class for extracting a set of int constants from a Java Class.
  *
@@ -24,30 +23,61 @@ import java.util.regex.Pattern;
  */
 public final class EnumSet
 {
+   /**
+    * A map of name to integer code.
+    */
    private final Map _nameMap = new HashMap();
+
+   /**
+    * A map of integer code to name.
+    */
    private final Map _codeMap = new HashMap();
 
+   /**
+    * Return a read-only set of names in the EnumSet.
+    *
+    * @return a read-only set of names in the EnumSet.
+    */
    public final Set getNames()
    {
       return Collections.unmodifiableSet( _nameMap.keySet() );
    }
 
+   /**
+    * Return a read-only set of codes in the EnumSet.
+    *
+    * @return a read-only set of codes in the EnumSet.
+    */
    public final Set getCodes()
    {
       return Collections.unmodifiableSet( _codeMap.keySet() );
    }
 
-   public final String getNameFor( final int value )
+   /**
+    * Return the name for specified code.
+    *
+    * @param code the code to lookup.
+    * @return the name for specified code.
+    * @throws IllegalArgumentException if code is not in the EnumSet.
+    */
+   public final String getNameFor( final int code )
    {
-      final String name = (String) _codeMap.get( new Integer( value ) );
+      final String name = (String) _codeMap.get( new Integer( code ) );
       if ( null == name )
       {
-         final String message = "Unknown code " + value;
+         final String message = "Unknown code " + code;
          throw new IllegalArgumentException( message );
       }
       return name;
    }
 
+   /**
+    * Return the code for specified name.
+    *
+    * @param name the name to lookup.
+    * @return the code for specified name.
+    * @throws IllegalArgumentException if name is not in the EnumSet.
+    */
    public final int getCodeFor( final String name )
    {
       final Integer code = (Integer) _nameMap.get( name );
@@ -110,7 +140,7 @@ public final class EnumSet
             String key = name;
             if ( 0 != count )
             {
-               key = matcher.group(1);
+               key = matcher.group( 1 );
             }
             set.add( key, value );
          }
