@@ -2,30 +2,26 @@
 <project>
 
     <pomVersion>3</pomVersion>
-
     <currentVersion>1.0</currentVersion>
     <inceptionYear>2000</inceptionYear>
-    <!--<logo>/images/${pom.artifactId.substring(6)}.gif</logo>-->
-
     <organization>
-        <name>The Spice Group</name>
-        <url>http://sourceforge.net/projects/spice</url>
-        <logo>http://sourceforge.net/sflogo.php?group_id=67448&amp;type=5</logo>
+        <name>Codehaus</name>
+        <url>http://codehaus.org</url>
+        <logo>http://codehaus.org/codehaus-small.gif</logo>
     </organization>
 
 	<groupId>spice</groupId>
     <package>org.realityforge.${pom.artifactId.substring(6)}</package>
-    <url>http://spice.sourceforge.net/${pom.artifactId.substring(6)}</url>
-    <siteDirectory>/home/groups/s/sp/spice/htdocs/${pom.artifactId.substring(6)}</siteDirectory>
-    <distributionDirectory>/home/groups/s/sp/spice/htdocs/maven</distributionDirectory>
+    <url>http://spice.codehaus.org/</url>
+    <siteAddress>spice.codehaus.org</siteAddress>
+    <siteDirectory>/www/spice.codehaus.org/</siteDirectory>
+    <distributionSite>codehaus.org</distributionSite>
+    <distributionDirectory>/www/dist.codehaus.org</distributionDirectory>
     <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10140</issueTrackingUrl>
 
-    <siteAddress>spice.sourceforge.net</siteAddress>
-    <distributionSite>spice.sourceforge.net</distributionSite>
-
     <repository>
-        <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/spice:${pom.gumpRepositoryId}/${pom.artifactId.substring(6)}</connection>
-        <url>http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/spice/spice/${pom.gumpRepositoryId}</url>
+        <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:spice</connection>
+        <url>http://cvs.codehaus.org/viewcvs.cgi/?root=spice</url>
     </repository>
 
     <versions>
@@ -45,15 +41,27 @@
 
     <mailingLists>
         <mailingList>
+            <name>Spice Users List</name>
+            <subscribe>spice-user-request@lists.codehaus.org</subscribe>
+            <unsubscribe>spice-user-request@lists.codehaus.org</unsubscribe>
+            <archive>http://lists.codehaus.org/pipermail/spice-user/</archive>
+        </mailingList>
+        <mailingList>
             <name>Spice Developers List</name>
-            <subscribe>spice-devel-request@lists.sourceforge.net</subscribe>
-            <unsubscribe>spice-devel-request@lists.sourceforge.net</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum=spice-devel</archive>
+            <subscribe>spice-dev-request@lists.codehaus.org</subscribe>
+            <unsubscribe>spice-dev-request@lists.codehaus.org</unsubscribe>
+            <archive>http://lists.codehaus.org/pipermail/spice-dev/</archive>
+        </mailingList>
+        <mailingList>
+            <name>Spice CVS Commits List</name>
+            <subscribe>spice-scm-request@lists.codehaus.org</subscribe>
+            <unsubscribe>spice-scm-request@lists.codehaus.org</unsubscribe>
+            <archive>http://lists.codehaus.org/pipermail/spice-scm/</archive>
         </mailingList>
     </mailingLists>
-
+    
     <build>
-        <nagEmailAddress>spice-devel@lists.sourceforge.net</nagEmailAddress>
+        <nagEmailAddress>spice-dev@lists.codehaus.org</nagEmailAddress>
         <sourceDirectory>src/java</sourceDirectory>
         <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
 

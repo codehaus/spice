@@ -1,15 +1,11 @@
 <?xml version="1.0"?>
 <project>
-
     <pomVersion>3</pomVersion>
 
     <name>Spice</name>
     <id>spice-site</id>
-
     <currentVersion>1.0</currentVersion>
     <inceptionYear>2000</inceptionYear>
-    <!--<logo>/images/${pom.artifactId.substring(6)}.gif</logo>-->
-
     <organization>
         <name>codehaus</name>
         <url>http://codehaus.org</url>
@@ -19,11 +15,26 @@
     <shortDescription>Main Spice Website</shortDescription>
     <description>Main Spice Website</description>
 
+	<groupId>spice</groupId>
+    <package>org.codehaus.spice.${pom.artifactId.substring(6)}</package>
     <url>http://spice.codehaus.org/</url>
     <siteAddress>spice.codehaus.org</siteAddress>
+    <siteDirectory>/www/spice.codehaus.org/</siteDirectory>
+    <distributionSite>codehaus.org</distributionSite>
+    <distributionDirectory>/www/dist.codehaus.org</distributionDirectory>
     <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10140</issueTrackingUrl>
 
-    <siteDirectory>/www/spice.codehaus.org/</siteDirectory>
+    <repository>
+        <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:spice</connection>
+        <url>http://cvs.codehaus.org/viewcvs.cgi/?root=spice</url>
+    </repository>
+
+    <licenses>
+        <license
+            name="The Spice Software License, Version 1.1"
+            url="${pom.distributionSite}/LICENSE.txt"
+            distribution="repo"/>
+    </licenses>
 
     <mailingLists>
         <mailingList>
@@ -66,25 +77,25 @@
             </roles>
         </developer>
         <developer>
-            <name>Doug Hagan</name>
-            <id>dougecko</id>
-            <email>dougecko at users.sourceforge.net</email>
+            <name>Johan Sjoberg</name>
+            <id>sjoberg</id>
+            <email>sjoberg at codehaus.org</email>
             <roles>
                 <role>Developer</role>
             </roles>
         </developer>
         <developer>
-            <name>Mike Hogan</name>
-            <id>hogie</id>
-            <email>hogie at users.sourceforge.net</email>
+            <name>Ryan Hoegg</name>
+            <id>ryan</id>
+            <email>ryan at codehaus.org</email>
             <roles>
                 <role>Developer</role>
             </roles>
         </developer>
         <developer>
             <name>Paul Hammant</name>
-            <id>paul-h</id>
-            <email>paul-h at users.sourceforge.net</email>
+            <id>paul</id>
+            <email>paul_hammant at yahoo.com</email>
             <roles>
                 <role>Developer</role>
             </roles>
@@ -93,14 +104,6 @@
             <name>Peter Royal</name>
             <id>proyal</id>
             <email>peter.royal at pobox.com</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>James Walker</name>
-            <id>j_cosmo</id>
-            <email>james@stocksoftware.com.au</email>
             <roles>
                 <role>Developer</role>
             </roles>
