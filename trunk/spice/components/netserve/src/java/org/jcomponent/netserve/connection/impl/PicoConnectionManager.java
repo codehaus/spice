@@ -15,11 +15,8 @@ import org.jcomponent.threadpool.ThreadPool;
 /**
  * An implementation of {@link ConnectionManager} which is PicoContainer compatible.
  *
- * <p>A sample of configuration parameters for the component are given below. Note that on some OS/JVM
- * combinations <tt>soTimeout</tt> must be set to non-0 value or else the ServerSocket will
- * never get out of accept() system call and we wont be able to shutdown the server
- * socket properly. However it can introduce performance problems if constantly
- * timing out. <tt>shutdownTimeout</tt> indicates how long we should wait to see if
+ * <p>A sample of configuration parameters for the component are given below.
+ * <tt>shutdownTimeout</tt> indicates how long we should wait to see if
  * incoming connections will shutdown gracefully when asked. If they dont shutdown
  * gracefully and <tt>forceShutdown</tt> is true then the connection will be forced
  * to be shutdown if the user asked for connection to be "tearedDown".</p>
@@ -29,7 +26,7 @@ import org.jcomponent.threadpool.ThreadPool;
  * </ul>
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-14 04:19:49 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-14 04:23:49 $
  */
 public class PicoConnectionManager
     extends AbstractConnectionManager
@@ -76,10 +73,10 @@ public class PicoConnectionManager
      * @param shutdownTimeout  the number of milliseconds to wait for connection to shutdown gracefully.
      */
     public PicoConnectionManager( final ConnectionMonitor monitor,
-                                     final ThreadPool defaultThreadPool,
-                                     final SocketAcceptorManager acceptorManager,
-                                     final boolean forceShutdown,
-                                     final int shutdownTimeout )
+                                  final ThreadPool defaultThreadPool,
+                                  final SocketAcceptorManager acceptorManager,
+                                  final boolean forceShutdown,
+                                  final int shutdownTimeout )
     {
         setMonitor( monitor );
         setAcceptorManager( acceptorManager );
