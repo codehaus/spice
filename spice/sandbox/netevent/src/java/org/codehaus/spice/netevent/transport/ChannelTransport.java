@@ -20,7 +20,7 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2004-01-15 04:06:32 $
+ * @version $Revision: 1.9 $ $Date: 2004-01-15 05:54:02 $
  */
 public class ChannelTransport
 {
@@ -41,6 +41,9 @@ public class ChannelTransport
 
     /** Associated userData. */
     private Object _userData;
+
+    /** Flag indicating whether transport is closed. */
+    private boolean m_closed;
 
     /**
      * Create transport.
@@ -187,25 +190,40 @@ public class ChannelTransport
     }
 
     /**
+     * Return true if transport is closed.
+     * 
+     * @return true if transport is closed.
+     */
+    public boolean isClosed()
+    {
+        return m_closed;
+    }
+
+    /**
      * Close the channel and disconnect the key.
      */
     public void close()
     {
-        if( null != m_key )
+        if( !m_closed )
         {
-            m_key.cancel();
-            m_key = null;
-        }
-        if( m_channel.isOpen() )
-        {
-            try
+            m_closed = true;
+            m_outputStream.close();
+            if( null != m_key )
             {
-
-                m_channel.close();
+                m_key.cancel();
+                m_key = null;
             }
-            catch( final IOException ioe )
+            if( m_channel.isOpen() )
             {
-                //Ignore
+                try
+                {
+
+                    m_channel.close();
+                }
+                catch( final IOException ioe )
+                {
+                    //Ignore
+                }
             }
         }
     }
