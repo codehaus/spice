@@ -7,34 +7,35 @@
  */
 package org.realityforge.metaclass.tools.tasks;
 
-import com.thoughtworks.qdox.ant.AbstractQdoxTask;
-import com.thoughtworks.qdox.model.JavaClass;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.DirectoryScanner;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.tools.compiler.ClassDescriptorCompiler;
+import org.realityforge.metaclass.tools.compiler.CompilerMonitor;
+import org.realityforge.metaclass.tools.compiler.JavaClassFilter;
 import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
-import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
 
 /**
  * A Task to generate Attributes descriptors from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-04 02:13:02 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-04 09:25:28 $
  */
 public class GenerateClassDescriptorsTask
-    extends AbstractQdoxTask
+    extends Task
+    implements CompilerMonitor
 {
     /**
      * Constant indicating should write out binary descriptors.
@@ -62,21 +63,6 @@ public class GenerateClassDescriptorsTask
     private static final MetaClassIO c_metaClassIO = new MetaClassIOBinary();
 
     /**
-     * The utility class used to generate MetaClass object.
-     */
-    private static final QDoxDescriptorParser c_infoBuilder = new QDoxDescriptorParser();
-
-    /**
-     * The interceptors used to process source files.
-     */
-    private QDoxAttributeInterceptor[] m_interceptors;
-
-    /**
-     * The filter to filter out JavaClass prior to processing.
-     */
-    private JavaClassFilter m_filter;
-
-    /**
      * Internal list of filter elements added by user.
      */
     private final List m_filters = new ArrayList();
@@ -90,6 +76,16 @@ public class GenerateClassDescriptorsTask
      * Flag set to true if writing a descriptor fails.
      */
     private boolean m_failed;
+
+    /**
+     * Compiler used to compile descriptors.
+     */
+    private final ClassDescriptorCompiler m_compiler = new ClassDescriptorCompiler();
+
+    /**
+     * List of filesets to process.
+     */
+    private final List m_filesets = new ArrayList();
 
     /**
      * Add an filter definition that will create filter to process metadata.
@@ -120,6 +116,16 @@ public class GenerateClassDescriptorsTask
     }
 
     /**
+     * Add fileset to list of files to be processed.
+     *
+     * @param fileSet fileset to list of files to be processed.
+     */
+    public void addFileset( final FileSet fileSet )
+    {
+        m_filesets.add( fileSet );
+    }
+
+    /**
      * Set the destination directory for generated files.
      *
      * @param destDir the destination directory for generated files.
@@ -144,60 +150,112 @@ public class GenerateClassDescriptorsTask
      */
     public void execute()
     {
-        validate();
+        setupFilters();
+        setupInterceptors();
+        m_compiler.setDestDir( m_destDir );
 
-        m_interceptors = buildInterceptors();
-        m_filter = buildFilters();
+        setupTarget();
 
-        super.execute();
+        setupFileList();
 
-        processSourceFiles();
+        try
+        {
+            m_compiler.execute();
+        }
+        catch( final Exception e )
+        {
+            throw new BuildException( e.getMessage() );
+        }
+        if( m_failed )
+        {
+            throw new BuildException( "Error generating ClassDescriptors" );
+        }
     }
 
     /**
-     * Build a MultiCastFilter containgin all added by the user.
-     *
-     * @return a MultiCastFilter containgin all filters
+     * Setup list of files compiler will compile.
      */
-    private JavaClassFilter buildFilters()
+    private void setupFileList()
     {
-        final ArrayList instances = new ArrayList();
+        final int count = m_filesets.size();
+        for( int i = 0; i < count; i++ )
+        {
+            final FileSet fileSet = (FileSet)m_filesets.get( i );
+            appendFileSetToCompiler( fileSet );
+        }
+    }
+
+    /**
+     * Add all files contained in fileset to compilers file list.
+     *
+     * @param fileSet the fileset
+     */
+    private void appendFileSetToCompiler( final FileSet fileSet )
+    {
+        final File dir = fileSet.getDir( getProject() );
+        final DirectoryScanner directoryScanner =
+            fileSet.getDirectoryScanner( getProject() );
+        directoryScanner.scan();
+        final String[] includedFiles = directoryScanner.getIncludedFiles();
+        for( int j = 0; j < includedFiles.length; j++ )
+        {
+            final File file = new File( dir, includedFiles[ j ] );
+            m_compiler.addSourceFile( file );
+        }
+    }
+
+    /**
+     * Setup the output target of compiler.
+     */
+    void setupTarget()
+    {
+        if( BINARY_TYPE == m_format )
+        {
+            m_compiler.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
+            m_compiler.setMetaClassIO( c_metaClassIO );
+        }
+        else
+        {
+            m_compiler.setExtension( DefaultMetaClassAccessor.XML_EXT );
+            //m_compiler.setMetaClassIO( c_metaClassIO );
+            final String message =
+                "XML Format not currently supported by MetaClass";
+            throw new BuildException( message );
+        }
+    }
+
+    /**
+     * Creat filters and add them to compiler.
+     */
+    private void setupFilters()
+    {
         final Iterator iterator = m_filters.iterator();
         while( iterator.hasNext() )
         {
             final PluginElement element = (PluginElement)iterator.next();
-            final Object object =
+            final JavaClassFilter filter = (JavaClassFilter)
                 createInstance( element,
                                 JavaClassFilter.class,
                                 "filter" );
-            instances.add( object );
+            m_compiler.addFilter( filter );
         }
-        final JavaClassFilter[] filters = (JavaClassFilter[])instances.
-            toArray( new JavaClassFilter[ instances.size() ] );
-        return new MulticastJavaClassFilter( filters );
     }
 
     /**
-     * Build an array of interceptors from the InterceptorElement
-     * objects added by the user.
-     *
-     * @return an array of interceptors
+     * Build the interceptors and add them to the compiler.
      */
-    private QDoxAttributeInterceptor[] buildInterceptors()
+    private void setupInterceptors()
     {
-        final ArrayList instances = new ArrayList();
         final Iterator iterator = m_elements.iterator();
         while( iterator.hasNext() )
         {
             final PluginElement element = (PluginElement)iterator.next();
-            final Object object =
+            final QDoxAttributeInterceptor interceptor = (QDoxAttributeInterceptor)
                 createInstance( element,
                                 QDoxAttributeInterceptor.class,
                                 "interceptor" );
-            instances.add( object );
+            m_compiler.addInterceptor( interceptor );
         }
-        return (QDoxAttributeInterceptor[])instances.
-            toArray( new QDoxAttributeInterceptor[ instances.size() ] );
     }
 
     /**
@@ -254,189 +312,6 @@ public class GenerateClassDescriptorsTask
     }
 
     /**
-     * Output the ClassDescriptors that are not filtered out.
-     */
-    protected void processSourceFiles()
-    {
-        final List classes = collectClassesToSerialize();
-        log( "MetaClass Attributes Compiler compiling " + classes.size() +
-             " classes and writing as " + getOutputDescription() + "." );
-
-        final List descriptors = buildClassDescriptors( classes );
-        processClassDescriptors( descriptors );
-    }
-
-    /**
-     * Output the ClassDescriptors that are not filtered out
-     * and throw build exception if any fail to build.
-     *
-     * @param descriptors the list of ClassDescriptor objects
-     */
-    void processClassDescriptors( final List descriptors )
-    {
-        writeClassDescriptors( descriptors );
-
-        if( m_failed )
-        {
-            final String message =
-                "Failed to create descriptors for all classes.";
-            log( message );
-            throw new BuildException( message );
-        }
-    }
-
-    /**
-     * Build class descriptors from input JavaCLass objects.
-     *
-     * @param classes the list containing JavaClass objects.
-     * @return a list containing created ClassDescriptor objects.
-     */
-    private List buildClassDescriptors( final List classes )
-    {
-        final ArrayList descriptors = new ArrayList();
-        final Iterator iterator = classes.iterator();
-        while( iterator.hasNext() )
-        {
-            final JavaClass javaClass = (JavaClass)iterator.next();
-            final ClassDescriptor descriptor =
-                c_infoBuilder.buildClassDescriptor( javaClass, m_interceptors );
-            descriptors.add( descriptor );
-        }
-        return descriptors;
-    }
-
-    /**
-     * Output the specified ClassDescriptors.
-     *
-     * @param classes the list containing ClassDescriptor objects.
-     */
-    private void writeClassDescriptors( final List classes )
-    {
-        final Iterator iterator = classes.iterator();
-        while( iterator.hasNext() )
-        {
-            final ClassDescriptor descriptor = (ClassDescriptor)iterator.next();
-            writeClassDescriptor( descriptor );
-        }
-    }
-
-    /**
-     * Return the set of classes that will actually be serialized
-     * and have not been filtered out.
-     *
-     * @return list of classes to serialize
-     */
-    private List collectClassesToSerialize()
-    {
-        final List classes = new ArrayList();
-        final int classCount = allClasses.size();
-        for( int i = 0; i < classCount; i++ )
-        {
-            final JavaClass candidate = (JavaClass)allClasses.get( i );
-            final JavaClass javaClass = m_filter.filterClass( candidate );
-            if( null == javaClass )
-            {
-                continue;
-            }
-            classes.add( javaClass );
-        }
-        return classes;
-    }
-
-    /**
-     * Validate that the parameters are valid.
-     */
-    private void validate()
-    {
-        if( null == m_destDir )
-        {
-            final String message = "DestDir not specified";
-            throw new BuildException( message );
-        }
-        if( m_destDir.exists() && !m_destDir.isDirectory() )
-        {
-            final String message =
-                "DestDir (" + m_destDir + ") is not a directory.";
-            throw new BuildException( message );
-        }
-        if( !m_destDir.exists() && !m_destDir.mkdirs() )
-        {
-            final String message =
-                "DestDir (" + m_destDir + ") could not be created.";
-            throw new BuildException( message );
-        }
-    }
-
-    /**
-     * Write ClassDescriptor out into a file.
-     *
-     * @param descriptor the ClassDescriptor object
-     */
-    private void writeClassDescriptor( final ClassDescriptor descriptor )
-    {
-        final String fqn = descriptor.getName();
-        OutputStream outputStream = null;
-        try
-        {
-            final File file = getOutputFileForClass( fqn );
-            file.getParentFile().mkdirs();
-            outputStream = new FileOutputStream( file );
-            getMetaClassIO().serializeClass( outputStream, descriptor );
-        }
-        catch( final Exception e )
-        {
-            log( "Error writing " + fqn + ". Cause: " + e );
-            m_failed = true;
-        }
-        finally
-        {
-            shutdownStream( outputStream );
-        }
-    }
-
-    /**
-     * Return the correct info writer depending on
-     * what format the info will be output as
-     *
-     * @return the MetaClassIO to output ClassDescriptor with
-     */
-    MetaClassIO getMetaClassIO()
-    {
-        if( BINARY_TYPE == m_format )
-        {
-            return c_metaClassIO;
-        }
-        else
-        {
-            final String message = "XML not a supported format at this time.";
-            throw new BuildException( message );
-        }
-    }
-
-    /**
-     * Determine the file for specified class.
-     *
-     * @param classname the fully qualified name of file to generate
-     * @return the file for info
-     * @throws IOException if unable to determine base file
-     */
-    File getOutputFileForClass( final String classname )
-        throws IOException
-    {
-        String filename =
-            classname.replace( '.', File.separatorChar );
-        if( BINARY_TYPE == m_format )
-        {
-            filename += DefaultMetaClassAccessor.BINARY_EXT;
-        }
-        else
-        {
-            filename += DefaultMetaClassAccessor.XML_EXT;
-        }
-        return new File( m_destDir, filename ).getCanonicalFile();
-    }
-
-    /**
      * Return a description of output format to print as debug message.
      *
      * @return the output formats descriptive name
@@ -454,22 +329,63 @@ public class GenerateClassDescriptorsTask
     }
 
     /**
-     * Close the specified output stream and swallow any exceptions.
+     * Print error message and flag task as having failed.
      *
-     * @param outputStream the output stream
+     * @param descriptor the descriptor
+     * @param e the exception
      */
-    void shutdownStream( final OutputStream outputStream )
+    public void errorWritingDescriptor( final ClassDescriptor descriptor,
+                                        final Exception e )
     {
-        if( null != outputStream )
-        {
-            try
-            {
-                outputStream.close();
-            }
-            catch( IOException e )
-            {
-                //Ignored
-            }
-        }
+        log( "Error writing descriptor for " +
+             descriptor.getName() + " due to " + e,
+             Project.MSG_ERR );
+        m_failed = true;
+    }
+
+    /**
+     * Print error message and flag task as having failed.
+     *
+     * @param file the source file
+     */
+    public void missingSourceFile( final File file )
+    {
+        log( "Missing Source file " + file, Project.MSG_ERR );
+        m_failed = true;
+    }
+
+    /**
+     * Output debug message indicating how many source
+     * files loaded.
+     *
+     * @param classes the classes
+     */
+    public void javaClassObjectsLoaded( final List classes )
+    {
+        log( "Loaded " + classes.size() + " Java classes.",
+             Project.MSG_DEBUG );
+    }
+
+    /**
+     * Output info message indicating how many source
+     * files will be compiled.
+     *
+     * @param classes the classes
+     */
+    public void postFilterJavaClassList( List classes )
+    {
+        log( "MetaClass Attributes Compiler building " + classes.size() +
+             " " + getOutputDescription() + " descriptors.",
+             Project.MSG_INFO );
+    }
+
+    /**
+     * Return the Compiler used to create descriptors.
+     *
+     * @return the Compiler used to create descriptors.
+     */
+    protected final ClassDescriptorCompiler getCompiler()
+    {
+        return m_compiler;
     }
 }
