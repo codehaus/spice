@@ -7,10 +7,10 @@ import org.realityforge.packet.session.Session;
  * Event indicating a packet was read.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-19 04:41:53 $
+ * @version $Revision: 1.4 $ $Date: 2004-02-03 06:09:14 $
  */
 public class PacketReadEvent
-    extends PacketEvent
+    extends AbstractPacketEvent
 {
 
     /**

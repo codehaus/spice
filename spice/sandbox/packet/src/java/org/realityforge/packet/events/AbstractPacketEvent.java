@@ -7,18 +7,18 @@ import org.realityforge.packet.session.Session;
  * An abstract event about a packet in a session.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-02-02 05:34:31 $
+ * @version $Revision: 1.1 $ $Date: 2004-02-03 06:09:14 $
  */
-public abstract class PacketEvent
-    extends SessionEvent
+public abstract class AbstractPacketEvent
+    extends AbstractSessionEvent
 {
     /**
      * The associated packet.
      */
     private final Packet _packet;
 
-    public PacketEvent( final Session session,
-                        final Packet packet )
+    public AbstractPacketEvent( final Session session,
+                                final Packet packet )
     {
         super( session );
         if( null == packet )
@@ -40,7 +40,7 @@ public abstract class PacketEvent
     }
 
     /**
-     * @see SessionEvent#getEventDescription()
+     * @see AbstractSessionEvent#getEventDescription()
      */
     protected String getEventDescription()
     {
