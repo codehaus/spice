@@ -18,7 +18,7 @@ import java.nio.channels.WritableByteChannel;
  * message buffer.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-12 01:05:58 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-12 06:08:18 $
  */
 class ProtocolWriter
 {
@@ -60,6 +60,7 @@ class ProtocolWriter
         m_message.put( ProtocolConstants.S2C_CONNECTED );
         m_message.putShort( sessionID );
         m_message.putShort( sessionAuth );
+        m_message.flip();
         forceWriteMessage( m_message, channel );
     }
 
@@ -78,6 +79,7 @@ class ProtocolWriter
     {
         m_message.clear();
         m_message.put( control );
+        m_message.flip();
         forceWriteMessage( m_message, channel );
     }
 
