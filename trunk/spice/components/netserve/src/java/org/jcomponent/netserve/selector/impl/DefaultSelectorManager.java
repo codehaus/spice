@@ -15,7 +15,7 @@ import org.jcomponent.netserve.selector.SelectorEventHandler;
  * The SelectorManager makes it easy to start a selector
  * in a thread and receive events on selection.
  */
-public class SelectorManager
+public class DefaultSelectorManager
    implements Runnable
 {
    /**

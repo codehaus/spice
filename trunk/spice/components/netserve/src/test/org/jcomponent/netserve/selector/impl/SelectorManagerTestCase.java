@@ -14,7 +14,7 @@ import com.mockobjects.dynamic.Mock;
 import junit.framework.TestCase;
 import org.jcomponent.netserve.selector.impl.NullSelectorEventHandler;
 import org.jcomponent.netserve.selector.impl.NullSelectorMonitor;
-import org.jcomponent.netserve.selector.impl.SelectorManager;
+import org.jcomponent.netserve.selector.impl.DefaultSelectorManager;
 import org.jcomponent.netserve.selector.impl.SelectorMonitor;
 import org.jcomponent.netserve.selector.impl.HelloSelectorEventHandler;
 import org.jcomponent.netserve.selector.impl.MockSelector;
@@ -25,7 +25,7 @@ public class SelectorManagerTestCase
    public void testSetMonitorUsingNonNull()
       throws Exception
    {
-      final SelectorManager manager = new SelectorManager();
+      final DefaultSelectorManager manager = new DefaultSelectorManager();
       final NullSelectorMonitor monitor = new NullSelectorMonitor();
       manager.setMonitor( monitor );
       assertEquals( "monitor", monitor, manager.getMonitor() );
@@ -34,7 +34,7 @@ public class SelectorManagerTestCase
    public void testSetMonitorUsingNull()
       throws Exception
    {
-      final SelectorManager manager = new SelectorManager();
+      final DefaultSelectorManager manager = new DefaultSelectorManager();
       try
       {
          manager.setMonitor( null );
@@ -50,7 +50,7 @@ public class SelectorManagerTestCase
    public void testSetHandlerUsingNonNull()
       throws Exception
    {
-      final SelectorManager manager = new SelectorManager();
+      final DefaultSelectorManager manager = new DefaultSelectorManager();
       final NullSelectorEventHandler handler = new NullSelectorEventHandler();
       manager.setHandler( handler );
       assertEquals( "handler", handler, manager.getHandler() );
@@ -59,7 +59,7 @@ public class SelectorManagerTestCase
    public void testSetHandlerUsingNull()
       throws Exception
    {
-      final SelectorManager manager = new SelectorManager();
+      final DefaultSelectorManager manager = new DefaultSelectorManager();
       try
       {
          manager.setHandler( null );
@@ -85,7 +85,7 @@ public class SelectorManagerTestCase
       mockMonitor.expect( "selectorShutdown", C.NO_ARGS );
       final SelectorMonitor monitor = (SelectorMonitor) mockMonitor.proxy();
 
-      final SelectorManager manager = new SelectorManager();
+      final DefaultSelectorManager manager = new DefaultSelectorManager();
       manager.setTimeout( 4000 );
       manager.setMonitor( monitor );
       assertEquals( "isRunning pre start", false, manager.isRunning() );
@@ -107,7 +107,7 @@ public class SelectorManagerTestCase
       final Mock mockMonitor = new Mock( SelectorMonitor.class );
       final SelectorMonitor monitor = (SelectorMonitor) mockMonitor.proxy();
 
-      final SelectorManager manager = new SelectorManager();
+      final DefaultSelectorManager manager = new DefaultSelectorManager();
       manager.setMonitor( monitor );
       manager.setTimeout( 400 );
       assertEquals( "isRunning pre shutdown", false, manager.isRunning() );
@@ -128,7 +128,7 @@ public class SelectorManagerTestCase
       mockMonitor.expect( "errorClosingSelector", C.args( C.eq( MockSelector.EXCEPTION ) ) );
       final SelectorMonitor monitor = (SelectorMonitor) mockMonitor.proxy();
 
-      final SelectorManager manager = new SelectorManager();
+      final DefaultSelectorManager manager = new DefaultSelectorManager();
       manager.setTimeout( 4000 );
       manager.setMonitor( monitor );
 
@@ -169,7 +169,7 @@ public class SelectorManagerTestCase
       mockMonitor.expect( "exitingSelectorLoop", C.NO_ARGS );
       final SelectorMonitor monitor = (SelectorMonitor) mockMonitor.proxy();
 
-      final SelectorManager manager = new SelectorManager();
+      final DefaultSelectorManager manager = new DefaultSelectorManager();
       manager.setTimeout( 5000 );
       manager.setMonitor( monitor );
 
@@ -215,7 +215,7 @@ public class SelectorManagerTestCase
       mockMonitor.verify();
    }
 
-   private void assertNullSelector( final SelectorManager manager )
+   private void assertNullSelector( final DefaultSelectorManager manager )
    {
       try
       {

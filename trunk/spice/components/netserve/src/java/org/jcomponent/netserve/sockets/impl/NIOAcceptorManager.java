@@ -17,7 +17,7 @@ import java.util.Map;
 
 import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 import org.jcomponent.netserve.sockets.SocketConnectionHandler;
-import org.jcomponent.netserve.selector.impl.SelectorManager;
+import org.jcomponent.netserve.selector.impl.DefaultSelectorManager;
 import org.jcomponent.netserve.selector.SelectorEventHandler;
 
 /**
@@ -25,7 +25,7 @@ import org.jcomponent.netserve.selector.SelectorEventHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.22 $ $Date: 2003-10-24 03:18:44 $
+ * @version $Revision: 1.23 $ $Date: 2003-10-24 03:27:17 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -35,7 +35,7 @@ public class NIOAcceptorManager
    /**
     * The associated selector manager.
     */
-   private final SelectorManager m_selectorManager = new SelectorManager();
+   private final DefaultSelectorManager m_selectorManager = new DefaultSelectorManager();
 
    /**
     * Monitor to receive events.
