@@ -17,12 +17,11 @@ import org.jcomponent.threadpool.ThreadPool;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-30 09:26:20 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-31 00:39:56 $
  */
 public class AvalonThreadPoolTestCase
     extends AbstractThreadPoolTestCase
 {
-
     public AvalonThreadPoolTestCase( final String name )
     {
         super( name );
