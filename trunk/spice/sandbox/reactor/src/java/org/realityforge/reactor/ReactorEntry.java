@@ -38,10 +38,10 @@ class ReactorEntry
     * @param handler the handler
     * @param passback the passback object
     */
-   public ReactorEntry( final String name,
-                        final SocketChannel channel,
-                        final SocketDataHandler handler,
-                        final Object passback )
+   ReactorEntry( final String name,
+                 final SocketChannel channel,
+                 final SocketDataHandler handler,
+                 final Object passback )
    {
       if ( null == name )
       {
@@ -66,7 +66,7 @@ class ReactorEntry
     *
     * @return the name associated with connection.
     */
-   public String getName()
+   String getName()
    {
       return _name;
    }
@@ -76,7 +76,7 @@ class ReactorEntry
     *
     * @return the channel that represents connection.
     */
-   public SocketChannel getChannel()
+   SocketChannel getChannel()
    {
       return _channel;
    }
@@ -86,7 +86,7 @@ class ReactorEntry
     *
     * @return the associated handler.
     */
-   public SocketDataHandler getHandler()
+   SocketDataHandler getHandler()
    {
       return _handler;
    }
@@ -96,7 +96,7 @@ class ReactorEntry
     *
     * @return the user specified passback object.
     */
-   public Object getPassback()
+   Object getPassback()
    {
       return _passback;
    }
