@@ -24,6 +24,16 @@
             <version>4.1.4</version>
         </dependency>
         <dependency>
+            <groupId>dna</groupId>
+            <artifactId>dna-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>dna</groupId>
+            <artifactId>dna-impl</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>jcomponent</groupId>
            	<artifactId>jcomponent-threadpool</artifactId>
             <version>1.0</version>
