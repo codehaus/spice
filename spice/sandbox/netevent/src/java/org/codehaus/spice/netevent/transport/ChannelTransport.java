@@ -21,29 +21,43 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2004-01-16 00:24:07 $
+ * @version $Revision: 1.11 $ $Date: 2004-01-21 03:25:05 $
  */
 public class ChannelTransport
 {
-    /** The associated channel. */
+    /**
+     * The associated channel.
+     */
     private final Channel m_channel;
 
-    /** The buffer used to store outgoing data. */
+    /**
+     * The buffer used to store outgoing data.
+     */
     private final Buffer m_transmitBuffer;
 
-    /** The Stream representing data received from channel. */
+    /**
+     * The Stream representing data received from channel.
+     */
     private final MultiBufferInputStream m_inputStream;
 
-    /** The Stream representing data to transmit on channel. */
+    /**
+     * The Stream representing data to transmit on channel.
+     */
     private final TransportOutputStream m_outputStream;
 
-    /** The key used to register channel in selector. */
+    /**
+     * The key used to register channel in selector.
+     */
     private SelectionKey m_key;
 
-    /** Associated userData. */
+    /**
+     * Associated userData.
+     */
     private Object _userData;
 
-    /** Flag indicating whether transport is closed. */
+    /**
+     * Flag indicating whether transport is closed.
+     */
     private boolean m_closed;
 
     /**
@@ -236,5 +250,13 @@ public class ChannelTransport
                 }
             }
         }
+    }
+
+    /**
+     * @see Object#toString()
+     */
+    public String toString()
+    {
+        return "[id=" + hashCode() + "," + String.valueOf( m_channel ) + "]";
     }
 }
