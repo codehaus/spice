@@ -302,5 +302,42 @@ public class ConnectorTestCase
 
       connectorMock.verify();
       monitorMock.verify();
+      policyMock.verify();
+   }
+
+   public void testVerifyConnectedOnConnected()
+      throws Exception
+   {
+      final Mock connectorMock = new Mock( ConnectorConnection.class );
+
+      final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
+
+      final Connector connector = new Connector();
+      connector.setConnection( connection );
+
+      connector.setActive( true );
+      connector.setConnected( true );
+      connector.verifyConnected();
+      assertEquals( "isConnected", true, connector.isConnected() );
+
+      connectorMock.verify();
+   }
+
+   public void testVerifyConnectedOnDisconnected()
+      throws Exception
+   {
+      final Mock connectorMock = new Mock( ConnectorConnection.class );
+      connectorMock.expect( "connect", C.NO_ARGS );
+
+      final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
+
+      final Connector connector = new Connector();
+      connector.setConnection( connection );
+
+      connector.setActive( true );
+      connector.verifyConnected();
+      assertEquals( "isConnected", true, connector.isConnected() );
+
+      connectorMock.verify();
    }
 }
