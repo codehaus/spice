@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  * and other common resources from a ResourceBundle.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-06-12 23:28:32 $
+ * @version $Revision: 1.6 $ $Date: 2003-06-13 00:51:10 $
 */
 public class Resources
 {
@@ -667,7 +667,7 @@ public class Resources
     {
         try
         {
-            final String pattern = getPatternString( key );
+            final String pattern = getString( key );
             return MessageFormat.format( pattern, args );
         }
         catch( final MissingResourceException mre )
@@ -711,34 +711,5 @@ public class Resources
                 getBundle( m_baseName, m_locale, m_classLoader );
         }
         return m_bundle;
-    }
-
-    /**
-     * Utility method to retrieve a string from ResourceBundle.
-     * If the key is a single string then that will be returned.
-     * If key refers to string array then a random string will be chosen.
-     * Other types cause an exception.
-     *
-     * @param key the key to resource
-     * @return the string resource
-     * @throws MissingResourceException if an error occurs
-     */
-    private String getPatternString( final String key )
-        throws MissingResourceException
-    {
-        final ResourceBundle bundle = getBundle();
-        final Object object = bundle.getObject( key );
-
-        // is the resource a single string
-        if( object instanceof String )
-        {
-            return (String)object;
-        }
-        else
-        {
-            throw new MissingResourceException( "Unable to find resource of appropriate type.",
-                                                "java.lang.String",
-                                                key );
-        }
     }
 }
