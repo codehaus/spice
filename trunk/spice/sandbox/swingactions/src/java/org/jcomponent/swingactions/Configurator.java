@@ -40,7 +40,7 @@ public class Configurator
     {
         final InitialActionManagerFactory factory = new InitialActionManagerFactory();
         final HashMap data = new HashMap();
-        data.put( InitialActionManagerFactory.CONFIGURABLE_FACTORY, getFactoryClassName( configuratorType ) );
+        data.put( InitialActionManagerFactory.FACTORY, getFactoryClassName( configuratorType ) );
         data.put( ActionManagerFactory.FILE_LOCATION, resource );
         return factory.createActionManager( data );
     }
@@ -60,7 +60,7 @@ public class Configurator
     {
         final InitialActionManagerFactory factory = new InitialActionManagerFactory();
         final HashMap data = new HashMap();
-        data.put( InitialActionManagerFactory.CONFIGURABLE_FACTORY, getFactoryClassName( configuratorType ) );
+        data.put( InitialActionManagerFactory.FACTORY, getFactoryClassName( configuratorType ) );
         data.put( InputStream.class.getName(), resource );
         return factory.createActionManager( data );
     }
