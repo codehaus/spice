@@ -9,6 +9,7 @@ package org.realityforge.loggerstore;
 
 import java.io.InputStream;
 import java.util.Map;
+import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
 /**
@@ -16,9 +17,11 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
  * for the LogKit Logger.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.5 $ $Date: 2003-05-24 22:29:25 $
  */
 public class LogKitLoggerStoreFactory
-    implements LoggerStoreFactory
+    extends AbstractLoggerStoreFactory
 {
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
@@ -36,28 +39,29 @@ public class LogKitLoggerStoreFactory
      * @return the LoggerStore
      * @throws Exception if unable to create the LoggerStore
      */
-    public LoggerStore createLoggerStore( final Map config )
+    protected LoggerStore doCreateLoggerStore( final Map config )
         throws Exception
     {
-        final InputStream resource = (InputStream)config.get( CONFIGURATION );
-        if( resource != null )
+        /*
+        final Element element = (Element)config.get( Element.class.getName() );
+        if( null != element )
         {
-            String type = (String)config.get( CONFIGURATION_TYPE );
-            if( type != null )
-            {
-                if( type.equals( LoggerStoreFactory.PROPERTIES ) )
-                {
-                    final String message = "Invalid configuration type " + type;
-                    throw new Exception( message );
-                }
-                else if( type.equals( LoggerStoreFactory.XML ) )
-                {
-                    final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-                    return new LogKitLoggerStore( builder.build( resource ) );
-                }
-            }
+            return new LogKitLoggerStore( ConfigurationUtil.toConfiguration( element ) );
         }
-        throw new Exception( "Invalid configuration" );
-    }
+        */
+        final Configuration configuration = (Configuration)config.get( Configuration.class.getName() );
+        if( null != configuration )
+        {
+            return new LogKitLoggerStore( configuration );
+        }
 
+        final InputStream resource = getInputStream( config );
+        if( null != resource )
+        {
+            final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+            return new LogKitLoggerStore( builder.build( resource ) );
+        }
+
+        return missingConfiguration();
+    }
 }

@@ -10,16 +10,33 @@ package org.realityforge.loggerstore;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
+import org.w3c.dom.Element;
 
 /**
  * Log4JLoggerStoreFactory is an implementation of LoggerStoreFactory
  * for the Log4J Logger.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.5 $ $Date: 2003-05-24 22:29:25 $
  */
 public class Log4JLoggerStoreFactory
-    implements LoggerStoreFactory
+    extends AbstractLoggerStoreFactory
 {
+    /**
+     * The CONFIGURATION_TYPE key.  Used to denote the type of configuration,
+     * which can take value PROPERTIES or XML.
+     */
+    public static final String CONFIGURATION_TYPE = "configurationType";
+    /**
+     * The PROPERTIES bound value.
+     */
+    public static final String PROPERTIES = "properties";
+    /**
+     * The XML bound value.
+     */
+    public static final String XML = "xml";
+
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
      * The configuration Map must contain:
@@ -34,27 +51,42 @@ public class Log4JLoggerStoreFactory
      * @return the LoggerStore
      * @throws Exception if unable to create the LoggerStore
      */
-    public LoggerStore createLoggerStore( final Map config )
+    protected LoggerStore doCreateLoggerStore( final Map config )
         throws Exception
     {
-        InputStream resource = (InputStream)config.get( CONFIGURATION );
-        if( resource != null )
+        final Element element = (Element)config.get( Element.class.getName() );
+        if( null != element )
         {
-            String type = (String)config.get( CONFIGURATION_TYPE );
-            if( type != null )
-            {
-                if( type.equals( LoggerStoreFactory.PROPERTIES ) )
-                {
-                    final Properties properties = new Properties();
-                    properties.load( resource );
-                    return new Log4JLoggerStore( properties );
-                }
-                else if( type.equals( LoggerStoreFactory.XML ) )
-                {
-                    return new Log4JLoggerStore( resource );
-                }
-            }
+            return new Log4JLoggerStore( element );
         }
-        throw new Exception( "Invalid configuration" );
+        final Properties properties = (Properties)config.get( Properties.class.getName() );
+        if( null != properties )
+        {
+            return new Log4JLoggerStore( properties );
+        }
+
+        final InputStream resource = getInputStream( config );
+        if( null != resource )
+        {
+            final String type = (String)config.get( CONFIGURATION_TYPE );
+            return createStoreFromStream( type, resource );
+        }
+        return missingConfiguration();
+    }
+
+    private LoggerStore createStoreFromStream( final String type,
+                                               final InputStream resource )
+        throws Exception
+    {
+        if( null == type || XML.equals( type ) )
+        {
+            return new Log4JLoggerStore( resource );
+        }
+        else
+        {
+            final Properties properties = new Properties();
+            properties.load( resource );
+            return new Log4JLoggerStore( properties );
+        }
     }
 }
