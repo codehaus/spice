@@ -6,7 +6,6 @@ import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.AcceptEvent;
 import org.codehaus.spice.netevent.events.AcceptPossibleEvent;
-import org.codehaus.spice.netevent.events.ChannelClosedEvent;
 import org.codehaus.spice.netevent.events.CloseChannelRequestEvent;
 import org.codehaus.spice.netevent.events.IOErrorEvent;
 import org.codehaus.spice.netevent.events.OutputDataPresentEvent;
@@ -20,7 +19,7 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-01-12 23:55:18 $
+ * @version $Revision: 1.7 $ $Date: 2004-01-15 05:51:04 $
  */
 public class ChannelEventHandler
     extends AbstractEventHandler
@@ -35,15 +34,17 @@ public class ChannelEventHandler
 
     public ChannelEventHandler( final SocketEventSource source,
                                 final EventSink queue,
+                                final EventSink target,
                                 final BufferManager bufferManager )
     {
-        _closeHandler = new CloseEventHandler();
+        _closeHandler = new CloseEventHandler( target );
         _acceptHandler = new AcceptEventHandler( queue );
-        _connectHandler =
-        new ConnectEventHandler( queue, bufferManager, source );
+        _connectHandler = new ConnectEventHandler( target,
+                                                   bufferManager,
+                                                   source );
         _readHandler = new ReadEventHandler( queue, bufferManager );
         _writeHandler = new WriteEventHandler( queue, bufferManager );
-        _inputHandler = new InputDataEventHandler( queue );
+        _inputHandler = new InputDataEventHandler( target );
         _outputHandler = new OutputDataEventHandler( queue );
     }
 
@@ -52,8 +53,7 @@ public class ChannelEventHandler
      */
     public void handleEvent( final Object event )
     {
-        if( event instanceof ChannelClosedEvent ||
-            event instanceof CloseChannelRequestEvent ||
+        if( event instanceof CloseChannelRequestEvent ||
             event instanceof IOErrorEvent )
         {
             _closeHandler.handleEvent( event );
