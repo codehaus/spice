@@ -2,7 +2,13 @@
     xmlns:doc="doc"
     xmlns:maven="jelly:maven"
     xmlns:j="jelly:core"
+    xmlns:util="jelly:util"
     xmlns:ant="jelly:ant">
+
+    <preGoal name="xdoc:copy-user-resources">
+        <ant:mkdir dir="xdocs/style"/>
+        <ant:copy file="../tools/site/project.css" todir="xdocs/style"/>
+    </preGoal>
 
     <preGoal name="xdoc:transform">
         <attainGoal name="generateNavigation"/>
@@ -15,9 +21,9 @@
                 <title>Spice</title>
                 <body>
                     <menu name="Overview">
-                        <item name="Spice Project"  href="/index.html"/>
-                        <item name="Status" 		href="/status.html"/>
-                        <item name="TODO"   		href="/todo.html"/>
+                        <item name="Spice Project" href="/index.html"/>
+                        <item name="Status" href="/status.html"/>
+                        <item name="TODO" href="/todo.html"/>
                     </menu>
 
                     <menu name="Components">
@@ -36,12 +42,12 @@
             </naproject>
         </j:file>
         <doc:jslFile
-             input="target/navigation.xml"
-             output="xdocs/navigation.xml"
-             stylesheet="../tools/navigation.jsl"
-             omitXmlDeclaration="true"
-             outputMode="xml"
-             prettyPrint="true"/>
+            input="target/navigation.xml"
+            output="target/generated-xdocs/navigation.xml"
+            stylesheet="../tools/navigation.jsl"
+            omitXmlDeclaration="true"
+            outputMode="xml"
+            prettyPrint="true"/>
     </goal>
 
 </project>
