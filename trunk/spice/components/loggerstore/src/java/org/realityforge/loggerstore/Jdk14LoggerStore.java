@@ -26,7 +26,6 @@ public class Jdk14LoggerStore
 
     /**
      * Creates a <code>Log4JLoggerStore</code> using the configuration resource.
-     * Currently only the Properties configuration type is supported.
      *
      * @param resource the InputStream encoding the configuration resource
      * @throws Exception if fails to create or configure Logger

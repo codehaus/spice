@@ -11,6 +11,12 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationUtil;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.w3c.dom.Element;
 
 /**
  * Configurator is a collection of utility methods to create and configure
@@ -36,6 +42,13 @@ public class Configurator
      */
     public static final String JDK14 = "jdk14";
 
+    /**
+     *  Private constructor to prevent instantiation of utility class
+     */
+    private Configurator()
+    {
+    }
+    
     /**
      * Create and configure a {@link LoggerStore} from a specified
      * configuration file.
@@ -139,4 +152,39 @@ public class Configurator
         map.put( LoggerStoreFactory.CONFIGURATION_TYPE, configurationType );
         return map;
     }
+
+    /**
+     *  Builds a Configuration object from a resource
+     *
+     *  @param resource the InputStream of the configuration resource
+     */
+    public static Configuration buildConfiguration( final InputStream resource )
+        throws Exception
+    {
+        DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        return builder.build( resource );
+    }
+
+    /**
+     *  Builds an Element from a resource
+     *  @param resource the InputStream of the configuration resource
+     */
+    public static Element buildElement ( final InputStream resource )
+        throws Exception
+    {
+        return ConfigurationUtil.toElement( buildConfiguration( resource ) );
+    }
+
+    /**
+     *  Builds a Properties object from a resource
+     *  @param resource the InputStream of the configuration resource
+     */
+    public static Properties buildProperties( final InputStream resource )
+        throws Exception
+    {
+        final Properties properties = new Properties();
+        properties.load( resource );
+        return properties;
+    }
+
 }

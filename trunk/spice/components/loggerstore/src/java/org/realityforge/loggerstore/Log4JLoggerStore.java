@@ -15,6 +15,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.spi.LoggerRepository;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.w3c.dom.Element;
+
 
 /**
  * Log4JLoggerStore extends AbstractLoggerStore to provide the implementation
@@ -30,18 +32,49 @@ public class Log4JLoggerStore
 
     /**
      * Creates a <code>Log4JLoggerStore</code> using the configuration resource
-     * @param type the String encoding the configuration type
+     * @param resource the Element encoding the configuration resource
+     * @throws Exception if fails to create or configure Logger
+     */
+    public Log4JLoggerStore( final Element resource )
+        throws Exception
+    {
+        LogManager.resetConfiguration();
+        m_repository = LogManager.getLoggerRepository();
+        final DOMConfigurator configurator = new DOMConfigurator();
+        configurator.doConfigure( resource, m_repository );
+        setRootLogger( new Log4JLogger( m_repository.getRootLogger() ) );
+    }
+    
+    /**
+     * Creates a <code>Log4JLoggerStore</code> using the configuration resource
      * @param resource the InputStream encoding the configuration resource
      * @throws Exception if fails to create or configure Logger
      */
-    public Log4JLoggerStore( final String type, final InputStream resource )
+    public Log4JLoggerStore( final InputStream resource )
         throws Exception
     {
+        LogManager.resetConfiguration();
         m_repository = LogManager.getLoggerRepository();
-        configure( type, resource, m_repository );
+        final DOMConfigurator configurator = new DOMConfigurator();
+        configurator.doConfigure( resource, m_repository );
         setRootLogger( new Log4JLogger( m_repository.getRootLogger() ) );
     }
-
+    
+    /**
+     * Creates a <code>Log4JLoggerStore</code> using the configuration resource
+     * @param resource the Properties encoding the configuration resource
+     * @throws Exception if fails to create or configure Logger
+     */
+    public Log4JLoggerStore( final Properties resource )
+        throws Exception
+    {
+        LogManager.resetConfiguration();
+        m_repository = LogManager.getLoggerRepository();
+        final PropertyConfigurator configurator = new PropertyConfigurator();
+        configurator.doConfigure( resource, m_repository );
+        setRootLogger( new Log4JLogger( m_repository.getRootLogger() ) );
+    }
+    
     /**
      *  Creates new Log4JLogger for the given category.
      */
@@ -58,35 +91,4 @@ public class Log4JLoggerStore
         m_repository.shutdown();
     }
 
-    /**
-     *  Configure LoggerRepository
-     */
-    private void configure( final String type,
-                            final InputStream resource,
-                            final LoggerRepository repository )
-        throws Exception
-    {
-        if( type.equals( LoggerStoreFactory.PROPERTIES ) )
-        {
-            final PropertyConfigurator configurator = new PropertyConfigurator();
-            configurator.doConfigure( buildProperties( resource ), repository );
-        }
-        else if( type.equals( LoggerStoreFactory.XML ) )
-        {
-            final DOMConfigurator configurator = new DOMConfigurator();
-            configurator.doConfigure( resource, repository );
-        }
-    }
-
-    /**
-     *  Parses Properties InputStream to build a Properties object
-     *  @param resource the InputStream of the configuration resource
-     */
-    private static Properties buildProperties( final InputStream resource )
-        throws Exception
-    {
-        final Properties properties = new Properties();
-        properties.load( resource );
-        return properties;
-    }
 }

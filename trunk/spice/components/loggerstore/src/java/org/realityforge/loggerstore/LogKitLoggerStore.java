@@ -7,11 +7,9 @@
  */
 package org.realityforge.loggerstore;
 
-import java.io.InputStream;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.log.Hierarchy;
 
 /**
@@ -28,17 +26,15 @@ public class LogKitLoggerStore
 
     /**
      * Creates a <code>LogKitLoggerStore</code> using the configuration resource
-     * Currently only the XML configuration type is supported.
      *
-     * @param resource the InputStream encoding the configuration resource
+     * @param resource the Configuration encoding the configuration resource
      * @throws Exception if fails to create or configure Logger
      */
-    public LogKitLoggerStore( final InputStream resource )
+    public LogKitLoggerStore( final Configuration resource )
         throws Exception
     {
         m_hierarchy = new Hierarchy();
-        HierarchyUtil.configure( buildConfiguration( resource ),
-                                 m_hierarchy );
+        HierarchyUtil.configure( resource, m_hierarchy );
         setRootLogger( new LogKitLogger( m_hierarchy.getRootLogger() ) );
     }
 
@@ -58,15 +54,4 @@ public class LogKitLoggerStore
         HierarchyUtil.closeLogTargets( m_hierarchy );
     }
 
-    /**
-     *  Parses XML InputStream to build a Configuration object
-     *
-     *  @param resource the InputStream of the configuration resource
-     */
-    private static Configuration buildConfiguration( final InputStream resource )
-        throws Exception
-    {
-        DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-        return builder.build( resource );
-    }
 }

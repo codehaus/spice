@@ -21,6 +21,15 @@ public class LogKitLoggerStoreFactory
 {
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
+     * The configuration Map must contain:
+     * <ol> 
+     * <li> <code>InputStream</code> object keyed on <code>LoggerStoreFactory.CONFIGURATION</code>
+     * encoding the configuration resource</li>
+     * <li> a <code>LoggerStoreFactory.CONFIGURATION_TYPE</code>
+     * containing  the configuration type - currently only <code>LoggerStoreFactory.XML</code>
+     * is supported 
+     * </li>
+     * </ol>
      *
      * @param config the Map of parameters for the configuration of the store
      * @return the LoggerStore
@@ -29,10 +38,22 @@ public class LogKitLoggerStoreFactory
     public LoggerStore createLoggerStore( final Map config )
         throws Exception
     {
-        final InputStream stream = (InputStream)config.get( CONFIGURATION );
-        if( stream != null )
+        final InputStream resource = (InputStream)config.get( CONFIGURATION );
+        if( resource != null )
         {
-            return new LogKitLoggerStore( stream );
+            String type = (String)config.get( CONFIGURATION_TYPE );
+            if( type != null )
+            {
+                if( type.equals( LoggerStoreFactory.PROPERTIES ) )
+                {
+                    final String message = "Invalid configuration type " + type;
+                    throw new Exception( message );
+                }
+                else if( type.equals( LoggerStoreFactory.XML ) )
+                {
+                    return new LogKitLoggerStore( Configurator.buildConfiguration( resource ) );
+                }
+            }
         }
         throw new Exception( "Invalid configuration" );
     }
