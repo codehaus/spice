@@ -27,7 +27,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.12 $ $Date: 2003-08-22 03:36:29 $
+ * @version $Revision: 1.13 $ $Date: 2003-08-22 03:42:08 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -35,7 +35,7 @@ public class MetaClassIOBinary
     /**
      * The current version of Attributes object.
      */
-    private static final int VERSION = 100;
+    static final int VERSION = 1;
 
     /**
      * Read a PackageDescriptor from an input stream.
