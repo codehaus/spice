@@ -10,6 +10,7 @@ import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.AbstractTransportEvent;
 import org.codehaus.spice.netevent.events.ChannelClosedEvent;
+import org.codehaus.spice.netevent.events.ConnectErrorEvent;
 import org.codehaus.spice.netevent.events.ConnectEvent;
 import org.codehaus.spice.netevent.events.InputDataPresentEvent;
 import org.codehaus.spice.netevent.handlers.AbstractDirectedHandler;
@@ -35,7 +36,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.19 $ $Date: 2004-02-06 04:11:48 $
+ * @version $Revision: 1.20 $ $Date: 2004-02-11 00:02:29 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -109,6 +110,11 @@ public class PacketIOEventHandler
         {
             final TimeEvent e = (TimeEvent)event;
             handleTimeout( e );
+        }
+        else if( event instanceof ConnectErrorEvent )
+        {
+            final ConnectErrorEvent ce = (ConnectErrorEvent)event;
+            handleConnectFailed( ce );
         }
         else if( event instanceof ChannelClosedEvent )
         {
@@ -194,14 +200,12 @@ public class PacketIOEventHandler
     private void handleTimeout( final TimeEvent e )
     {
         final SchedulingKey key = e.getKey();
-        key.cancel();
         final Session session = (Session)key.getUserData();
+        session.cancelTimeout();
         final int status = session.getStatus();
         if( Session.STATUS_LOST == status )
         {
-            final SessionDisconnectRequestEvent response =
-                new SessionDisconnectRequestEvent( session );
-            getSink().addEvent( response );
+            session.requestShutdown();
         }
     }
 
@@ -317,6 +321,29 @@ public class PacketIOEventHandler
     }
 
     /**
+     * Handle connect failure event.
+     *
+     * @param ce the connect failure event
+     */
+    private void handleConnectFailed( final ConnectErrorEvent ce )
+    {
+        final ChannelTransport transport = ce.getTransport();
+        final Session session = (Session)transport.getUserData();
+
+        transport.close();
+        if( null != session )
+        {
+            session.setTransport( null );
+            final PeriodicTimeTrigger trigger =
+                new PeriodicTimeTrigger( TIMEOUT_IN_MILLIS, -1 );
+            final SchedulingKey key =
+                _timeEventSource.addTrigger( trigger, session );
+            session.setTimeoutKey( key );
+            session.setStatus( Session.STATUS_CONNECT_FAILED );
+        }
+    }
+
+    /**
      * Handle close of transport event.
      *
      * @param cc the close event
@@ -330,10 +357,11 @@ public class PacketIOEventHandler
         {
             disconnectSession( session );
         }
+
+        closeTransport( transport );
         if( null != session &&
             Session.STATUS_DISCONNECTED != session.getStatus() )
         {
-            closeTransport( transport );
             final PeriodicTimeTrigger trigger =
                 new PeriodicTimeTrigger( TIMEOUT_IN_MILLIS, -1 );
             final SchedulingKey key =
@@ -397,7 +425,6 @@ public class PacketIOEventHandler
         final Session session = e.getSession();
         final ChannelTransport transport = session.getTransport();
         final Packet packet = e.getPacket();
-        session.getTransmitQueue().addPacket( packet );
         if( !canOutput( transport ) )
         {
             //output( session, "QUEUED " + packet.getSequence() );
@@ -405,7 +432,18 @@ public class PacketIOEventHandler
         }
         else
         {
-            sendData( transport, packet );
+            final PacketQueue transmitQueue = session.getTransmitQueue();
+            if( null != transmitQueue.getPacket( packet.getSequence() ) )
+            {
+                sendData( transport, packet );
+            }
+            /*
+            else
+            {
+                output( session, "DROPPING Packet Write Request " +
+                                 "as already acked: " + packet.getSequence() );
+            }
+            */
         }
     }
 
@@ -454,6 +492,7 @@ public class PacketIOEventHandler
 
         final Session session = (Session)transport.getUserData();
         final int msg = input.read();
+        System.out.println( "msg=" + msg + " for " + session );
         if( !session.isClient() &&
             MessageCodes.ESTABLISHED == msg &&
             Session.STATUS_CONNECTED == session.getStatus() )

@@ -19,7 +19,7 @@ import org.realityforge.packet.events.SessionDisconnectRequestEvent;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.22 $ $Date: 2004-02-09 04:50:16 $
+ * @version $Revision: 1.23 $ $Date: 2004-02-11 00:02:29 $
  */
 public class Session
 {
@@ -50,6 +50,11 @@ public class Session
      * Status indicating client is no longer connected.
      */
     public static final int STATUS_DISCONNECTED = 4;
+
+    /**
+     * Status indicating the Client failed to connect to server.
+     */
+    public static final int STATUS_CONNECT_FAILED = 5;
 
     private final PacketQueue _txQueue = new PacketQueue();
 
@@ -207,7 +212,15 @@ public class Session
     {
         final SessionDisconnectRequestEvent sdr =
             new SessionDisconnectRequestEvent( this );
-        _sink.addEvent( sdr );
+        addEvent( sdr );
+    }
+
+    private void addEvent( final Object event )
+    {
+        if( null != _sink )
+        {
+            _sink.addEvent( event );
+        }
     }
 
     public void setSink( final EventSink sink )
@@ -437,7 +450,8 @@ public class Session
             _hasTransmittedData = true;
             final PacketWriteRequestEvent ev =
                 new PacketWriteRequestEvent( this, packet );
-            _sink.addEvent( ev );
+            getTransmitQueue().addPacket( packet );
+            addEvent( ev );
             return true;
         }
     }

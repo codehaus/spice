@@ -22,7 +22,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.11 $ $Date: 2004-02-06 04:04:56 $
+ * @version $Revision: 1.12 $ $Date: 2004-02-11 00:02:29 $
  */
 public class TestServer
 {
@@ -32,6 +32,8 @@ public class TestServer
     private static SelectableChannelEventSource c_clientSocketSouce;
     private static final DefaultBufferManager BUFFER_MANAGER = new DefaultBufferManager();
     public static final DefaultSessionManager SESSION_MANAGER = new DefaultSessionManager();
+    private static final int SESSION_COUNT = 53;
+    private static final Session[] SESSIONS = new Session[ SESSION_COUNT ];
 
     public static void main( final String[] args )
         throws Exception
@@ -55,37 +57,62 @@ public class TestServer
         thread.start();
         thread.setPriority( Thread.NORM_PRIORITY - 1 );
 
-        final Session[] sessions = new Session[ 33 ];
-        for( int i = 0; i < sessions.length; i++ )
+        for( int i = 0; i < SESSIONS.length; i++ )
         {
-            sessions[ i ] = new Session();
-            sessions[ i ].setUserData( new SessionData( sessions[ i ] ) );
+            SESSIONS[ i ] = new Session();
+            SESSIONS[ i ].setUserData( new SessionData( SESSIONS[ i ] ) );
         }
 
         boolean started = false;
         while( !c_done )
         {
-            for( int i = 0; i < sessions.length; i++ )
+            for( int i = 0; i < SESSIONS.length; i++ )
             {
-                final Session session = sessions[ i ];
+                boolean madeNewConn = false;
+                final Session session = SESSIONS[ i ];
                 final SessionData sd = (SessionData)session.getUserData();
                 final int status = session.getStatus();
                 if( Session.STATUS_LOST == status ||
+                    Session.STATUS_CONNECT_FAILED == status ||
                     Session.STATUS_NOT_CONNECTED == status )
                 {
-                    if( sd.getConnectionCount() == session.getConnections() )
+                    if( Session.STATUS_CONNECT_FAILED == status )
                     {
-                        if( Session.STATUS_LOST == status )
+                        final long change =
+                            session.getTimeOfLastStatusChange() + 1000;
+                        if( change < System.currentTimeMillis() )
                         {
-                            System.out.println( "Re-establish " +
-                                                session.getSessionID() );
+                            System.out.println(
+                                "Rejigging conenct that failed " +
+                                "but now ready to go again " +
+                                session +
+                                " time=" +
+                                session.getTimeOfLastStatusChange()
+                                + " now " +
+                                System.currentTimeMillis() );
+                            sd.setConnecting( false );
+                            session.setStatus( Session.STATUS_NOT_CONNECTED );
+                        }
+                    }
+
+                    if( sd.getConnectionCount() == session.getConnections() &&
+                        !sd.isConnecting() &&
+                        !madeNewConn )
+                    {
+                        if( sd.getConnectionCount() > 0 )
+                        {
+                            final String message =
+                                "Re-establish " + session.getSessionID();
+                            System.out.println( message );
                         }
                         else
                         {
-                            System.out.println( "Establish " +
-                                                session.getSessionID() );
+                            final String message =
+                                "Establish conenction to Server.";
+                            System.out.println( message );
                         }
-                        sd.incConnectionCount();
+                        madeNewConn = true;
+                        sd.setConnecting( true );
                         makeClientConnection( session );
                     }
                 }
@@ -99,6 +126,14 @@ public class TestServer
             {
                 c_done = true;
             }
+            try
+            {
+                Thread.sleep( 5 );
+            }
+            catch( InterruptedException e )
+            {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -106,14 +141,16 @@ public class TestServer
         throws IOException
     {
         final SocketChannel channel = SocketChannel.open();
-        channel.configureBlocking( false );
-        c_clientSocketSouce.registerChannel( channel,
-                                             SelectionKey.OP_CONNECT,
-                                             session );
-        final InetSocketAddress address =
-            new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
-        channel.socket().setSoLinger( true, 2 );
-        channel.connect( address );
+        synchronized( c_clientSocketSouce )
+        {
+            c_clientSocketSouce.registerChannel( channel,
+                                                 SelectionKey.OP_CONNECT,
+                                                 session );
+            final InetSocketAddress address =
+                new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
+            channel.socket().setSoLinger( true, 2 );
+            channel.connect( address );
+        }
     }
 
     private static EventPump[] createServerSidePumps()
@@ -136,14 +173,14 @@ public class TestServer
         final TimeEventSource source3 = new TimeEventSource( queue5 );
 
         final EventHandler handler1 =
-            new EchoHandler( null, //"CHAN SV",
+            new EchoHandler( "CHAN SV",
                              new ChannelEventHandler( source1,
                                                       queue1,
                                                       queue2,
                                                       BUFFER_MANAGER ) );
 
         final EventHandler handler2 =
-            new EchoHandler( null, //"PACK SV",
+            new EchoHandler( "PACK SV",
                              new PacketIOEventHandler( source2,
                                                        queue2,
                                                        queue3,
@@ -151,32 +188,32 @@ public class TestServer
                                                        SESSION_MANAGER ) );
 
         final EventHandler handler3 =
-            new EchoHandler( null, //"TEST SV",
+            new EchoHandler( "TEST SV",
                              new TestEventHandler( source3,
-                                                   queue2,
+                                                   queue1,
                                                    BUFFER_MANAGER,
                                                    "TEST SV" ) );
 
         final EventPump pump1 = new EventPump( source1, handler1 );
-        pump1.setBatchSize( 10 );
+        pump1.setBatchSize( Integer.MAX_VALUE );
 
         final EventPump pump2 = new EventPump( queue2, handler2 );
-        pump2.setBatchSize( 10 );
+        pump2.setBatchSize( Integer.MAX_VALUE );
 
         final EventPump pump3 = new EventPump( queue3, handler3 );
-        pump3.setBatchSize( 10 );
+        pump3.setBatchSize( Integer.MAX_VALUE );
 
         final EventPump pump4 = new EventPump( source2, handler2 );
-        pump4.setBatchSize( 10 );
+        pump4.setBatchSize( Integer.MAX_VALUE );
 
         final EventPump pump5 = new EventPump( source3, handler3 );
-        pump5.setBatchSize( 10 );
+        pump5.setBatchSize( Integer.MAX_VALUE );
 
         final ServerSocketChannel channel = ServerSocketChannel.open();
-        channel.socket().bind( new InetSocketAddress( 1980 ) );
         source1.registerChannel( channel,
                                  SelectionKey.OP_ACCEPT,
                                  null );
+        channel.socket().bind( new InetSocketAddress( 1980 ) );
 
         return new EventPump[]{pump1, pump2, pump3, pump4, pump5};
     }
@@ -201,14 +238,14 @@ public class TestServer
         final TimeEventSource source3 = new TimeEventSource( queue5 );
 
         final EventHandler handler1 =
-            new EchoHandler( null, //"CHAN CL",
+            new EchoHandler( "CHAN CL",
                              new ChannelEventHandler( source1,
                                                       queue1,
                                                       queue2,
                                                       BUFFER_MANAGER ) );
 
         final EventHandler handler2 =
-            new EchoHandler( null, //"PACK CL",
+            new EchoHandler( "PACK CL",
                              new PacketIOEventHandler( source2,
                                                        queue2,
                                                        queue3,
@@ -216,26 +253,26 @@ public class TestServer
                                                        new DefaultSessionManager() ) );
 
         final EventHandler handler3 =
-            new EchoHandler( null, //"TEST CL",
+            new EchoHandler( "TEST CL",
                              new TestEventHandler( source3,
-                                                   queue2,
+                                                   queue1,
                                                    BUFFER_MANAGER,
                                                    "TEST CL" ) );
 
         final EventPump pump1 = new EventPump( source1, handler1 );
-        pump1.setBatchSize( 10 );
+        pump1.setBatchSize( Integer.MAX_VALUE );
 
         final EventPump pump2 = new EventPump( queue2, handler2 );
-        pump2.setBatchSize( 10 );
+        pump2.setBatchSize( Integer.MAX_VALUE );
 
         final EventPump pump3 = new EventPump( queue3, handler3 );
-        pump3.setBatchSize( 10 );
+        pump3.setBatchSize( Integer.MAX_VALUE );
 
         final EventPump pump4 = new EventPump( source2, handler2 );
-        pump4.setBatchSize( 10 );
+        pump4.setBatchSize( Integer.MAX_VALUE );
 
         final EventPump pump5 = new EventPump( source3, handler3 );
-        pump5.setBatchSize( 10 );
+        pump5.setBatchSize( Integer.MAX_VALUE );
 
         c_clientSocketSouce = source1;
 

@@ -1,14 +1,21 @@
 package org.realityforge.packet;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.buffers.BufferManager;
-import org.codehaus.spice.netevent.events.ChannelClosedEvent;
+import org.codehaus.spice.netevent.events.CloseChannelRequestEvent;
 import org.codehaus.spice.netevent.handlers.AbstractDirectedHandler;
 import org.codehaus.spice.timeevent.events.TimeEvent;
+import org.codehaus.spice.timeevent.source.SchedulingKey;
 import org.codehaus.spice.timeevent.source.TimeEventSource;
+import org.codehaus.spice.timeevent.triggers.PeriodicTimeTrigger;
 import org.realityforge.packet.events.AbstractSessionEvent;
 import org.realityforge.packet.events.DataPacketReadyEvent;
 import org.realityforge.packet.events.SessionActiveEvent;
@@ -19,7 +26,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.11 $ $Date: 2004-02-09 04:51:42 $
+ * @version $Revision: 1.12 $ $Date: 2004-02-11 00:02:29 $
  */
 class TestEventHandler
     extends AbstractDirectedHandler
@@ -30,8 +37,8 @@ class TestEventHandler
 
     private final BufferManager _bufferManager;
     private final String _header;
-    private int _clientSessions;
-    private int _serverSessions;
+    private final Set _serverSessions = new HashSet();
+    private final Set _clientSessions = new HashSet();
     private final TimeEventSource _timeEventSource;
 
     public TestEventHandler( final TimeEventSource timeEventSource,
@@ -72,6 +79,7 @@ class TestEventHandler
         else if( event instanceof SessionActiveEvent )
         {
             final String text = "Session Active. " + sd;
+            sd.incConnectionCount();
             output( session, text );
             performLogic( session );
         }
@@ -92,50 +100,65 @@ class TestEventHandler
                 session.setUserData( sd );
             }
 
-            /*
             final PeriodicTimeTrigger trigger =
                 new PeriodicTimeTrigger( 0, 3000 );
             final SchedulingKey key =
                 _timeEventSource.addTrigger( trigger, session );
             sd.setKey( key );
-            */
 
             if( !session.isClient() )
             {
-                _serverSessions++;
+                _serverSessions.add( session );
             }
             else
             {
-                _clientSessions++;
+                _clientSessions.add( session );
             }
             final String text = "Session Started. " + sd;
             output( session, text );
         }
         else if( event instanceof SessionDisconnectEvent )
         {
-            if( null != sd.getKey() )
+            final SchedulingKey key = sd.getKey();
+            if( null != key )
             {
-                sd.getKey().cancel();
                 sd.setKey( null );
+                key.cancel();
             }
 
-            final int sessions;
+            final Set sessions;
             if( !session.isClient() )
             {
-                _serverSessions--;
                 sessions = _serverSessions;
             }
             else
             {
-                _clientSessions--;
                 sessions = _clientSessions;
             }
+            sessions.remove( session );
+
             final String text =
                 "Session Completed. " + sd +
-                "." + sessions + " sessions remaining. ServerSessionIDs=" +
-                TestServer.SESSION_MANAGER.getSessionIDs();
+                "." + sessions.size() + " sessions remaining. " +
+                "Sessions=" + toIDs( sessions );
             output( session, text );
         }
+    }
+
+    private Object toIDs( final Set sessions )
+    {
+        final ArrayList result = new ArrayList();
+
+        final Iterator iterator = sessions.iterator();
+        while( iterator.hasNext() )
+        {
+            final Session session = (Session)iterator.next();
+            result.add( new Long( session.getSessionID() ) );
+        }
+
+        Collections.sort( result );
+
+        return result;
     }
 
     private void performLogic( final Session session )
@@ -158,8 +181,8 @@ class TestEventHandler
         {
             output( session, "----------------- CLOSING CONNECTION" );
             sd.setDisconencted();
-            final ChannelClosedEvent cc =
-                new ChannelClosedEvent( session.getTransport() );
+            final CloseChannelRequestEvent cc =
+                new CloseChannelRequestEvent( session.getTransport() );
             getSink().addEvent( cc );
         }
         else
@@ -178,9 +201,9 @@ class TestEventHandler
 
     private void transmitData( final Session session )
     {
-        //final int transmitCount =
-        //    Math.abs( RANDOM.nextInt() % 16 * 1024 );
-        final int transmitCount = 4;
+        final int transmitCount =
+            Math.abs( RANDOM.nextInt() % 16 * 1024 );
+        //final int transmitCount = 4;
         final ByteBuffer buffer =
             _bufferManager.aquireBuffer( transmitCount );
 
