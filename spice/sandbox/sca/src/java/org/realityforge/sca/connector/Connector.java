@@ -164,6 +164,7 @@ public class Connector
      */
     public void commErrorOccured( final Throwable t )
     {
+        _connectionError = t.toString();
         if( getReconnectPolicy().disconnectOnError( t ) )
         {
             disconnect();
