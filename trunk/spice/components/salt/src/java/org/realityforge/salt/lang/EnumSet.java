@@ -17,7 +17,34 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A Utility class for extracting a set of int constants from a Java Class.
+ * A Utility class for managing a set of name-integer constants.
+ *
+ * <p>The Class has factory methods that will allow the user to scan a Class
+ * and find all integer constants and place them in an EnumSet. The constants
+ * are placed into the EnumSet based on the name of the field that declared
+ * constant. The {@link #createFrom(Class,String)} factory method accepts a
+ * Regular Expression which is used to match thje constants to place in the
+ * set and to extract the name for the constant. The first "group" in the
+ * Regex is the name of the constant. Consider the example;</p>
+ *
+ * <pre>
+ * public class ShaderRenderer
+ * {
+ *    public static final int CLIP_NOCLIP     = 0;
+ *    public static final int CLIP_BACK       = 1;
+ *    public static final int CLIP_FRONT      = 2;
+ *    public static final EnumSet CLIP_ENUMS  =
+ *              EnumSet.createFrom( ShaderRenderer.class, "CLIP_(.*)" );
+ *
+ *    public static final int FUNC_SIN        = 0;
+ *    public static final int FUNC_COS        = 1;
+ *    public static final int FUNC_MOD        = 2;
+ *    public static final EnumSet FUNC_ENUMS  =
+ *              EnumSet.createFrom( ShaderRenderer.class, "FUNC_(.*)" );
+ * }
+ * </pre>
+ *
+ * <p>The above example will create two EnumSets for the class.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  */
