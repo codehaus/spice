@@ -13,14 +13,14 @@ import java.nio.ByteBuffer;
  * The Packet class represents a chunk of data sent across network.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-11 04:18:47 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-11 09:32:07 $
  */
 public class Packet
 {
     /**
      * The sequence ID of packet.
      */
-    private final int m_sequence;
+    private final short m_sequence;
 
     /**
      * The packet flags. Indicate things
@@ -42,7 +42,7 @@ public class Packet
      * @param flags the flags
      * @param data the data
      */
-    public Packet( final int sequence,
+    public Packet( final short sequence,
                    final int flags,
                    final ByteBuffer data )
     {
@@ -60,7 +60,7 @@ public class Packet
      *
      * @return the packet sequence number.
      */
-    public int getSequence()
+    public short getSequence()
     {
         return m_sequence;
     }
