@@ -8,13 +8,16 @@
 package org.realityforge.metaclass.tools.tasks;
 
 import java.io.File;
+import java.io.IOException;
 import junit.framework.TestCase;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.types.FileSet;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-23 23:51:26 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-24 01:23:16 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -53,6 +56,61 @@ public class MetaGenerateTaskTestCase
             return;
         }
         fail( "Expected execute to fail as destdir specified by file." );
+    }
+
+    public void testDestDirNoExistAndNoCreate()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final File baseDirectory = getBaseDirectory();
+        final File secondBaseDir = new File( baseDirectory, "subDir1" );
+        secondBaseDir.mkdirs();
+        secondBaseDir.setReadOnly();
+        final File destDir = new File( secondBaseDir, "subDir" );
+        assertFalse( "destDir.exists()", destDir.exists() );
+
+        task.setDestDir( destDir );
+        try
+        {
+            task.execute();
+        }
+        catch( final BuildException e )
+        {
+            assertEquals( "DestDir (" + destDir + ") could not be created.", e.getMessage() );
+            return;
+        }
+        fail( "Expected execute to fail as destdir could not be created." );
+    }
+
+    public void testNoSourceFiles()
+        throws Exception
+    {
+        final File sourceDirectory = generateDirectory();
+        final File destDirectory = generateDirectory();
+        final FileSet fileSet = new FileSet();
+        fileSet.setDir( sourceDirectory );
+
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final Project project = new Project();
+        project.setBaseDir( getBaseDirectory() );
+        task.setProject( project );
+        task.setDestDir( destDirectory );
+        task.addFileset( fileSet );
+        task.execute();
+
+        assertEquals( "generated dirs", 0, destDirectory.listFiles().length );
+    }
+
+    private static final File generateDirectory()
+        throws IOException
+    {
+        final File baseDirectory = getBaseDirectory();
+        final File dir =
+            File.createTempFile( "mgtest", ".tmp", baseDirectory ).getCanonicalFile();
+        dir.delete();
+        dir.mkdirs();
+        assertTrue( "dir.exists()", dir.exists() );
+        return dir;
     }
 
     private static final File getBaseDirectory()
