@@ -1,7 +1,6 @@
 package org.realityforge.packet;
 
 import java.nio.ByteBuffer;
-import java.util.List;
 import java.util.Random;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
@@ -9,14 +8,15 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.handlers.AbstractDirectedHandler;
 import org.realityforge.packet.events.DataPacketReadyEvent;
 import org.realityforge.packet.events.PacketWriteRequestEvent;
+import org.realityforge.packet.events.SessionActiveEvent;
 import org.realityforge.packet.events.SessionDisconnectEvent;
-import org.realityforge.packet.events.SessionEstablishedEvent;
+import org.realityforge.packet.events.SessionDisconnectRequestEvent;
 import org.realityforge.packet.events.SessionEvent;
 import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-16 06:48:00 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-20 06:05:04 $
  */
 class TestEventHandler
     extends AbstractDirectedHandler
@@ -30,6 +30,7 @@ class TestEventHandler
     private final int _transmitCount;
     private final int _receiveCount;
     private final boolean _closeOnReceive;
+    private int _sessions;
 
     public TestEventHandler( final EventSink sink,
                              final BufferManager bufferManager,
@@ -51,8 +52,6 @@ class TestEventHandler
      */
     public void handleEvent( final Object event )
     {
-        System.out.println( _header + ": " + event );
-
         final SessionEvent se = (SessionEvent)event;
         final Session session = se.getSession();
 
@@ -61,20 +60,33 @@ class TestEventHandler
         if( event instanceof DataPacketReadyEvent )
         {
             final DataPacketReadyEvent e = (DataPacketReadyEvent)event;
-            final List incoming = session.getIncoming();
-            incoming.add( e.getPacket() );
-            final int available = incoming.size();
-            if( available == _receiveCount && _closeOnReceive )
+            final Packet packet = e.getPacket();
+            final int available = packet.getData().limit();
+
+            output( session, "Received Packet (Sequence=" +
+                             packet.getSequence() + " Size=" +
+                             packet.getData().limit() + ") " +
+                             available + "/" + _receiveCount );
+            /*final List incoming = session.getIncoming();
+            incoming.add( packet );
+            */
+            if( _closeOnReceive && available == _receiveCount )
             {
-                session.setTransport( null );
+                final SessionDisconnectRequestEvent response =
+                    new SessionDisconnectRequestEvent( e.getSession() );
+                getSink().addEvent( response );
             }
         }
         else if( event instanceof SessionDisconnectEvent )
         {
+            _sessions--;
             output( session, "Received " + session.getIncoming().size() );
+            System.out.println( _header + ": " + _sessions +
+                                " sessions remaining." );
         }
-        else if( event instanceof SessionEstablishedEvent )
+        else if( event instanceof SessionActiveEvent )
         {
+            _sessions++;
             int transmitCount = _transmitCount;
             if( -1 == transmitCount )
             {
@@ -82,6 +94,7 @@ class TestEventHandler
             }
             final ByteBuffer buffer =
                 _bufferManager.aquireBuffer( transmitCount );
+
             for( int i = 0; i < transmitCount; i++ )
             {
                 final byte ch = DATA[ i % DATA.length ];
@@ -90,6 +103,7 @@ class TestEventHandler
             final short sequence =
                 (short)(session.getLastPacketTransmitted() + 1);
             session.setLastPacketTransmitted( sequence );
+            buffer.flip();
             final Packet packet = new Packet( sequence, 0, buffer );
             final PacketWriteRequestEvent ev =
                 new PacketWriteRequestEvent( session, packet );

@@ -9,6 +9,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.impl.DefaultEventQueue;
 import org.codehaus.spice.event.impl.EventPump;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
@@ -22,7 +23,7 @@ import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-16 06:48:00 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-20 06:05:04 $
  */
 public class TestServer
 {
@@ -51,19 +52,31 @@ public class TestServer
         final Thread thread = new Thread( runnable );
         thread.start();
 
+        int count = 1;
+        makeClientConnection();
         while( !c_done )
         {
+            if( count < 20 )
+            {
+                makeClientConnection();
+                count++;
+            }
             Thread.sleep( 50 );
-            final SocketChannel channel = SocketChannel.open();
-            channel.configureBlocking( false );
-            c_clientSocketSouce.registerChannel( channel,
-                                                 SelectionKey.OP_CONNECT,
-                                                 new Session() );
-            final InetSocketAddress address =
-                new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
-            channel.connect( address );
         }
         System.exit( 1 );
+    }
+
+    private static void makeClientConnection()
+        throws IOException
+    {
+        final SocketChannel channel = SocketChannel.open();
+        channel.configureBlocking( false );
+        c_clientSocketSouce.registerChannel( channel,
+                                             SelectionKey.OP_CONNECT,
+                                             new Session() );
+        final InetSocketAddress address =
+            new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
+        channel.connect( address );
     }
 
     private static EventPump[] createServerSidePumps()
@@ -83,26 +96,28 @@ public class TestServer
         final SocketEventSource source1 =
             new SocketEventSource( sm, queue1 );
 
-        final ChannelEventHandler handler1 =
-            new ChannelEventHandlerWithEcho( source1,
-                                             queue1,
-                                             queue2,
-                                             BUFFER_MANAGER,
-                                             "CHAN SV" );
-        final PacketEventHandler handler2 =
-            new PacketEventHandlerWithEcho( "PACK SV",
-                                            queue2,
-                                            queue3,
-                                            BUFFER_MANAGER,
-                                            new DefaultSessionManager() );
+        final EventHandler handler1 =
+            new EchoHandler( null, //"CHAN SV",
+                             new ChannelEventHandler( source1,
+                                                      queue1,
+                                                      queue2,
+                                                      BUFFER_MANAGER ) );
 
-        final TestEventHandler handler3 =
-            new TestEventHandler( queue2,
-                                  BUFFER_MANAGER,
-                                  "TEST SV",
-                                  2,
-                                  -1,
-                                  false );
+        final EventHandler handler2 =
+            new EchoHandler( null, //"PACK SV",
+                             new PacketEventHandler( queue2,
+                                                     queue3,
+                                                     BUFFER_MANAGER,
+                                                     new DefaultSessionManager() ) );
+
+        final EventHandler handler3 =
+            new EchoHandler( "TEST SV",
+                             new TestEventHandler( queue2,
+                                                   BUFFER_MANAGER,
+                                                   "TEST SV",
+                                                   2,
+                                                   -1,
+                                                   false ) );
 
         final EventPump pump1 = new EventPump( source1, handler1 );
         pump1.setBatchSize( 10 );
@@ -138,26 +153,28 @@ public class TestServer
         final SocketEventSource source1 =
             new SocketEventSource( sm, queue1 );
 
-        final ChannelEventHandler handler1 =
-            new ChannelEventHandlerWithEcho( source1,
-                                             queue1,
-                                             queue2,
-                                             BUFFER_MANAGER,
-                                             "CHAN CL" );
-        final PacketEventHandler handler2 =
-            new PacketEventHandlerWithEcho( "PACK CL",
-                                            queue2,
-                                            queue3,
-                                            BUFFER_MANAGER,
-                                            new DefaultSessionManager() );
+        final EventHandler handler1 =
+            new EchoHandler( null, //"CHAN CL",
+                             new ChannelEventHandler( source1,
+                                                      queue1,
+                                                      queue2,
+                                                      BUFFER_MANAGER ) );
 
-        final TestEventHandler handler3 =
-            new TestEventHandler( queue2,
-                                  BUFFER_MANAGER,
-                                  "TEST CL",
-                                  -1,
-                                  2,
-                                  true );
+        final EventHandler handler2 =
+            new EchoHandler( null, //"PACK CL",
+                             new PacketEventHandler( queue2,
+                                                     queue3,
+                                                     BUFFER_MANAGER,
+                                                     new DefaultSessionManager() ) );
+
+        final EventHandler handler3 =
+            new EchoHandler( "TEST CL",
+                             new TestEventHandler( queue2,
+                                                   BUFFER_MANAGER,
+                                                   "TEST CL",
+                                                   -1,
+                                                   2,
+                                                   true ) );
 
         final EventPump pump1 = new EventPump( source1, handler1 );
         pump1.setBatchSize( 10 );
