@@ -16,7 +16,7 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-09-28 03:58:01 $
+ * @version $Revision: 1.3 $ $Date: 2003-09-28 04:41:15 $
  */
 public class MetaClassIntrospectorTestCase
     extends TestCase
@@ -112,5 +112,15 @@ public class MetaClassIntrospectorTestCase
             MetaClassIntrospector.getClassDescriptor( MetaClassIntrospectorTestCase.class );
         assertEquals( "original == retrieved2", original, retrieved2 );
         assertEquals( "accessor.getAccessCount()", 1, accessor.getAccessCount() );
+    }
+
+    public void testSetAccessorUnderSecurityManager()
+        throws Exception
+    {
+        final SecurityManager securityManager = new MockSecurityManager();
+        System.setSecurityManager( securityManager );
+        final MockAccessor accessor = new MockAccessor( null );
+        MetaClassIntrospector.setAccessor( accessor );
+        MetaClassIntrospector.clearCompleteCache();
     }
 }
