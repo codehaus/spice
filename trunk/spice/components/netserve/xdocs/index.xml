@@ -20,10 +20,10 @@
             in different containers or frameworks, while honouring the
             same API.
          </p>
-         <subsection name="Avalon Framework Container">
+         <subsection name="Avalon Framework">
             <p>
                <a href="http://avalon.apache.org/framework">Avalon Framework</a>
-               supports Inversion of Control (IoC), via a set of interfaces.
+               supports type-1 Inversion of Control (IoC).
             </p>
             <p>
                <a href="apidocs/org/jcomponent/netserve/connection/impl/AvalonConnectionManager.html">
@@ -32,17 +32,29 @@
                   ConnectionManager</a> interface which is Avalon-compatible.
             </p>
          </subsection>
+         <subsection name="DNA Framework">
+            <p>
+               <a href="http://dna.jcontainer.org">DNA Framework</a>
+               supports type-1 Inversion of Control (IoC).
+            </p>
+            <p>
+               <a href="apidocs/org/jcomponent/netserve/connection/impl/DNAConnectionManager.html">
+                  DNAConnectionManager</a> provides an implementation of the
+               <a href="apidocs/org/jcomponent/netserve/connection/ConnectionManager.html">
+                  ConnectionManager</a> interface which is DNA-compatible.
+            </p>
+         </subsection>
          <subsection name="Pico Container">
             <p>
                <a href="http://picocontainer.org">Pico Container</a>
-               supports IoC in a more agile and embeddable way, without the need
-               to import any external interface or class.
+               supports type-3 IoC.
             </p>
             <p>
                <a href="apidocs/org/jcomponent/netserve/connection/impl/PicoConnectionManager.html">
                   PicoConnectionManager</a> provides an implementation of the
                <a href="apidocs/org/jcomponent/netserve/connection/ConnectionManager.html">
-                  ConnectionManager</a> interface which is Pico-compatible.
+                  ConnectionManager</a> interface which is 
+                  <img src="http://www.picocontainer.org/images/pico-compatible.png" alt="Pico-compatible"/>.
             </p>
          </subsection>
       </section>
