@@ -67,7 +67,7 @@ public class DefaultReactor
          final ReactorEntry entry =
             new ReactorEntry( name, key, channel, handler, passback );
          _entrys.put( name, entry );
-         //_monitor.connectionRegisteredCreated( name, channel );
+         //_monitor.connectionRegistered( name, channel );
       }
    }
 
@@ -77,5 +77,14 @@ public class DefaultReactor
    public void disconnect( String name )
       throws Exception
    {
+      final ReactorEntry entry =
+         (ReactorEntry) _entrys.remove( name );
+      if ( null == entry )
+      {
+         final String message = "No connection with name " + name;
+         throw new IllegalArgumentException( message );
+      }
+      entry.getKey().cancel();
+      //_monitor.connectionDeregistered( name, channel );
    }
 }
