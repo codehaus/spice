@@ -25,7 +25,7 @@ import org.jcomponent.netserve.selector.SelectorEventHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.19 $ $Date: 2003-10-23 05:11:17 $
+ * @version $Revision: 1.20 $ $Date: 2003-10-23 05:21:30 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -48,6 +48,13 @@ public class NIOAcceptorManager
       //Super call will check null
       super.setMonitor( monitor );
       m_monitor = monitor;
+   }
+
+   public void startup()
+      throws IOException
+   {
+      setHandler( this );
+      super.startup();
    }
 
    /**
