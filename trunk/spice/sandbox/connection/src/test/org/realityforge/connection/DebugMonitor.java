@@ -4,6 +4,7 @@ package org.realityforge.connection;
  * A debug monitor that prints all messages to standard out.
  */
 class DebugMonitor
+   extends NullMonitor
    implements ConnectorMonitor
 {
    /**
@@ -17,6 +18,7 @@ class DebugMonitor
    public void attemptingConnection()
    {
       System.out.println( "attemptingConnection" );
+      super.attemptingConnection();
    }
 
    /**
@@ -25,6 +27,7 @@ class DebugMonitor
    public void connectionEstablished()
    {
       System.out.println( "connectionEstablished" );
+      super.connectionEstablished();
    }
 
    /**
@@ -33,6 +36,7 @@ class DebugMonitor
    public void errorConnecting( final Throwable t )
    {
       System.out.println( "errorConnecting(" + t + ")" );
+      super.errorConnecting( t );
    }
 
    /**
@@ -41,6 +45,7 @@ class DebugMonitor
    public void errorDisconnecting( final Throwable t )
    {
       System.out.println( "errorDisconnecting(" + t + ")" );
+      super.errorDisconnecting( t );
    }
 
    /**
@@ -49,6 +54,7 @@ class DebugMonitor
    public void attemptingValidation()
    {
       System.out.println( "attemptingValidation" );
+      super.attemptingValidation();
    }
 
    /**
@@ -57,6 +63,7 @@ class DebugMonitor
    public void errorValidatingConnection( final Throwable t )
    {
       System.out.println( "errorValidatingConnection(" + t + ")" );
+      super.errorValidatingConnection( t );
    }
 
    /**
@@ -65,5 +72,6 @@ class DebugMonitor
    public void skippingConnectionAttempt()
    {
       System.out.println( "skippingConnectionAttempt" );
+      super.skippingConnectionAttempt();
    }
 }
