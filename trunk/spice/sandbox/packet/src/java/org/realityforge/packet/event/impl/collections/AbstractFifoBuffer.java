@@ -1,13 +1,11 @@
 package org.realityforge.packet.event.impl.collections;
 
-import java.nio.BufferUnderflowException;
-
 /**
  * A unbounded FIFO Buffer implementation. This class is loosely based on the
  * Jakarta-Commons Collections package Buffer implementations.
- *
+ * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-05 02:14:24 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-05 02:28:33 $
  */
 public abstract class AbstractFifoBuffer
     implements Buffer
@@ -84,10 +82,12 @@ public abstract class AbstractFifoBuffer
     {
         if( 0 == size() )
         {
-            throw new BufferUnderflowException();
+            return null;
         }
-
-        return m_buffer[ m_head ];
+        else
+        {
+            return m_buffer[ m_head ];
+        }
     }
 
     /**
@@ -112,7 +112,7 @@ public abstract class AbstractFifoBuffer
 
     /**
      * Perform addition of objects to buffer.
-     *
+     * 
      * @param objects the objects
      * @return true if addition successful
      */
@@ -120,7 +120,7 @@ public abstract class AbstractFifoBuffer
 
     /**
      * Perform addition of object to buffer.
-     *
+     * 
      * @param object the object
      * @return true if addition successful
      */
