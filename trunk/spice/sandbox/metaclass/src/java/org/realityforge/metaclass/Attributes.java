@@ -15,6 +15,7 @@ import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
+import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
  * Utility class to make it easy to access attributes for
@@ -43,7 +44,7 @@ import org.realityforge.metaclass.model.MethodDescriptor;
  * ClassDescriptor for class) then either an empty array
  * or a null will be returned depending on the method.</p>
  *
- * @version $Revision: 1.3 $ $Date: 2003-08-15 08:40:00 $
+ * @version $Revision: 1.4 $ $Date: 2003-09-01 04:37:57 $
  */
 public class Attributes
 {
@@ -168,10 +169,7 @@ public class Attributes
     {
         try
         {
-            final Class clazz = field.getDeclaringClass();
-            final FieldDescriptor descriptor =
-                getField( clazz, field.getName() );
-            return descriptor.getAttributes();
+           return getField( field ).getAttributes();
         }
         catch( final Exception e )
         {
@@ -192,10 +190,7 @@ public class Attributes
     {
         try
         {
-            final Class clazz = field.getDeclaringClass();
-            final FieldDescriptor descriptor =
-                getField( clazz, field.getName() );
-            return getAttributesByName( descriptor.getAttributes(), name );
+           return getAttributesByName( getField( field ).getAttributes(), name );
         }
         catch( final Exception e )
         {
@@ -218,9 +213,7 @@ public class Attributes
     {
         try
         {
-            final Class clazz = field.getDeclaringClass();
-            final FieldDescriptor descriptor = getField( clazz, field.getName() );
-            return getAttributeByName( descriptor.getAttributes(), name );
+           return getAttributeByName( getField( field ).getAttributes(), name );
         }
         catch( Exception e )
         {
@@ -238,8 +231,7 @@ public class Attributes
     {
         try
         {
-            final Class clazz = method.getDeclaringClass();
-            final MethodDescriptor descriptor = getMethod( clazz, method.getName() );
+            final MethodDescriptor descriptor = getMethod( method );
             return descriptor.getAttributes();
         }
         catch( final Exception e )
@@ -260,8 +252,7 @@ public class Attributes
     {
         try
         {
-            final Class clazz = method.getDeclaringClass();
-            final MethodDescriptor descriptor = getMethod( clazz, method.getName() );
+            final MethodDescriptor descriptor = getMethod( method );
             return getAttributesByName( descriptor.getAttributes(), name );
         }
         catch( Exception e )
@@ -284,8 +275,7 @@ public class Attributes
     {
         try
         {
-            final Class clazz = method.getDeclaringClass();
-            final MethodDescriptor descriptor = getMethod( clazz, method.getName() );
+            final MethodDescriptor descriptor = getMethod( method );
             return getAttributeByName( descriptor.getAttributes(), name );
         }
         catch( Exception e )
@@ -304,9 +294,7 @@ public class Attributes
     {
         try
         {
-            final Class clazz = constructor.getDeclaringClass();
-            final MethodDescriptor descriptor = getMethod( clazz, constructor.getName() );
-            return descriptor.getAttributes();
+           return getConstructor( constructor ).getAttributes();
         }
         catch( Exception e )
         {
@@ -327,9 +315,9 @@ public class Attributes
     {
         try
         {
-            final Class clazz = constructor.getDeclaringClass();
-            final MethodDescriptor descriptor = getMethod( clazz, constructor.getName() );
-            return getAttributesByName( descriptor.getAttributes(), name );
+           final Attribute[] attributes =
+              getConstructor( constructor ).getAttributes();
+           return getAttributesByName( attributes, name );
         }
         catch( Exception e )
         {
@@ -351,9 +339,9 @@ public class Attributes
     {
         try
         {
-            final Class clazz = constructor.getDeclaringClass();
-            final MethodDescriptor descriptor = getMethod( clazz, constructor.getName() );
-            return getAttributeByName( descriptor.getAttributes(), name );
+           final Attribute[] attributes =
+               getConstructor( constructor ).getAttributes();
+           return getAttributeByName( attributes, name );
         }
         catch( Exception e )
         {
@@ -365,46 +353,89 @@ public class Attributes
      * Get the FieldDescriptor with specified name
      * for specified Class.
      *
-     * @param clazz the class
-     * @param name the name of field
-     * @return the FieldDescriptor or null if no such field
+     * @param field the field
+     * @return the FieldDescriptor
+     * @throws Exception if unable to locate FieldDescriptor for Field
      */
-    private static FieldDescriptor getField( final Class clazz,
-                                             final String name )
+    public static FieldDescriptor getField( final Field field )
         throws Exception
     {
         final FieldDescriptor[] fields =
-            getClassInfo( clazz ).getFields();
+            getClassInfo( field.getDeclaringClass() ).getFields();
         for( int i = 0; i < fields.length; i++ )
         {
-            final FieldDescriptor field = fields[ i ];
-            if( field.getName().equals( name ) )
+            final FieldDescriptor candidate = fields[ i ];
+            if( candidate.getName().equals( field.getName() ) )
             {
-                return field;
+                return candidate;
             }
         }
         throw new Exception();
     }
 
     /**
-     * Get the MethodDescriptor with specified name
-     * for specified Class.
+     * Get the MethodDescriptor for specified method.
      *
-     * @param clazz the class
-     * @param name the name of field
-     * @return the MethodDescriptor or null if no such field
+     * @param method the method
+     * @return the MethodDescriptor
+     * @throws Exception if unable to locate MethodDescriptor for Method
      */
-    private static MethodDescriptor getMethod( final Class clazz, final String name )
+    public static MethodDescriptor getMethod( final Method method )
         throws Exception
     {
         final MethodDescriptor[] methods =
-            getClassInfo( clazz ).getMethods();
+            getClassInfo( method.getDeclaringClass() ).getMethods();
         for( int i = 0; i < methods.length; i++ )
         {
-            final MethodDescriptor method = methods[ i ];
-            if( method.getName().equals( name ) )
+            final MethodDescriptor candidate = methods[ i ];
+            if( candidate.getName().equals( method.getName() ) &&
+               candidate.getParameters().length == method.getParameterTypes().length )
             {
-                return method;
+                final ParameterDescriptor[] parameters = candidate.getParameters();
+                for ( int j = 0; j < parameters.length; j++ )
+                {
+                    final ParameterDescriptor parameter = parameters[ j ];
+                    final Class type = method.getParameterTypes()[j];
+                    if( !type.getName().equals(parameter.getType()))
+                    {
+                        continue;
+                    }
+                }
+                return candidate;
+            }
+        }
+        throw new Exception();
+    }
+
+    /**
+     * Get the MethodDescriptor for specified Constructor.
+     *
+     * @param constructor the Constructor
+     * @return the MethodDescriptor
+     * @throws Exception if unable to locate MethodDescriptor for Constructor
+     */
+    public static MethodDescriptor getConstructor( final Constructor constructor )
+        throws Exception
+    {
+        final MethodDescriptor[] methods =
+            getClassInfo( constructor.getDeclaringClass() ).getMethods();
+        for( int i = 0; i < methods.length; i++ )
+        {
+            final MethodDescriptor candidate = methods[ i ];
+            if( candidate.getName().equals( constructor.getName() ) &&
+               candidate.getParameters().length == constructor.getParameterTypes().length )
+            {
+                final ParameterDescriptor[] parameters = candidate.getParameters();
+                for ( int j = 0; j < parameters.length; j++ )
+                {
+                    final ParameterDescriptor parameter = parameters[ j ];
+                    final Class type = constructor.getParameterTypes()[j];
+                    if( !type.getName().equals(parameter.getType()))
+                    {
+                        continue;
+                    }
+                }
+                return candidate;
             }
         }
         throw new Exception();
