@@ -24,12 +24,17 @@ import java.io.Serializable;
  * about method.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-16 00:35:27 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-16 01:11:58 $
  */
 public final class MethodDescriptor
     extends FeatureDescriptor
     implements Serializable
 {
+    /**
+     * Constant for empty array of method descriptors.
+     */
+    public static final MethodDescriptor[] EMPTY_SET = new MethodDescriptor[ 0 ];
+
     /**
      * The name of the Method.
      */
