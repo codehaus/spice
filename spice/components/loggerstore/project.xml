@@ -23,9 +23,10 @@
             <version>4.1.4</version>
         </dependency>
         <dependency>
-            <id>logkit</id>
-            <!-- uses snapshot until util.Closeable is released -->
-            <version>1.2dev</version>
+            <groupId>avalon</groupId>
+            <artifactId>avalon-logkit</artifactId>
+            <version>SNAPSHOT</version>
+            <!-- Use SNAPSHOT version until logkit-1.2.1 is released -->
         </dependency>
         <dependency>
             <id>excalibur-i18n</id>
