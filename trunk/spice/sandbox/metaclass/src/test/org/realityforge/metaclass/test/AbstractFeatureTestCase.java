@@ -21,13 +21,11 @@ public abstract class AbstractFeatureTestCase
     extends TestCase
     implements EmptyClassTestDataConstants, BasicClassTestDataConstants
 {
-    private String _className;
     private ClassDescriptor _classDescriptor;
 
     public AbstractFeatureTestCase( final String name )
     {
         super( name );
-        _className = CLASS_NAME;
     }
 
     /**
@@ -37,7 +35,7 @@ public abstract class AbstractFeatureTestCase
     {
         try
         {
-            final Class clazz = Class.forName( _className );
+            final Class clazz = Class.forName( CLASS_NAME );
             _classDescriptor = MetaClassIntrospector.getClassDescriptor( clazz );
         }
         catch( final Exception e )
@@ -62,7 +60,7 @@ public abstract class AbstractFeatureTestCase
 
     protected String getClassName()
     {
-        return _className;
+        return CLASS_NAME;
     }
 
     protected void setClassDescriptor( final ClassDescriptor classDescriptor )
