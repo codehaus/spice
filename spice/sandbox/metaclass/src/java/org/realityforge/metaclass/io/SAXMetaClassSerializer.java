@@ -21,7 +21,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * to a SAX2 compliant ContentHandler.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-29 09:37:59 $
+ * @version $Revision: 1.8 $ $Date: 2003-10-29 10:19:15 $
  */
 public class SAXMetaClassSerializer
 {
@@ -59,6 +59,11 @@ public class SAXMetaClassSerializer
      * Constant for name of method element.
      */
     static final String METHOD_ELEMENT = "method";
+
+    /**
+     * Constant for name of method parameters group element.
+     */
+    static final String PARAMETERS_ELEMENT = "parameters";
 
     /**
      * Constant for name of method parameters element.
@@ -153,7 +158,7 @@ public class SAXMetaClassSerializer
         {
             return;
         }
-        start( handler, FIELDS_ELEMENT, new AttributesImpl() );
+        start( handler, FIELDS_ELEMENT );
         for( int i = 0; i < descriptors.length; i++ )
         {
             serializeField( handler, descriptors[ i ] );
@@ -195,7 +200,7 @@ public class SAXMetaClassSerializer
         {
             return;
         }
-        start( handler, METHODS_ELEMENT, new AttributesImpl() );
+        start( handler, METHODS_ELEMENT );
         for( int i = 0; i < descriptors.length; i++ )
         {
             serializeMethod( handler, descriptors[ i ] );
@@ -234,10 +239,16 @@ public class SAXMetaClassSerializer
                               final ParameterDescriptor[] parameters )
         throws SAXException
     {
+        if( 0 == parameters.length )
+        {
+            return;
+        }
+        start( handler, PARAMETERS_ELEMENT );
         for( int i = 0; i < parameters.length; i++ )
         {
             serializeParameter( handler, parameters[ i ] );
         }
+        end( handler, PARAMETERS_ELEMENT );
     }
 
     /**
@@ -273,7 +284,7 @@ public class SAXMetaClassSerializer
         {
             return;
         }
-        start( handler, ATTRIBUTES_ELEMENT, new AttributesImpl() );
+        start( handler, ATTRIBUTES_ELEMENT );
         for( int i = 0; i < attributes.length; i++ )
         {
             serializeAttribute( handler, attributes[ i ] );
@@ -355,6 +366,20 @@ public class SAXMetaClassSerializer
               final String value )
     {
         atts.addAttribute( EMPTY_NAMESPACE, name, name, CDATA_TYPE, value );
+    }
+
+    /**
+     * Helper method to output a start element.
+     *
+     * @param handler the handler
+     * @param name the element name
+     * @throws SAXException if error during serilization
+     */
+    void start( final ContentHandler handler,
+                final String name )
+        throws SAXException
+    {
+        start( handler, name, new AttributesImpl() );
     }
 
     /**
