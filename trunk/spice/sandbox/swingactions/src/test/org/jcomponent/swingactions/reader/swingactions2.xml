@@ -43,18 +43,19 @@
 			commandKey=""
 			mnemonicKey="'4'"
 			acceleratorKey="CTRL-4"/>
-	
-	<action-group id="group-1">
-    	<action id="action-1" groupOrder="1" name="Name of Action 1"/> 
-    	<action id="action-2" groupOrder="2" smallIcon="/path/to/group/icon/action2-small.gif"/> 
-	</action-group>
-	<action-group id="group-2">
-    	<action id="action-3" groupOrder="2" shortDescription="Action 3 Short Desc in group-2"/> 
-    	<separator/>
-    	<action id="action-4" groupOrder="1" mnemonicKey="'M'"/> 
-	</action-group>
-
   </action-set>
-
+  
+  <!-- Action groups -->	
+  <action-groups>		
+	<group id="group-1">
+    	<group-action id="action-1" groupOrder="1" name="Name of Action 1"/> 
+    	<group-action id="action-2" groupOrder="2" smallIcon="/path/to/group/icon/action2-small.gif"/> 
+	</group>
+	<group id="group-2">
+    	<group-action id="action-3" groupOrder="2" shortDescription="Action 3 Short Desc in group-2"/> 
+    	<separator/>
+    	<group-action id="action-4" groupOrder="1" mnemonicKey="'M'"/> 
+	</group>
+  </action-groups>		
 
 </swingactions>
