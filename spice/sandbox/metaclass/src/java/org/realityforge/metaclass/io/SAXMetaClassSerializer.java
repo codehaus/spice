@@ -7,9 +7,8 @@
  */
 package org.realityforge.metaclass.io;
 
-import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.Attribute;
-import org.realityforge.metaclass.model.FeatureDescriptor;
+import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
@@ -22,7 +21,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * to a SAX2 compliant ContentHandler.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-28 04:15:24 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-28 04:23:14 $
  */
 public class SAXMetaClassSerializer
 {
@@ -135,7 +134,7 @@ public class SAXMetaClassSerializer
       start( handler, CLASS_ELEMENT, atts );
       serializeFields( handler, descriptor.getFields() );
       serializeMethods( handler, descriptor.getMethods() );
-      serializeAttributes( handler, descriptor );
+      serializeAttributes( handler, descriptor.getAttributes() );
       end( handler, CLASS_ELEMENT );
    }
 
@@ -177,7 +176,7 @@ public class SAXMetaClassSerializer
       add( atts, NAME_ATTRIBUTE, descriptor.getName() );
       add( atts, TYPE_ATTRIBUTE, descriptor.getName() );
       start( handler, FIELD_ELEMENT, atts );
-      serializeAttributes( handler, descriptor );
+      serializeAttributes( handler, descriptor.getAttributes() );
       end( handler, FIELD_ELEMENT );
    }
 
@@ -220,7 +219,7 @@ public class SAXMetaClassSerializer
       add( atts, TYPE_ATTRIBUTE, descriptor.getName() );
       start( handler, METHOD_ELEMENT, atts );
       serializeParameters( handler, descriptor.getParameters() );
-      serializeAttributes( handler, descriptor );
+      serializeAttributes( handler, descriptor.getAttributes() );
       end( handler, METHOD_ELEMENT );
    }
 
@@ -260,17 +259,16 @@ public class SAXMetaClassSerializer
    }
 
    /**
-    * Serialize attributes attached to feature.
+    * Serialize attributes.
     *
     * @param handler the handler
-    * @param descriptor the descriptor
+    * @param attributes the attributes
     * @throws SAXException if error during serilization
     */
    void serializeAttributes( final ContentHandler handler,
-                             final FeatureDescriptor descriptor )
+                             final Attribute[] attributes )
       throws SAXException
    {
-      final Attribute[] attributes = descriptor.getAttributes();
       if ( 0 == attributes.length )
       {
          return;
