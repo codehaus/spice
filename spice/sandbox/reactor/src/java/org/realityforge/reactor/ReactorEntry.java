@@ -1,6 +1,7 @@
 package org.realityforge.reactor;
 
 import java.nio.channels.SocketChannel;
+import java.nio.channels.SelectionKey;
 
 /**
  * A class containing data relevent for a particular
@@ -12,6 +13,11 @@ class ReactorEntry
     * Arbitary name associated with conenction.
     */
    private final String _name;
+
+   /**
+    * The key used to register connection in selector.
+    */
+   private final SelectionKey _key;
 
    /**
     * The channel associated with connection.
@@ -34,11 +40,13 @@ class ReactorEntry
     * Create an instance of ReactorEntry.
     *
     * @param name the name
+    * @param key the key
     * @param channel the channel
     * @param handler the handler
     * @param passback the passback object
     */
    ReactorEntry( final String name,
+                 final SelectionKey key,
                  final SocketChannel channel,
                  final SocketDataHandler handler,
                  final Object passback )
@@ -46,6 +54,10 @@ class ReactorEntry
       if ( null == name )
       {
          throw new NullPointerException( "name" );
+      }
+      if ( null == key )
+      {
+         throw new NullPointerException( "key" );
       }
       if ( null == channel )
       {
@@ -56,6 +68,7 @@ class ReactorEntry
          throw new NullPointerException( "handler" );
       }
       _name = name;
+      _key = key;
       _channel = channel;
       _handler = handler;
       _passback = passback;
@@ -69,6 +82,16 @@ class ReactorEntry
    String getName()
    {
       return _name;
+   }
+
+   /**
+    * Return the key used to register connection in selector.
+    *
+    * @return the key used to register connection in selector.
+    */
+   SelectionKey getKey()
+   {
+      return _key;
    }
 
    /**
