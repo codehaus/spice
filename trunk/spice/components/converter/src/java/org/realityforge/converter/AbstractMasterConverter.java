@@ -22,11 +22,14 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * using the (@link #registerConverter} method.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-03-25 02:51:26 $
+ * @version $Revision: 1.4 $ $Date: 2003-04-04 11:27:54 $
  */
 public abstract class AbstractMasterConverter
     implements Converter
 {
+    /**
+     * i18n resources accessor.
+     */
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractMasterConverter.class );
 
