@@ -14,7 +14,7 @@ import java.nio.ByteBuffer;
  * A basic encoder that writes packet using simple mechanisms.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-11-11 11:24:22 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-11 11:38:33 $
  */
 public class BasicEncoder
     implements Encoder
@@ -52,6 +52,7 @@ public class BasicEncoder
         input.position( 0 );
         if( input.remaining() < SIZEOF_HEADER )
         {
+            input.position( index );
             return null;
         }
         final short messageSize = input.getShort();
