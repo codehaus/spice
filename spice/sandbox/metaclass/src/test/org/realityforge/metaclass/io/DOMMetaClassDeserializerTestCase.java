@@ -23,7 +23,7 @@ import java.util.Properties;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-11-01 00:49:04 $
+ * @version $Revision: 1.7 $ $Date: 2003-11-01 00:52:45 $
  */
 public class DOMMetaClassDeserializerTestCase
     extends TestCase
@@ -276,16 +276,19 @@ public class DOMMetaClassDeserializerTestCase
         element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myMethod" );
         element.setAttribute( MetaClassIOXml.TYPE_ATTRIBUTE, "int" );
 
+        final Comment comment = document.createComment( "Random COmment" );
+        element.appendChild( comment );
+
         final Element parameters = document.createElement( MetaClassIOXml.PARAMETERS_ELEMENT );
         element.appendChild( parameters );
         final Element parameter = document.createElement( MetaClassIOXml.PARAMETER_ELEMENT );
         parameters.appendChild( parameter );
-        element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myParam" );
-        element.setAttribute( MetaClassIOXml.TYPE_ATTRIBUTE, "int" );
+        parameter.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myParam" );
+        parameter.setAttribute( MetaClassIOXml.TYPE_ATTRIBUTE, "int" );
 
         final MethodDescriptor[] methods = deserializer.buildMethods( root );
         assertEquals( "methods.length", 1, methods.length );
-        assertEquals( "methods[0].name", "myParam", methods[ 0 ].getName() );
+        assertEquals( "methods[0].name", "myMethod", methods[ 0 ].getName() );
         assertEquals( "methods[0].returnType", "int", methods[ 0 ].getReturnType() );
         assertEquals( "methods[0].parameters.length", 1, methods[ 0 ].getParameters().length );
     }
