@@ -12,10 +12,11 @@ import org.realityforge.threadpool.ThreadPool;
 
 /**
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-04-23 01:52:21 $
+ * @version $Revision: 1.4 $ $Date: 2003-04-23 01:52:41 $
  */
 public interface ConnectionManager
 {
+    /** Role string for service */
     String ROLE = ConnectionManager.class.getName();
 
     /**
