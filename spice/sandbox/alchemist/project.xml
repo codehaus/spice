@@ -2,11 +2,9 @@
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>Alchemist</name>
-    <groupId>jcomponent</groupId>
-    <id>jcomponent-alchemist</id>    
+    <id>spice-alchemist</id>    
     <gumpRepositoryId>sandbox</gumpRepositoryId>
-    <package>org.jcomponent.alchemist</package>
-    <siteDirectory>/home/groups/s/sp/spice/htdocs/alchemist</siteDirectory>
+    <package>org.codehaus.spice.alchemist</package>
     <currentVersion>1.0-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
 

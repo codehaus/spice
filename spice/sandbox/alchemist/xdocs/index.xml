@@ -18,7 +18,7 @@
 
 	  <section name="Logger">
 	      <p>
-           <a href="apidocs/org/jcomponent/alchemist/LoggerAlchemist.html">
+           <a href="apidocs/org/codehaus/spice/alchemist/LoggerAlchemist.html">
                   LoggerAlchemist</a> provides transformation methods between loggers
            in the DNA and Avalon frameworks.
           </p>
