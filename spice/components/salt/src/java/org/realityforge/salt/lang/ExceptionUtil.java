@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * This class makes it easy to manipulate data stored in exceptions.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-06-12 23:03:28 $
+ * @version $Revision: 1.7 $ $Date: 2003-06-12 23:11:16 $
  */
 public final class ExceptionUtil
 {
@@ -44,6 +44,7 @@ public final class ExceptionUtil
     /**
      * Generate string for specified exception and the cause of
      * this exception (if any).
+     * 
      * @param throwable a <code>Throwable</code>
      * @return the stack trace as a <code>String</code>
      */
@@ -53,16 +54,17 @@ public final class ExceptionUtil
     }
 
     /**
-     * Generate string for specified exception and if printCascading
-     * is true will print all cascading exceptions.
+     * Generate string for specified exception and if printCause
+     * is true will print all exception that caused this exception (if any).
+     *
      * @param throwable a <code>Throwable</code>
-     * @param printCascading if <code>true</code> will print all cascading exceptions
+     * @param printCause if <code>true</code> will print exceptions cause
      * @return the stack trace as a <code>String</code>
      */
     public static String printStackTrace( final Throwable throwable,
-                                          final boolean printCascading )
+                                          final boolean printCause )
     {
-        return printStackTrace( throwable, 0, printCascading );
+        return printStackTrace( throwable, 0, printCause );
     }
 
     /**
@@ -70,6 +72,7 @@ public final class ExceptionUtil
      * Restrict the number of frames printed out to the specified depth.
      * If the depth specified is <code>0</code> then all the frames are
      * converted into a string.
+     *
      * @param throwable a <code>Throwable</code>
      * @param depth number of stack trace frames to show
      * @return the stack trace as a <code>String</code>
@@ -96,24 +99,21 @@ public final class ExceptionUtil
     }
 
     /**
-     * Generate exception string for specified exception to specified depth
-     * and all Cascading exceptions if printCascading is true. If useReflection
-     * is true then the method will also attempt to use reflection to find a
-     * method with signature <code>Throwable getCause()</code>. This makes
-     * it compatible with JDK1.4 mechanisms for nesting exceptions.
+     * Generate exception string for specified exception with specified number
+     * of lines including causes if printCause is true.
      *
      * @param throwable a <code>Throwable</code>
      * @param depth number of stack trace frames to show
-     * @param printCascading if <code>true</code> will print the causes of all exceptions
+     * @param printCause if <code>true</code> will print the causes of all exceptions
      * @return the stack trace as a <code>String</code>
      */
     public static String printStackTrace( final Throwable throwable,
                                           final int depth,
-                                          final boolean printCascading )
+                                          final boolean printCause )
     {
         final String result = printStackTrace( throwable, depth );
 
-        if( !printCascading )
+        if( !printCause )
         {
             return result;
         }
