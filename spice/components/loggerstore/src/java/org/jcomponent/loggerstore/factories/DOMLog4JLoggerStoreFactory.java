@@ -5,28 +5,29 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.jcomponent.loggerstore;
+package org.jcomponent.loggerstore.factories;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Map;
-import java.util.Properties;
+
+import org.jcomponent.loggerstore.LoggerStore;
+import org.jcomponent.loggerstore.stores.*;
+import org.w3c.dom.Element;
 
 /**
- * Jdk14LoggerStoreFactory is an implementation of LoggerStoreFactory
- * for the JDK14 Logger.
+ * DOMLog4JLoggerStoreFactory is an implementation of LoggerStoreFactory
+ * for the Log4J Logger using a DOM configuration resource.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 11:51:41 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-18 09:14:29 $
  */
-public class Jdk14LoggerStoreFactory
+public class DOMLog4JLoggerStoreFactory
     extends AbstractLoggerStoreFactory
 {
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
-     * 
+     *
      * @param config the Map of parameters for the configuration of the store
      * @return the LoggerStore
      * @throws Exception if unable to create the LoggerStore
@@ -34,18 +35,16 @@ public class Jdk14LoggerStoreFactory
     protected LoggerStore doCreateLoggerStore( final Map config )
         throws Exception
     {
-        final Properties properties = (Properties)config.get( Properties.class.getName() );
-        if( null != properties )
+        final Element element = (Element)config.get( Element.class.getName() );
+        if( null != element )
         {
-            final ByteArrayOutputStream output = new ByteArrayOutputStream();
-            properties.store( output, "" );
-            final ByteArrayInputStream input = new ByteArrayInputStream( output.toByteArray() );
-            return new Jdk14LoggerStore( input );
+            return new Log4JLoggerStore( element );
         }
+
         final InputStream resource = getInputStream( config );
         if( null != resource )
         {
-            return new Jdk14LoggerStore( resource );
+            return new Log4JLoggerStore( resource );
         }
         return missingConfiguration();
     }

@@ -5,12 +5,13 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.jcomponent.loggerstore;
+package org.jcomponent.loggerstore.stores;
 
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
+import org.jcomponent.loggerstore.LoggerStore;
 
 /**
  * AbstractLoggerStore is an abstract implementation of LoggerStore for the

@@ -5,21 +5,22 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.jcomponent.loggerstore;
+package org.jcomponent.loggerstore.factories;
 
 import java.util.Map;
 
-import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
-import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.jcomponent.loggerstore.LoggerStore;
+import org.jcomponent.loggerstore.stores.*;
 
 /**
- * ExcaliburLogKitLoggerStoreFactory specialises the LogKitLoggerStoreFactory
- * to use the Excalibur LogKitLoggerManager.
+ * This is a basic factory for ConsoleLoggerStore.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.1 $ $Date: 2003-10-18 09:14:29 $
  */
-public class ExcaliburLogKitLoggerStoreFactory
-    extends LogKitLoggerStoreFactory
+public class ConsoleLoggerStoreFactory
+    extends AbstractLoggerStoreFactory
 {
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
@@ -31,8 +32,7 @@ public class ExcaliburLogKitLoggerStoreFactory
     protected LoggerStore doCreateLoggerStore( final Map config )
         throws Exception
     {
-        final LoggerManager loggerManager = new LogKitLoggerManager();
-        config.put( LoggerManager.class.getName(), loggerManager );
-        return super.doCreateLoggerStore( config );            
+        final int level = ConsoleLogger.LEVEL_INFO;
+        return new ConsoleLoggerStore(level);
     }
 }

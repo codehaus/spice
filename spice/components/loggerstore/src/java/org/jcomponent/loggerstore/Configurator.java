@@ -10,6 +10,13 @@ package org.jcomponent.loggerstore;
 import java.io.InputStream;
 import java.util.HashMap;
 
+import org.jcomponent.loggerstore.factories.DOMLog4JLoggerStoreFactory;
+import org.jcomponent.loggerstore.factories.ExcaliburLogKitLoggerStoreFactory;
+import org.jcomponent.loggerstore.factories.InitialLoggerStoreFactory;
+import org.jcomponent.loggerstore.factories.Jdk14LoggerStoreFactory;
+import org.jcomponent.loggerstore.factories.PropertyLog4JLoggerStoreFactory;
+import org.jcomponent.loggerstore.factories.SimpleLogKitLoggerStoreFactory;
+
 /**
  * Configurator is a collection of utility methods to create and configure
  * LoggerStore objects of different types using configuration resources.

@@ -16,6 +16,10 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.NullLogger;
+import org.jcomponent.loggerstore.stores.ConsoleLoggerStore;
+import org.jcomponent.loggerstore.stores.Jdk14LoggerStore;
+import org.jcomponent.loggerstore.stores.Log4JLoggerStore;
+import org.jcomponent.loggerstore.stores.LogKitLoggerStore;
 
 /**
  *  Test case for LoggerStore

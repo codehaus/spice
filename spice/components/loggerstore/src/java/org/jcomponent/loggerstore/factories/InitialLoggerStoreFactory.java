@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.jcomponent.loggerstore;
+package org.jcomponent.loggerstore.factories;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -14,13 +14,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.jcomponent.loggerstore.LoggerStore;
+import org.jcomponent.loggerstore.LoggerStoreFactory;
+
 /**
  * This is the initial LoggerStoreFactory tyhat the user accesses
  * to create their LoggerStore when the type is configurable.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 11:51:41 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-18 09:14:29 $
  */
 public class InitialLoggerStoreFactory
     implements LoggerStoreFactory

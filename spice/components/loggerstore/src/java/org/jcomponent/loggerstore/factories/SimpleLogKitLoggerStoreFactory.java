@@ -5,11 +5,13 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.jcomponent.loggerstore;
+package org.jcomponent.loggerstore.factories;
 
 import java.util.Map;
+
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
+import org.jcomponent.loggerstore.LoggerStore;
 
 /**
  * SimpleLogKitLoggerStoreFactory specialises the LogKitLoggerStoreFactory
