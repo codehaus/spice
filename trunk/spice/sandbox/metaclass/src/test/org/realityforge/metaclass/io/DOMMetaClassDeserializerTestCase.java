@@ -15,12 +15,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 import org.w3c.dom.Comment;
 import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.FieldDescriptor;
+import org.realityforge.metaclass.model.ParameterDescriptor;
+import org.realityforge.metaclass.model.MethodDescriptor;
 import java.util.Properties;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-11-01 00:25:03 $
+ * @version $Revision: 1.6 $ $Date: 2003-11-01 00:49:04 $
  */
 public class DOMMetaClassDeserializerTestCase
     extends TestCase
@@ -218,6 +221,73 @@ public class DOMMetaClassDeserializerTestCase
         assertEquals( "attributes[0].name", "myAttribute", attributes[ 0 ].getName() );
         assertEquals( "attributes[0].value", "Part1Part2", attributes[ 0 ].getValue() );
         assertEquals( "attributes[0].parameterCount", 0, attributes[ 0 ].getParameterCount() );
+    }
+
+    public void testBuildField()
+        throws Exception
+    {
+        final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+        final Document document = createDocument();
+        final Element root = document.createElement( MetaClassIOXml.FIELDS_ELEMENT );
+        final Element element = document.createElement( MetaClassIOXml.FIELD_ELEMENT );
+        root.appendChild( element );
+        element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myField" );
+        element.setAttribute( MetaClassIOXml.TYPE_ATTRIBUTE, "int" );
+
+        final Element attributes = document.createElement( MetaClassIOXml.ATTRIBUTES_ELEMENT );
+        element.appendChild( attributes );
+        final Element attribute = document.createElement( MetaClassIOXml.ATTRIBUTE_ELEMENT );
+        attributes.appendChild( attribute );
+        attribute.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myAttribute" );
+        final Comment comment = document.createComment( "Random COmment" );
+        attribute.appendChild( comment );
+
+        final FieldDescriptor[] fields = deserializer.buildFields( root );
+        assertEquals( "fields.length", 1, fields.length );
+        assertEquals( "fields[0].name", "myField", fields[ 0 ].getName() );
+        assertEquals( "fields[0].type", "int", fields[ 0 ].getType() );
+        assertEquals( "fields[0].attributeCount", 1, fields[ 0 ].getAttributes().length );
+    }
+
+    public void testBuildParameter()
+        throws Exception
+    {
+        final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+        final Document document = createDocument();
+        final Element root = document.createElement( MetaClassIOXml.PARAMETERS_ELEMENT );
+        final Element element = document.createElement( MetaClassIOXml.PARAMETER_ELEMENT );
+        root.appendChild( element );
+        element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myParam" );
+        element.setAttribute( MetaClassIOXml.TYPE_ATTRIBUTE, "int" );
+        final ParameterDescriptor[] parameters = deserializer.buildParameters( root );
+        assertEquals( "parameters.length", 1, parameters.length );
+        assertEquals( "parameters[0].name", "myParam", parameters[ 0 ].getName() );
+        assertEquals( "parameters[0].type", "int", parameters[ 0 ].getType() );
+    }
+
+    public void testBuildMethod()
+        throws Exception
+    {
+        final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+        final Document document = createDocument();
+        final Element root = document.createElement( MetaClassIOXml.METHODS_ELEMENT );
+        final Element element = document.createElement( MetaClassIOXml.METHOD_ELEMENT );
+        root.appendChild( element );
+        element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myMethod" );
+        element.setAttribute( MetaClassIOXml.TYPE_ATTRIBUTE, "int" );
+
+        final Element parameters = document.createElement( MetaClassIOXml.PARAMETERS_ELEMENT );
+        element.appendChild( parameters );
+        final Element parameter = document.createElement( MetaClassIOXml.PARAMETER_ELEMENT );
+        parameters.appendChild( parameter );
+        element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myParam" );
+        element.setAttribute( MetaClassIOXml.TYPE_ATTRIBUTE, "int" );
+
+        final MethodDescriptor[] methods = deserializer.buildMethods( root );
+        assertEquals( "methods.length", 1, methods.length );
+        assertEquals( "methods[0].name", "myParam", methods[ 0 ].getName() );
+        assertEquals( "methods[0].returnType", "int", methods[ 0 ].getReturnType() );
+        assertEquals( "methods[0].parameters.length", 1, methods[ 0 ].getParameters().length );
     }
 
     private Document createDocument()
