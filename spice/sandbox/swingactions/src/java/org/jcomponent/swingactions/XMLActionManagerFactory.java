@@ -9,7 +9,6 @@ package org.jcomponent.swingactions;
 
 import java.io.InputStream;
 import java.util.Map;
-import org.w3c.dom.Element;
 
 /**
  * XMLActionManagerFactory is an implementation of ActionManagerFactory
@@ -30,12 +29,6 @@ public class XMLActionManagerFactory
     protected ActionManager doCreateActionManager( final Map config )
         throws Exception
     {
-        final Element element = (Element)config.get( Element.class.getName() );
-        if( null != element )
-        {
-            return new XMLActionManager( element );
-        }
-
         final InputStream resource = getInputStream( config );
         if( null != resource )
         {
