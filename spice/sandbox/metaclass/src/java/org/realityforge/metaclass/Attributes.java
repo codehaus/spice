@@ -46,7 +46,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * ClassDescriptor for class) then either an empty array
  * or a null will be returned depending on the method.</p>
  *
- * @version $Revision: 1.9 $ $Date: 2003-10-04 00:47:48 $
+ * @version $Revision: 1.10 $ $Date: 2003-10-04 00:49:15 $
  */
 public class Attributes
 {
@@ -357,7 +357,7 @@ public class Attributes
      *
      * @param field the field
      * @return the FieldDescriptor
-     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to locate FieldDescriptor for Field
+     * @throws MetaClassException if unable to locate FieldDescriptor for Field
      */
     public static FieldDescriptor getField( final Field field )
         throws MetaClassException
@@ -380,7 +380,7 @@ public class Attributes
      *
      * @param method the method
      * @return the MethodDescriptor
-     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to locate MethodDescriptor for Method
+     * @throws MetaClassException if unable to locate MethodDescriptor for Method
      */
     public static MethodDescriptor getMethod( final Method method )
         throws MetaClassException
@@ -421,7 +421,7 @@ public class Attributes
      *
      * @param constructor the Constructor
      * @return the MethodDescriptor
-     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to locate MethodDescriptor for Constructor
+     * @throws MetaClassException if unable to locate MethodDescriptor for Constructor
      */
     public static MethodDescriptor getConstructor( final Constructor constructor )
         throws MetaClassException
@@ -467,10 +467,10 @@ public class Attributes
      *
      * @param clazz the class
      * @return the ClassDescriptor
-     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to get ClassDescriptor
+     * @throws MetaClassException if unable to get ClassDescriptor
      */
     private static ClassDescriptor getClassInfo( final Class clazz )
-        throws MetaClassException
+        throws org.realityforge.metaclass.introspector.MetaClassException
     {
         return MetaClassIntrospector.getClassDescriptor( clazz );
     }
