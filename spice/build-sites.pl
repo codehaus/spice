@@ -1,4 +1,5 @@
 #!/usr/bin/perl -w
+#
 # Script to generate and deploy components' web sites
 # Author: Mauro Talevi
 
