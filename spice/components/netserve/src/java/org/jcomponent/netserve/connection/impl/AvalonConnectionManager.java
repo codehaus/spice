@@ -25,16 +25,12 @@ import org.jcomponent.netserve.sockets.SocketAcceptorManager;
  * An implementation of ConnectionManager which honours the
  * Avalon framework interfaces.
  *
- * <p>A sample configuration for the component is below. Note that on some OS/JVM
- * combinations <tt>soTimeout</tt> must be set to non-0 value or else the ServerSocket will
- * never get out of accept() system call and we wont be able to shutdown the server
- * socket properly. However it can introduce performance problems if constantly
- * timing out. <tt>shutdownTimeout</tt> indicates how long we should wait to see if
- * incoming connections will shutdown gracefully when asked. If they dont shutdown
- * gracefully and <tt>forceShutdown</tt> is true then the connection will be forced
+ * <p>A sample configuration for the component is below. <tt>shutdownTimeout</tt>
+ * indicates how long we should wait to see if incoming connections will
+ * shutdown gracefully when asked. If they dont shutdown gracefully and
+ * <tt>forceShutdown</tt> is true then the connection will be forced
  * to be shutdown if the user asked for connection to be "tearedDown".</p>
  * <pre>
- *  &lt;soTimeout&gt;500&lt;/soTimeout&gt; &lt;!-- 500 ms timeouts on Server Sockets --&gt;
  *  &lt;forceShutdown&gt;true&lt;/forceShutdown&gt; &lt;!-- forcefully shutdown connections
  *                                           if they dont shutdown gracefully --&gt;
  *  &lt;shutdownTimeout&gt;200&lt;/shutdownTimeout&gt; &lt;!-- wait 200ms for connections to gracefully
@@ -42,7 +38,7 @@ import org.jcomponent.netserve.sockets.SocketAcceptorManager;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-10-14 04:12:43 $
+ * @version $Revision: 1.13 $ $Date: 2003-10-14 04:23:58 $
  * @dna.component
  * @dna.service type="org.jcomponent.netserve.connection.ConnectionManager"
  */
