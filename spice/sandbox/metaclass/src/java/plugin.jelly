@@ -10,6 +10,7 @@
             <ant:classpath>
                 <ant:pathelement path="${plugin.dir}"/>
                 <ant:pathelement path="${plugin.getDependencyPath('qdox')}"/>
+                <ant:pathelement path="${plugin.getDependencyPath('asm:asm')}"/>
             </ant:classpath>
         </ant:taskdef>
 
