@@ -25,7 +25,7 @@ import java.beans.PropertyDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2003-10-14 01:03:34 $
+ * @version $Revision: 1.16 $ $Date: 2003-10-14 01:06:56 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -708,5 +708,47 @@ public class MBeanBuilderTestCase
         final ModelInfoCreationHelper helper = new ModelInfoCreationHelper();
         builder.extractAttributes( propertys, helper );
         assertEquals( "attributes.length", 1, helper.getAttributes().length );
+    }
+
+    public void testGetTypeDescriptionWhenDescriptionSpecified()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Properties parameters = new Properties();
+        parameters.setProperty( "description", "Blah!");
+        final Attribute[] attributes =
+            new Attribute[]{new Attribute( "mx.component", parameters )};
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( TestBean.class.getName(),
+                                 0,
+                                 attributes,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final String description =
+            builder.getTypeDescription( TestBean.class );
+        assertEquals( "description", "Blah!", description );
+    }
+
+    public void testGetTypeDescriptionWhenDescriptionNotSpecified()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( TestBean.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final String description =
+            builder.getTypeDescription( TestBean.class );
+        assertEquals( "description", "", description );
     }
 }
