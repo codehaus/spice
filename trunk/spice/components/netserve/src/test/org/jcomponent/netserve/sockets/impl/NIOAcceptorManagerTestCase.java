@@ -20,57 +20,64 @@ import java.util.Random;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-09 09:58:23 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-10 02:26:41 $
  */
 public class NIOAcceptorManagerTestCase
     extends AbstractAcceptorManagerTestCase
 {
     private static int c_index;
+    private NIOAcceptorManager m_manager;
+
+    protected void tearDown() throws Exception
+    {
+        m_manager.shutdownSelector();
+    }
 
     public void testHandleChannelWithNonExistentEntry()
         throws Exception
     {
-        final NIOAcceptorManager manager = new NIOAcceptorManager();
+        m_manager = new NIOAcceptorManager();
         final ServerSocketChannel channel = ServerSocketChannel.open();
-        manager.handleChannel( channel );
+        m_manager.handleChannel( channel );
     }
 
     public void testStartupAndShutdown()
         throws Exception
     {
-        final NIOAcceptorManager manager = new NIOAcceptorManager();
-        manager.setMonitor( new NullAcceptorMonitor() );
-        assertEquals( "isRunning() pre startup", false, manager.isRunning() );
-        manager.startupSelector();
-        assertEquals( "isRunning() post startup", true, manager.isRunning() );
-        manager.shutdownSelector();
-        assertEquals( "isRunning() post shutdown", false, manager.isRunning() );
+        m_manager = new NIOAcceptorManager();
+        m_manager.setMonitor( new NullAcceptorMonitor() );
+        assertEquals( "isRunning() pre startup", false, m_manager.isRunning() );
+        m_manager.startupSelector();
+        assertEquals( "isRunning() post startup", true, m_manager.isRunning() );
+        m_manager.shutdownSelector();
+        assertEquals( "isRunning() post shutdown", false, m_manager.isRunning() );
     }
 
     public void testShutdownWithoutStartup()
         throws Exception
     {
-        final NIOAcceptorManager manager = new NIOAcceptorManager();
-        manager.setMonitor( new NullAcceptorMonitor() );
-        assertEquals( "isRunning() pre shutdown", false, manager.isRunning() );
-        manager.shutdownSelector();
-        assertEquals( "isRunning() post shutdown", false, manager.isRunning() );
+        m_manager = new NIOAcceptorManager();
+        m_manager.setMonitor( new NullAcceptorMonitor() );
+        assertEquals( "isRunning() pre shutdown", false, m_manager.isRunning() );
+        m_manager.shutdownSelector();
+        assertEquals( "isRunning() post shutdown", false, m_manager.isRunning() );
     }
 
     public void testDuplicateConnect()
         throws Exception
     {
-        final SocketAcceptorManager manager = createAcceptorManager();
+        m_manager = new NIOAcceptorManager();
+        m_manager.startupSelector();
         final String name = "name";
-        assertEquals( "isConnected pre connect", false, manager.isConnected( name ) );
+        assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
         final ServerSocketChannel channel = ServerSocketChannel.open();
-        manager.connect( name,
+        m_manager.connect( name,
                          channel.socket(),
                          new MockSocketConnectionHandler() );
-        assertEquals( "isConnected pre disconnect", true, manager.isConnected( name ) );
+        assertEquals( "isConnected pre disconnect", true, m_manager.isConnected( name ) );
         try
         {
-            manager.connect( name,
+            m_manager.connect( name,
                              new ExceptOnAcceptServerSocket( true ),
                              new MockSocketConnectionHandler() );
         }
@@ -80,9 +87,9 @@ public class NIOAcceptorManagerTestCase
         }
         finally
         {
-            shutdownAcceptorManager( manager );
+            m_manager.shutdownSelector();
             channel.close();
-            assertEquals( "isConnected post disconnect", false, manager.isConnected( name ) );
+            assertEquals( "isConnected post disconnect", false, m_manager.isConnected( name ) );
         }
         fail( "Expected to fail due to duplicate connect" );
     }
@@ -90,9 +97,10 @@ public class NIOAcceptorManagerTestCase
     public void testAcceptConnections()
         throws Exception
     {
-        final SocketAcceptorManager manager = createAcceptorManager();
+        m_manager = new NIOAcceptorManager();
+        m_manager.startupSelector();
         final String name = "name";
-        assertEquals( "isConnected pre connect", false, manager.isConnected( name ) );
+        assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
         final ServerSocketChannel channel = ServerSocketChannel.open();
         try
         {
@@ -102,10 +110,10 @@ public class NIOAcceptorManagerTestCase
             final int port = nextPort();
             final InetSocketAddress address = new InetSocketAddress( localAddress, port );
             socket.bind( address );
-            manager.connect( name,
+            m_manager.connect( name,
                              socket,
                              new ClosingSocketConnectionHandler() );
-            assertEquals( "isConnected pre disconnect", true, manager.isConnected( name ) );
+            assertEquals( "isConnected pre disconnect", true, m_manager.isConnected( name ) );
 
             final Socket clientSocket = new Socket( localAddress, port );
             final InputStream inputStream = clientSocket.getInputStream();
@@ -124,23 +132,23 @@ public class NIOAcceptorManagerTestCase
         }
         finally
         {
-            shutdownAcceptorManager( manager );
+            m_manager.shutdownSelector();
             channel.close();
-            assertEquals( "isConnected post disconnect", false, manager.isConnected( name ) );
+            assertEquals( "isConnected post disconnect", false, m_manager.isConnected( name ) );
         }
     }
 
     public void testExceptingHandler()
         throws Exception
     {
-        final NIOAcceptorManager manager = new NIOAcceptorManager();
-        manager.startupSelector();
+        m_manager = new NIOAcceptorManager();
+        m_manager.startupSelector();
         final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
-        manager.setMonitor( monitor );
-        manager.setTimeout( 500 );
+        m_manager.setMonitor( monitor );
+        m_manager.setTimeout( 500 );
 
         final String name = "name";
-        assertEquals( "isConnected pre connect", false, manager.isConnected( name ) );
+        assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
         final ServerSocketChannel channel = ServerSocketChannel.open();
         try
         {
@@ -151,12 +159,12 @@ public class NIOAcceptorManagerTestCase
             final InetSocketAddress address =
                 new InetSocketAddress( localAddress, port );
             socket.bind( address );
-            manager.connect( name,
+            m_manager.connect( name,
                              socket,
                              new ExceptingSocketConnectionHandler() );
             assertEquals( "isConnected pre disconnect",
                           true,
-                          manager.isConnected( name ) );
+                          m_manager.isConnected( name ) );
 
             final Socket clientSocket = new Socket( localAddress, port );
             final OutputStream outputStream = clientSocket.getOutputStream();
@@ -178,9 +186,9 @@ public class NIOAcceptorManagerTestCase
         }
         finally
         {
-            shutdownAcceptorManager( manager );
+            m_manager.shutdownSelector();
             channel.close();
-            assertEquals( "isConnected post disconnect", false, manager.isConnected( name ) );
+            assertEquals( "isConnected post disconnect", false, m_manager.isConnected( name ) );
         }
     }
 
@@ -193,9 +201,9 @@ public class NIOAcceptorManagerTestCase
     protected SocketAcceptorManager createAcceptorManager()
         throws Exception
     {
-        final NIOAcceptorManager manager = new NIOAcceptorManager();
-        manager.startupSelector();
-        return manager;
+        m_manager = new NIOAcceptorManager();
+        m_manager.startupSelector();
+        return m_manager;
     }
 
     protected void shutdownAcceptorManager( SocketAcceptorManager manager )
