@@ -70,7 +70,7 @@ public class MBeanBuilder
         helper.setClassname( type.getName() );
         helper.setDescription( description );
 
-        final BeanInfo beanInfo = getBeanInfo( type );
+        final BeanInfo beanInfo = Introspector.getBeanInfo( type );
 
         final Constructor[] constructors = type.getConstructors();
         final PropertyDescriptor[] propertys = beanInfo.getPropertyDescriptors();
@@ -356,20 +356,6 @@ public class MBeanBuilder
         else
         {
             return ModelMBeanOperationInfo.UNKNOWN;
-        }
-    }
-
-    private BeanInfo getBeanInfo( final Class clazz )
-        throws Exception
-    {
-        try
-        {
-            return Introspector.getBeanInfo( clazz );
-        }
-        catch( final Exception e )
-        {
-            final String message = "Unable to Introspect " + clazz.getName();
-            throw new Exception( message, e );
         }
     }
 }
