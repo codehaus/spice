@@ -17,7 +17,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-08 05:11:40 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-09 01:49:04 $
  */
 class ConnectionAcceptor
     implements Runnable
@@ -165,7 +165,7 @@ class ConnectionAcceptor
      *
      * @return true if the acceptor is currently running.
      */
-    private synchronized boolean isRunning()
+    synchronized boolean isRunning()
     {
         return null != m_thread;
     }
