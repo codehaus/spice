@@ -132,6 +132,20 @@ public class LoggerStoreFactoryTestCase
         runInvalidInputData( new LogKitLoggerStoreFactory() );
     }
 
+    public void testLogKitLoggerStoreFactoryWithNullContextClassLoader()
+        throws Exception
+    {
+        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        final HashMap config = new HashMap();
+        config.put( Configuration.class.getName(), 
+                    builder.build( getResource( "logkit-excalibur.xml" ) ) );
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader( null );       
+        final MockLogKitLoggerStoreFactory factory = new MockLogKitLoggerStoreFactory();
+        assertEquals("LogKit ClassLoader", factory.getClassLoader(config), LogKitLoggerStoreFactory.class.getClassLoader() );
+        Thread.currentThread().setContextClassLoader( contextClassLoader );
+    }
+
     public void testLogKitLoggerStoreFactoryWithSpecifiedClassLoader()
         throws Exception
     {
@@ -147,6 +161,22 @@ public class LoggerStoreFactoryTestCase
                         "logkit-excalibur" );
     }
 
+    public void testLogKitLoggerStoreFactoryWithSpecifiedAvalonLogger()
+        throws Exception
+    {
+        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        final HashMap config = new HashMap();
+        config.put( Configuration.class.getName(), 
+                    builder.build( getResource( "logkit-excalibur.xml" ) ) );
+        config.put( org.apache.avalon.framework.logger.Logger.class.getName(), 
+                    new org.apache.avalon.framework.logger.ConsoleLogger() );
+        
+        runFactoryTest( new LogKitLoggerStoreFactory(),
+                        ConsoleLogger.LEVEL_INFO,
+                        config,
+                        "logkit-excalibur" );
+    }
+
     public void testLogKitLoggerStoreFactoryWithConfigurationAndDefaultLoggerManager()
         throws Exception
     {
@@ -154,7 +184,6 @@ public class LoggerStoreFactoryTestCase
         final HashMap config = new HashMap();
         config.put( Configuration.class.getName(), 
                     builder.build( getResource( "logkit-excalibur.xml" ) ) );
-        config.put( Logger.class.getName(), new ConsoleLogger() );
 
         runFactoryTest( new LogKitLoggerStoreFactory(),
                         ConsoleLogger.LEVEL_INFO,
