@@ -1,4 +1,5 @@
-$Id: AvalonRoadmap.txt,v 1.1 2002-11-26 04:30:39 donaldp Exp $
+    $Id: AvalonRoadmap.txt,v 1.2 2002-11-26 04:46:06 donaldp Exp $
+
                      Roadmap for development of 
                         Avalon Framework
 
@@ -19,5 +20,21 @@ flexability that is required by all interested parties without making the
 container overly complex, buggy and painful to maintain. For a better 
 explanation of the issues you may want to read an interview with Martin 
 Fowler [1]  who recently discussed some similar issues.
+
+I happen to think that we are far closer now than in any point in our past
+to creating a generic container but I don't want to abandon our current users 
+while we spend a year or more finding out if the ideas will work out. I will
+try to spend some time drawing together the ideas I have been talking about
+for the last few months and documenting them. However I don't think we should
+bet the farm on these ideas.
+
+So what I think we should focus on is the problems that have practical 
+solutions and are immediately useful. If we can make many little steps then
+that would be a far better situation than one big revolution. It may also 
+restore the trust in each other that is currently lacking around here.
+
+The most important issue IMO is to enable portability of components between
+containers where possible or at least give the ability to identify non-portable 
+components.
 
 [1] Martin Fowler, Complexity/Flexability Interview - http://www.artima.com/intv/flexplex.html
