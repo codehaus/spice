@@ -8,7 +8,6 @@
 package org.jcomponent.netserve.sockets.impl;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.channels.SelectionKey;
@@ -26,7 +25,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-09 08:23:39 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-09 09:35:43 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -122,9 +121,10 @@ public class NIOAcceptorManager
             {
                 try
                 {
+                    m_selector.wakeup();
                     m_selector.close();
                 }
-                catch( IOException ioe )
+                catch( final IOException ioe )
                 {
                     //TODO: notify monitor
                 }
@@ -273,13 +273,8 @@ public class NIOAcceptorManager
                     continue;
                 }
             }
-            catch( final InterruptedIOException iioe )
+            catch( final IOException ioe )
             {
-                continue;
-            }
-            catch( IOException ioe )
-            {
-                //TODO: Note error and move on
             }
 
             final Set keys = m_selector.selectedKeys();
