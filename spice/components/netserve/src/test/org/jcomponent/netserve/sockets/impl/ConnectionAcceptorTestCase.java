@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-08 08:35:53 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-09 01:50:14 $
  */
 public class ConnectionAcceptorTestCase
     extends TestCase
@@ -87,5 +87,18 @@ public class ConnectionAcceptorTestCase
             return;
         }
         fail( "Expected to fail due to NPE for monitor" );
+    }
+
+    public void testCloseWhenNotRunning()
+        throws Exception
+    {
+        final ConnectionAcceptor acceptor =
+            new ConnectionAcceptor( "name",
+                                    new MockServerSocket(),
+                                    new MockSocketConnectionHandler(),
+                                    new NullAcceptorMonitor() );
+        assertFalse( "isRunning() pre-close()", acceptor.isRunning() );
+        acceptor.close();
+        assertFalse( "isRunning() post-close()", acceptor.isRunning() );
     }
 }
