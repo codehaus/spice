@@ -490,6 +490,16 @@ public class Connector
    }
 
    /**
+    * Return the ping policy.
+    *
+    * @return the ping policy.
+    */
+   protected PingPolicy getPingPolicy()
+   {
+      return _pingPolicy;
+   }
+
+   /**
     * Return the reconnection policy.
     *
     * @return the reconnection policy.
