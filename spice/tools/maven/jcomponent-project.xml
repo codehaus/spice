@@ -2,7 +2,11 @@
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
 
+
     <package>org.realityforge.${pom.artifactId.substring(11)}</package>
     <url>http://spice.sourceforge.net/${pom.artifactId.substring(11)}</url>
     <siteDirectory>/home/groups/s/sp/spice/htdocs/${pom.artifactId.substring(11)}</siteDirectory>
+
+    <siteAddress>spice.sourceforge.net</siteAddress>
+    <distributionSite>spice.sourceforge.net</distributionSite>
 </project>
