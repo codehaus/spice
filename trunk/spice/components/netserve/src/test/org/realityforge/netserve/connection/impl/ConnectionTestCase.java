@@ -20,13 +20,14 @@ import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ValidateException;
 import org.realityforge.netserve.connection.ConnectionHandlerManager;
 import org.realityforge.netserve.connection.ConnectionManager;
+import org.realityforge.netserve.connection.ConnectionHandler;
 import org.xml.sax.ErrorHandler;
 
 /**
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-04-23 09:18:14 $
+ * @version $Revision: 1.6 $ $Date: 2003-04-23 09:23:03 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -66,8 +67,81 @@ public class ConnectionTestCase
         final String name = "test-" + getName() + "-";
         final ServerSocket serverSocket = getServerSocket();
         final RandmoizingHandler handlerManager = new RandmoizingHandler();
+        final ConnectionAcceptor acceptor =
+            new ConnectionAcceptor( name,
+                                    serverSocket,
+                                    handlerManager,
+                                    null );
+        final Runnable runnable = new Runnable()
+        {
+            public void run()
+            {
+                try
+                {
+                    serverSocket.accept();
+                }
+                catch( IOException ioe )
+                {
+                    ioe.printStackTrace();
+                }
+            }
+        };
+        start( runnable );
+        final Socket socket = new Socket( HOST, PORT );
+
         try
         {
+            try
+            {
+                new ConnectionRunner( null,
+                                      socket,
+                                      handlerManager,
+                                      acceptor );
+                fail( "Expected a NPE" );
+            }
+            catch( NullPointerException e )
+            {
+                assertEquals( e.getMessage(), "name" );
+            }
+            try
+            {
+                new ConnectionRunner( name,
+                                      socket,
+                                      handlerManager,
+                                      null );
+                fail( "Expected a NPE" );
+            }
+            catch( NullPointerException e )
+            {
+                assertEquals( e.getMessage(), "acceptor" );
+            }
+
+            try
+            {
+                new ConnectionRunner( name,
+                                      null,
+                                      handlerManager,
+                                      acceptor );
+                fail( "Expected a NPE" );
+            }
+            catch( NullPointerException e )
+            {
+                assertEquals( e.getMessage(), "socket" );
+            }
+
+            try
+            {
+                new ConnectionRunner( name,
+                                      socket,
+                                      null,
+                                      acceptor );
+                fail( "Expected a NPE" );
+            }
+            catch( NullPointerException e )
+            {
+                assertEquals( e.getMessage(), "handler" );
+            }
+
             try
             {
                 new ConnectionAcceptor( null,
@@ -110,6 +184,13 @@ public class ConnectionTestCase
         finally
         {
             shutdown( serverSocket );
+            try
+            {
+                socket.close();
+            }
+            catch( IOException ioe )
+            {
+            }
         }
     }
 
