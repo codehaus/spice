@@ -14,7 +14,7 @@ import org.codehaus.spice.timeevent.source.SchedulingKey;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.14 $ $Date: 2004-02-02 01:28:58 $
+ * @version $Revision: 1.15 $ $Date: 2004-02-03 04:07:42 $
  */
 public class Session
 {
@@ -46,10 +46,9 @@ public class Session
      */
     public static final int STATUS_DISCONNECTED = 4;
 
-    /**
-     * List of attributes associated with session.
-     */
-    private final PacketQueue _messageQueue = new PacketQueue();
+    private final PacketQueue _txQueue = new PacketQueue();
+
+    private final PacketQueue _rxQueue = new PacketQueue();
 
     /**
      * A unique id for this particula session.
@@ -82,15 +81,25 @@ public class Session
     private boolean _client;
 
     /**
+     * Flag indicating whether the session has received any data.
+     */
+    private boolean _dataProcessed;
+
+    /**
      * Flag indicating whether the session will be disconencted when last
      * messages transmitted.
      */
     private boolean _pendingDisconnect;
 
     /**
-     * The sequence of the last packet received.
+     * The sequence of the last packet processed.
      */
     private short _lastPacketProcessed;
+
+    /**
+     * The sequence of the last packet received.
+     */
+    private short _lastPacketReceived;
 
     /**
      * The sequence of the last packet transmitted.
@@ -180,6 +189,21 @@ public class Session
         _lastPacketTransmitted = lastPacketTransmitted;
     }
 
+    public short getLastPacketReceived()
+    {
+        return _lastPacketReceived;
+    }
+
+    public void setLastPacketReceived( final short lastPacketReceived )
+    {
+        _lastPacketReceived = lastPacketReceived;
+    }
+
+    public boolean isDataProcessed()
+    {
+        return _dataProcessed;
+    }
+
     /**
      * Return the sequence of the last packet processed.
      * 
@@ -197,6 +221,7 @@ public class Session
      */
     public void setLastPacketProcessed( final short lastPacketProcessed )
     {
+        _dataProcessed = true;
         _lastPacketProcessed = lastPacketProcessed;
     }
 
@@ -288,9 +313,14 @@ public class Session
      * 
      * @return the list of messages
      */
-    public PacketQueue getMessageQueue()
+    public PacketQueue getTransmitQueue()
     {
-        return _messageQueue;
+        return _txQueue;
+    }
+
+    public PacketQueue getRxQueue()
+    {
+        return _rxQueue;
     }
 
     public ChannelTransport getTransport()
@@ -337,6 +367,8 @@ public class Session
         final int transportID = (_transport != null) ? _transport.getId() : -1;
         return "Session[SessionID=" + sessionID +
                ", TransportID=" + transportID +
-               ", UserData=" + getUserData() + "]";
+               ", UserData=" + getUserData() +
+               ", IsClient=" + isClient() +
+               "]";
     }
 }
