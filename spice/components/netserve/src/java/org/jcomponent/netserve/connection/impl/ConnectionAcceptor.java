@@ -12,19 +12,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
+
 import org.jcomponent.netserve.connection.ConnectionHandler;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
-import org.jcomponent.netserve.sockets.SocketConnectionHandler;
 import org.jcomponent.threadpool.ThreadPool;
 
 /**
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-08 08:37:02 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-24 04:27:55 $
  */
 class ConnectionAcceptor
-    implements SocketConnectionHandler
+    implements ConnectionHandler
 {
     /**
      * The name of the connection.

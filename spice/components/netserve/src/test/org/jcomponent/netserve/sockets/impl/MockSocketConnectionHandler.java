@@ -7,17 +7,18 @@
  */
 package org.jcomponent.netserve.sockets.impl;
 
-import org.jcomponent.netserve.sockets.SocketConnectionHandler;
-import java.net.Socket;
 import java.io.IOException;
+import java.net.Socket;
+
+import org.jcomponent.netserve.connection.ConnectionHandler;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-08 08:35:35 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-24 04:27:55 $
  */
 class MockSocketConnectionHandler
-    implements SocketConnectionHandler
+    implements ConnectionHandler
 {
     private Socket m_socket;
 
