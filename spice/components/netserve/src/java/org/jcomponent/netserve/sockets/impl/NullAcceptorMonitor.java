@@ -7,55 +7,55 @@
  */
 package org.jcomponent.netserve.sockets.impl;
 
-import java.net.ServerSocket;
 import java.io.IOException;
+import java.net.ServerSocket;
 
 /**
  * A noop monitor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-10 02:45:34 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-23 05:07:54 $
  */
 public class NullAcceptorMonitor
-    implements AcceptorMonitor
+   implements AcceptorMonitor
 {
-    /**
-     * Add constant for instance of Null Monitor.
-     */
-    public static final NullAcceptorMonitor MONITOR = new NullAcceptorMonitor();
+   /**
+    * Add constant for instance of Null Monitor.
+    */
+   public static final NullAcceptorMonitor MONITOR = new NullAcceptorMonitor();
 
-    /**
-     * @see AcceptorMonitor#acceptorCreated
-     */
-    public void acceptorCreated( String name, ServerSocket serverSocket )
-    {
-    }
+   /**
+    * @see AcceptorMonitor#acceptorCreated
+    */
+   public void acceptorCreated( String name, ServerSocket serverSocket )
+   {
+   }
 
-    /**
-     * @see AcceptorMonitor#acceptorClosing
-     */
-    public void acceptorClosing( String name, ServerSocket serverSocket )
-    {
-    }
+   /**
+    * @see AcceptorMonitor#acceptorClosing
+    */
+   public void acceptorClosing( String name, ServerSocket serverSocket )
+   {
+   }
 
-    /**
-     * @see AcceptorMonitor#serverSocketListening
-     */
-    public void serverSocketListening( String name, ServerSocket serverSocket )
-    {
-    }
+   /**
+    * @see AcceptorMonitor#serverSocketListening
+    */
+   public void serverSocketListening( String name, ServerSocket serverSocket )
+   {
+   }
 
-    /**
-     * @see AcceptorMonitor#errorAcceptingConnection
-     */
-    public void errorAcceptingConnection( String name, IOException ioe )
-    {
-    }
+   /**
+    * @see AcceptorMonitor#errorAcceptingConnection
+    */
+   public void errorAcceptingConnection( String name, IOException ioe )
+   {
+   }
 
-    /**
-     * @see AcceptorMonitor#errorClosingServerSocket
-     */
-    public void errorClosingServerSocket( String name, IOException ioe )
-    {
-    }
+   /**
+    * @see AcceptorMonitor#errorClosingServerSocket
+    */
+   public void errorClosingServerSocket( String name, IOException ioe )
+   {
+   }
 }
