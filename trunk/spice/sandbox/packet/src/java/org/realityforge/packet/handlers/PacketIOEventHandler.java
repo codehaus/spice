@@ -38,7 +38,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.27 $ $Date: 2004-02-18 02:33:38 $
+ * @version $Revision: 1.28 $ $Date: 2004-02-18 02:36:24 $
  */
 public class PacketIOEventHandler
    extends AbstractDirectedHandler
@@ -411,7 +411,8 @@ public class PacketIOEventHandler
       if( session.isClient() )
       {
          final int status = session.getStatus();
-         if( Session.STATUS_DISCONNECTED == status )
+         if( Session.STATUS_DISCONNECTED == status ||
+             session.isError() )
          {
             signalDisconnectTransport( transport,
                                        SessionErrorEvent.ERROR_SESSION_DISCONNECTED );
