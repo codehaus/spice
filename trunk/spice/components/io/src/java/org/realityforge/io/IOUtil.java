@@ -70,7 +70,7 @@ import java.io.Writer;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003-03-24 07:46:52 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003-04-04 14:18:52 $
  * @since 4.0
  */
 
@@ -104,7 +104,6 @@ import java.io.Writer;
  * each row may correspond to up to 4 methods.
  *
  */
-
 public final class IOUtil
 {
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
