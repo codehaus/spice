@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * This class provides basic facilities for manipulating files and file paths.
@@ -47,7 +48,7 @@ import java.net.URL;
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
  * @author <a href="mailto:nl@novadeck.com">Nicolas Leclerc</a>
- * @version CVS $Revision: 1.2 $ $Date: 2003-05-28 12:20:13 $
+ * @version CVS $Revision: 1.3 $ $Date: 2003-06-05 23:45:42 $
  */
 public final class FileUtil
 {
@@ -949,5 +950,66 @@ public final class FileUtil
         }
 
         return size;
+    }
+
+    /**
+     * Resolve a fileset in a particular hierarchy.
+     *
+     * @param base the file hierarchy to use
+     * @param matcher the matcher to use while scanning
+     * @return the resolved URLs for fileset
+     */
+    public static final File[] resolveFileSet( final File base,
+                                               final PathMatcher matcher )
+    {
+        final ArrayList files = new ArrayList();
+        scanDir( base, matcher, "", files );
+        return (File[])files.toArray( new File[ files.size() ] );
+    }
+
+    /**
+     * Scan a directory trying to match files with matcher
+     * and adding them to list of result urls if they match.
+     * Recurse into sub-directorys.
+     *
+     * @param dir the directory to scan
+     * @param matcher the matcher to use
+     * @param path the virtual path to the current directory
+     * @param urls the list of result URLs
+     */
+    private static void scanDir( final File dir,
+                                 final PathMatcher matcher,
+                                 final String path,
+                                 final ArrayList urls )
+    {
+        final File[] files = dir.listFiles();
+        if( null == files )
+        {
+            final String message = "Bad dir specified: " + dir;
+            throw new IllegalArgumentException( message );
+        }
+
+        String prefix = "";
+        if( 0 != path.length() )
+        {
+            prefix = path + "/";
+        }
+
+        for( int i = 0; i < files.length; i++ )
+        {
+            final File file = files[ i ];
+            final String newPath = prefix + file.getName();
+            if( file.isDirectory() )
+            {
+                scanDir( file, matcher, newPath, urls );
+            }
+            else
+            {
+                if( matcher.match( newPath ) )
+                {
+                    urls.add( file );
+                }
+            }
+        }
     }
 }
