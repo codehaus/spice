@@ -10,9 +10,9 @@ package org.jcomponent.netserve.connection.impl;
 import java.net.ServerSocket;
 import java.util.Hashtable;
 import java.util.Map;
-
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 import org.jcomponent.netserve.connection.ConnectionManager;
+import org.jcomponent.netserve.sockets.impl.DefaultAcceptorManager;
 import org.jcomponent.threadpool.ThreadPool;
 
 /**
@@ -21,13 +21,18 @@ import org.jcomponent.threadpool.ThreadPool;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-31 10:37:12 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-09 05:30:00 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
 public abstract class AbstractConnectionManager
     implements ConnectionManager
 {
+    /**
+     * The AcceptorManager
+     */
+    private final DefaultAcceptorManager m_acceptorManager = new DefaultAcceptorManager();
+
     /**
      * The map of name->acceptor.
      */
@@ -61,12 +66,6 @@ public abstract class AbstractConnectionManager
     private boolean m_forceShutdown;
 
     /**
-     * Value that we are to set SO_TIMEOUT to if the user
-     * has not already set the timeout. Defaults to 1000 (1s timeout).
-     */
-    private int m_soTimeout;
-
-    /**
      * Set the ConnectionMonitor that receives events when changes occur.
      *
      * @param monitor the ConnectionMonitor that receives events when
@@ -89,7 +88,7 @@ public abstract class AbstractConnectionManager
 
     protected void setSoTimeout( final int soTimeout )
     {
-        m_soTimeout = soTimeout;
+        m_acceptorManager.setSoTimeout( soTimeout );
     }
 
     protected void setDefaultThreadPool( final ThreadPool threadPool )
@@ -110,17 +109,7 @@ public abstract class AbstractConnectionManager
         }
         for( int i = 0; i < names.length; i++ )
         {
-            final String name = names[ i ];
-            try
-            {
-                disconnect( name, true );
-            }
-            catch( final Exception e )
-            {
-                final String message =
-                    "Error disconnecting " + name + "due to: " + e;
-                m_monitor.unexpectedError( message, e );
-            }
+            disconnect( names[ i ], true );
         }
     }
 
@@ -180,12 +169,8 @@ public abstract class AbstractConnectionManager
      *
      * @param name the name of connection
      * @param tearDown if true will forcefully tear down all handlers
-     * @exception Exception if error occurs shutting down a handler or connection.
-     *                      Note that shutdown of all handlers will be attempted
-     *                      even if the first handler fails to shutdown gracefully.
      */
     public void disconnect( final String name, final boolean tearDown )
-        throws Exception
     {
         final ConnectionAcceptor acceptor = (ConnectionAcceptor)m_acceptors.remove( name );
         if( null == acceptor )
@@ -194,7 +179,7 @@ public abstract class AbstractConnectionManager
             throw new IllegalArgumentException( message );
         }
 
-        m_monitor.acceptorDisconnected( acceptor, tearDown );
+        m_monitor.acceptorDisconnecting( name, tearDown );
 
         if( !tearDown )
         {
@@ -221,47 +206,12 @@ public abstract class AbstractConnectionManager
                               final ThreadPool threadPool )
         throws Exception
     {
-        if( null == name )
-        {
-            throw new NullPointerException( "name" );
-        }
-        if( null == socket )
-        {
-            throw new NullPointerException( "socket" );
-        }
-        if( null == handlerManager )
-        {
-            throw new NullPointerException( "handlerManager" );
-        }
-
-        if( 0 == socket.getSoTimeout() )
-        {
-            socket.setSoTimeout( m_soTimeout );
-        }
-
-        final ConnectionAcceptor acceptor = new ConnectionAcceptor( name, socket, handlerManager, m_monitor, threadPool );
-
-        m_monitor.acceptorCreated( acceptor );
         synchronized( m_acceptors )
         {
-            if( m_acceptors.containsKey( name ) )
-            {
-                final String message =
-                    "Connection already exists with name " + name;
-                throw new IllegalArgumentException( message );
-            }
-
+            final ConnectionAcceptor acceptor =
+                new ConnectionAcceptor( name, socket, handlerManager, m_monitor, threadPool );
+            m_acceptorManager.connect( name, socket, acceptor );
             m_acceptors.put( name, acceptor );
-        }
-
-        if( null != threadPool )
-        {
-            threadPool.execute( acceptor );
-        }
-        else
-        {
-            final Thread thread = new Thread( acceptor, acceptor.toString() );
-            thread.start();
         }
     }
 }

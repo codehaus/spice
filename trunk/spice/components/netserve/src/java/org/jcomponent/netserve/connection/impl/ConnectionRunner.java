@@ -14,7 +14,7 @@ import org.jcomponent.netserve.connection.ConnectionHandler;
  * This class is responsible for handling a single connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-31 02:18:53 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-09 05:30:00 $
  */
 class ConnectionRunner
     implements Runnable
@@ -145,15 +145,13 @@ class ConnectionRunner
         }
         try
         {
-            debugBanner( true );
+            m_monitor.connectionStarting( m_name, m_socket );
             m_handler.handleConnection( m_socket );
-            debugBanner( false );
+            m_monitor.connectionEnding( m_name, m_socket );
         }
         catch( final Exception e )
         {
-            final String message =
-                "Error handling connection '" + m_name + "' due to: " + e;
-            m_monitor.unexpectedError( message, e );
+            m_monitor.errorHandlingConnection( m_name, m_socket, e );
         }
         finally
         {
@@ -163,28 +161,6 @@ class ConnectionRunner
                 notifyAll();
             }
         }
-    }
-
-    /**
-     * Print out debug banner indicating that handling of a connection
-     * is starting or ending.
-     *
-     * @param starting true if starting, false othrewise
-     */
-    private void debugBanner( final boolean starting )
-    {
-
-        if( starting )
-        {
-            m_monitor.connectionStarting( m_name,
-                                          m_socket.getInetAddress().getHostAddress() );
-        }
-        else
-        {
-            m_monitor.connectionEnding( m_name,
-                                        m_socket.getInetAddress().getHostAddress() );
-        }
-
     }
 
     /**
@@ -224,6 +200,6 @@ class ConnectionRunner
     {
         m_done = true;
         m_thread = null;
-        m_acceptor.disposeRunner( this );
+        m_acceptor.disposeRunner( this, m_name );
     }
 }
