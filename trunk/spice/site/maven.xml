@@ -6,9 +6,8 @@
     xmlns:ant="jelly:ant">
 
     <preGoal name="xdoc:copy-user-resources">
-        <ant:mkdir dir="${basedir}/xdocs/style"/>
         <ant:copy file="${basedir}/../tools/site/project.css"
-                  todir="${basedir}/xdocs/style"/>
+                  todir="target/docs/style"/>
     </preGoal>
 
     <preGoal name="xdoc:transform">
@@ -24,6 +23,7 @@
                     <body>
                         <links>
                             <item name="Home" href="/index.html"/>
+                            <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
                         </links>
                         <menu name="Overview">
                             <item name="Home" href="/index.html"/>
