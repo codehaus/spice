@@ -9,16 +9,16 @@ package org.realityforge.packet.event.impl.collections;
 
 /**
  * A unbounded FIFO Buffer implementation.
- *
+ * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-12-05 06:57:11 $
+ * @version $Revision: 1.3 $ $Date: 2003-12-09 00:54:09 $
  */
 public final class UnboundedFifoBuffer
     extends AbstractFifoBuffer
 {
     /**
      * Create a buffer with specified initial size.
-     *
+     * 
      * @param size the initial size of the buffer
      */
     public UnboundedFifoBuffer( final int size )
@@ -45,7 +45,7 @@ public final class UnboundedFifoBuffer
     {
         if( size() + 1 >= m_buffer.length )
         {
-            final int newSize = ( ( m_buffer.length - 1 ) * 2 ) + 1;
+            final int newSize = ((m_buffer.length - 1) * 2) + 1;
             final Object[] tmp = new Object[ newSize ];
 
             int j = 0;
@@ -65,6 +65,7 @@ public final class UnboundedFifoBuffer
             m_buffer = tmp;
             m_head = 0;
             m_tail = j;
+            m_isWrappedBuffer = false;
         }
 
         m_buffer[ m_tail ] = object;
@@ -72,6 +73,7 @@ public final class UnboundedFifoBuffer
         if( m_tail >= m_buffer.length )
         {
             m_tail = 0;
+            m_isWrappedBuffer = true;
         }
         return true;
     }
