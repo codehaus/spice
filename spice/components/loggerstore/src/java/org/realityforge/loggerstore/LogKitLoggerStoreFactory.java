@@ -18,7 +18,7 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-05-24 22:29:25 $
+ * @version $Revision: 1.6 $ $Date: 2003-05-24 22:53:12 $
  */
 public class LogKitLoggerStoreFactory
     extends AbstractLoggerStoreFactory
@@ -49,7 +49,8 @@ public class LogKitLoggerStoreFactory
             return new LogKitLoggerStore( ConfigurationUtil.toConfiguration( element ) );
         }
         */
-        final Configuration configuration = (Configuration)config.get( Configuration.class.getName() );
+        final Configuration configuration =
+            (Configuration)config.get( Configuration.class.getName() );
         if( null != configuration )
         {
             return new LogKitLoggerStore( configuration );
