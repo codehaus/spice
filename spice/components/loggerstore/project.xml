@@ -5,7 +5,7 @@
     <id>spice-loggerstore</id>
     <gumpRepositoryId>components</gumpRepositoryId>
     <package>org.codehaus.spice.loggerstore</package>
-    <currentVersion>1.0-b4-dev</currentVersion>
+    <currentVersion>1.0</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
     <shortDescription>Component for storing a set of DNA Loggers.</shortDescription>
@@ -18,6 +18,11 @@
     </description>
 
     <versions>
+        <version>
+            <id>1.0</id>
+            <name>1.0</name>
+            <tag>LOGGERSTORE_1_0-tag</tag>
+        </version>
         <version>
             <id>1.0-b3</id>
             <name>1.0-b3</name>
@@ -64,7 +69,7 @@
         <dependency>
             <groupId>excalibur</groupId>
             <artifactId>excalibur-logger</artifactId>
-            <version>20031215.105842</version>
+            <version>1.1</version>
             <properties>
                 <category>runtime</category>
             </properties>
@@ -76,7 +81,7 @@
         <dependency>
             <groupId>spice</groupId>
             <artifactId>spice-alchemist</artifactId>
-            <version>20031120.105516</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <id>log4j</id>
