@@ -19,7 +19,7 @@ import com.thoughtworks.qdox.model.JavaMethod;
  * returns null.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-31 08:08:48 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-03 13:43:48 $
  */
 class MulticastInterceptor
     implements QDoxAttributeInterceptor
@@ -34,7 +34,7 @@ class MulticastInterceptor
      *
      * @param interceptors the interceptors
      */
-    public MulticastInterceptor( QDoxAttributeInterceptor[] interceptors )
+    public MulticastInterceptor( final QDoxAttributeInterceptor[] interceptors )
     {
         if( null == interceptors )
         {
@@ -61,17 +61,18 @@ class MulticastInterceptor
      * @return the resulting attribute or null
      */
     public Attribute processClassAttribute( final JavaClass clazz,
-                                            Attribute attribute )
+                                            final Attribute attribute )
     {
+        Attribute result = attribute;
         for( int i = 0; i < m_interceptors.length; i++ )
         {
-            attribute = m_interceptors[ i ].processClassAttribute( clazz, attribute );
-            if( null == attribute )
+            result = m_interceptors[ i ].processClassAttribute( clazz, result );
+            if( null == result )
             {
                 return null;
             }
         }
-        return attribute;
+        return result;
     }
 
     /**
@@ -85,17 +86,18 @@ class MulticastInterceptor
      * @return the resulting attribute or null
      */
     public Attribute processFieldAttribute( final JavaField field,
-                                            Attribute attribute )
+                                            final Attribute attribute )
     {
+        Attribute result = attribute;
         for( int i = 0; i < m_interceptors.length; i++ )
         {
-            attribute = m_interceptors[ i ].processFieldAttribute( field, attribute );
-            if( null == attribute )
+            result = m_interceptors[ i ].processFieldAttribute( field, result );
+            if( null == result )
             {
                 return null;
             }
         }
-        return attribute;
+        return result;
     }
 
     /**
@@ -109,17 +111,18 @@ class MulticastInterceptor
      * @return the resulting attribute or null
      */
     public Attribute processMethodAttribute( final JavaMethod method,
-                                             Attribute attribute )
+                                             final Attribute attribute )
     {
+        Attribute result = attribute;
         for( int i = 0; i < m_interceptors.length; i++ )
         {
-            attribute = m_interceptors[ i ].processMethodAttribute( method, attribute );
-            if( null == attribute )
+            result = m_interceptors[ i ].processMethodAttribute( method, result );
+            if( null == result )
             {
                 return null;
             }
         }
-        return attribute;
+        return result;
     }
 
     /**
@@ -132,13 +135,14 @@ class MulticastInterceptor
      * @return the resulting attribute array
      */
     public Attribute[] processClassAttributes( final JavaClass clazz,
-                                               Attribute[] attributes )
+                                               final Attribute[] attributes )
     {
+        Attribute[] results = attributes;
         for( int i = 0; i < m_interceptors.length; i++ )
         {
-            attributes = m_interceptors[ i ].processClassAttributes( clazz, attributes );
+            results = m_interceptors[ i ].processClassAttributes( clazz, results );
         }
-        return attributes;
+        return results;
     }
 
     /**
@@ -150,13 +154,15 @@ class MulticastInterceptor
      * @param attributes the attributes
      * @return the resulting attribute array
      */
-    public Attribute[] processFieldAttributes( JavaField field, Attribute[] attributes )
+    public Attribute[] processFieldAttributes( final JavaField field,
+                                               final Attribute[] attributes )
     {
+        Attribute[] results = attributes;
         for( int i = 0; i < m_interceptors.length; i++ )
         {
-            attributes = m_interceptors[ i ].processFieldAttributes( field, attributes );
+            results = m_interceptors[ i ].processFieldAttributes( field, results );
         }
-        return attributes;
+        return results;
     }
 
     /**
@@ -169,12 +175,13 @@ class MulticastInterceptor
      * @return the resulting attribute array
      */
     public Attribute[] processMethodAttributes( final JavaMethod method,
-                                                Attribute[] attributes )
+                                                final Attribute[] attributes )
     {
+        Attribute[] results = attributes;
         for( int i = 0; i < m_interceptors.length; i++ )
         {
-            attributes = m_interceptors[ i ].processMethodAttributes( method, attributes );
+            results = m_interceptors[ i ].processMethodAttributes( method, results );
         }
-        return attributes;
+        return results;
     }
 }
