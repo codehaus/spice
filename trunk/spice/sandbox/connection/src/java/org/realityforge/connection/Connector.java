@@ -309,10 +309,12 @@ public class Connector
                getConnection().connect();
                _connectionAttempts = 0;
                _connectionError = null;
+               setConnected( true );
                getMonitor().connectionEstablished();
             }
             catch ( final Throwable t )
             {
+               t.printStackTrace();
                _connectionAttempts++;
                _connectionError = t.toString();
                getMonitor().errorConnecting( t );
@@ -332,7 +334,7 @@ public class Connector
       {
          if ( isConnected() )
          {
-            _connected = false;
+            setConnected( false );
             try
             {
                getConnection().disconnect();
