@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-09 01:50:14 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-09 02:03:01 $
  */
 public class ConnectionAcceptorTestCase
     extends TestCase
@@ -100,5 +100,41 @@ public class ConnectionAcceptorTestCase
         assertFalse( "isRunning() pre-close()", acceptor.isRunning() );
         acceptor.close();
         assertFalse( "isRunning() post-close()", acceptor.isRunning() );
+    }
+
+    public void testShutdownServerSocketCausesError()
+        throws Exception
+    {
+        final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
+        final ConnectionAcceptor acceptor =
+            new ConnectionAcceptor( "name",
+                                    new ExceptOnCloseServerSocket(),
+                                    new MockSocketConnectionHandler(),
+                                    monitor );
+        assertEquals( "errorClosingServerSocket pre-shutdownServerSocket()",
+                      null,
+                      monitor.getErrorClosingServerSocket() );
+        acceptor.shutdownServerSocket();
+        assertEquals( "errorClosingServerSocket post-shutdownServerSocket()",
+                      ExceptOnCloseServerSocket.EXCEPTION,
+                      monitor.getErrorClosingServerSocket() );
+    }
+
+    public void testShutdownServerSocket()
+        throws Exception
+    {
+        final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
+        final ConnectionAcceptor acceptor =
+            new ConnectionAcceptor( "name",
+                                    new MockServerSocket(),
+                                    new MockSocketConnectionHandler(),
+                                    monitor );
+        assertEquals( "errorClosingServerSocket pre-shutdownServerSocket()",
+                      null,
+                      monitor.getErrorClosingServerSocket() );
+        acceptor.shutdownServerSocket();
+        assertEquals( "errorClosingServerSocket post-shutdownServerSocket()",
+                      null,
+                      monitor.getErrorClosingServerSocket() );
     }
 }
