@@ -39,6 +39,12 @@
         </dependency>
         <dependency>
             <groupId>spice</groupId>
+            <artifactId>spice-metaclass</artifactId>
+            <version>1.0-rc1</version>
+            <type>plugin</type>
+        </dependency>
+        <dependency>
+            <groupId>spice</groupId>
            	<artifactId>spice-threadpool</artifactId>
             <version>1.0-b1</version>
             <properties>
