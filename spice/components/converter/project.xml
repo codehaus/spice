@@ -3,9 +3,10 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>Converter</name>
     <id>spice-converter</id>
-    <gumpRepositoryId>components</gumpRepositoryId>
-    <currentVersion>0.9.1</currentVersion>
+    <currentVersion>1.0</currentVersion>
     <inceptionYear>2000</inceptionYear>
+    <package>org.codehaus.spice.converter</package>
+
 
     <shortDescription>Convert objects of one type to another type</shortDescription>
 
@@ -18,6 +19,14 @@
         may take a File "context" object that is the base directory relative to which
         the String points.
     </description>
+
+    <versions>
+        <version>
+            <id>1.0</id>
+            <name>1.0</name>
+            <tag>CONVERTER_1_0-tag</tag>
+        </version>
+    </versions>
 
     <developers>
         <developer>
@@ -34,7 +43,7 @@
         <dependency>
         	<groupId>spice</groupId>
             <artifactId>spice-salt</artifactId>
-            <version>0.8dev</version>
+            <version>1.0</version>
             <properties>
                 <category>runtime</category>
             </properties>
