@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-10-28 11:24:21 $
+ * @version $Revision: 1.12 $ $Date: 2003-10-28 11:38:06 $
  */
 public class ModelTestCase
     extends TestCase
@@ -97,102 +97,5 @@ public class ModelTestCase
         assertEquals( "method.type", "type", method.getReturnType() );
         assertEquals( "method.getParameters().length", 0, method.getParameters().length );
         assertEquals( "method.getAttributes().length", 0, method.getAttributes().length );
-    }
-
-    public void testClassWithNullAttributes()
-    {
-        try
-        {
-            new ClassDescriptor( "name", null, FieldDescriptor.EMPTY_SET, MethodDescriptor.EMPTY_SET );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for attributes", "attributes", npe.getMessage() );
-        }
-    }
-
-    public void testClassWithAttributesContainingNull()
-    {
-        try
-        {
-            new ClassDescriptor( "name", new Attribute[]{null}, FieldDescriptor.EMPTY_SET, MethodDescriptor.EMPTY_SET );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for attributes[0]", "attributes[0]", npe.getMessage() );
-        }
-    }
-
-    public void testClassWithAttributesNullClassname()
-    {
-        try
-        {
-            new ClassDescriptor( null, Attribute.EMPTY_SET, FieldDescriptor.EMPTY_SET, MethodDescriptor.EMPTY_SET );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for classname", "classname", npe.getMessage() );
-        }
-    }
-
-    public void testClassWithNullFields()
-    {
-        try
-        {
-            new ClassDescriptor( "name", Attribute.EMPTY_SET, null, MethodDescriptor.EMPTY_SET );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for fields", "fields", npe.getMessage() );
-        }
-    }
-
-    public void testClassWithFieldsContainingNull()
-    {
-        try
-        {
-            new ClassDescriptor( "name", Attribute.EMPTY_SET, new FieldDescriptor[]{null}, MethodDescriptor.EMPTY_SET );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for fields[0]", "fields[0]", npe.getMessage() );
-        }
-    }
-
-    public void testClassWithNullMethods()
-    {
-        try
-        {
-            new ClassDescriptor( "name", Attribute.EMPTY_SET, FieldDescriptor.EMPTY_SET, null );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for methods", "methods", npe.getMessage() );
-        }
-    }
-
-    public void testClassWithMethodsContainingNull()
-    {
-        try
-        {
-            new ClassDescriptor( "name", Attribute.EMPTY_SET, FieldDescriptor.EMPTY_SET, new MethodDescriptor[]{null} );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for methods[0]", "methods[0]", npe.getMessage() );
-        }
-    }
-
-    public void testClassDescriptor()
-    {
-        final ClassDescriptor descriptor =
-            new ClassDescriptor( "name",
-                                 Attribute.EMPTY_SET,
-                                 FieldDescriptor.EMPTY_SET,
-                                 MethodDescriptor.EMPTY_SET );
-        assertEquals( "descriptor.name", "name", descriptor.getName() );
-        assertEquals( "descriptor.getFields().length", 0, descriptor.getFields().length );
-        assertEquals( "descriptor.getMethods().length", 0, descriptor.getMethods().length );
-        assertEquals( "descriptor.getAttributes().length", 0, descriptor.getAttributes().length );
     }
 }
