@@ -34,7 +34,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2003-04-23 13:50:32 $
+ * @version $Revision: 1.16 $ $Date: 2003-04-23 14:15:43 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -68,6 +68,11 @@ public class ConnectionTestCase
         0, 0, 0, 0, 0, 0, 0, 0
     };
     private static final Random RANDOM = new Random();
+
+    /**
+     * Delay used to try and trick OS into unbinding socket.
+     */
+    private static final int PRECREATE_DELAY = 100;
 
     public ConnectionTestCase( final String name )
     {
@@ -148,29 +153,29 @@ public class ConnectionTestCase
     private void runCMTests( final ConnectionManager cm ) throws Exception
     {
         final RandmoizingHandler handler = new RandmoizingHandler();
-        cm.connect( "a", new ServerSocket( PORT, 5, HOST ), handler );
+        cm.connect( "a", getServerSocket(), handler );
         cm.disconnect( "a", false );
-        cm.connect( "a", new ServerSocket( PORT, 5, HOST ), handler );
+        cm.connect( "a", getServerSocket(), handler );
         cm.disconnect( "a", true );
-        cm.connect( "a", new ServerSocket( PORT, 5, HOST ), handler );
-        doClientConnect();
-        doClientConnect();
-        doClientConnect();
-        doClientConnect();
-        cm.disconnect( "a", true );
-        cm.connect( "a", new ServerSocket( PORT, 5, HOST ), handler, null );
+        cm.connect( "a", getServerSocket(), handler );
         doClientConnect();
         doClientConnect();
         doClientConnect();
         doClientConnect();
         cm.disconnect( "a", true );
-        cm.connect( "a", new ServerSocket( PORT, 5, HOST ), handler, new TestThreadPool() );
+        cm.connect( "a", getServerSocket(), handler, null );
         doClientConnect();
         doClientConnect();
         doClientConnect();
         doClientConnect();
         cm.disconnect( "a", true );
-        cm.connect( "a", new ServerSocket( PORT, 5, HOST ), handler );
+        cm.connect( "a", getServerSocket(), handler, new TestThreadPool() );
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        cm.disconnect( "a", true );
+        cm.connect( "a", getServerSocket(), handler );
         runClientConnect();
         runClientConnect();
         runClientConnect();
@@ -184,12 +189,13 @@ public class ConnectionTestCase
         catch( Exception e )
         {
         }
-        cm.connect( "p", new ServerSocket( PORT, 5, HOST ), handler );
+        cm.connect( "p", getServerSocket(), handler );
         doClientConnect();
         doClientConnect();
         doClientConnect();
         doClientConnect();
-        cm.connect( "q", new ServerSocket( PORT + RANDOM.nextInt( 40 ) ), handler );
+
+        cm.connect( "q", getServerSocket( PORT + RANDOM.nextInt( 40 ) ), handler );
         doClientConnect();
         doClientConnect();
         doClientConnect();
@@ -248,8 +254,7 @@ public class ConnectionTestCase
                     acceptLoop( serverSocket );
                 }
             };
-            start( runnable );
-            Thread.sleep( 50 );
+            startAndWait( runnable );
             socket = new Socket( HOST, PORT );
 
             try
@@ -423,7 +428,7 @@ public class ConnectionTestCase
                                         chm,
                                         null );
             acceptor.enableLogging( new ConsoleLogger() );
-            start( acceptor );
+            startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 0, false );
         }
@@ -451,13 +456,11 @@ public class ConnectionTestCase
     {
         try
         {
-            Thread.sleep( 50 );
             final Socket socket = new Socket( HOST, PORT );
             socket.close();
         }
         catch( final Exception e )
         {
-            e.printStackTrace();
         }
     }
 
@@ -475,7 +478,7 @@ public class ConnectionTestCase
                                         chm,
                                         new TestThreadPool() );
             acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
-            start( acceptor );
+            startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 0, false );
         }
@@ -483,6 +486,13 @@ public class ConnectionTestCase
         {
             shutdown( serverSocket );
         }
+    }
+
+    private void startAndWait( final Runnable runnable )
+        throws InterruptedException
+    {
+        start( runnable );
+        Thread.sleep( 50 );
     }
 
     public void testOverRunForceShutdown()
@@ -499,7 +509,7 @@ public class ConnectionTestCase
                                         chm,
                                         new TestThreadPool() );
             acceptor.enableLogging( new ConsoleLogger() );
-            start( acceptor );
+            startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 5, true );
         }
@@ -521,7 +531,7 @@ public class ConnectionTestCase
                                         new ExceptingHandlerManager(),
                                         null );
             acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
-            start( acceptor );
+            startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 5, true );
         }
@@ -545,7 +555,7 @@ public class ConnectionTestCase
                                         chm,
                                         null );
             acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
-            start( acceptor );
+            startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 5, true );
         }
@@ -569,7 +579,7 @@ public class ConnectionTestCase
                                         chm,
                                         null );
             acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
-            start( acceptor );
+            startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 5, true );
         }
@@ -592,7 +602,7 @@ public class ConnectionTestCase
                                         chm,
                                         null );
             acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
-            start( acceptor );
+            startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 5, true );
         }
@@ -604,7 +614,20 @@ public class ConnectionTestCase
 
     private ServerSocket getServerSocket() throws IOException
     {
-        final ServerSocket serverSocket = new ServerSocket( PORT, 5, HOST );
+        return getServerSocket( PORT );
+    }
+
+    private ServerSocket getServerSocket( final int port ) throws IOException
+    {
+        try
+        {
+            Thread.sleep( PRECREATE_DELAY );
+        }
+        catch( InterruptedException e )
+        {
+
+        }
+        final ServerSocket serverSocket = new ServerSocket( port, 5, HOST );
         serverSocket.setSoTimeout( 50 );
         return serverSocket;
     }
@@ -624,7 +647,6 @@ public class ConnectionTestCase
                 serverSocket.setSoTimeout( 1 );
             }
             serverSocket.close();
-            Thread.sleep( 50 );
         }
         catch( final Exception e )
         {
