@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice SwingActions</name>
+    <id>spice-swingactions</id>
+    <package>org.codehaus.spice.${pom.artifactId.substring(11)}</package>
+    <currentVersion>0.2</currentVersion>
+    <inceptionYear>2003</inceptionYear>
+
+    <shortDescription>Component for managing and configuring Swing Actions.</shortDescription>
+
+    <description>
+        A manager component for Swing Actions which supports configuration via XML
+        and includes a factory for Action related Swing Components, such as 
+        JButton, JMenu etc ...
+    </description>
+
+    <versions>
+        <version>
+            <id>0.2</id>
+            <name>0.2</name>
+            <tag>HEAD</tag>
+        </version>
+        <version>
+            <id>0.1</id>
+            <name>0.1</name>
+            <tag>SWINGACTIONS_0_1-tag</tag>
+        </version>
+    </versions>
+
+    <dependencies>
+        <dependency>
+            <id>commons-digester</id>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
+            <id>commons-beanutils</id>
+            <version>1.6</version>
+        </dependency>
+        <dependency>
+            <id>commons-collections</id>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <id>commons-logging</id>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>excalibur</groupId>
+            <artifactId>excalibur-i18n</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <id>xml-apis</id>
+            <version>1.0.b2</version>
+        </dependency>
+        <dependency>
+            <id>xerces</id>
+            <version>2.2.1</version>
+        </dependency>
+    </dependencies>
+
+    <developers>
+        <developer>
+            <name>Mauro Talevi</name>
+            <id>mauro</id>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+</project>
