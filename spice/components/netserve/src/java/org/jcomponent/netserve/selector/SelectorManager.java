@@ -8,8 +8,6 @@ import java.nio.channels.ClosedChannelException;
 import java.util.Set;
 import java.util.Iterator;
 
-import org.jcomponent.netserve.sockets.SelectorEventHandler;
-import org.jcomponent.netserve.sockets.NullSelectorEventHandler;
 import org.jcomponent.netserve.sockets.impl.NIOAcceptorMonitor;
 import org.jcomponent.netserve.sockets.impl.NullNIOAcceptorMonitor;
 
