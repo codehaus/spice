@@ -1,15 +1,14 @@
 package org.codehaus.spice.netevent;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
-import java.util.Random;
+import java.nio.channels.SocketChannel;
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.codehaus.spice.event.impl.DefaultEventQueue;
 import org.codehaus.spice.event.impl.EventPump;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
@@ -20,53 +19,33 @@ import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-01-15 06:12:25 $
+ * @version $Revision: 1.7 $ $Date: 2004-01-16 03:19:09 $
  */
 public class TestServer
 {
     private static boolean c_done;
-    private static final Random RANDOM = new Random();
+    private static SocketEventSource c_clientSocketSouce;
 
     public static void main( final String[] args )
         throws Exception
     {
-        final DefaultSelectorManager selectorManager =
-            new DefaultSelectorManager();
-        selectorManager.setRunning( true );
-        selectorManager.setSelector( Selector.open() );
-        final DefaultEventQueue queue1 =
-            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue2 =
-            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+        final DefaultSelectorManager sm = new DefaultSelectorManager();
+        sm.setRunning( true );
+        sm.setSelector( Selector.open() );
 
-        final SocketEventSource source =
-            new SocketEventSource( selectorManager, queue1 );
-
-        final ServerSocketChannel channel = ServerSocketChannel.open();
-        channel.socket().bind( new InetSocketAddress( 1980 ) );
-        source.registerChannel( channel,
-                                SelectionKey.OP_ACCEPT,
-                                null );
-
-        final DefaultBufferManager bufferManager =
-            new DefaultBufferManager();
-
-        final ChannelEventHandler handler1 =
-            new ChannelEventHandler( source, queue1, queue2, bufferManager );
-
-        final TestSocketEventHandler handler2 = new TestSocketEventHandler();
-
-        final EventPump pump1 = new EventPump( source, handler1 );
-        pump1.setBatchSize( 10 );
-
-        final EventPump pump2 = new EventPump( queue2, handler2 );
-        pump1.setBatchSize( 10 );
+        final EventPump[] serverSidePumps = createServerSidePumps( sm );
+        final EventPump[] clientSidePumps = createClientSidePumps( sm );
+        final ArrayList pumpList = new ArrayList();
+        pumpList.addAll( Arrays.asList( serverSidePumps ) );
+        pumpList.addAll( Arrays.asList( clientSidePumps ) );
+        final EventPump[] pumps =
+            (EventPump[])pumpList.toArray( new EventPump[ pumpList.size() ] );
 
         final Runnable runnable = new Runnable()
         {
             public void run()
             {
-                doPump( new EventPump[]{pump1, pump2} );
+                doPump( pumps );
             }
         };
         final Thread thread = new Thread( runnable );
@@ -74,57 +53,81 @@ public class TestServer
 
         while( !c_done )
         {
-            Thread.sleep( 10 );
-            final Socket socket = new Socket( InetAddress.getLocalHost(), 1980 );
-
-            writeOutput( socket );
-            final Runnable reader = new Runnable()
-            {
-                public void run()
-                {
-                    readInput( socket );
-                }
-            };
-            final Thread inputThread = new Thread( reader );
-            inputThread.start();
+            Thread.sleep( 50 );
+            final SocketChannel channel = SocketChannel.open();
+            channel.configureBlocking( false );
+            c_clientSocketSouce.registerChannel( channel,
+                                                 SelectionKey.OP_CONNECT,
+                                                 null );
+            final InetSocketAddress address =
+                new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
+            channel.connect( address );
         }
         System.exit( 1 );
     }
 
-    private static void writeOutput( final Socket socket )
+    private static EventPump[]
+        createServerSidePumps( final DefaultSelectorManager sm )
         throws IOException
     {
-        final int count = Math.abs( RANDOM.nextInt() % 16 * 1024 );
-        System.out.println(
-            "Sending " + count + "B via " + socket.getLocalPort() );
-        final OutputStream outputStream = socket.getOutputStream();
-        for( int i = 0; i < count; i++ )
-        {
-            outputStream.write( '.' );
-        }
-        outputStream.flush();
+        final DefaultEventQueue queue1 =
+            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+        final DefaultEventQueue queue2 =
+            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+
+        final SocketEventSource source1 =
+            new SocketEventSource( sm, queue1 );
+
+        final ServerSocketChannel channel = ServerSocketChannel.open();
+        channel.socket().bind( new InetSocketAddress( 1980 ) );
+        source1.registerChannel( channel,
+                                 SelectionKey.OP_ACCEPT,
+                                 null );
+
+        final DefaultBufferManager bufferManager =
+            new DefaultBufferManager();
+
+        final ChannelEventHandler handler1 =
+            new ChannelEventHandler( source1, queue1, queue2, bufferManager );
+
+        final TestEventHandler handler2 =
+            new TestEventHandler( "SV", 5, -1, false );
+
+        final EventPump pump1 = new EventPump( source1, handler1 );
+        pump1.setBatchSize( 10 );
+
+        final EventPump pump2 = new EventPump( queue2, handler2 );
+        pump1.setBatchSize( 10 );
+
+        return new EventPump[]{pump1, pump2};
     }
 
-    private static void readInput( final Socket socket )
+    private static EventPump[]
+        createClientSidePumps( final DefaultSelectorManager sm )
     {
-        try
-        {
-            final InputStream inputStream = socket.getInputStream();
-            final StringBuffer sb = new StringBuffer();
-            for( int i = 0; i < 4; i++ )
-            {
-                final int ch = inputStream.read();
-                sb.append( (char)ch );
-            }
-            System.out.println(
-                "Response received " + sb + " via " + socket.getLocalPort() );
+        final DefaultEventQueue queue1 =
+            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+        final DefaultEventQueue queue2 =
+            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
-            socket.close();
-        }
-        catch( IOException e )
-        {
-            e.printStackTrace();
-        }
+        c_clientSocketSouce = new SocketEventSource( sm, queue1 );
+
+        final DefaultBufferManager bufferManager = new DefaultBufferManager();
+
+        final ChannelEventHandler handler1 =
+            new ChannelEventHandler( c_clientSocketSouce, queue1, queue2,
+                                     bufferManager );
+
+        final TestEventHandler handler2 =
+            new TestEventHandler( "CL", -1, 5, true );
+
+        final EventPump pump1 = new EventPump( c_clientSocketSouce, handler1 );
+        pump1.setBatchSize( 10 );
+
+        final EventPump pump2 = new EventPump( queue2, handler2 );
+        pump1.setBatchSize( 10 );
+
+        return new EventPump[]{pump1, pump2};
     }
 
     private static void doPump( final EventPump[] pumps )
