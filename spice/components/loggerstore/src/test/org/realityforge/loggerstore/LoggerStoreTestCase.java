@@ -114,7 +114,16 @@ public class LoggerStoreTestCase
     {
         ContainerUtil.enableLogging( store,
                                      new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
+        performLoggerTest( store, filename );
 
+        ContainerUtil.enableLogging( store,
+                                     new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
+        performLoggerTest( store, filename );
+    }
+
+    private void performLoggerTest( final LoggerStore store,
+                                    final String filename ) throws Exception
+    {
         BufferedReader reader = null;
         try
         {
