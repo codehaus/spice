@@ -20,7 +20,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-09-28 05:47:34 $
+ * @version $Revision: 1.12 $ $Date: 2003-10-04 00:31:10 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -40,6 +40,11 @@ public class AttributesTestCase
 
     public AttributesTestCase()
     {
+    }
+
+    public void testInstantiateAttributesClass()
+    {
+        assertNotNull( "attributes", new Attributes() );
     }
 
     public void testGetAttributeByNameWithZeroAttributes()
