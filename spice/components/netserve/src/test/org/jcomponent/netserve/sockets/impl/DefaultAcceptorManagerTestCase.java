@@ -12,7 +12,7 @@ import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-09 07:09:14 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-09 07:34:51 $
  */
 public class DefaultAcceptorManagerTestCase
     extends AbstractAcceptorManagerTestCase
@@ -20,7 +20,7 @@ public class DefaultAcceptorManagerTestCase
     public void testDisconnectNonExistent()
         throws Exception
     {
-        final DefaultAcceptorManager manager = new DefaultAcceptorManager();
+        final SocketAcceptorManager manager = createAcceptorManager();
         try
         {
             manager.disconnect( "NonExistent" );
