@@ -11,7 +11,7 @@ package org.realityforge.packet.handlers;
  * Set of constants used in network protocol.
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-22 05:52:16 $
+ * @version $Revision: 1.6 $ $Date: 2004-02-03 04:10:05 $
  */
 public class Protocol
 {
@@ -63,18 +63,24 @@ public class Protocol
      * Message indicating client or server is disconnecting. Reason follows (as
      * byte) - One of ERROR_* constants.
      */
-    public static final byte MSG_DISCONNECT = 3;
+    public static final byte MSG_DISCONNECT_REQUEST = 3;
+
+    /**
+     * Message indicating client or server is disconnecting. Reason follows (as
+     * byte) - One of ERROR_* constants.
+     */
+    public static final byte MSG_DISCONNECT = 4;
 
     /**
      * Message indicating that received packet. Sequence follows (as short).
      */
-    public static final byte MSG_ACK = 4;
+    public static final byte MSG_ACK = 5;
 
     /**
      * Message indicating that failed to receiv packet. Sequence follows (as
      * short).
      */
-    public static final byte MSG_NACK = 5;
+    public static final byte MSG_NACK = 6;
 
     /**
      * Message indicating No Error.
