@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
  * Schemas.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-04-05 09:39:24 $
+ * @version $Revision: 1.4 $ $Date: 2003-04-05 09:55:09 $
  */
 class ConfigKitEntityResolver
     implements EntityResolver
@@ -55,14 +55,19 @@ class ConfigKitEntityResolver
     public InputSource resolveEntity( final String publicId, final String systemId )
         throws IOException, SAXException
     {
+        System.out.println( "publicId = " + publicId );
+        System.out.println( "systemId = " + systemId );
         for( int i = 0; i < m_infos.length; i++ )
         {
             final EntityInfo info = m_infos[ i ];
+            System.out.println( "info.getPublicId() = " + info.getPublicId() );
+            System.out.println( "info.getSystemId() = " + info.getSystemId() );
             if( ( publicId != null && publicId.equals( info.getPublicId() ) ) ||
                 ( systemId != null && systemId.equals( info.getSystemId() ) ) )
             {
                 final ClassLoader classLoader = getClassLoader();
                 final String resource = info.getResource();
+                System.out.println( "resource = " + resource );
                 final InputStream inputStream =
                     classLoader.getResourceAsStream( resource );
                 if( null == inputStream )
@@ -75,8 +80,8 @@ class ConfigKitEntityResolver
                     throw new IOException( message );
                 }
                 final InputSource inputSource = new InputSource( inputStream );
-                inputSource.setPublicId( publicId );
-                inputSource.setSystemId( systemId );
+                inputSource.setPublicId( info.getPublicId() );
+                inputSource.setSystemId( info.getSystemId() );
                 return inputSource;
             }
         }
