@@ -14,7 +14,7 @@ import org.codehaus.spice.netevent.transport.TransportOutputStream;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-01-12 05:06:12 $
+ * @version $Revision: 1.7 $ $Date: 2004-01-15 05:56:35 $
  */
 class TestSocketEventHandler
     extends ChannelEventHandler
@@ -23,7 +23,7 @@ class TestSocketEventHandler
                                    final EventSink queue,
                                    final BufferManager bufferManager )
     {
-        super( source, queue, bufferManager );
+        super( source, queue, queue, bufferManager );
     }
 
     /**
@@ -36,18 +36,20 @@ class TestSocketEventHandler
         {
             final ChannelClosedEvent ce = (ChannelClosedEvent)event;
             final ChannelTransport transport = ce.getTransport();
-            final int port =
-                ((SocketChannel)transport.getChannel()).socket().getPort();
             final String message =
                 "Received " + transport.getInputStream().available() +
-                "B via " + port;
+                "B via " + transport.getUserData();
             System.out.println( message );
         }
         else if( event instanceof ConnectEvent )
         {
             final ConnectEvent ce = (ConnectEvent)event;
+            final ChannelTransport transport = ce.getTransport();
+            final SocketChannel channel = (SocketChannel)transport.getChannel();
+            final int port = channel.socket().getPort();
+            transport.setUserData( new Integer( port ) );
             final TransportOutputStream outputStream =
-                ce.getTransport().getOutputStream();
+                transport.getOutputStream();
             try
             {
                 outputStream.write( 'H' );
