@@ -12,63 +12,25 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-09 03:53:21 $
+ * @version $Revision: 1.8 $ $Date: 2003-10-09 05:57:46 $
  */
 public class ConnectionAcceptorTestCase
     extends TestCase
 {
-    public void testNullNameInCtor()
+    public void testNullConfigInCtor()
         throws Exception
     {
         try
         {
             new ConnectionAcceptor( null,
-                                    new MockServerSocket(),
-                                    new MockSocketConnectionHandler(),
                                     new NullAcceptorMonitor() );
         }
         catch( final NullPointerException npe )
         {
-            assertEquals( "npe.message", "name", npe.getMessage() );
+            assertEquals( "npe.message", "config", npe.getMessage() );
             return;
         }
-        fail( "Expected to fail due to NPE for name" );
-    }
-
-    public void testNullServerSocketInCtor()
-        throws Exception
-    {
-        try
-        {
-            new ConnectionAcceptor( "name",
-                                    null,
-                                    new MockSocketConnectionHandler(),
-                                    new NullAcceptorMonitor() );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe.message", "serverSocket", npe.getMessage() );
-            return;
-        }
-        fail( "Expected to fail due to NPE for serverSocket" );
-    }
-
-    public void testNullHandlerInCtor()
-        throws Exception
-    {
-        try
-        {
-            new ConnectionAcceptor( "name",
-                                    new MockServerSocket(),
-                                    null,
-                                    new NullAcceptorMonitor() );
-        }
-        catch( NullPointerException npe )
-        {
-            assertEquals( "npe.message", "handler", npe.getMessage() );
-            return;
-        }
-        fail( "Expected to fail due to NPE for handler" );
+        fail( "Expected to fail due to NPE for config" );
     }
 
     public void testNullMonitorInCtor()
@@ -76,9 +38,9 @@ public class ConnectionAcceptorTestCase
     {
         try
         {
-            new ConnectionAcceptor( "name",
-                                    new MockServerSocket(),
-                                    new MockSocketConnectionHandler(),
+            new ConnectionAcceptor( new AcceptorConfig( "name",
+                                                        new MockServerSocket(),
+                                                        new MockSocketConnectionHandler() ),
                                     null );
         }
         catch( NullPointerException npe )
@@ -93,9 +55,9 @@ public class ConnectionAcceptorTestCase
         throws Exception
     {
         final ConnectionAcceptor acceptor =
-            new ConnectionAcceptor( "name",
-                                    new MockServerSocket(),
-                                    new MockSocketConnectionHandler(),
+            new ConnectionAcceptor( new AcceptorConfig( "name",
+                                                        new MockServerSocket(),
+                                                        new MockSocketConnectionHandler() ),
                                     new NullAcceptorMonitor() );
         assertFalse( "isRunning() pre-close()", acceptor.isRunning() );
         acceptor.close();
@@ -107,9 +69,9 @@ public class ConnectionAcceptorTestCase
     {
         final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
         final ConnectionAcceptor acceptor =
-            new ConnectionAcceptor( "name",
-                                    new ExceptOnCloseServerSocket(),
-                                    new MockSocketConnectionHandler(),
+            new ConnectionAcceptor( new AcceptorConfig( "name",
+                                                        new ExceptOnCloseServerSocket(),
+                                                        new MockSocketConnectionHandler() ),
                                     monitor );
         assertEquals( "errorClosingServerSocket pre-shutdownServerSocket()",
                       null,
@@ -125,9 +87,9 @@ public class ConnectionAcceptorTestCase
     {
         final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
         final ConnectionAcceptor acceptor =
-            new ConnectionAcceptor( "name",
-                                    new MockServerSocket(),
-                                    new MockSocketConnectionHandler(),
+            new ConnectionAcceptor( new AcceptorConfig( "name",
+                                                        new MockServerSocket(),
+                                                        new MockSocketConnectionHandler() ),
                                     monitor );
         assertEquals( "errorClosingServerSocket pre-shutdownServerSocket()",
                       null,
@@ -143,9 +105,9 @@ public class ConnectionAcceptorTestCase
     {
         final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
         final ConnectionAcceptor acceptor =
-            new ConnectionAcceptor( "name",
-                                    new ExceptOnAcceptServerSocket( false ),
-                                    new MockSocketConnectionHandler(),
+            new ConnectionAcceptor( new AcceptorConfig( "name",
+                                                        new ExceptOnAcceptServerSocket( false ),
+                                                        new MockSocketConnectionHandler() ),
                                     monitor );
         assertEquals( "getErrorAcceptingConnection pre-shutdownServerSocket()",
                       null,
@@ -167,9 +129,9 @@ public class ConnectionAcceptorTestCase
     {
         final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
         final ConnectionAcceptor acceptor =
-            new ConnectionAcceptor( "name",
-                                    new ExceptOnAcceptServerSocket( true ),
-                                    new MockSocketConnectionHandler(),
+            new ConnectionAcceptor( new AcceptorConfig( "name",
+                                                        new ExceptOnAcceptServerSocket( true ),
+                                                        new MockSocketConnectionHandler() ),
                                     monitor );
         final Thread thread = startAcceptor( acceptor );
         waitUntilStarted( acceptor );
@@ -195,9 +157,9 @@ public class ConnectionAcceptorTestCase
         final BlockingServerSocket serverSocket = new BlockingServerSocket();
         final MockSocketConnectionHandler handler = new MockSocketConnectionHandler();
         final ConnectionAcceptor acceptor =
-            new ConnectionAcceptor( "name",
-                                    serverSocket,
-                                    handler,
+            new ConnectionAcceptor( new AcceptorConfig( "name",
+                                                        serverSocket,
+                                                        handler ),
                                     monitor );
         final Thread thread = startAcceptor( acceptor );
         waitUntilStarted( acceptor );
@@ -225,9 +187,9 @@ public class ConnectionAcceptorTestCase
         final BlockingServerSocket serverSocket = new BlockingServerSocket();
         final MockSocketConnectionHandler handler = new MockSocketConnectionHandler();
         final ConnectionAcceptor acceptor =
-            new ConnectionAcceptor( "name",
-                                    serverSocket,
-                                    handler,
+            new ConnectionAcceptor( new AcceptorConfig( "name",
+                                                        serverSocket,
+                                                        handler ),
                                     monitor );
         final Thread thread = startAcceptor( acceptor );
         waitUntilStarted( acceptor );
