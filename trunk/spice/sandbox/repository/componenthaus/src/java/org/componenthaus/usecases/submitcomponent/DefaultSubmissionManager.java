@@ -2,27 +2,27 @@ package org.componenthaus.usecases.submitcomponent;
 
 import org.componenthaus.ant.metadata.ComponentMetadata;
 import org.componenthaus.ant.metadata.InterfaceMetadata;
-import org.componenthaus.repository.services.CommandRegistry;
-import org.componenthaus.repository.impl.ComponentFactory;
 import org.componenthaus.repository.api.Component;
+import org.componenthaus.repository.impl.ComponentFactory;
+import org.componenthaus.repository.services.CommandRegistry;
 import org.componenthaus.util.file.FileManager;
-import org.prevayler.PrevalentSystem;
+import org.prevayler.Prevayler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
-import java.util.Iterator;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 public class DefaultSubmissionManager implements SubmissionManager {
     private final CommandRegistry commandRegistry;
     private final ComponentFactory componentFactory;
-    private final PrevalentSystem prevalentSystem;
+    private final Prevayler prevayler;
     private final FileManager fileManager;
     private final SubmissionMonitor submissionMonitor;
 
@@ -30,10 +30,10 @@ public class DefaultSubmissionManager implements SubmissionManager {
                                     ComponentFactory componentFactory,
                                     FileManager fileManager,
                                     SubmissionMonitor submissionMonitor,
-                                    PrevalentSystem prevalentSystem) {
+                                    Prevayler prevayler) {
         this.commandRegistry = commandRegistry;
         this.componentFactory = componentFactory;
-        this.prevalentSystem = prevalentSystem;
+        this.prevayler = prevayler;
         this.fileManager = fileManager;
         this.submissionMonitor = submissionMonitor;
     }
@@ -50,7 +50,7 @@ public class DefaultSubmissionManager implements SubmissionManager {
         }
         Component component = handleMetadata(jarFile, metadataFile);
         File jarInRepository = handleDistribution(jarFile,distribution);
-        commandRegistry.createRegisterDownloadableCommand(component.getId(),jarInRepository);
+        prevayler.executeCommand(commandRegistry.createRegisterDownloadableCommand(component.getId(),jarInRepository));
         submissionMonitor.componentSubmitted(component,jarInRepository);
     }
 
@@ -88,7 +88,7 @@ public class DefaultSubmissionManager implements SubmissionManager {
         for(Iterator i=componentMetadata.getInterfaces();i.hasNext();) {
             final InterfaceMetadata interfaceMetadata = (InterfaceMetadata) i.next();
             result = componentFactory.createComponent(interfaceMetadata.getFullyQualifiedName(),"1.0",Collections.EMPTY_LIST,interfaceMetadata.getShortDescription(),interfaceMetadata.getJavadoc(),interfaceMetadata.getSource());
-            commandRegistry.createSubmitComponentCommand(result).execute(prevalentSystem);
+            prevayler.executeCommand(commandRegistry.createSubmitComponentCommand(result));
             assert result.getId() != null && Integer.parseInt(result.getId()) >= 0 : "Component should have been given an id";
         }
         return result;
