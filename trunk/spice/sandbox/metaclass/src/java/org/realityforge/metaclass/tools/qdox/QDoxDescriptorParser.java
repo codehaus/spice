@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.metaclass.tools.qdox;
 
 import com.thoughtworks.qdox.model.DocletTag;
@@ -19,31 +26,38 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * and building a ClassDescriptor to correspond to the JavaClass
  * object.
  *
- * @version $Revision: 1.7 $ $Date: 2003-08-22 04:41:52 $
+ * @version $Revision: 1.8 $ $Date: 2003-08-22 05:49:12 $
  */
 public class QDoxDescriptorParser
 {
     /**
-     * The attribute parser.
+     * Constant indicating parse state is
+     * before the start of key.
      */
-    private final AttributeParser m_attributeParser = createAttributeParser();
+    private static final int PARSE_KEY_START = 0;
+    /**
+     * Constant indicating parse state is
+     * parsing the key.
+     */
+    private static final int PARSE_KEY = 1;
 
     /**
-     * Create the AttributeParser.
-     *
-     * @return the AttributeParser
+     * Constant indicating parse state is
+     * before the start of value and expecting ".
      */
-    private AttributeParser createAttributeParser()
-    {
-        try
-        {
-            return new Jdk14AttributeParser();
-        }
-        catch( Exception e )
-        {
-            return new OROAttributeParser();
-        }
-    }
+    private static final int PARSE_VALUE_START = 2;
+
+    /**
+     * Constant indicating parse state is
+     * parsing value string.
+     */
+    private static final int PARSE_VALUE = 3;
+
+    /**
+     * Constant indicating parse state is
+     * after value closed.
+     */
+    private static final int PARSE_END = 4;
 
     /**
      * Build a ClassDescriptor for a JavaClass.
@@ -72,7 +86,7 @@ public class QDoxDescriptorParser
      * @param javaClass the JavaClass
      * @return the MethodDescriptors
      */
-    private MethodDescriptor[] buildMethods( final JavaClass javaClass )
+    MethodDescriptor[] buildMethods( final JavaClass javaClass )
     {
         final JavaMethod[] methods = javaClass.getMethods();
         final MethodDescriptor[] methodDescriptors = new MethodDescriptor[ methods.length ];
@@ -89,7 +103,7 @@ public class QDoxDescriptorParser
      * @param method the JavaMethod
      * @return the MethodDescriptor
      */
-    private MethodDescriptor buildMethod( final JavaMethod method )
+    MethodDescriptor buildMethod( final JavaMethod method )
     {
         final String name = method.getName();
         final Type returns = method.getReturns();
@@ -121,7 +135,7 @@ public class QDoxDescriptorParser
      * @param parameters the JavaParameters
      * @return the ParameterDescriptors
      */
-    private ParameterDescriptor[] buildParameters( final JavaParameter[] parameters )
+    ParameterDescriptor[] buildParameters( final JavaParameter[] parameters )
     {
         final ParameterDescriptor[] descriptors =
             new ParameterDescriptor[ parameters.length ];
@@ -138,7 +152,7 @@ public class QDoxDescriptorParser
      * @param parameter the JavaParameter
      * @return the ParameterDescriptor
      */
-    private ParameterDescriptor buildParameter( final JavaParameter parameter )
+    ParameterDescriptor buildParameter( final JavaParameter parameter )
     {
         final String name = parameter.getName();
         final String value = parameter.getType().getValue();
@@ -151,7 +165,7 @@ public class QDoxDescriptorParser
      * @param javaClass the JavaClass
      * @return the FieldDescriptors
      */
-    private FieldDescriptor[] buildFields( final JavaClass javaClass )
+    FieldDescriptor[] buildFields( final JavaClass javaClass )
     {
         final JavaField[] fields = javaClass.getFields();
         final FieldDescriptor[] fieldDescriptors = new FieldDescriptor[ fields.length ];
@@ -168,7 +182,7 @@ public class QDoxDescriptorParser
      * @param field the JavaField
      * @return the FieldDescriptor
      */
-    private FieldDescriptor buildField( final JavaField field )
+    FieldDescriptor buildField( final JavaField field )
     {
         final String name = field.getName();
         final String type = field.getType().getValue();
@@ -187,7 +201,7 @@ public class QDoxDescriptorParser
      * @param tags the DocletTag instances
      * @return the Attributes
      */
-    private Attribute[] buildAttributes( final DocletTag[] tags )
+    Attribute[] buildAttributes( final DocletTag[] tags )
     {
         final Attribute[] attributes = new Attribute[ tags.length ];
         for( int i = 0; i < tags.length; i++ )
@@ -203,7 +217,7 @@ public class QDoxDescriptorParser
      * @param tag the DocletTag instance.
      * @return the Attribute
      */
-    private Attribute buildAttribute( final DocletTag tag )
+    Attribute buildAttribute( final DocletTag tag )
     {
         final String name = tag.getName();
 
@@ -213,27 +227,14 @@ public class QDoxDescriptorParser
             return new Attribute( name );
         }
 
-        final String[] paramSpans =
-            m_attributeParser.parseValueIntoParameterSpans( value );
-        if( null == paramSpans )
+        final Properties parameters = parseValueIntoParameters( value );
+        if( null == parameters )
         {
             return new Attribute( name, value );
         }
         else
         {
-            final Properties properties = new Properties();
-            for( int i = 0; i < paramSpans.length; i++ )
-            {
-                final String param = paramSpans[ i ];
-
-                //index should never be -1
-                final int index = param.indexOf( "=" );
-                final String paramKey = param.substring( 0, index );
-                final String paramValue =
-                    param.substring( index + 1 + 1, param.length() - 1 );
-                properties.setProperty( paramKey, paramValue );
-            }
-            return new Attribute( name, properties );
+            return new Attribute( name, parameters );
         }
     }
 
@@ -247,7 +248,7 @@ public class QDoxDescriptorParser
      * @param qualifiers the qualifier strings
      * @return the modifier bit array
      */
-    private int parseModifiers( final String[] qualifiers )
+    int parseModifiers( final String[] qualifiers )
     {
         int modifiers = 0;
         for( int i = 0; i < qualifiers.length; i++ )
@@ -304,5 +305,112 @@ public class QDoxDescriptorParser
             }
         }
         return modifiers;
+    }
+
+    /**
+     * Parse the value string into a set of parameters.
+     * The parameters must match the pattern
+     *
+     * <pre>
+     * ^[ \t\r\n]*([a-zA-Z\_][a-zA-Z0-9\_]*=\"[^\"]*\"[ \t\r\n]+)+
+     * </pre>
+     *
+     * <p>If the value does not match this pattern then null is returned
+     * other wise the key=value pairs are parsed out and placed in
+     * a properties object.</p>
+     *
+     * @param input the input value
+     * @return the parameters if matches patterns, else null
+     */
+    Properties parseValueIntoParameters( final String input )
+    {
+        final Properties parameters = new Properties();
+
+        final StringBuffer key = new StringBuffer();
+        final StringBuffer value = new StringBuffer();
+
+        int state = PARSE_KEY_START;
+        final int length = input.length();
+        for( int i = 0; i < length; i++ )
+        {
+            final char ch = input.charAt( i );
+            switch( state )
+            {
+                case PARSE_KEY_START:
+                    if( Character.isWhitespace( ch ) )
+                    {
+                        continue;
+                    }
+                    else if( Character.isJavaIdentifierStart( ch ) )
+                    {
+                        key.append( ch );
+                        state = PARSE_KEY;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                    break;
+
+                case PARSE_KEY:
+                    if( '=' == ch )
+                    {
+                        state = PARSE_VALUE_START;
+                    }
+                    else if( Character.isJavaIdentifierPart( ch ) )
+                    {
+                        key.append( ch );
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                    break;
+
+                case PARSE_VALUE_START:
+                    if( '\"' != ch )
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        state = PARSE_VALUE;
+                    }
+                    break;
+
+                case PARSE_VALUE:
+                    if( '\"' == ch )
+                    {
+                        state = PARSE_END;
+                        parameters.setProperty( key.toString(), value.toString() );
+                        key.setLength( 0 );
+                        value.setLength( 0 );
+                    }
+                    else
+                    {
+                        value.append( ch );
+                    }
+                    break;
+
+                case PARSE_END:
+                    if( Character.isWhitespace( ch ) )
+                    {
+                        state = PARSE_KEY_START;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                    break;
+            }
+        }
+
+        if( PARSE_KEY_START != state &&
+            PARSE_END != state )
+        {
+            return null;
+        }
+
+        return parameters;
     }
 }
