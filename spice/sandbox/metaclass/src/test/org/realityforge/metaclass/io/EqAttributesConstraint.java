@@ -15,14 +15,17 @@ class EqAttributesConstraint
 
    public boolean eval( Object object )
    {
-      if ( !( object instanceof AttributesImpl ) )
+      System.out.println( "EqAttributesConstraint.eval(" + object + ")" );
+         if ( !( object instanceof AttributesImpl ) )
       {
+         System.out.println( "Bad Type!" );
          return false;
       }
       final AttributesImpl other = (AttributesImpl) object;
       final int length = _attributes.getLength();
       if ( other.getLength() != length )
       {
+         System.out.println( "Bad Length! " + other.getLength() + "!=" + length );
          return false;
       }
       for ( int i = 0; i < length; i++ )
@@ -32,6 +35,7 @@ class EqAttributesConstraint
          final String otherValue = other.getValue( qName );
          if ( !value.equals( otherValue ) )
          {
+            System.out.println( "Bad Value for " + qName + " " + value + "!=" + otherValue );
             return false;
          }
       }
