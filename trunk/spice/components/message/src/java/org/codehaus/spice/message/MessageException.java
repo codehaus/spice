@@ -10,7 +10,7 @@ package org.codehaus.spice.message;
 /**
  * @author <a href="mailto:peter.royal@pobox.com">peter royal</a>
  */
-public class MessageException extends Exception
+public class MessageException extends RuntimeException
 {
     public MessageException( final String message )
     {

@@ -127,6 +127,10 @@ public class DefaultEventManager implements EventPublisher, EventRegister
         {
             throw new NullPointerException( "subscriber" );
         }
+        else if( m_subscribers.contains( subscriber ) )
+        {
+            throw new EventManagerRuntimeException( "Already subscribed" );
+        }
 
         if( getLogger().isDebugEnabled() ) getLogger().debug( "Adding subscriber: " + subscriber );
 
@@ -149,6 +153,37 @@ public class DefaultEventManager implements EventPublisher, EventRegister
                 + "Reported '" + e.getMessage() + "' on ruleset: " + e.getRuleSet().getName();
 
             throw new EventManagerRuntimeException( msg, e );
+        }
+    }
+
+    public void rebuild( final Subscriber subscriber )
+    {
+        if( m_subscribers.contains( subscriber ) )
+        {
+            try
+            {
+                rebuildRuleBase();
+            }
+            catch( RuleIntegrationException e )
+            {
+                final String msg = "Unable to rebuild RuleBase after notification from Subscriber. "
+                    + "Subscriber modified rulesafter initial subscription or internal drools error. "
+                    + "Reported '" + e.getMessage() + "' on rule: " + e.getRule();
+
+                throw new EventManagerRuntimeException( msg, e );
+            }
+            catch( RuleSetIntegrationException e )
+            {
+                final String msg = "Unable to rebuild RuleBase after notification from Subscriber. "
+                    + "Subscriber modified rulesafter initial subscription or internal drools error. "
+                    + "Reported '" + e.getMessage() + "' on ruleset: " + e.getRuleSet().getName();
+
+                throw new EventManagerRuntimeException( msg, e );
+            }
+        }
+        else
+        {
+            throw new NoSuchSubscriberException();
         }
     }
 
@@ -223,5 +258,10 @@ public class DefaultEventManager implements EventPublisher, EventRegister
     private Logger getLogger()
     {
         return m_logger;
+    }
+
+    public RuleBase getRuleBase()
+    {
+        return m_ruleBase;
     }
 }

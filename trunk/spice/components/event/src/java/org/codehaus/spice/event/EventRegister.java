@@ -16,4 +16,6 @@ public interface EventRegister
     void subscribe( Subscriber subscriber );
 
     void unsubscribe( Subscriber subscriber ) throws NoSuchSubscriberException;
+
+    void rebuild( Subscriber subscriber );
 }
