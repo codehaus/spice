@@ -10,13 +10,12 @@ package org.jcomponent.netserve.sockets.impl;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
-
 import org.jcomponent.netserve.connection.ConnectionHandler;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-24 08:05:23 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-24 08:07:21 $
  */
 class ClosingSocketConnectionHandler
     implements ConnectionHandler

@@ -7,14 +7,14 @@
  */
 package org.jcomponent.netserve.sockets.impl;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.io.IOException;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-24 04:22:42 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-24 08:07:21 $
  */
 class BlockingServerSocket
     extends ServerSocket

@@ -7,13 +7,13 @@
  */
 package org.jcomponent.netserve.sockets.impl;
 
-import java.net.ServerSocket;
 import java.io.IOException;
+import java.net.ServerSocket;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-09 01:57:33 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-24 08:07:21 $
  */
 class ExceptOnCloseServerSocket
     extends ServerSocket
