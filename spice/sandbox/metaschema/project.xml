@@ -40,7 +40,8 @@
             <version>1.0-b1</version>
         </dependency>
         <dependency>
-            <id>spice-metaclass</id>
+            <groupId>spice</groupId>
+            <artifactId>spice-metaclass</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>

@@ -19,15 +19,18 @@
 
     <dependencies>
         <dependency>
-            <id>avalon-framework</id>
-            <version>4.0</version>
+            <groupId>avalon</groupId>
+            <artifactId>avalon-framework</artifactId>
+            <version>4.1.4</version>
         </dependency>
         <dependency>
-            <id>spice-threadpool</id>
+            <groupId>jcomponent</groupId>
+           	<artifactId>jcomponent-threadpool</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency> <!-- for unit testing the schema validation -->
-            <id>spice-configkit</id>
+            <groupId>spice</groupId>
+           	<artifactId>spice-configkit</artifactId>
             <version>1.1.2</version>
         </dependency>
         <dependency><!-- for spice-configkit -->
