@@ -1,5 +1,7 @@
 <catalog version="1.0">
-    <entity publicId="-//PHOENIX/Assembly DTD Version 1.0//EN" resource="empty.txt"/>
+    <entity publicId="-//PHOENIX/Assembly DTD Version 1.0//EN"
+            systemId="http://avalon.apache.org/dtds/phoenix/assembly_1_0b.dtd" 
+            resource="org/realityforge/configkit/test/assembly.dtd"/>
     <entity systemId="http://jakarta.apache.org/phoenix/assembly_1_0.dtd" resource="META-INF/empty.txt"/>
     <entity
         publicId="-//TEST/Blah DTD Version 1.0//EN"
