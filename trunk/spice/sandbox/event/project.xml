@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
+    <name>Event Toolkit</name>
+    <id>spice-event</id>
+    <currentVersion>1.0-dev</currentVersion>
+    <package>org.codehaus.spice.event</package>
+    <inceptionYear>2003</inceptionYear>
+
+    <shortDescription>Event Toolkit</shortDescription>
+
+    <dependencies>
+        <dependency>
+            <groupId>jmock</groupId>
+            <artifactId>jmock</artifactId>
+            <version>20031129.200437</version>
+        </dependency>
+    </dependencies>
+
+    <developers>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <email>peter@apache.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+</project>
