@@ -2,11 +2,10 @@
  * test cases, before we get out of control
  * take version number from maven pom
  * take dependency jars from maven pom
- * better search results page
  * Federation
  * Live XPath query/reporting of component model
  * Acceptable UI - gulp!
- * Console on each page, displaying result of last significant action (use monitor and tiles)
+ * Console on the top of each page, displaying result of last significant action (use monitor and tiles) (similar to cvs console in IDEA).
  * Add Submit date to component
  * Access control (for write actions)
  * Users and user management
@@ -14,12 +13,17 @@
  * Rework the component details page.  Yes, link to impls, but display what a user has to do to use the impl
  * JMX integration into the heart of the app
  * Investigate Beanshell integration, for debugging problems while live
+ * Stop including plug-interfaces in the repository as public interfaces.  Allow the submitter decide whats public.
+ * Fix search query - its only using the first word
+ * Restarted prevayler is not loading objects correctly - all the string fields are "gone".
 
 Done
 
 October 5th
  * fix search engine indexing problem - last component only indexed
  * remove System.out.printlns
+ * better search results page
+ * Fix pagination links in the search results page.
 
 October 4th
  * Menubar on each page

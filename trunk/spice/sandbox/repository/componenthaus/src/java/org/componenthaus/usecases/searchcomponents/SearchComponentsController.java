@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SearchComponentsController extends SimpleFormController implements InitializingBean {
-    private static final int RESULTS_PER_PAGE = 10;
+    private static final int HITS_PER_PAGE = 10;
     private SearchService searchService;
     private ComponentRepository repository = null;
 
@@ -45,13 +45,23 @@ public class SearchComponentsController extends SimpleFormController implements 
         this.repository = repository;
     }
 
+    protected boolean isFormSubmission(HttpServletRequest request) {
+		return "POST".equals(request.getMethod()) || requestHasSearchParameters(request);
+	}
+
+    private boolean requestHasSearchParameters(HttpServletRequest request) {
+        return  !isEmpty(request.getParameter("query")) &&
+                !isEmpty(request.getParameter("beginIndex")) &&
+                !isEmpty(request.getParameter("endIndex"));
+    }
+
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object o, BindException e) throws ServletException, IOException {
         final String query = request.getParameter("query");
         final String begin = request.getParameter("beginIndex");
         final String end = request.getParameter("endIndex");
         final List componentIds = new ArrayList();
         final int beginIndex = !isEmpty(begin) ? Integer.parseInt(begin) - 1 : 0;
-        final int endIndex = !isEmpty(end) ? Integer.parseInt(end) - 1 : RESULTS_PER_PAGE - 1;
+        final int endIndex = !isEmpty(end) ? Integer.parseInt(end) - 1 : HITS_PER_PAGE - 1;
         int totalMatches = 0;
         try {
             totalMatches = searchService.search(query, beginIndex, endIndex, componentIds);
@@ -65,9 +75,10 @@ public class SearchComponentsController extends SimpleFormController implements 
         model.put("beginIndex",new Integer(beginIndex + 1));
         model.put("endIndex",new Integer(Math.min(totalMatches, endIndex + 1)));
         model.put("totalMatches",new Integer(totalMatches));
-        model.put("pages",computePages(totalMatches,RESULTS_PER_PAGE));
-        final int currentPage = ((beginIndex+1) / RESULTS_PER_PAGE) + 1;
-        model.put("currentPage",new Page(currentPage));
+        model.put("pages",computePages(totalMatches,HITS_PER_PAGE));
+        final int currentPage = ((beginIndex+1) / HITS_PER_PAGE) + 1;
+        model.put("currentPage",new Page(currentPage, beginIndex+1,endIndex+1));
+        model.put("hitsPerPage",new Integer(HITS_PER_PAGE));
 
         return new ModelAndView("searchResultsView",model);
     }
@@ -79,7 +90,7 @@ public class SearchComponentsController extends SimpleFormController implements 
         }
         final Collection result = new ArrayList();
         for(int i=0;i<numPages;i++) {
-            result.add(new Page(i+1));
+            result.add(new Page(i+1,(i*resultsPerPage)+1,((i+1)*resultsPerPage)+1));
         }
         return result;
     }
@@ -99,13 +110,25 @@ public class SearchComponentsController extends SimpleFormController implements 
 
     public static final class Page {
         private int id;
+        private int beginIndex;
+        private int endIndex;
 
-        public Page(int id) {
+        public Page(int id, int beginIndex, int endIndex) {
             this.id = id;
+            this.beginIndex = beginIndex;
+            this.endIndex = endIndex;
         }
 
         public int getId() {
             return id;
+        }
+
+        public int getBeginIndex() {
+            return beginIndex;
+        }
+
+        public int getEndIndex() {
+            return endIndex;
         }
     }
 }
