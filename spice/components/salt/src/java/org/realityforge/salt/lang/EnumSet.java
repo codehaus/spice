@@ -149,7 +149,18 @@ public final class EnumSet
       return set;
    }
 
-   private static Field[] getFields( final Class clazz, final boolean deep )
+   /**
+    * Return the fields for specified Class. If deep is true
+    * then it will return all the fields of the class, including
+    * fields defined in super-classes, otherwise it will just
+    * return the fields declared in specified class.
+    *
+    * @param clazz the class that fields are retrieved from
+    * @param deep if true will include fields in super classes
+    * @return an array of fields
+    */
+   private static Field[] getFields( final Class clazz,
+                                     final boolean deep )
    {
       final Field[] fields;
       if ( deep )
@@ -163,9 +174,15 @@ public final class EnumSet
       return fields;
    }
 
-   private void add( final String name, final int value )
+   /**
+    * Helper method for adding a name-code mapping to EnumSet.
+    *
+    * @param name the name of enum.
+    * @param code the code of enum.
+    */
+   private void add( final String name, final int code )
    {
-      _nameMap.put( name, new Integer( value ) );
-      _codeMap.put( new Integer( value ), name );
+      _nameMap.put( name, new Integer( code ) );
+      _codeMap.put( new Integer( code ), name );
    }
 }
