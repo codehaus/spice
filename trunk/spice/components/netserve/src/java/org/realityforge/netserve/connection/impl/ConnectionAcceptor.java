@@ -22,7 +22,7 @@ import org.realityforge.threadpool.ThreadPool;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-04-23 04:47:13 $
+ * @version $Revision: 1.12 $ $Date: 2003-04-23 07:14:39 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
@@ -115,10 +115,7 @@ class ConnectionAcceptor
 
         synchronized( this )
         {
-            if( isRunning() )
-            {
-                stopRunning();
-            }
+            stopRunning( waitTime, forceShutdown );
 
             final ConnectionRunner[] runners =
                 (ConnectionRunner[])m_runners.toArray( new ConnectionRunner[ m_runners.size() ] );
@@ -142,10 +139,23 @@ class ConnectionAcceptor
 
         while( isRunning() )
         {
+            if( getLogger().isDebugEnabled() )
+            {
+                final String message =
+                    "About to call accept() on ServerSocket '" + m_name + "'.";
+                getLogger().debug( message );
+            }
             try
             {
                 final Socket socket = m_serverSocket.accept();
-                startConnection( socket );
+                if( !isRunning() )
+                {
+                    shutdown( socket );
+                }
+                else
+                {
+                    startConnection( socket );
+                }
             }
             catch( final InterruptedIOException iioe )
             {
@@ -159,7 +169,38 @@ class ConnectionAcceptor
             }
         }
 
-        stopRunning();
+        if( !m_serverSocket.isClosed() )
+        {
+            shutdownServerSocket();
+
+            synchronized( this )
+            {
+                notifyAll();
+            }
+        }
+    }
+
+    /**
+     * Utility method to shutdown serverSocket.
+     */
+    private void shutdownServerSocket()
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = "Closing ServerSocket " + m_name + ".";
+            getLogger().debug( message );
+        }
+        
+        try
+        {
+            m_serverSocket.close();
+        }
+        catch( final IOException ioe )
+        {
+            final String message =
+                "Error closing ServerSocket on " + m_name + " due to: " + ioe;
+            getLogger().error( message, ioe );
+        }
     }
 
     /**
@@ -196,7 +237,16 @@ class ConnectionAcceptor
         }
         m_runners.remove( runner );
         m_handlerManager.releaseHandler( runner.getHandler() );
-        final Socket socket = runner.getSocket();
+        shutdown( runner.getSocket() );
+    }
+
+    /**
+     * Close the socket if it is open.
+     *
+     * @param socket the socket to close
+     */
+    private void shutdown( final Socket socket )
+    {
         if( !socket.isClosed() )
         {
             try
@@ -243,6 +293,12 @@ class ConnectionAcceptor
 
         final String name = m_name + m_id;
         m_id++;
+
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = "Creating ConnectionRunner " + name + ".";
+            getLogger().debug( message );
+        }
         final ConnectionRunner runner = new ConnectionRunner( name, socket, handler, this );
         m_runners.add( runner );
         setupLogger( runner );
@@ -259,14 +315,40 @@ class ConnectionAcceptor
 
     /**
      * Utility method that tells the acceptor to stop running.
+     *
+     * @param waitTime the time to wait for graceful shutdown
+     * @param forceShutdown true if when we timeout we should forcefully
+     *                      shutdown connection
      */
-    private synchronized void stopRunning()
+    private synchronized void stopRunning( final int waitTime,
+                                           final boolean forceShutdown )
     {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = "Stopping Acceptor " + m_name + ".";
+            getLogger().debug( message );
+        }
         if( isRunning() )
         {
             final Thread thread = m_thread;
             m_thread = null;
             thread.interrupt();
+
+            if( !m_serverSocket.isClosed() )
+            {
+                try
+                {
+                    wait( waitTime );
+                }
+                catch( InterruptedException e )
+                {
+                }
+            }
+
+            if( forceShutdown && !m_serverSocket.isClosed() )
+            {
+                shutdownServerSocket();
+            }
         }
     }
 
