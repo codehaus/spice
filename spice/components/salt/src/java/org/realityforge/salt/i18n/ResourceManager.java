@@ -17,7 +17,7 @@ import java.util.HashMap;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:colus at apache.org">Eung-ju Park</a>
- * @version $Revision: 1.9 $ $Date: 2003-06-13 01:36:53 $
+ * @version $Revision: 1.10 $ $Date: 2003-06-13 01:37:47 $
  */
 public class ResourceManager
 {
@@ -114,7 +114,7 @@ public class ResourceManager
         }
         if( !name.equals("") )
         {
-            name += POSTFIX;
+            name += "." + POSTFIX;
         }
         return getBaseResources( name, clazz.getClassLoader() );
     }
