@@ -52,6 +52,9 @@
         <dependency>
             <id>commons-pool</id>
             <version>20030623.172700</version>
+            <properties>
+                <category>runtime</category>
+            </properties>
         </dependency>
         <dependency> <!-- for unit testing the schema validation -->
         	<groupId>spice</groupId>
@@ -77,6 +80,9 @@
         <dependency><!-- for commons-pool -->
             <id>commons-collections</id>
             <version>2.0</version>
+            <properties>
+                <category>runtime</category>
+            </properties>
         </dependency>
     </dependencies>
 
