@@ -17,7 +17,7 @@ package org.realityforge.salt.lang;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-07-16 13:42:38 $
+ * @version $Revision: 1.5 $ $Date: 2003-07-17 07:32:14 $
  */
 public final class JavaVersion
 {
@@ -103,7 +103,7 @@ public final class JavaVersion
      *
      * @return the current JVM version
      */
-    public static final JavaVersion determineCurrentJavaVersion()
+    private static final JavaVersion determineCurrentJavaVersion()
     {
         JavaVersion version = JavaVersion.JAVA1_0;
 

@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-07-16 13:43:14 $
+ * @version $Revision: 1.5 $ $Date: 2003-07-17 07:32:13 $
  */
 public class JavaVersionTestCase
     extends TestCase
@@ -24,8 +24,8 @@ public class JavaVersionTestCase
 
     public void testCurrentVersion()
     {
-        assertNotNull( "JavaVersion.determineCurrentJavaVersion()",
-                       JavaVersion.determineCurrentJavaVersion() );
+        assertNotNull( "JavaVersion.CURRENT",
+                       JavaVersion.CURRENT );
     }
 
     public void testIsLessThanOrEqual()
