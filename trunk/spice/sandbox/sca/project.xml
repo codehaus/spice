@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
+    <name>SCA</name>
+    <id>spice-sca</id>
+    <currentVersion>0.7</currentVersion>
+    <inceptionYear>1999</inceptionYear>
+
+    <shortDescription>Scalable Communications Architecture.</shortDescription>
+
+    <description>
+        Components to create a Scalable Communications Architecture.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>mockobjects</groupId>
+            <artifactId>mockobjects-core</artifactId>
+            <version>0.09</version>
+        </dependency>
+    </dependencies>
+
+    <developers>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <email>peter at realityforge.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+</project>
