@@ -8,6 +8,9 @@ import java.nio.channels.ClosedChannelException;
 import java.util.Set;
 import java.util.Iterator;
 
+import org.jcomponent.netserve.sockets.SelectorEventHandler;
+import org.jcomponent.netserve.sockets.NullSelectorEventHandler;
+
 /**
  * The AbstractNIOReactor offers a base class
  * that makes it easy to write a reactor for NIO
@@ -21,6 +24,11 @@ public abstract class AbstractNIOReactor
     * The monitor that receives notifications of Connection events
     */
    private NIOAcceptorMonitor m_monitor = NullNIOAcceptorMonitor.MONITOR;
+
+   /**
+    * The handler for selector events.
+    */
+   private SelectorEventHandler m_handler = NullSelectorEventHandler.HANDLER;
 
    /**
     * Selector used to monitor for accepts.
@@ -46,6 +54,16 @@ public abstract class AbstractNIOReactor
    public void setMonitor( final NIOAcceptorMonitor monitor )
    {
       m_monitor = monitor;
+   }
+
+   /**
+    * Set the SelectorEventHandler to handle selection events.
+    *
+    * @param handler the SelectorEventHandler
+    */
+   public void setMonitor( final SelectorEventHandler handler )
+   {
+      m_handler = handler;
    }
 
    /**
@@ -176,7 +194,7 @@ public abstract class AbstractNIOReactor
             iterator.remove();
             // The key indexes into the selector so you
             // can retrieve the socket that's ready for I/O
-            handleChannel( key );
+            m_handler.handleSelectorEvent( key );
          }
       }
       m_monitor.exitingSelectorLoop();
