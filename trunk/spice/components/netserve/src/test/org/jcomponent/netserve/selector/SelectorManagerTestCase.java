@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
+import java.util.Random;
 
 import com.mockobjects.dynamic.C;
 import com.mockobjects.dynamic.Mock;
@@ -140,24 +141,32 @@ public class SelectorManagerTestCase
       final ServerSocketChannel channel = ServerSocketChannel.open();
       channel.socket().setReuseAddress( true );
       final InetAddress localAddress = InetAddress.getLocalHost();
-      final int port = 2121;
+      final Random random = new Random();
+      final int port = Math.abs( random.nextInt() % 5000 ) + 1024;
       final InetSocketAddress address = new InetSocketAddress( localAddress, port );
       channel.socket().bind( address );
+      System.out.println( "address = " + address );
+      //Wait for binding to go through
+      Thread.sleep( 200 );
 
       final Mock mockMonitor = new Mock( SelectorMonitor.class );
 
       mockMonitor.expect( "selectorStartup", C.NO_ARGS );
       mockMonitor.expect( "enteringSelectorLoop", C.NO_ARGS );
       mockMonitor.expect( "enteringSelect", C.NO_ARGS );
+      mockMonitor.expect( "selectCompleted", C.args( C.eq( 0 ) ) );
+      mockMonitor.expect( "enteringSelect", C.NO_ARGS );
       mockMonitor.expect( "selectCompleted", C.args( C.eq( 1 ) ) );
-      mockMonitor.expect( "handleSelectorEvent", C.anyArgs( 1 ) );
-      mockMonitor.expect( "exitingSelectorLoop", C.NO_ARGS );
+      mockMonitor.expect( "enteringSelect", C.NO_ARGS );
       mockMonitor.expect( "selectorShutdown", C.NO_ARGS );
+      mockMonitor.expect( "selectCompleted", C.args( C.eq( 0 ) ) );
+      mockMonitor.expect( "exitingSelectorLoop", C.NO_ARGS );
       final SelectorMonitor monitor = (SelectorMonitor) mockMonitor.proxy();
 
       final SelectorManager manager = new SelectorManager();
-      manager.setTimeout( 4000 );
+      manager.setTimeout( 5000 );
       manager.setMonitor( monitor );
+
       manager.setHandler( new HelloSelectorEventHandler() );
       assertEquals( "isRunning pre start", false, manager.isRunning() );
       assertNullSelector( manager );
@@ -168,10 +177,19 @@ public class SelectorManagerTestCase
       manager.registerChannel( channel, SelectionKey.OP_ACCEPT );
 
       final Socket clientSocket = new Socket( localAddress, port );
+      System.out.print( "Socket Connecting" );
+      while( !clientSocket.isConnected() )
+      {
+         System.out.print(".");
+         Thread.yield();
+      }
+      System.out.println( " - Connected" );
+
       final InputStream inputStream = clientSocket.getInputStream();
       final StringBuffer sb = new StringBuffer();
       while ( sb.length() < HelloSelectorEventHandler.MESSAGE.length )
       {
+         System.out.print( "-" );
          final int ch = inputStream.read();
          if ( -1 != ch )
          {
@@ -179,8 +197,9 @@ public class SelectorManagerTestCase
          }
       }
       clientSocket.close();
+      System.out.println( "Message " + sb );
       assertEquals( "message",
-                    HelloSelectorEventHandler.MESSAGE,
+                    new String( HelloSelectorEventHandler.MESSAGE ),
                     sb.toString() );
 
       manager.shutdown();
