@@ -22,7 +22,7 @@ import org.jcomponent.swingactions.metadata.ActionMetaData;
  *
  * It also provides utility access methods for fields defined in Action.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class ActionAdapter extends AbstractAction
 {

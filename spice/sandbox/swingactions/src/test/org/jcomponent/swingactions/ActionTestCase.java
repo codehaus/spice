@@ -22,7 +22,7 @@ import org.jcomponent.swingactions.metadata.ActionMetaData;
 /**
  * ActionTestCase
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class ActionTestCase
     extends AbstractTestCase

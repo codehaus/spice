@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 /**
  * Test case for LoggerStoreFactory
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  * @author Peter Donald
  */
 public class LoggerStoreFactoryTestCase

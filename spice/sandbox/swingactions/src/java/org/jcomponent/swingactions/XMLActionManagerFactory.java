@@ -14,7 +14,7 @@ import java.util.Map;
  * XMLActionManagerFactory is an implementation of ActionManagerFactory
  * using an XML configuration resource.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class XMLActionManagerFactory
     extends AbstractActionManagerFactory

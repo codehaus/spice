@@ -14,8 +14,8 @@ import org.codehaus.spice.loggerstore.factories.LogKitLoggerStoreFactory;
  * MockLogKitLoggerStoreFactory extends LogKitLoggerStoreFactory to allow
  * testing of protected methods, not otherwise testable
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:02 $
+ * @author Mauro Talevi
+ * @version $Revision: 1.3 $ $Date: 2004-02-28 21:13:22 $
  */
 public class MockLogKitLoggerStoreFactory
     extends LogKitLoggerStoreFactory

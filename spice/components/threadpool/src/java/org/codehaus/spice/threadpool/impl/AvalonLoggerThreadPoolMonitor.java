@@ -13,7 +13,7 @@ import org.codehaus.spice.threadpool.ThreadPoolMonitor;
 /**
  * Implementation of ThreadPoolMonitor which logs event with Avalon logger.
  * 
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  * @author <a href="mailto:paul_hammant at yahoo.com">Paul Hammant</a>
  */
 class AvalonLoggerThreadPoolMonitor

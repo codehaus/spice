@@ -18,7 +18,7 @@ import java.util.Properties;
  * InitialActionManagerFactory is used as an intial context factory to
  * to create an ActionManager when the factory type is configurable.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  */
 public class InitialActionManagerFactory implements ActionManagerFactory

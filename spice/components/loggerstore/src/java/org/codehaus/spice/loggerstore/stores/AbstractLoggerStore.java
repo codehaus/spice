@@ -17,7 +17,7 @@ import org.jcontainer.dna.Logger;
  * AbstractLoggerStore is an abstract implementation of LoggerStore for the
  * functionality common to all Loggers.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public abstract class AbstractLoggerStore
     implements LoggerStore, LogEnabled

@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Defines the metadata of a separator element in the action group
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class SeparatorActionMetaData extends ActionMetaData
 {

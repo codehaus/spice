@@ -11,7 +11,7 @@
  * Monitor interface for ThreadPool.  
  * Provides a facade to support different types of events, including logging.
  * 
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  * @author <a href="mailto:paul_hammant at yahoo.com">Paul Hammant</a>
  */
 public interface ThreadPoolMonitor

@@ -13,8 +13,8 @@ import org.codehaus.spice.threadpool.ThreadPool;
  *  A TestCase for the PicoCommonsThreadPool.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 00:23:45 $
+ * @author Mauro Talevi
+ * @version $Revision: 1.2 $ $Date: 2004-02-28 21:13:22 $
  */
 public class PicoThreadPoolTestCase
     extends AbstractThreadPoolTestCase

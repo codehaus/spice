@@ -15,7 +15,7 @@ import javax.swing.Action;
 /**
  * Defines the metadata of a single action
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class ActionMetaData
 {

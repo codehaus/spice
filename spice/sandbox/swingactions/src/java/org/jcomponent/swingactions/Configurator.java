@@ -15,7 +15,7 @@ import java.util.HashMap;
  * ActionManager objects of different types using configuration resources.
  * Presently only XML is supported.  
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class Configurator
 {

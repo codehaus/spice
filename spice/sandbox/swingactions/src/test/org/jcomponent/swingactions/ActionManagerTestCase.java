@@ -11,7 +11,7 @@ package org.jcomponent.swingactions;
 /**
  *  Test case for ActionManager
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class ActionManagerTestCase
     extends AbstractTestCase

@@ -13,7 +13,7 @@ import java.util.Map;
  * SimpleActionManagerFactory is an implementation of ActionManagerFactory
  * without using any configuration resource.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class SimpleActionManagerFactory
     extends AbstractActionManagerFactory

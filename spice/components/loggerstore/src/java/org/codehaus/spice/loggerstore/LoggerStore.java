@@ -17,7 +17,7 @@ import org.jcontainer.dna.Logger;
  * the close() method indicating that the logger hierarchy should also be
  * shutdown. </p>
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  * @author Peter Donald
  */
 public interface LoggerStore

@@ -17,7 +17,7 @@ import javax.swing.event.EventListenerList;
  * a given <code>Action</code> and is responsible for notifying them when the
  * action is fired.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 class ActionDelegate
 {

@@ -20,7 +20,7 @@ import org.codehaus.spice.alchemist.LoggerAlchemist;
  * <p>LogKitLoggerStore extends AbstractLoggerStore to provide the
  * implementation specific to the LogKit logger. </p>
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class LogKitLoggerStore
     extends AbstractLoggerStore

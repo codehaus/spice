@@ -16,7 +16,7 @@ import java.util.Map;
  * create method.  ActionManagerFactory defines the keys used to retrieve
  * the elements of the map.</p>
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public interface ActionManagerFactory
 {

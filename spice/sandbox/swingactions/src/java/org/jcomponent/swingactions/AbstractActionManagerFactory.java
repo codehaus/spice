@@ -17,7 +17,7 @@ import java.util.Map;
  * AbstractActionManagerFactory provides common functionality to
  * the factory implementations.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public abstract class AbstractActionManagerFactory
     implements ActionManagerFactory

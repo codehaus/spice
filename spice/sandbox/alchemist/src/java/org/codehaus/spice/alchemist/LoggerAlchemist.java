@@ -14,8 +14,8 @@ import org.jcontainer.dna.Logger;
 /**
  * Utility class containing methods to transform Logger objects.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 11:01:20 $
+ * @author Mauro Talevi
+ * @version $Revision: 1.2 $ $Date: 2004-02-28 21:13:23 $
  */
 public class LoggerAlchemist
 {

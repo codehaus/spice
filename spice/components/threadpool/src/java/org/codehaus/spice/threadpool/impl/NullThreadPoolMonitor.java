@@ -12,7 +12,7 @@ import org.codehaus.spice.threadpool.ThreadPoolMonitor;
 /**
  * No-op implementation of ThreadPoolMonitor.
  * 
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  * @author <a href="mailto:paul_hammant at yahoo.com">Paul Hammant</a>
  */
 class NullThreadPoolMonitor
