@@ -21,7 +21,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * to a SAX2 compliant ContentHandler.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-10-29 10:19:15 $
+ * @version $Revision: 1.9 $ $Date: 2003-10-29 10:34:13 $
  */
 public class SAXMetaClassSerializer
 {
@@ -34,76 +34,6 @@ public class SAXMetaClassSerializer
      * Constant for empty namespace in attributes.
      */
     static final String EMPTY_NAMESPACE = "";
-
-    /**
-     * Constant for name of class element.
-     */
-    static final String CLASS_ELEMENT = "class";
-
-    /**
-     * Constant for name of fields element.
-     */
-    static final String FIELDS_ELEMENT = "fields";
-
-    /**
-     * Constant for name of field element.
-     */
-    static final String FIELD_ELEMENT = "field";
-
-    /**
-     * Constant for name of methods element.
-     */
-    static final String METHODS_ELEMENT = "methods";
-
-    /**
-     * Constant for name of method element.
-     */
-    static final String METHOD_ELEMENT = "method";
-
-    /**
-     * Constant for name of method parameters group element.
-     */
-    static final String PARAMETERS_ELEMENT = "parameters";
-
-    /**
-     * Constant for name of method parameters element.
-     */
-    static final String PARAMETER_ELEMENT = "parameter";
-
-    /**
-     * Constant for name of attributes element.
-     */
-    static final String ATTRIBUTES_ELEMENT = "attributes";
-
-    /**
-     * Constant for name of attribute element.
-     */
-    static final String ATTRIBUTE_ELEMENT = "attribute";
-
-    /**
-     * Constant for name of attribute parameter element.
-     */
-    static final String PARAM_ELEMENT = "param";
-
-    /**
-     * Constant for name of name attribute.
-     */
-    static final String NAME_ATTRIBUTE = "name";
-
-    /**
-     * Constant for name of type attribute.
-     */
-    static final String TYPE_ATTRIBUTE = "type";
-
-    /**
-     * Constant for name of value attribute.
-     */
-    static final String VALUE_ATTRIBUTE = "value";
-
-    /**
-     * Constant for name of version attribute.
-     */
-    static final String VERSION_ATTRIBUTE = "version";
 
     /**
      * Serialize the ClassDescriptor to as a Document to the
@@ -134,13 +64,13 @@ public class SAXMetaClassSerializer
         throws SAXException
     {
         final AttributesImpl atts = new AttributesImpl();
-        add( atts, TYPE_ATTRIBUTE, descriptor.getName() );
-        add( atts, VERSION_ATTRIBUTE, MetaClassIOXml.VERSION );
-        start( handler, CLASS_ELEMENT, atts );
+        add( atts, MetaClassIOXml.TYPE_ATTRIBUTE, descriptor.getName() );
+        add( atts, MetaClassIOXml.VERSION_ATTRIBUTE, MetaClassIOXml.VERSION );
+        start( handler, MetaClassIOXml.CLASS_ELEMENT, atts );
         serializeFields( handler, descriptor.getFields() );
         serializeMethods( handler, descriptor.getMethods() );
         serializeAttributes( handler, descriptor.getAttributes() );
-        end( handler, CLASS_ELEMENT );
+        end( handler, MetaClassIOXml.CLASS_ELEMENT );
     }
 
     /**
@@ -158,12 +88,12 @@ public class SAXMetaClassSerializer
         {
             return;
         }
-        start( handler, FIELDS_ELEMENT );
+        start( handler, MetaClassIOXml.FIELDS_ELEMENT );
         for( int i = 0; i < descriptors.length; i++ )
         {
             serializeField( handler, descriptors[ i ] );
         }
-        end( handler, FIELDS_ELEMENT );
+        end( handler, MetaClassIOXml.FIELDS_ELEMENT );
     }
 
     /**
@@ -178,11 +108,11 @@ public class SAXMetaClassSerializer
         throws SAXException
     {
         final AttributesImpl atts = new AttributesImpl();
-        add( atts, NAME_ATTRIBUTE, descriptor.getName() );
-        add( atts, TYPE_ATTRIBUTE, descriptor.getType() );
-        start( handler, FIELD_ELEMENT, atts );
+        add( atts, MetaClassIOXml.NAME_ATTRIBUTE, descriptor.getName() );
+        add( atts, MetaClassIOXml.TYPE_ATTRIBUTE, descriptor.getType() );
+        start( handler, MetaClassIOXml.FIELD_ELEMENT, atts );
         serializeAttributes( handler, descriptor.getAttributes() );
-        end( handler, FIELD_ELEMENT );
+        end( handler, MetaClassIOXml.FIELD_ELEMENT );
     }
 
     /**
@@ -200,12 +130,12 @@ public class SAXMetaClassSerializer
         {
             return;
         }
-        start( handler, METHODS_ELEMENT );
+        start( handler, MetaClassIOXml.METHODS_ELEMENT );
         for( int i = 0; i < descriptors.length; i++ )
         {
             serializeMethod( handler, descriptors[ i ] );
         }
-        end( handler, METHODS_ELEMENT );
+        end( handler, MetaClassIOXml.METHODS_ELEMENT );
     }
 
     /**
@@ -220,12 +150,12 @@ public class SAXMetaClassSerializer
         throws SAXException
     {
         final AttributesImpl atts = new AttributesImpl();
-        add( atts, NAME_ATTRIBUTE, descriptor.getName() );
-        add( atts, TYPE_ATTRIBUTE, descriptor.getReturnType() );
-        start( handler, METHOD_ELEMENT, atts );
+        add( atts, MetaClassIOXml.NAME_ATTRIBUTE, descriptor.getName() );
+        add( atts, MetaClassIOXml.TYPE_ATTRIBUTE, descriptor.getReturnType() );
+        start( handler, MetaClassIOXml.METHOD_ELEMENT, atts );
         serializeParameters( handler, descriptor.getParameters() );
         serializeAttributes( handler, descriptor.getAttributes() );
-        end( handler, METHOD_ELEMENT );
+        end( handler, MetaClassIOXml.METHOD_ELEMENT );
     }
 
     /**
@@ -243,12 +173,12 @@ public class SAXMetaClassSerializer
         {
             return;
         }
-        start( handler, PARAMETERS_ELEMENT );
+        start( handler, MetaClassIOXml.PARAMETERS_ELEMENT );
         for( int i = 0; i < parameters.length; i++ )
         {
             serializeParameter( handler, parameters[ i ] );
         }
-        end( handler, PARAMETERS_ELEMENT );
+        end( handler, MetaClassIOXml.PARAMETERS_ELEMENT );
     }
 
     /**
@@ -263,10 +193,10 @@ public class SAXMetaClassSerializer
         throws SAXException
     {
         final AttributesImpl atts = new AttributesImpl();
-        add( atts, NAME_ATTRIBUTE, parameter.getName() );
-        add( atts, TYPE_ATTRIBUTE, parameter.getType() );
-        start( handler, PARAMETER_ELEMENT, atts );
-        end( handler, PARAMETER_ELEMENT );
+        add( atts, MetaClassIOXml.NAME_ATTRIBUTE, parameter.getName() );
+        add( atts, MetaClassIOXml.TYPE_ATTRIBUTE, parameter.getType() );
+        start( handler, MetaClassIOXml.PARAMETER_ELEMENT, atts );
+        end( handler, MetaClassIOXml.PARAMETER_ELEMENT );
     }
 
     /**
@@ -284,12 +214,12 @@ public class SAXMetaClassSerializer
         {
             return;
         }
-        start( handler, ATTRIBUTES_ELEMENT );
+        start( handler, MetaClassIOXml.ATTRIBUTES_ELEMENT );
         for( int i = 0; i < attributes.length; i++ )
         {
             serializeAttribute( handler, attributes[ i ] );
         }
-        end( handler, ATTRIBUTES_ELEMENT );
+        end( handler, MetaClassIOXml.ATTRIBUTES_ELEMENT );
     }
 
     /**
@@ -304,14 +234,14 @@ public class SAXMetaClassSerializer
         throws SAXException
     {
         final AttributesImpl atts = new AttributesImpl();
-        add( atts, NAME_ATTRIBUTE, attribute.getName() );
+        add( atts, MetaClassIOXml.NAME_ATTRIBUTE, attribute.getName() );
 
-        start( handler, ATTRIBUTE_ELEMENT, atts );
+        start( handler, MetaClassIOXml.ATTRIBUTE_ELEMENT, atts );
 
         text( handler, attribute.getValue() );
         serializeAttributeParams( handler, attribute );
 
-        end( handler, ATTRIBUTE_ELEMENT );
+        end( handler, MetaClassIOXml.ATTRIBUTE_ELEMENT );
     }
 
     /**
@@ -348,10 +278,10 @@ public class SAXMetaClassSerializer
         throws SAXException
     {
         final AttributesImpl atts = new AttributesImpl();
-        add( atts, NAME_ATTRIBUTE, name );
-        add( atts, VALUE_ATTRIBUTE, value );
-        start( handler, PARAM_ELEMENT, atts );
-        end( handler, PARAM_ELEMENT );
+        add( atts, MetaClassIOXml.NAME_ATTRIBUTE, name );
+        add( atts, MetaClassIOXml.VALUE_ATTRIBUTE, value );
+        start( handler, MetaClassIOXml.PARAM_ELEMENT, atts );
+        end( handler, MetaClassIOXml.PARAM_ELEMENT );
     }
 
     /**
