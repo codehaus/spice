@@ -13,12 +13,14 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * An Event related to a particular transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-08 03:41:13 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-21 03:25:38 $
  */
 public abstract class AbstractTransportEvent
     extends AbstractEvent
 {
-    /** The transport. */
+    /**
+     * The transport.
+     */
     private final ChannelTransport m_transport;
 
     /**
@@ -52,6 +54,6 @@ public abstract class AbstractTransportEvent
      */
     protected String getEventDescription()
     {
-        return String.valueOf( getTransport().getChannel() );
+        return String.valueOf( getTransport() );
     }
 }
