@@ -26,7 +26,10 @@ import org.realityforge.xsyslog.metadata.DestinationMetaData;
 import org.realityforge.xsyslog.runtime.LogTargetFactory;
 import org.realityforge.configkit.ConfigValidator;
 import org.realityforge.configkit.ConfigValidatorFactory;
+import org.realityforge.configkit.ValidationResult;
+import org.realityforge.configkit.ValidationIssue;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXParseException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
@@ -39,7 +42,7 @@ import java.io.InputStream;
  * for an SyslogMetaData.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:56:03 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-16 10:59:30 $
  * @phoenix.component
  */
 public class SyslogManager
@@ -235,9 +238,29 @@ public class SyslogManager
         final ConfigValidator validator = getValidator( factory );
         if( null != validator )
         {
-            final TargetErrorHandler errorHandler = new TargetErrorHandler( name, type );
-            setupLogger( errorHandler );
-            validator.validate( element );
+            final ValidationResult result = validator.validate( element );
+            final ValidationIssue[] issues = result.getIssues();
+            for( int i = 0; i < issues.length; i++ )
+            {
+                final ValidationIssue issue = issues[ i ];
+                final SAXParseException exception = issue.getException();
+                if( issue.isWarning() )
+                {
+                    getLogger().warn( exception.getMessage(), exception );
+                }
+                else if( issue.isError() )
+                {
+                    getLogger().error( exception.getMessage(), exception );
+                }
+                else if( issue.isFatalError() )
+                {
+                    getLogger().fatalError( exception.getMessage(), exception );
+                }
+            }
+            if( !result.isValid() )
+            {
+                throw result.getException();
+            }
         }
         else
         {
