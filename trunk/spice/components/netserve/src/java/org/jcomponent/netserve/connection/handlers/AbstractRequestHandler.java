@@ -17,7 +17,7 @@ import org.jcomponent.netserve.connection.RequestHandler;
  * Abstract base class for request handlers.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-28 06:28:54 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-29 03:11:56 $
  */
 public abstract class AbstractRequestHandler
     implements RequestHandler
@@ -26,6 +26,11 @@ public abstract class AbstractRequestHandler
      * The set of active requests.
      */
     private final Set m_activeRequests = new HashSet();
+
+    /**
+     * True if shutdown() has been called.
+     */
+    private boolean m_shutdown;
 
     /**
      * Handle a connection.
@@ -42,6 +47,7 @@ public abstract class AbstractRequestHandler
      */
     public void shutdown( final long timeout )
     {
+        markAsShutdown();
         final Thread[] threads;
         synchronized( this )
         {
@@ -74,6 +80,24 @@ public abstract class AbstractRequestHandler
                 }
             }
         }
+    }
+
+    /**
+     * Mark request handler as shutdown.
+     */
+    protected void markAsShutdown()
+    {
+        m_shutdown = true;
+    }
+
+    /**
+     * Return true if handler has been shutdown.
+     *
+     * @return true if handler has been shutdown.
+     */
+    protected boolean isShutdown()
+    {
+        return m_shutdown;
     }
 
     /**
