@@ -15,18 +15,18 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * InitialActionManagerFactory is used as a bootstrap factory to 
+ * ConfigurableActionManagerFactory is used as a bootstrap factory to 
  * to create an ActionManager when the factory type is configurable.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
-public class InitialActionManagerFactory
+public class ConfigurableActionManagerFactory
 {
     /**
-     * The INITIAL_FACTORY key.  Used to define the classname of the
-     * initial ActionManagerFactory. 
+     * The CONFIGURABLE_FACTORY key.  Used to define the classname of the
+     * configurable ActionManagerFactory. 
      */
-    public static final String INITIAL_FACTORY = "org.jcomponent.swingactions.factory";
+    public static final String CONFIGURABLE_FACTORY = "org.jcomponent.swingactions.factory";
 
     /**
      * The name of properties file loaded from ClassLoader. This property
@@ -49,14 +49,14 @@ public class InitialActionManagerFactory
     {
         final ClassLoader classLoader = getClassLoader( config );
 
-        String type = (String)config.get( INITIAL_FACTORY );
+        String type = (String)config.get( CONFIGURABLE_FACTORY );
         Map data = config;
         if( null == type )
         {
             data = loadDefaultConfig( data, classLoader );
-            type = (String)data.get( INITIAL_FACTORY );
+            type = (String)data.get( CONFIGURABLE_FACTORY );
         }
-        final InitialActionManagerFactory factory =
+        final ActionManagerFactory factory =
             createActionManagerFactory( type, classLoader );
         return factory.createActionManager( data );
     }
@@ -77,7 +77,7 @@ public class InitialActionManagerFactory
             loader = Thread.currentThread().getContextClassLoader();
             if( null == loader )
             {
-                loader = InitialActionManagerFactory.class.getClassLoader();
+                loader = ConfigurableActionManagerFactory.class.getClassLoader();
             }
         }
         return loader;
@@ -113,24 +113,24 @@ public class InitialActionManagerFactory
     }
 
     /**
-     * Create a {@link ActionManagerFactory} for specified loggerType.
+     * Create a {@link ActionManagerFactory} for specified factory.
      *
-     * @param type the type of the Logger to use.
+     * @param type the class name of the factory to use.
      * @return the created {@link ActionManagerFactory}
      */
-    private InitialActionManagerFactory createActionManagerFactory( final String type,
+    private ActionManagerFactory createActionManagerFactory( final String type,
                                                          final ClassLoader classLoader )
     {
         if( null == type )
         {
-            final String message = "No ActionManagerFactory type specified.";
+            final String message = "No ActionManagerFactory class specified.";
             throw new IllegalStateException( message );
         }
 
         try
         {
             final Class clazz = classLoader.loadClass( type );
-            return (InitialActionManagerFactory)clazz.newInstance();
+            return (ActionManagerFactory)clazz.newInstance();
         }
         catch( final Exception e )
         {
