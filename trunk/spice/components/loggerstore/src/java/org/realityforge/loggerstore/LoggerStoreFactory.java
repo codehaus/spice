@@ -21,32 +21,29 @@ import java.util.Map;
  * the elements of the map.</p>
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.4 $ $Date: 2003-05-24 22:29:40 $
  */
 public interface LoggerStoreFactory
 {
     /**
-     *  The CONFIGURATION key.  Used to denote the configuration object
-     *  required by the LoggerStore.  Each LoggerStore accepts different
-     *  configuration objects.
+     * The URL key.  Used to define the URL where the configuration
+     * for LoggerStore can be found.
+     */
+    String URL_LOCATION = LoggerStoreFactory.class.getName() + ".url";
+
+    /**
+     * The URL key.  Used to define the URL where the configuration
+     * for LoggerStore can be found.
+     */
+    String FILE_LOCATION = LoggerStoreFactory.class.getName() + ".file";
+
+    /**
+     * The CONFIGURATION key.  Used to denote the configuration object
+     * required by the LoggerStore.  Each LoggerStore accepts different
+     * configuration objects.
      */
     String CONFIGURATION = "configuration";
-
-    /**
-     *  The CONFIGURATION_TYPE key.  Used to denote the type of configuration,
-     *  which can take value PROPERTIES or XML.
-     */
-    String CONFIGURATION_TYPE = "configurationType";
-
-    /**
-     *  The PROPERTIES bound value.
-     */
-    String PROPERTIES = "properties";
-
-    /**
-     *  The XML bound value.
-     */
-    String XML = "xml";
 
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
@@ -58,4 +55,3 @@ public interface LoggerStoreFactory
     LoggerStore createLoggerStore( Map config )
         throws Exception;
 }
-
