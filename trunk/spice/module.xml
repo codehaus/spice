@@ -89,6 +89,24 @@
         <jar name="tools/lib/qdox-1.0.jar"/>
     </project>
 
+    <project name="spice-threadpool">
+        <package>org.realityforge.threadpool</package>
+
+        <ant basedir="components/threadpool">
+            <property name="final.name" value="threadpool-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <work nested="components/threadpool/target/classes"/>
+
+        <home nested="components/threadpool"/>
+        <jar name="target/threadpool-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+    </project>
+
     <project name="spice-xinvoke">
         <package>org.realityforge.xinvoke</package>
 
