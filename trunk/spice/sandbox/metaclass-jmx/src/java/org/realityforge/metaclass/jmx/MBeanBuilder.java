@@ -91,8 +91,15 @@ public class MBeanBuilder
         return description;
     }
 
-    private void extractConstructors( final Constructor[] constructors,
-                                      final ModelInfoCreationHelper helper )
+    /**
+     * Extract a set of Ctor info objects from specified ctors and
+     * add to helper.
+     *
+     * @param constructors the constructors
+     * @param helper the helper
+     */
+    void extractConstructors( final Constructor[] constructors,
+                              final ModelInfoCreationHelper helper )
     {
         for( int i = 0; i < constructors.length; i++ )
         {
@@ -105,7 +112,13 @@ public class MBeanBuilder
         }
     }
 
-    private ModelMBeanConstructorInfo extractConstructor( final Constructor constructor )
+    /**
+     * Extract info for constructor.
+     *
+     * @param constructor the constructor
+     * @return the info or null if unmanaged
+     */
+    ModelMBeanConstructorInfo extractConstructor( final Constructor constructor )
     {
         final Attribute attribute =
             Attributes.getAttribute( constructor, MX_CONSTRUCTOR_CONSTANT );
