@@ -20,7 +20,7 @@ import org.realityforge.metaclass.model.PackageDescriptor;
  * {@link java.beans.Introspector} class does for Java Beans.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-08-22 04:30:13 $
+ * @version $Revision: 1.7 $ $Date: 2003-08-23 04:37:02 $
  */
 public final class MetaClassIntrospector
 {
@@ -69,7 +69,7 @@ public final class MetaClassIntrospector
      * @throws SecurityException if the caller does not have
      *                           permission to clear cache
      */
-    public static void clearCompleteCache()
+    public synchronized static void clearCompleteCache()
     {
         final SecurityManager sm = System.getSecurityManager();
         if( null != sm )
@@ -196,7 +196,7 @@ public final class MetaClassIntrospector
      * @param classLoader the ClassLoader to get cache for
      * @return the Map/Cache for ClassLoader
      */
-    private static Map getClassLoaderCache( final ClassLoader classLoader )
+    private synchronized static Map getClassLoaderCache( final ClassLoader classLoader )
     {
         Map map = (Map)c_cache.get( classLoader );
         if( null == map )
