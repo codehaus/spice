@@ -41,7 +41,7 @@
             toFile="${maven.build.dir}/${artifact}"/>
     </goal>
 
-    <goal name="deploy" prereqs="jar:deploy,setupPlugin">
+    <goal name="deploy" prereqs="jar:deploy,setupPlugin,site:deploy">
         <deploy:artifact
             artifact="${maven.build.dir}/${artifact}"
             type="plugins"

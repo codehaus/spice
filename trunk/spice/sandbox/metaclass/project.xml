@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>MetaClass</name>
     <id>spice-metaclass</id>
-    <currentVersion>1.0-rc3-dev</currentVersion>
+    <currentVersion>1.0-rc2</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
     <shortDescription>Provides runtime access to attributes</shortDescription>
