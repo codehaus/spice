@@ -46,8 +46,19 @@
 
     <dependencies>
         <dependency>
-            <id>avalon-framework</id>
-            <version>4.0</version>
+            <groupId>avalon</groupId>
+            <artifactId>avalon-framework</artifactId>
+            <version>4.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>dna</groupId>
+            <artifactId>dna-api</artifactId>
+            <version>1.0dev</version>
+        </dependency>
+        <dependency>
+            <groupId>dna</groupId>
+            <artifactId>dna-impl</artifactId>
+            <version>1.0dev</version>
         </dependency>
         <dependency>
             <id>commons-pool</id>
