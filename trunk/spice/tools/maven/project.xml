@@ -53,12 +53,12 @@
 
     <build>
         <nagEmailAddress>spice-devel@lists.sourceforge.net</nagEmailAddress>
-        <sourceDirectory>src/java</sourceDirectory>
-        <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+        <sourceDirectory>${basedir}/src/java</sourceDirectory>
+        <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
 
         <unitTest>
             <resource>
-                <directory>src/test</directory>
+                <directory>${basedir}/src/test</directory>
                 <includes>
                     <include>**/*</include>
                 </includes>
@@ -103,15 +103,5 @@
         <report>maven-clover-plugin</report>
         <!--<report>maven-license-plugin</report>-->
     </reports>
-
-<!-- No Work!
-    <properties>
-        <maven.checkstyle.properties>${basedir}/../../tools/checkstyle/checkstyle.properties</maven.checkstyle.properties>
-        <maven.checkstyle.license.exists>true</maven.checkstyle.license.exists>
-        <maven.repo.remote>http://www.ibiblio.com/maven,http://spice.sourceforge.net/maven,file:../lib</maven.repo.remote>
-        <maven.javadoc.links>http://avalon.apache.org/api/, http://java.sun.com/j2se/1.3/docs/api/</maven.javadoc.links>
-        <maven.javadoc.additionalparam>-tag avalon.service</maven.javadoc.additionalparam>
-    </properties>
--->
 
 </project>
