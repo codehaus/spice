@@ -22,17 +22,19 @@ import org.apache.tools.ant.types.Path;
 import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
+import org.realityforge.metaclass.io.MetaClassIOXml;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.tools.compiler.ClassDescriptorCompiler;
 import org.realityforge.metaclass.tools.compiler.CompilerMonitor;
 import org.realityforge.metaclass.tools.compiler.JavaClassFilter;
 import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
+import org.realityforge.metaclass.tools.qdox.NonNamespaceAttributeRemovingInterceptor;
 
 /**
  * A Task to generate Attributes descriptors from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-10-16 06:55:00 $
+ * @version $Revision: 1.14 $ $Date: 2003-10-29 08:30:43 $
  */
 public class GenerateClassDescriptorsTask
     extends Task
@@ -59,9 +61,20 @@ public class GenerateClassDescriptorsTask
     private int m_format = BINARY_TYPE;
 
     /**
+     * Variable that indicates whether non-namespaced tags
+     * are filtered out.
+     */
+    private boolean m_namespaceTagsOnly = true;
+
+    /**
      * The class to output ClassDescriptors in binary format.
      */
-    private static final MetaClassIO c_metaClassIO = new MetaClassIOBinary();
+    private static final MetaClassIO c_binaryIO = new MetaClassIOBinary();
+
+    /**
+     * The class to output ClassDescriptors in xml format.
+     */
+    private static final MetaClassIO c_xmlIO = new MetaClassIOXml();
 
     /**
      * Internal list of filter elements added by user.
@@ -147,12 +160,29 @@ public class GenerateClassDescriptorsTask
     }
 
     /**
+     * Set the flag whether non-namespaced tags are filtered out.
+     *
+     * @param namespaceTagsOnly true to filter out non-namespaced tags
+     */
+    public void setNamespaceTagsOnly( final boolean namespaceTagsOnly )
+    {
+        m_namespaceTagsOnly = namespaceTagsOnly;
+    }
+
+    /**
      * Generate classes and output.
      */
     public void execute()
     {
         setupFilters();
         setupInterceptors();
+
+        if( m_namespaceTagsOnly )
+        {
+            m_compiler.
+                addInterceptor( NonNamespaceAttributeRemovingInterceptor.INTERCEPTOR );
+        }
+
         m_compiler.setDestDir( m_destDir );
         m_compiler.setMonitor( this );
 
@@ -215,15 +245,12 @@ public class GenerateClassDescriptorsTask
         if( BINARY_TYPE == m_format )
         {
             m_compiler.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
-            m_compiler.setMetaClassIO( c_metaClassIO );
+            m_compiler.setMetaClassIO( c_binaryIO );
         }
         else
         {
             m_compiler.setExtension( DefaultMetaClassAccessor.XML_EXT );
-            //m_compiler.setMetaClassIO( c_metaClassIO );
-            final String message =
-                "XML Format not currently supported by MetaClass";
-            throw new BuildException( message );
+            m_compiler.setMetaClassIO( c_xmlIO );
         }
     }
 

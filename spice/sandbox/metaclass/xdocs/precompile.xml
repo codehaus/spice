@@ -90,7 +90,7 @@
     </classpath>
 </taskdef>
 
-<metaclassGen destDir="target/classes">
+<metaclassGen destDir="target/classes" namespaceTagsOnly="false">
     <fileset dir="src/java"/>
 </metaclassGen>
 ]]></source>
