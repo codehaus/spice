@@ -252,6 +252,10 @@ public abstract class AbstractNIOReactor
       return channel.register( m_selector, ops );
    }
 
-
-   protected abstract void handleChannel( SelectableChannel channel );
+   /**
+    * Implement method to handle events from selector.
+    *
+    * @param key the SelectionKey
+    */
+   protected abstract void handleChannel( SelectionKey key );
 }
