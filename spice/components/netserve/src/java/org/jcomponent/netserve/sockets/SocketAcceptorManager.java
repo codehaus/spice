@@ -16,7 +16,7 @@ import java.net.ServerSocket;
  * with the new socket connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-09 06:28:20 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-09 07:06:50 $
  */
 public interface SocketAcceptorManager
 {
@@ -37,7 +37,9 @@ public interface SocketAcceptorManager
         throws Exception;
 
     /**
-     * This shuts down acceptor and the associated ServerSocket.
+     * This shuts down the named acceptor.
+     * NOTE: It is the responsibility of the caller to make
+     * sure that the ServerSocket has been closed.
      *
      * @param name the name of connection
      * @throws Exception if error occurs shutting down a handler or connection.
