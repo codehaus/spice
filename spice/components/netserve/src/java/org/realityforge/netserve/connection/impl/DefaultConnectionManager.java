@@ -46,7 +46,7 @@ import org.realityforge.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-04-23 04:58:12 $
+ * @version $Revision: 1.10 $ $Date: 2003-04-23 10:28:57 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
@@ -125,7 +125,12 @@ public class DefaultConnectionManager
      */
     public void dispose()
     {
-        final String[] names = (String[])m_acceptors.keySet().toArray( new String[ 0 ] );
+        final String[] names;
+        synchronized( m_acceptors )
+        {
+            names = (String[])m_acceptors.keySet().toArray( new String[ 0 ] );
+        }
+
         for( int i = 0; i < names.length; i++ )
         {
             final String name = names[ i ];
@@ -136,7 +141,7 @@ public class DefaultConnectionManager
             catch( final Exception e )
             {
                 final String message =
-                    "Error disconnecting " + name + "due tyo: " + e;
+                    "Error disconnecting " + name + "due to: " + e;
                 getLogger().warn( message, e );
             }
         }
