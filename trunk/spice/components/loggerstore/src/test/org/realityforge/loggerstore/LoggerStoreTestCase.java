@@ -24,6 +24,8 @@ import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.NullLogger;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.EntityResolver;
@@ -255,6 +257,24 @@ public class LoggerStoreTestCase
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
             new LogKitLoggerStore( null, null, builder.build( getResource( "logkit.xml" ) ) );
+        runLoggerTest( "logkit", store, ConsoleLogger.LEVEL_DEBUG );
+    }
+
+    public void testLogKitConfigurationWithLogger()
+        throws Exception
+    {
+        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        final LoggerStore store =
+            new LogKitLoggerStore( new NullLogger(), null, builder.build( getResource( "logkit.xml" ) ) );
+        runLoggerTest( "logkit", store, ConsoleLogger.LEVEL_DEBUG );
+    }
+
+    public void testLogKitConfigurationWithContext()
+        throws Exception
+    {
+        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        final LoggerStore store =
+            new LogKitLoggerStore( null, new DefaultContext(), builder.build( getResource( "logkit.xml" ) ) );
         runLoggerTest( "logkit", store, ConsoleLogger.LEVEL_DEBUG );
     }
 
