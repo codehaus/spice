@@ -36,7 +36,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.22 $ $Date: 2004-02-11 01:32:16 $
+ * @version $Revision: 1.23 $ $Date: 2004-02-11 03:52:56 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -249,6 +249,7 @@ public class PacketIOEventHandler
         {
             sendPing( session );
         }
+        session.setConnecting( false );
         _target.addEvent( new SessionActiveEvent( session ) );
     }
 
@@ -337,6 +338,7 @@ public class PacketIOEventHandler
         transport.close();
         if( null != session )
         {
+            session.setConnecting( false );
             session.setTransport( null );
             final PeriodicTimeTrigger trigger =
                 new PeriodicTimeTrigger( TIMEOUT_IN_MILLIS, -1 );
@@ -385,7 +387,13 @@ public class PacketIOEventHandler
     {
         final ChannelTransport transport = e.getTransport();
         final Session session = (Session)transport.getUserData();
-        if( null != session && session.isClient() )
+        if( null == session )
+        {
+            return;
+        }
+        session.setConnecting( false );
+
+        if( session.isClient() )
         {
             final int status = session.getStatus();
             if( Session.STATUS_DISCONNECTED == status )
@@ -394,13 +402,11 @@ public class PacketIOEventHandler
                                            Protocol.ERROR_SESSION_DISCONNECTED );
                 return;
             }
+            //TODO: Why doesn't this occur on server connection?
             session.setTransport( transport );
-            if( session.isClient() )
-            {
-                sendGreeting( transport,
-                              session.getSessionID(),
-                              session.getAuthID() );
-            }
+            sendGreeting( transport,
+                          session.getSessionID(),
+                          session.getAuthID() );
         }
     }
 

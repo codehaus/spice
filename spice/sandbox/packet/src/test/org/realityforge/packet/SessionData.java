@@ -5,7 +5,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-02-11 00:02:29 $
+ * @version $Revision: 1.6 $ $Date: 2004-02-11 03:52:56 $
  */
 class SessionData
 {
@@ -14,22 +14,11 @@ class SessionData
     private int _sentMessages;
     private int _receivedMessages;
     private int _connectionCount;
-    private boolean _connecting;
     private boolean _disconencted;
 
     SessionData( final Session session )
     {
         _session = session;
-    }
-
-    public boolean isConnecting()
-    {
-        return _connecting;
-    }
-
-    public void setConnecting( final boolean connecting )
-    {
-        _connecting = connecting;
     }
 
     public int getConnectionCount()
@@ -39,7 +28,6 @@ class SessionData
 
     public void incConnectionCount()
     {
-        _connecting = false;
         _connectionCount++;
     }
 
