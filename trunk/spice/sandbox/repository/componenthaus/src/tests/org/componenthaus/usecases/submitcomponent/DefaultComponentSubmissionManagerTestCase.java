@@ -58,7 +58,8 @@ public class DefaultComponentSubmissionManagerTestCase extends TestCase {
         ComponentMetadata componentMetadata = new ComponentMetadata();
         componentMetadata.addInterface(new InterfaceMetadata("a","b","c","d",false));
         componentMetadata.addInterface(new InterfaceMetadata("e","f","g","h",true));
-        submissionManager.submit(componentMetadata);
+        Collection components = submissionManager.submit(componentMetadata);
+        assertEquals(2,components.size());
         mockCommandRegistry.verify();
     }
 }

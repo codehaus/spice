@@ -2,7 +2,6 @@ package org.componenthaus.usecases.submitcomponent;
 
 import org.componenthaus.ant.metadata.ComponentMetadata;
 import org.componenthaus.repository.api.Component;
-import org.componenthaus.repository.impl.ComponentFactory;
 import org.componenthaus.repository.services.CommandRegistry;
 import org.componenthaus.util.file.FileManager;
 import org.prevayler.Prevayler;
@@ -23,18 +22,18 @@ public class DefaultCarSubmissionManager implements CarSubmissionManager {
     private final Prevayler prevayler;
     private final FileManager fileManager;
     private final SubmissionMonitor submissionMonitor;
-    private final MetadataConverter metadataConverter;
+    private final ComponentSubmissionManager componentSubmissionManager;
 
     public DefaultCarSubmissionManager(CommandRegistry commandRegistry,
                                     FileManager fileManager,
                                     SubmissionMonitor submissionMonitor,
                                     Prevayler prevayler,
-                                    MetadataConverter metadataConverter) {
+                                    ComponentSubmissionManager componentSubmissionManager) {
         this.commandRegistry = commandRegistry;
         this.prevayler = prevayler;
         this.fileManager = fileManager;
         this.submissionMonitor = submissionMonitor;
-        this.metadataConverter = metadataConverter;
+        this.componentSubmissionManager = componentSubmissionManager;
     }
 
     public void submit(File filename) throws Exception {
@@ -50,7 +49,7 @@ public class DefaultCarSubmissionManager implements CarSubmissionManager {
         }
         System.out.println("About to handle metadata");
         Collection components = handleMetadata(jarFile, metadataFile);
-        System.out.println("Meta data done");
+        System.out.println("Meta data done, " + components.size() + " components added");
         File jarInRepository = handleDistribution(jarFile,distribution);
         for(Iterator i=components.iterator();i.hasNext();) {
             Component component = (Component) i.next();
@@ -89,7 +88,7 @@ public class DefaultCarSubmissionManager implements CarSubmissionManager {
 
         final String metadata = new String(bytes);
         final ComponentMetadata componentMetadata = ComponentMetadata.fromXml(metadata);
-        return metadataConverter.convert(componentMetadata);
+        return componentSubmissionManager.submit(componentMetadata);
     }
 
     private ZipEntry getDistributionEntry(JarFile jarFile) {

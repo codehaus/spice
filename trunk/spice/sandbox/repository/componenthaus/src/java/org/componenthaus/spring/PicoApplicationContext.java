@@ -15,6 +15,7 @@ import org.componenthaus.usecases.showcomponent.ShowComponentController;
 import org.componenthaus.usecases.submitcomponent.DefaultCarSubmissionManager;
 import org.componenthaus.usecases.submitcomponent.SubmitComponentController;
 import org.componenthaus.usecases.submitcomponent.MetadataConverterImpl;
+import org.componenthaus.usecases.submitcomponent.DefaultComponentSubmissionManager;
 import org.componenthaus.usecases.welcomeuser.WelcomeUserController;
 import org.componenthaus.util.file.FileManager;
 import org.componenthaus.util.file.FileManagerImpl;
@@ -99,6 +100,7 @@ public class PicoApplicationContext extends AbstractPicoApplicationContext {
         pico.registerComponentImplementation(MetadataConverterImpl.class);
         pico.registerComponentImplementation(ClassAbbreviatorImpl.class);
         pico.registerComponentImplementation(LineIndenterImpl.class);
+        pico.registerComponentImplementation(DefaultComponentSubmissionManager.class);
         pico.registerComponentImplementation(JavadocFormatter.class, JavadocFormatterImpl.class, new Parameter[]{new ConstantParameter(new Integer(80))});
 
         addSpringStuff();

@@ -3,7 +3,7 @@ package org.componenthaus.usecases.submitcomponent;
 import junit.framework.TestCase;
 import org.componenthaus.repository.api.Component;
 import org.componenthaus.repository.impl.ComponentImpl;
-import org.componenthaus.tests.MockMetadataConverterImpl;
+import org.componenthaus.tests.MockComponentSubmissionManager;
 import org.componenthaus.tests.MockPrevayler;
 import org.componenthaus.util.file.FileManagerImpl;
 
@@ -45,9 +45,9 @@ public class DefaultCarSubmissionManagerTestCase extends TestCase {
     public void testHandlesSubmissionCorrectly() throws Exception {
         mockCommandRegistry.setupExpectedSubmitComponentCalls(0); //mocked out - ComponentSubmissionManager does it
         mockCommandRegistry.setupExpectedRegisterDownloadableCalls(1);
-        final MockMetadataConverterImpl mockMetadataConverter = new MockMetadataConverterImpl();
-        mockMetadataConverter.setSetupResult(Collections.singleton(new ComponentImpl()));
-        final DefaultCarSubmissionManager manager = new DefaultCarSubmissionManager(mockCommandRegistry, new FileManagerImpl(),monitor,new MockPrevayler(), mockMetadataConverter);
+        final MockComponentSubmissionManager mockComponentSubmissionManager = new MockComponentSubmissionManager();
+        mockComponentSubmissionManager.setSetupResult(Collections.singleton(new ComponentImpl()));
+        final DefaultCarSubmissionManager manager = new DefaultCarSubmissionManager(mockCommandRegistry, new FileManagerImpl(),monitor,new MockPrevayler(), mockComponentSubmissionManager);
         manager.submit(TestFiles.validComponentSubmission());
         mockCommandRegistry.verify();
     }

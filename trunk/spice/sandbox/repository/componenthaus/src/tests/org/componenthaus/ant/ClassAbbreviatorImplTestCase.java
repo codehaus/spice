@@ -124,7 +124,7 @@ public class ClassAbbreviatorImplTestCase extends TestCase {
         private final String className;
 
         public MockJavaClass(String packageName, String className) {
-            //super(null);
+            super(null);
             this.packageName = packageName;
             this.className = className;
             setName(className);

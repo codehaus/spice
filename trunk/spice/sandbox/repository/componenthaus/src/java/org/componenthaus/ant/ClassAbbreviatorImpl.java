@@ -37,7 +37,7 @@ public class ClassAbbreviatorImpl implements ClassAbbreviator {
         JavaMethod[] methods = aClass.getMethods();
         for (int i = 0; i < methods.length; i++) {
             JavaMethod method = methods[i];
-            if (method.isPublic()) {
+            if (method.isPublic() && !method.isConstructor()) {
                 if (publicMethodCount > 0) {
                     bodyCollector.append("\n");
                 }
@@ -88,6 +88,7 @@ public class ClassAbbreviatorImpl implements ClassAbbreviator {
         }
         result.append("\t");
         appendModifiers(method, result);
+        System.out.println("Working on method " + method.getName());
         result.append(getType(method.getReturns(), importsCollector)).append(" ");
         result.append(method.getName()).append("(");
         result.append(createParameterListText(method, importsCollector));
@@ -140,6 +141,7 @@ public class ClassAbbreviatorImpl implements ClassAbbreviator {
     }
 
     private String getType(Type type, Collection importsCollector) {
+        assert type != null;
         final String fullTypeName = type.getValue();
 
         String result = fullTypeName;

@@ -19,7 +19,7 @@ public class DefaultComponentSubmissionManager implements ComponentSubmissionMan
         this.commandRegistry = commandRegistry;
     }
 
-    public void submit(ComponentMetadata componentMetadata) throws ComponentSubmissionException {
+    public Collection submit(ComponentMetadata componentMetadata) throws ComponentSubmissionException {
         if ( componentMetadata == null ) {
             throw new IllegalArgumentException("componentMetadata cannot be null");
         }
@@ -34,5 +34,6 @@ public class DefaultComponentSubmissionManager implements ComponentSubmissionMan
                 throw new ComponentSubmissionException("Exception submitting component",e);
             }
         }
+        return components;
     }
 }
