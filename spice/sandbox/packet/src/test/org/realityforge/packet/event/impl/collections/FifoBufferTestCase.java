@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-12-09 00:13:41 $
+ * @version $Revision: 1.5 $ $Date: 2003-12-09 00:59:09 $
  */
 public class FifoBufferTestCase
     extends TestCase
@@ -296,5 +296,51 @@ public class FifoBufferTestCase
 
         assertEquals( "buffer.addAll( objects )", false,
                       buffer.addAll( objects ) );
+    }
+
+    public void testOverAddAllOnUnBoundedBuffer()
+        throws Exception
+    {
+        final AbstractFifoBuffer buffer = new UnboundedFifoBuffer( 3 );
+        final Object object1 = new Object();
+        final Object object2 = new Object();
+        final Object object3 = new Object();
+        final Object object4 = new Object();
+        final Object[] objects =
+            new Object[]{object1, object2, object3, object4};
+
+        assertEquals( "buffer.addAll( objects )", true,
+                      buffer.addAll( objects ) );
+        assertEquals( "buffer.m_buffer.length", 5, buffer.m_buffer.length );
+        assertEquals( "buffer.m_buffer[ 0 ]", object1, buffer.m_buffer[ 0 ] );
+        assertEquals( "buffer.m_buffer[ 1 ]", object2, buffer.m_buffer[ 1 ] );
+        assertEquals( "buffer.m_buffer[ 2 ]", object3, buffer.m_buffer[ 2 ] );
+        assertEquals( "buffer.m_buffer[ 3 ]", object4, buffer.m_buffer[ 3 ] );
+        assertEquals( "buffer.m_buffer[ 4 ]", null, buffer.m_buffer[ 4 ] );
+    }
+
+    public void testOverAddAllOnUnBoundedBufferWithNonZeroHead()
+        throws Exception
+    {
+        final AbstractFifoBuffer buffer = new UnboundedFifoBuffer( 3 );
+        final Object start = new Object();
+        assertEquals( "buffer.add( start )", true, buffer.add( start ) );
+        assertEquals( "buffer.pop()", start, buffer.pop() );
+
+        final Object object1 = new Object();
+        final Object object2 = new Object();
+        final Object object3 = new Object();
+        final Object object4 = new Object();
+        assertEquals( "buffer.add( object1 )", true, buffer.add( object1 ) );
+        assertEquals( "buffer.add( object2 )", true, buffer.add( object2 ) );
+        assertEquals( "buffer.add( object3 )", true, buffer.add( object3 ) );
+        assertEquals( "buffer.add( object4 )", true, buffer.add( object4 ) );
+
+        assertEquals( "buffer.m_buffer.length", 5, buffer.m_buffer.length );
+        assertEquals( "buffer.m_buffer[ 0 ]", object1, buffer.m_buffer[ 0 ] );
+        assertEquals( "buffer.m_buffer[ 1 ]", object2, buffer.m_buffer[ 1 ] );
+        assertEquals( "buffer.m_buffer[ 2 ]", object3, buffer.m_buffer[ 2 ] );
+        assertEquals( "buffer.m_buffer[ 3 ]", object4, buffer.m_buffer[ 3 ] );
+        assertEquals( "buffer.m_buffer[ 4 ]", null, buffer.m_buffer[ 4 ] );
     }
 }
