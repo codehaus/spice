@@ -19,14 +19,15 @@ import java.util.Properties;
  * to create an ActionManager when the factory type is configurable.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  */
 public class InitialActionManagerFactory implements ActionManagerFactory
 {
     /**
-     * The CONFIGURABLE_FACTORY key.  Used to define the classname of the
+     * The FACTORY key.  Used to define the classname of the
      * configurable ActionManagerFactory.
      */
-    public static final String CONFIGURABLE_FACTORY = "org.jcomponent.swingactions.factory";
+    public static final String FACTORY = "org.jcomponent.swingactions.factory";
 
     /**
      * The name of properties file loaded from ClassLoader. This property
@@ -49,12 +50,12 @@ public class InitialActionManagerFactory implements ActionManagerFactory
     {
         final ClassLoader classLoader = getClassLoader( config );
 
-        String type = (String)config.get( CONFIGURABLE_FACTORY );
+        String type = (String)config.get( FACTORY );
         Map data = config;
         if( null == type )
         {
             data = loadDefaultConfig( data, classLoader );
-            type = (String)data.get( CONFIGURABLE_FACTORY );
+            type = (String)data.get( FACTORY );
         }
         final ActionManagerFactory factory =
             createActionManagerFactory( type, classLoader );
