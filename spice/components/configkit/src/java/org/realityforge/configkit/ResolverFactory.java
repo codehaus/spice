@@ -43,10 +43,13 @@ import org.xml.sax.XMLReader;
  * must be specified and <code>resource</code> must always be specified.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-03-24 09:12:27 $
+ * @version $Revision: 1.4 $ $Date: 2003-04-05 03:42:06 $
  */
 public final class ResolverFactory
 {
+    /**
+     * Constant for location where catalog is loaded.
+     */
     private static final String CATALOG_RESOURCE = "META-INF/spice/catalog.xml";
 
     /**
