@@ -332,8 +332,8 @@ public class MBeanBuilder
      * @param name the name of parameter
      * @return the parameter description
      */
-    private String parseParameterDescription( final Attribute[] attributes,
-                                              final String name )
+    String parseParameterDescription( final Attribute[] attributes,
+                                      final String name )
     {
         final Attribute[] params =
             Attributes.getAttributesByName( attributes, MX_PARAMETER_CONSTANT );
