@@ -8,7 +8,6 @@
 package org.jcomponent.loggerstore.factories;
 
 import java.util.Map;
-
 import org.jcomponent.loggerstore.LoggerStore;
 import org.jcomponent.loggerstore.stores.ConsoleLoggerStore;
 import org.jcontainer.dna.impl.ConsoleLogger;
@@ -17,7 +16,7 @@ import org.jcontainer.dna.impl.ConsoleLogger;
  * This is a basic factory for ConsoleLoggerStore.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-18 11:52:22 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-19 01:51:35 $
  */
 public class ConsoleLoggerStoreFactory
     extends AbstractLoggerStoreFactory
@@ -33,6 +32,6 @@ public class ConsoleLoggerStoreFactory
         throws Exception
     {
         final int level = ConsoleLogger.LEVEL_INFO;
-        return new ConsoleLoggerStore(level);
+        return new ConsoleLoggerStore( level );
     }
 }

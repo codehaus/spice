@@ -12,7 +12,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
-
 import org.jcomponent.loggerstore.LoggerStore;
 import org.jcomponent.loggerstore.stores.Jdk14LoggerStore;
 
@@ -22,14 +21,14 @@ import org.jcomponent.loggerstore.stores.Jdk14LoggerStore;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-18 11:52:22 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-19 01:51:35 $
  */
 public class Jdk14LoggerStoreFactory
     extends AbstractLoggerStoreFactory
 {
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
-     * 
+     *
      * @param config the Map of parameters for the configuration of the store
      * @return the LoggerStore
      * @throws Exception if unable to create the LoggerStore

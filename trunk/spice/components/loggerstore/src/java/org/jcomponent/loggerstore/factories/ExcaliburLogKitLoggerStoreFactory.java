@@ -8,7 +8,6 @@
 package org.jcomponent.loggerstore.factories;
 
 import java.util.Map;
-
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.jcomponent.loggerstore.LoggerStore;
@@ -34,6 +33,6 @@ public class ExcaliburLogKitLoggerStoreFactory
     {
         final LoggerManager loggerManager = new LogKitLoggerManager();
         config.put( LoggerManager.class.getName(), loggerManager );
-        return super.doCreateLoggerStore( config );            
+        return super.doCreateLoggerStore( config );
     }
 }
