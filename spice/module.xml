@@ -19,8 +19,7 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="excalibur-extension" runtime="true"/>
-        <depend project="excalibur-i18n" runtime="true"/>
-        <depend project="jakarta-oro" runtime="true"/>
+        <depend project="spice-salt" runtime="true" inherit="runtime"/>
         <work nested="components/classman/target/classes"/>
         <work nested="components/classman/target/test-classes"/>
 
