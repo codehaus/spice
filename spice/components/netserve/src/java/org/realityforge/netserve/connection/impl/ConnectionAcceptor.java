@@ -22,7 +22,7 @@ import org.realityforge.threadpool.ThreadPool;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.18 $ $Date: 2003-04-23 09:12:21 $
+ * @version $Revision: 1.19 $ $Date: 2003-04-23 11:41:51 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
@@ -186,7 +186,7 @@ class ConnectionAcceptor
     /**
      * Utility method to shutdown serverSocket.
      */
-    private void shutdownServerSocket()
+    private synchronized void shutdownServerSocket()
     {
         if( getLogger().isDebugEnabled() )
         {
@@ -337,31 +337,29 @@ class ConnectionAcceptor
             final String message = "Stopping Acceptor " + m_name + ".";
             getLogger().debug( message );
         }
-        if( isRunning() )
+
+        m_done = true;
+        final Thread thread = m_thread;
+        m_thread = null;
+        if( null != thread )
         {
-            m_done = true;
-            final Thread thread = m_thread;
-            m_thread = null;
-            if( null != thread )
-            {
-                thread.interrupt();
-            }
+            thread.interrupt();
+        }
 
-            if( !m_serverSocket.isClosed() )
+        if( !m_serverSocket.isClosed() )
+        {
+            try
             {
-                try
-                {
-                    wait( waitTime );
-                }
-                catch( InterruptedException e )
-                {
-                }
+                wait( waitTime );
             }
+            catch( InterruptedException e )
+            {
+            }
+        }
 
-            if( forceShutdown && !m_serverSocket.isClosed() )
-            {
-                shutdownServerSocket();
-            }
+        if( forceShutdown && !m_serverSocket.isClosed() )
+        {
+            shutdownServerSocket();
         }
     }
 
