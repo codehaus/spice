@@ -52,192 +52,192 @@ import java.util.regex.Pattern;
  */
 public final class EnumSet
 {
-   /**
-    * A map of name to integer code.
-    */
-   private final Map m_nameMap = new HashMap();
+    /**
+     * A map of name to integer code.
+     */
+    private final Map m_nameMap = new HashMap();
 
-   /**
-    * A map of integer code to name.
-    */
-   private final Map m_codeMap = new HashMap();
+    /**
+     * A map of integer code to name.
+     */
+    private final Map m_codeMap = new HashMap();
 
-   /**
-    * Return a read-only set of names in the EnumSet.
-    *
-    * @return a read-only set of names in the EnumSet.
-    */
-   public final Set getNames()
-   {
-      return Collections.unmodifiableSet( m_nameMap.keySet() );
-   }
+    /**
+     * Return a read-only set of names in the EnumSet.
+     *
+     * @return a read-only set of names in the EnumSet.
+     */
+    public final Set getNames()
+    {
+        return Collections.unmodifiableSet( m_nameMap.keySet() );
+    }
 
-   /**
-    * Return a read-only set of codes in the EnumSet.
-    *
-    * @return a read-only set of codes in the EnumSet.
-    */
-   public final Set getCodes()
-   {
-      return Collections.unmodifiableSet( m_codeMap.keySet() );
-   }
+    /**
+     * Return a read-only set of codes in the EnumSet.
+     *
+     * @return a read-only set of codes in the EnumSet.
+     */
+    public final Set getCodes()
+    {
+        return Collections.unmodifiableSet( m_codeMap.keySet() );
+    }
 
-   /**
-    * Return the name for specified code.
-    *
-    * @param code the code to lookup.
-    * @return the name for specified code.
-    * @throws IllegalArgumentException if code is not in the EnumSet.
-    */
-   public final String getNameFor( final int code )
-   {
-      final String name = (String) m_codeMap.get( new Integer( code ) );
-      if ( null == name )
-      {
-         final String message = "Unknown code " + code;
-         throw new IllegalArgumentException( message );
-      }
-      return name;
-   }
+    /**
+     * Return the name for specified code.
+     *
+     * @param code the code to lookup.
+     * @return the name for specified code.
+     * @throws IllegalArgumentException if code is not in the EnumSet.
+     */
+    public final String getNameFor( final int code )
+    {
+        final String name = (String)m_codeMap.get( new Integer( code ) );
+        if( null == name )
+        {
+            final String message = "Unknown code " + code;
+            throw new IllegalArgumentException( message );
+        }
+        return name;
+    }
 
-   /**
-    * Return the code for specified name.
-    *
-    * @param name the name to lookup.
-    * @return the code for specified name.
-    * @throws IllegalArgumentException if name is not in the EnumSet.
-    */
-   public final int getCodeFor( final String name )
-   {
-      final Integer code = (Integer) m_nameMap.get( name );
-      if ( null == code )
-      {
-         final String message = "Unknown name " + name;
-         throw new IllegalArgumentException( message );
-      }
-      return code.intValue();
-   }
+    /**
+     * Return the code for specified name.
+     *
+     * @param name the name to lookup.
+     * @return the code for specified name.
+     * @throws IllegalArgumentException if name is not in the EnumSet.
+     */
+    public final int getCodeFor( final String name )
+    {
+        final Integer code = (Integer)m_nameMap.get( name );
+        if( null == code )
+        {
+            final String message = "Unknown name " + name;
+            throw new IllegalArgumentException( message );
+        }
+        return code.intValue();
+    }
 
-   /**
-    * Create an EnumSet for specified Class including all
-    * integer constants. A shortcut for
-    * <tt>createFrom( clazz, "(.*)" )</tt>.
-    *
-    * @param clazz the class to extract constants from
-    * @return the created EnumSet
-    */
-   public static EnumSet createFrom( final Class clazz )
-   {
-      return createFrom( clazz, "(.*)" );
-   }
+    /**
+     * Create an EnumSet for specified Class including all
+     * integer constants. A shortcut for
+     * <tt>createFrom( clazz, "(.*)" )</tt>.
+     *
+     * @param clazz the class to extract constants from
+     * @return the created EnumSet
+     */
+    public static EnumSet createFrom( final Class clazz )
+    {
+        return createFrom( clazz, "(.*)" );
+    }
 
-   /**
-    * Create an EnumSet for specified Class including all
-    * integer constants that match specified pattern. A
-    * shortcut for <tt>createFrom( clazz, "(.*)", true )</tt>.
-    *
-    * @param clazz the class to extract constants from
-    * @param match the pattern that constants must match
-    * @return the created EnumSet
-    */
-   public static EnumSet createFrom( final Class clazz,
-                                     final String match )
+    /**
+     * Create an EnumSet for specified Class including all
+     * integer constants that match specified pattern. A
+     * shortcut for <tt>createFrom( clazz, "(.*)", true )</tt>.
+     *
+     * @param clazz the class to extract constants from
+     * @param match the pattern that constants must match
+     * @return the created EnumSet
+     */
+    public static EnumSet createFrom( final Class clazz,
+                                      final String match )
 
-   {
-      return createFrom( clazz, match, true );
-   }
+    {
+        return createFrom( clazz, match, true );
+    }
 
-   /**
-    * Create an EnumSet for specified Class including all
-    * integer constants that match specified pattern and scanning
-    * superclass if deep is true.
-    *
-    * @param clazz the class to extract constants from
-    * @param match the pattern that constants must match
-    * @param deep if true will scan all parent classes to locate constants
-    * @return the created EnumSet
-    */
-   public static EnumSet createFrom( final Class clazz,
-                                     final String match,
-                                     final boolean deep )
-   {
-      final Pattern pattern = Pattern.compile( match );
+    /**
+     * Create an EnumSet for specified Class including all
+     * integer constants that match specified pattern and scanning
+     * superclass if deep is true.
+     *
+     * @param clazz the class to extract constants from
+     * @param match the pattern that constants must match
+     * @param deep if true will scan all parent classes to locate constants
+     * @return the created EnumSet
+     */
+    public static EnumSet createFrom( final Class clazz,
+                                      final String match,
+                                      final boolean deep )
+    {
+        final Pattern pattern = Pattern.compile( match );
 
-      final EnumSet set = new EnumSet();
-      final Field[] fields = getFields( clazz, deep );
-      for ( int i = 0; i < fields.length; i++ )
-      {
-         final Field field = fields[ i ];
-         final int modifiers = field.getModifiers();
-         if ( !Modifier.isFinal( modifiers ) ||
-            !Modifier.isPublic( modifiers ) ||
-            !Modifier.isStatic( modifiers ) ||
-            field.getType() != Integer.TYPE )
-         {
-            continue;
-         }
-         final String name = field.getName();
-         final int value;
-         try
-         {
-            value = field.getInt( null );
-         }
-         catch ( final Exception e )
-         {
-            final String message = "Unable to get value from field";
-            throw new IllegalStateException( message );
-         }
-
-         final Matcher matcher = pattern.matcher( name );
-         if ( matcher.matches() )
-         {
-            final int count = matcher.groupCount();
-            String key = name;
-            if ( 0 != count )
+        final EnumSet set = new EnumSet();
+        final Field[] fields = getFields( clazz, deep );
+        for( int i = 0; i < fields.length; i++ )
+        {
+            final Field field = fields[ i ];
+            final int modifiers = field.getModifiers();
+            if( !Modifier.isFinal( modifiers ) ||
+                !Modifier.isPublic( modifiers ) ||
+                !Modifier.isStatic( modifiers ) ||
+                field.getType() != Integer.TYPE )
             {
-               key = matcher.group( 1 );
+                continue;
             }
-            set.add( key, value );
-         }
-      }
+            final String name = field.getName();
+            final int value;
+            try
+            {
+                value = field.getInt( null );
+            }
+            catch( final Exception e )
+            {
+                final String message = "Unable to get value from field";
+                throw new IllegalStateException( message );
+            }
 
-      return set;
-   }
+            final Matcher matcher = pattern.matcher( name );
+            if( matcher.matches() )
+            {
+                final int count = matcher.groupCount();
+                String key = name;
+                if( 0 != count )
+                {
+                    key = matcher.group( 1 );
+                }
+                set.add( key, value );
+            }
+        }
 
-   /**
-    * Return the fields for specified Class. If deep is true
-    * then it will return all the fields of the class, including
-    * fields defined in super-classes, otherwise it will just
-    * return the fields declared in specified class.
-    *
-    * @param clazz the class that fields are retrieved from
-    * @param deep if true will include fields in super classes
-    * @return an array of fields
-    */
-   private static Field[] getFields( final Class clazz,
-                                     final boolean deep )
-   {
-      final Field[] fields;
-      if ( deep )
-      {
-         fields = clazz.getFields();
-      }
-      else
-      {
-         fields = clazz.getDeclaredFields();
-      }
-      return fields;
-   }
+        return set;
+    }
 
-   /**
-    * Helper method for adding a name-code mapping to EnumSet.
-    *
-    * @param name the name of enum.
-    * @param code the code of enum.
-    */
-   private void add( final String name, final int code )
-   {
-      m_nameMap.put( name, new Integer( code ) );
-      m_codeMap.put( new Integer( code ), name );
-   }
+    /**
+     * Return the fields for specified Class. If deep is true
+     * then it will return all the fields of the class, including
+     * fields defined in super-classes, otherwise it will just
+     * return the fields declared in specified class.
+     *
+     * @param clazz the class that fields are retrieved from
+     * @param deep if true will include fields in super classes
+     * @return an array of fields
+     */
+    private static Field[] getFields( final Class clazz,
+                                      final boolean deep )
+    {
+        final Field[] fields;
+        if( deep )
+        {
+            fields = clazz.getFields();
+        }
+        else
+        {
+            fields = clazz.getDeclaredFields();
+        }
+        return fields;
+    }
+
+    /**
+     * Helper method for adding a name-code mapping to EnumSet.
+     *
+     * @param name the name of enum.
+     * @param code the code of enum.
+     */
+    private void add( final String name, final int code )
+    {
+        m_nameMap.put( name, new Integer( code ) );
+        m_codeMap.put( new Integer( code ), name );
+    }
 }
