@@ -15,11 +15,12 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Random;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-09 09:48:19 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-09 09:58:23 $
  */
 public class NIOAcceptorManagerTestCase
     extends AbstractAcceptorManagerTestCase
@@ -136,6 +137,7 @@ public class NIOAcceptorManagerTestCase
         manager.startupSelector();
         final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
         manager.setMonitor( monitor );
+        manager.setTimeout( 500 );
 
         final String name = "name";
         assertEquals( "isConnected pre connect", false, manager.isConnected( name ) );
@@ -184,7 +186,8 @@ public class NIOAcceptorManagerTestCase
 
     private int nextPort()
     {
-        return 1400 + c_index++;
+        final int random = new Random().nextInt() % 100;
+        return 1400 + c_index++ + random;
     }
 
     protected SocketAcceptorManager createAcceptorManager()
