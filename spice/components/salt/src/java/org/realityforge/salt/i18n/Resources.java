@@ -20,8 +20,8 @@ import java.util.ResourceBundle;
  * and other common resources from a ResourceBundle.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-06-13 00:55:36 $
-*/
+ * @version $Revision: 1.8 $ $Date: 2003-06-13 01:05:50 $
+ */
 public class Resources
 {
     /**
@@ -565,7 +565,7 @@ public class Resources
      * @param defaultValue the default value if key is missing
      * @return the resource string
      */
-    public String getStringWithDefault( final String key, final String defaultValue )
+    public String getString( final String key, final String defaultValue )
     {
         try
         {
@@ -584,7 +584,7 @@ public class Resources
      * @param arg1 an arg
      * @return the formatted string
      */
-    public String getString( final String key, final Object arg1 )
+    public String format( final String key, final Object arg1 )
     {
         final Object[] args = new Object[]{arg1};
         return format( key, args );
@@ -598,7 +598,7 @@ public class Resources
      * @param arg2 an arg
      * @return the formatted string
      */
-    public String getString( final String key, final Object arg1, final Object arg2 )
+    public String format( final String key, final Object arg1, final Object arg2 )
     {
         final Object[] args = new Object[]{arg1, arg2};
         return format( key, args );
@@ -613,10 +613,10 @@ public class Resources
      * @param arg3 an arg
      * @return the formatted string
      */
-    public String getString( final String key,
-                             final Object arg1,
-                             final Object arg2,
-                             final Object arg3 )
+    public String format( final String key,
+                          final Object arg1,
+                          final Object arg2,
+                          final Object arg3 )
     {
         final Object[] args = new Object[]{arg1, arg2, arg3};
         return format( key, args );
@@ -632,11 +632,11 @@ public class Resources
      * @param arg4 an arg
      * @return the formatted string
      */
-    public String getString( final String key,
-                             final Object arg1,
-                             final Object arg2,
-                             final Object arg3,
-                             final Object arg4 )
+    public String format( final String key,
+                          final Object arg1,
+                          final Object arg2,
+                          final Object arg3,
+                          final Object arg4 )
     {
         final Object[] args = new Object[]{arg1, arg2, arg3, arg4};
         return format( key, args );
@@ -653,12 +653,12 @@ public class Resources
      * @param arg5 an arg
      * @return the formatted string
      */
-    public String getString( final String key,
-                             final Object arg1,
-                             final Object arg2,
-                             final Object arg3,
-                             final Object arg4,
-                             final Object arg5 )
+    public String format( final String key,
+                          final Object arg1,
+                          final Object arg2,
+                          final Object arg3,
+                          final Object arg4,
+                          final Object arg5 )
     {
         final Object[] args = new Object[]{arg1, arg2, arg3, arg4, arg5};
         return format( key, args );
