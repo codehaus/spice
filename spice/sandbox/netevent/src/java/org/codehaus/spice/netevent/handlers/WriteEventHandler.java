@@ -23,7 +23,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Handler for writing data to channel.
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-20 01:08:30 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-20 05:46:32 $
  */
 public class WriteEventHandler
     extends AbstractIOEventHandler
@@ -63,6 +63,7 @@ public class WriteEventHandler
         final int remaining = buffer.remaining();
         if( 0 == remaining )
         {
+            releaseBuffer( transmitBuffer, transport, buffer );
             return;
         }
         try
@@ -70,9 +71,7 @@ public class WriteEventHandler
             final int count = channel.write( buffer );
             if( remaining == count )
             {
-                transmitBuffer.pop();
-                transport.reregister();
-                getBufferManager().releaseBuffer( buffer );
+                releaseBuffer( transmitBuffer, transport, buffer );
             }
             getSink().addEvent( new WriteEvent( transport, count ) );
         }
@@ -84,4 +83,12 @@ public class WriteEventHandler
         }
     }
 
+    private void releaseBuffer( final Buffer transmitBuffer,
+                                final ChannelTransport transport,
+                                final ByteBuffer buffer )
+    {
+        transmitBuffer.pop();
+        transport.reregister();
+        getBufferManager().releaseBuffer( buffer );
+    }
 }
