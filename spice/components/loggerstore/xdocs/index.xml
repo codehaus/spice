@@ -33,7 +33,12 @@ void close();
  		using the LoggerStore it will call the close() method indicating that the
  		logger hierarchy should also be shutdown.
 		</p> 
- 	 </section>
+                <p>
+                  All Spice jars are held in the 
+                  <a href="http://spice.sf.net/maven">http://spice.sf.net/maven</a> 
+                  repository for Maven usage.
+                </p>		
+ 	 </section> 	 
  	 <section name="LoggerStoreFactory">        
 		<p>Each LoggerStore has one or more associated LoggerStoreFactory which also
 		acts as a configurator for the Logger:

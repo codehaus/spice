@@ -13,6 +13,11 @@
             customize the thread environment before and after it executes the work
             on the pooled threads.
          </p>
+         <p>
+            All Spice jars are held in the 
+            <a href="http://spice.sf.net/maven">http://spice.sf.net/maven</a> 
+            repository for Maven usage.
+         </p>
       </section>
       <section name="Multi-Container support">
          <p>
