@@ -13,8 +13,8 @@ import org.xml.sax.SAXParseException;
  * This class records a specific issue that occured during validation.
  *
  * @author Peter Donald
- * @author <a href="mailto:proyal at apache.org">Peter Royal</a>
- * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
+ * @author Peter Royal
+ * @version $Revision: 1.2 $ $Date: 2003-12-03 03:34:17 $
  */
 public class ValidationIssue
 {
