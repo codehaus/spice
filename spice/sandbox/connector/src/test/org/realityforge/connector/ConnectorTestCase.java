@@ -630,7 +630,7 @@ public class ConnectorTestCase
       final ConnectorMonitor monitor = (ConnectorMonitor) monitorMock.proxy();
 
       final Mock policyMock = new Mock( PingPolicy.class );
-      policyMock.expectAndReturn( "checkPingConnection", C.args( C.eq( connector ) ), true );
+      policyMock.expectAndReturn( "checkPingConnection", C.NO_ARGS, true );
       policyMock.expectAndReturn( "nextPingCheck", C.args( C.eq( connector.getLastPingTime() ) ), new Long( 52 ) );
       final PingPolicy policy = (PingPolicy) policyMock.proxy();
 
@@ -656,7 +656,7 @@ public class ConnectorTestCase
       final ConnectorMonitor monitor = (ConnectorMonitor) monitorMock.proxy();
 
       final Mock policyMock = new Mock( PingPolicy.class );
-      policyMock.expectAndReturn( "checkPingConnection", C.args( C.eq( connector ) ), false );
+      policyMock.expectAndReturn( "checkPingConnection", C.NO_ARGS, false );
       policyMock.expectAndReturn( "nextPingCheck", C.args( C.eq( connector.getLastPingTime() ) ), new Long( 52 ) );
       final PingPolicy policy = (PingPolicy) policyMock.proxy();
 
