@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * This class makes it easy to manipulate data stored in exceptions.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-06-27 03:45:57 $
+ * @version $Revision: 1.10 $ $Date: 2003-07-16 04:46:36 $
  */
 public final class ExceptionUtil
 {
@@ -156,7 +156,7 @@ public final class ExceptionUtil
         final String[] lines = splitLines( sw.toString() );
         for( int i = 0; i < lines.length; i++ )
         {
-            if( lines[ i ].startsWith( "Caused by: " ) )
+            if( lines[ i ].startsWith( SEPARATOR ) )
             {
                 final String[] result = new String[ i ];
                 System.arraycopy( lines, 0, result, 0, i );
