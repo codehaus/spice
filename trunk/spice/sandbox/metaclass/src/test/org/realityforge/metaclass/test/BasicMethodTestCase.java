@@ -7,8 +7,6 @@
  */
 package org.realityforge.metaclass.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
@@ -22,11 +20,6 @@ public class BasicMethodTestCase
     public BasicMethodTestCase()
     {
         super( "BasicMethod", CLASS_NAME );
-    }
-
-    public static Test suite()
-    {
-        return new TestSuite( BasicMethodTestCase.class );
     }
 
     /**

@@ -7,8 +7,6 @@
  */
 package org.realityforge.metaclass.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 import org.realityforge.metaclass.model.Attribute;
 
 /**
@@ -21,11 +19,6 @@ public class BasicClassLoaderTestCase
     public BasicClassLoaderTestCase()
     {
         super( "BasicClassLoader", CLASS_NAME );
-    }
-
-    public static Test suite()
-    {
-        return new TestSuite( BasicClassLoaderTestCase.class );
     }
 
     public void testGetName()

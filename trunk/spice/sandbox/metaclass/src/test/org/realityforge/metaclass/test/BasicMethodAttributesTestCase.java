@@ -8,8 +8,6 @@
 package org.realityforge.metaclass.test;
 
 import java.util.ArrayList;
-import junit.framework.Test;
-import junit.framework.TestSuite;
 import org.realityforge.metaclass.Attributes;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.MethodDescriptor;
@@ -24,11 +22,6 @@ public class BasicMethodAttributesTestCase
     public BasicMethodAttributesTestCase()
     {
         super( "BasicMethodAttributes", CLASS_NAME );
-    }
-
-    public static Test suite()
-    {
-        return new TestSuite( BasicMethodAttributesTestCase.class );
     }
 
     /**
