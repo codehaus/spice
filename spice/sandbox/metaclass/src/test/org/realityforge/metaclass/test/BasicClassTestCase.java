@@ -12,20 +12,13 @@ import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 import org.realityforge.metaclass.model.Attribute;
 
-import java.lang.reflect.Modifier;
-import java.util.Properties;
-
 /**
  * Use Class to get ClassDescriptor from BasicClass.
  */
 public class BasicClassTestCase
     extends AbstractFeatureTestCase
+    implements BasicClassTestDataConstants
 {
-    private static final String CLASS_NAME = "org.realityforge.metaclass.test.data.BasicClass";
-
-    private static final int EXPECTED_MODIFIER = Modifier.PUBLIC;
-    private Attribute[] _expectedAttributes;
-
     public BasicClassTestCase()
     {
         super( "BasicClass", CLASS_NAME );
@@ -44,31 +37,6 @@ public class BasicClassTestCase
         TestRunner.run( suite() );
     }
 
-    /**
-     * Set up before test.
-     */
-    protected void setUp()
-    {
-        super.setUp();
-        try
-        {
-            final Properties parameters = new Properties();
-            parameters.put( "satan", "17.5" );
-
-            _expectedAttributes = new Attribute[]
-            {
-                new Attribute( "test-attribute1", "true" ),
-                new Attribute( "test-attribute2", "thisIsATestString" ),
-                new Attribute( "test-attribute3", parameters )
-            };
-        }
-        catch ( final Exception e )
-        {
-            e.printStackTrace();
-            fail( e.getMessage() );
-        }
-    }
-
     public void testGetName()
     {
         assertEquals( CLASS_NAME,
@@ -77,14 +45,14 @@ public class BasicClassTestCase
 
     public void testGetModifiers()
     {
-        assertEquals( EXPECTED_MODIFIER,
+        assertEquals( CLASS_MODIFIER,
                       getClassDescriptor().getModifiers() );
     }
 
     public void testGetAttributes()
     {
         final Attribute[] attributes = getClassDescriptor().getAttributes();
-        checkAttributesMatchExpected( _expectedAttributes, attributes,
+        checkAttributesMatchExpected( CLASS_ATTRIBUTES, attributes,
                                       "Class: getAttributes" );
     }
 }

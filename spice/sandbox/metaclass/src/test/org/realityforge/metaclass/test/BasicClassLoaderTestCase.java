@@ -10,23 +10,15 @@ package org.realityforge.metaclass.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
-import org.realityforge.metaclass.MetaClassIntrospector;
 import org.realityforge.metaclass.model.Attribute;
-
-import java.lang.reflect.Modifier;
-import java.util.Properties;
 
 /**
  * Use className and ClassLoader to get ClassDescriptor from BasicClass.
  */
 public class BasicClassLoaderTestCase
     extends AbstractFeatureTestCase
+    implements BasicClassTestDataConstants
 {
-    private static final String CLASS_NAME = "org.realityforge.metaclass.test.data.BasicClass";
-
-    private static final int EXPECTED_MODIFIER = Modifier.PUBLIC;
-    private Attribute[] _expectedAttributes;
-
     public BasicClassLoaderTestCase()
     {
         super( "BasicClassLoader", CLASS_NAME );
@@ -45,34 +37,6 @@ public class BasicClassLoaderTestCase
         TestRunner.run( suite() );
     }
 
-    /**
-     * Set up before test.
-     */
-    protected void setUp()
-    {
-        try
-        {
-            final String className = getClassName();
-            final ClassLoader classLoader = Class.forName( className ).getClassLoader();
-            setClassDescriptor( MetaClassIntrospector.getClassInfo( className, classLoader ) );
-
-            final Properties parameters = new Properties();
-            parameters.put( "satan", "17.5" );
-
-            _expectedAttributes = new Attribute[]
-            {
-                new Attribute( "test-attribute1", "true" ),
-                new Attribute( "test-attribute2", "thisIsATestString" ),
-                new Attribute( "test-attribute3", parameters )
-            };
-        }
-        catch( final Exception e )
-        {
-            e.printStackTrace();
-            fail( e.getMessage() );
-        }
-    }
-
     public void testGetName()
     {
         assertEquals( CLASS_NAME,
@@ -81,14 +45,14 @@ public class BasicClassLoaderTestCase
 
     public void testGetModifiers()
     {
-        assertEquals( EXPECTED_MODIFIER,
+        assertEquals( CLASS_MODIFIER,
                       getClassDescriptor().getModifiers() );
     }
 
     public void testGetAttributes()
     {
         final Attribute[] attributes = getClassDescriptor().getAttributes();
-        checkAttributesMatchExpected( _expectedAttributes, attributes,
+        checkAttributesMatchExpected( CLASS_ATTRIBUTES, attributes,
                                       "Class: getAttributes" );
     }
 }

@@ -16,43 +16,11 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 
 import java.util.ArrayList;
-import java.util.Properties;
 
 public class BasicMethodAttributesTestCase
     extends AbstractFeatureTestCase
+    implements BasicClassTestDataConstants
 {
-    private static final String CLASS_NAME = "org.realityforge.metaclass.test.data.BasicClass";
-
-    private static final String[] NAMES =
-        {
-            "BasicClass",
-            "getPrivateString",
-            "setPrivateString",
-            "aPrivateMethod"
-        };
-
-    private static final ParameterDescriptor[][] EXPECTED_PARAMETERS =
-        {
-            new ParameterDescriptor[ 0 ],
-            new ParameterDescriptor[ 0 ],
-            {
-                new ParameterDescriptor( "aPrivateString", "java.lang.String" )
-            },
-            new ParameterDescriptor[ 0 ]
-        };
-
-    private static final String VALUE_METHOD_NAME = NAMES[ 1 ];
-    private static final String VALUE_ATTRIBUTE_NAME = "return";
-    private static final String PARAMETERS_METHOD_NAME = NAMES[ 3 ];
-    private static final String PARAMETERS_ATTRIBUTE_NAME = "stuff";
-
-    private static final int NUM_METHODS = 4;
-
-    private Attribute[][] _expectedAttributes;
-    private Attribute[] _expectedNamedAttributes;
-    private Attribute _expectedNamedValueAttribute;
-    private Attribute _expectedNamedParametersAttribute;
-
     private MethodDescriptor[] _methodDescriptors;
 
     public BasicMethodAttributesTestCase()
@@ -82,32 +50,6 @@ public class BasicMethodAttributesTestCase
         try
         {
             _methodDescriptors = getClassDescriptor().getMethods();
-
-            _expectedNamedValueAttribute = new Attribute( "return", "the private string" );
-
-            final Properties parameters = new Properties();
-            parameters.put( "1", "2" );
-            _expectedNamedParametersAttribute = new Attribute( "stuff", parameters );
-
-            _expectedNamedAttributes = new Attribute[]
-            {
-                _expectedNamedValueAttribute
-            };
-
-            _expectedAttributes = new Attribute[ NUM_METHODS ][];
-            _expectedAttributes[ 0 ] = new Attribute[]{};
-            _expectedAttributes[ 1 ] = new Attribute[]
-            {
-                _expectedNamedValueAttribute
-            };
-            _expectedAttributes[ 2 ] = new Attribute[]
-            {
-                new Attribute( "param", "aPrivateString" )
-            };
-            _expectedAttributes[ 3 ] = new Attribute[]
-            {
-                _expectedNamedParametersAttribute
-            };
         }
         catch ( final Exception e )
         {
@@ -138,10 +80,10 @@ public class BasicMethodAttributesTestCase
         try
         {
             final Class aClass = Class.forName( CLASS_NAME );
-            for ( int i = 0; i < _expectedAttributes.length; i++ )
+            for ( int i = 0; i < METHOD_ATTRIBUTES.length; i++ )
             {
-                final Attribute[] expectedAttributes = _expectedAttributes[ i ];
-                final ParameterDescriptor[] expectedParameters = EXPECTED_PARAMETERS[ i ];
+                final Attribute[] expectedAttributes = METHOD_ATTRIBUTES[ i ];
+                final ParameterDescriptor[] expectedParameters = METHOD_PARAMETERS[ i ];
 
                 final ArrayList parameterTypes = new ArrayList();
                 for ( int j = 0; j < expectedParameters.length; j++ )
@@ -161,7 +103,7 @@ public class BasicMethodAttributesTestCase
                     parameterTypeClasses[ j ] = parameterType;
                 }
 
-                final String methodName = NAMES[ i ];
+                final String methodName = METHOD_NAMES[ i ];
                 final Attribute[] attributes =
                     MetaClassTestUtility.getAttributesForMethodOrConstructor( CLASS_NAME,
                                                                               methodName,
@@ -184,11 +126,11 @@ public class BasicMethodAttributesTestCase
         {
             final Class aClass = Class.forName( CLASS_NAME );
             final Attribute[] attributes =
-                MetaClassTestUtility.getAttributesForMethodOrConstructor( VALUE_METHOD_NAME,
+                MetaClassTestUtility.getAttributesForMethodOrConstructor( METHOD_NAMES[ 1 ],
                                                                           aClass,
                                                                           new Class[]{},
-                                                                          VALUE_ATTRIBUTE_NAME );
-            checkAttributesMatchExpected( _expectedNamedAttributes, attributes,
+                                                                          METHOD_1_TAG_0_NAME );
+            checkAttributesMatchExpected( METHOD_1_ATTRIBUTES_NAMED_TAG_0, attributes,
                                           "getNamedAttributes" );
         }
         catch ( Exception e )
@@ -204,15 +146,15 @@ public class BasicMethodAttributesTestCase
         {
             final Class aClass = Class.forName( CLASS_NAME );
             final Attribute attribute =
-                MetaClassTestUtility.getAttributeForMethodOrConstructor( VALUE_METHOD_NAME,
+                MetaClassTestUtility.getAttributeForMethodOrConstructor( METHOD_NAMES[ 1 ],
                                                                          aClass,
                                                                          new Class[]{},
-                                                                         VALUE_ATTRIBUTE_NAME );
-            if ( !MetaClassTestUtility.areAttributesEqual( _expectedNamedValueAttribute,
+                                                                         METHOD_1_TAG_0_NAME );
+            if ( !MetaClassTestUtility.areAttributesEqual( METHOD_1_TAG_0,
                                                            attribute ) )
             {
                 fail( "getNamedValueAttribute: Attributes not equal:\n" +
-                      _expectedNamedValueAttribute + " != " + attribute );
+                      METHOD_1_TAG_0 + " != " + attribute );
             }
         }
         catch ( Exception e )
@@ -228,14 +170,14 @@ public class BasicMethodAttributesTestCase
         {
             final Class aClass = Class.forName( CLASS_NAME );
             final Attribute attribute =
-                Attributes.getAttribute( aClass.getDeclaredMethod( PARAMETERS_METHOD_NAME,
+                Attributes.getAttribute( aClass.getDeclaredMethod( METHOD_NAMES[ 3 ],
                                                                    new Class[]{} ),
-                                         PARAMETERS_ATTRIBUTE_NAME );
-            if ( !MetaClassTestUtility.areAttributesEqual( _expectedNamedParametersAttribute,
+                                         METHOD_3_TAG_0_NAME );
+            if ( !MetaClassTestUtility.areAttributesEqual( METHOD_3_TAG_0,
                                                            attribute ) )
             {
                 fail( "getNamedParametersAttribute: Attributes not equal:\n" +
-                      _expectedNamedParametersAttribute + " != " + attribute );
+                      METHOD_3_TAG_0 + " != " + attribute );
             }
         }
         catch ( Exception e )
