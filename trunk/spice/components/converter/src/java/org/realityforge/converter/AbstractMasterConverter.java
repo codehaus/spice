@@ -10,8 +10,9 @@ package org.realityforge.converter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+
+import org.realityforge.salt.i18n.Resources;
+import org.realityforge.salt.i18n.ResourceManager;
 
 /**
  * This is a Converter implementation that is capable of converting between
@@ -22,7 +23,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * using the (@link #registerConverter} method.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-04-04 11:27:54 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-05 05:16:15 $
  */
 public abstract class AbstractMasterConverter
     implements Converter
@@ -78,17 +79,17 @@ public abstract class AbstractMasterConverter
             }
 
             final String message =
-                REZ.getString( "bad-return-type.error",
-                               object.getClass().getName(),
-                               destination.getName() );
+                REZ.format( "bad-return-type.error",
+                            object.getClass().getName(),
+                            destination.getName() );
             throw new ConverterException( message );
         }
         catch( final Exception e )
         {
             final String message =
-                REZ.getString( "convert.error",
-                               originalClass.getName(),
-                               destination.getName() );
+                REZ.format( "convert.error",
+                            originalClass.getName(),
+                            destination.getName() );
             throw new ConverterException( message, e );
         }
     }
