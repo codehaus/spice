@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-12-05 06:57:12 $
+ * @version $Revision: 1.3 $ $Date: 2003-12-17 06:11:40 $
  */
 public class TcpTransportTestCase
     extends TestCase
@@ -44,10 +44,10 @@ public class TcpTransportTestCase
         assertEquals( "key", null, transport.getKey() );
         assertEquals( "readBuffer.size",
                       20,
-                      transport.getReadBuffer().getCapacity() );
+                      transport.getReceiveBuffer().getCapacity() );
         assertEquals( "writeBuffer.size",
                       30,
-                      transport.getWriteBuffer().getCapacity() );
+                      transport.getTransmitBuffer().getCapacity() );
     }
 
     public void testNullChannelPassedToCtor()
@@ -65,16 +65,6 @@ public class TcpTransportTestCase
         fail( "Expected to fail due to null Channel passed into Ctor" );
     }
 
-    public void testSetKey()
-        throws Exception
-    {
-        final TcpTransport transport =
-            new TcpTransport( m_channel, 20, 30 );
-        final MockSelectorKey key = new MockSelectorKey();
-        transport.setKey( key );
-        assertEquals( "key", key, transport.getKey() );
-    }
-
     public void testCloseTransportWithOpenChannel()
         throws Exception
     {
@@ -89,9 +79,6 @@ public class TcpTransportTestCase
             m_channel.connect( socketAddress );
             final TcpTransport transport =
                 new TcpTransport( m_channel, 20, 30 );
-            final MockSelectorKey key = new MockSelectorKey();
-            transport.setKey( key );
-            assertEquals( "key", key, transport.getKey() );
             assertEquals( "channel.isOpen()", true, m_channel.isOpen() );
             transport.close();
             assertEquals( "key", null, transport.getKey() );
@@ -109,9 +96,6 @@ public class TcpTransportTestCase
         final TcpTransport transport =
             new TcpTransport( m_channel, 20, 30 );
         m_channel.close();
-        final MockSelectorKey key = new MockSelectorKey();
-        transport.setKey( key );
-        assertEquals( "key", key, transport.getKey() );
         assertEquals( "channel.isOpen()", false, m_channel.isOpen() );
         transport.close();
         assertEquals( "key", null, transport.getKey() );
@@ -123,8 +107,8 @@ public class TcpTransportTestCase
     {
         final TcpTransport transport =
             new TcpTransport( m_channel, 20, 30 );
-        final CircularBuffer writeBuffer = transport.getWriteBuffer();
-        final CircularBuffer readBuffer = transport.getReadBuffer();
+        final CircularBuffer writeBuffer = transport.getTransmitBuffer();
+        final CircularBuffer readBuffer = transport.getReceiveBuffer();
         writeBuffer.writeBytes( writeBuffer.getCapacity() );
         readBuffer.writeBytes( readBuffer.getCapacity() );
         assertEquals( "SelectOps",
@@ -147,8 +131,8 @@ public class TcpTransportTestCase
     {
         final TcpTransport transport =
             new TcpTransport( m_channel, 20, 30 );
-        final CircularBuffer readBuffer = transport.getReadBuffer();
-        final CircularBuffer writeBuffer = transport.getWriteBuffer();
+        final CircularBuffer readBuffer = transport.getReceiveBuffer();
+        final CircularBuffer writeBuffer = transport.getTransmitBuffer();
         readBuffer.writeBytes( 5 );
         writeBuffer.writeBytes( 5 );
         final int operations =
@@ -161,7 +145,7 @@ public class TcpTransportTestCase
     {
         final TcpTransport transport =
             new TcpTransport( m_channel, 20, 30 );
-        final CircularBuffer readBuffer = transport.getReadBuffer();
+        final CircularBuffer readBuffer = transport.getReceiveBuffer();
         readBuffer.writeBytes( readBuffer.getCapacity() );
         System.out.println( "getSpace() = " + readBuffer.getSpace() );
         System.out.println( "getCapacity() = " + readBuffer.getCapacity() );

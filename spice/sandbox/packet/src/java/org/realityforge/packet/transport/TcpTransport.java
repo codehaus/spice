@@ -10,12 +10,14 @@ package org.realityforge.packet.transport;
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
+import org.realityforge.sca.selector.SelectorEventHandler;
+import org.realityforge.sca.selector.SelectorManager;
 
 /**
  * An underlying transport layer that uses TCP/IP.
- *
+ * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2003-12-05 06:57:12 $
+ * @version $Revision: 1.6 $ $Date: 2003-12-17 06:11:40 $
  */
 public class TcpTransport
 {
@@ -26,44 +28,34 @@ public class TcpTransport
     private final SocketChannel m_channel;
 
     /** The buffer used to store incoming data. */
-    private final CircularBuffer m_readBuffer;
+    private final CircularBuffer m_receiveBuffer;
 
     /** The buffer used to store outgoing data. */
-    private final CircularBuffer m_writeBuffer;
+    private final CircularBuffer m_transmitBuffer;
 
     /**
      * Create transport.
-     *
+     * 
      * @param channel the underlying channel
-     * @param readBufferSize the size of the read buffer
-     * @param writeBufferSize the size of the write buffer
+     * @param receiveBufferSize the size of the read buffer
+     * @param transmitBufferSize the size of the write buffer
      */
     public TcpTransport( final SocketChannel channel,
-                         final int readBufferSize,
-                         final int writeBufferSize )
+                         final int receiveBufferSize,
+                         final int transmitBufferSize )
     {
         if( null == channel )
         {
             throw new NullPointerException( "channel" );
         }
         m_channel = channel;
-        m_readBuffer = new CircularBuffer( readBufferSize );
-        m_writeBuffer = new CircularBuffer( writeBufferSize );
-    }
-
-    /**
-     * Set the SelectionKey.
-     *
-     * @param key the SelectionKey.
-     */
-    public void setKey( final SelectionKey key )
-    {
-        m_key = key;
+        m_receiveBuffer = new CircularBuffer( receiveBufferSize );
+        m_transmitBuffer = new CircularBuffer( transmitBufferSize );
     }
 
     /**
      * Return the SelectionKey.
-     *
+     * 
      * @return the SelectionKey.
      */
     public SelectionKey getKey()
@@ -74,17 +66,17 @@ public class TcpTransport
     /**
      * Return the operations transport can is waiting on. The value is the AND
      * of {@link SelectionKey#OP_WRITE} and {@link SelectionKey#OP_READ} masks.
-     *
+     * 
      * @return the operations transport will wait on.
      */
     public int getSelectOps()
     {
         int ops = 0;
-        if( m_writeBuffer.getAvailable() > 0 )
+        if( getTransmitBuffer().getAvailable() > 0 )
         {
             ops |= SelectionKey.OP_WRITE;
         }
-        if( m_readBuffer.getSpace() > 0 )
+        if( getReceiveBuffer().getSpace() > 0 )
         {
             ops |= SelectionKey.OP_READ;
         }
@@ -93,7 +85,7 @@ public class TcpTransport
 
     /**
      * Get underlying channel for transport.
-     *
+     * 
      * @return the channel
      */
     public SocketChannel getChannel()
@@ -103,22 +95,41 @@ public class TcpTransport
 
     /**
      * Return the read buffer.
-     *
+     * 
      * @return the read buffer.
      */
-    public CircularBuffer getReadBuffer()
+    public CircularBuffer getReceiveBuffer()
     {
-        return m_readBuffer;
+        return m_receiveBuffer;
     }
 
     /**
      * Return the write buffer.
-     *
+     * 
      * @return the write buffer.
      */
-    public CircularBuffer getWriteBuffer()
+    public CircularBuffer getTransmitBuffer()
     {
-        return m_writeBuffer;
+        return m_transmitBuffer;
+    }
+
+    /**
+     * Register this transport with specified managger and using specified
+     * EventHandler.
+     * 
+     * @param selectorManager the manager.
+     * @param eventHandler the eventHandler
+     */
+    public void register( final SelectorManager selectorManager,
+                          final SelectorEventHandler eventHandler )
+        throws IOException
+    {
+        final SelectionKey key =
+            selectorManager.registerChannel( getChannel(),
+                                             getSelectOps(),
+                                             eventHandler,
+                                             this );
+        m_key = key;
     }
 
     /**
