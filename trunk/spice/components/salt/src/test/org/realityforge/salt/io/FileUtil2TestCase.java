@@ -18,7 +18,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-09-13 09:42:05 $
+ * @version $Revision: 1.5 $ $Date: 2003-09-15 07:52:11 $
  */
 public class FileUtil2TestCase
    extends TestCase
@@ -137,20 +137,100 @@ public class FileUtil2TestCase
    {
       final File dir = genTestDirectory();
       final File dest = genTestDirectory();
-      final File source = genFile( dir, 2 );
-      final File destination = new File( dest, source.getName() );
-      FileUtil.copyFileToDirectory( source, dest );
-      assertTrue( "destination.exists()", destination.exists() );
-      assertEquals( "destination.length", 2, destination.length() );
+      // use File representations 
+      final File source1 = genFile( dir, 1 );
+      final File destination1 = new File( dest, source1.getName() );
+      FileUtil.copyFileToDirectory( source1, dest );
+      assertTrue( "destination1.exists()", destination1.exists() );
+      assertEquals( "destination1.length", 1, destination1.length() );
+      // use String representations
+      final File source2 = genFile( dir, 2 );
+      final File destination2 = new File( dest, source2.getName() );
+      FileUtil.copyFileToDirectory( source2.toString(), dest.toString() );
+      assertTrue( "destination2.exists()", destination2.exists() );
+      assertEquals( "destination2.length", 2, destination2.length() );
+   }
+
+   public void testCopyFileToNonDir()
+      throws Exception
+   {
+      final File dir = genTestDirectory();
+      final File source = genFile( dir, 1 );
+      final File destination = genFile( dir, 2 );
+      try
+      {
+         FileUtil.copyFileToDirectory( source, destination);
+         fail( "Tried to copy to a non-dir" );
+      }
+      catch ( final IllegalArgumentException iae )
+      {
+      }
+   }
+
+   public void testCopyInexistentFile()
+      throws Exception
+   {
+      final File dest = genTestDirectory();
+      final File source = new File( "inexistent/path" );
+      final File destination = genFile( dest, 2 );
+      try
+      {
+         FileUtil.copyFile( source, destination);
+         fail( "Tried to copy an inesistent file" );
+      }
+      catch ( final IOException e )
+      {
+      }
+   }
+
+   public void testCopyToReadyOnlyFile()
+      throws Exception
+   {
+      final File dir = genTestDirectory();
+      final File dest = genTestDirectory();
+      final File source = genFile( dir, 1 );
+      final File destination = genFile( dest, 0 );
+      destination.setReadOnly();
+      try
+      {
+         FileUtil.copyFile( source, destination );
+         fail( "Tried to copy to read only file" );
+      }
+      catch ( final IOException e )
+      {
+      }
+   }
+
+//TODO why does it fail?
+   public void xtestCopyFileWithDifferentLengths()
+      throws Exception
+   {
+      final File dir = genTestDirectory();
+      final File dest = genTestDirectory();
+      final File source = genFile( dir, 1 );
+      final File destination = genFile( dest, 2 );
+      try
+      {
+         FileUtil.copyFile( source, destination );
+         fail( "Source and Destination have different lenghts" );
+      }
+      catch ( final IOException e )
+      {
+      }
    }
 
    public void testForceDeleteAFile()
       throws Exception
    {
       final File dir = genTestDirectory();
+      // use File representation
       final File file = genFile( dir, 33 );
       FileUtil.forceDelete( file );
       assertTrue( "Check No Exist", !file.exists() );
+      // use String representation
+      final File file2 = genFile( dir, 44 );
+      FileUtil.forceDelete( file2.toString() );
+      assertTrue( "Check No Exist", !file2.exists() );
    }
 
    public void testForceDeleteADir()
@@ -167,15 +247,22 @@ public class FileUtil2TestCase
       throws Exception
    {
       final File dir = genTestDirectory();
-      final File source = genFile( dir, 2 );
-      assertTrue( "File equals", FileUtil.contentEquals( source, source ) );
+      final File file = genFile( dir, 1 );
+      final File inexistent = new File( "inexistent/path" );
+      assertTrue( "File equals", FileUtil.contentEquals( file, file ) );
+      assertTrue( "File inexistent ", FileUtil.contentEquals( inexistent, inexistent ) );
+      assertTrue( "!inexistent.exists()", !FileUtil.contentEquals( file, inexistent ) );
+      assertTrue( "!inexistent.exists()", !FileUtil.contentEquals( inexistent, file ) );
+      assertTrue( "!dir.exists()", !FileUtil.contentEquals( dir, file ) );
+      assertTrue( "!dir.exists()", !FileUtil.contentEquals( file, dir ) );
    }
+
 
    public void testURLToFile()
       throws Exception
    {
       final File dir = genTestDirectory();
-      final File file = genFile( dir, 1 );
+      final File file = genFile( dir, 2 );
       assertEquals( "URL to File", file, FileUtil.toFile( file.toURL() ));
       assertNull( "URL to File", FileUtil.toFile( new URL("http://somedomain.tld/path") ));
    }
