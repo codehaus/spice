@@ -119,6 +119,13 @@ public class QDoxDescriptorParser
                                     attributes );
     }
 
+    /**
+     * Build a set of Attribute instances from a
+     * set QDox DocletTag instances.
+     *
+     * @param tags the DocletTag instances
+     * @return the Attributes
+     */
     private Attribute[] buildAttributes( final DocletTag[] tags )
     {
         final Attribute[] attributes = new Attribute[ tags.length ];
@@ -129,6 +136,12 @@ public class QDoxDescriptorParser
         return attributes;
     }
 
+    /**
+     * Build an Attribute object from a DocletTag.
+     *
+     * @param tag the DocletTag instance.
+     * @return the Attribute
+     */
     private Attribute buildAttribute( final DocletTag tag )
     {
         final String name = tag.getName();
