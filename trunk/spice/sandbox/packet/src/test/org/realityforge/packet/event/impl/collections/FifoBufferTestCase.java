@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-12-09 00:04:38 $
+ * @version $Revision: 1.4 $ $Date: 2003-12-09 00:13:41 $
  */
 public class FifoBufferTestCase
     extends TestCase
@@ -266,5 +266,35 @@ public class FifoBufferTestCase
         assertEquals( "element2", object2, element2 );
         assertEquals( "element3", object3, element3 );
         assertEquals( "element4", object4, element4 );
+    }
+
+    public void testOverAddOnBoundedBuffer()
+        throws Exception
+    {
+        final AbstractFifoBuffer buffer = new BoundedFifoBuffer( 3 );
+        final Object object1 = new Object();
+        final Object object2 = new Object();
+        final Object object3 = new Object();
+        final Object object4 = new Object();
+
+        assertEquals( "buffer.add( object1 )", true, buffer.add( object1 ) );
+        assertEquals( "buffer.add( object2 )", true, buffer.add( object2 ) );
+        assertEquals( "buffer.add( object3 )", true, buffer.add( object3 ) );
+        assertEquals( "buffer.add( object4 )", false, buffer.add( object4 ) );
+    }
+
+    public void testOverAddAllOnBoundedBuffer()
+        throws Exception
+    {
+        final AbstractFifoBuffer buffer = new BoundedFifoBuffer( 3 );
+        final Object object1 = new Object();
+        final Object object2 = new Object();
+        final Object object3 = new Object();
+        final Object object4 = new Object();
+        final Object[] objects =
+            new Object[]{object1, object2, object3, object4};
+
+        assertEquals( "buffer.addAll( objects )", false,
+                      buffer.addAll( objects ) );
     }
 }
