@@ -7,6 +7,8 @@ import java.nio.ByteBuffer;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.buffers.BufferManager;
+import org.codehaus.spice.netevent.events.ChannelClosedEvent;
+import org.codehaus.spice.netevent.events.ConnectEvent;
 import org.codehaus.spice.netevent.events.InputDataPresentEvent;
 import org.codehaus.spice.netevent.handlers.AbstractDirectedHandler;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
@@ -28,7 +30,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-15 03:45:32 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-15 06:18:23 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -39,16 +41,24 @@ public class PacketIOEventHandler
     /** The SessionManager via which sessions are located and created. */
     private final SessionManager _sessionManager;
 
+    /** The destination of all events destined for next layer. */
+    private EventSink _target;
+
     /**
      * Create handler with specified destination sink.
      * 
      * @param sink the destination
      */
     public PacketIOEventHandler( final EventSink sink,
+                                 final EventSink target,
                                  final BufferManager bufferManager,
                                  final SessionManager sessionManager )
     {
         super( sink );
+        if( null == target )
+        {
+            throw new NullPointerException( "target" );
+        }
         if( null == bufferManager )
         {
             throw new NullPointerException( "bufferManager" );
@@ -57,6 +67,7 @@ public class PacketIOEventHandler
         {
             throw new NullPointerException( "sessionManager" );
         }
+        _target = target;
         _bufferManager = bufferManager;
         _sessionManager = sessionManager;
     }
@@ -71,6 +82,16 @@ public class PacketIOEventHandler
             final InputDataPresentEvent ie = (InputDataPresentEvent)event;
             handleInput( ie );
         }
+        else if( event instanceof ConnectEvent )
+        {
+            final ConnectEvent ce = (ConnectEvent)event;
+            handleGreeting( ce );
+        }
+        else if( event instanceof ChannelClosedEvent )
+        {
+            final ChannelClosedEvent cc = (ChannelClosedEvent)event;
+            handleClose( cc );
+        }
         else if( event instanceof TransportDisconnectRequestEvent )
         {
             final TransportDisconnectRequestEvent e =
@@ -80,6 +101,47 @@ public class PacketIOEventHandler
         else
         {
             handleOutput( event );
+        }
+    }
+
+    /**
+     * Handle close of transport event.
+     * 
+     * @param cc the close event
+     */
+    private void handleClose( final ChannelClosedEvent cc )
+    {
+        final ChannelTransport transport = cc.getTransport();
+        final Session session = (Session)transport.getUserData();
+        if( null != session )
+        {
+            session.setTransport( null );
+        }
+    }
+
+    /**
+     * Handle initial greeting event event.
+     * 
+     * @param e the event
+     */
+    private void handleGreeting( final ConnectEvent e )
+    {
+        final ChannelTransport transport = e.getTransport();
+        final Session session = (Session)transport.getUserData();
+        if( null != session && session.isClient() )
+        {
+            try
+            {
+                sendGreeting( transport,
+                              session.getSessionID(),
+                              session.getAuthID() );
+            }
+            catch( final IOException ioe )
+            {
+                signalDisconnectTransport( transport,
+                                           Protocol.ERROR_IO_ERROR,
+                                           getSink() );
+            }
         }
     }
 
@@ -98,9 +160,6 @@ public class PacketIOEventHandler
         }
         catch( final IOException ioe )
         {
-            signalDisconnectTransport( transport,
-                                       Protocol.ERROR_IO_ERROR,
-                                       getSink() );
         }
     }
 
@@ -392,7 +451,7 @@ public class PacketIOEventHandler
             session.setStatus( Session.STATUS_ESTABLISHED );
             session.setSessionID( sessionID );
             session.setAuthID( authID );
-            getSink().addEvent( new SessionEstablishedEvent( session ) );
+            _target.addEvent( new SessionEstablishedEvent( session ) );
             return true;
         }
     }
@@ -420,7 +479,7 @@ public class PacketIOEventHandler
     {
         final Session session = (Session)transport.getUserData();
         session.setStatus( Session.STATUS_ESTABLISHED );
-        getSink().addEvent( new SessionEstablishedEvent( session ) );
+        _target.addEvent( new SessionEstablishedEvent( session ) );
         return true;
     }
 
