@@ -15,9 +15,9 @@ import com.thoughtworks.qdox.model.JavaMethod;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-24 04:50:08 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-24 04:50:22 $
  */
-public class ReplacingAttributeInterceptor
+class ReplacingAttributeInterceptor
     extends DefaultQDoxAttributeInterceptor
 {
     public Attribute[] processClassAttributes( JavaClass clazz,
