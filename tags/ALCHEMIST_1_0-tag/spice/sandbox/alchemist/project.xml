@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
+    <name>Alchemist</name>
+    <id>spice-alchemist</id>    
+    <gumpRepositoryId>sandbox</gumpRepositoryId>
+    <package>org.codehaus.spice.alchemist</package>
+    <currentVersion>1.0</currentVersion>
+    <inceptionYear>2003</inceptionYear>
+
+    <shortDescription>
+    	Utility component for transforming objects of different COP frameworks.
+    </shortDescription>
+
+    <description>
+		A utility component for transforming objects of different COP frameworks,
+		usually performing equivalent or similar roles.
+		Eg it provides transformation methods between the DNA and Avalon frameworks.
+    </description>
+
+    <versions>
+        <version>
+            <id>1.0</id>
+            <name>1.0</name>
+            <tag>ALCHEMIST_1_0-tag</tag>
+        </version>
+    </versions>
+
+    <dependencies>
+        <dependency>
+            <groupId>avalon</groupId>
+            <artifactId>avalon-framework</artifactId>
+            <version>4.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>dna</groupId>
+            <artifactId>dna-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency> <!-- for unit test -->
+            <groupId>dna</groupId>
+            <artifactId>dna-impl</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+    <developers>
+        <developer>
+            <name>Mauro Talevi</name>
+            <id>mauro</id>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+</project>
