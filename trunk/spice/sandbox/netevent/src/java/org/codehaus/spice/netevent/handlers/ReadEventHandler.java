@@ -13,7 +13,7 @@ import java.nio.channels.ReadableByteChannel;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.buffers.BufferManager;
-import org.codehaus.spice.netevent.events.ChannelClosedEvent;
+import org.codehaus.spice.netevent.events.CloseChannelRequestEvent;
 import org.codehaus.spice.netevent.events.ReadErrorEvent;
 import org.codehaus.spice.netevent.events.ReadEvent;
 import org.codehaus.spice.netevent.events.ReadPossibleEvent;
@@ -23,7 +23,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Handler for reading data from channel.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-09 00:51:43 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-15 05:53:15 $
  */
 public class ReadEventHandler
     extends AbstractIOEventHandler
@@ -60,8 +60,8 @@ public class ReadEventHandler
             final int count = channel.read( buffer );
             if( -1 == count )
             {
-                final ChannelClosedEvent result =
-                    new ChannelClosedEvent( transport );
+                final CloseChannelRequestEvent result =
+                    new CloseChannelRequestEvent( transport );
                 getSink().addEvent( result );
                 getBufferManager().releaseBuffer( buffer );
             }
