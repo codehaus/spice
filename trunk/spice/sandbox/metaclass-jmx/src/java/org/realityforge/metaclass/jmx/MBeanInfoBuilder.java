@@ -32,7 +32,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * description of valid attributes.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-17 07:38:49 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-17 08:14:47 $
  */
 public class MBeanInfoBuilder
 {
@@ -110,7 +110,7 @@ public class MBeanInfoBuilder
      * @return the ModelMBeanInfo objects
      * @throws Exception if unable to get resolve specified types
      */
-    public TopicDescriptor[] buildMBeanInfos( final Class type )
+    public TopicDescriptor[] buildTopics( final Class type )
         throws Exception
     {
         final List infos = new ArrayList();
