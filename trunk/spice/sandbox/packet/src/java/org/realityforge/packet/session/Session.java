@@ -13,7 +13,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-13 07:00:02 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-14 03:03:57 $
  */
 public class Session
 {
@@ -39,8 +39,14 @@ public class Session
     /** Status indicating client is no longer connected. */
     public static final int STATUS_DISCONNECTED = 4;
 
+    /** List of attributes associated with session. */
+    private final PacketQueue _messageQueue = new PacketQueue();
+
     /** A unique id for this particula session. */
-    private final long _sessionID;
+    private long _sessionID;
+
+    /** Authentication ID. */
+    private short _authID;
 
     /** Time at which session status last changed. */
     private long _timeOfLastStatusChange;
@@ -48,17 +54,17 @@ public class Session
     /** Status of session. Must be one of the STATUS_* constants. */
     private int _status = STATUS_NOT_CONNECTED;
 
-    /** List of attributes associated with session. */
-    private final PacketQueue _messageQueue = new PacketQueue();
-
     /** The associated transport. */
     private ChannelTransport _transport;
 
-    /** Authentication ID. */
-    private final short _authID;
+    /** Flag indicating whether this is the serverside or clientside session. */
+    private boolean _client;
+
+    /** The sequence of the last packet processed. */
+    private short _lastPacketProcessed;
 
     /**
-     * Create session with specified ID.
+     * Create Serverside session with specified ID.
      * 
      * @param sessionID the session ID
      * @param authID the authID
@@ -66,8 +72,61 @@ public class Session
     public Session( final long sessionID,
                     final short authID )
     {
+        this( sessionID, authID, false );
+    }
+
+    /**
+     * Create clientside session.
+     */
+    public Session()
+    {
+        this( -1, (short)0, false );
+    }
+
+    /**
+     * Create session with specified ID.
+     * 
+     * @param sessionID the session ID
+     * @param authID the authID
+     * @param client the client flag
+     */
+    protected Session( final long sessionID,
+                       final short authID,
+                       final boolean client )
+    {
         _sessionID = sessionID;
         _authID = authID;
+        _client = client;
+    }
+
+    /**
+     * Return the sequence of the last packet processed.
+     *
+     * @return the sequence of the last packet processed.
+     */
+    public short getLastPacketProcessed()
+    {
+        return _lastPacketProcessed;
+    }
+
+    /**
+     * Set the sequence of the last packet processed.
+     *
+     * @param lastPacketProcessed the sequence of the last packet processed.
+     */
+    public void setLastPacketProcessed( final short lastPacketProcessed )
+    {
+        _lastPacketProcessed = lastPacketProcessed;
+    }
+
+    /**
+     * Return true if session is clientside.
+     * 
+     * @return true if session is clientside.
+     */
+    public boolean isClient()
+    {
+        return _client;
     }
 
     /**
@@ -81,6 +140,16 @@ public class Session
     }
 
     /**
+     * Set the sessionID.
+     * 
+     * @param sessionID the sessionID
+     */
+    public void setSessionID( final long sessionID )
+    {
+        _sessionID = sessionID;
+    }
+
+    /**
      * Return the authID.
      * 
      * @return the authID.
@@ -88,6 +157,16 @@ public class Session
     public short getAuthID()
     {
         return _authID;
+    }
+
+    /**
+     * Set the AuthID.
+     * 
+     * @param authID the AuthID.
+     */
+    public void setAuthID( final short authID )
+    {
+        _authID = authID;
     }
 
     /**

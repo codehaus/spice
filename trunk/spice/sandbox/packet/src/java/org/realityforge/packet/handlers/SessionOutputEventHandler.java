@@ -10,20 +10,25 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.InputDataPresentEvent;
 import org.codehaus.spice.netevent.handlers.AbstractDirectedHandler;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
+import org.codehaus.spice.netevent.transport.TransportOutputStream;
 import org.realityforge.packet.Packet;
 import org.realityforge.packet.events.AckEvent;
+import org.realityforge.packet.events.AckRequestEvent;
 import org.realityforge.packet.events.NackEvent;
 import org.realityforge.packet.events.PacketReadEvent;
 import org.realityforge.packet.events.SessionEstablishedEvent;
 import org.realityforge.packet.events.TransportDisconnectRequestEvent;
+import org.realityforge.packet.events.PacketWriteRequestEvent;
+import org.realityforge.packet.events.NackRequestEvent;
+import org.realityforge.packet.events.SessionEstablishedRequestEvent;
 import org.realityforge.packet.session.Session;
 import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-14 03:03:57 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-14 03:03:57 $
  */
-public class SessionInputEventHandler
+public class SessionOutputEventHandler
     extends AbstractDirectedHandler
 {
     /** The associated BufferManager used to create ByteBuffers for incoming packets. */
@@ -37,9 +42,9 @@ public class SessionInputEventHandler
      * 
      * @param sink the destination
      */
-    public SessionInputEventHandler( final EventSink sink,
-                                     final BufferManager bufferManager,
-                                     final SessionManager sessionManager )
+    public SessionOutputEventHandler( final EventSink sink,
+                                      final BufferManager bufferManager,
+                                      final SessionManager sessionManager )
     {
         super( sink );
         if( null == bufferManager )
@@ -59,6 +64,53 @@ public class SessionInputEventHandler
      */
     public void handleEvent( final Object event )
     {
+
+        if( event instanceof SessionEstablishedRequestEvent )
+        {
+            final SessionEstablishedRequestEvent e =
+                (SessionEstablishedRequestEvent)event;
+            final ChannelTransport transport = e.getSession().getTransport();
+            final TransportOutputStream output = transport.getOutputStream();
+            output.write( Protocol.C2S_ESTABLISHED );
+            TypeIOUtil.writeShort( output, e.getSequence() );
+            output.flush();
+        }
+        else if( event instanceof AckRequestEvent )
+        {
+            final AckRequestEvent ar = (AckRequestEvent)event;
+            final ChannelTransport transport = ar.getSession().getTransport();
+            final TransportOutputStream output = transport.getOutputStream();
+            output.write( Protocol.MSG_ACK );
+            TypeIOUtil.writeShort( output, ar.getSequence() );
+            output.flush();
+        }
+        else if( event instanceof NackRequestEvent )
+        {
+            final NackRequestEvent ar = (NackRequestEvent)event;
+            final ChannelTransport transport = ar.getSession().getTransport();
+            final TransportOutputStream output = transport.getOutputStream();
+            output.write( Protocol.MSG_NACK );
+            TypeIOUtil.writeShort( output, ar.getSequence() );
+            output.flush();
+        }
+        else if( event instanceof PacketWriteRequestEvent )
+        {
+            final PacketWriteRequestEvent e = (PacketWriteRequestEvent)event;
+            final Packet packet = e.getPacket();
+            final ChannelTransport transport = e.getSession().getTransport();
+            final TransportOutputStream output = transport.getOutputStream();
+            output.write( Protocol.MSG_DATA );
+            final ByteBuffer data = packet.getData();
+            final int dataSize = data.limit();
+            TypeIOUtil.writeShort( output,
+                                   (short)(dataSize + Protocol.SIZEOF_SHORT) );
+            TypeIOUtil.writeShort( output, packet.getSequence() );
+            while( data.remaining() > 0 )
+            {
+                output.write( data.get() );
+            }
+            output.flush();
+        }
         final InputDataPresentEvent ie = (InputDataPresentEvent)event;
         final ChannelTransport transport = ie.getTransport();
         try

@@ -1,26 +1,60 @@
 package org.realityforge.packet.session;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import org.realityforge.packet.Packet;
+import org.realityforge.packet.handlers.Protocol;
 
 /**
  * A queue of packets for session.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-13 07:00:02 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-14 03:03:57 $
  */
 public class PacketQueue
 {
-    /**
-     * Max difference between successive sequence numbers to test for wrap
-     * around.
-     */
-    private static final short MAX_DIFF = Short.MAX_VALUE / 2;
 
     /** List of attributes associated with session. */
-    private final List _packets = new LinkedList();
+    private final List _packets = new ArrayList();
+
+    /** List of attributes associated with session. */
+    private final List _nacks = new ArrayList();
+
+    /**
+     * Look at packet at head of queue.
+     *
+     * @return the packet
+     */
+    public synchronized Packet peek()
+    {
+        if( _packets.size() == 0 )
+        {
+            return null;
+        }
+        else
+        {
+            return (Packet)_packets.get( 0 );
+        }
+    }
+
+    /**
+     * Return packet at head of queue and remove from queue.
+     *
+     * @return the packet
+     */
+    public synchronized Packet pop()
+    {
+        if( _packets.size() == 0 )
+        {
+            return null;
+        }
+        else
+        {
+            return (Packet)_packets.remove( 0 );
+        }
+    }
 
     /**
      * Add packet to queue.
@@ -34,6 +68,7 @@ public class PacketQueue
             throw new NullPointerException( "packet" );
         }
         _packets.add( packet );
+        Collections.sort( _packets, SequenceComparator.COMPARATOR );
     }
 
     /**
@@ -57,7 +92,7 @@ public class PacketQueue
                 found = true;
             }
 
-            if( isLessThanOrEqual( seq, sequence ) )
+            if( Protocol.isLessThanOrEqual( seq, sequence ) )
             {
                 iterator.remove();
             }
@@ -85,20 +120,6 @@ public class PacketQueue
             }
         }
         return null;
-    }
-
-    /**
-     * Return true if seq1 is less than or equal seq2 accounting for
-     * wraparound.
-     * 
-     * @param seq1 a sequence
-     * @param seq2 a sequence
-     * @return true if seq1 is less than or equal seq2
-     */
-    private boolean isLessThanOrEqual( final short seq1,
-                                       final short seq2 )
-    {
-        return seq1 <= seq2 || seq1 - MAX_DIFF > seq2;
     }
 
 }
