@@ -18,11 +18,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
-import java.util.Collection;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
@@ -33,7 +33,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  * Java Source files with qdox.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-10-16 06:53:12 $
+ * @version $Revision: 1.10 $ $Date: 2003-10-28 08:11:53 $
  */
 public class ClassDescriptorCompiler
 {

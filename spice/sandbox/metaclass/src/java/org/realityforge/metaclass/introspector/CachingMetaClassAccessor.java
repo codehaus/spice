@@ -9,14 +9,13 @@ package org.realityforge.metaclass.introspector;
 
 import java.util.Map;
 import java.util.WeakHashMap;
-
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
  * Caching MetaClassAccessor implementation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-28 08:07:32 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-28 08:11:53 $
  */
 public class CachingMetaClassAccessor
    implements MetaClassAccessor
