@@ -11,7 +11,7 @@ import org.realityforge.packet.handlers.Protocol;
  * A queue of packets for session.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-21 23:47:51 $
+ * @version $Revision: 1.4 $ $Date: 2004-02-03 06:34:04 $
  */
 public class PacketQueue
 {
@@ -84,29 +84,26 @@ public class PacketQueue
      * sequence less than or equal to supplied sequence.
      * 
      * @param sequence the sequence
-     * @return true if found packet to ack
      */
-    public synchronized boolean ack( final short sequence )
+    public synchronized void ack( final short sequence )
     {
         boolean found = false;
 
         final Iterator iterator = _packets.iterator();
-        while( iterator.hasNext() )
+        while( iterator.hasNext() && !found )
         {
             final Packet packet = (Packet)iterator.next();
             final short seq = packet.getSequence();
-            if( seq == sequence )
-            {
-                found = true;
-            }
 
             if( Protocol.isLessThanOrEqual( seq, sequence ) )
             {
+                if( seq == sequence )
+                {
+                    found = true;
+                }
                 iterator.remove();
             }
         }
-
-        return found;
     }
 
     /**
@@ -128,5 +125,10 @@ public class PacketQueue
             }
         }
         return null;
+    }
+
+    public String toString()
+    {
+        return "PacketQueue[" + _packets + "]";
     }
 }
