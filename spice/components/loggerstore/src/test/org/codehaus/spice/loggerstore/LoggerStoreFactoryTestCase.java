@@ -9,14 +9,9 @@ package org.codehaus.spice.loggerstore;
 
 import java.util.HashMap;
 import java.util.Properties;
-
 import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.jcontainer.dna.Logger;
-import org.jcontainer.dna.impl.ConsoleLogger;
-import org.jcontainer.dna.impl.ContainerUtil;
-
 import org.codehaus.spice.loggerstore.factories.ConsoleLoggerStoreFactory;
 import org.codehaus.spice.loggerstore.factories.DOMLog4JLoggerStoreFactory;
 import org.codehaus.spice.loggerstore.factories.ExcaliburLogKitLoggerStoreFactory;
@@ -25,13 +20,16 @@ import org.codehaus.spice.loggerstore.factories.Jdk14LoggerStoreFactory;
 import org.codehaus.spice.loggerstore.factories.LogKitLoggerStoreFactory;
 import org.codehaus.spice.loggerstore.factories.PropertyLog4JLoggerStoreFactory;
 import org.codehaus.spice.loggerstore.factories.SimpleLogKitLoggerStoreFactory;
+import org.jcontainer.dna.Logger;
+import org.jcontainer.dna.impl.ConsoleLogger;
+import org.jcontainer.dna.impl.ContainerUtil;
 import org.w3c.dom.Element;
 
 /**
- *  Test case for LoggerStoreFactory
+ * Test case for LoggerStoreFactory
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class LoggerStoreFactoryTestCase
     extends AbstractTestCase
@@ -60,11 +58,14 @@ public class LoggerStoreFactoryTestCase
         config.put( ClassLoader.class.getName(),
                     ClassLoader.getSystemClassLoader().getParent() );
         final InitialLoggerStoreFactory factory = new InitialLoggerStoreFactory();
-        ContainerUtil.enableLogging( factory, new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
+        ContainerUtil.enableLogging( factory,
+                                     new ConsoleLogger(
+                                         ConsoleLogger.LEVEL_DEBUG ) );
         try
         {
             factory.createLoggerStore( config );
-            fail( "Expected to not be able to create LoggerStoreFactory as no type was specified or on ClassPath" );
+            fail(
+                "Expected to not be able to create LoggerStoreFactory as no type was specified or on ClassPath" );
         }
         catch( final Exception e )
         {
@@ -78,7 +79,9 @@ public class LoggerStoreFactoryTestCase
         config.put( InitialLoggerStoreFactory.INITIAL_FACTORY,
                     ConsoleLoggerStoreFactory.class.getName() );
         final InitialLoggerStoreFactory factory = new InitialLoggerStoreFactory();
-        ContainerUtil.enableLogging( factory, new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
+        ContainerUtil.enableLogging( factory,
+                                     new ConsoleLogger(
+                                         ConsoleLogger.LEVEL_DEBUG ) );
         final LoggerStore store = factory.createLoggerStore( config );
         performConsoleTest( store, ConsoleLogger.LEVEL_DEBUG );
     }
@@ -89,7 +92,9 @@ public class LoggerStoreFactoryTestCase
         final HashMap config = new HashMap();
         config.put( InitialLoggerStoreFactory.INITIAL_FACTORY, "Blah" );
         final InitialLoggerStoreFactory factory = new InitialLoggerStoreFactory();
-        ContainerUtil.enableLogging( factory, new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
+        ContainerUtil.enableLogging( factory,
+                                     new ConsoleLogger(
+                                         ConsoleLogger.LEVEL_DEBUG ) );
         try
         {
             factory.createLoggerStore( config );
@@ -116,14 +121,14 @@ public class LoggerStoreFactoryTestCase
     public void testInitialLoggerStoreFactoryFromContextClassLoader()
         throws Exception
     {
-        Thread.currentThread().setContextClassLoader( InitialLoggerStoreFactory.class.getClassLoader() );
+        Thread.currentThread().setContextClassLoader(
+            InitialLoggerStoreFactory.class.getClassLoader() );
         final HashMap config = new HashMap();
         runFactoryTest( new InitialLoggerStoreFactory(),
                         ConsoleLogger.LEVEL_DEBUG,
                         config,
                         "log4j-properties" );
     }
-
 
     // LogKitLoggerStoreFactory tests
     public void testLogKitLoggerStoreFactoryInvalidInput()
@@ -137,12 +142,15 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(), 
+        config.put( Configuration.class.getName(),
                     builder.build( getResource( "logkit-excalibur.xml" ) ) );
-        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-        Thread.currentThread().setContextClassLoader( null );       
+        ClassLoader contextClassLoader = Thread.currentThread()
+            .getContextClassLoader();
+        Thread.currentThread().setContextClassLoader( null );
         final MockLogKitLoggerStoreFactory factory = new MockLogKitLoggerStoreFactory();
-        assertEquals("LogKit ClassLoader", factory.getClassLoader(config), LogKitLoggerStoreFactory.class.getClassLoader() );
+        assertEquals( "LogKit ClassLoader",
+                      factory.getClassLoader( config ),
+                      LogKitLoggerStoreFactory.class.getClassLoader() );
         Thread.currentThread().setContextClassLoader( contextClassLoader );
     }
 
@@ -151,7 +159,7 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(), 
+        config.put( Configuration.class.getName(),
                     builder.build( getResource( "logkit-excalibur.xml" ) ) );
         config.put( ClassLoader.class.getName(),
                     LogKitLoggerStoreFactory.class.getClassLoader() );
@@ -166,11 +174,11 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(), 
+        config.put( Configuration.class.getName(),
                     builder.build( getResource( "logkit-excalibur.xml" ) ) );
-        config.put( org.apache.avalon.framework.logger.Logger.class.getName(), 
+        config.put( org.apache.avalon.framework.logger.Logger.class.getName(),
                     new org.apache.avalon.framework.logger.ConsoleLogger() );
-        
+
         runFactoryTest( new LogKitLoggerStoreFactory(),
                         ConsoleLogger.LEVEL_INFO,
                         config,
@@ -182,7 +190,7 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(), 
+        config.put( Configuration.class.getName(),
                     builder.build( getResource( "logkit-excalibur.xml" ) ) );
 
         runFactoryTest( new LogKitLoggerStoreFactory(),
@@ -192,11 +200,11 @@ public class LoggerStoreFactoryTestCase
     }
 
     public void testLogKitLoggerStoreFactoryWithConfigurationAndLoggerManager()
-            throws Exception
+        throws Exception
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(), 
+        config.put( Configuration.class.getName(),
                     builder.build( getResource( "logkit-simple.xml" ) ) );
         config.put( LogKitLoggerStoreFactory.LOGGER_MANAGER,
                     SimpleLogKitManager.class.getName() );
@@ -246,7 +254,7 @@ public class LoggerStoreFactoryTestCase
                                        ConsoleLogger.LEVEL_INFO,
                                        "logkit-simple",
                                        config );
-            fail( "Expected to not be able to create LoggerManager ");
+            fail( "Expected to not be able to create LoggerManager " );
         }
         catch( final Exception e )
         {
@@ -264,7 +272,7 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(), 
+        config.put( Configuration.class.getName(),
                     builder.build( getResource( "logkit-excalibur.xml" ) ) );
         config.put( Logger.class.getName(), new ConsoleLogger() );
 
@@ -295,7 +303,7 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(), 
+        config.put( Configuration.class.getName(),
                     builder.build( getResource( "logkit-simple.xml" ) ) );
         config.put( Logger.class.getName(), new ConsoleLogger() );
 

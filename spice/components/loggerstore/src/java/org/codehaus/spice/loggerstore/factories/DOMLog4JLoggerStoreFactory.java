@@ -14,12 +14,12 @@ import org.codehaus.spice.loggerstore.stores.Log4JLoggerStore;
 import org.w3c.dom.Element;
 
 /**
- * DOMLog4JLoggerStoreFactory is an implementation of LoggerStoreFactory
- * for the Log4J Logger using a DOM configuration resource.
+ * DOMLog4JLoggerStoreFactory is an implementation of LoggerStoreFactory for the
+ * Log4J Logger using a DOM configuration resource.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-19 18:22:44 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:01 $
  */
 public class DOMLog4JLoggerStoreFactory
     extends AbstractLoggerStoreFactory

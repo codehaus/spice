@@ -25,7 +25,8 @@ public class Jdk14LoggerStore
     private final LogManager m_manager;
 
     /**
-     * Creates a <code>Log4JLoggerStore</code> using the configuration resource.
+     * Creates a <code>Log4JLoggerStore</code> using the configuration
+     * resource.
      *
      * @param resource the InputStream encoding the configuration resource
      * @throws Exception if fails to create or configure Logger
@@ -39,7 +40,7 @@ public class Jdk14LoggerStore
     }
 
     /**
-     *  Creates new Jdk14Logger for the given category.
+     * Creates new Jdk14Logger for the given category.
      */
     protected Logger createLogger( final String name )
     {
@@ -47,7 +48,7 @@ public class Jdk14LoggerStore
     }
 
     /**
-     *  Closes the LoggerStore and shuts down the logger hierarchy.
+     * Closes the LoggerStore and shuts down the logger hierarchy.
      */
     public void close()
     {

@@ -18,8 +18,8 @@ import org.codehaus.spice.loggerstore.stores.Log4JLoggerStore;
  * for the Log4J Logger using a property configuration resource.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-19 18:22:44 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:01 $
  */
 public class PropertyLog4JLoggerStoreFactory
     extends AbstractLoggerStoreFactory
@@ -34,7 +34,8 @@ public class PropertyLog4JLoggerStoreFactory
     protected LoggerStore doCreateLoggerStore( final Map config )
         throws Exception
     {
-        final Properties properties = (Properties)config.get( Properties.class.getName() );
+        final Properties properties = (Properties)config.get(
+            Properties.class.getName() );
         if( null != properties )
         {
             return new Log4JLoggerStore( properties );
@@ -43,7 +44,8 @@ public class PropertyLog4JLoggerStoreFactory
         final InputStream resource = getInputStream( config );
         if( null != resource )
         {
-            return new Log4JLoggerStore( createPropertiesFromStream( resource ) );
+            return new Log4JLoggerStore(
+                createPropertiesFromStream( resource ) );
         }
 
         return missingConfiguration();

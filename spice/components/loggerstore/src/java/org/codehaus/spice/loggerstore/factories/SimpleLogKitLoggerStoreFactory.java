@@ -13,8 +13,8 @@ import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
 import org.codehaus.spice.loggerstore.LoggerStore;
 
 /**
- * SimpleLogKitLoggerStoreFactory specialises the LogKitLoggerStoreFactory
- * to use the SimpleLogKitManager.
+ * SimpleLogKitLoggerStoreFactory specialises the LogKitLoggerStoreFactory to
+ * use the SimpleLogKitManager.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */

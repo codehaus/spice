@@ -31,6 +31,7 @@ public class Log4JLoggerStore
 
     /**
      * Creates a <code>Log4JLoggerStore</code> using the configuration resource
+     *
      * @param resource the Element encoding the configuration resource
      * @throws Exception if fails to create or configure Logger
      */
@@ -46,6 +47,7 @@ public class Log4JLoggerStore
 
     /**
      * Creates a <code>Log4JLoggerStore</code> using the configuration resource
+     *
      * @param resource the InputStream encoding the configuration resource
      * @throws Exception if fails to create or configure Logger
      */
@@ -61,6 +63,7 @@ public class Log4JLoggerStore
 
     /**
      * Creates a <code>Log4JLoggerStore</code> using the configuration resource
+     *
      * @param resource the Properties encoding the configuration resource
      * @throws Exception if fails to create or configure Logger
      */
@@ -75,7 +78,7 @@ public class Log4JLoggerStore
     }
 
     /**
-     *  Creates new Log4JLogger for the given category.
+     * Creates new Log4JLogger for the given category.
      */
     protected Logger createLogger( final String categoryName )
     {
@@ -83,7 +86,7 @@ public class Log4JLoggerStore
     }
 
     /**
-     *  Closes the LoggerStore and shuts down the logger hierarchy.
+     * Closes the LoggerStore and shuts down the logger hierarchy.
      */
     public void close()
     {

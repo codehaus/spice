@@ -13,8 +13,8 @@ import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.codehaus.spice.loggerstore.LoggerStore;
 
 /**
- * ExcaliburLogKitLoggerStoreFactory specialises the LogKitLoggerStoreFactory
- * to use the Excalibur LogKitLoggerManager.
+ * ExcaliburLogKitLoggerStoreFactory specialises the LogKitLoggerStoreFactory to
+ * use the Excalibur LogKitLoggerManager.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */

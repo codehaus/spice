@@ -8,24 +8,23 @@
 package org.codehaus.spice.loggerstore;
 
 import java.util.Properties;
-
 import org.apache.avalon.excalibur.logger.Log4JLoggerManager;
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.NullLogger;
-import org.jcontainer.dna.impl.ConsoleLogger;
 import org.codehaus.spice.loggerstore.stores.ConsoleLoggerStore;
 import org.codehaus.spice.loggerstore.stores.Jdk14LoggerStore;
 import org.codehaus.spice.loggerstore.stores.Log4JLoggerStore;
 import org.codehaus.spice.loggerstore.stores.LogKitLoggerStore;
+import org.jcontainer.dna.impl.ConsoleLogger;
 
 /**
- *  Test case for LoggerStore
+ * Test case for LoggerStore
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class LoggerStoreTestCase
     extends AbstractTestCase
@@ -67,7 +66,6 @@ public class LoggerStoreTestCase
         performConsoleTest( store, ConsoleLogger.LEVEL_NONE );
     }
 
-
     // LogKitLoggerStore tests
     public void testLogKitExcaliburConfiguration()
         throws Exception
@@ -75,7 +73,11 @@ public class LoggerStoreTestCase
         final LoggerManager loggerManager = new LogKitLoggerManager();
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( loggerManager, null, null, builder.build( getResource( "logkit-excalibur.xml" ) ) );
+            new LogKitLoggerStore( loggerManager,
+                                   null,
+                                   null,
+                                   builder.build(
+                                       getResource( "logkit-excalibur.xml" ) ) );
         runLoggerTest( "logkit-excalibur", store, ConsoleLogger.LEVEL_DEBUG );
     }
 
@@ -85,7 +87,11 @@ public class LoggerStoreTestCase
         final LoggerManager loggerManager = new LogKitLoggerManager();
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( loggerManager, new NullLogger(), null, builder.build( getResource( "logkit-excalibur.xml" ) ) );
+            new LogKitLoggerStore( loggerManager,
+                                   new NullLogger(),
+                                   null,
+                                   builder.build(
+                                       getResource( "logkit-excalibur.xml" ) ) );
         runLoggerTest( "logkit-excalibur", store, ConsoleLogger.LEVEL_DEBUG );
     }
 
@@ -95,7 +101,11 @@ public class LoggerStoreTestCase
         final LoggerManager loggerManager = new LogKitLoggerManager();
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( loggerManager, null, new DefaultContext(), builder.build( getResource( "logkit-excalibur.xml" ) ) );
+            new LogKitLoggerStore( loggerManager,
+                                   null,
+                                   new DefaultContext(),
+                                   builder.build(
+                                       getResource( "logkit-excalibur.xml" ) ) );
         runLoggerTest( "logkit-excalibur", store, ConsoleLogger.LEVEL_DEBUG );
     }
 
@@ -105,7 +115,11 @@ public class LoggerStoreTestCase
         final LoggerManager loggerManager = new LogKitLoggerManager();
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( loggerManager, null, null, builder.build( getResource( "logkit-excalibur.xml" ) ) );
+            new LogKitLoggerStore( loggerManager,
+                                   null,
+                                   null,
+                                   builder.build(
+                                       getResource( "logkit-excalibur.xml" ) ) );
         runLoggerTest( "logkit-excalibur", store, ConsoleLogger.LEVEL_NONE );
     }
 
@@ -115,7 +129,11 @@ public class LoggerStoreTestCase
         final LoggerManager loggerManager = new LogKitLoggerManager();
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( loggerManager, null, null, builder.build( getResource( "logkit-excalibur.xml" ) ) );
+            new LogKitLoggerStore( loggerManager,
+                                   null,
+                                   null,
+                                   builder.build(
+                                       getResource( "logkit-excalibur.xml" ) ) );
         runLoggerTest( "logkit-excalibur", store );
     }
 
@@ -125,7 +143,7 @@ public class LoggerStoreTestCase
         try
         {
             final LoggerStore store =
-                new LogKitLoggerStore( null, null, null, null);
+                new LogKitLoggerStore( null, null, null, null );
             fail( "Expected to get an exception as LoggerManager is null." );
         }
         catch( final Exception e )
@@ -141,7 +159,11 @@ public class LoggerStoreTestCase
             final LoggerManager loggerManager = new Log4JLoggerManager();
             final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
             final LoggerStore store =
-                new LogKitLoggerStore( loggerManager, null, null, builder.build( getResource( "log4j.xml" ) ) );
+                new LogKitLoggerStore( loggerManager,
+                                       null,
+                                       null,
+                                       builder.build(
+                                           getResource( "log4j.xml" ) ) );
             fail( "Expected to get an exception as LoggerManager is invalid." );
         }
         catch( final Exception e )
@@ -154,8 +176,10 @@ public class LoggerStoreTestCase
         throws Exception
     {
         final LoggerStore store =
-            new Log4JLoggerStore( buildElement( getResource( "log4j.xml" ),
-                                                new org.apache.log4j.xml.Log4jEntityResolver(), null ) );
+            new Log4JLoggerStore(
+                buildElement( getResource( "log4j.xml" ),
+                              new org.apache.log4j.xml.Log4jEntityResolver(),
+                              null ) );
         runLoggerTest( "log4j-xml", store, ConsoleLogger.LEVEL_DEBUG );
     }
 
@@ -163,8 +187,10 @@ public class LoggerStoreTestCase
         throws Exception
     {
         final LoggerStore store =
-            new Log4JLoggerStore( buildElement( getResource( "log4j.xml" ),
-                                                new org.apache.log4j.xml.Log4jEntityResolver(), null ) );
+            new Log4JLoggerStore(
+                buildElement( getResource( "log4j.xml" ),
+                              new org.apache.log4j.xml.Log4jEntityResolver(),
+                              null ) );
         runLoggerTest( "log4j-xml", store, ConsoleLogger.LEVEL_NONE );
     }
 
@@ -172,8 +198,10 @@ public class LoggerStoreTestCase
         throws Exception
     {
         final LoggerStore store =
-            new Log4JLoggerStore( buildElement( getResource( "log4j.xml" ),
-                                                new org.apache.log4j.xml.Log4jEntityResolver(), null ) );
+            new Log4JLoggerStore(
+                buildElement( getResource( "log4j.xml" ),
+                              new org.apache.log4j.xml.Log4jEntityResolver(),
+                              null ) );
         runLoggerTest( "log4j-xml", store );
     }
 

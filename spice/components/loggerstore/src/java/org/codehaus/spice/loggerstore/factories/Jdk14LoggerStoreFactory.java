@@ -16,12 +16,12 @@ import org.codehaus.spice.loggerstore.LoggerStore;
 import org.codehaus.spice.loggerstore.stores.Jdk14LoggerStore;
 
 /**
- * Jdk14LoggerStoreFactory is an implementation of LoggerStoreFactory
- * for the JDK14 Logger.
+ * Jdk14LoggerStoreFactory is an implementation of LoggerStoreFactory for the
+ * JDK14 Logger.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-19 18:22:44 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:01 $
  */
 public class Jdk14LoggerStoreFactory
     extends AbstractLoggerStoreFactory
@@ -36,12 +36,14 @@ public class Jdk14LoggerStoreFactory
     protected LoggerStore doCreateLoggerStore( final Map config )
         throws Exception
     {
-        final Properties properties = (Properties)config.get( Properties.class.getName() );
+        final Properties properties = (Properties)config.get(
+            Properties.class.getName() );
         if( null != properties )
         {
             final ByteArrayOutputStream output = new ByteArrayOutputStream();
             properties.store( output, "" );
-            final ByteArrayInputStream input = new ByteArrayInputStream( output.toByteArray() );
+            final ByteArrayInputStream input = new ByteArrayInputStream(
+                output.toByteArray() );
             return new Jdk14LoggerStore( input );
         }
         final InputStream resource = getInputStream( config );
