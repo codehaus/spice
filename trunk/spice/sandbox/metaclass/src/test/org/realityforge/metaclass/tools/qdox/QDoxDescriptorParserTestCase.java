@@ -7,7 +7,7 @@
  */
 package org.realityforge.metaclass.tools.qdox;
 
-import com.thoughtworks.qdox.model.DocletTag;
+import com.thoughtworks.qdox.model.DefaultDocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
@@ -26,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-09-28 06:16:45 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-17 14:30:15 $
  */
 public class QDoxDescriptorParserTestCase
     extends TestCase
@@ -335,7 +335,7 @@ public class QDoxDescriptorParserTestCase
     {
         final String name = "myTag";
         final String value = null;
-        final DocletTag tag = new DocletTag( name, null );
+        final DefaultDocletTag tag = new DefaultDocletTag( name, null );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final Attribute attribute = parser.buildAttribute( tag );
         assertNotNull( "attribute", attribute );
@@ -350,7 +350,7 @@ public class QDoxDescriptorParserTestCase
     {
         final String name = "myTag";
         final String value = null;
-        final DocletTag tag = new DocletTag( name, "" );
+        final DefaultDocletTag tag = new DefaultDocletTag( name, "" );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final Attribute attribute = parser.buildAttribute( tag );
         assertNotNull( "attribute", attribute );
@@ -365,7 +365,7 @@ public class QDoxDescriptorParserTestCase
     {
         final String name = "myTag";
         final String value = "Here is some text";
-        final DocletTag tag = new DocletTag( name, value );
+        final DefaultDocletTag tag = new DefaultDocletTag( name, value );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final Attribute attribute = parser.buildAttribute( tag );
         assertNotNull( "attribute", attribute );
@@ -380,7 +380,7 @@ public class QDoxDescriptorParserTestCase
     {
         final String name = "myTag";
         final String value = null;
-        final DocletTag tag = new DocletTag( name, "key=\"value\"" );
+        final DefaultDocletTag tag = new DefaultDocletTag( name, "key=\"value\"" );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final Attribute attribute = parser.buildAttribute( tag );
         assertNotNull( "attribute", attribute );
@@ -442,8 +442,8 @@ public class QDoxDescriptorParserTestCase
         final JavaField javaField = new JavaField();
         javaField.setType( new Type( type ) );
         final ArrayList tags = new ArrayList();
-        tags.add( new DocletTag( "deleteme", "" ) );
-        tags.add( new DocletTag( "dna.persist", "" ) );
+        tags.add( new DefaultDocletTag( "deleteme", "" ) );
+        tags.add( new DefaultDocletTag( "dna.persist", "" ) );
         javaField.setTags( tags );
         javaField.setModifiers( new String[]{"public"} );
         javaField.setName( name );
@@ -465,8 +465,8 @@ public class QDoxDescriptorParserTestCase
         final JavaField javaField = new JavaField();
         javaField.setType( new Type( type ) );
         final ArrayList tags = new ArrayList();
-        tags.add( new DocletTag( "rewriteme", "" ) );
-        tags.add( new DocletTag( "dna.persist", "" ) );
+        tags.add( new DefaultDocletTag( "rewriteme", "" ) );
+        tags.add( new DefaultDocletTag( "dna.persist", "" ) );
         javaField.setTags( tags );
         javaField.setModifiers( new String[]{"public"} );
         javaField.setName( name );
@@ -489,8 +489,8 @@ public class QDoxDescriptorParserTestCase
         final JavaField javaField = new JavaField();
         javaField.setType( new Type( type ) );
         final ArrayList tags = new ArrayList();
-        tags.add( new DocletTag( "rewriteme", "" ) );
-        tags.add( new DocletTag( "dna.persist", "" ) );
+        tags.add( new DefaultDocletTag( "rewriteme", "" ) );
+        tags.add( new DefaultDocletTag( "dna.persist", "" ) );
         javaField.setTags( tags );
         javaField.setModifiers( new String[]{"public"} );
         javaField.setName( name );
@@ -617,8 +617,8 @@ public class QDoxDescriptorParserTestCase
         javaMethod.setParameters( new JavaParameter[ 0 ] );
         javaMethod.setModifiers( new String[]{"public"} );
         final ArrayList tags = new ArrayList();
-        tags.add( new DocletTag( "deleteme", "" ) );
-        tags.add( new DocletTag( "dna.entry", "" ) );
+        tags.add( new DefaultDocletTag( "deleteme", "" ) );
+        tags.add( new DefaultDocletTag( "dna.entry", "" ) );
         javaMethod.setTags( tags );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final MethodDescriptor method = parser.buildMethod( javaMethod, new DeletingAttributeInterceptor() );
@@ -644,8 +644,8 @@ public class QDoxDescriptorParserTestCase
         javaMethod.setParameters( new JavaParameter[ 0 ] );
         javaMethod.setModifiers( new String[]{"public"} );
         final ArrayList tags = new ArrayList();
-        tags.add( new DocletTag( "rewriteme", "" ) );
-        tags.add( new DocletTag( "dna.entry", "" ) );
+        tags.add( new DefaultDocletTag( "rewriteme", "" ) );
+        tags.add( new DefaultDocletTag( "dna.entry", "" ) );
         javaMethod.setTags( tags );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final MethodDescriptor method = parser.buildMethod( javaMethod, new RewritingAttributeInterceptor() );
@@ -672,8 +672,8 @@ public class QDoxDescriptorParserTestCase
         javaMethod.setParameters( new JavaParameter[ 0 ] );
         javaMethod.setModifiers( new String[]{"public"} );
         final ArrayList tags = new ArrayList();
-        tags.add( new DocletTag( "rewriteme", "" ) );
-        tags.add( new DocletTag( "dna.entry", "" ) );
+        tags.add( new DefaultDocletTag( "rewriteme", "" ) );
+        tags.add( new DefaultDocletTag( "dna.entry", "" ) );
         javaMethod.setTags( tags );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final MethodDescriptor method = parser.buildMethod( javaMethod, new ReplacingAttributeInterceptor() );
@@ -689,8 +689,7 @@ public class QDoxDescriptorParserTestCase
         throws Exception
     {
         final String name = "MyClass";
-        final JavaClass javaClass = new JavaClass();
-        javaClass.setParent( new MockPackage() );
+        final JavaClass javaClass = new JavaClass( new MockPackage() );
         javaClass.setName( name );
         javaClass.setImplementz( new Type[ 0 ] );
         javaClass.setInterface( false );
@@ -710,8 +709,7 @@ public class QDoxDescriptorParserTestCase
         throws Exception
     {
         final String name = "MyClass";
-        final JavaClass javaClass = new JavaClass();
-        javaClass.setParent( new MockPackage() );
+        final JavaClass javaClass = new JavaClass( new MockPackage() );
         javaClass.setName( name );
         javaClass.setImplementz( new Type[ 0 ] );
         javaClass.setInterface( false );
@@ -731,15 +729,14 @@ public class QDoxDescriptorParserTestCase
         throws Exception
     {
         final String name = "MyClass";
-        final JavaClass javaClass = new JavaClass();
-        javaClass.setParent( new MockPackage() );
+        final JavaClass javaClass = new JavaClass( new MockPackage() );
         javaClass.setName( name );
         javaClass.setImplementz( new Type[ 0 ] );
         javaClass.setInterface( false );
         javaClass.setModifiers( new String[]{"public"} );
         final ArrayList tags = new ArrayList();
-        tags.add( new DocletTag( "deleteme", "" ) );
-        tags.add( new DocletTag( "dna.service", "" ) );
+        tags.add( new DefaultDocletTag( "deleteme", "" ) );
+        tags.add( new DefaultDocletTag( "dna.service", "" ) );
         javaClass.setTags( tags );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new DeletingAttributeInterceptor() );
@@ -756,15 +753,14 @@ public class QDoxDescriptorParserTestCase
         throws Exception
     {
         final String name = "MyClass";
-        final JavaClass javaClass = new JavaClass();
-        javaClass.setParent( new MockPackage() );
+        final JavaClass javaClass = new JavaClass( new MockPackage() );
         javaClass.setName( name );
         javaClass.setImplementz( new Type[ 0 ] );
         javaClass.setInterface( false );
         javaClass.setModifiers( new String[]{"public"} );
         final ArrayList tags = new ArrayList();
-        tags.add( new DocletTag( "rewriteme", "" ) );
-        tags.add( new DocletTag( "dna.service", "" ) );
+        tags.add( new DefaultDocletTag( "rewriteme", "" ) );
+        tags.add( new DefaultDocletTag( "dna.service", "" ) );
         javaClass.setTags( tags );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new RewritingAttributeInterceptor() );
@@ -782,15 +778,14 @@ public class QDoxDescriptorParserTestCase
         throws Exception
     {
         final String name = "MyClass";
-        final JavaClass javaClass = new JavaClass();
-        javaClass.setParent( new MockPackage() );
+        final JavaClass javaClass = new JavaClass( new MockPackage() );
         javaClass.setName( name );
         javaClass.setImplementz( new Type[ 0 ] );
         javaClass.setInterface( false );
         javaClass.setModifiers( new String[]{"public"} );
         final ArrayList tags = new ArrayList();
-        tags.add( new DocletTag( "rewriteme", "" ) );
-        tags.add( new DocletTag( "dna.service", "" ) );
+        tags.add( new DefaultDocletTag( "rewriteme", "" ) );
+        tags.add( new DefaultDocletTag( "dna.service", "" ) );
         javaClass.setTags( tags );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new ReplacingAttributeInterceptor() );
