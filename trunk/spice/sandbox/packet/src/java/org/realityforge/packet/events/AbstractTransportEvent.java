@@ -7,13 +7,14 @@
  */
 package org.realityforge.packet.events;
 
+import java.net.SocketAddress;
 import org.realityforge.packet.transport.TcpTransport;
 
 /**
  * An Event related to a particular transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-17 00:20:44 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-17 02:24:03 $
  */
 public abstract class AbstractTransportEvent
 {
@@ -42,5 +43,15 @@ public abstract class AbstractTransportEvent
     public TcpTransport getTransport()
     {
         return _transport;
+    }
+
+    /**
+     * @see Object#toString()
+     */
+    public String toString()
+    {
+        final SocketAddress address =
+            getTransport().getChannel().socket().getRemoteSocketAddress();
+        return getClass().getName() + "[" + address + "]";
     }
 }
