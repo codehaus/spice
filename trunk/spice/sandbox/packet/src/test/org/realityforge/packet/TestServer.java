@@ -16,13 +16,13 @@ import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
 import org.codehaus.spice.netevent.handlers.ChannelEventHandler;
 import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 import org.codehaus.spice.timeevent.source.TimeEventSource;
-import org.realityforge.packet.handlers.PacketEventHandler;
+import org.realityforge.packet.handlers.PacketIOEventHandler;
 import org.realityforge.packet.session.DefaultSessionManager;
 import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-01-23 06:53:06 $
+ * @version $Revision: 1.7 $ $Date: 2004-01-29 05:48:23 $
  */
 public class TestServer
 {
@@ -110,15 +110,15 @@ public class TestServer
         final TimeEventSource source3 = new TimeEventSource( queue5 );
 
         final EventHandler handler1 =
-            new EchoHandler( "CHAN SV",
+            new EchoHandler( null, //"CHAN SV",
                              new ChannelEventHandler( source1,
                                                       queue1,
                                                       queue2,
                                                       BUFFER_MANAGER ) );
 
         final EventHandler handler2 =
-            new EchoHandler( "PACK SV",
-                             new PacketEventHandler( source2,
+            new EchoHandler( null, //"PACK SV",
+                             new PacketIOEventHandler( source2,
                                                      queue2,
                                                      queue3,
                                                      BUFFER_MANAGER,
@@ -175,15 +175,15 @@ public class TestServer
         final TimeEventSource source3 = new TimeEventSource( queue5 );
 
         final EventHandler handler1 =
-            new EchoHandler( "CHAN CL",
+            new EchoHandler( null, //"CHAN CL",
                              new ChannelEventHandler( source1,
                                                       queue1,
                                                       queue2,
                                                       BUFFER_MANAGER ) );
 
         final EventHandler handler2 =
-            new EchoHandler( "PACK CL",
-                             new PacketEventHandler( source2,
+            new EchoHandler( null, //"PACK CL",
+                             new PacketIOEventHandler( source2,
                                                      queue2,
                                                      queue3,
                                                      BUFFER_MANAGER,

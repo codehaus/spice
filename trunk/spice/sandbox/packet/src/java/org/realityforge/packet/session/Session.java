@@ -14,7 +14,7 @@ import org.codehaus.spice.timeevent.source.SchedulingKey;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.12 $ $Date: 2004-01-22 05:57:01 $
+ * @version $Revision: 1.13 $ $Date: 2004-01-29 05:48:23 $
  */
 public class Session
 {
@@ -82,6 +82,12 @@ public class Session
     private boolean _client;
 
     /**
+     * Flag indicating whether the session will be disconencted when
+     * last messages transmitted.
+     */
+    private boolean _pendingDisconnect;
+
+    /**
      * The sequence of the last packet received.
      */
     private short _lastPacketProcessed;
@@ -147,6 +153,17 @@ public class Session
             _timeoutKey.cancel();
             _timeoutKey = null;
         }
+    }
+
+    public boolean isPendingDisconnect()
+    {
+        return _pendingDisconnect;
+    }
+
+    public void setPendingDisconnect()
+    {
+        System.out.println( "setPendingDisconnect" );
+        _pendingDisconnect = true;
     }
 
     public SchedulingKey getTimeoutKey()
@@ -320,6 +337,7 @@ public class Session
         final long sessionID = getSessionID();
         final int transportID = (_transport != null) ? _transport.getId() : -1;
         return "Session[SessionID=" + sessionID +
-               ", TransportID=" + transportID + "]";
+               ", TransportID=" + transportID +
+               ", UserData=" + getUserData() + "]";
     }
 }

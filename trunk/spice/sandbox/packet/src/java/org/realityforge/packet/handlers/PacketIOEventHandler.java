@@ -21,6 +21,7 @@ import org.codehaus.spice.timeevent.triggers.PeriodicTimeTrigger;
 import org.realityforge.packet.Packet;
 import org.realityforge.packet.events.AckEvent;
 import org.realityforge.packet.events.AckRequestEvent;
+import org.realityforge.packet.events.DataPacketReadyEvent;
 import org.realityforge.packet.events.NackEvent;
 import org.realityforge.packet.events.NackRequestEvent;
 import org.realityforge.packet.events.PacketReadEvent;
@@ -33,16 +34,22 @@ import org.realityforge.packet.events.SessionEstablishRequestEvent;
 import org.realityforge.packet.events.SessionEvent;
 import org.realityforge.packet.events.SessionInactiveEvent;
 import org.realityforge.packet.events.TransportDisconnectRequestEvent;
+import org.realityforge.packet.session.PacketQueue;
 import org.realityforge.packet.session.Session;
 import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.9 $ $Date: 2004-01-23 06:53:05 $
+ * @version $Revision: 1.10 $ $Date: 2004-01-29 05:48:23 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
 {
+    /**
+     * The number of milliseconds before the session will timeout.
+     */
+    private static final int TIMEOUT_IN_MILLIS = 30 * 1000;
+
     /**
      * The time event source to use to add timeouts.
      */
@@ -63,11 +70,6 @@ public class PacketIOEventHandler
      * The destination of all events destined for next layer.
      */
     private final EventSink _target;
-
-    /**
-     * The number of milliseconds before the session will timeout.
-     */
-    private static final int TIMEOUT_IN_MILLIS = 5 * 1000;
 
     /**
      * Create handler with specified destination sink.
@@ -113,6 +115,19 @@ public class PacketIOEventHandler
             final InputDataPresentEvent ie = (InputDataPresentEvent)event;
             handleInput( ie );
         }
+        else if( event instanceof AckEvent )
+        {
+            handleAck( (AckEvent)event );
+        }
+        else if( event instanceof NackEvent )
+        {
+            handleNack( (NackEvent)event );
+        }
+        else if( event instanceof PacketReadEvent )
+        {
+            final PacketReadEvent  e = (PacketReadEvent )event;
+            handlePacketReadEvent( e.getSession(), e.getPacket() );
+        }
         else if( event instanceof TimeEvent )
         {
             final TimeEvent e = (TimeEvent)event;
@@ -151,6 +166,47 @@ public class PacketIOEventHandler
         }
     }
 
+    private void handleAck( final AckEvent ce )
+    {
+        final short sequence = ce.getSequence();
+        final Session session = ce.getSession();
+        final PacketQueue queue = session.getMessageQueue();
+        queue.ack( sequence );
+        if( session.isPendingDisconnect() &&
+            0 == queue.size() )
+        {
+            final SessionDisconnectRequestEvent response =
+                new SessionDisconnectRequestEvent( session );
+            getSink().addEvent( response );
+        }
+    }
+
+    private void handleNack( final NackEvent ce )
+    {
+        final short sequence = ce.getSequence();
+        final Session session = ce.getSession();
+        final Packet packet =
+            session.getMessageQueue().getPacket( sequence );
+        if( null == packet )
+        {
+            final TransportDisconnectRequestEvent error =
+                new TransportDisconnectRequestEvent( session.getTransport(),
+                                                     Protocol.ERROR_BAD_NACK );
+            getSink().addEvent( error );
+        }
+        else
+        {
+            final PacketWriteRequestEvent response =
+                new PacketWriteRequestEvent( session, packet );
+            getSink().addEvent( response );
+        }
+    }
+
+    /**
+     * Handle timeout of conenction.
+     *
+     * @param e the event
+     */
     private void handleTimeout( final TimeEvent e )
     {
         final SchedulingKey key = e.getKey();
@@ -159,6 +215,7 @@ public class PacketIOEventHandler
         final int status = session.getStatus();
         if( Session.STATUS_LOST == status )
         {
+            session.setPendingDisconnect();
             final SessionDisconnectRequestEvent response =
                 new SessionDisconnectRequestEvent( session );
             getSink().addEvent( response );
@@ -191,13 +248,14 @@ public class PacketIOEventHandler
     {
         final Session session = e.getSession();
         final ChannelTransport transport = session.getTransport();
-        if( transport.getOutputStream().isClosed() )
+        if( canOutput( transport ) )
         {
             return;
         }
         try
         {
             sendEstablished( transport );
+            sendSessionStatus( session );
             _target.addEvent( new SessionActiveEvent( session ) );
         }
         catch( final IOException ioe )
@@ -207,6 +265,20 @@ public class PacketIOEventHandler
                                        Protocol.ERROR_IO_ERROR,
                                        getSink() );
         }
+    }
+
+    private void sendSessionStatus( final Session session )
+    {
+        final AckRequestEvent ack =
+            new AckRequestEvent( session,
+                                 session.getLastPacketProcessed() );
+        getSink().addEvent( ack );
+        //TODO: Send out some nacks
+    }
+
+    private boolean canOutput( final ChannelTransport transport )
+    {
+        return null == transport || transport.getOutputStream().isClosed();
     }
 
     /**
@@ -305,7 +377,7 @@ public class PacketIOEventHandler
         final SessionEvent se = (SessionEvent)event;
         final Session session = se.getSession();
         final ChannelTransport transport = session.getTransport();
-        if( transport.getOutputStream().isClosed() )
+        if( canOutput( transport ) )
         {
             return;
         }
@@ -757,11 +829,12 @@ public class PacketIOEventHandler
             signalDisconnectTransport( transport, reason,
                                        getSink() );
             final Session session = (Session)transport.getUserData();
+            System.out.println( "receiveDisconnect" );
+            System.out.println( "reason = " + reason );
+            System.out.println( "session = " + session );
             if( null != session )
             {
-                final SessionDisconnectRequestEvent response =
-                    new SessionDisconnectRequestEvent( session );
-                getSink().addEvent( response );
+                session.setPendingDisconnect();
             }
             return true;
         }
@@ -837,6 +910,40 @@ public class PacketIOEventHandler
             getSink().addEvent( new PacketReadEvent( session, packet ) );
             return true;
         }
+    }
+
+    /**
+     * Handle event indicating a packet has been read.
+     *
+     * @param session the session
+     * @param packet the packet
+     */
+    private void handlePacketReadEvent( final Session session,
+                                        final Packet packet )
+    {
+        if( session.isPendingDisconnect() )
+        {
+            return;
+        }
+
+        final PacketQueue queue = session.getMessageQueue();
+
+        Packet candidate = queue.peek();
+        short processed = session.getLastPacketProcessed();
+
+        while( null != candidate &&
+               Protocol.isNextInSequence( candidate.getSequence(),
+                                          processed ) )
+        {
+            final DataPacketReadyEvent response =
+                new DataPacketReadyEvent( session, packet );
+            _target.addEvent( response );
+            processed++;
+            session.setLastPacketProcessed( processed );
+            candidate = queue.pop();
+        }
+
+        sendSessionStatus( session );
     }
 
     /**

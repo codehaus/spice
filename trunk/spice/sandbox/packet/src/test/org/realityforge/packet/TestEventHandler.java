@@ -6,6 +6,7 @@ import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.handlers.AbstractDirectedHandler;
+import org.codehaus.spice.netevent.events.ChannelClosedEvent;
 import org.codehaus.spice.timeevent.events.TimeEvent;
 import org.codehaus.spice.timeevent.source.SchedulingKey;
 import org.codehaus.spice.timeevent.source.TimeEventSource;
@@ -15,14 +16,13 @@ import org.realityforge.packet.events.PacketWriteRequestEvent;
 import org.realityforge.packet.events.SessionActiveEvent;
 import org.realityforge.packet.events.SessionConnectEvent;
 import org.realityforge.packet.events.SessionDisconnectEvent;
-import org.realityforge.packet.events.SessionDisconnectRequestEvent;
 import org.realityforge.packet.events.SessionEvent;
 import org.realityforge.packet.events.SessionInactiveEvent;
 import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-23 06:53:05 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-29 05:48:23 $
  */
 class TestEventHandler
     extends AbstractDirectedHandler
@@ -62,27 +62,23 @@ class TestEventHandler
             if( Session.STATUS_ESTABLISHED == session.getStatus() )
             {
                 final int receivedMessages = sd.getReceivedMessages();
-                System.out.println( "sd = " + sd );
-                if( receivedMessages > 5 && !session.isClient() )
+                if( receivedMessages > 5 )
                 {
-                    final SessionDisconnectRequestEvent response =
-                        new SessionDisconnectRequestEvent( session );
-                    getSink().addEvent( response );
+                    session.setPendingDisconnect();
                 }
-                else if( receivedMessages < 5 )
+                else if( null != session.getTransport() &&
+                         RANDOM.nextBoolean() )
                 {
-                    if( null != session.getTransport() &&
-                        RANDOM.nextBoolean() )
-                    {
-                        System.out.println( "^^^^^^^^^^^^^" +
-                                            "CLOSING PERSISTENT CONNECTION" +
-                                            "^^^^^^^^^^^^^" );
-                        session.getTransport().getOutputStream().close();
-                    }
-                    else
-                    {
-                        transmitData( session );
-                    }
+                    System.out.println( "^^^^^^^^^^^^^" +
+                                        "CLOSING PERSISTENT CONNECTION" +
+                                        "^^^^^^^^^^^^^" );
+                    final ChannelClosedEvent cc =
+                        new ChannelClosedEvent( session.getTransport() );
+                    getSink().addEvent( cc );
+                }
+                else
+                {
+                    transmitData( session );
                 }
             }
             return;
@@ -103,8 +99,7 @@ class TestEventHandler
         }
         else if( event instanceof SessionInactiveEvent )
         {
-            final String text =
-                "Session Inactive. Unacked=" + sd.getUnAckedMessages();
+            final String text = "Session Inactive. " + sd;
             output( session, text );
         }
         else if( event instanceof SessionConnectEvent )
@@ -129,6 +124,8 @@ class TestEventHandler
             {
                 _clientSessions++;
             }
+            final String text = "Session Active. " + sd;
+            output( session, text );
         }
         else if( event instanceof SessionDisconnectEvent )
         {
@@ -150,7 +147,8 @@ class TestEventHandler
                 sessions = _clientSessions;
             }
             final String text =
-                "Session Completed. " + sessions + " sessions remaining.";
+                "Session Completed. " + sd +
+                "." + sessions + " sessions remaining.";
             output( session, text );
         }
     }
@@ -162,6 +160,10 @@ class TestEventHandler
 
     private void transmitData( final Session session )
     {
+        if( session.isPendingDisconnect() )
+        {
+            return;
+        }
         final int transmitCount =
             Math.abs( RANDOM.nextInt() % 16 * 1024 );
         final ByteBuffer buffer =
