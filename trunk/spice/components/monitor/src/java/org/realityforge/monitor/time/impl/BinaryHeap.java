@@ -9,12 +9,32 @@ package org.realityforge.monitor.time.impl;
 
 import java.util.NoSuchElementException;
 
+/**
+ * A BinaryHeap implementation of PriorityQueue.
+ *
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.7 $ $Date: 2003-04-25 05:39:57 $
+ */
 final class BinaryHeap
 {
+    /**
+     * The default heap size.
+     */
     private static final int DEFAULT_CAPACITY = 13;
 
+    /**
+     * The number of elements inserted into heap.
+     */
     private int m_size;
+
+    /**
+     * The elements in the heap.
+     */
     private Comparable[] m_elements;
+
+    /**
+     * Set to true if this heap is a minimum heap else it is a max heap.
+     */
     private boolean m_isMinHeap;
 
     public BinaryHeap()
