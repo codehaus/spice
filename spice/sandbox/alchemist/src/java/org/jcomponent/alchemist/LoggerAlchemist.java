@@ -15,11 +15,10 @@ import org.jcontainer.dna.Logger;
  * Utility class containing methods to transform Logger objects.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-25 13:31:44 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-11 03:32:53 $
  */
 public class LoggerAlchemist
 {
-  
     /**
      * Convert Avalon Logger to DNA Logger
      *
@@ -41,5 +40,4 @@ public class LoggerAlchemist
     {
         return new AvalonLogger( logger );
     }
-
 }

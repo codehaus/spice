@@ -9,7 +9,6 @@ package org.jcomponent.alchemist.impl;
 
 import org.apache.avalon.framework.logger.Logger;
 
-
 /**
  * Avalon Logger facade implementation for the DNA Logger.
  * The following lists the mapping between Avalon log levels
@@ -23,7 +22,7 @@ import org.apache.avalon.framework.logger.Logger;
  *   <li>fatalError ==&gt; error</li>
  * </ul>
  *
- * @version $Revision: 1.1 $ $Date: 2003-10-25 13:31:44 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-11 03:33:12 $
  */
 public class AvalonLogger
     implements Logger
