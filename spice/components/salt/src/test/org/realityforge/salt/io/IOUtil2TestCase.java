@@ -16,16 +16,11 @@ import java.io.OutputStreamWriter;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-06-13 04:35:11 $
+ * @version $Revision: 1.6 $ $Date: 2003-06-13 04:39:35 $
  */
 public class IOUtil2TestCase
     extends TestCase
 {
-    private final static byte[] DATA_6_ELEMENTS = new byte[]
-    {
-        (byte)'a', (byte)'b', (byte)'c', (byte)'d', (byte)'e', (byte)'f'
-    };
-
     private final static byte[] DATA_5_ELEMENTS = new byte[]
     {
         (byte)'a', (byte)'b', (byte)'c', (byte)'d', (byte)'e'
@@ -384,7 +379,6 @@ public class IOUtil2TestCase
         assertEqualArrays( DATA_4_ELEMENTS, bytes );
     }
 
-
     public void testCopyStringToWriter()
         throws Exception
     {
@@ -395,6 +389,69 @@ public class IOUtil2TestCase
         writer.flush();
         final byte[] bytes = output.toByteArray();
         assertEqualArrays( DATA_4_ELEMENTS, bytes );
+    }
+
+    public void testContentEqualsWithEqualContent()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final MockInputStream input2 = new MockInputStream( DATA_4_ELEMENTS );
+        final boolean contentsEqual = IOUtil.contentEquals( input1, input2 );
+        assertTrue( contentsEqual );
+    }
+
+    public void testContentEqualsWithFirstLonger()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_5_ELEMENTS );
+        final MockInputStream input2 = new MockInputStream( DATA_4_ELEMENTS );
+        final boolean contentsEqual = IOUtil.contentEquals( input1, input2 );
+        assertTrue( !contentsEqual );
+    }
+
+    public void testContentEqualsWithSecondLonger()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final MockInputStream input2 = new MockInputStream( DATA_5_ELEMENTS );
+        final boolean contentsEqual = IOUtil.contentEquals( input1, input2 );
+        assertTrue( !contentsEqual );
+    }
+
+    public void testContentEqualsWithFirstChangedInMiddle()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS_CM );
+        final MockInputStream input2 = new MockInputStream( DATA_4_ELEMENTS );
+        final boolean contentsEqual = IOUtil.contentEquals( input1, input2 );
+        assertTrue( !contentsEqual );
+    }
+
+    public void testContentEqualsWithFirstChangedAtEnd()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS_CE );
+        final MockInputStream input2 = new MockInputStream( DATA_4_ELEMENTS );
+        final boolean contentsEqual = IOUtil.contentEquals( input1, input2 );
+        assertTrue( !contentsEqual );
+    }
+
+    public void testContentEqualsWithSecondChangedInMiddle()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final MockInputStream input2 = new MockInputStream( DATA_4_ELEMENTS_CM );
+        final boolean contentsEqual = IOUtil.contentEquals( input1, input2 );
+        assertTrue( !contentsEqual );
+    }
+
+    public void testContentEqualsWithSecondChangedAtEnd()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final MockInputStream input2 = new MockInputStream( DATA_4_ELEMENTS_CE );
+        final boolean contentsEqual = IOUtil.contentEquals( input1, input2 );
+        assertTrue( !contentsEqual );
     }
 
     private void assertEqualArrays( final byte[] expected,
