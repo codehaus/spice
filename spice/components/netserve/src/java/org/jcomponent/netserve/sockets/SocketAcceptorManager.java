@@ -16,7 +16,7 @@ import java.net.ServerSocket;
  * with the new socket connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-09 07:06:50 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-10 04:35:13 $
  */
 public interface SocketAcceptorManager
 {
@@ -42,10 +42,9 @@ public interface SocketAcceptorManager
      * sure that the ServerSocket has been closed.
      *
      * @param name the name of connection
-     * @throws Exception if error occurs shutting down a handler or connection.
+     * @throws IllegalArgumentException if no connection with specified name
      */
-    void disconnect( String name )
-        throws Exception;
+    void disconnect( String name );
 
     /**
      * Return true if acceptor with specified name exists.
