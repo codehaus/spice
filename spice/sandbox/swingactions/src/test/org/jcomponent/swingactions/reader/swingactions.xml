@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+     This is the SwingActions test configuration file 
+-->
+
+<swingactions>
+
+  <!-- Action set -->
+  <action-set>
+    <action id="action-1" 
+    	    name="Action 1" 
+    	    shortDescription="Action 1 Short Desc" 
+    	    longDescription="Action 1 Long Desc"
+    	    smallIcon="/path/to/icon/action1-small.gif"
+    	    largeIcon="/path/to/icon/action1-large.gif"
+			commandKey=""
+			mnemonicKey="'1'"
+			acceleratorKey="CTRL-1"/>
+    <action id="action-2" 
+    	    name="Action 2" 
+    	    shortDescription="Action 2 Short Desc" 
+    	    longDescription="Action 2 Long Desc"
+    	    smallIcon="/path/to/icon/action2-small.gif"
+    	    largeIcon="/path/to/icon/action2-large.gif"
+			commandKey=""
+			mnemonicKey="'2'"
+			acceleratorKey="CTRL-2"/>
+  </action-set>
+
+</swingactions>
