@@ -2,46 +2,13 @@
 <document>
 
   <properties>
-    	<title>LoggerStore</title>
+    	<title>SwingActions</title>
   </properties>
 
   <body>
-	  <section name="LoggerStore">
-		<p>LoggerStore is a component for storing an Avalon Logger hierarchy,
-		abstracting the underlying logger implementation and configuration mechanism.
-		LoggerStore currently supports three different logging implementations:
-		<ul>
-			<li>Avalon LogKit</li>
-			<li>Jakarta Log4J</li>
-			<li>Sun JDK 1.4 logging (java.util.logging)</li>
-	    </ul>
-		The Avalon Logger interface provides a high-level abstraction which 
-		supports COP (Component Oriented Programming) - 
-		see the <a href="http://avalon.apache.org">Avalon Project</a> for more details.
-		</p>
-		<p>LoggerStore is an interface with concrete implementations for each of
-		the underlying logging systems.  The interface has the following methods:
-		<source>		
-Logger getLogger() throws Exception;
-
-Logger getLogger( final String categoryName ) throws Exception;
-
-void close();
-		</source>
- 		The first two methods allow the user to retrieve the root Logger and the
- 		Logger for a given logging category.  Whenever an application has finished 
- 		using the LoggerStore it will call the close() method indicating that the
- 		logger hierarchy should also be shutdown.
-		</p> 
+	  <section name="ActionManager">
  	 </section>
- 	 <section name="LoggerStoreFactory">        
-		<p>Each LoggerStore has one or more associated LoggerStoreFactory which also
-		acts as a configurator for the Logger:
-		<source>		
-LoggerStore createLoggerStore( Map config ) throws Exception;
-		</source>		
-		where the Map contains the parameters for the configuration of the store.
-		</p>
+ 	 <section name="ActionManagerFactory">        
      </section>				
 
   </body>
