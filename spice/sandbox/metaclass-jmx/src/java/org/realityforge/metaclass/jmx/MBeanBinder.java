@@ -11,17 +11,17 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
 /**
- * A helper class to bind and unbind MetaClass
- * annotated objects in an MBeanServer.
- *
+ * A helper class to bind and unbind MetaClass annotated objects in an
+ * MBeanServer.
+ * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-11-28 03:13:45 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 03:16:10 $
  */
 public class MBeanBinder
 {
     /**
      * Bind object and all topics.
-     *
+     * 
      * @param object the object to bind
      * @param baseName the base name in MBeanServer
      * @param mBeanServer the MBeanServer
@@ -33,7 +33,8 @@ public class MBeanBinder
         throws Exception
     {
         final MBeanInfoBuilder infoBuilder = new MBeanInfoBuilder();
-        final TopicDescriptor[] topics = infoBuilder.buildTopics( object.getClass() );
+        final TopicDescriptor[] topics = infoBuilder.buildTopics(
+            object.getClass() );
         for( int i = 0; i < topics.length; i++ )
         {
             final TopicDescriptor topic = topics[ i ];
@@ -47,7 +48,7 @@ public class MBeanBinder
 
     /**
      * Unbind object and all topics.
-     *
+     * 
      * @param object the object to unbind
      * @param baseName the base name in MBeanServer
      * @param mBeanServer the MBeanServer
@@ -59,7 +60,8 @@ public class MBeanBinder
         throws Exception
     {
         final MBeanInfoBuilder infoBuilder = new MBeanInfoBuilder();
-        final TopicDescriptor[] topics = infoBuilder.buildTopics( object.getClass() );
+        final TopicDescriptor[] topics = infoBuilder.buildTopics(
+            object.getClass() );
         for( int i = 0; i < topics.length; i++ )
         {
             final TopicDescriptor topic = topics[ i ];
@@ -73,9 +75,9 @@ public class MBeanBinder
     }
 
     /**
-     * Create new object name. If topicName is null return
-     * baseName else add a topic property with specified name.
-     *
+     * Create new object name. If topicName is null return baseName else add a
+     * topic property with specified name.
+     * 
      * @param baseName the base name
      * @param topicName the topic name
      * @return the new ObjectName

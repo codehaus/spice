@@ -25,9 +25,8 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
- *
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2003-11-28 03:13:45 $
+ * @version $Revision: 1.6 $ $Date: 2003-11-28 03:16:10 $
  */
 public class MBeanInfoBuilderTestCase
     extends TestCase
@@ -116,7 +115,8 @@ public class MBeanInfoBuilderTestCase
         assertEquals( "infos[0].type", "int", infos[ 0 ].getType() );
         assertEquals( "infos[0].description", "", infos[ 0 ].getDescription() );
         assertEquals( "infos[0].name", "", infos[ 0 ].getName() );
-        assertEquals( "infos[1].type", "java.lang.String", infos[ 1 ].getType() );
+        assertEquals( "infos[1].type", "java.lang.String",
+                      infos[ 1 ].getType() );
         assertEquals( "infos[1].description", "", infos[ 1 ].getDescription() );
         assertEquals( "infos[1].name", "", infos[ 1 ].getName() );
     }
@@ -131,17 +131,21 @@ public class MBeanInfoBuilderTestCase
         parameters.setProperty( "description", "Blah!" );
         final Attribute[] attributes =
             new Attribute[]{new Attribute( "mx.parameter", parameters )};
-        final ParameterDescriptor descriptor1 = new ParameterDescriptor( "param1", "int" );
-        final ParameterDescriptor descriptor2 = new ParameterDescriptor( "param2", "java.lang.String" );
+        final ParameterDescriptor descriptor1 = new ParameterDescriptor(
+            "param1", "int" );
+        final ParameterDescriptor descriptor2 = new ParameterDescriptor(
+            "param2", "java.lang.String" );
         final ParameterDescriptor[] descriptors =
             new ParameterDescriptor[]{descriptor1, descriptor2};
         final MBeanParameterInfo[] infos =
             builder.buildParametersFromMetaData( attributes, descriptors );
         assertEquals( "infos.length", 2, infos.length );
         assertEquals( "infos[0].type", "int", infos[ 0 ].getType() );
-        assertEquals( "infos[0].description", "Blah!", infos[ 0 ].getDescription() );
+        assertEquals( "infos[0].description", "Blah!",
+                      infos[ 0 ].getDescription() );
         assertEquals( "infos[0].name", "param1", infos[ 0 ].getName() );
-        assertEquals( "infos[1].type", "java.lang.String", infos[ 1 ].getType() );
+        assertEquals( "infos[1].type", "java.lang.String",
+                      infos[ 1 ].getType() );
         assertEquals( "infos[1].description", "", infos[ 1 ].getDescription() );
         assertEquals( "infos[1].name", "param2", infos[ 1 ].getName() );
     }
@@ -279,12 +283,15 @@ public class MBeanInfoBuilderTestCase
             builder.extractOperation( descriptor );
         assertNotNull( "operation", operation );
         assertEquals( "name", method.getName(), operation.getName() );
-        assertEquals( "impact", ModelMBeanOperationInfo.INFO, operation.getImpact() );
-        assertEquals( "description", "Magical Mystery Tour!", operation.getDescription() );
+        assertEquals( "impact", ModelMBeanOperationInfo.INFO,
+                      operation.getImpact() );
+        assertEquals( "description", "Magical Mystery Tour!",
+                      operation.getDescription() );
         assertEquals( "returnType", method.getReturnType().getName(),
                       operation.getReturnType() );
         assertEquals( "currencyTimeLimit", new Integer( 0 ),
-                      operation.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+                      operation.getDescriptor().getFieldValue(
+                          "currencyTimeLimit" ) );
     }
 
     public void testExtractOperations()
@@ -313,7 +320,7 @@ public class MBeanInfoBuilderTestCase
                                   method.getReturnType().getName(),
                                   ParameterDescriptor.EMPTY_SET,
                                   attributes,
-                                  attributes);
+                                  attributes );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( c.getName(),
                                  Attribute.EMPTY_SET,
@@ -324,7 +331,8 @@ public class MBeanInfoBuilderTestCase
         MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( accessor );
 
-        final java.beans.MethodDescriptor[] methods = new java.beans.MethodDescriptor[]{descriptor1, descriptor2};
+        final java.beans.MethodDescriptor[] methods = new java.beans.MethodDescriptor[]{
+            descriptor1, descriptor2};
         final ModelInfoCreationHelper helper = new ModelInfoCreationHelper();
         builder.extractOperations( methods, helper );
         assertEquals( "operation count", 1, helper.getOperations().length );
@@ -366,7 +374,8 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  new ParameterDescriptor[]{
+                                      new ParameterDescriptor( "value", "int" )},
                                   attributesSansDescription,
                                   attributesSansDescription );
         final ClassDescriptor classDescriptor =
@@ -385,10 +394,12 @@ public class MBeanInfoBuilderTestCase
         assertEquals( "name", "value", attribute.getName() );
         assertEquals( "isReadable", true, attribute.isReadable() );
         assertEquals( "isWritable", true, attribute.isWritable() );
-        assertEquals( "description", "Magical Mystery Tour!", attribute.getDescription() );
+        assertEquals( "description", "Magical Mystery Tour!",
+                      attribute.getDescription() );
         assertEquals( "returnType", "int", attribute.getType() );
         assertEquals( "currencyTimeLimit", new Integer( 1 ),
-                      attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+                      attribute.getDescriptor().getFieldValue(
+                          "currencyTimeLimit" ) );
     }
 
     public void testExtractAttributeInfoFromAttributeWhereWriterSpecifiesDescription()
@@ -413,7 +424,8 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  new ParameterDescriptor[]{
+                                      new ParameterDescriptor( "value", "int" )},
                                   attributes,
                                   attributes );
         final ClassDescriptor classDescriptor =
@@ -432,10 +444,12 @@ public class MBeanInfoBuilderTestCase
         assertEquals( "name", "value", attribute.getName() );
         assertEquals( "isReadable", true, attribute.isReadable() );
         assertEquals( "isWritable", true, attribute.isWritable() );
-        assertEquals( "description", "Magical Mystery Tour!", attribute.getDescription() );
+        assertEquals( "description", "Magical Mystery Tour!",
+                      attribute.getDescription() );
         assertEquals( "returnType", "int", attribute.getType() );
         assertEquals( "currencyTimeLimit", new Integer( 1 ),
-                      attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+                      attribute.getDescriptor().getFieldValue(
+                          "currencyTimeLimit" ) );
     }
 
     public void testExtractAttributeInfoFromAttributeWhereNoOneSpecifiesDescription()
@@ -456,7 +470,8 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  new ParameterDescriptor[]{
+                                      new ParameterDescriptor( "value", "int" )},
                                   attributesSansDescription,
                                   attributesSansDescription );
         final ClassDescriptor classDescriptor =
@@ -478,7 +493,8 @@ public class MBeanInfoBuilderTestCase
         assertEquals( "description", "", attribute.getDescription() );
         assertEquals( "returnType", "int", attribute.getType() );
         assertEquals( "currencyTimeLimit", new Integer( 1 ),
-                      attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+                      attribute.getDescriptor().getFieldValue(
+                          "currencyTimeLimit" ) );
     }
 
     public void testExtractAttributeInfoFromAttributeWhereReaderNotAnnotated()
@@ -499,7 +515,8 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  new ParameterDescriptor[]{
+                                      new ParameterDescriptor( "value", "int" )},
                                   attributesSansDescription,
                                   attributesSansDescription );
         final ClassDescriptor classDescriptor =
@@ -521,7 +538,8 @@ public class MBeanInfoBuilderTestCase
         assertEquals( "description", "", attribute.getDescription() );
         assertEquals( "returnType", "int", attribute.getType() );
         assertEquals( "currencyTimeLimit", new Integer( 1 ),
-                      attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+                      attribute.getDescriptor().getFieldValue(
+                          "currencyTimeLimit" ) );
     }
 
     public void testExtractAttributeInfoFromAttributeWhereWriterNotAnnotated()
@@ -542,7 +560,8 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  new ParameterDescriptor[]{
+                                      new ParameterDescriptor( "value", "int" )},
                                   Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         final ClassDescriptor classDescriptor =
@@ -564,7 +583,8 @@ public class MBeanInfoBuilderTestCase
         assertEquals( "description", "", attribute.getDescription() );
         assertEquals( "returnType", "int", attribute.getType() );
         assertEquals( "currencyTimeLimit", new Integer( 1 ),
-                      attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+                      attribute.getDescriptor().getFieldValue(
+                          "currencyTimeLimit" ) );
     }
 
     public void testExtractAttributeInfoFromAttributeWhereNeitherAnnotated()
@@ -583,7 +603,8 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  new ParameterDescriptor[]{
+                                      new ParameterDescriptor( "value", "int" )},
                                   Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         final ClassDescriptor classDescriptor =
@@ -637,7 +658,8 @@ public class MBeanInfoBuilderTestCase
         assertEquals( "description", "", attribute.getDescription() );
         assertEquals( "returnType", "int", attribute.getType() );
         assertEquals( "currencyTimeLimit", new Integer( 1 ),
-                      attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+                      attribute.getDescriptor().getFieldValue(
+                          "currencyTimeLimit" ) );
     }
 
     public void testExtractAttributeInfoFromNoReaderProperty()
@@ -654,7 +676,8 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  new ParameterDescriptor[]{
+                                      new ParameterDescriptor( "value", "int" )},
                                   attributesSansDescription,
                                   attributesSansDescription );
         final ClassDescriptor classDescriptor =
@@ -676,7 +699,8 @@ public class MBeanInfoBuilderTestCase
         assertEquals( "description", "", attribute.getDescription() );
         assertEquals( "returnType", "int", attribute.getType() );
         assertEquals( "currencyTimeLimit", new Integer( 1 ),
-                      attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+                      attribute.getDescriptor().getFieldValue(
+                          "currencyTimeLimit" ) );
     }
 
     public void testExtractAttributes()
@@ -693,7 +717,8 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  new ParameterDescriptor[]{
+                                      new ParameterDescriptor( "value", "int" )},
                                   attributesSansDescription,
                                   attributesSansDescription );
         final ClassDescriptor classDescriptor =
@@ -706,7 +731,8 @@ public class MBeanInfoBuilderTestCase
         MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( accessor );
 
-        final PropertyDescriptor[] propertys = new PropertyDescriptor[]{descriptor1, descriptor2};
+        final PropertyDescriptor[] propertys = new PropertyDescriptor[]{
+            descriptor1, descriptor2};
         final ModelInfoCreationHelper helper = new ModelInfoCreationHelper();
         builder.extractAttributes( propertys, helper );
         assertEquals( "attributes.length", 1, helper.getAttributes().length );
@@ -773,7 +799,7 @@ public class MBeanInfoBuilderTestCase
     {
         final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Class c = TestBean.class;
-        final Constructor constructor = c.getConstructor( new Class[0] );
+        final Constructor constructor = c.getConstructor( new Class[ 0 ] );
 
         final Properties parameters = new Properties();
         parameters.setProperty( "description", "Magical Mystery Tour!" );
@@ -799,7 +825,8 @@ public class MBeanInfoBuilderTestCase
             builder.extractConstructor( constructor );
         assertNotNull( "info", info );
         assertEquals( "name", "TestBean", info.getName() );
-        assertEquals( "description", "Magical Mystery Tour!", info.getDescription() );
+        assertEquals( "description", "Magical Mystery Tour!",
+                      info.getDescription() );
         assertEquals( "currencyTimeLimit", new Integer( 0 ),
                       info.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
     }
@@ -835,7 +862,8 @@ public class MBeanInfoBuilderTestCase
             builder.extractConstructor( constructor );
         assertNotNull( "info", info );
         assertEquals( "name", "DefaultPackageClass", info.getName() );
-        assertEquals( "description", "Magical Mystery Tour!", info.getDescription() );
+        assertEquals( "description", "Magical Mystery Tour!",
+                      info.getDescription() );
         assertEquals( "currencyTimeLimit", new Integer( 0 ),
                       info.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
     }
@@ -869,7 +897,8 @@ public class MBeanInfoBuilderTestCase
         MetaClassIntrospector.setAccessor( accessor );
 
         final ModelInfoCreationHelper helper = new ModelInfoCreationHelper();
-        final Constructor[] constructors = new Constructor[]{constructor1, constructor2};
+        final Constructor[] constructors = new Constructor[]{constructor1,
+                                                             constructor2};
         builder.extractConstructors( constructors, helper );
         assertEquals( "constructor count", 1, helper.getConstructors().length );
     }
@@ -879,7 +908,8 @@ public class MBeanInfoBuilderTestCase
     {
         final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Class c = TestBean.class;
-        final Attribute[] classAttributes = new Attribute[]{new Attribute( "mx.component" )};
+        final Attribute[] classAttributes = new Attribute[]{
+            new Attribute( "mx.component" )};
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( c.getName(),
                                  classAttributes,

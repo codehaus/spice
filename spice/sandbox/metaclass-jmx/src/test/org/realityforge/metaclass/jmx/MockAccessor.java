@@ -12,9 +12,8 @@ import org.realityforge.metaclass.introspector.MetaClassException;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
- *
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-11-28 03:13:45 $
+ * @version $Revision: 1.5 $ $Date: 2003-11-28 03:16:10 $
  */
 class MockAccessor
     implements MetaClassAccessor

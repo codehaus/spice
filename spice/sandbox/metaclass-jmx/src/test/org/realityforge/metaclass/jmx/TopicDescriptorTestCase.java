@@ -7,13 +7,12 @@
  */
 package org.realityforge.metaclass.jmx;
 
-import junit.framework.TestCase;
 import javax.management.modelmbean.ModelMBeanInfo;
+import junit.framework.TestCase;
 
 /**
- *
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-11-28 03:13:45 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 03:16:10 $
  */
 public class TopicDescriptorTestCase
     extends TestCase
