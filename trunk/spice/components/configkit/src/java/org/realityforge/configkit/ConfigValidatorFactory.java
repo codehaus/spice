@@ -19,7 +19,7 @@ import org.xml.sax.InputSource;
  * objects to validate configuration according to specified schemas.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-04 11:13:02 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-04 23:27:22 $
  */
 public final class ConfigValidatorFactory
 {
@@ -27,6 +27,11 @@ public final class ConfigValidatorFactory
      * A constant defining namespace of RELAX_NG schema language.
      */
     public static final String RELAX_NG = "http://relaxng.org/ns/structure/1.0";
+
+    /**
+     * A constant defining namespace of W3C XMLSchema language.
+     */
+    public static final String W3C_XML_SCHEMA = "http://www.w3.org/2001/XMLSchema";
 
     /**
      * The Class object that points at MSV class.
