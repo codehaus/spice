@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -19,16 +19,11 @@ import org.xml.sax.XMLReader;
 /**
  * Basic unit tests for the catalog handler class.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class CatalogHandlerTestCase
     extends TestCase
 {
-    public CatalogHandlerTestCase( final String name )
-    {
-        super( name );
-    }
-
     public void testNullEntityList()
     {
         try

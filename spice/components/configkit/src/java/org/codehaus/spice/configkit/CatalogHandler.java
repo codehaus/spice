@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 import java.util.List;
 import org.xml.sax.Attributes;
@@ -13,21 +13,18 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * This is the SAX handler that creates a list of entitys.
- * The handler verifies that the correct version is specified
- * in catalog tag and that the entity tag has correct attributes
- * specified. See {@link ResolverFactory} for a description of
- * xml format that is parsed.
+ * This is the SAX handler that creates a list of entitys. The handler verifies
+ * that the correct version is specified in catalog tag and that the entity tag
+ * has correct attributes specified. See {@link ResolverFactory} for a
+ * description of xml format that is parsed.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-03-11 13:28:33 $
+ * @author Peter Donald
+ * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
  */
 class CatalogHandler
     extends DefaultHandler
 {
-    /**
-     * The list of entitys collected by handler.
-     */
+    /** The list of entitys collected by handler. */
     private final List m_entitys;
 
     /**

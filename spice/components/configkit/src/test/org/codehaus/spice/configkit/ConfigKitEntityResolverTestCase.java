@@ -5,35 +5,32 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
+import java.io.IOException;
 import junit.framework.TestCase;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import java.io.IOException;
 
 /**
  * Basic unit tests for the multiplexing streams.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class ConfigKitEntityResolverTestCase
     extends TestCase
 {
     private ClassLoader m_contextClassLoader;
 
-    public ConfigKitEntityResolverTestCase( final String name )
-    {
-        super( name );
-    }
-
-    protected void setUp() throws Exception
+    protected void setUp()
+        throws Exception
     {
         m_contextClassLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader( null );
     }
 
-    protected void tearDown() throws Exception
+    protected void tearDown()
+        throws Exception
     {
         Thread.currentThread().setContextClassLoader( m_contextClassLoader );
     }
@@ -56,9 +53,12 @@ public final class ConfigKitEntityResolverTestCase
     public void testBadResource()
     {
         final EntityInfo info =
-            new EntityInfo( TestData.PUBLIC_ID, TestData.SYSTEM_ID, "noexist.txt" );
+            new EntityInfo( TestData.PUBLIC_ID,
+                            TestData.SYSTEM_ID,
+                            "noexist.txt" );
         final ConfigKitEntityResolver resolver =
-            new ConfigKitEntityResolver( new EntityInfo[]{info}, getClassLoader() );
+            new ConfigKitEntityResolver( new EntityInfo[]{info},
+                                         getClassLoader() );
         try
         {
             resolver.resolveEntity( TestData.PUBLIC_ID, TestData.SYSTEM_ID );
@@ -154,29 +154,37 @@ public final class ConfigKitEntityResolverTestCase
                                   final ClassLoader classLoader )
     {
         final ConfigKitEntityResolver resolver =
-            new ConfigKitEntityResolver( new EntityInfo[]{TestData.INFO}, classLoader );
+            new ConfigKitEntityResolver( new EntityInfo[]{TestData.INFO},
+                                         classLoader );
         try
         {
-            final InputSource inputSource = resolver.resolveEntity( publicID, systemID );
+            final InputSource inputSource = resolver.resolveEntity( publicID,
+                                                                    systemID );
             if( shouldExist )
             {
-                assertNotNull( "Expected to find resource for " + getIdString( publicID, systemID ),
-                               inputSource );
+                assertNotNull(
+                    "Expected to find resource for " +
+                    getIdString( publicID, systemID ),
+                    inputSource );
             }
             else
             {
-                assertNull( "Not expected to find resource for " + getIdString( publicID, systemID ),
-                            inputSource );
+                assertNull(
+                    "Not expected to find resource for " +
+                    getIdString( publicID, systemID ),
+                    inputSource );
             }
         }
         catch( final IOException ioe )
         {
-            fail( "Error loading resource for " + getIdString( publicID, systemID ) +
+            fail( "Error loading resource for " +
+                  getIdString( publicID, systemID ) +
                   " due to " + ioe );
         }
         catch( final SAXException se )
         {
-            fail( "Error finding resolver resource for " + getIdString( publicID, systemID ) +
+            fail( "Error finding resolver resource for " +
+                  getIdString( publicID, systemID ) +
                   " due to " + se );
         }
     }

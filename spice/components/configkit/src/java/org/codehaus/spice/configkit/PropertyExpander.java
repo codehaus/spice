@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -18,42 +18,43 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
 /**
- * This is a utility class designed for expanding propertys in
- * configuration files. Propertys are stored in Map objects and
- * any section that begins with "${" and ends with "}" will have
- * inner name replaced with property value from map.
+ * This is a utility class designed for expanding propertys in configuration
+ * files. Propertys are stored in Map objects and any section that begins with
+ * "${" and ends with "}" will have inner name replaced with property value from
+ * map.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:56 $
+ * @author Peter Donald
+ * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
  */
 public final class PropertyExpander
 {
     /**
-     * Flag indicating that undefined propertys should be
-     * not be replaced. ie "${myUnresolvedProperty}"
+     * Flag indicating that undefined propertys should be not be replaced. ie
+     * "${myUnresolvedProperty}"
      */
     public static final int LEAVE_UNDEFINED = 1;
 
     /**
-     * Flag indicating that undefined propertys should cause
-     * an exception to be thrown.
+     * Flag indicating that undefined propertys should cause an exception to be
+     * thrown.
      */
     public static final int EXCEPT_ON_UNDEFINED = 2;
 
     /**
-     * Flag indicating that undefined propertys should be
-     * replaced with a empty string "".
+     * Flag indicating that undefined propertys should be replaced with a empty
+     * string "".
      */
     public static final int EMPTY_ON_UNDEFINED = 3;
 
     /**
-     * The flag for behaviour when undefined property is encountered.
-     * Must be one of the *_UNDEFINED propertys.
+     * The flag for behaviour when undefined property is encountered. Must be
+     * one of the *_UNDEFINED propertys.
      */
     private final int m_onUndefined;
 
     /**
-     * Create property expander with EXCEPT_ON_UNDEFINED policy for undefined propertys.
+     * Create property expander with EXCEPT_ON_UNDEFINED policy for undefined
+     * propertys.
      */
     public PropertyExpander()
     {
@@ -63,8 +64,8 @@ public final class PropertyExpander
     /**
      * Create property expander with specified policy for undefined propertys.
      *
-     * @param onUndefined the flag indicating behaviour when undefined
-     *        property is encountered. Must be one of the *_UNDEFINED constants.
+     * @param onUndefined the flag indicating behaviour when undefined property
+     * is encountered. Must be one of the *_UNDEFINED constants.
      */
     public PropertyExpander( final int onUndefined )
     {
@@ -76,7 +77,7 @@ public final class PropertyExpander
      *
      * @param input the Properties object to resolve
      * @param data the data that holds property values
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     public Properties expandValues( final Properties input, final Map data )
         throws Exception
@@ -99,7 +100,7 @@ public final class PropertyExpander
      *
      * @param input the DOM element to resolve
      * @param data the data that holds property values
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     public void expandValues( final Element input, final Map data )
         throws Exception
@@ -138,7 +139,7 @@ public final class PropertyExpander
      * @param input the string to resolve
      * @param data the data that holds property values
      * @return the resolved string
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     public String expandValues( final String input, final Map data )
         throws Exception
@@ -219,14 +220,13 @@ public final class PropertyExpander
     }
 
     /**
-     * Return value from data map. If null is retrieved
-     * from data map then behave as defined by
-     * {@link #m_onUndefined} flag.
+     * Return value from data map. If null is retrieved from data map then
+     * behave as defined by {@link #m_onUndefined} flag.
      *
      * @param key the key of value in data
      * @param data the data map
      * @return the stringized value of value in map
-     * @exception Exception if an error occurs
+     * @throws Exception if an error occurs
      */
     private String getValue( final String key, final Map data )
         throws Exception
@@ -244,7 +244,8 @@ public final class PropertyExpander
             }
             else// if( EXCEPT_ON_UNDEFINED == m_onUndefined )
             {
-                final String message = "Unable to find " + key +
+                final String message = "Unable to find " +
+                    key +
                     " to expand during property resolution.";
                 throw new Exception( message );
             }

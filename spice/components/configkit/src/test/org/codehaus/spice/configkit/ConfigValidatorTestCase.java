@@ -5,10 +5,10 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -18,17 +18,17 @@ import junit.framework.TestCase;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.ContentHandler;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.EntityResolver;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Basic unit tests for the info objects.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class ConfigValidatorTestCase
     extends TestCase
@@ -37,29 +37,27 @@ public final class ConfigValidatorTestCase
     private static final boolean DEBUG = false;
     private static final ContentHandler HANDLER = new NoopContentHandler();
 
-    public ConfigValidatorTestCase( final String name )
-    {
-        super( name );
-    }
-
     public void testValidationIssue()
         throws Exception
     {
         final SAXParseException spe = new SAXParseException( "", null );
 
-        final ValidationIssue issue1 = new ValidationIssue( ValidationIssue.TYPE_WARNING, spe );
+        final ValidationIssue issue1 = new ValidationIssue(
+            ValidationIssue.TYPE_WARNING, spe );
         assertTrue( "issue3.isWarning", issue1.isWarning() );
         assertTrue( "!issue3.isError()", !issue1.isError() );
         assertTrue( "!issue3.isFatalError()", !issue1.isFatalError() );
         assertNotNull( "issue3.exception not null", issue1.getException() );
 
-        final ValidationIssue issue2 = new ValidationIssue( ValidationIssue.TYPE_ERROR, spe );
+        final ValidationIssue issue2 = new ValidationIssue(
+            ValidationIssue.TYPE_ERROR, spe );
         assertTrue( "issue3.isWarning", !issue2.isWarning() );
         assertTrue( "!issue3.isError()", issue2.isError() );
         assertTrue( "!issue3.isFatalError()", !issue2.isFatalError() );
         assertNotNull( "issue3.exception not null", issue2.getException() );
 
-        final ValidationIssue issue3 = new ValidationIssue( ValidationIssue.TYPE_FATAL_ERROR, spe );
+        final ValidationIssue issue3 = new ValidationIssue(
+            ValidationIssue.TYPE_FATAL_ERROR, spe );
         assertTrue( "issue3.isWarning", !issue3.isWarning() );
         assertTrue( "!issue3.isError()", !issue3.isError() );
         assertTrue( "!issue3.isFatalError()", issue3.isFatalError() );
@@ -104,7 +102,9 @@ public final class ConfigValidatorTestCase
     {
         try
         {
-            ConfigValidatorFactory.create( ConfigValidatorFactory.RELAX_NG, (InputStream)null, new NoopEntityResolver() );
+            ConfigValidatorFactory.create( ConfigValidatorFactory.RELAX_NG,
+                                           (InputStream)null,
+                                           new NoopEntityResolver() );
             fail( "Expected Null pointer due to null schema" );
         }
         catch( final NullPointerException npe )
@@ -156,8 +156,11 @@ public final class ConfigValidatorTestCase
 
         try
         {
-            final ValidationIssue issue = new ValidationIssue( ValidationIssue.TYPE_WARNING, new SAXParseException( "test", null ) );
-            final ValidationIssue[] issues = new ValidationIssue[]{issue, null};
+            final ValidationIssue issue = new ValidationIssue(
+                ValidationIssue.TYPE_WARNING,
+                new SAXParseException( "test", null ) );
+            final ValidationIssue[] issues = new ValidationIssue[]{issue,
+                                                                   null};
             new ValidationResult( null, issues );
             fail( "Expected Null pointer due to null issues" );
         }
@@ -190,8 +193,11 @@ public final class ConfigValidatorTestCase
                 ConfigValidatorFactory.create( TestData.SCHEMA_PUBLIC_ID,
                                                TestData.SCHEMA_SYSTEM_ID,
                                                createClassLoader() );
-            final InputStream inputStream = getClass().getClassLoader().getResourceAsStream( TestData.SCHEMA );
-            assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR, inputStream );
+            final InputStream inputStream = getClass()
+                .getClassLoader()
+                .getResourceAsStream( TestData.SCHEMA );
+            assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR,
+                           inputStream );
             validator.validate( inputStream, null, null );
             fail( "Expected Null pointer due to null contentHandler" );
         }
@@ -327,8 +333,11 @@ public final class ConfigValidatorTestCase
     public void testLoadViaInputStream()
         throws Exception
     {
-        final InputStream inputStream = getClass().getClassLoader().getResourceAsStream( TestData.SCHEMA );
-        assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR, inputStream );
+        final InputStream inputStream = getClass()
+            .getClassLoader()
+            .getResourceAsStream( TestData.SCHEMA );
+        assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR,
+                       inputStream );
         final ConfigValidator configValidator =
             ConfigValidatorFactory.create( ConfigValidatorFactory.RELAX_NG,
                                            new InputSource( inputStream ) );
@@ -338,8 +347,11 @@ public final class ConfigValidatorTestCase
     public void testLoadViaInputStreamNoSchema()
         throws Exception
     {
-        final InputStream inputStream = getClass().getClassLoader().getResourceAsStream( TestData.SCHEMA );
-        assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR, inputStream );
+        final InputStream inputStream = getClass()
+            .getClassLoader()
+            .getResourceAsStream( TestData.SCHEMA );
+        assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR,
+                       inputStream );
         final ConfigValidator configValidator =
             ConfigValidatorFactory.create( new InputSource( inputStream ) );
         doValidate( configValidator );
@@ -348,20 +360,28 @@ public final class ConfigValidatorTestCase
     public void testLoadSchemaWithResolver()
         throws Exception
     {
-        final InputStream inputStream = getClass().getClassLoader().getResourceAsStream( TestData.SCHEMA );
+        final InputStream inputStream = getClass()
+            .getClassLoader()
+            .getResourceAsStream( TestData.SCHEMA );
         assertNotNull( "ResourcePresent: " + TestData.SCHEMA, inputStream );
-        final EntityResolver resolver = ResolverFactory.createResolver( createClassLoader() );
+        final EntityResolver resolver = ResolverFactory.createResolver(
+            createClassLoader() );
         final ConfigValidator validator =
-            ConfigValidatorFactory.create( ConfigValidatorFactory.RELAX_NG, inputStream, resolver );
+            ConfigValidatorFactory.create( ConfigValidatorFactory.RELAX_NG,
+                                           inputStream,
+                                           resolver );
         doValidate( validator );
     }
 
     public void testLoadDTD()
         throws Exception
     {
-        final InputStream inputStream = getClass().getClassLoader().getResourceAsStream( TestData.DTD );
+        final InputStream inputStream = getClass()
+            .getClassLoader()
+            .getResourceAsStream( TestData.DTD );
         assertNotNull( "ResourcePresent: " + TestData.DTD, inputStream );
-        final EntityResolver resolver = ResolverFactory.createResolver( createClassLoader() );
+        final EntityResolver resolver = ResolverFactory.createResolver(
+            createClassLoader() );
         final InputSource inputSource = new InputSource( inputStream );
         inputSource.setPublicId( TestData.PUBLIC_ID );
         inputSource.setSystemId( TestData.SYSTEM_ID );
@@ -369,7 +389,8 @@ public final class ConfigValidatorTestCase
             ConfigValidatorFactory.create( inputSource, resolver );
         final ClassLoader classLoader = getClass().getClassLoader();
 
-        final InputStream dataStream = classLoader.getResourceAsStream( TestData.ASSEMBLY_DATA );
+        final InputStream dataStream = classLoader.getResourceAsStream(
+            TestData.ASSEMBLY_DATA );
         final ValidationResult result = validator.validate( dataStream );
         verifyResult( result, true );
     }
@@ -377,8 +398,11 @@ public final class ConfigValidatorTestCase
     public void testLoadViaInputSource()
         throws Exception
     {
-        final InputStream inputStream = getClass().getClassLoader().getResourceAsStream( TestData.SCHEMA );
-        assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR, inputStream );
+        final InputStream inputStream = getClass()
+            .getClassLoader()
+            .getResourceAsStream( TestData.SCHEMA );
+        assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR,
+                       inputStream );
         final ConfigValidator configValidator =
             ConfigValidatorFactory.create( ConfigValidatorFactory.RELAX_NG,
                                            inputStream );
@@ -388,8 +412,11 @@ public final class ConfigValidatorTestCase
     public void testLoadViaInputSourceNoSchema()
         throws Exception
     {
-        final InputStream inputStream = getClass().getClassLoader().getResourceAsStream( TestData.SCHEMA );
-        assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR, inputStream );
+        final InputStream inputStream = getClass()
+            .getClassLoader()
+            .getResourceAsStream( TestData.SCHEMA );
+        assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR,
+                       inputStream );
         final ConfigValidator configValidator =
             ConfigValidatorFactory.create( inputStream );
         doValidate( configValidator );
@@ -420,14 +447,17 @@ public final class ConfigValidatorTestCase
         configValidator.validate( new InputSource( dataStream ), this );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA );
-        configValidator.validate( new InputSource( dataStream ), HANDLER, this );
+        configValidator.validate( new InputSource( dataStream ),
+                                  HANDLER,
+                                  this );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA );
         result = configValidator.validate( new InputSource( dataStream ) );
         verifyResult( result, true );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA );
-        result = configValidator.validate( new InputSource( dataStream ), HANDLER );
+        result =
+        configValidator.validate( new InputSource( dataStream ), HANDLER );
         verifyResult( result, true );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA2 );
@@ -471,7 +501,9 @@ public final class ConfigValidatorTestCase
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA2 );
         try
         {
-            configValidator.validate( new InputSource( dataStream ), HANDLER, this );
+            configValidator.validate( new InputSource( dataStream ),
+                                      HANDLER,
+                                      this );
             fail( "Expected fail to not being xml" );
         }
         catch( ValidateException e )
@@ -483,7 +515,8 @@ public final class ConfigValidatorTestCase
         verifyResult( result, false );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA2 );
-        result = configValidator.validate( new InputSource( dataStream ), HANDLER );
+        result =
+        configValidator.validate( new InputSource( dataStream ), HANDLER );
         verifyResult( result, false );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA3 );
@@ -525,7 +558,9 @@ public final class ConfigValidatorTestCase
 
         try
         {
-            configValidator.validate( new InputSource( dataStream ), HANDLER, this );
+            configValidator.validate( new InputSource( dataStream ),
+                                      HANDLER,
+                                      this );
             fail( "Expected fail to not conforming" );
         }
         catch( ValidateException e )
@@ -537,7 +572,8 @@ public final class ConfigValidatorTestCase
         verifyResult( result, false );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA3 );
-        result = configValidator.validate( new InputSource( dataStream ), HANDLER );
+        result =
+        configValidator.validate( new InputSource( dataStream ), HANDLER );
         verifyResult( result, false );
 
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -656,7 +692,8 @@ public final class ConfigValidatorTestCase
         }
     }
 
-    private void verifyResult( final ValidationResult result, final boolean success )
+    private void verifyResult( final ValidationResult result,
+                               final boolean success )
     {
         assertEquals( "Success?", success, result.isValid() );
         final ValidationIssue[] issues = result.getIssues();
@@ -666,13 +703,15 @@ public final class ConfigValidatorTestCase
         }
         for( int i = 0; i < issues.length; i++ )
         {
-            assertNotNull( "issues[ i ].getException()", issues[ i ].getException() );
+            assertNotNull( "issues[ i ].getException()",
+                           issues[ i ].getException() );
         }
     }
 
     private ClassLoader createClassLoader()
     {
-        final URL url = getClass().getClassLoader().getResource( TestData.CATALOG_JAR );
+        final URL url = getClass().getClassLoader().getResource(
+            TestData.CATALOG_JAR );
         assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR, url );
         return new URLClassLoader( new URL[]{url} );
     }

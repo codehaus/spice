@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,18 +13,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import javax.xml.parsers.SAXParserFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 /**
- * This is a utility class for creating an EntityResolver
- * that can resolve all entitys contained within ClassLoader.
- * The entitys are discovered by looking in a catalog file
- * <code>META-INF/spice/catalog.xml</code>. The format of the
+ * This is a utility class for creating an EntityResolver that can resolve all
+ * entitys contained within ClassLoader. The entitys are discovered by looking
+ * in a catalog file <code>META-INF/spice/catalog.xml</code>. The format of the
  * catalog file is;
  *
  * <pre>
@@ -42,26 +41,23 @@ import org.xml.sax.XMLReader;
  * <p>Note that at least one of <code>publicId</code> or <code>systemId</code>
  * must be specified and <code>resource</code> must always be specified.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-04-05 03:42:06 $
+ * @author Peter Donald
+ * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
  */
 public final class ResolverFactory
 {
-    /**
-     * Constant for location where catalog is loaded.
-     */
+    /** Constant for location where catalog is loaded. */
     private static final String CATALOG_RESOURCE = "META-INF/spice/catalog.xml";
 
     /**
-     *
-     *
      * @param classLoader the ClassLoader to scan for catalog files
-     * @return an Entity Resolver that will resolver all the entitys
-     *         defined in catalog and loadable from ClassLoader
+     * @return an Entity Resolver that will resolver all the entitys defined in
+     *         catalog and loadable from ClassLoader
      * @throws SAXException if unable to parse a Catalog file
      * @throws IOException if unable to load a Catalog file
      */
-    public static final EntityResolver createResolver( final ClassLoader classLoader )
+    public static final EntityResolver createResolver(
+        final ClassLoader classLoader )
         throws ParserConfigurationException, SAXException, IOException
     {
         if( null == classLoader )
@@ -69,7 +65,8 @@ public final class ResolverFactory
             throw new NullPointerException( "classLoader" );
         }
         final List entitys = new ArrayList();
-        final Enumeration resources = classLoader.getResources( CATALOG_RESOURCE );
+        final Enumeration resources = classLoader.getResources(
+            CATALOG_RESOURCE );
         while( resources.hasMoreElements() )
         {
             final URL url = (URL)resources.nextElement();
@@ -81,8 +78,8 @@ public final class ResolverFactory
     }
 
     /**
-     * Helper method to parse a catalog specified by url and
-     * add all the discovered entitys to the entity list.
+     * Helper method to parse a catalog specified by url and add all the
+     * discovered entitys to the entity list.
      *
      * @param url the url of catalog
      * @param entitys the list of entitys

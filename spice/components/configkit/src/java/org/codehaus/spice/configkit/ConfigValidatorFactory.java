@@ -5,12 +5,12 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 import java.io.InputStream;
 import org.iso_relax.verifier.Schema;
-import org.iso_relax.verifier.VerifierFactory;
 import org.iso_relax.verifier.VerifierConfigurationException;
+import org.iso_relax.verifier.VerifierFactory;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
@@ -18,29 +18,23 @@ import org.xml.sax.InputSource;
  * The ConfigValidatorFactory is responsible for creating ConfigValidator
  * objects to validate configuration according to specified schemas.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-04-05 09:40:45 $
+ * @author Peter Donald
+ * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
  */
 public final class ConfigValidatorFactory
 {
-    /**
-     * A constant defining namespace of RELAX_NG schema language.
-     */
+    /** A constant defining namespace of RELAX_NG schema language. */
     public static final String RELAX_NG = "http://relaxng.org/ns/structure/1.0";
 
-    /**
-     * A constant defining namespace of W3C XMLSchema language.
-     */
+    /** A constant defining namespace of W3C XMLSchema language. */
     public static final String W3C_XML_SCHEMA = "http://www.w3.org/2001/XMLSchema";
 
-    /**
-     * The Class object that points at MSV class.
-     */
+    /** The Class object that points at MSV class. */
     private static Class c_msvClass;
 
     /**
-     * Create a ConfigValidator and attempt to guess Schema Type. The config validator
-     * loads the schema from specified publicID, systemID, classloader
+     * Create a ConfigValidator and attempt to guess Schema Type. The config
+     * validator loads the schema from specified publicID, systemID, classloader
      * combination using the {@link ResolverFactory}.
      *
      * @param publicID the publicID of schema (may be null)
@@ -58,12 +52,12 @@ public final class ConfigValidatorFactory
     }
 
     /**
-     * Create a ConfigValidator with specified type. The config validator
-     * loads the schema from specified publicID, systemID, classloader
-     * combination using the {@link ResolverFactory}.
+     * Create a ConfigValidator with specified type. The config validator loads
+     * the schema from specified publicID, systemID, classloader combination
+     * using the {@link ResolverFactory}.
      *
-     * @param schemaType the type of the schema.
-     *        (Usually a URL such as "http://relaxng.org/ns/structure/1.0")
+     * @param schemaType the type of the schema. (Usually a URL such as
+     * "http://relaxng.org/ns/structure/1.0")
      * @param publicID the publicID of schema (may be null)
      * @param systemID the systemID of schema (may be null)
      * @param classLoader the classloader from which to load schema
@@ -81,8 +75,10 @@ public final class ConfigValidatorFactory
             throw new NullPointerException( "publicID" );
         }
 
-        final EntityResolver resolver = ResolverFactory.createResolver( classLoader );
-        final InputSource inputSource = resolver.resolveEntity( publicID, systemID );
+        final EntityResolver resolver = ResolverFactory.createResolver(
+            classLoader );
+        final InputSource inputSource = resolver.resolveEntity( publicID,
+                                                                systemID );
         if( null == inputSource )
         {
             final String message =
@@ -94,8 +90,8 @@ public final class ConfigValidatorFactory
     }
 
     /**
-     * Create a ConfigValidator and guess Schema type. The schema is loaded
-     * from specified stream.
+     * Create a ConfigValidator and guess Schema type. The schema is loaded from
+     * specified stream.
      *
      * @param inputStream the stream to load schema from
      * @return the ConfigValidatorthat conforms to input
@@ -108,11 +104,11 @@ public final class ConfigValidatorFactory
     }
 
     /**
-     * Create a ConfigValidator with specified type. The schema is loaded
-     * from specified stream.
+     * Create a ConfigValidator with specified type. The schema is loaded from
+     * specified stream.
      *
-     * @param schemaType the type of the schema.
-     *        (Usually a URL such as "http://relaxng.org/ns/structure/1.0")
+     * @param schemaType the type of the schema. (Usually a URL such as
+     * "http://relaxng.org/ns/structure/1.0")
      * @param inputStream the stream to load schema from
      * @return the ConfigValidatorthat conforms to input
      * @throws Exception if unable to create validator
@@ -131,11 +127,11 @@ public final class ConfigValidatorFactory
     }
 
     /**
-     * Create a ConfigValidator with specified type. The schema is loaded
-     * from specified stream.
+     * Create a ConfigValidator with specified type. The schema is loaded from
+     * specified stream.
      *
-     * @param schemaType the type of the schema.
-     *        (Usually a URL such as "http://relaxng.org/ns/structure/1.0")
+     * @param schemaType the type of the schema. (Usually a URL such as
+     * "http://relaxng.org/ns/structure/1.0")
      * @param inputStream the stream to load schema from
      * @param resolver a resolver used to resolve entitys for input data
      * @return the ConfigValidatorthat conforms to input
@@ -156,8 +152,8 @@ public final class ConfigValidatorFactory
     }
 
     /**
-     * Create a ConfigValidator and guess Schema type. The schema is loaded
-     * from specified source.
+     * Create a ConfigValidator and guess Schema type. The schema is loaded from
+     * specified source.
      *
      * @param inputSource the source to load schema from
      * @return the ConfigValidatorthat conforms to input
@@ -170,8 +166,8 @@ public final class ConfigValidatorFactory
     }
 
     /**
-     * Create a ConfigValidator and guess Schema type. The schema is loaded
-     * from specified source.
+     * Create a ConfigValidator and guess Schema type. The schema is loaded from
+     * specified source.
      *
      * @param inputSource the source to load schema from
      * @param resolver a resolver used to resolve entitys for input data
@@ -186,11 +182,11 @@ public final class ConfigValidatorFactory
     }
 
     /**
-     * Create a ConfigValidator with specified type. The schema is loaded
-     * from specified source.
+     * Create a ConfigValidator with specified type. The schema is loaded from
+     * specified source.
      *
-     * @param schemaType the type of the schema.
-     *        (Usually a URL such as "http://relaxng.org/ns/structure/1.0")
+     * @param schemaType the type of the schema. (Usually a URL such as
+     * "http://relaxng.org/ns/structure/1.0")
      * @param inputSource the source to load schema from
      * @return the ConfigValidatorthat conforms to input
      * @throws Exception if unable to create validator
@@ -203,12 +199,12 @@ public final class ConfigValidatorFactory
     }
 
     /**
-     * Create a ConfigValidator with specified type. The schema is loaded
-     * from specified source. Also specified is entity resolver used when
-     * loading files to validate.
+     * Create a ConfigValidator with specified type. The schema is loaded from
+     * specified source. Also specified is entity resolver used when loading
+     * files to validate.
      *
-     * @param schemaType the type of the schema.
-     *        (Usually a URL such as "http://relaxng.org/ns/structure/1.0")
+     * @param schemaType the type of the schema. (Usually a URL such as
+     * "http://relaxng.org/ns/structure/1.0")
      * @param inputSource the source to load schema from
      * @param entityResolver a resolver used to resolve entitys for input data
      * @return the ConfigValidatorthat conforms to input
@@ -229,8 +225,8 @@ public final class ConfigValidatorFactory
     }
 
     /**
-     * Create a VerifierFactory according to specified schemaType.
-     * If the schemaType is not specified then
+     * Create a VerifierFactory according to specified schemaType. If the
+     * schemaType is not specified then
      *
      * against DTDs, XML Schema, RelaxNG, Relax or TREX.
      *
@@ -247,7 +243,8 @@ public final class ConfigValidatorFactory
             {
                 if( null == c_msvClass )
                 {
-                    c_msvClass = Class.forName( "com.sun.msv.verifier.jarv.TheFactoryImpl" );
+                    c_msvClass =
+                    Class.forName( "com.sun.msv.verifier.jarv.TheFactoryImpl" );
                 }
                 return (VerifierFactory)c_msvClass.newInstance();
             }

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -18,28 +18,26 @@ import org.xml.sax.InputSource;
 /**
  * Basic unit tests for the resolver factory.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class ResolverFactoryTestCase
     extends TestCase
 {
     private static final String PARSER_KEY = "javax.xml.parsers.SAXParserFactory";
 
-    public ResolverFactoryTestCase( final String name )
-    {
-        super( name );
-    }
-
     public void testNullClassLoader()
     {
         try
         {
-            final EntityResolver resolver = ResolverFactory.createResolver( null );
+            final EntityResolver resolver = ResolverFactory.createResolver(
+                null );
             fail( "Expected to get a npe creating resolver: " + resolver );
         }
         catch( NullPointerException npe )
         {
-            assertEquals( "npe.getMessage()", npe.getMessage(), "classLoader" );
+            assertEquals( "npe.getMessage()",
+                          npe.getMessage(),
+                          "classLoader" );
         }
         catch( Exception e )
         {
@@ -87,14 +85,17 @@ public final class ResolverFactoryTestCase
         doLoadResource( null, TestData.SYSTEM_ID );
     }
 
-    private void doLoadResource( final String publicId, final String systemId )
+    private void doLoadResource( final String publicId,
+                                 final String systemId )
     {
         final EntityResolver resolver = getResolver();
         try
         {
-            final InputSource inputSource = resolver.resolveEntity( publicId, systemId );
-            assertNotNull( "Expected a input source for id " + publicId + "/" + systemId,
-                           inputSource );
+            final InputSource inputSource = resolver.resolveEntity( publicId,
+                                                                    systemId );
+            assertNotNull(
+                "Expected a input source for id " + publicId + "/" + systemId,
+                inputSource );
         }
         catch( Exception e )
         {
@@ -118,7 +119,8 @@ public final class ResolverFactoryTestCase
 
     private ClassLoader createClassLoader()
     {
-        final URL url = getClass().getClassLoader().getResource( TestData.CATALOG_JAR );
+        final URL url = getClass().getClassLoader().getResource(
+            TestData.CATALOG_JAR );
         assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR, url );
         return new URLClassLoader( new URL[]{url} );
     }

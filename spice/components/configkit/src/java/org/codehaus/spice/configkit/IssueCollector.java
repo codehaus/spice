@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 import java.util.List;
 import org.xml.sax.ErrorHandler;
@@ -14,15 +14,13 @@ import org.xml.sax.SAXParseException;
 /**
  * A Error handler used to collect issues reported during validation.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-04 11:13:02 $
+ * @author Peter Donald
+ * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
  */
 class IssueCollector
     implements ErrorHandler
 {
-    /**
-     * the list of issues collected.
-     */
+    /** the list of issues collected. */
     private final List m_issues;
 
     /**
@@ -46,7 +44,8 @@ class IssueCollector
      */
     public void warning( final SAXParseException exception )
     {
-        m_issues.add( new ValidationIssue( ValidationIssue.TYPE_WARNING, exception ) );
+        m_issues.add(
+            new ValidationIssue( ValidationIssue.TYPE_WARNING, exception ) );
     }
 
     /**
@@ -56,7 +55,8 @@ class IssueCollector
      */
     public void error( final SAXParseException exception )
     {
-        m_issues.add( new ValidationIssue( ValidationIssue.TYPE_ERROR, exception ) );
+        m_issues.add(
+            new ValidationIssue( ValidationIssue.TYPE_ERROR, exception ) );
     }
 
     /**
@@ -66,6 +66,7 @@ class IssueCollector
      */
     public void fatalError( final SAXParseException exception )
     {
-        m_issues.add( new ValidationIssue( ValidationIssue.TYPE_FATAL_ERROR, exception ) );
+        m_issues.add(
+            new ValidationIssue( ValidationIssue.TYPE_FATAL_ERROR, exception ) );
     }
 }

@@ -5,28 +5,23 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 /**
- * Result of validating a document against a schema. The result
- * indicates whether validation was successful, any exception
- * throws by validator and any {@link ValidationIssue}s that were
- * reported.
+ * Result of validating a document against a schema. The result indicates
+ * whether validation was successful, any exception throws by validator and any
+ * {@link ValidationIssue}s that were reported.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:proyal at apache.org">Peter Royal</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-04 11:13:02 $
+ * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
  */
 public class ValidationResult
 {
-    /**
-     * Validation exception if validation not successful, else null.
-     */
+    /** Validation exception if validation not successful, else null. */
     private final ValidateException m_exception;
 
-    /**
-     * The issues that were reported during validation.
-     */
+    /** The issues that were reported during validation. */
     private final ValidationIssue[] m_issues;
 
     /**
