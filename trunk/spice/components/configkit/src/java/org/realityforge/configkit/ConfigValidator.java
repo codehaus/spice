@@ -21,6 +21,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+import org.xml.sax.EntityResolver;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,7 +33,7 @@ import javax.xml.parsers.ParserConfigurationException;
  * ConfigValidatorFactory.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-05 06:41:44 $
+ * @version $Revision: 1.3 $ $Date: 2003-04-05 09:40:03 $
  */
 public class ConfigValidator
 {
@@ -42,17 +43,24 @@ public class ConfigValidator
     private Schema m_schema;
 
     /**
+     * The entity resolver used by validator if any.
+     */
+    private EntityResolver m_resolver;
+
+    /**
      * Create a validator for specified schema.
      *
      * @param schema the schema
      */
-    ConfigValidator( final Schema schema )
+    ConfigValidator( final Schema schema, 
+                     final EntityResolver resolver )
     {
         if( null == schema )
         {
             throw new NullPointerException( "schema" );
         }
         m_schema = schema;
+        m_resolver = resolver;
     }
 
     /**
@@ -265,6 +273,7 @@ public class ConfigValidator
         {
             final Verifier verifier = m_schema.newVerifier();
             verifier.setErrorHandler( errorHandler );
+            verifier.setEntityResolver( m_resolver );
             boolean valid;
             if( data instanceof InputSource )
             {
@@ -351,10 +360,12 @@ public class ConfigValidator
 
             final Verifier verifier = m_schema.newVerifier();
             verifier.setErrorHandler( errorHandler );
+            verifier.setEntityResolver( m_resolver );
             final VerifierFilter filter = verifier.getVerifierFilter();
             filter.setParent( reader );
             filter.setContentHandler( contentHandler );
             filter.parse( input );
+            filter.setEntityResolver( m_resolver );
 
             if( !filter.isValid() )
             {
