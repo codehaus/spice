@@ -1,0 +1,4 @@
+<catalog version="1.0">
+    <entity publicId="-//PHOENIX/Assembly DTD Version 1.0//EN" resource="empty.txt"/>
+    <entity systemId="http://jakarta.apache.org/phoenix/assembly_1_0.dtd" resource="META-INF/empty.txt"/>
+</catalog>
