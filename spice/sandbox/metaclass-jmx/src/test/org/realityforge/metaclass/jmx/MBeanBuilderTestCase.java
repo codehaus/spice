@@ -10,6 +10,7 @@ package org.realityforge.metaclass.jmx;
 import junit.framework.TestCase;
 import javax.management.modelmbean.ModelMBeanOperationInfo;
 import javax.management.modelmbean.ModelMBeanAttributeInfo;
+import javax.management.modelmbean.ModelMBeanConstructorInfo;
 import javax.management.MBeanParameterInfo;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ParameterDescriptor;
@@ -25,7 +26,7 @@ import java.beans.PropertyDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2003-10-14 01:06:56 $
+ * @version $Revision: 1.17 $ $Date: 2003-10-14 01:20:07 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -704,7 +705,7 @@ public class MBeanBuilderTestCase
         MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( accessor );
 
-        final PropertyDescriptor[] propertys = new PropertyDescriptor[]{descriptor1,descriptor2};
+        final PropertyDescriptor[] propertys = new PropertyDescriptor[]{descriptor1, descriptor2};
         final ModelInfoCreationHelper helper = new ModelInfoCreationHelper();
         builder.extractAttributes( propertys, helper );
         assertEquals( "attributes.length", 1, helper.getAttributes().length );
@@ -715,7 +716,7 @@ public class MBeanBuilderTestCase
     {
         final MBeanBuilder builder = new MBeanBuilder();
         final Properties parameters = new Properties();
-        parameters.setProperty( "description", "Blah!");
+        parameters.setProperty( "description", "Blah!" );
         final Attribute[] attributes =
             new Attribute[]{new Attribute( "mx.component", parameters )};
         final ClassDescriptor classDescriptor =
@@ -750,5 +751,125 @@ public class MBeanBuilderTestCase
         final String description =
             builder.getTypeDescription( TestBean.class );
         assertEquals( "description", "", description );
+    }
+
+    public void testExtractCtorInfoFromNonManaged()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Class c = TestBean.class;
+        final Constructor constructor = c.getConstructors()[ 0 ];
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+
+        final ModelMBeanConstructorInfo info =
+            builder.extractConstructor( constructor );
+        assertNull( "info", info );
+    }
+
+    public void testExtractCtorInfoFromManaged()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Class c = TestBean.class;
+        final Constructor constructor = c.getConstructors()[ 0 ];
+
+        final Properties parameters = new Properties();
+        parameters.setProperty( "description", "Magical Mystery Tour!" );
+        final Attribute[] attributes =
+            new Attribute[]{new Attribute( "mx.constructor", parameters )};
+        final MethodDescriptor md =
+            new MethodDescriptor( "TestBean",
+                                  "",
+                                  0,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  attributes );
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( c.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{md} );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final ModelMBeanConstructorInfo info =
+            builder.extractConstructor( constructor );
+        assertNotNull( "info", info );
+        assertEquals( "name", "TestBean", info.getName() );
+        assertEquals( "description", "Magical Mystery Tour!", info.getDescription() );
+        assertEquals( "currencyTimeLimit", new Integer( 0 ),
+                      info.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+    }
+
+    public void testExtractCtorInfoFromManagedInDefaultPackage()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Class c = Class.forName( "DefaultPackageClass" );
+        final Constructor constructor = c.getConstructors()[ 0 ];
+
+        final Properties parameters = new Properties();
+        parameters.setProperty( "description", "Magical Mystery Tour!" );
+        final Attribute[] attributes =
+            new Attribute[]{new Attribute( "mx.constructor", parameters )};
+        final MethodDescriptor md =
+            new MethodDescriptor( "DefaultPackageClass",
+                                  "",
+                                  0,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  attributes );
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( c.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{md} );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final ModelMBeanConstructorInfo info =
+            builder.extractConstructor( constructor );
+        assertNotNull( "info", info );
+        assertEquals( "name", "DefaultPackageClass", info.getName() );
+        assertEquals( "description", "Magical Mystery Tour!", info.getDescription() );
+        assertEquals( "currencyTimeLimit", new Integer( 0 ),
+                      info.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+    }
+
+    public void testExtractConstructors()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Class c = TestBean.class;
+        final Constructor constructor1 = c.getConstructors()[ 0 ];
+        final Constructor constructor2 = c.getConstructors()[ 1 ];
+
+        final Properties parameters = new Properties();
+        parameters.setProperty( "description", "Magical Mystery Tour!" );
+        final Attribute[] attributes =
+            new Attribute[]{new Attribute( "mx.constructor", parameters )};
+        final MethodDescriptor md =
+            new MethodDescriptor( "TestBean",
+                                  "",
+                                  0,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  attributes );
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( c.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{md} );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final ModelInfoCreationHelper helper = new ModelInfoCreationHelper();
+        final Constructor[] constructors = new Constructor[]{constructor1, constructor2};
+        builder.extractConstructors( constructors, helper );
+        assertEquals( "constructor count", 1, helper.getConstructors().length );
     }
 }
