@@ -14,9 +14,7 @@
         <file id="default">
             <filename>logkit.log</filename>
             <append>true</append>
-            <format type="extended">
-                %6.6{priority} %8.8{time:HH:mm:ss} [%{category}] : %{message}\n%{throwable}
-            </format>
+            <format type="extended">%{message}\n</format>
         </file>
     </targets>
 </logkit>
