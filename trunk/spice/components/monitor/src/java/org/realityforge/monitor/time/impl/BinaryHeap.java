@@ -135,7 +135,7 @@ final class BinaryHeap
      * Percolate element down heap from top.
      * Assume it is a maximum heap.
      *
-     * @param element the element
+     * @param index the index of the element to percolate
      */
     private void percolateDownMinHeap( final int index )
     {
@@ -172,7 +172,7 @@ final class BinaryHeap
      * Percolate element down heap from top.
      * Assume it is a maximum heap.
      *
-     * @param element the element
+     * @param index the index of the element to percolate
      */
     private void percolateDownMaxHeap( final int index )
     {
