@@ -7,6 +7,7 @@
  */
 package org.realityforge.loggerstore;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.avalon.framework.logger.LogEnabled;
@@ -100,6 +101,15 @@ public abstract class AbstractLoggerStore
      */
     protected abstract Logger createLogger( String name );
 
+    /**
+     * Returns the category names.
+     */
+    protected final String[] getCategoryNames()
+    {
+        final Collection keys = m_loggers.keySet();
+        return (String[])keys.toArray( new String[keys.size()] );
+    }
+    
     /**
      * Sets the root Logger.
      */
