@@ -6,11 +6,13 @@
  * with this distribution in the LICENSE.txt file.
  */
 package org.realityforge.loggerstore;
+
 import org.apache.avalon.framework.logger.Logger;
+
 /**
- * <p>LoggerStore represents the logging hierarchy for a Logger, 
- * as defined by its configuration.</p>   
- * <p>The LoggerStore has an associated LoggerStoreFactory which also 
+ * <p>LoggerStore represents the logging hierarchy for a Logger,
+ * as defined by its configuration.</p>
+ * <p>The LoggerStore has an associated LoggerStoreFactory which also
  * acts as a configurator for the Logger.</p>
  * <p>Whenever an application has finished using the LoggerStore it will call
  * the close() method indicating that the logger hierarchy should also be shutdown. </p>
@@ -20,28 +22,26 @@ import org.apache.avalon.framework.logger.Logger;
  */
 public interface LoggerStore
 {
-
     /**
      * Retrieves the root Logger from the store.
-     * @return the Logger 
+     * @return the Logger
      * @throws Exception if unable to retrieve Logger
      */
-    public Logger getLogger( )
+    Logger getLogger()
         throws Exception;
 
-	/**
-	 * Retrieves a Logger hierarchy from the store for a given category name.
-	 * @param categoryName the name of the logger category.  
-	 * @return the Logger 
-	 * @throws Exception if unable to retrieve Logger
-	 */
-	public Logger getLogger( final String categoryName )
-		throws Exception;
-		
-    /** 
-     *  Closes the LoggerStore and shuts down the logger hierarchy. 
+    /**
+     * Retrieves a Logger hierarchy from the store for a given category name.
+     * @param categoryName the name of the logger category.
+     * @return the Logger
+     * @throws Exception if unable to retrieve Logger
      */
-    public void close();
+    Logger getLogger( final String categoryName )
+        throws Exception;
 
-} 
-    
+    /**
+     *  Closes the LoggerStore and shuts down the logger hierarchy.
+     */
+    void close();
+}
+

@@ -8,12 +8,7 @@
 package org.realityforge.loggerstore;
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.Logger;
 
 /**
  * Jdk14LoggerStoreFactory is an implementation of LoggerStoreFactory
@@ -22,21 +17,8 @@ import org.apache.avalon.framework.logger.Logger;
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
 public class Jdk14LoggerStoreFactory
-    implements LoggerStoreFactory, LogEnabled
+    implements LoggerStoreFactory
 {
-    /** The logger used by LogEnabled  */
-    private Logger m_logger;
-
-    /**
-     * Provide a logger.
-     *
-     * @param logger the logger
-     */
-    public void enableLogging( final Logger logger )
-    {
-        m_logger = logger;
-    }
-    
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
      *
@@ -48,11 +30,10 @@ public class Jdk14LoggerStoreFactory
         throws Exception
     {
         Object o = config.get( CONFIGURATION );
-        if ( o != null && o instanceof InputStream) 
+        if( o != null && o instanceof InputStream )
         {
             return new Jdk14LoggerStore( (InputStream)o );
         }
         throw new Exception( "Invalid configuration" );
     }
-    
 }

@@ -7,14 +7,8 @@
  */
 package org.realityforge.loggerstore;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.Log4JLogger;
-
 
 /**
  *  Test case for Jdk14LoggerStore
@@ -23,30 +17,22 @@ import org.apache.avalon.framework.logger.Log4JLogger;
  */
 public class Jdk14LoggerStoreTestCase extends TestCase
 {
-
-    
-    public Jdk14LoggerStoreTestCase(final String name)
+    public Jdk14LoggerStoreTestCase( final String name )
     {
         super( name );
     }
 
-    protected void setUp() throws Exception
-    {
-    }
-   
     public void testConfiguration()
         throws Exception
     {
-        LoggerStore store = new Jdk14LoggerStore( 
-                                    getClass().getResourceAsStream( "logging.properties" ) );
+        LoggerStore store = new Jdk14LoggerStore(
+            getClass().getResourceAsStream( "logging.properties" ) );
         assertNotNull( "rootLogger", store.getLogger() );
         runLoggerTest( store.getLogger() );
     }
-
 
     private void runLoggerTest( final Logger logger )
     {
         logger.info( "Testing jdk14 Logger" );
     }
-
 }

@@ -8,22 +8,22 @@
 package org.realityforge.loggerstore;
 
 import java.io.InputStream;
-import org.apache.log.Hierarchy;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.log.Hierarchy;
 
 /**
  * <p>LogKitLoggerStore extends AbstractLoggerStore to provide the implementation
  * specific to the LogKit logger. </p>
- * 
+ *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
-public class LogKitLoggerStore extends AbstractLoggerStore
+public class LogKitLoggerStore
+    extends AbstractLoggerStore
 {
     /** The Logger Hierarchy  */
     private Hierarchy m_hierarchy;
-    
+
     /**
      * Creates a <code>LogKitLoggerStore</code> using the configuration resource
      * Currently only the XML configuration type is supported.
@@ -40,16 +40,16 @@ public class LogKitLoggerStore extends AbstractLoggerStore
         setRootLogger( new LogKitLogger( m_hierarchy.getRootLogger() ) );
     }
 
-    /** 
-     *  Creates new LogKitLogger for the given category.  
+    /**
+     *  Creates new LogKitLogger for the given category.
      */
-    protected Logger createLogger( final String categoryName ) 
+    protected Logger createLogger( final String categoryName )
     {
         return new LogKitLogger( m_hierarchy.getLoggerFor( categoryName ) );
     }
 
-    /** 
-     *  Closes the LoggerStore and shuts down the logger hierarchy. 
+    /**
+     *  Closes the LoggerStore and shuts down the logger hierarchy.
      */
     public void close()
     {
