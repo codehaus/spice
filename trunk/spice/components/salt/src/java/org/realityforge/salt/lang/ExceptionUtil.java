@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * This class makes it easy to manipulate data stored in exceptions.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-10-18 07:14:20 $
+ * @version $Revision: 1.12 $ $Date: 2003-10-18 07:15:44 $
  */
 public final class ExceptionUtil
 {
@@ -184,8 +184,9 @@ public final class ExceptionUtil
         for( int i = 0; i < lines.length; i++ )
         {
             final String line = lines[ i ];
-            if( line.startsWith( SEPARATOR ) ||
-                -1 != line.indexOf( stopLine ) )
+            final boolean stopLineReached =
+                0 != i && -1 != line.indexOf( stopLine );
+            if( line.startsWith( SEPARATOR ) || stopLineReached )
             {
                 final String[] result = new String[ i ];
                 System.arraycopy( lines, 0, result, 0, i );
