@@ -53,7 +53,7 @@
 
     <preGoal name="xdoc:copy-user-resources">
         <ant:copy file="${basedir}/../../tools/site/project.css"
-                 todir="target/docs/style"/>
+            todir="target/docs/style"/>
     </preGoal>
 
     <goal name="test-deps">
@@ -91,11 +91,17 @@
                 <ant:include name="templates/*"/>
             </ant:fileset>
         </ant:copy>
-        <ant:copy todir="target/templates">
-            <ant:fileset dir="${basedir}/xdocs" filtering="no">
-                <ant:include name="*.menu"/>
-            </ant:fileset>
-        </ant:copy>
+        <ant:available
+            file="xdocs"
+            type="dir"
+            property="xdocsAvailable"/>
+        <j:if test="${xdocsAvailable == 'true'}">
+            <ant:copy todir="target/templates">
+                <ant:fileset dir="${basedir}/xdocs" filtering="no">
+                    <ant:include name="*.menu"/>
+                </ant:fileset>
+            </ant:copy>
+        </j:if>
 
         <!-- Component menu -->
         <ant:available
@@ -104,16 +110,16 @@
             property="componentMenuAvailable"/>
 
         <j:if test="${componentMenuAvailable != 'true'}">
-	        <j:file name="target/templates/component.menu"
-    	    		omitXmlDeclaration="true"
-        			prettyPrint="true"/>
-		</j:if>
+            <j:file name="target/templates/component.menu"
+                omitXmlDeclaration="true"
+                prettyPrint="true"/>
+        </j:if>
 
         <ant:mkdir dir="target/generated-xdocs"/>
         <velocity:merge
-          name="target/generated-xdocs/navigation.xml"
-          basedir="target/templates"
-          template="navigation.xml"/>
+            name="target/generated-xdocs/navigation.xml"
+            basedir="target/templates"
+            template="navigation.xml"/>
 
     </goal>
 
