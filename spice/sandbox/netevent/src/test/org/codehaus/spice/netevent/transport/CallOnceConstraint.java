@@ -4,7 +4,7 @@ import org.jmock.Constraint;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-12 04:12:19 $
+ * @version $Revision: 1.2 $ $Date: 2004-05-17 06:21:39 $
  */
 public class CallOnceConstraint
     implements Constraint

@@ -13,7 +13,7 @@ import java.nio.channels.Channel;
  * An Event indicating that ServerSocket can accept a connection.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-16 00:17:04 $
+ * @version $Revision: 1.3 $ $Date: 2004-05-17 06:21:38 $
  */
 public class AcceptPossibleEvent
     extends ChannelEvent
@@ -23,8 +23,7 @@ public class AcceptPossibleEvent
      * 
      * @param channel the channel.
      */
-    public AcceptPossibleEvent( final Channel channel,
-                                final Object userData )
+    public AcceptPossibleEvent( final Channel channel, final Object userData )
     {
         super( channel, userData );
     }

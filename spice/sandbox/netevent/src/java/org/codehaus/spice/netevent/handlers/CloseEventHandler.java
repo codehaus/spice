@@ -17,7 +17,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Simple handler that closes underlying transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-15 05:51:47 $
+ * @version $Revision: 1.4 $ $Date: 2004-05-17 06:21:38 $
  */
 public class CloseEventHandler
     extends AbstractDirectedHandler
@@ -37,13 +37,12 @@ public class CloseEventHandler
      */
     public void handleEvent( final Object event )
     {
-        final AbstractTransportEvent ce = (AbstractTransportEvent)event;
+        final AbstractTransportEvent ce = (AbstractTransportEvent) event;
         final ChannelTransport transport = ce.getTransport();
         if( !transport.isClosed() )
         {
             transport.close();
-            final ChannelClosedEvent result =
-                new ChannelClosedEvent( transport );
+            final ChannelClosedEvent result = new ChannelClosedEvent( transport );
             getSink().addEvent( result );
         }
     }

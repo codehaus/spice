@@ -5,7 +5,7 @@ import org.codehaus.spice.event.EventSink;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.2 $ $Date: 2004-05-17 06:21:38 $
  */
 public abstract class AbstractDirectedHandler
     extends AbstractEventHandler

@@ -9,7 +9,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Stuff data into stream and send resultent event.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-12 04:12:19 $
+ * @version $Revision: 1.2 $ $Date: 2004-05-17 06:21:38 $
  */
 public class OutputDataEventHandler
     extends AbstractDirectedHandler
@@ -29,7 +29,7 @@ public class OutputDataEventHandler
      */
     public void handleEvent( final Object event )
     {
-        final OutputDataPresentEvent oe = (OutputDataPresentEvent)event;
+        final OutputDataPresentEvent oe = (OutputDataPresentEvent) event;
         final ChannelTransport transport = oe.getTransport();
         transport.reregister();
     }

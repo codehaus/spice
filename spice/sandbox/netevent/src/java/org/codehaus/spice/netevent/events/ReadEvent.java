@@ -14,7 +14,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Event indicating events were read.
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-20 05:19:26 $
+ * @version $Revision: 1.6 $ $Date: 2004-05-17 06:21:38 $
  */
 public class ReadEvent
     extends AbstractTransportEvent
@@ -28,8 +28,7 @@ public class ReadEvent
      * @param transport the transport
      * @param buffer the ByteBuffer
      */
-    public ReadEvent( final ChannelTransport transport,
-                      final ByteBuffer buffer )
+    public ReadEvent( final ChannelTransport transport, final ByteBuffer buffer )
     {
         super( transport );
         if( null == buffer )

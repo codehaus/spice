@@ -15,7 +15,7 @@ import org.codehaus.spice.netevent.transport.MultiBufferInputStream;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-05-17 06:15:21 $
+ * @version $Revision: 1.5 $ $Date: 2004-05-17 06:21:39 $
  */
 class TestEventHandler
     extends AbstractEventHandler

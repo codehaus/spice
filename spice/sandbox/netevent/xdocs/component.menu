@@ -1,4 +1,4 @@
 
-    <menu name="Component">
-      <item name="Home"           href="/index.html"/>
-    </menu>
+<menu name="Component">
+    <item name="Home" href="/index.html"/>
+</menu>

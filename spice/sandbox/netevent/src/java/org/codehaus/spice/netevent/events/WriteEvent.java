@@ -13,7 +13,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * An Event indicating a write.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-20 01:08:30 $
+ * @version $Revision: 1.4 $ $Date: 2004-05-17 06:21:38 $
  */
 public class WriteEvent
     extends AbstractTransportEvent
@@ -26,8 +26,7 @@ public class WriteEvent
      * 
      * @param transport the transport
      */
-    public WriteEvent( final ChannelTransport transport,
-                       final int count )
+    public WriteEvent( final ChannelTransport transport, final int count )
     {
         super( transport );
         _count = count;

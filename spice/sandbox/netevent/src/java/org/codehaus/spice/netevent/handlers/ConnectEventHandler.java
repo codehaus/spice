@@ -26,7 +26,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.14 $ $Date: 2004-02-11 02:56:00 $
+ * @version $Revision: 1.15 $ $Date: 2004-05-17 06:21:38 $
  */
 public class ConnectEventHandler
     extends AbstractIOEventHandler
@@ -71,23 +71,21 @@ public class ConnectEventHandler
      */
     public void handleEvent( final Object event )
     {
-        final AcceptEvent ce = (AcceptEvent)event;
+        final AcceptEvent ce = (AcceptEvent) event;
         final Channel channel = ce.getChannel();
         if( !channel.isOpen() )
         {
             return;
         }
 
-        final ChannelTransport transport =
-            new ChannelTransport( channel,
-                                  new UnboundedFifoBuffer( 4 ),
-                                  getBufferManager(),
-                                  getSink() );
+        final ChannelTransport transport = new ChannelTransport( channel,
+                                                                 new UnboundedFifoBuffer( 4 ),
+                                                                 getBufferManager(),
+                                                                 getSink() );
         try
         {
-            final AbstractSelectableChannel asc = (AbstractSelectableChannel)channel;
-            final SelectionKey key =
-                _source.registerChannel( asc, 0, transport );
+            final AbstractSelectableChannel asc = (AbstractSelectableChannel) channel;
+            final SelectionKey key = _source.registerChannel( asc, 0, transport );
             transport.setKey( key );
             transport.reregister();
             final ConnectEvent response = new ConnectEvent( transport );
@@ -96,8 +94,7 @@ public class ConnectEventHandler
         catch( final IOException ioe )
         {
             transport.close();
-            final ConnectErrorEvent error =
-                new ConnectErrorEvent( transport, ioe );
+            final ConnectErrorEvent error = new ConnectErrorEvent( transport, ioe );
             _target.addEvent( error );
         }
     }

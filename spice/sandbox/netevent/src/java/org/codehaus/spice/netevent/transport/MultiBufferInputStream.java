@@ -16,7 +16,7 @@ import org.codehaus.spice.netevent.events.CloseChannelRequestEvent;
  * specified in the constructor.
  * 
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2004-02-06 00:49:49 $
+ * @version $Revision: 1.9 $ $Date: 2004-05-17 06:21:39 $
  */
 public class MultiBufferInputStream
     extends InputStream
@@ -181,8 +181,7 @@ public class MultiBufferInputStream
             }
             else if( -1 != _currentBuffer )
             {
-                final ByteBuffer buffer =
-                    (ByteBuffer)_buffers.get( _currentBuffer );
+                final ByteBuffer buffer = (ByteBuffer) _buffers.get( _currentBuffer );
                 if( buffer.remaining() > 0 )
                 {
                     _transport.incRxByteCount();
@@ -236,7 +235,7 @@ public class MultiBufferInputStream
         _markByteCount = _transport.getRxByteCount();
         if( _currentBuffer >= 0 )
         {
-            final ByteBuffer buffer = (ByteBuffer)_buffers.get( 0 );
+            final ByteBuffer buffer = (ByteBuffer) _buffers.get( 0 );
             _markBufferIndex = buffer.position();
         }
         else
@@ -255,13 +254,13 @@ public class MultiBufferInputStream
         {
             for( int i = 1; i <= _currentBuffer; i++ )
             {
-                final ByteBuffer buffer = (ByteBuffer)_buffers.get( i );
+                final ByteBuffer buffer = (ByteBuffer) _buffers.get( i );
                 buffer.position( 0 );
             }
 
             if( _currentBuffer >= 0 )
             {
-                final ByteBuffer buffer = (ByteBuffer)_buffers.get( 0 );
+                final ByteBuffer buffer = (ByteBuffer) _buffers.get( 0 );
                 buffer.position( _markBufferIndex );
                 _currentBuffer = 0;
             }
@@ -296,7 +295,7 @@ public class MultiBufferInputStream
         final int count = _buffers.size();
         for( int i = _currentBuffer; i < count; i++ )
         {
-            final ByteBuffer buffer = (ByteBuffer)_buffers.get( i );
+            final ByteBuffer buffer = (ByteBuffer) _buffers.get( i );
             available += buffer.remaining();
         }
 
@@ -318,7 +317,7 @@ public class MultiBufferInputStream
             final Iterator iterator = _buffers.iterator();
             while( iterator.hasNext() && _currentBuffer > 0 )
             {
-                final ByteBuffer buffer = (ByteBuffer)iterator.next();
+                final ByteBuffer buffer = (ByteBuffer) iterator.next();
                 iterator.remove();
                 _bufferManager.releaseBuffer( buffer );
                 _currentBuffer--;

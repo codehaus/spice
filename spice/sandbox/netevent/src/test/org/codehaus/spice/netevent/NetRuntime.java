@@ -16,7 +16,7 @@ import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-05-17 06:15:21 $
+ * @version $Revision: 1.3 $ $Date: 2004-05-17 06:21:39 $
  */
 class NetRuntime
 {

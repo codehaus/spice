@@ -20,7 +20,7 @@ import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-16 02:03:49 $
+ * @version $Revision: 1.5 $ $Date: 2004-05-17 06:21:39 $
  */
 public class ChannelTransportTestCase
     extends TestCase
@@ -51,7 +51,8 @@ public class ChannelTransportTestCase
 
     private ChannelTransport newTransport( final UnboundedFifoBuffer tx )
     {
-        return new ChannelTransport( m_channel, tx,
+        return new ChannelTransport( m_channel,
+                                     tx,
                                      new DefaultBufferManager(),
                                      new NullEventSink() );
     }
@@ -62,10 +63,7 @@ public class ChannelTransportTestCase
         final UnboundedFifoBuffer tx = new UnboundedFifoBuffer( 1 );
         try
         {
-            new ChannelTransport( null,
-                                  tx,
-                                  new DefaultBufferManager(),
-                                  new NullEventSink() );
+            new ChannelTransport( null, tx, new DefaultBufferManager(), new NullEventSink() );
         }
         catch( final NullPointerException npe )
         {
@@ -84,8 +82,7 @@ public class ChannelTransportTestCase
         }
         catch( final NullPointerException npe )
         {
-            assertEquals( "npe.getMessage()", "transmitBuffer",
-                          npe.getMessage() );
+            assertEquals( "npe.getMessage()", "transmitBuffer", npe.getMessage() );
             return;
         }
         fail( "Expected to fail due to null transmitBuffer passed into Ctor" );
@@ -96,15 +93,14 @@ public class ChannelTransportTestCase
     {
         final ServerSocketChannel ssc = ServerSocketChannel.open();
 
-        final InetSocketAddress socketAddress =
-            new InetSocketAddress( InetAddress.getLocalHost(), 19972 );
+        final InetSocketAddress socketAddress = new InetSocketAddress( InetAddress.getLocalHost(),
+                                                                       19972 );
         try
         {
             ssc.socket().bind( socketAddress );
             m_channel.configureBlocking( false );
             m_channel.connect( socketAddress );
-            final ChannelTransport transport =
-                newTransport( new UnboundedFifoBuffer( 1 ) );
+            final ChannelTransport transport = newTransport( new UnboundedFifoBuffer( 1 ) );
             assertEquals( "channel.isOpen()", true, m_channel.isOpen() );
             transport.close();
             assertEquals( "key", null, transport.getKey() );
@@ -119,8 +115,7 @@ public class ChannelTransportTestCase
     public void testCloseTransportWithNonOpenChannel()
         throws Exception
     {
-        final ChannelTransport transport =
-            newTransport( new UnboundedFifoBuffer( 1 ) );
+        final ChannelTransport transport = newTransport( new UnboundedFifoBuffer( 1 ) );
         m_channel.close();
         assertEquals( "channel.isOpen()", false, m_channel.isOpen() );
         transport.close();
@@ -131,28 +126,23 @@ public class ChannelTransportTestCase
     public void testGetSelectOpsOnWriteable()
         throws Exception
     {
-        final ChannelTransport transport =
-            newTransport( new UnboundedFifoBuffer( 1 ) );
+        final ChannelTransport transport = newTransport( new UnboundedFifoBuffer( 1 ) );
         final Buffer writeBuffer = transport.getTransmitBuffer();
         writeBuffer.add( new Object() );
         assertEquals( "SelectOps",
-                      SelectionKey.OP_WRITE |
-                      SelectionKey.OP_READ |
-                      SelectionKey.OP_CONNECT,
+                      SelectionKey.OP_WRITE | SelectionKey.OP_READ | SelectionKey.OP_CONNECT,
                       transport.getSelectOps() );
     }
 
     public void testGetSelectOpsOnReadable()
         throws Exception
     {
-        final ChannelTransport transport =
-            new ChannelTransport( m_channel,
-                                  new UnboundedFifoBuffer( 1 ),
-                                  new DefaultBufferManager(),
-                                  new NullEventSink() );
+        final ChannelTransport transport = new ChannelTransport( m_channel,
+                                                                 new UnboundedFifoBuffer( 1 ),
+                                                                 new DefaultBufferManager(),
+                                                                 new NullEventSink() );
         assertEquals( "SelectOps",
-                      SelectionKey.OP_READ |
-                      SelectionKey.OP_CONNECT,
+                      SelectionKey.OP_READ | SelectionKey.OP_CONNECT,
                       transport.getSelectOps() );
     }
 }

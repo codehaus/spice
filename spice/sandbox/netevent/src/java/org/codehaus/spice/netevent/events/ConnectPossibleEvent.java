@@ -14,7 +14,7 @@ import java.nio.channels.SelectionKey;
  * Event indicating that it is possible to read from the socket.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-02-11 02:27:09 $
+ * @version $Revision: 1.3 $ $Date: 2004-05-17 06:21:38 $
  */
 public class ConnectPossibleEvent
     extends ChannelEvent
@@ -30,7 +30,8 @@ public class ConnectPossibleEvent
      * @param channel the channel.
      */
     public ConnectPossibleEvent( final Channel channel,
-                                 final Object userData, final SelectionKey key )
+                                 final Object userData,
+                                 final SelectionKey key )
     {
         super( channel, userData );
         _key = key;

@@ -14,7 +14,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Abstract event for IO errors.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-08 03:41:13 $
+ * @version $Revision: 1.5 $ $Date: 2004-05-17 06:21:38 $
  */
 public abstract class IOErrorEvent
     extends AbstractTransportEvent
@@ -28,8 +28,7 @@ public abstract class IOErrorEvent
      * @param transport the transport
      * @param ioe the error
      */
-    public IOErrorEvent( final ChannelTransport transport,
-                         final IOException ioe )
+    public IOErrorEvent( final ChannelTransport transport, final IOException ioe )
     {
         super( transport );
         if( null == ioe )

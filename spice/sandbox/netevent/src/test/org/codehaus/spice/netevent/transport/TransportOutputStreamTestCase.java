@@ -12,7 +12,7 @@ import org.jmock.Mock;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-12 04:12:19 $
+ * @version $Revision: 1.2 $ $Date: 2004-05-17 06:21:39 $
  */
 public class TransportOutputStreamTestCase
     extends TestCase
@@ -23,20 +23,20 @@ public class TransportOutputStreamTestCase
         final Mock mockBM = new Mock( BufferManager.class );
         final int count = 3;
         final ByteBuffer expected = ByteBuffer.allocate( count );
-        mockBM.expectAndReturn( "aquireBuffer", C.args( C.eq( count ) ),
-                                expected );
-        final BufferManager bm = (BufferManager)mockBM.proxy();
+        mockBM.expectAndReturn( "aquireBuffer", C.args( C.eq( count ) ), expected );
+        final BufferManager bm = (BufferManager) mockBM.proxy();
 
         final Mock mockSink = new Mock( EventSink.class );
-        final EventSink sink = (EventSink)mockSink.proxy();
+        final EventSink sink = (EventSink) mockSink.proxy();
 
-        final ChannelTransport transport =
-            new ChannelTransport( SocketChannel.open(),
-                                  new UnboundedFifoBuffer( 1 ),
-                                  bm,
-                                  sink );
-        final TransportOutputStream stream =
-            new TransportOutputStream( bm, transport, sink, count );
+        final ChannelTransport transport = new ChannelTransport( SocketChannel.open(),
+                                                                 new UnboundedFifoBuffer( 1 ),
+                                                                 bm,
+                                                                 sink );
+        final TransportOutputStream stream = new TransportOutputStream( bm,
+                                                                        transport,
+                                                                        sink,
+                                                                        count );
         final ByteBuffer actual = stream.getBuffer();
         assertEquals( "actual", expected, actual );
 
@@ -50,20 +50,20 @@ public class TransportOutputStreamTestCase
         final Mock mockBM = new Mock( BufferManager.class );
         final int count = 3;
         final ByteBuffer expected = ByteBuffer.allocate( count );
-        mockBM.expectAndReturn( "aquireBuffer", C.args( C.eq( count ) ),
-                                expected );
-        final BufferManager bm = (BufferManager)mockBM.proxy();
+        mockBM.expectAndReturn( "aquireBuffer", C.args( C.eq( count ) ), expected );
+        final BufferManager bm = (BufferManager) mockBM.proxy();
 
         final Mock mockSink = new Mock( EventSink.class );
-        final EventSink sink = (EventSink)mockSink.proxy();
+        final EventSink sink = (EventSink) mockSink.proxy();
 
-        final ChannelTransport transport =
-            new ChannelTransport( SocketChannel.open(),
-                                  new UnboundedFifoBuffer( 1 ),
-                                  bm,
-                                  sink );
-        final TransportOutputStream stream =
-            new TransportOutputStream( bm, transport, sink, count );
+        final ChannelTransport transport = new ChannelTransport( SocketChannel.open(),
+                                                                 new UnboundedFifoBuffer( 1 ),
+                                                                 bm,
+                                                                 sink );
+        final TransportOutputStream stream = new TransportOutputStream( bm,
+                                                                        transport,
+                                                                        sink,
+                                                                        count );
         stream.write( 'a' );
         stream.write( 'b' );
 
@@ -85,24 +85,23 @@ public class TransportOutputStreamTestCase
         final ByteBuffer expected = ByteBuffer.allocate( count );
 
         final Mock mockBM = new Mock( BufferManager.class );
-        mockBM.expectAndReturn( "aquireBuffer", C.args( C.eq( count ) ),
-                                expected );
-        final BufferManager bm = (BufferManager)mockBM.proxy();
+        mockBM.expectAndReturn( "aquireBuffer", C.args( C.eq( count ) ), expected );
+        final BufferManager bm = (BufferManager) mockBM.proxy();
 
         final Mock mockSink = new Mock( EventSink.class );
-        mockSink.
-            expectAndReturn( "addEvent",
-                             C.args( C.isA( OutputDataPresentEvent.class ) ),
-                             true );
-        final EventSink sink = (EventSink)mockSink.proxy();
+        mockSink.expectAndReturn( "addEvent",
+                                  C.args( C.isA( OutputDataPresentEvent.class ) ),
+                                  true );
+        final EventSink sink = (EventSink) mockSink.proxy();
 
-        final ChannelTransport transport =
-            new ChannelTransport( SocketChannel.open(),
-                                  new UnboundedFifoBuffer( 1 ),
-                                  bm,
-                                  sink );
-        final TransportOutputStream stream =
-            new TransportOutputStream( bm, transport, sink, count );
+        final ChannelTransport transport = new ChannelTransport( SocketChannel.open(),
+                                                                 new UnboundedFifoBuffer( 1 ),
+                                                                 bm,
+                                                                 sink );
+        final TransportOutputStream stream = new TransportOutputStream( bm,
+                                                                        transport,
+                                                                        sink,
+                                                                        count );
         stream.write( 'a' );
         stream.write( 'b' );
         stream.flush();
@@ -124,28 +123,28 @@ public class TransportOutputStreamTestCase
         final ByteBuffer buffer2 = ByteBuffer.allocate( count );
 
         final Mock mockBM = new Mock( BufferManager.class );
-        mockBM.matchAndReturn( "aquireBuffer", C.args(
-            new CallOnceConstraint( C.eq( count ) ) ),
+        mockBM.matchAndReturn( "aquireBuffer",
+                               C.args( new CallOnceConstraint( C.eq( count ) ) ),
                                buffer2 );
-        mockBM.matchAndReturn( "aquireBuffer", C.args(
-            new CallOnceConstraint( C.eq( count ) ) ),
+        mockBM.matchAndReturn( "aquireBuffer",
+                               C.args( new CallOnceConstraint( C.eq( count ) ) ),
                                buffer1 );
-        final BufferManager bm = (BufferManager)mockBM.proxy();
+        final BufferManager bm = (BufferManager) mockBM.proxy();
 
         final Mock mockSink = new Mock( EventSink.class );
-        mockSink.
-            expectAndReturn( "addEvent",
-                             C.args( C.isA( OutputDataPresentEvent.class ) ),
-                             true );
-        final EventSink sink = (EventSink)mockSink.proxy();
+        mockSink.expectAndReturn( "addEvent",
+                                  C.args( C.isA( OutputDataPresentEvent.class ) ),
+                                  true );
+        final EventSink sink = (EventSink) mockSink.proxy();
 
-        final ChannelTransport transport =
-            new ChannelTransport( SocketChannel.open(),
-                                  new UnboundedFifoBuffer( 1 ),
-                                  bm,
-                                  sink );
-        final TransportOutputStream stream =
-            new TransportOutputStream( bm, transport, sink, count );
+        final ChannelTransport transport = new ChannelTransport( SocketChannel.open(),
+                                                                 new UnboundedFifoBuffer( 1 ),
+                                                                 bm,
+                                                                 sink );
+        final TransportOutputStream stream = new TransportOutputStream( bm,
+                                                                        transport,
+                                                                        sink,
+                                                                        count );
         stream.write( 'a' );
         stream.write( 'b' );
         stream.write( 'c' );

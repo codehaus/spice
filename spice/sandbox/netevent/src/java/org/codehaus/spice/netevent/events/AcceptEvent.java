@@ -6,7 +6,7 @@ import java.nio.channels.Channel;
  * Event to indicate Channel was accepted.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-20 03:18:19 $
+ * @version $Revision: 1.3 $ $Date: 2004-05-17 06:21:38 $
  */
 public class AcceptEvent
     extends ChannelEvent

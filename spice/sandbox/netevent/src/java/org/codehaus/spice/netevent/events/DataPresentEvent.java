@@ -4,7 +4,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-20 03:20:08 $
+ * @version $Revision: 1.5 $ $Date: 2004-05-17 06:21:38 $
  */
 public abstract class DataPresentEvent
     extends AbstractTransportEvent
@@ -12,8 +12,7 @@ public abstract class DataPresentEvent
     /** The number of bytes present. */
     private final int _count;
 
-    public DataPresentEvent( final ChannelTransport transport,
-                             final int count )
+    public DataPresentEvent( final ChannelTransport transport, final int count )
     {
         super( transport );
         _count = count;
