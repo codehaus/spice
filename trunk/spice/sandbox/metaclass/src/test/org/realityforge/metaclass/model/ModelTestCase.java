@@ -13,7 +13,7 @@ import java.util.Properties;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-15 08:50:15 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-15 09:20:58 $
  */
 public class ModelTestCase
     extends TestCase
@@ -69,5 +69,50 @@ public class ModelTestCase
                       "value", attribute.getParameter( "key" ) );
         assertEquals( "attribute.getParameter('dummy','foo') == foo",
                       "foo", attribute.getParameter( "key", "foo" ) );
+    }
+
+    public void testAttributeWithNullName()
+    {
+        try
+        {
+            new Attribute( null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe for name", "name", npe.getMessage() );
+        }
+    }
+
+    public void testParameterWithNullName()
+    {
+        try
+        {
+            new ParameterDescriptor( null, "type" );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe for name", "name", npe.getMessage() );
+        }
+    }
+
+    public void testParameterWithNullType()
+    {
+        try
+        {
+            new ParameterDescriptor( "name", null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe for type", "type", npe.getMessage() );
+        }
+    }
+
+    public void testParameter()
+    {
+        final ParameterDescriptor param = new ParameterDescriptor( "paramName", "paramType" );
+        assertEquals( "param.getName() == paramName",
+                      "paramName", param.getName() );
+        assertEquals( "param.getType() == paramType",
+                      "paramType", param.getType() );
     }
 }
