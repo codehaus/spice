@@ -13,16 +13,11 @@ import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import javax.management.Descriptor;
 import javax.management.MBeanParameterInfo;
 import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.management.modelmbean.ModelMBeanConstructorInfo;
 import javax.management.modelmbean.ModelMBeanInfo;
-import javax.management.modelmbean.ModelMBeanInfoSupport;
-import javax.management.modelmbean.ModelMBeanNotificationInfo;
 import javax.management.modelmbean.ModelMBeanOperationInfo;
 import org.realityforge.metaclass.Attributes;
 import org.realityforge.metaclass.introspector.MetaClassException;
@@ -74,41 +69,34 @@ public class MBeanBuilder
         {
             return null;
         }
-
-        final BeanInfo beanInfo = getBeanInfo( type );
-        final ModelMBeanConstructorInfo[] constructors = extractConstructors( beanInfo );
-        final ModelMBeanAttributeInfo[] attributes = extractAttributes( beanInfo );
-        final ModelMBeanOperationInfo[] operations = extractOperations( beanInfo );
-
         final String description = getTypeDescription( type );
 
-        final ModelMBeanInfoSupport mBeanInfo =
-            new ModelMBeanInfoSupport( type.getName(),
-                                       description,
-                                       attributes,
-                                       constructors,
-                                       operations,
-                                       new ModelMBeanNotificationInfo[ 0 ] );
-        return mBeanInfo;
+        final ModelInfoCreationHelper helper = new ModelInfoCreationHelper();
+        helper.setClassname( type.getName() );
+        helper.setDescription( description );
+
+        final BeanInfo beanInfo = getBeanInfo( type );
+
+        extractConstructors( beanInfo, helper );
+        extractAttributes( beanInfo, helper );
+        extractOperations( beanInfo, helper );
+
+        return helper.toModelMBeanInfo();
     }
 
-    private ModelMBeanConstructorInfo[] extractConstructors( final BeanInfo beanInfo )
+    private void extractConstructors( final BeanInfo beanInfo,
+                                      final ModelInfoCreationHelper helper )
     {
-        final ArrayList ctorSet = new ArrayList();
         final Constructor[] constructors = beanInfo.getBeanDescriptor().getBeanClass().getConstructors();
         for( int i = 0; i < constructors.length; i++ )
         {
-            final Constructor constructor = constructors[ i ];
-            final ModelMBeanConstructorInfo info = extractConstructor( constructor );
+            final ModelMBeanConstructorInfo info =
+                extractConstructor( constructors[ i ] );
             if( null != info )
             {
-                ctorSet.add( info );
+                helper.addConstructor( info );
             }
         }
-
-        return (ModelMBeanConstructorInfo[])ctorSet.
-            toArray( new ModelMBeanConstructorInfo[ ctorSet.size() ] );
-
     }
 
     private ModelMBeanConstructorInfo extractConstructor( final Constructor constructor )
@@ -148,24 +136,20 @@ public class MBeanBuilder
         return description;
     }
 
-    private ModelMBeanAttributeInfo[] extractAttributes( final BeanInfo beanInfo )
+    private void extractAttributes( final BeanInfo beanInfo,
+                                    final ModelInfoCreationHelper helper )
     {
-        final HashMap attributeMap = new HashMap();
         final PropertyDescriptor[] propertys = beanInfo.getPropertyDescriptors();
 
         for( int i = 0; i < propertys.length; i++ )
         {
-            final PropertyDescriptor property = propertys[ i ];
-            final ModelMBeanAttributeInfo info = extractAttribute( property );
+            final ModelMBeanAttributeInfo info =
+                extractAttribute( propertys[ i ] );
             if( null != info )
             {
-                attributeMap.put( property.getName(), info );
+                helper.addAttribute( info );
             }
         }
-
-        final Collection collection = attributeMap.values();
-        return (ModelMBeanAttributeInfo[])collection.
-            toArray( new ModelMBeanAttributeInfo[ collection.size() ] );
     }
 
     private ModelMBeanAttributeInfo extractAttribute( final PropertyDescriptor property )
@@ -238,21 +222,18 @@ public class MBeanBuilder
         return info;
     }
 
-    private ModelMBeanOperationInfo[] extractOperations( final BeanInfo beanInfo )
+    private void extractOperations( final BeanInfo beanInfo,
+                                    final ModelInfoCreationHelper helper )
     {
-        final ArrayList operationSet = new ArrayList();
         final MethodDescriptor[] methods = beanInfo.getMethodDescriptors();
         for( int i = 0; i < methods.length; i++ )
         {
-            final MethodDescriptor method = methods[ i ];
-            final ModelMBeanOperationInfo info = extractOperation( method );
+            final ModelMBeanOperationInfo info = extractOperation( methods[ i ] );
             if( null != info )
             {
-                operationSet.add( info );
+                helper.addOperation( info );
             }
         }
-
-        return (ModelMBeanOperationInfo[])operationSet.toArray( new ModelMBeanOperationInfo[ operationSet.size() ] );
     }
 
     private ModelMBeanOperationInfo extractOperation( final MethodDescriptor method )
