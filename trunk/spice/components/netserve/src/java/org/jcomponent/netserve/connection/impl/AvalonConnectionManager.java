@@ -18,7 +18,6 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.jcomponent.netserve.connection.ConnectionManager;
 import org.jcomponent.threadpool.ThreadPool;
 
 /**
@@ -45,13 +44,13 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-31 02:49:34 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-31 02:50:40 $
  * @phoenix.component
- * @phoenix.service type="ConnectionManager"
+ * @phoenix.service type="org.jcomponent.netserve.connection.ConnectionManager"
  */
 public class AvalonConnectionManager
     extends AbstractConnectionManager
-    implements ConnectionManager, LogEnabled, Configurable, Serviceable, Initializable, Disposable
+    implements LogEnabled, Configurable, Serviceable, Initializable, Disposable
 {
     /** The Avalon Logger */
     private Logger m_logger;
