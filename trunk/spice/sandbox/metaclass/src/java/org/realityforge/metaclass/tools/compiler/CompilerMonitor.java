@@ -15,8 +15,8 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * This is the interface via which interested parties
  * can monitor events that occur during compilation.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-11-18 23:06:21 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003-11-27 08:09:53 $
  */
 public interface CompilerMonitor
 {

@@ -20,8 +20,8 @@ import org.realityforge.metaclass.model.MethodDescriptor;
  * This option is useful if you want to retain access to the names
  * of the parameters in methods and constructors.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-18 23:06:22 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-27 08:09:54 $
  */
 public class ClassDescriptorPacker
 {

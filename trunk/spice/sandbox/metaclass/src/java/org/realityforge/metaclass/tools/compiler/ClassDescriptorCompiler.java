@@ -34,8 +34,8 @@ import org.realityforge.metaclass.tools.packer.ClassDescriptorPacker;
  * A bean that can create MetaClass descriptors by processing
  * Java Source files with qdox.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2003-11-20 10:57:26 $
+ * @author Peter Donald
+ * @version $Revision: 1.15 $ $Date: 2003-11-27 08:09:53 $
  */
 public class ClassDescriptorCompiler
 {

@@ -24,8 +24,8 @@ import java.io.Serializable;
  * about parameter. Usually these attributes are used to store
  * information such as display name for a Parameter.</p>
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-25 13:12:45 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2003-11-27 08:09:53 $
  */
 public final class ParameterDescriptor
     implements Serializable

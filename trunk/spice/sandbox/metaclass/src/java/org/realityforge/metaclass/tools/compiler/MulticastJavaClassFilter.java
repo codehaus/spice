@@ -12,8 +12,8 @@ import com.thoughtworks.qdox.model.JavaClass;
 /**
  * Multicast filter for passing a JavaClass through multiple filters.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-16 08:18:00 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003-11-27 08:09:53 $
  */
 class MulticastJavaClassFilter
     implements JavaClassFilter

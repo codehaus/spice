@@ -14,8 +14,8 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * objects for corresponding java classes. It serves a similar purpose as the
  * {@link java.beans.Introspector} class does for Java Beans.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-28 08:15:01 $
+ * @author Peter Donald
+ * @version $Revision: 1.7 $ $Date: 2003-11-27 08:09:53 $
  */
 public final class MetaClassIntrospector
 {

@@ -35,8 +35,8 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  *       <tt>MetaClassException</tt>.</li>
  * </ul>
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-11-01 01:31:57 $
+ * @author Peter Donald
+ * @version $Revision: 1.8 $ $Date: 2003-11-27 08:09:53 $
  */
 public class DefaultMetaClassAccessor
     implements MetaClassAccessor

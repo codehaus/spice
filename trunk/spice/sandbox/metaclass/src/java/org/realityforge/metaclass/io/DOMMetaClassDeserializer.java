@@ -24,8 +24,8 @@ import org.w3c.dom.Document;
  * Utility class to build a ClassDescriptor from a DOM
  * representation Element.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-11-01 00:23:08 $
+ * @author Peter Donald
+ * @version $Revision: 1.13 $ $Date: 2003-11-27 08:09:53 $
  */
 public class DOMMetaClassDeserializer
 {

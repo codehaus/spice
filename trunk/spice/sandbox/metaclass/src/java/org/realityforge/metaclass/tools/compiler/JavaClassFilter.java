@@ -13,8 +13,8 @@ import com.thoughtworks.qdox.model.JavaClass;
  * Interface used for filtering out JavaClass objects
  * prior to attempting to generate metadata from them.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 04:20:03 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-27 08:09:53 $
  */
 public interface JavaClassFilter
 {

@@ -16,9 +16,9 @@ import java.io.Serializable;
  * the container. The meaning of the specific Attributes will
  * be defined by future specification documents.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:doug at stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.11 $ $Date: 2003-10-28 13:19:01 $
+ * @version $Revision: 1.12 $ $Date: 2003-11-27 08:09:53 $
  */
 public abstract class FeatureDescriptor
     implements Serializable
