@@ -22,28 +22,37 @@ import org.realityforge.packet.events.NackRequestEvent;
 import org.realityforge.packet.events.PacketReadEvent;
 import org.realityforge.packet.events.PacketWriteRequestEvent;
 import org.realityforge.packet.events.SessionActiveEvent;
+import org.realityforge.packet.events.SessionConnectEvent;
 import org.realityforge.packet.events.SessionDisconnectEvent;
 import org.realityforge.packet.events.SessionDisconnectRequestEvent;
 import org.realityforge.packet.events.SessionEstablishRequestEvent;
 import org.realityforge.packet.events.SessionEvent;
+import org.realityforge.packet.events.SessionInactiveEvent;
 import org.realityforge.packet.events.TransportDisconnectRequestEvent;
 import org.realityforge.packet.session.Session;
 import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-20 06:05:04 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-21 04:47:47 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
 {
-    /** The associated BufferManager used to create ByteBuffers for incoming packets. */
+    /**
+     * The associated BufferManager used to create ByteBuffers for incoming
+     * packets.
+     */
     private final BufferManager _bufferManager;
 
-    /** The SessionManager via which sessions are located and created. */
+    /**
+     * The SessionManager via which sessions are located and created.
+     */
     private final SessionManager _sessionManager;
 
-    /** The destination of all events destined for next layer. */
+    /**
+     * The destination of all events destined for next layer.
+     */
     private final EventSink _target;
 
     /**
@@ -169,6 +178,7 @@ public class PacketIOEventHandler
         if( null != session )
         {
             session.setTransport( null );
+            _target.addEvent( new SessionInactiveEvent( session ) );
         }
     }
 
@@ -187,7 +197,7 @@ public class PacketIOEventHandler
             {
                 System.out.println( "PACK Handle Greeting on " +
                                     "server with session? " +
-                                    transport.getChannel() );
+                                    transport );
             }
             session.setTransport( transport );
             if( session.isClient() )
@@ -217,11 +227,11 @@ public class PacketIOEventHandler
         try
         {
             sendDisconnect( transport, reason );
-            transport.getOutputStream().close();
         }
         catch( final IOException ioe )
         {
         }
+        transport.getOutputStream().close();
     }
 
     /**
@@ -234,6 +244,10 @@ public class PacketIOEventHandler
         final SessionEvent se = (SessionEvent)event;
         final Session session = se.getSession();
         final ChannelTransport transport = session.getTransport();
+        if( transport.getOutputStream().isClosed() )
+        {
+            return;
+        }
         try
         {
             if( event instanceof AckRequestEvent )
@@ -327,7 +341,7 @@ public class PacketIOEventHandler
             {
                 System.out.println( "PACK Got a C2S_ESTABLISHED on " +
                                     "client session: " + session + " via " +
-                                    session.getTransport().getChannel() );
+                                    session.getTransport() );
             }
             return receiveEstablish( transport );
         }
@@ -337,7 +351,7 @@ public class PacketIOEventHandler
             {
                 System.out.println( "PACK Got a S2C_CONNECT on " +
                                     "server session: " + session + " via " +
-                                    session.getTransport().getChannel() );
+                                    session.getTransport() );
             }
             return receiveConnect( transport );
         }
@@ -359,7 +373,7 @@ public class PacketIOEventHandler
         }
         else
         {
-            System.out.println( "PACK Error at " + transport.getChannel() +
+            System.out.println( "PACK Error at " + transport +
                                 ") Avail: " +
                                 transport.getInputStream().available() +
                                 " status = " + session.getStatus() );
@@ -418,6 +432,7 @@ public class PacketIOEventHandler
             if( -1 == sessionID )
             {
                 final Session session = _sessionManager.newSession();
+                _target.addEvent( new SessionConnectEvent( session ) );
                 sendConnect( transport, session );
                 return true;
             }
@@ -522,6 +537,13 @@ public class PacketIOEventHandler
         {
             final long sessionID = TypeIOUtil.readLong( input );
             final short authID = TypeIOUtil.readShort( input );
+            if( sessionID != session.getSessionID() )
+            {
+                // To make sure clients get connect event when
+                // sessionID is known. 
+                _target.addEvent( new SessionConnectEvent( session ) );
+            }
+
             session.setStatus( Session.STATUS_ESTABLISHED );
             session.setSessionID( sessionID );
             session.setAuthID( authID );
@@ -653,7 +675,6 @@ public class PacketIOEventHandler
                                  final byte reason )
         throws IOException
     {
-        ensureValidSession( transport );
         final TransportOutputStream output = transport.getOutputStream();
         output.write( Protocol.MSG_DISCONNECT );
         output.write( reason );
