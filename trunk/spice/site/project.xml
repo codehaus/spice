@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<project>
+
+    <pomVersion>3</pomVersion>
+
+    <name>Website</name>
+    <id>site</id>
+
+    <currentVersion>1.0</currentVersion>
+    <inceptionYear>2000</inceptionYear>
+    <package>org.realityforge.${pom.id}</package>
+    <!--<logo>/images/${pom.id}.gif</logo>-->
+
+    <organization>
+        <name>SourceForge.net</name>
+        <url>http://sourceforge.net</url>
+        <logo>http://sourceforge.net/sflogo.php?group_id=67448&amp;type=5</logo>
+    </organization>
+
+    <shortDescription>Main Spice Website</shortDescription>
+    <description>Main Spice Website</description>
+
+    <url>http://spice.sourceforge.net/</url>
+    <siteAddress>spice.sf.net</siteAddress>
+    <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=67448</issueTrackingUrl>
+
+    <siteDirectory>/home/groups/s/sp/spice/htdocs/</siteDirectory>
+
+    <mailingLists>
+        <mailingList>
+            <name>Spice Developers List</name>
+            <subscribe>spice-devel-request@lists.sourceforge.net</subscribe>
+            <unsubscribe>spice-devel-request@lists.sourceforge.net</unsubscribe>
+            <archive>http://sourceforge.net/mailarchive/forum.php?forum=spice-devel</archive>
+        </mailingList>
+    </mailingLists>
+
+    <developers>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <email>peter@apache.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>James Walker</name>
+            <id>j_cosmo</id>
+            <email>james@stocksoftware.com.au</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <build>
+        <nagEmailAddress>spice-devel@lists.sourceforge.net</nagEmailAddress>
+    </build>
+</project>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<document>
+
+    <properties>
+        <title>Spice TODO</title>
+        <author email="maurotalevi at users.sf.net">Mauro Talevi</author>
+    </properties>
+
+    <body>
+        <section name="TODO">
+            <p>
+               Here are listed the global items that need doing.  
+               Component specific TODO lists can be found in the component's docs.
+            </p>
+        </section>
+    </body>
+</document>

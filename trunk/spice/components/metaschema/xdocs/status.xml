@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<document>
+
+    <properties>
+        <title>MetaSchema Status</title>
+        <author email="maurotalevi at users.sf.net">Mauro Talevi</author>
+    </properties>
+
+    <body>
+        <section name="Status">
+            <p>
+               Spice MetaSchema is in a development stage.
+            </p>
+        </section>
+    </body>
+</document>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<project>
+
+    <pomVersion>3</pomVersion>
+
+    <currentVersion>1.0</currentVersion>
+    <inceptionYear>2000</inceptionYear>
+    <package>org.realityforge.${pom.id}</package>
+    <!--<logo>/images/${pom.id}.gif</logo>-->
+
+    <organization>
+        <name>The Spice Group</name>
+        <url>http://sourceforge.net/projects/spice</url>
+        <logo>http://sourceforge.net/sflogo.php?group_id=67448&amp;type=5</logo>
+    </organization>
+
+    <url>http://spice.sourceforge.net/${pom.id}</url>
+    <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=67448</issueTrackingUrl>
+
+    <siteAddress>spice.sf.net</siteAddress>
+    <siteDirectory>/home/groups/s/sp/spice/htdocs/${pom.id}</siteDirectory>
+    <distributionDirectory>/home/groups/s/sp/spice/htdocs/downloads/${pom.id}</distributionDirectory>
+    <distributionSite>spice.sf.net</distributionSite>
+
+    <repository>
+        <connection>scm:cvs::pserver:anonymous@cvs.sourceforge.net:/cvsroot/spice:spice-lib/${pom.id}</connection>
+        <url>http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/spice/spice-lib/${pom.id}/</url>
+    </repository>
+
+    <versions>
+        <version>
+            <id>current</id>
+            <name>Current</name>
+            <tag>HEAD</tag>
+        </version>
+    </versions>
+
+    <mailingLists>
+        <mailingList>
+            <name>Spice Developers List</name>
+            <subscribe>spice-devel-request@lists.sourceforge.net</subscribe>
+            <unsubscribe>spice-devel-request@lists.sourceforge.net</unsubscribe>
+            <archive>http://sourceforge.net/mailarchive/forum.php?forum=spice-devel</archive>
+        </mailingList>
+    </mailingLists>
+
+</project>

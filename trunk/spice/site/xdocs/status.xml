@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<document>
+
+    <properties>
+        <title>Spice Status</title>
+        <author email="maurotalevi at users.sf.net">Mauro Talevi</author>
+    </properties>
+
+    <body>
+        <section name="Status">
+            <p>
+               Spice in a planning stage.  No releases are available.
+            </p>
+        </section>
+    </body>
+</document>
