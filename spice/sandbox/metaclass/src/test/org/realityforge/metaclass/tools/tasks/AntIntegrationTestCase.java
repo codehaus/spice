@@ -14,13 +14,12 @@ import java.io.IOException;
 import junit.framework.TestCase;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
-import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-11-29 01:08:48 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-11 08:41:51 $
  */
 public class AntIntegrationTestCase
     extends TestCase
@@ -71,7 +70,7 @@ public class AntIntegrationTestCase
             "            dest=\"metaclass.interceptors\"\n" +
             "            source=\"test.interceptors\"/>\n" +
             "\n" +
-            "        <mc_generate destDir=\"" +
+            "        <mc_generate format=\"binary\" destDir=\"" +
             destDirectory +
             "\">\n" +
             "            <interceptorSet refid=\"metaclass.interceptors\"/>\n" +
@@ -104,7 +103,7 @@ public class AntIntegrationTestCase
             "biz" +
             File.separator +
             "MyAntIntegrationClass" +
-            DefaultMetaClassAccessor.BINARY_EXT;
+            MetaClassIOBinary.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );

@@ -19,7 +19,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * file.
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-10 23:46:08 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-11 08:41:50 $
  */
 class AddMetaDataAdapter
     extends ClassAdapter
@@ -57,18 +57,16 @@ class AddMetaDataAdapter
     /**
      * @see ClassAdapter#visit(int, String, String, String[], String)
      */
-    public void visit( int access,
-                       String name,
-                       String superName,
-                       String[] interfaces,
-                       String sourceFile )
+    public void visit( final int access,
+                       final String name,
+                       final String superName,
+                       final String[] interfaces,
+                       final String sourceFile )
     {
         super.visit( access, name, superName, interfaces, sourceFile );
         try
         {
-            final ByteArrayOutputStream output = new ByteArrayOutputStream();
-            MetaClassIOBinary.IO.serializeClass( output, m_descriptor );
-            final byte[] bytes = output.toByteArray();
+            final byte[] bytes = toBytes();
             final Attribute attr =
                 new Attribute( MetaClassIOASM.ATTRIBUTE_NAME,
                                bytes,
@@ -80,6 +78,21 @@ class AddMetaDataAdapter
         {
             m_ioe = ioe;
         }
+    }
+
+    /**
+     * Convert ClassDescriptor into bytes.
+     *
+     * @return the bytes
+     * @throws IOException if unable to convert descriptor into bytes
+     */
+    byte[] toBytes()
+        throws IOException
+    {
+        final ByteArrayOutputStream output = new ByteArrayOutputStream();
+        MetaClassIOBinary.IO.serializeClass( output, m_descriptor );
+        final byte[] bytes = output.toByteArray();
+        return bytes;
     }
 
     /**

@@ -7,16 +7,16 @@
  */
 package org.realityforge.metaclass.io;
 
+import java.io.File;
 import java.io.InputStream;
-import java.io.OutputStream;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
- * This is the interface used to read and write
- * descriptors into Input and Output streams.
+ * This is the interface used to read and write descriptors into Input and
+ * Output streams.
  *
  * @author Doug Hagan
- * @version $Revision: 1.7 $ $Date: 2003-12-08 23:30:10 $
+ * @version $Revision: 1.8 $ $Date: 2003-12-11 08:41:50 $
  */
 public interface MetaClassIO
 {
@@ -31,12 +31,20 @@ public interface MetaClassIO
         throws Exception;
 
     /**
-     * Write a ClassDescriptor to an output stream.
+     * Get the name of resource the metadata is stored in for specified class.
      *
-     * @param output the stream to write class descriptor out to
-     * @param info the ClassDescriptor to write out
-     * @throws Exception if unable ot write class descriptor
+     * @param classname the name of class
+     * @return the resource name
      */
-    void serializeClass( OutputStream output, ClassDescriptor info )
+    String getResourceName( String classname );
+
+    /**
+     * Write a ClassDescriptor to a file relative to specified base directory.
+     *
+     * @param baseDir the base directory to output to.
+     * @param descriptor the ClassDescriptor to write out.
+     * @throws Exception if unable ot write class descriptor.
+     */
+    void writeDescriptor( File baseDir, ClassDescriptor descriptor )
         throws Exception;
 }

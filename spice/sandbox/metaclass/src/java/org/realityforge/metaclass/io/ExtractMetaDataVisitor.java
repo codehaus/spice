@@ -16,9 +16,9 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
  * Visitor used to extract ClassDescriptor from .class file.
- * 
+ *
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-10 22:57:59 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-11 08:41:50 $
  */
 class ExtractMetaDataVisitor
     implements ClassVisitor
@@ -89,13 +89,14 @@ class ExtractMetaDataVisitor
         {
             return;
         }
-        final ByteArrayInputStream stream = new ByteArrayInputStream( attr.b );
+        final ByteArrayInputStream stream =
+            new ByteArrayInputStream( attr.b, attr.off, attr.len );
         try
         {
             m_classDescriptor = MetaClassIOBinary.IO.
                 deserializeClass( stream );
         }
-        catch( IOException ioe )
+        catch( final IOException ioe )
         {
             m_ioe = ioe;
         }

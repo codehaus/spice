@@ -10,11 +10,11 @@ package org.realityforge.metaclass.tools.tasks;
 import org.apache.tools.ant.types.EnumeratedAttribute;
 
 /**
- * This is an enumeration that gives the option of either
- * outputting as xml or as a serialized format.
+ * This is an enumeration that gives the option of either outputting as xml or
+ * as a serialized format.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-04 01:39:41 $
+ * @version $Revision: 1.6 $ $Date: 2003-12-11 08:41:50 $
  */
 public class FormatEnum
     extends EnumeratedAttribute
@@ -27,7 +27,11 @@ public class FormatEnum
     public int getTypeCode()
     {
         final String value = super.getValue();
-        if( value.equals( "binary" ) )
+        if( value.equals( "class" ) )
+        {
+            return GenerateClassDescriptorsTask.CLASS_TYPE;
+        }
+        else if( value.equals( "binary" ) )
         {
             return GenerateClassDescriptorsTask.BINARY_TYPE;
         }
@@ -44,6 +48,6 @@ public class FormatEnum
      */
     public String[] getValues()
     {
-        return new String[]{"xml", "binary"};
+        return new String[]{"xml", "binary", "class"};
     }
 }

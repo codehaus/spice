@@ -10,39 +10,24 @@ package org.realityforge.metaclass.model;
 import java.io.Serializable;
 
 /**
- * A descriptor that describes a parameter of a Method.
- * It contains information about;
- * <ul>
- *   <li>name: the name of the parameter.
- *   This name may be automatically constructed if descriptor is
- *   created via reflection.</li>
- *   <li>type: the type of the parameter</li>
- * </ul>
- *
- * <p>Also associated with each parameter is a set of arbitrary
- * Attributes that can be used to store extra information
- * about parameter. Usually these attributes are used to store
- * information such as display name for a Parameter.</p>
+ * A descriptor that describes a parameter of a Method. It contains information
+ * about; <ul> <li>name: the name of the parameter. This name may be
+ * automatically constructed if descriptor is created via reflection.</li>
+ * <li>type: the type of the parameter</li> </ul>
  *
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2003-11-27 08:09:53 $
+ * @version $Revision: 1.7 $ $Date: 2003-12-11 08:41:50 $
  */
 public final class ParameterDescriptor
     implements Serializable
 {
-    /**
-     * The constant for Empty Set of parameters.
-     */
+    /** The constant for Empty Set of parameters. */
     public static final ParameterDescriptor[] EMPTY_SET = new ParameterDescriptor[ 0 ];
 
-    /**
-     * The name of the Parameter in source file.
-     */
+    /** The name of the Parameter in source file. */
     private final String m_name;
 
-    /**
-     * The class/interface of the Parameter.
-     */
+    /** The class/interface of the Parameter. */
     private final String m_type;
 
     /**

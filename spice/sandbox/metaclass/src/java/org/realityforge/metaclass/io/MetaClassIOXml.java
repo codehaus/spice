@@ -7,6 +7,7 @@
  */
 package org.realityforge.metaclass.io;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
@@ -25,13 +26,16 @@ import org.w3c.dom.Document;
  * the xml format outlined in documentation.
  *
  * @author Peter Donald
- * @version $Revision: 1.11 $ $Date: 2003-12-10 22:42:04 $
+ * @version $Revision: 1.12 $ $Date: 2003-12-11 08:41:50 $
  */
 public class MetaClassIOXml
-    implements MetaClassIO
+    extends AbstractMetaClassIO
 {
     /** Constant with instance of MetaClassIO. */
     public static final MetaClassIOXml IO = new MetaClassIOXml();
+
+    /** Extension of metadata files that are in xml format. */
+    public static final String EXTENSION = "-meta.xml";
 
     /** The current version of ClassDescriptor XML format. */
     static final String VERSION = "1.0";
@@ -79,7 +83,7 @@ public class MetaClassIOXml
     static final String VERSION_ATTRIBUTE = "version";
 
     /**
-     * @see MetaClassIO#deserializeClass
+     * @see MetaClassIO#deserializeClass(InputStream)
      */
     public ClassDescriptor deserializeClass( final InputStream input )
         throws Exception
@@ -92,7 +96,7 @@ public class MetaClassIOXml
     }
 
     /**
-     * @see MetaClassIO#serializeClass
+     * @see AbstractMetaClassIO#serializeClass(OutputStream, ClassDescriptor)
      */
     public void serializeClass( final OutputStream output,
                                 final ClassDescriptor descriptor )
@@ -118,5 +122,13 @@ public class MetaClassIOXml
         {
             output.flush();
         }
+    }
+
+    /**
+     * @see MetaClassIO#getResourceName(String)
+     */
+    public String getResourceName( final String classname )
+    {
+        return classname.replace( '.', File.separatorChar ) + EXTENSION;
     }
 }

@@ -28,17 +28,11 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * </ul>
  *
  * @author Peter Donald
- * @version $Revision: 1.9 $ $Date: 2003-12-10 22:43:32 $
+ * @version $Revision: 1.10 $ $Date: 2003-12-11 08:41:50 $
  */
 public class DefaultMetaClassAccessor
     implements MetaClassAccessor
 {
-    /** Extension of metadata files that are in binary format. */
-    public static final String BINARY_EXT = "-meta.binary";
-
-    /** Extension of metadata files that are in xml format. */
-    public static final String XML_EXT = "-meta.xml";
-
     /**
      * @see MetaClassAccessor#getClassDescriptor
      */
@@ -49,11 +43,11 @@ public class DefaultMetaClassAccessor
     {
         boolean isXML = false;
         final String baseName = classname.replace( '.', '/' );
-        String resource = baseName + BINARY_EXT;
+        String resource = baseName + MetaClassIOBinary.EXTENSION;
         InputStream inputStream = classLoader.getResourceAsStream( resource );
         if( null == inputStream )
         {
-            resource = baseName + XML_EXT;
+            resource = baseName + MetaClassIOXml.EXTENSION;
             inputStream = classLoader.getResourceAsStream( resource );
             isXML = true;
         }

@@ -19,7 +19,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
-import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
+import org.realityforge.metaclass.io.MetaClassIOASM;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.io.MetaClassIOXml;
 import org.realityforge.metaclass.model.ClassDescriptor;
@@ -33,17 +33,20 @@ import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
  * A Task to generate Attributes descriptors from source files.
  *
  * @author Peter Donald
- * @version $Revision: 1.19 $ $Date: 2003-12-10 22:44:50 $
+ * @version $Revision: 1.20 $ $Date: 2003-12-11 08:41:50 $
  */
 public class GenerateClassDescriptorsTask
     extends Task
     implements CompilerMonitor
 {
     /** Constant indicating should write out binary descriptors. */
-    public static final int BINARY_TYPE = 0;
+    public static final int CLASS_TYPE = 0;
+
+    /** Constant indicating should write out binary descriptors. */
+    public static final int BINARY_TYPE = 1;
 
     /** Constant indicating should write out serialized xml descriptors. */
-    public static final int XML_TYPE = 1;
+    public static final int XML_TYPE = 2;
 
     /** Destination directory */
     private File m_destDir;
@@ -250,14 +253,16 @@ public class GenerateClassDescriptorsTask
      */
     void setupTarget()
     {
-        if( BINARY_TYPE == m_format )
+        if( CLASS_TYPE == m_format )
         {
-            m_compiler.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
+            m_compiler.setMetaClassIO( MetaClassIOASM.IO );
+        }
+        else if( BINARY_TYPE == m_format )
+        {
             m_compiler.setMetaClassIO( MetaClassIOBinary.IO );
         }
         else
         {
-            m_compiler.setExtension( DefaultMetaClassAccessor.XML_EXT );
             m_compiler.setMetaClassIO( MetaClassIOXml.IO );
         }
     }
