@@ -111,7 +111,14 @@ public class MBeanBuilder
         return info;
     }
 
-    private String getTypeDescription( final Class type )
+    /**
+     * Return the description of class as specified in "description"
+     * parameter of mx.component attribute.
+     *
+     * @param type the type
+     * @return the description of "" if not specified
+     */
+    String getTypeDescription( final Class type )
     {
         final Attribute desc =
             Attributes.getAttribute( type, MX_COMPONENT_CONSTANT );
