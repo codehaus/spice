@@ -46,7 +46,7 @@ public class MetadataConverterImpl implements MetadataConverter {
             JavaDocBuilder builder = new JavaDocBuilder();
             builder.addSource(new StringReader(interfaceMetadata.getSource()));
             JavaClass aClass = builder.getClassByName(interfaceMetadata.getFullyQualifiedName());
-            assert aClass != null;
+            assert aClass != null : interfaceMetadata.getFullyQualifiedName();
             System.out.println("Class = " + aClass);
             classAbbreviator.abbreviate(aClass, result);
             source = result.toString();

@@ -2,6 +2,8 @@ package org.componenthaus.usecases.submitcomponent;
 
 import org.componenthaus.ant.metadata.ComponentMetadata;
 
+import java.util.Collection;
+
 public interface ComponentSubmissionManager {
-    void submit(ComponentMetadata componentMetadata) throws ComponentSubmissionException;
+    Collection submit(ComponentMetadata componentMetadata) throws ComponentSubmissionException;
 }

@@ -19,12 +19,15 @@
  * Offline tool to submit CAR files.
  * Have all Exception constructors call super(...)
  * Determine required jars from imports in the component itself (and its impl).  This is because one jar might contain two or more components.  Dependencies traditionally are at the jar to jar level.  But if you use only one component in a jar, you might not need all the dependencies the jar needs.
- * When QDox bugs 27 and 28 are fixed, test if submission of Plexus FileUtils works.
+ * Better to make methods (services) the unit of indexing, searching and presentation?  Or stick with classes?
+ * Write a test case to enable ClassAbbreviater to deal with constructors
+ * Display service interface fully collapsed, like in IDEA, with clickable buttons to show javadoc.
 
 Done
 
 November 9th
  * If the component is a class, show only its methods, to better convey the service offering.  Rolling this out was hampered by bugs in Qdox (27 and 28). So will retest when bugs are fixed.
+ * When QDox bugs 27 and 28 are fixed, test if submission of Plexus FileUtils works.
 
 November 5th
  * Stop including plug-interfaces in the repository as public interfaces.  Allow the submitter decide whats public.
