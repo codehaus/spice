@@ -8,13 +8,11 @@
 package org.jcomponent.netserve.sockets.impl;
 
 import org.jcomponent.netserve.sockets.SocketAcceptorManager;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-09 07:08:30 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-09 07:09:14 $
  */
 public class DefaultAcceptorManagerTestCase
     extends AbstractAcceptorManagerTestCase
@@ -96,9 +94,6 @@ public class DefaultAcceptorManagerTestCase
         final String name = "name";
         assertEquals( "isConnected pre connect", false, manager.isConnected( name ) );
         final ExceptOnAcceptServerSocket socket = new ExceptOnAcceptServerSocket( true );
-        final InetAddress lh = InetAddress.getLocalHost();
-        final InetSocketAddress isa = new InetSocketAddress( lh, 1234 );
-        socket.bind( isa );
         manager.connect( name,
                          socket,
                          new MockSocketConnectionHandler() );
