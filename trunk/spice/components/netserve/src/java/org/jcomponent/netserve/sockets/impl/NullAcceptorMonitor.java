@@ -14,11 +14,16 @@ import java.io.IOException;
  * A noop connection acceptor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-08 08:25:49 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-09 03:58:06 $
  */
 public class NullAcceptorMonitor
     implements AcceptorMonitor
 {
+    /**
+     * Add constant for instance of Null Acceptor.
+     */
+    public static final NullAcceptorMonitor MONITOR = new NullAcceptorMonitor();
+
     /**
      * @see AcceptorMonitor#acceptorCreated
      */
