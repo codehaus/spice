@@ -11,7 +11,7 @@ package org.realityforge.packet.session;
  * Responsible for managing sessions for messaging framework.
  *
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-12-05 06:57:12 $
+ * @version $Revision: 1.3 $ $Date: 2004-02-03 04:08:04 $
  */
 public interface SessionManager
 {
@@ -22,6 +22,13 @@ public interface SessionManager
      * @return the4 session or null if no such session
      */
     Session findSession( long id );
+
+    /**
+     * return the number of sessions.
+     *
+     * @return the number of sessions
+     */
+    int getSessionCount();
 
     /**
      * Create a new session.
