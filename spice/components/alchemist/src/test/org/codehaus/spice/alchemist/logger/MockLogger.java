@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-class MockLogger
+public class MockLogger
     extends Logger
 {
     boolean m_output;
