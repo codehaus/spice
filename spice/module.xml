@@ -191,6 +191,7 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="spice-qdox" runtime="true"/>
+        <depend project="jakarta-oro" runtime="true"/>
         <depend project="xml-xerces"/>
         <work nested="sandbox/metaclass/target/classes"/>
         <work nested="sandbox/metaclass/target/test-classes"/>
