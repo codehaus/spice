@@ -73,17 +73,20 @@ public class MBeanBuilder
 
         final BeanInfo beanInfo = getBeanInfo( type );
 
-        extractConstructors( beanInfo, helper );
-        extractAttributes( beanInfo, helper );
-        extractOperations( beanInfo, helper );
+        final Constructor[] constructors = type.getConstructors();
+        final PropertyDescriptor[] propertys = beanInfo.getPropertyDescriptors();
+        final MethodDescriptor[] methods = beanInfo.getMethodDescriptors();
+
+        extractConstructors( constructors, helper );
+        extractAttributes( propertys, helper );
+        extractOperations( methods, helper );
 
         return helper.toModelMBeanInfo();
     }
 
-    private void extractConstructors( final BeanInfo beanInfo,
+    private void extractConstructors( final Constructor[] constructors,
                                       final ModelInfoCreationHelper helper )
     {
-        final Constructor[] constructors = beanInfo.getBeanDescriptor().getBeanClass().getConstructors();
         for( int i = 0; i < constructors.length; i++ )
         {
             final ModelMBeanConstructorInfo info =
@@ -132,11 +135,9 @@ public class MBeanBuilder
         return description;
     }
 
-    private void extractAttributes( final BeanInfo beanInfo,
+    private void extractAttributes( final PropertyDescriptor[] propertys,
                                     final ModelInfoCreationHelper helper )
     {
-        final PropertyDescriptor[] propertys = beanInfo.getPropertyDescriptors();
-
         for( int i = 0; i < propertys.length; i++ )
         {
             final ModelMBeanAttributeInfo info =
@@ -218,10 +219,9 @@ public class MBeanBuilder
         return info;
     }
 
-    private void extractOperations( final BeanInfo beanInfo,
+    private void extractOperations( final MethodDescriptor[] methods,
                                     final ModelInfoCreationHelper helper )
     {
-        final MethodDescriptor[] methods = beanInfo.getMethodDescriptors();
         for( int i = 0; i < methods.length; i++ )
         {
             final ModelMBeanOperationInfo info = extractOperation( methods[ i ] );
@@ -342,24 +342,22 @@ public class MBeanBuilder
     {
         final String impact =
             attribute.getParameter( IMPACT_KEY_CONSTANT, EMPTY_STRING );
-        final int impactCode;
         if( IMPACT_INFO.equals( impact ) )
         {
-            impactCode = ModelMBeanOperationInfo.INFO;
+            return ModelMBeanOperationInfo.INFO;
         }
         else if( IMPACT_ACTION.equals( impact ) )
         {
-            impactCode = ModelMBeanOperationInfo.ACTION;
+            return ModelMBeanOperationInfo.ACTION;
         }
         else if( IMPACT_ACTION_INFO.equals( impact ) )
         {
-            impactCode = ModelMBeanOperationInfo.ACTION_INFO;
+            return ModelMBeanOperationInfo.ACTION_INFO;
         }
         else
         {
-            impactCode = ModelMBeanOperationInfo.UNKNOWN;
+            return ModelMBeanOperationInfo.UNKNOWN;
         }
-        return impactCode;
     }
 
     private BeanInfo getBeanInfo( final Class clazz )
