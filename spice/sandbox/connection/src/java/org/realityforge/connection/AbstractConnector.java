@@ -2,6 +2,11 @@ package org.realityforge.connection;
 
 
 /**
+ * The AbstractConnector is a base class for connectors.
+ * Connectors establish a connection to a resource
+ * and attempt to maintain the connection and reconnect
+ * when the connection fails.
+ *
  * @mx.component
  */
 public abstract class AbstractConnector
