@@ -6,7 +6,7 @@ import org.realityforge.packet.session.Session;
  * Event indicating a packet was acked or nacked.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-13 06:32:50 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-19 04:37:43 $
  */
 public abstract class PacketSequenceEvent
     extends SessionEvent
@@ -35,5 +35,13 @@ public abstract class PacketSequenceEvent
     public short getSequence()
     {
         return _sequence;
+    }
+
+    /**
+     * @see SessionEvent#getEventDescription()
+     */
+    protected String getEventDescription()
+    {
+        return super.getEventDescription() + " Sequence: " + getSequence();
     }
 }
