@@ -84,7 +84,7 @@ public class Connector
    /**
     * The time at which last ping occured.
     */
-   private long _pingTime;
+   private long _lastPingTime;
 
    /**
     * Specify the ping policy that connector will use.
@@ -201,9 +201,9 @@ public class Connector
     * @return the time at which last ping occured.
     * @mx.attribute
     */
-   public long getPingTime()
+   public long getLastPingTime()
    {
-      return _pingTime;
+      return _lastPingTime;
    }
 
    /**
@@ -347,7 +347,7 @@ public class Connector
          while ( !isConnected() && isActive() )
          {
             if ( !getReconnectPolicy().attemptConnection( _lastConnectionTime,
-                                                 _connectionAttempts ) )
+                                                          _connectionAttempts ) )
             {
                getMonitor().skippingConnectionAttempt();
                return;
@@ -357,7 +357,7 @@ public class Connector
             {
                _lastConnectionTime = now;
                getConnection().doConnect();
-               _pingTime = System.currentTimeMillis();
+               _lastPingTime = System.currentTimeMillis();
                commOccured( null );
                _connectionAttempts = 0;
                _connectionError = null;
@@ -400,6 +400,25 @@ public class Connector
    }
 
    /**
+    * Check to see if need to ping connection and
+    * if so then perform ping. Return the time
+    * that ping should be next checked at.
+    *
+    * @return the time that ping should be re-checked.
+    */
+   public long checkPing()
+   {
+      final PingPolicy pingPolicy = getPingPolicy();
+      final boolean doPing = pingPolicy.checkPingConnection( this );
+      final long result = pingPolicy.nextPingCheck( getLastPingTime() );
+      if ( doPing )
+      {
+         ping();
+      }
+      return result;
+   }
+
+   /**
     * Attempt to verify Connector is connected.
     * If not connected then the connector will attempt
     * to establish a connection.
@@ -426,7 +445,7 @@ public class Connector
     */
    public boolean ping()
    {
-      _pingTime = System.currentTimeMillis();
+      _lastPingTime = System.currentTimeMillis();
       return validateConnection();
    }
 
