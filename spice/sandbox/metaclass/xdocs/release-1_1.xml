@@ -103,6 +103,19 @@
                     a class has no methods or fields to serialize and has no
                     attributes then it is not serialized.
                 </li>
+                <li>
+                    Created Ant DataTypes "interceptorSet" and "filterSet" to
+                    contain definitions of interceptors and filters
+                    respectively. Also created Ant tasks
+                    "mc_addToInterceptorSet" and "mc_addToFilterSet" so that
+                    existing sets could be combined.
+                </li>
+                <li>
+                    Created a Maven plugin to generate MetaClass descriptors.
+                    Developers need to invoke the "metaclass:generate" goal
+                    to generate descriptors. See documentation for further
+                    details.
+                </li>
             </ul>
         </section>
     </body>
