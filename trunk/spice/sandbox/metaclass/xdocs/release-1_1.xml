@@ -48,6 +48,11 @@
                     <tt>org.realityforge.metaclass.io.DefaultMetaClassAccessor</tt>
                     and <tt>org.realityforge.metaclass.io.MetaClassAccessor</tt>.
                 </li>
+                <li>
+                    Removed constants pertaining to the serialized format
+                    for MetaClass descriptors as they were never used and are
+                    unlikely to be used in the future.
+                </li>
             </ul>
         </section>
     </body>
