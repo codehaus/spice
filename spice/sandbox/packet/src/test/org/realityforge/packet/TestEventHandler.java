@@ -23,7 +23,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.14 $ $Date: 2004-02-17 04:26:43 $
+ * @version $Revision: 1.15 $ $Date: 2004-02-18 02:33:38 $
  */
 class TestEventHandler
    extends AbstractDirectedHandler
@@ -148,7 +148,7 @@ class TestEventHandler
       }
       else if( null != session.getTransport() &&
                receivedMessages == dropOn &&
-               0 == session.getConnections() &&
+               1 == session.getConnections() &&
                session.isClient() )
       {
          output( session, "----------------- CLOSING CONNECTION" );

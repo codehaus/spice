@@ -21,7 +21,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.15 $ $Date: 2004-02-17 04:26:43 $
+ * @version $Revision: 1.16 $ $Date: 2004-02-18 02:33:38 $
  */
 public class TestServer
 {
@@ -69,29 +69,12 @@ public class TestServer
          for( int i = 0; i < SESSIONS.length; i++ )
          {
             final Session session = SESSIONS[ i ];
-            final int status = session.getStatus();
-            if( Session.STATUS_LOST == status ||
-                Session.STATUS_CONNECT_FAILED == status ||
-                Session.STATUS_NOT_CONNECTED == status )
+            if( Session.STATUS_NOT_CONNECTED == session.getStatus() )
             {
-               if( Session.STATUS_CONNECT_FAILED == status )
-               {
-                  final long change =
-                     session.getTimeOfLastStatusChange() + 1000;
-                  if( change < System.currentTimeMillis() )
-                  {
-                     System.out.println( "Rejigging conenct that failed " +
-                                         "but now ready to go again " +
-                                         session +
-                                         " time=" +
-                                         session.getTimeOfLastStatusChange()
-                                         + " now " +
-                                         System.currentTimeMillis() );
-                     session.setStatus( Session.STATUS_NOT_CONNECTED );
-                  }
-               }
-
-               if( !session.isConnecting() )
+               final long change =
+                  session.getTimeOfLastStatusChange() + 1000;
+               if( change < System.currentTimeMillis() &&
+                   !session.isConnecting() )
                {
                   if( session.getConnections() > 0 )
                   {

@@ -11,7 +11,7 @@ package org.realityforge.packet.handlers;
  * Set of constants used in network protocol.
  * 
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2004-02-17 04:26:43 $
+ * @version $Revision: 1.9 $ $Date: 2004-02-18 02:33:38 $
  */
 public class Protocol
 {
@@ -23,71 +23,22 @@ public class Protocol
       'm', 'a', 'g', 'i', 'c', '0', '1'
    };
 
-   public static final int SIZEOF_BYTE = 1;
-   public static final int SIZEOF_SHORT = 2;
-   public static final int SIZEOF_INTEGER = 4;
-   public static final int SIZEOF_LONG = 8;
-
    /**
     * The sizeof header that client sends to server.
     */
    public static final int SIZEOF_GREETING = MAGIC.length +
-                                             SIZEOF_LONG /* session */ +
-                                             SIZEOF_SHORT /* auth */;
+                                             TypeIOUtil.SIZEOF_LONG /* session */ +
+                                             TypeIOUtil.SIZEOF_SHORT /* auth */;
 
    /**
     * The Max-message header is the "connect" message to client. The "data"
     * message is the largest size but it does secondary checking before reading
     * from payload.
     */
-   public static final int MAX_MESSAGE_HEADER = SIZEOF_BYTE +
-                                                SIZEOF_LONG +
-                                                SIZEOF_SHORT;
+   public static final int MAX_MESSAGE_HEADER = TypeIOUtil.SIZEOF_BYTE +
+                                                TypeIOUtil.SIZEOF_LONG +
+                                                TypeIOUtil.SIZEOF_SHORT;
 
-   /**
-    * Message indicating No Error.
-    */
-   public static final byte ERROR_NONE = 0;
-
-   /**
-    * Message indicating that there stream header was invalid.
-    */
-   public static final byte ERROR_BAD_MAGIC = 1;
-
-   /**
-    * Message indicating bad SessionID.
-    */
-   public static final byte ERROR_BAD_SESSION = 2;
-
-   /**
-    * Message indicating bad SessionAuth.
-    */
-   public static final byte ERROR_BAD_AUTH = 3;
-
-   /**
-    * Message indicating Nack for unknown packet.
-    */
-   public static final byte ERROR_BAD_NACK = 4;
-
-   /**
-    * Message indicating unknown message code.
-    */
-   public static final byte ERROR_BAD_MESSAGE = 5;
-
-   /**
-    * Message indicating unknown message code.
-    */
-   public static final byte ERROR_NO_SEQUENCE = 6;
-
-   /**
-    * Message indicating IO Error.
-    */
-   public static final byte ERROR_IO_ERROR = 7;
-
-   /**
-    * Message indicating local session has been disconnected.
-    */
-   public static final byte ERROR_SESSION_DISCONNECTED = 8;
    /**
     * Max difference between successive sequence numbers to test for wrap
     * around.

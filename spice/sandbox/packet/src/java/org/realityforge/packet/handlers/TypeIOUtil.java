@@ -7,10 +7,15 @@ import java.io.OutputStream;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-02-17 04:26:43 $
+ * @version $Revision: 1.5 $ $Date: 2004-02-18 02:33:38 $
  */
 public class TypeIOUtil
 {
+   public static final int SIZEOF_BYTE = 1;
+   public static final int SIZEOF_SHORT = 2;
+   public static final int SIZEOF_INTEGER = 4;
+   public static final int SIZEOF_LONG = 8;
+
    public static short readShort( final InputStream input )
       throws IOException
    {
