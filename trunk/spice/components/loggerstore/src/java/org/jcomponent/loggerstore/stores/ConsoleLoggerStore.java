@@ -7,8 +7,8 @@
  */
 package org.jcomponent.loggerstore.stores;
 
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.Logger;
+import org.jcontainer.dna.Logger;
+import org.jcontainer.dna.impl.ConsoleLogger;
 
 /**
  * ConsoleLoggerStore extends AbstractLoggerStore to provide the implementation

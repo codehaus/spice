@@ -14,6 +14,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.NullLogger;
+import org.jcomponent.loggerstore.util.AvalonLogger;
 
 /**
  * <p>LogKitLoggerStore extends AbstractLoggerStore to provide the implementation
@@ -65,16 +66,16 @@ public class LogKitLoggerStore
             ContainerUtil.contextualize( m_loggerManager, new DefaultContext() );
         }
         ContainerUtil.configure( m_loggerManager, configuration );
-        setRootLogger( m_loggerManager.getDefaultLogger() );
+        setRootLogger( new AvalonLogger( m_loggerManager.getDefaultLogger() ) );
     }
 
 
 	/**
      *  Creates new LogKitLogger for the given category.
      */
-    protected Logger createLogger( final String name )
+    protected org.jcontainer.dna.Logger createLogger( final String name )
     {
-        return m_loggerManager.getLoggerForCategory( name );
+        return new AvalonLogger( m_loggerManager.getLoggerForCategory( name ) );
     }
 
     /**

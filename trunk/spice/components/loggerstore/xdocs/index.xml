@@ -7,7 +7,7 @@
 
   <body>
 	  <section name="LoggerStore">
-		<p>LoggerStore is a component for storing an Avalon Logger hierarchy,
+		<p>LoggerStore is a component for storing a <a href="http://dna.jcontainer.org">DNA</a> Logger hierarchy,
 		abstracting the underlying logger implementation and configuration mechanism.
 		LoggerStore currently supports three different logging implementations:
 		<ul>
@@ -15,9 +15,9 @@
 			<li>Jakarta Log4J</li>
 			<li>Sun JDK 1.4 logging (java.util.logging)</li>
 	    </ul>
-		The Avalon Logger interface provides a high-level abstraction which 
+		The DNA Logger interface provides a high-level abstraction which 
 		supports COP (Component Oriented Programming) - 
-		see the <a href="http://avalon.apache.org">Avalon Project</a> for more details.
+		see the <a href="http://dna.jcontainer.org">DNA</a> project for more details.
 		</p>
 		<p>LoggerStore is an interface with concrete implementations for each of
 		the underlying logging systems.  The interface has the following methods:

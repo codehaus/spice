@@ -9,8 +9,8 @@ package org.jcomponent.loggerstore.stores;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.Logger;
+import org.jcontainer.dna.LogEnabled;
+import org.jcontainer.dna.Logger;
 import org.jcomponent.loggerstore.LoggerStore;
 
 /**

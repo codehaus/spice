@@ -7,7 +7,7 @@
  */
 package org.jcomponent.loggerstore;
 
-import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.jcontainer.dna.impl.ConsoleLogger;
 
 /**
  *  Test case for Configurator
@@ -49,9 +49,9 @@ public class ConfiguratorTestCase
         throws Exception
     {
         runLoggerTest( "logkit-excalibur", Configurator.createLoggerStore( Configurator.LOGKIT_EXCALIBUR, "org/jcomponent/loggerstore/logkit-excalibur.xml" ),
-                       ConsoleLogger.LEVEL_DISABLED );
+                       ConsoleLogger.LEVEL_NONE );
         runLoggerTest( "logkit-excalibur", Configurator.createLoggerStore( Configurator.LOGKIT_EXCALIBUR, getResource( "logkit-excalibur.xml" )),
-                       ConsoleLogger.LEVEL_DISABLED );
+                       ConsoleLogger.LEVEL_NONE );
      }
 
     public void testLogKitExcaliburConfiguratorNoLog()
@@ -74,9 +74,9 @@ public class ConfiguratorTestCase
         throws Exception
     {
         runLoggerTest( "logkit-simple", Configurator.createLoggerStore( Configurator.LOGKIT_SIMPLE, "org/jcomponent/loggerstore/logkit-simple.xml" ),
-                       ConsoleLogger.LEVEL_DISABLED );
+                       ConsoleLogger.LEVEL_NONE );
         runLoggerTest( "logkit-simple", Configurator.createLoggerStore( Configurator.LOGKIT_SIMPLE, getResource( "logkit-simple.xml" )),
-                       ConsoleLogger.LEVEL_DISABLED );
+                       ConsoleLogger.LEVEL_NONE );
      }
 
     public void testLogKitSimpleConfiguratorNoLog()
@@ -99,9 +99,9 @@ public class ConfiguratorTestCase
         throws Exception
     {
         runLoggerTest( "log4j-xml", Configurator.createLoggerStore( Configurator.LOG4J_DOM, "org/jcomponent/loggerstore/log4j.xml" ),
-                       ConsoleLogger.LEVEL_DISABLED );
+                       ConsoleLogger.LEVEL_NONE );
         runLoggerTest( "log4j-xml", Configurator.createLoggerStore( Configurator.LOG4J_DOM, getResource( "log4j.xml" )),
-                       ConsoleLogger.LEVEL_DISABLED );
+                       ConsoleLogger.LEVEL_NONE );
     }
 
     public void testLog4JDOMConfiguratorNoLog()
@@ -124,9 +124,9 @@ public class ConfiguratorTestCase
         throws Exception
     {
         runLoggerTest( "log4j-properties", Configurator.createLoggerStore( Configurator.LOG4J_PROPERTY, "org/jcomponent/loggerstore/log4j.properties" ),
-                       ConsoleLogger.LEVEL_DISABLED );
+                       ConsoleLogger.LEVEL_NONE );
         runLoggerTest( "log4j-properties", Configurator.createLoggerStore( Configurator.LOG4J_PROPERTY, getResource( "log4j.properties" )),
-                       ConsoleLogger.LEVEL_DISABLED );
+                       ConsoleLogger.LEVEL_NONE );
     }
 
     public void testLog4JPropertyConfiguratorNoLog()
@@ -149,9 +149,9 @@ public class ConfiguratorTestCase
         throws Exception
     {
         runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, "org/jcomponent/loggerstore/logging.properties" ),
-                       ConsoleLogger.LEVEL_DISABLED );
+                       ConsoleLogger.LEVEL_NONE );
         runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, getResource( "logging.properties" )),
-                       ConsoleLogger.LEVEL_DISABLED );
+                       ConsoleLogger.LEVEL_NONE );
     }
 
     public void testJDK14ConfiguratorNoLog()

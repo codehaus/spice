@@ -7,7 +7,7 @@
  */
 package org.jcomponent.loggerstore;
 
-import org.apache.avalon.framework.logger.Logger;
+import org.jcontainer.dna.Logger;
 
 /**
  * <p>LoggerStore represents the logging hierarchy for a Logger,

@@ -14,8 +14,8 @@ import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.NullLogger;
+import org.jcontainer.dna.impl.ConsoleLogger;
 import org.jcomponent.loggerstore.stores.ConsoleLoggerStore;
 import org.jcomponent.loggerstore.stores.Jdk14LoggerStore;
 import org.jcomponent.loggerstore.stores.Log4JLoggerStore;
@@ -64,7 +64,7 @@ public class LoggerStoreTestCase
     {
         final LoggerStore store =
             new ConsoleLoggerStore( ConsoleLogger.LEVEL_DEBUG );
-        performConsoleTest( store, ConsoleLogger.LEVEL_DISABLED );
+        performConsoleTest( store, ConsoleLogger.LEVEL_NONE );
     }
 
 
@@ -106,7 +106,7 @@ public class LoggerStoreTestCase
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
             new LogKitLoggerStore( loggerManager, null, null, builder.build( getResource( "logkit-excalibur.xml" ) ) );
-        runLoggerTest( "logkit-excalibur", store, ConsoleLogger.LEVEL_DISABLED );
+        runLoggerTest( "logkit-excalibur", store, ConsoleLogger.LEVEL_NONE );
     }
 
     public void testLogKitExcaliburConfigurationNoLog()
@@ -165,7 +165,7 @@ public class LoggerStoreTestCase
         final LoggerStore store =
             new Log4JLoggerStore( buildElement( getResource( "log4j.xml" ),
                                                 new org.apache.log4j.xml.Log4jEntityResolver(), null ) );
-        runLoggerTest( "log4j-xml", store, ConsoleLogger.LEVEL_DISABLED );
+        runLoggerTest( "log4j-xml", store, ConsoleLogger.LEVEL_NONE );
     }
 
     public void testLog4JElementConfigurationNoLog()
@@ -190,7 +190,7 @@ public class LoggerStoreTestCase
     {
         final LoggerStore store =
             new Log4JLoggerStore( getResource( "log4j.xml" ) );
-        runLoggerTest( "log4j-xml", store, ConsoleLogger.LEVEL_DISABLED );
+        runLoggerTest( "log4j-xml", store, ConsoleLogger.LEVEL_NONE );
     }
 
     public void testLog4JInputStreamConfigurationNoLog()
@@ -218,7 +218,7 @@ public class LoggerStoreTestCase
         properties.load( getResource( "log4j.properties" ) );
         final LoggerStore store =
             new Log4JLoggerStore( properties );
-        runLoggerTest( "log4j-properties", store, ConsoleLogger.LEVEL_DISABLED );
+        runLoggerTest( "log4j-properties", store, ConsoleLogger.LEVEL_NONE );
     }
 
     public void testLog4JPropertiesConfigurationNoLog()
@@ -245,7 +245,7 @@ public class LoggerStoreTestCase
     {
         final LoggerStore store =
             new Jdk14LoggerStore( getResource( "logging.properties" ) );
-        runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_DISABLED );
+        runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_NONE );
     }
 
     public void testJDK14ConfigurationNoLog()

@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.jcomponent.loggerstore.LoggerStore;
-import org.jcomponent.loggerstore.stores.*;
+import org.jcomponent.loggerstore.stores.Jdk14LoggerStore;
 
 /**
  * Jdk14LoggerStoreFactory is an implementation of LoggerStoreFactory
@@ -22,7 +22,7 @@ import org.jcomponent.loggerstore.stores.*;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-18 09:14:29 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-18 11:52:22 $
  */
 public class Jdk14LoggerStoreFactory
     extends AbstractLoggerStoreFactory

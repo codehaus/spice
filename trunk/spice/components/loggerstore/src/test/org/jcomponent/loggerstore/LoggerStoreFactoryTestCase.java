@@ -13,10 +13,10 @@ import java.util.Properties;
 import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.NullLogger;
+import org.jcontainer.dna.Logger;
+import org.jcontainer.dna.impl.ConsoleLogger;
+import org.jcontainer.dna.impl.ContainerUtil;
+
 import org.jcomponent.loggerstore.factories.ConsoleLoggerStoreFactory;
 import org.jcomponent.loggerstore.factories.DOMLog4JLoggerStoreFactory;
 import org.jcomponent.loggerstore.factories.ExcaliburLogKitLoggerStoreFactory;
@@ -137,7 +137,7 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(),
+        config.put( Configuration.class.getName(), 
                     builder.build( getResource( "logkit-excalibur.xml" ) ) );
         config.put( ClassLoader.class.getName(),
                     LogKitLoggerStoreFactory.class.getClassLoader() );
@@ -152,9 +152,9 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(),
+        config.put( Configuration.class.getName(), 
                     builder.build( getResource( "logkit-excalibur.xml" ) ) );
-        config.put( Logger.class.getName(), new NullLogger() );
+        config.put( Logger.class.getName(), new ConsoleLogger() );
 
         runFactoryTest( new LogKitLoggerStoreFactory(),
                         ConsoleLogger.LEVEL_INFO,
@@ -167,7 +167,7 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(),
+        config.put( Configuration.class.getName(), 
                     builder.build( getResource( "logkit-simple.xml" ) ) );
         config.put( LogKitLoggerStoreFactory.LOGGER_MANAGER,
                     SimpleLogKitManager.class.getName() );
@@ -235,9 +235,9 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(),
+        config.put( Configuration.class.getName(), 
                     builder.build( getResource( "logkit-excalibur.xml" ) ) );
-        config.put( Logger.class.getName(), new NullLogger() );
+        config.put( Logger.class.getName(), new ConsoleLogger() );
 
         runFactoryTest( new ExcaliburLogKitLoggerStoreFactory(),
                         ConsoleLogger.LEVEL_INFO,
@@ -266,9 +266,9 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(),
+        config.put( Configuration.class.getName(), 
                     builder.build( getResource( "logkit-simple.xml" ) ) );
-        config.put( Logger.class.getName(), new NullLogger() );
+        config.put( Logger.class.getName(), new ConsoleLogger() );
 
         runFactoryTest( new SimpleLogKitLoggerStoreFactory(),
                         ConsoleLogger.LEVEL_INFO,

@@ -44,17 +44,17 @@ return factory.createLoggerStore( new HashMap() );
 	  The loggerstore.properties file contains the LoggerStore factory implementation class name and the 
 	  path the the configuration resource.  For example:
 	  <source>
-org.realityforge.loggerstore.factory=org.realityforge.loggerstore.ExcaliburLogKitLoggerStoreFactory
-org.realityforge.loggerstore.file=/path/to/logconfig.xml
+org.jcomponent.loggerstore.factory=org.jcomponent.loggerstore.factories.ExcaliburLogKitLoggerStoreFactory
+org.jcomponent.loggerstore.file=/path/to/logconfig.xml
 	  </source>
 	  </p> 
       <p>The possible factory classes are:
 		<ul>
-			<li>org.realityforge.loggerstore.ExcaliburLogKitLoggerStoreFactory</li>
-			<li>org.realityforge.loggerstore.SimpleLogKitLoggerStoreFactory</li>
-			<li>org.realityforge.loggerstore.DOMLog4JLoggerStoreFactory</li>
-			<li>org.realityforge.loggerstore.PropertyLog4JLoggerStoreFactory</li>
-			<li>org.realityforge.loggerstore.JDK14LoggerStoreFactory</li>
+			<li>org.jcomponent.loggerstore.factories.ExcaliburLogKitLoggerStoreFactory</li>
+			<li>org.jcomponent.loggerstore.factories.SimpleLogKitLoggerStoreFactory</li>
+			<li>org.jcomponent.loggerstore.factories.DOMLog4JLoggerStoreFactory</li>
+			<li>org.jcomponent.loggerstore.factories.PropertyLog4JLoggerStoreFactory</li>
+			<li>org.jcomponent.loggerstore.factories.JDK14LoggerStoreFactory</li>
 	    </ul>
       </p>  
 	  </section>
