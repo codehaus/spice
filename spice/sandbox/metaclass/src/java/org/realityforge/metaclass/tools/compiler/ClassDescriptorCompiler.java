@@ -30,7 +30,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  * Java Source files with qdox.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-04 10:31:23 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-04 10:31:39 $
  */
 public class ClassDescriptorCompiler
 {
@@ -145,7 +145,7 @@ public class ClassDescriptorCompiler
      *
      * @param metaClassIO the IO object used to write descriptors.
      */
-    public void setMetaClassIO( MetaClassIO metaClassIO )
+    public void setMetaClassIO( final MetaClassIO metaClassIO )
     {
         if( null == metaClassIO )
         {
