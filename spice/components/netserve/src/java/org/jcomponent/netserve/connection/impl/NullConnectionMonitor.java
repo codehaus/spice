@@ -15,7 +15,6 @@ package org.jcomponent.netserve.connection.impl;
 class NullConnectionMonitor
     implements ConnectionMonitor
 {
-
     public void acceptorClosed( final String name )
     {
     }
@@ -65,5 +64,4 @@ class NullConnectionMonitor
                                  final Throwable t )
     {
     }
-
 }

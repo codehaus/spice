@@ -33,7 +33,7 @@ import org.jcomponent.threadpool.ThreadPool;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-31 02:18:53 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-31 02:48:52 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
@@ -79,36 +79,14 @@ public class AbstractConnectionManager
     private int m_soTimeout;
 
     /**
-     * Constructor
+     * Set the ConnectionMonitor that receives events when changes occur.
+     *
+     * @param monitor the ConnectionMonitor that receives events when
+     *        changes occur.
      */
-    protected AbstractConnectionManager()
-    {
-        this( new NullConnectionMonitor(),
-              null,
-              1000,
-              false,
-              0 );
-    }
-
-    /**
-     * Constructor
-     * @param monitor
-     * @param defaultThreadPool
-     * @param soTimeout
-     * @param forceShutdown
-     * @param shutdownTimeout
-     */
-    protected AbstractConnectionManager( final ConnectionMonitor monitor,
-                                         final ThreadPool defaultThreadPool,
-                                         final int soTimeout,
-                                         final boolean forceShutdown,
-                                         final int shutdownTimeout )
+    public void setMonitor( final ConnectionMonitor monitor )
     {
         m_monitor = monitor;
-        m_defaultThreadPool = defaultThreadPool;
-        m_soTimeout = soTimeout;
-        m_forceShutdown = forceShutdown;
-        m_shutdownTimeout = shutdownTimeout;
     }
 
     protected void setShutdownTimeout( final int shutdownTimeout )
@@ -135,7 +113,7 @@ public class AbstractConnectionManager
      * Dispose the ConnectionManager which involves shutting down all
      * the connected acceptors.
      */
-    public void dispose()
+    public void shutdownAcceptors()
     {
         final String[] names;
         synchronized( m_acceptors )

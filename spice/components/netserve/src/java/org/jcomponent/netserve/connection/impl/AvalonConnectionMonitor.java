@@ -18,7 +18,6 @@ class AvalonConnectionMonitor
     extends AbstractLogEnabled
     implements ConnectionMonitor
 {
-
     public void acceptorClosed( final String name )
     {
         if( getLogger().isInfoEnabled() )
@@ -132,5 +131,4 @@ class AvalonConnectionMonitor
             getLogger().warn( "Unexpected Error (" + message + ")", t );
         }
     }
-
 }
