@@ -20,14 +20,13 @@ import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ValidateException;
 import org.realityforge.netserve.connection.ConnectionHandlerManager;
 import org.realityforge.netserve.connection.ConnectionManager;
-import org.realityforge.netserve.connection.ConnectionHandler;
 import org.xml.sax.ErrorHandler;
 
 /**
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-04-23 09:24:32 $
+ * @version $Revision: 1.8 $ $Date: 2003-04-23 09:26:45 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -76,13 +75,16 @@ public class ConnectionTestCase
         {
             public void run()
             {
-                try
+                while( !serverSocket.isClosed() )
                 {
-                    serverSocket.accept();
-                }
-                catch( IOException ioe )
-                {
-                    ioe.printStackTrace();
+                    try
+                    {
+                        serverSocket.accept();
+                    }
+                    catch( IOException ioe )
+                    {
+                        ioe.printStackTrace();
+                    }
                 }
             }
         };
