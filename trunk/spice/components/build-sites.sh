@@ -3,9 +3,9 @@
 # this script is in the public domain
 
 # update these projects
-PROJECTS="classman cli configkit converter io jndikit metaclass metaschema nativekit threadpool xinvoke xsyslog"
+PROJECTS="classman cli configkit converter io jndikit metaclass metaschema nativekit threadpool xinvoke"
 MULTI_PROCESS="no"
-ANT_COMMAND="maven clean; maven site:generate; maven site:deploy"
+ANT_COMMAND="maven site:generate site:deploy"
 
 for module in ${PROJECTS}
 do
