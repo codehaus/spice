@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
 <project>
-    <extend>../../tools/maven/project.xml</extend>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>MetaClass</name>
     <id>metaclass</id>
+    <groupId>components</groupId>
 
     <shortDescription>Provides runtime access to attributes</shortDescription>
 
     <description>
-        MetaClass provides runtime access to attributes specified in javadoc format.
+        MetaClass provides runtime access to attributes specified in
+        javadoc format.
     </description>
 
     <developers>
@@ -20,31 +22,6 @@
             </roles>
         </developer>
     </developers>
-
-    <build>
-        <nagEmailAddress>spice-devel@lists.sourceforge.net</nagEmailAddress>
-        <sourceDirectory>src/java</sourceDirectory>
-        <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
-
-        <unitTest>
-            <!--
-            Uncomment with next version of Maven and remove
-            coresponding cruft from maven.xml 
-            <resource>
-                <directory>src/test</directory>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-            -->
-            <includes>
-                <include>**/*TestCase*</include>
-            </includes>
-            <excludes>
-                <exclude>**/Abstract*</exclude>
-            </excludes>
-        </unitTest>
-    </build>
 
     <dependencies>
         <dependency>

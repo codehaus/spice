@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <project>
-    <extend>../../tools/maven/project.xml</extend>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>XInvoke</name>
     <id>xinvoke</id>
+    <groupId>components</groupId>
 
     <shortDescription>Easy to use interceptor toolkit</shortDescription>
 
@@ -50,18 +51,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <nagEmailAddress>spice-devel@lists.sourceforge.net</nagEmailAddress>
-        <sourceDirectory>src/java</sourceDirectory>
-        <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
-
-        <unitTest>
-            <includes>
-                <include>**/*TestCase*</include>
-            </includes>
-            <excludes>
-                <exclude>**/Abstract*</exclude>
-            </excludes>
-        </unitTest>
-    </build>
 </project>

@@ -25,7 +25,4 @@
         </developer>
     </developers>
 
-    <build>
-        <nagEmailAddress>spice-devel@lists.sourceforge.net</nagEmailAddress>
-    </build>
 </project>

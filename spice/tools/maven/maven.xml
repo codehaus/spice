@@ -1,29 +1,11 @@
 <?xml version="1.0"?>
 <project
+    xmlns:doc="doc"
     xmlns:j="jelly:core"
-    xmlns:ant="jelly:ant">
-
-    <postGoal name="test:compile">
-        <copy todir="${maven.test.dest}" >
-            <fileset dir="src/test"/>
-        </copy>
-        <taskdef name="metagenerate"
-            classname="org.realityforge.metaclass.tools.tasks.MetaGenerateTask">
-            <classpath>
-                <path refid="maven.dependency.classpath"/>
-                <pathelement path="${maven.build.dest}"/>
-            </classpath>
-        </taskdef>
-
-        <metagenerate destDir="${maven.test.dest}">
-            <fileset dir="${maven.test.dest}">
-                <include name="**/data/*.java"/>
-            </fileset>
-        </metagenerate>
-    </postGoal>
+    xmlns:ant="jelly:ant"
+    default="java:jar">
 
     <preGoal name="site:generate">
-        <attainGoal name="clover"/>
         <mkdir dir="${maven.docs.dest}"/>
         <copy todir="${maven.docs.dest}">
             <fileset dir="${basedir}/../../tools/site" filtering="no">
@@ -32,23 +14,18 @@
         </copy>
     </preGoal>
 
-    <postGoal name="site:deploy">
-        <exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${pom.siteAddress} -l ${maven.username} 'cd ${maven.homepage};chmod -R g+u . *'"/>
-        </exec>
-    </postGoal>
-
     <preGoal name="xdoc:transform">
         <attainGoal name="generateNavigation"/>
     </preGoal>
 
     <goal name="generateNavigation">
+        <echo message="Generating documentation"/>
         <available
             file="${maven.docs.src}/navigation.xml"
             type="file"
-            property="navigation.available" />
+            property="navigation.available"/>
 
-        <j:if test="${navigation.available != 'true'}" >
+        <j:if test="${navigation.available != 'true'}">
             <j:file name="target/navigation.xml" omitXmlDeclaration="true">
                 <naproject name="${pom.name}">
                     <title>${pom.name}</title>
@@ -62,10 +39,13 @@
                     </body>
                 </naproject>
             </j:file>
-            <style
-                in="target/navigation.xml"
-                out="${maven.docs.src}/navigation.xml"
-                style="../../tools/navigation.xsl"/>
+            <doc:jslFile
+                input="target/navigation.xml"
+                output="target/navigation2.xml"
+                stylesheet="../../tools/navigation.jsl"
+                omitXmlDeclaration="true"
+                outputMode="xml"
+                prettyPrint="true"/>
         </j:if>
     </goal>
 
@@ -96,7 +76,7 @@
         <attainGoal name="buildDist"/>
 
         <!-- this doesn't actually work as optional task is not
-             registered. It would be nice if it did but .... -->
+        registered. It would be nice if it did but .... -->
         <ant:ftp server="upload.sourceforge.net"
             remotedir="/incoming"
             userid="anonymous"
@@ -107,11 +87,11 @@
 
     <goal name="generateReadme">
         <j:file name="target/README.txt" trim="false" omitXmlDeclaration="true">
-        ----------------------------------------------------------------
-        ${pom.name} - ${pom.shortDescription}
-        ----------------------------------------------------------------
+            ----------------------------------------------------------------
+            ${pom.name} - ${pom.shortDescription}
+            ----------------------------------------------------------------
 
-        ${pom.description}
+            ${pom.description}
         </j:file>
     </goal>
 
