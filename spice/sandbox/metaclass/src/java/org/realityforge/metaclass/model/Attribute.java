@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.8 $ $Date: 2003-08-15 08:44:15 $
+ * @version $Revision: 1.9 $ $Date: 2003-08-22 04:30:15 $
  */
 public final class Attribute
     implements Serializable
@@ -144,7 +144,7 @@ public final class Attribute
         }
         else
         {
-        return m_parameters.size();
+            return m_parameters.size();
         }
     }
 
