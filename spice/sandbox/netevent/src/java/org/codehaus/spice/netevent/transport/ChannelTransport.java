@@ -18,15 +18,12 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-09 00:46:26 $
  */
 public class ChannelTransport
 {
     /** The associated channel. */
     private final Channel m_channel;
-
-    /** The buffer used to store incoming data. */
-    private final Buffer m_receiveBuffer;
 
     /** The buffer used to store outgoing data. */
     private final Buffer m_transmitBuffer;
@@ -41,27 +38,20 @@ public class ChannelTransport
      * Create transport.
      * 
      * @param channel the underlying channel
-     * @param receiveBuffer the receive buffer
      * @param transmitBuffer the transmit buffer
      */
     public ChannelTransport( final Channel channel,
-                             final Buffer receiveBuffer,
                              final Buffer transmitBuffer )
     {
         if( null == channel )
         {
             throw new NullPointerException( "channel" );
         }
-        if( null == receiveBuffer )
-        {
-            throw new NullPointerException( "receiveBuffer" );
-        }
         if( null == transmitBuffer )
         {
             throw new NullPointerException( "transmitBuffer" );
         }
         m_channel = channel;
-        m_receiveBuffer = receiveBuffer;
         m_transmitBuffer = transmitBuffer;
     }
 
@@ -122,16 +112,6 @@ public class ChannelTransport
     }
 
     /**
-     * Return the read buffer.
-     * 
-     * @return the read buffer.
-     */
-    public Buffer getReceiveBuffer()
-    {
-        return m_receiveBuffer;
-    }
-
-    /**
      * Return the write buffer.
      * 
      * @return the write buffer.
@@ -155,6 +135,18 @@ public class ChannelTransport
         m_key = source.registerChannel( channel,
                                         getSelectOps(),
                                         this );
+    }
+
+    /**
+     * Reregister key operations. Call this after the transmit buffer has been
+     * modified.
+     */
+    public void reregister()
+    {
+        if( null != m_key )
+        {
+            m_key.interestOps( getSelectOps() );
+        }
     }
 
     /**
