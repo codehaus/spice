@@ -13,8 +13,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -43,7 +43,7 @@ import org.xml.sax.XMLReader;
  * must be specified and <code>resource</code> must always be specified.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-03-24 07:47:38 $
+ * @version $Revision: 1.3 $ $Date: 2003-03-24 09:12:27 $
  */
 public final class ResolverFactory
 {
@@ -59,7 +59,7 @@ public final class ResolverFactory
      * @throws IOException if unable to load a Catalog file
      */
     public static final EntityResolver createResolver( final ClassLoader classLoader )
-        throws SAXException, IOException
+        throws ParserConfigurationException, SAXException, IOException
     {
         if( null == classLoader )
         {
@@ -87,7 +87,7 @@ public final class ResolverFactory
      * @throws IOException if unable to read catalog from url
      */
     private static void parseCatalog( final URL url, final List entitys )
-        throws SAXException, IOException
+        throws ParserConfigurationException, SAXException, IOException
     {
         final InputStream inputStream = url.openStream();
         try
@@ -118,17 +118,10 @@ public final class ResolverFactory
      * @throws SAXException if unable to create reader
      */
     private static XMLReader createXMLReader()
-        throws SAXException
+        throws SAXException, ParserConfigurationException
     {
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         saxParserFactory.setNamespaceAware( false );
-        try
-        {
-            return saxParserFactory.newSAXParser().getXMLReader();
-        }
-        catch( final ParserConfigurationException pce )
-        {
-            throw new SAXException( pce.toString() );
-        }
+        return saxParserFactory.newSAXParser().getXMLReader();
     }
 }
