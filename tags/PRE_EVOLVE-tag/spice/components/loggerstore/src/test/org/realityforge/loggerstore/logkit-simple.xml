@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<logkit xmlns:logkit="http://avalon.apache.org/logkit/">
+      <category name="" target="FILE1" priority="INFO" />
+      <log-target name="FILE1" location="logs/logkit-simple.log" format="%{message}\n" />
+
+      <category name="nejney" target="FILE2" priority="INFO" />
+      <log-target name="FILE2" location="logs/logkit-simple2.log" format="%{message}\n" />
+</logkit>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : metadata-schema.xml
+    Author     : Mauro Talevi
+    Description: This document represents an ontology written in EOL (Exteca Ontology Language) 
+                 describing a metadata schema
+                 The EOL Specification is available from
+                 http://sf.net/project/exteca                
+-->
+<ontology id="metadata-schema" uri="http://metadata/schema" version="1.0"> 
+    <associations>
+        <association id="has-metadata" inverse-id="metadata-of">
+            <description>Association between artefact and metadata</description>
+        </association>
+    </associations>
+    <attributes>
+        <attribute id="param" data-type="String"/>
+		<attribute id="avalon-service"  data-type="java.util.Properties"/>
+    </attributes>
+    <concepts>
+        <concept id="java artefact">
+            <has-subclass concept="class/interface"/>
+            <has-subclass concept="method"/>
+            <has-subclass concept="method parameter"/>
+            <has-subclass concept="field"/>
+            <has-subclass concept="package"/>
+            <has-subclass concept="jar"/>
+        </concept>
+        <concept id="class/interface">
+            <property attribute="param" value="param1 this is a parameter"/>
+            <property attribute="avalon-service" value="type=Foo;context=Boo"/>
+        </concept>
+    </concepts>
+    <contents>
+        <concept-content concept="class/interface">
+           <resources content="Resources">
+                <resource name="assembly" uri="dtd:/org/apache/avalon/phoenix/tools/assembly.dtd"/>
+                <resource name="banner" uri="pgn:/org/apache/avalon/phoenix/tools/phoenix.png"/>
+                <resource name="kernel" uri="comp:/org.apache.avalon.phoenix.components.kernel.DefaultKernel"/>
+            </resources>
+        </concept-content>    
+    </contents>
+</ontology>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
+    <name>Native Toolkit</name>
+    <id>spice-nativekit</id>
+    <gumpRepositoryId>sandbox</gumpRepositoryId>
+    <inceptionYear>2001</inceptionYear>
+
+    <shortDescription>A toolkit for executing Native executables</shortDescription>
+    <description>
+        This toolkit is designed to make it easier to execute native executables
+        on multiple platforms. The toolkit will try to shield the user from system
+        specific I/O and environment management. It was originally extracted from
+        the Apache Myrmidon project.
+    </description>
+
+    <developers>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <email>peter@apache.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <id>avalon-framework</id>
+            <version>4.0</version>
+        </dependency>
+        <dependency>
+            <id>excalibur-i18n</id>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+</project>

@@ -1,0 +1,117 @@
+<html>
+    <head>
+        <title>Package Documentation for org.realityforge.cli Package</title>
+    </head>
+    <body bgcolor="white">
+        Utility code for parsing command-line options.
+       <br><br>
+        <h3>Introduction</h3>
+        <p>The utilities in <code>org.realityforge.cli</code> assist
+        you in parsing command line options during startup time. It allows you
+        to associate a short option and a long option to the same command, and
+        then test for it in a switch statement.</p>
+        <a name="doc.Usage"></a>
+        <h3>Usage Example</h3>
+        <pre>
+import java.util.List;
+
+import org.realityforge.cli.CLArgsParser;
+import org.realityforge.cli.CLOption;
+import org.realityforge.cli.CLOptionDescriptor;
+import org.realityforge.cli.CLUtil;
+
+/**
+* Demonstrates the excalibur command-line parsing utility.
+*
+* @author <a href="jeff@socialchange.net.au">Jeff Turner</a>
+*/
+public class CLDemo {
+    // Define our short one-letter option identifiers.
+    protected static final int HELP_OPT = 'h';
+    protected static final int VERSION_OPT = 'v';
+    protected static final int MSG_OPT = 'm';
+
+    /**
+     *  Define the understood options. Each CLOptionDescriptor contains:
+     * - The "long" version of the option. Eg, "help" means that "--help" will
+     * be recognised.
+     * - The option flags, governing the option's argument(s).
+     * - The "short" version of the option. Eg, 'h' means that "-h" will be
+     * recognised.
+     * - A description of the option.
+     */
+    protected static final CLOptionDescriptor [] options = new CLOptionDescriptor [] {
+        new CLOptionDescriptor("help",
+                CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                HELP_OPT,
+                "print this message and exit"),
+        new CLOptionDescriptor("version",
+                CLOptionDescriptor.ARGUMENT_DISALLOWED,
+                VERSION_OPT,
+                "print the version information and exit"),
+        new CLOptionDescriptor("msg",
+                CLOptionDescriptor.ARGUMENT_REQUIRED,
+                MSG_OPT,
+                "the message to print"),
+    };
+
+    public static void main(String args[]) {
+        // Parse the arguments
+        CLArgsParser parser = new CLArgsParser(args, options);
+
+        if( null != parser.getErrorString() ) {
+           System.err.println( "Error: " + parser.getErrorString() );
+           return;
+        }
+
+        // Get a list of parsed options
+        List clOptions = parser.getArguments();
+        int size = clOptions.size();
+
+        for (int i = 0; i < size; i++) {
+            CLOption option = (CLOption) clOptions.get(i);
+
+            switch (option.getId()) {
+                case CLOption.TEXT_ARGUMENT:
+                    System.out.println("Unknown arg: "+option.getArgument());
+                    break;
+
+                case HELP_OPT:
+                    printUsage();
+                    break;
+
+                case VERSION_OPT:
+                    printVersion();
+                    break;
+
+
+                case MSG_OPT:
+                    System.out.println(option.getArgument());
+                    break;
+            }
+        }
+    }
+
+    private static void printVersion() {
+        System.out.println("1.0");
+        System.exit(0);
+    }
+
+    private static void printUsage() {
+        String lSep = System.getProperty("line.separator");
+        StringBuffer msg = new StringBuffer();
+        msg.append("------------------------------------------------------------------------ ").append(lSep);
+        msg.append("Excalibur command-line arg parser demo").append(lSep);
+        msg.append("Usage: java "+CLDemo.class.getName()+" [options]").append(lSep).append(lSep);
+        msg.append("Options: ").append(lSep);
+        msg.append(CLUtil.describeOptions(CLDemo.options).toString());
+        System.out.println(msg.toString());
+        System.exit(0);
+    }
+}
+</pre>
+
+@since 4.0
+
+</body>
+</html>
