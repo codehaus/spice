@@ -32,7 +32,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * description of valid attributes.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-15 02:10:19 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-17 07:38:49 $
  */
 public class MBeanInfoBuilder
 {
@@ -110,13 +110,13 @@ public class MBeanInfoBuilder
      * @return the ModelMBeanInfo objects
      * @throws Exception if unable to get resolve specified types
      */
-    public ModelMBeanInfo[] buildMBeanInfos( final Class type )
+    public TopicDescriptor[] buildMBeanInfos( final Class type )
         throws Exception
     {
         final List infos = new ArrayList();
         buildMBeanInfos( type, infos );
-        return (ModelMBeanInfo[])infos.
-            toArray( new ModelMBeanInfo[ infos.size() ] );
+        return (TopicDescriptor[])infos.
+            toArray( new TopicDescriptor[ infos.size() ] );
     }
 
     /**
@@ -135,7 +135,7 @@ public class MBeanInfoBuilder
         if( null != attribute )
         {
             final ModelMBeanInfo info = buildMBeanInfo( type );
-            infos.add( info );
+            infos.add( new TopicDescriptor( null, info ) );
         }
 
         final Attribute[] attributes =
@@ -143,15 +143,29 @@ public class MBeanInfoBuilder
         final ClassLoader classLoader = type.getClassLoader();
         for( int i = 0; i < attributes.length; i++ )
         {
-            final Attribute ifcAttribute = attributes[ i ];
-            final String classname = ifcAttribute.getParameter( "type", null );
-            if( null != classname )
-            {
-                    final Class clazz = classLoader.loadClass( classname );
-                    final ModelMBeanInfo info = buildMBeanInfo( clazz );
-                    infos.add( info );
-            }
+            final TopicDescriptor topic =
+                buildTopic( attributes[ i ], classLoader );
+            infos.add( topic );
         }
+    }
+
+    /**
+     * Build topic representation.
+     *
+     * @param attribute the attribute containing topic descriptor
+     * @param classLoader the classloader to load interface from
+     * @return the TopicDescriptor
+     * @throws Exception if unable to build info for topic
+     */
+    TopicDescriptor buildTopic( final Attribute attribute,
+                                final ClassLoader classLoader )
+        throws Exception
+    {
+        final String topicName = attribute.getParameter( "topic", null );
+        final String classname = attribute.getParameter( "type", null );
+        final Class clazz = classLoader.loadClass( classname );
+        final ModelMBeanInfo info = buildMBeanInfo( clazz );
+        return new TopicDescriptor( topicName, info );
     }
 
     /**
