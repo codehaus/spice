@@ -24,7 +24,7 @@ import java.util.Properties;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-11-01 01:02:55 $
+ * @version $Revision: 1.10 $ $Date: 2003-11-01 01:08:53 $
  */
 public class DOMMetaClassDeserializerTestCase
     extends TestCase
@@ -256,7 +256,7 @@ public class DOMMetaClassDeserializerTestCase
         attributes.appendChild( attribute );
         attribute.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myAttribute" );
         final Comment comment = document.createComment( "Random COmment" );
-        attribute.appendChild( comment );
+        attributes.appendChild( comment );
 
         final FieldDescriptor[] fields = deserializer.buildFields( root );
         assertEquals( "fields.length", 1, fields.length );
