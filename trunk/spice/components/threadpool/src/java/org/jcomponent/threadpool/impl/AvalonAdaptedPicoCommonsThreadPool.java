@@ -33,21 +33,20 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-27 21:38:14 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-29 05:48:47 $
  * @phoenix.service type="ThreadPool"
  */
 public class AvalonAdaptedPicoCommonsThreadPool
     extends AbstractThreadPool
     implements ThreadPool, LogEnabled, Configurable, Initializable, Disposable, PoolableObjectFactory
 {
-
-    private PicoCommonsThreadPool delegate;
-    private String name;
-    private int priority;
-    private boolean isDaemon;
-    private boolean resourceLimited;
-    private int maxActive;
-    private int maxIdle;
+    private PicoCommonsThreadPool m_delegate;
+    private String m_name;
+    private int m_priority;
+    private boolean m_isDaemon;
+    private boolean m_resourceLimited;
+    private int m_maxActive;
+    private int m_maxIdle;
 
     /**
      * The logger for component.
@@ -75,12 +74,12 @@ public class AvalonAdaptedPicoCommonsThreadPool
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        name = configuration.getChild( "name" ).getValue();
-        priority = configuration.getChild( "priority" ).getValueAsInteger( Thread.NORM_PRIORITY );
-        isDaemon = configuration.getChild( "is-daemon" ).getValueAsBoolean( false );
-        resourceLimited = configuration.getChild( "resource-limiting" ).getValueAsBoolean( false );
-        maxActive = configuration.getChild( "max-threads" ).getValueAsInteger( 10 );
-        maxIdle = configuration.getChild( "max-idle" ). getValueAsInteger( maxActive / 2 );
+        m_name = configuration.getChild( "name" ).getValue();
+        m_priority = configuration.getChild( "priority" ).getValueAsInteger( Thread.NORM_PRIORITY );
+        m_isDaemon = configuration.getChild( "is-daemon" ).getValueAsBoolean( false );
+        m_resourceLimited = configuration.getChild( "resource-limiting" ).getValueAsBoolean( false );
+        m_maxActive = configuration.getChild( "max-threads" ).getValueAsInteger( 10 );
+        m_maxIdle = configuration.getChild( "max-idle" ). getValueAsInteger( m_maxActive / 2 );
     }
 
     /**
@@ -93,9 +92,9 @@ public class AvalonAdaptedPicoCommonsThreadPool
     {
         AvalonThreadPoolMonitor monitor = new AvalonThreadPoolMonitor();
         monitor.enableLogging(m_logger);
-        delegate = new PicoCommonsThreadPool.WithMonitorAndConfig(monitor,
-                                                                       name, priority, isDaemon, resourceLimited,
-                                                                       maxActive, maxIdle);
+        m_delegate = new PicoCommonsThreadPool.WithMonitorAndConfig(monitor,
+                                                                       m_name, m_priority, m_isDaemon, m_resourceLimited,
+                                                                       m_maxActive, m_maxIdle);
     }
 
     /**
@@ -103,8 +102,8 @@ public class AvalonAdaptedPicoCommonsThreadPool
      */
     public void dispose()
     {
-        delegate.dispose();
-        delegate = null;
+        m_delegate.dispose();
+        m_delegate = null;
     }
 
     /**
@@ -114,7 +113,7 @@ public class AvalonAdaptedPicoCommonsThreadPool
      */
     protected WorkerThread getWorker()
     {
-        return delegate.getWorker();
+        return m_delegate.getWorker();
     }
 
     /**
@@ -124,7 +123,7 @@ public class AvalonAdaptedPicoCommonsThreadPool
      */
     protected void releaseWorker( final WorkerThread worker )
     {
-        delegate.releaseWorker( worker );
+        m_delegate.releaseWorker( worker );
     }
 
     /**
@@ -134,7 +133,7 @@ public class AvalonAdaptedPicoCommonsThreadPool
      */
     protected WorkerThread createWorker()
     {
-        return delegate.createWorker();
+        return m_delegate.createWorker();
     }
 
     /**
@@ -144,7 +143,7 @@ public class AvalonAdaptedPicoCommonsThreadPool
      */
     protected void destroyWorker( final WorkerThread worker )
     {
-        delegate.destroyWorker( worker );
+        m_delegate.destroyWorker( worker );
     }
 
     /**
@@ -174,7 +173,7 @@ public class AvalonAdaptedPicoCommonsThreadPool
      */
     public boolean validateObject( final Object worker )
     {
-        return delegate.validateObject( worker );
+        return m_delegate.validateObject( worker );
     }
 
     /**
@@ -183,7 +182,7 @@ public class AvalonAdaptedPicoCommonsThreadPool
      */
     public void activateObject( final Object worker )
     {
-        delegate.activateObject( worker );
+        m_delegate.activateObject( worker );
     }
 
     /**
@@ -192,6 +191,6 @@ public class AvalonAdaptedPicoCommonsThreadPool
      */
     public void passivateObject( final Object worker )
     {
-        delegate.passivateObject( worker );
+        m_delegate.passivateObject( worker );
     }
 }
