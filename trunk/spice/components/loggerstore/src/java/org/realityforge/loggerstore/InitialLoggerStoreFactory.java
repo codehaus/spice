@@ -20,7 +20,7 @@ import java.io.InputStream;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-05-24 22:08:19 $
+ * @version $Revision: 1.2 $ $Date: 2003-05-24 22:10:05 $
  */
 public class InitialLoggerStoreFactory
     implements LoggerStoreFactory
@@ -31,6 +31,13 @@ public class InitialLoggerStoreFactory
      * the ConsoleLoggerStoreFactory.
      */
     public static final String INITIAL_FACTORY = LoggerStoreFactory.class.getName() + ".factory";
+
+    /**
+     * The name of properties file loaded from ClassLoader. This property
+     * file will be used to load default configuration settings if user failed
+     * to specify them.
+     */
+    public static final String DEFAULT_PROPERTIES = "META-INF/spice/loggerstore.properties";
 
     public LoggerStore createLoggerStore( final Map config )
         throws Exception
@@ -70,7 +77,7 @@ public class InitialLoggerStoreFactory
         final HashMap map = new HashMap();
 
         final Enumeration resources =
-            classLoader.getResources( "META-INF/spice/loggerstore.properties" );
+            classLoader.getResources( DEFAULT_PROPERTIES );
         while( resources.hasMoreElements() )
         {
             final URL url = (URL)resources.nextElement();
