@@ -135,6 +135,28 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
+    <project name="spice-netserve">
+        <package>org.realityforge.netserve</package>
+
+        <ant basedir="components/netserve">
+            <property name="final.name" value="spice-netserve-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="avalon" runtime="true"/>
+        <depend project="spice-configkit" inherit="runtime"/>
+
+        <work nested="components/jndikit/target/classes"/>
+        <work nested="components/jndikit/target/test-classes"/>
+
+        <home nested="components/netserve"/>
+        <jar name="target/spice-netserve-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+    </project>
+
     <project name="spice-metaclass">
         <package>org.realityforge.metaclass</package>
 
