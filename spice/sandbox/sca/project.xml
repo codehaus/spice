@@ -21,11 +21,8 @@
         <dependency> <!-- to generate metadata -->
             <groupId>spice</groupId>
             <artifactId>spice-metaclass</artifactId>
-            <version>20031119.015852</version>
-        </dependency>
-        <dependency> <!-- for metaclass -->
-            <id>qdox</id>
-            <version>1.3</version>
+            <version>1.0-rc1</version>
+            <type>plugin</type>
         </dependency>
     </dependencies>
 

@@ -1,27 +1,8 @@
 <?xml version="1.0"?>
-<project default="jar:install"
-    xmlns:deploy="deploy"
-    xmlns:metaclass="metaclass"
-    xmlns:ant="jelly:ant">
-
-    <goal name="metaclass-init" description="Initialize Task">
-        <ant:echo message="Defining MetaClass Compiler"/>
-        <ant:taskdef name="generate-descriptors"
-            classname="org.realityforge.metaclass.tools.tasks.GenerateClassDescriptorsTask">
-            <ant:classpath>
-                <ant:pathelement path="${pom.getDependencyPath('qdox')}"/>
-                <ant:pathelement path="${pom.getDependencyPath('spice:spice-metaclass')}"/>
-            </ant:classpath>
-        </ant:taskdef>
-    </goal>
+<project default="jar:install">
 
     <postGoal name="java:compile">
-        <attainGoal name="metaclass-init"/>
-        <ant:echo message="Generating MetaClass Descriptors"/>
-        <ant:mkdir dir="${maven.build.dest}"/>
-        <generate-descriptors destDir="${maven.build.dest}">
-            <ant:fileset dir="src/java"/>
-        </generate-descriptors>
+        <attainGoal name="metaclass:generate"/>
     </postGoal>
 
 </project>
