@@ -15,7 +15,7 @@ import org.realityforge.packet.event.impl.collections.Buffer;
  * An event queue that acts as a Source and Sink of events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2003-12-09 03:19:19 $
+ * @version $Revision: 1.8 $ $Date: 2003-12-09 03:57:52 $
  */
 public class DefaultEventQueue
     implements EventSource, EventSink
