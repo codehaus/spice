@@ -147,7 +147,7 @@ public class ConnectorTestCase
       throws Exception
    {
       final Mock connectorMock = new Mock( ConnectorConnection.class );
-      connectorMock.expect( "connect", C.NO_ARGS );
+      connectorMock.expect( "doConnect", C.NO_ARGS );
 
       final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
 
@@ -171,8 +171,8 @@ public class ConnectorTestCase
       throws Exception
    {
       final Mock connectorMock = new Mock( ConnectorConnection.class );
-      connectorMock.expect( "disconnect", C.NO_ARGS );
-      connectorMock.expect( "connect", C.NO_ARGS );
+      connectorMock.expect( "doDisconnect", C.NO_ARGS );
+      connectorMock.expect( "doConnect", C.NO_ARGS );
 
       final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
 
@@ -197,7 +197,7 @@ public class ConnectorTestCase
       throws Exception
    {
       final Mock connectorMock = new Mock( ConnectorConnection.class );
-      connectorMock.expect( "disconnect", C.NO_ARGS );
+      connectorMock.expect( "doDisconnect", C.NO_ARGS );
 
       final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
 
@@ -234,9 +234,10 @@ public class ConnectorTestCase
    {
       final Mock connectorMock = new Mock( ConnectorConnection.class );
       final Exception exception = new Exception();
-      connectorMock.expectAndThrow( "disconnect", C.NO_ARGS, exception );
+      connectorMock.expectAndThrow( "doDisconnect", C.NO_ARGS, exception );
 
       final Mock monitorMock = new Mock( ConnectorMonitor.class );
+      monitorMock.expect( "attemptingDisconnection", C.NO_ARGS );
       monitorMock.expect( "errorDisconnecting", C.args( C.eq( exception ) ) );
       final ConnectorMonitor monitor = (ConnectorMonitor) monitorMock.proxy();
 
@@ -275,7 +276,7 @@ public class ConnectorTestCase
    {
       final Mock connectorMock = new Mock( ConnectorConnection.class );
       final Exception exception = new Exception();
-      connectorMock.expectAndThrow( "connect", C.NO_ARGS, exception );
+      connectorMock.expectAndThrow( "doConnect", C.NO_ARGS, exception );
 
       final Mock monitorMock = new Mock( ConnectorMonitor.class );
       monitorMock.expect( "attemptingConnection", C.NO_ARGS );
@@ -326,7 +327,7 @@ public class ConnectorTestCase
       throws Exception
    {
       final Mock connectorMock = new Mock( ConnectorConnection.class );
-      connectorMock.expect( "connect", C.NO_ARGS );
+      connectorMock.expect( "doConnect", C.NO_ARGS );
 
       final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
 
@@ -345,8 +346,8 @@ public class ConnectorTestCase
    {
       final Mock connectorMock = new Mock( ConnectorConnection.class );
       final Exception exception = new Exception();
-      connectorMock.expectAndThrow( "validateConnection", C.NO_ARGS, exception );
-      connectorMock.expect( "connect", C.NO_ARGS );
+      connectorMock.expectAndThrow( "doValidateConnection", C.NO_ARGS, exception );
+      connectorMock.expect( "doConnect", C.NO_ARGS );
       final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
 
       final Mock monitorMock = new Mock( ConnectorMonitor.class );
@@ -384,7 +385,7 @@ public class ConnectorTestCase
    {
       final Mock connectorMock = new Mock( ConnectorConnection.class );
       final Exception exception = new Exception();
-      connectorMock.expectAndThrow( "validateConnection", C.NO_ARGS, exception );
+      connectorMock.expectAndThrow( "doValidateConnection", C.NO_ARGS, exception );
       final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
 
       final Mock monitorMock = new Mock( ConnectorMonitor.class );
@@ -418,7 +419,7 @@ public class ConnectorTestCase
       throws Exception
    {
       final Mock connectorMock = new Mock( ConnectorConnection.class );
-      connectorMock.expect( "validateConnection", C.NO_ARGS );
+      connectorMock.expect( "doValidateConnection", C.NO_ARGS );
       final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
 
       final Mock monitorMock = new Mock( ConnectorMonitor.class );
