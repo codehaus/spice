@@ -77,11 +77,11 @@ public class BasicFieldTestCase
 
             _expectedAttributes = new Vector[ NUM_FIELDS ];
             _expectedAttributes[ 0 ] = new Vector();
+            _expectedAttributes[ 0 ].add( new Attribute( "haha", "this is javadoc for a field." ) );
             final Properties parameters = new Properties();
-            parameters.put( "foolish", "maybe" );
-            _expectedAttributes[ 0 ].add( new Attribute( "haha", "this is javadoc for a field.",
-                                                         parameters ) );
+            parameters.put( "parameters", "true" );
             _expectedAttributes[ 1 ] = new Vector();
+            _expectedAttributes[ 1 ].add( new Attribute( "hoho", parameters ) );
             _expectedAttributes[ 2 ] = new Vector();
             _expectedAttributes[ 3 ] = new Vector();
         }

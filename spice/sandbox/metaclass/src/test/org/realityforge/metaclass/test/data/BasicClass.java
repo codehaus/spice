@@ -18,10 +18,13 @@ package org.realityforge.metaclass.test.data;
 public class BasicClass
 {
     /**
-     * @haha this is javadoc for a field foolish=maybe
+     * @haha this is javadoc for a field
      */
     public static final String A_CONSTANT_STRING = "a constant string";
 
+    /**
+     * @hoho parameters=true
+     */
     public int _aPublicInt;
     protected double _aProtectedDouble;
     private String _aPrivateString;
