@@ -8,7 +8,7 @@ package org.realityforge.connection;
  *
  * @mx.component
  */
-public abstract class AbstractConnector
+public class AbstractConnector
 {
    /**
     * The associated reconnection policy for connector.
