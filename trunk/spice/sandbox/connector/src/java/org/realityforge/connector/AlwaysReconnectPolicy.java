@@ -1,7 +1,5 @@
 package org.realityforge.connector;
 
-
-
 /**
  * A Policy that will always attempt to reconnect
  * regardless of how many failures or errors.
