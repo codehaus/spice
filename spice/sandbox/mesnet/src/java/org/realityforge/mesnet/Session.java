@@ -1,105 +1,28 @@
 package org.realityforge.mesnet;
 
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.SocketChannel;
-import java.util.LinkedList;
-
 /**
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-11-05 23:15:28 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-10 05:54:18 $
  */
-public class Session
+public interface Session
 {
-    private final LinkedList _readQueue = new LinkedList();
-    private final LinkedList _writeQueue = new LinkedList();
-    private final int _sessionID;
-    private final int _sessionAuth;
-    private final ByteBuffer _readBuffer;
-    private final ByteBuffer _writeBuffer;
-    private SocketChannel _channel;
-    private SelectionKey _key;
-    private long _lastReadTime;
-    private long _lastWriteTime;
+    int STATUS_NOT_CONNECTED = 0;
+    int STATUS_CONNECTED = 1;
+    int STATUS_ESTABLISHED = 2;
+    int STATUS_LOST = 3;
+    int STATUS_DISCONNECTED = 4;
 
-    public Session( final int sessionID,
-                    final int sessionAuth,
-                    final int maxReadSize,
-                    final int maxWriteSize )
-    {
-        _sessionID = sessionID;
-        _sessionAuth = sessionAuth;
-        _readBuffer = ByteBuffer.allocateDirect( maxReadSize );
-        _writeBuffer = ByteBuffer.allocateDirect( maxWriteSize );
-    }
+    long getSessionID();
 
-    public SocketChannel getChannel()
-    {
-        return _channel;
-    }
+    int getStatus();
 
-    public void setChannel( final SocketChannel channel )
-    {
-        _channel = channel;
-    }
+    long getTimeOfLastStatusChange();
 
-    public SelectionKey getKey()
-    {
-        return _key;
-    }
+    void setStatus( int status );
 
-    public void setKey( final SelectionKey key )
-    {
-        _key = key;
-    }
+    Object getProperty( String key );
 
-    public long getLastReadTime()
-    {
-        return _lastReadTime;
-    }
+    void setProperty( String key, Object value );
 
-    public void setLastReadTime( final long lastReadTime )
-    {
-        _lastReadTime = lastReadTime;
-    }
-
-    public long getLastWriteTime()
-    {
-        return _lastWriteTime;
-    }
-
-    public void setLastWriteTime( final long lastWriteTime )
-    {
-        _lastWriteTime = lastWriteTime;
-    }
-
-    public int getSessionID()
-    {
-        return _sessionID;
-    }
-
-    public int getSessionAuth()
-    {
-        return _sessionAuth;
-    }
-
-    public ByteBuffer getReadBuffer()
-    {
-        return _readBuffer;
-    }
-
-    public ByteBuffer getWriteBuffer()
-    {
-        return _writeBuffer;
-    }
-
-    public LinkedList getWriteQueue()
-    {
-        return _writeQueue;
-    }
-
-    public LinkedList getReadQueue()
-    {
-        return _readQueue;
-    }
+    DataChannel getDataChannel();
 }
