@@ -3,14 +3,17 @@ package org.codehaus.spice.netevent.transport;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import junit.framework.TestCase;
+import org.codehaus.spice.event.EventSink;
+import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
 import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.jmock.C;
 import org.jmock.Mock;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-12 02:32:41 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-13 03:13:01 $
  */
 public class MultiBufferInputStreamTestCase
     extends TestCase
@@ -21,7 +24,17 @@ public class MultiBufferInputStreamTestCase
         final Mock mockBufferManager = new Mock( BufferManager.class );
         final BufferManager bm = (BufferManager)mockBufferManager.proxy();
 
-        final MultiBufferInputStream stream = new MultiBufferInputStream( bm );
+        final Mock mockSink = new Mock( EventSink.class );
+        final EventSink sink = (EventSink)mockSink.proxy();
+
+        final ChannelTransport transport =
+            new ChannelTransport( SocketChannel.open(),
+                                  new UnboundedFifoBuffer( 1 ),
+                                  bm,
+                                  sink );
+
+        final MultiBufferInputStream stream =
+            new MultiBufferInputStream( bm, transport, sink );
 
         assertEquals( "stream.available()", 0, stream.available() );
         assertEquals( "stream.markSupported()", true, stream.markSupported() );
@@ -33,6 +46,7 @@ public class MultiBufferInputStreamTestCase
         assertEquals( "stream.read()", -1, stream.read() );
 
         mockBufferManager.verify();
+        mockSink.verify();
     }
 
     public void testStreamWithSingleBuffers()
@@ -48,7 +62,17 @@ public class MultiBufferInputStreamTestCase
         mockBufferManager.expect( "releaseBuffer", C.args( C.eq( buffer ) ) );
         final BufferManager bm = (BufferManager)mockBufferManager.proxy();
 
-        final MultiBufferInputStream stream = new MultiBufferInputStream( bm );
+        final Mock mockSink = new Mock( EventSink.class );
+        final EventSink sink = (EventSink)mockSink.proxy();
+
+        final ChannelTransport transport =
+            new ChannelTransport( SocketChannel.open(),
+                                  new UnboundedFifoBuffer( 1 ),
+                                  bm,
+                                  sink );
+
+        final MultiBufferInputStream stream =
+            new MultiBufferInputStream( bm, transport, sink );
 
         stream.addBuffer( buffer );
 
@@ -90,7 +114,17 @@ public class MultiBufferInputStreamTestCase
         mockBufferManager.expect( "releaseBuffer", C.args( C.eq( buffer2 ) ) );
         final BufferManager bm = (BufferManager)mockBufferManager.proxy();
 
-        final MultiBufferInputStream stream = new MultiBufferInputStream( bm );
+        final Mock mockSink = new Mock( EventSink.class );
+        final EventSink sink = (EventSink)mockSink.proxy();
+
+        final ChannelTransport transport =
+            new ChannelTransport( SocketChannel.open(),
+                                  new UnboundedFifoBuffer( 1 ),
+                                  bm,
+                                  sink );
+
+        final MultiBufferInputStream stream =
+            new MultiBufferInputStream( bm, transport, sink );
 
         stream.addBuffer( buffer1 );
         stream.addBuffer( buffer2 );
@@ -139,7 +173,17 @@ public class MultiBufferInputStreamTestCase
         mockBufferManager.expect( "releaseBuffer", C.args( C.eq( buffer ) ) );
         final BufferManager bm = (BufferManager)mockBufferManager.proxy();
 
-        final MultiBufferInputStream stream = new MultiBufferInputStream( bm );
+        final Mock mockSink = new Mock( EventSink.class );
+        final EventSink sink = (EventSink)mockSink.proxy();
+
+        final ChannelTransport transport =
+            new ChannelTransport( SocketChannel.open(),
+                                  new UnboundedFifoBuffer( 1 ),
+                                  bm,
+                                  sink );
+
+        final MultiBufferInputStream stream =
+            new MultiBufferInputStream( bm, transport, sink );
 
         stream.addBuffer( buffer );
 
@@ -185,7 +229,17 @@ public class MultiBufferInputStreamTestCase
         mockBufferManager.expect( "releaseBuffer", C.args( C.eq( buffer2 ) ) );
         final BufferManager bm = (BufferManager)mockBufferManager.proxy();
 
-        final MultiBufferInputStream stream = new MultiBufferInputStream( bm );
+        final Mock mockSink = new Mock( EventSink.class );
+        final EventSink sink = (EventSink)mockSink.proxy();
+
+        final ChannelTransport transport =
+            new ChannelTransport( SocketChannel.open(),
+                                  new UnboundedFifoBuffer( 1 ),
+                                  bm,
+                                  sink );
+
+        final MultiBufferInputStream stream =
+            new MultiBufferInputStream( bm, transport, sink );
 
         stream.addBuffer( buffer1 );
 
