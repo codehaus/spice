@@ -35,7 +35,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * look for attributes.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-04 00:50:43 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-04 01:41:12 $
  */
 public class DefaultMetaClassAccessor
     implements MetaClassAccessor
@@ -44,11 +44,6 @@ public class DefaultMetaClassAccessor
      * Extension of metadata files that are in binary format.
      */
     public static final String BINARY_EXT = "-meta.binary";
-
-    /**
-     * Extension of metadata files that are in serialized objects format.
-     */
-    public static final String SERIALIZED_EXT = "-meta.ser";
 
     /**
      * Extension of metadata files that are in xml format.

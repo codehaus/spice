@@ -13,7 +13,7 @@ import org.apache.tools.ant.BuildException;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 01:19:17 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-04 01:39:44 $
  */
 public class FormatEnumTestCase
     extends TestCase
@@ -24,15 +24,6 @@ public class FormatEnumTestCase
         final FormatEnum enum = new FormatEnum();
         enum.setValue( "binary" );
         assertEquals( GenerateClassDescriptorsTask.BINARY_TYPE,
-                      enum.getTypeCode() );
-    }
-
-    public void testSerializedFormat()
-        throws Exception
-    {
-        final FormatEnum enum = new FormatEnum();
-        enum.setValue( "ser" );
-        assertEquals( GenerateClassDescriptorsTask.SER_TYPE,
                       enum.getTypeCode() );
     }
 
