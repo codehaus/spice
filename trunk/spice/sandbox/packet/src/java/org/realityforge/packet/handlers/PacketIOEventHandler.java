@@ -35,7 +35,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.18 $ $Date: 2004-02-06 04:08:08 $
+ * @version $Revision: 1.19 $ $Date: 2004-02-06 04:11:48 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -943,7 +943,7 @@ public class PacketIOEventHandler
         throws IOException
     {
         ensureValidSession( transport );
-        final Session session = (Session)transport.getUserData();
+        //final Session session = (Session)transport.getUserData();
         //output( session, "SENT " + packet.getSequence() );
 
         final TransportOutputStream output = transport.getOutputStream();
