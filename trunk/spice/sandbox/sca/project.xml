@@ -20,8 +20,8 @@
         </dependency>
         <dependency> <!-- to generate metadata -->
             <groupId>spice</groupId>
-            <artifactId>spice-metaclass</artifactId>
-            <version>1.0-rc1</version>
+            <artifactId>spice-metaclass-plugin</artifactId>
+            <version>1.0-rc2</version>
             <type>plugin</type>
         </dependency>
     </dependencies>
