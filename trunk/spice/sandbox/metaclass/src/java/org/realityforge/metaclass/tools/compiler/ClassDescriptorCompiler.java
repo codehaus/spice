@@ -30,7 +30,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  * Java Source files with qdox.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 04:20:03 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-04 09:23:18 $
  */
 public class ClassDescriptorCompiler
 {
@@ -127,7 +127,7 @@ public class ClassDescriptorCompiler
         {
             throw new NullPointerException( "interceptor" );
         }
-        m_filters.add( interceptor );
+        m_interceptors.add( interceptor );
     }
 
     /**
@@ -166,6 +166,36 @@ public class ClassDescriptorCompiler
             throw new NullPointerException( "extension" );
         }
         m_extension = extension;
+    }
+
+    /**
+     * Return the extension appended to descriptor files.
+     *
+     * @return the extension appended to descriptor files.
+     */
+    public String getExtension()
+    {
+        return m_extension;
+    }
+
+    /**
+     * Return the destination directory for generated files.
+     *
+     * @return the destination directory for generated files.
+     */
+    public File getDestDir()
+    {
+        return m_destDir;
+    }
+
+    /**
+     * Return the MetaClassIO used to serialize descriptors.
+     *
+     * @return the MetaClassIO used to serialize descriptors.
+     */
+    public MetaClassIO getMetaClassIO()
+    {
+        return m_metaClassIO;
     }
 
     /**
@@ -333,7 +363,7 @@ public class ClassDescriptorCompiler
      *
      * @param descriptor the ClassDescriptor object
      */
-    private void writeClassDescriptor( final ClassDescriptor descriptor )
+    void writeClassDescriptor( final ClassDescriptor descriptor )
     {
         final String fqn = descriptor.getName();
         OutputStream outputStream = null;
@@ -361,7 +391,7 @@ public class ClassDescriptorCompiler
      * @return the file for info
      * @throws IOException if unable to determine base file
      */
-    private File getOutputFileForClass( final String classname )
+    File getOutputFileForClass( final String classname )
         throws IOException
     {
         final String filename =
