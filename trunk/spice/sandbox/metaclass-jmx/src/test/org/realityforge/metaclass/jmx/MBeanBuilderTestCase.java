@@ -23,7 +23,7 @@ import java.lang.reflect.Constructor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-14 00:18:28 $
+ * @version $Revision: 1.8 $ $Date: 2003-10-14 00:18:56 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -191,7 +191,7 @@ public class MBeanBuilderTestCase
         final Constructor m = c.getConstructors()[ 0 ];
 
         final MethodDescriptor md =
-            new MethodDescriptor( m.getName(),
+            new MethodDescriptor( "MBeanBuilderTestCase",
                                   "",
                                   0,
                                   ParameterDescriptor.EMPTY_SET,
