@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="${pom.name}">
+
+  <title>${pom.name}</title>
+
+  <body>
+     <links>
+     	<item name="Home" href="../index.html"/>
+        <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
+    </links>
+    <menu name="Overview">
+      <item name="Home"       href="../index.html" />
+      <item name="Downloads"  href="http://sourceforge.net/project/showfiles.php?group_id=67448" />
+    </menu>
+
+	#include( "components.menu" )
+
+  </body>
+</project>
+
