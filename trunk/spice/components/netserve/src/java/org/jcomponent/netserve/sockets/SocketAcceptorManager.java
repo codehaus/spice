@@ -16,7 +16,7 @@ import java.net.ServerSocket;
  * with the new socket connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-08 02:00:20 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-09 06:28:20 $
  */
 public interface SocketAcceptorManager
 {
@@ -44,4 +44,12 @@ public interface SocketAcceptorManager
      */
     void disconnect( String name )
         throws Exception;
+
+    /**
+     * Return true if acceptor with specified name exists.
+     *
+     * @param name the name
+     * @return true if acceptor with specified name exists.
+     */
+    boolean isConnected( String name );
 }
