@@ -12,9 +12,9 @@ public class NeverPingPolicyTestCase
       final long lastPingTime = System.currentTimeMillis();
       assertEquals( "nextPingCheck",
                     Long.MAX_VALUE,
-                    policy.nextPingCheck( lastPingTime ) );
+                    policy.nextPingCheck() );
       assertEquals( "checkPingConnection",
                     false,
-                    policy.checkPingConnection( null ) );
+                    policy.checkPingConnection() );
    }
 }
