@@ -177,4 +177,34 @@ public abstract class AbstractConnector
    {
       _connected = connected;
    }
+
+   /**
+    * Return the time the last connection attempt started.
+    *
+    * @return the time the last connection attempt started.
+    */
+   public long getLastConnectionTime()
+   {
+      return _lastConnectionTime;
+   }
+
+   /**
+    * Return the number of sequential failed connection attempts.
+    *
+    * @return the number of sequential failed connection attempts.
+    */
+   public int getConnectionAttempts()
+   {
+      return _connectionAttempts;
+   }
+
+   /**
+    * Return the reason the last conenction attempt failed.
+    *
+    * @return the reason the last conenction attempt failed.
+    */
+   public String getConnectionFailureReason()
+   {
+      return _connectionFailureReason;
+   }
 }
