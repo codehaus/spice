@@ -27,7 +27,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.11 $ $Date: 2003-08-22 03:25:46 $
+ * @version $Revision: 1.12 $ $Date: 2003-08-22 03:36:29 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -48,16 +48,7 @@ public class MetaClassIOBinary
         throws IOException
     {
         final DataInputStream data = new DataInputStream( input );
-
-        final int version = data.readInt();
-        if( VERSION != version )
-        {
-            final String message =
-                "Version mismatch." +
-                " Expected: " + VERSION +
-                " Actual: " + version;
-            throw new IOException( message );
-        }
+        checkVersionHeader( data );
         final String name = data.readUTF();
         final Attribute[] attributes = readAttributes( data );
 
@@ -99,16 +90,7 @@ public class MetaClassIOBinary
         throws IOException
     {
         final DataInputStream data = new DataInputStream( input );
-
-        final int version = data.readInt();
-        if( VERSION != version )
-        {
-            final String message =
-                "Version mismatch." +
-                " Expected: " + VERSION +
-                " Actual: " + version;
-            throw new IOException( message );
-        }
+        checkVersionHeader( data );
         final String classname = data.readUTF();
         final int classModifiers = data.readInt();
         final Attribute[] classAttributes = readAttributes( data );
@@ -492,6 +474,27 @@ public class MetaClassIOBinary
                 data.writeUTF( name );
                 data.writeUTF( value );
             }
+        }
+    }
+
+    /**
+     * Read version header of descriptor to make sure it is something
+     * we can handle and if not throw an exception.
+     *
+     * @param data the input stream
+     * @throws IOException if unable to handle version
+     */
+    private void checkVersionHeader( final DataInputStream data )
+        throws IOException
+    {
+        final int version = data.readInt();
+        if( VERSION != version )
+        {
+            final String message =
+                "Version mismatch." +
+                " Expected: " + VERSION +
+                " Actual: " + version;
+            throw new IOException( message );
         }
     }
 }
