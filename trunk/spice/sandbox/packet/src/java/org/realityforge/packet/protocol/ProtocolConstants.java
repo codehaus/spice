@@ -10,14 +10,12 @@ package org.realityforge.packet.protocol;
 /**
  * Set of constants used in network protocol.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-11-26 02:14:04 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2003-12-05 06:57:12 $
  */
 public interface ProtocolConstants
 {
-    /**
-     * Byte array containing magic number sent at start of stream.
-     */
+    /** Byte array containing magic number sent at start of stream. */
     byte[] MAGIC = new byte[]
     {
         'm', 'a', 'g', 'i', 'c', '0', '1'
@@ -41,8 +39,6 @@ public interface ProtocolConstants
     /** Message indicating regular data being transmitted. */
     byte MSG_DATA = 4;
 
-    /**
-     * Message indicating client or server is disconnecting.
-     */
+    /** Message indicating client or server is disconnecting. */
     byte MSG_DISCONNECT = 5;
 }

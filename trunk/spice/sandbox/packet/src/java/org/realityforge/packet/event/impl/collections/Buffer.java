@@ -1,12 +1,19 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.packet.event.impl.collections;
 
 import java.nio.BufferUnderflowException;
 
 /**
  * Simple Buffer interface.
- * 
+ *
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-05 02:14:24 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-05 06:57:11 $
  */
 public interface Buffer
 {
@@ -28,7 +35,7 @@ public interface Buffer
 
     /**
      * Returns next object.
-     * 
+     *
      * @return the next object
      * @throws BufferUnderflowException if the buffer is empty
      */
@@ -36,7 +43,7 @@ public interface Buffer
 
     /**
      * Returns next object and removes from the buffer.
-     * 
+     *
      * @return the next object
      * @throws BufferUnderflowException if the buffer is empty
      */

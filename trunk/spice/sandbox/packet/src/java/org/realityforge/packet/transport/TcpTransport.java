@@ -14,8 +14,8 @@ import java.nio.channels.SocketChannel;
 /**
  * An underlying transport layer that uses TCP/IP.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-11-26 04:34:02 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003-12-05 06:57:12 $
  */
 public class TcpTransport
 {

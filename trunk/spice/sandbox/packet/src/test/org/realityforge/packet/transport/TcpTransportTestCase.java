@@ -15,8 +15,8 @@ import java.nio.channels.SocketChannel;
 import junit.framework.TestCase;
 
 /**
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-26 04:34:02 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-12-05 06:57:12 $
  */
 public class TcpTransportTestCase
     extends TestCase
@@ -166,7 +166,8 @@ public class TcpTransportTestCase
         System.out.println( "getSpace() = " + readBuffer.getSpace() );
         System.out.println( "getCapacity() = " + readBuffer.getCapacity() );
         System.out.println( "getAvailable() = " + readBuffer.getAvailable() );
-        System.out.println( "isWrappedBuffer() = " + readBuffer.isWrappedBuffer() );
+        System.out.println(
+            "isWrappedBuffer() = " + readBuffer.isWrappedBuffer() );
         assertEquals( "SelectOps", 0, transport.getSelectOps() );
     }
 }

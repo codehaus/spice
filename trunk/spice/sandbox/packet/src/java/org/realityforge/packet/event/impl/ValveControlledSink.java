@@ -13,9 +13,9 @@ import org.realityforge.packet.event.EventValve;
 /**
  * The ValveControlledSink passes events onto a destination sink unless they are
  * filtered out by a valve.
- * 
+ *
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2003-12-05 02:11:00 $
+ * @version $Revision: 1.6 $ $Date: 2003-12-05 06:57:11 $
  */
 public class ValveControlledSink
     implements EventSink
@@ -28,7 +28,7 @@ public class ValveControlledSink
 
     /**
      * Create valved sink terminating on specified sink with specified valve.
-     * 
+     *
      * @param sink the sink
      * @param valve the valve
      */

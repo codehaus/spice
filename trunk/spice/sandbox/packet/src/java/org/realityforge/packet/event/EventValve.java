@@ -9,15 +9,15 @@ package org.realityforge.packet.event;
 
 /**
  * The valve controls the flow events into a sink.
- * 
+ *
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-12-05 00:47:44 $
+ * @version $Revision: 1.5 $ $Date: 2003-12-05 06:57:11 $
  */
 public interface EventValve
 {
     /**
      * Return true if event should be accepted.
-     * 
+     *
      * @param event the event
      * @return true if event should be accepted.
      */

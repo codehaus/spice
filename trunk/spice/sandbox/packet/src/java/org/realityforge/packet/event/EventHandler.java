@@ -9,15 +9,15 @@ package org.realityforge.packet.event;
 
 /**
  * The event handler is responsible for processing events.
- * 
+ *
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-12-05 00:47:44 $
+ * @version $Revision: 1.5 $ $Date: 2003-12-05 06:57:11 $
  */
 public interface EventHandler
 {
     /**
      * Handle an event.
-     * 
+     *
      * @param event the event
      */
     void handleEvent( Object event );

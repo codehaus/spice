@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.packet.event.impl;
 
 import org.realityforge.packet.event.EventSink;
@@ -6,9 +13,9 @@ import org.realityforge.packet.event.impl.collections.Buffer;
 
 /**
  * An event queue that acts as a Source and Sink of events.
- * 
+ *
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-12-05 02:25:24 $
+ * @version $Revision: 1.5 $ $Date: 2003-12-05 06:57:11 $
  */
 public class DefaultEventQueue
     implements EventSource, EventSink
@@ -18,7 +25,7 @@ public class DefaultEventQueue
 
     /**
      * Create an Event queue using underlying Buffer.
-     * 
+     *
      * @param buffer the buffer
      */
     public DefaultEventQueue( final Buffer buffer )
@@ -119,7 +126,7 @@ public class DefaultEventQueue
 
     /**
      * Return the underlying buffer for events.
-     * 
+     *
      * @return the underlying buffer for events.
      */
     protected Buffer getBuffer()

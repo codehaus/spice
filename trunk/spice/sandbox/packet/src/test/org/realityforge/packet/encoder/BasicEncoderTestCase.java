@@ -7,14 +7,13 @@
  */
 package org.realityforge.packet.encoder;
 
-import junit.framework.TestCase;
 import java.nio.ByteBuffer;
+import junit.framework.TestCase;
 import org.realityforge.packet.Packet;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-11-11 12:13:23 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003-12-05 06:57:12 $
  */
 public class BasicEncoderTestCase
     extends TestCase
@@ -44,8 +43,12 @@ public class BasicEncoderTestCase
         assertEquals( "output.position()",
                       23 + BasicEncoder.SIZEOF_HEADER + dataSize,
                       output.position() );
-        assertEquals( "output.getShort( 23 )", dataSize, output.getShort( 23 ) );
-        assertEquals( "output.getShort( 25 )", sequence, output.getShort( 25 ) );
+        assertEquals( "output.getShort( 23 )",
+                      dataSize,
+                      output.getShort( 23 ) );
+        assertEquals( "output.getShort( 25 )",
+                      sequence,
+                      output.getShort( 25 ) );
         assertEquals( "output.getShort( 27 )", 'B', output.get( 27 ) );
         assertEquals( "output.getShort( 28 )", 'i', output.get( 28 ) );
         assertEquals( "output.getShort( 29 )", 'n', output.get( 29 ) );

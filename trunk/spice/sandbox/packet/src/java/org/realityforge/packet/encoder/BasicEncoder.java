@@ -13,8 +13,8 @@ import org.realityforge.packet.Packet;
 /**
  * A basic encoder that writes packet using simple mechanisms.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-11-26 02:14:04 $
+ * @author Peter Donald
+ * @version $Revision: 1.8 $ $Date: 2003-12-05 06:57:11 $
  */
 public class BasicEncoder
     implements Encoder
