@@ -17,7 +17,7 @@ public class DNAAcceptorMonitorTestCase
       final Mock mockLogger = new Mock( Logger.class );
 
       final String name = "MyName";
-      final ServerSocket serverSocket = new ServerSocket( 23 );
+      final ServerSocket serverSocket = new ServerSocket( 2023 );
       final IOException ioe = new IOException();
 
       final String acceptorCreatedMessage =
