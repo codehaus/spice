@@ -23,7 +23,7 @@ import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-20 06:05:04 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-21 05:01:06 $
  */
 public class TestServer
 {
@@ -53,30 +53,48 @@ public class TestServer
         thread.start();
 
         int count = 1;
-        makeClientConnection();
+        final Session session = newSession( true );
+        makeClientConnection( session );
+        int loop = 0;
         while( !c_done )
         {
+            loop++;
             if( count < 20 )
             {
-                makeClientConnection();
+                //makeClientConnection( newSession( false ) );
                 count++;
+            }
+            if( Session.STATUS_LOST == session.getStatus() &&
+                null == session.getTransport() )
+            {
+                System.out.println( "Attempting to re-establish a " +
+                                    "connection in " + loop );
+                makeClientConnection( session );
             }
             Thread.sleep( 50 );
         }
         System.exit( 1 );
     }
 
-    private static void makeClientConnection()
+    private static void makeClientConnection( final Session session )
         throws IOException
     {
         final SocketChannel channel = SocketChannel.open();
         channel.configureBlocking( false );
         c_clientSocketSouce.registerChannel( channel,
                                              SelectionKey.OP_CONNECT,
-                                             new Session() );
+                                             session );
         final InetSocketAddress address =
             new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
+        channel.socket().setSoLinger( true, 2 );
         channel.connect( address );
+    }
+
+    private static Session newSession( final boolean isPersistent )
+    {
+        final Session session = new Session();
+        session.setUserData( (isPersistent) ? Boolean.TRUE : Boolean.FALSE );
+        return session;
     }
 
     private static EventPump[] createServerSidePumps()

@@ -16,7 +16,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-20 06:05:04 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-21 05:01:05 $
  */
 class TestEventHandler
     extends AbstractDirectedHandler
@@ -55,34 +55,37 @@ class TestEventHandler
         final SessionEvent se = (SessionEvent)event;
         final Session session = se.getSession();
 
-        output( session, String.valueOf( event ) );
-
         if( event instanceof DataPacketReadyEvent )
         {
             final DataPacketReadyEvent e = (DataPacketReadyEvent)event;
             final Packet packet = e.getPacket();
             final int available = packet.getData().limit();
 
-            output( session, "Received Packet (Sequence=" +
-                             packet.getSequence() + " Size=" +
-                             packet.getData().limit() + ") " +
-                             available + "/" + _receiveCount );
-            /*final List incoming = session.getIncoming();
-            incoming.add( packet );
-            */
             if( _closeOnReceive && available == _receiveCount )
             {
-                final SessionDisconnectRequestEvent response =
-                    new SessionDisconnectRequestEvent( e.getSession() );
-                getSink().addEvent( response );
+                final boolean persistent =
+                    ((Boolean)session.getUserData()).booleanValue();
+                if( persistent )
+                {
+                    System.out.println( "^^^^^^^^^^^^^" +
+                                        "CLOSING PERSISTENT CONNECTION" +
+                                        "^^^^^^^^^^^^^" );
+                    session.getTransport().getOutputStream().close();
+                }
+                else
+                {
+                    final SessionDisconnectRequestEvent response =
+                        new SessionDisconnectRequestEvent( e.getSession() );
+                    getSink().addEvent( response );
+                }
             }
         }
         else if( event instanceof SessionDisconnectEvent )
         {
             _sessions--;
-            output( session, "Received " + session.getIncoming().size() );
-            System.out.println( _header + ": " + _sessions +
-                                " sessions remaining." );
+            final String text =
+                "Session Completed. " + _sessions + " sessions remaining.";
+            output( session, text );
         }
         else if( event instanceof SessionActiveEvent )
         {
