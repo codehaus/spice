@@ -51,6 +51,11 @@
             <artifactId>excalibur-instrument-impl</artifactId>
             <version>1.2</version>
          </dependency>
+         <dependency>
+            <groupId>excalibur-instrument</groupId>
+            <artifactId>excalibur-instrument-spi</artifactId>
+            <version>1.2</version>
+         </dependency>
         <dependency> <!-- for unit test -->
             <groupId>dna</groupId>
             <artifactId>dna-impl</artifactId>
