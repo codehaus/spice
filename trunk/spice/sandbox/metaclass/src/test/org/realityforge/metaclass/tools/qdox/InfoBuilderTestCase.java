@@ -7,24 +7,26 @@
  */
 package org.realityforge.metaclass.tools.qdox;
 
-import junit.framework.TestCase;
-import java.util.Properties;
-import java.util.ArrayList;
-import java.lang.reflect.Modifier;
 import com.thoughtworks.qdox.model.DocletTag;
+import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
-import com.thoughtworks.qdox.model.Type;
-import com.thoughtworks.qdox.model.JavaParameter;
 import com.thoughtworks.qdox.model.JavaMethod;
+import com.thoughtworks.qdox.model.JavaParameter;
+import com.thoughtworks.qdox.model.Type;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Properties;
+import junit.framework.TestCase;
 import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
-import org.realityforge.metaclass.model.ParameterDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
+import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-08-22 06:11:58 $
+ * @version $Revision: 1.8 $ $Date: 2003-08-22 06:26:44 $
  */
 public class InfoBuilderTestCase
     extends TestCase
@@ -390,5 +392,26 @@ public class InfoBuilderTestCase
         assertEquals( "method.type", type, method.getReturnType() );
         assertEquals( "method.modifiers", Modifier.PUBLIC, method.getModifiers() );
         assertEquals( "method.parameters.length", 0, method.getParameters().length );
+    }
+
+    public void testBuildClass()
+        throws Exception
+    {
+        final String name = "MyClass";
+        final JavaClass javaClass = new JavaClass();
+        javaClass.setParent( new MockPackage() );
+        javaClass.setName( name );
+        javaClass.setImplementz( new Type[ 0 ] );
+        javaClass.setInterface( false );
+        javaClass.setModifiers( new String[]{"public"} );
+        javaClass.setTags( new ArrayList() );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass );
+        assertNotNull( "clazz", clazz );
+        assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
+        assertEquals( "clazz.modifiers", Modifier.PUBLIC, clazz.getModifiers() );
+        assertEquals( "clazz.attributes.length", 0, clazz.getAttributes().length );
+        assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
+        assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
     }
 }
