@@ -9,6 +9,7 @@ package org.realityforge.loggerstore;
 
 import java.io.InputStream;
 import java.util.Map;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
 /**
  * LogKitLoggerStoreFactory is an implementation of LoggerStoreFactory
@@ -22,12 +23,12 @@ public class LogKitLoggerStoreFactory
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
      * The configuration Map must contain:
-     * <ol> 
+     * <ol>
      * <li> <code>InputStream</code> object keyed on <code>LoggerStoreFactory.CONFIGURATION</code>
      * encoding the configuration resource</li>
      * <li> a <code>LoggerStoreFactory.CONFIGURATION_TYPE</code>
      * containing  the configuration type - currently only <code>LoggerStoreFactory.XML</code>
-     * is supported 
+     * is supported
      * </li>
      * </ol>
      *
@@ -51,7 +52,8 @@ public class LogKitLoggerStoreFactory
                 }
                 else if( type.equals( LoggerStoreFactory.XML ) )
                 {
-                    return new LogKitLoggerStore( Configurator.buildConfiguration( resource ) );
+                    final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+                    return new LogKitLoggerStore( builder.build( resource ) );
                 }
             }
         }
