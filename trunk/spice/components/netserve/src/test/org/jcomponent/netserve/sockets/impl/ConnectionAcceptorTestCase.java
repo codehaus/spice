@@ -7,12 +7,14 @@
  */
 package org.jcomponent.netserve.sockets.impl;
 
+import java.net.ServerSocket;
+
 import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-10-09 05:57:46 $
+ * @version $Revision: 1.9 $ $Date: 2003-10-24 04:22:42 $
  */
 public class ConnectionAcceptorTestCase
     extends TestCase
@@ -39,7 +41,7 @@ public class ConnectionAcceptorTestCase
         try
         {
             new ConnectionAcceptor( new AcceptorConfig( "name",
-                                                        new MockServerSocket(),
+                                                        new ServerSocket(),
                                                         new MockSocketConnectionHandler() ),
                                     null );
         }
@@ -56,7 +58,7 @@ public class ConnectionAcceptorTestCase
     {
         final ConnectionAcceptor acceptor =
             new ConnectionAcceptor( new AcceptorConfig( "name",
-                                                        new MockServerSocket(),
+                                                        new ServerSocket(),
                                                         new MockSocketConnectionHandler() ),
                                     new NullAcceptorMonitor() );
         assertFalse( "isRunning() pre-close()", acceptor.isRunning() );
@@ -88,7 +90,7 @@ public class ConnectionAcceptorTestCase
         final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
         final ConnectionAcceptor acceptor =
             new ConnectionAcceptor( new AcceptorConfig( "name",
-                                                        new MockServerSocket(),
+                                                        new ServerSocket(),
                                                         new MockSocketConnectionHandler() ),
                                     monitor );
         assertEquals( "errorClosingServerSocket pre-shutdownServerSocket()",

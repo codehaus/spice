@@ -7,12 +7,14 @@
  */
 package org.jcomponent.netserve.sockets.impl;
 
+import java.net.ServerSocket;
+
 import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-09 05:51:20 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-24 04:22:42 $
  */
 public class AcceptorConfigTestCase
     extends TestCase
@@ -21,7 +23,7 @@ public class AcceptorConfigTestCase
         throws Exception
     {
         final String name = "name";
-        final MockServerSocket serverSocket = new MockServerSocket();
+        final ServerSocket serverSocket = new ServerSocket();
         final MockSocketConnectionHandler handler = new MockSocketConnectionHandler();
         final AcceptorConfig config =
             new AcceptorConfig( name, serverSocket, handler );
@@ -36,7 +38,7 @@ public class AcceptorConfigTestCase
         try
         {
             new AcceptorConfig( null,
-                                new MockServerSocket(),
+                                new ServerSocket(),
                                 new MockSocketConnectionHandler() );
         }
         catch( final NullPointerException npe )
@@ -70,7 +72,7 @@ public class AcceptorConfigTestCase
         try
         {
             new AcceptorConfig( "name",
-                                new MockServerSocket(),
+                                new ServerSocket(),
                                 null );
         }
         catch( NullPointerException npe )
