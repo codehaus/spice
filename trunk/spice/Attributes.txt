@@ -1,0 +1,13 @@
+    $Id: Attributes.txt,v 1.1 2002-11-27 05:07:02 donaldp Exp $
+
+                 Metadata for Avalon Framework
+
+There has been a demonstrated need to add metadata about various artefacts
+in Avalon for a long time. Historically we have had strongly typed meta-data
+
+
+The physical form of the metadata is not that important - whether the metadata
+is extracted from xml, binary or some type of runtime attribute metadata is 
+irrelevent. Different systems are likely to have different requirements (ie
+J2ME will likely use binary metadata for speed/memory advantages but something 
+like Phoenix will probably continue to use XML descriptors).
