@@ -24,7 +24,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-12 02:32:41 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-12 04:12:19 $
  */
 public class ConnectEventHandler
     extends AbstractIOEventHandler
@@ -66,7 +66,8 @@ public class ConnectEventHandler
         final ChannelTransport transport =
             new ChannelTransport( channel,
                                   new UnboundedFifoBuffer( 4 ),
-                                  getBufferManager() );
+                                  getBufferManager(),
+                                  getSink() );
         try
         {
             transport.register( _source );

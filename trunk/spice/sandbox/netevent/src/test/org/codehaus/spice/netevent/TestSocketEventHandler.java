@@ -11,7 +11,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-12 02:32:41 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-12 04:12:19 $
  */
 class TestSocketEventHandler
     extends ChannelEventHandler
@@ -38,7 +38,7 @@ class TestSocketEventHandler
             final int port =
                 ((SocketChannel)transport.getChannel()).socket().getPort();
             final String message =
-                "Received " + transport.getReceivedData().available() +
+                "Received " + transport.getInputStream().available() +
                 "B via " + port;
             System.out.println( message );
         }

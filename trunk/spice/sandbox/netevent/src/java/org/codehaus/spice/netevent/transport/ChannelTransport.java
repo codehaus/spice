@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.channels.Channel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.spi.AbstractSelectableChannel;
+import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.event.impl.collections.Buffer;
 import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.selector.SocketEventSource;
@@ -19,7 +20,7 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-12 02:32:41 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-12 04:12:19 $
  */
 public class ChannelTransport
 {
@@ -30,7 +31,10 @@ public class ChannelTransport
     private final Buffer m_transmitBuffer;
 
     /** The Stream representing data received from channel. */
-    private final MultiBufferInputStream m_receivedData;
+    private final MultiBufferInputStream m_inputStream;
+
+    /** The Stream representing data to transmit on channel. */
+    private final TransportOutputStream m_outputStream;
 
     /** The key used to register channel in selector. */
     private SelectionKey m_key;
@@ -46,7 +50,8 @@ public class ChannelTransport
      */
     public ChannelTransport( final Channel channel,
                              final Buffer transmitBuffer,
-                             final BufferManager bufferManager )
+                             final BufferManager bufferManager,
+                             final EventSink sink )
     {
         if( null == channel )
         {
@@ -58,7 +63,11 @@ public class ChannelTransport
         }
         m_channel = channel;
         m_transmitBuffer = transmitBuffer;
-        m_receivedData = new MultiBufferInputStream( bufferManager );
+        m_inputStream = new MultiBufferInputStream( bufferManager );
+        m_outputStream = new TransportOutputStream( bufferManager,
+                                                    this,
+                                                    sink,
+                                                    1024 * 8 );
     }
 
     /**
@@ -132,9 +141,19 @@ public class ChannelTransport
      * 
      * @return the stream containing received data.
      */
-    public MultiBufferInputStream getReceivedData()
+    public MultiBufferInputStream getInputStream()
     {
-        return m_receivedData;
+        return m_inputStream;
+    }
+
+    /**
+     * Return the stream used to write output data for channel.
+     * 
+     * @return the stream used to write output data for channel.
+     */
+    public TransportOutputStream getOutputStream()
+    {
+        return m_outputStream;
     }
 
     /**

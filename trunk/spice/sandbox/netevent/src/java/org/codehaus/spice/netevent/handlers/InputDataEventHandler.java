@@ -11,7 +11,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Stuff data into stream and send resultent event.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-12 02:42:19 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-12 04:12:19 $
  */
 public class InputDataEventHandler
     extends AbstractDirectedHandler
@@ -35,7 +35,7 @@ public class InputDataEventHandler
         final ChannelTransport transport = re.getTransport();
         final ByteBuffer buffer = re.getBuffer();
         buffer.flip();
-        transport.getReceivedData().addBuffer( buffer );
+        transport.getInputStream().addBuffer( buffer );
         getSink().addEvent( new InputDataPresentEvent( transport ) );
     }
 }

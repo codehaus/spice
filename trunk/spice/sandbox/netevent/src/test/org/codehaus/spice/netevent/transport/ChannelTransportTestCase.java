@@ -13,13 +13,14 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import junit.framework.TestCase;
+import org.codehaus.spice.event.impl.NullEventSink;
 import org.codehaus.spice.event.impl.collections.Buffer;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
 import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-12 02:32:41 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-12 04:12:19 $
  */
 public class ChannelTransportTestCase
     extends TestCase
@@ -42,11 +43,17 @@ public class ChannelTransportTestCase
         throws Exception
     {
         final UnboundedFifoBuffer tx = new UnboundedFifoBuffer( 1 );
-        final ChannelTransport transport =
-            new ChannelTransport( m_channel, tx, new DefaultBufferManager() );
+        final ChannelTransport transport = newTransport( tx );
         assertEquals( "channel", m_channel, transport.getChannel() );
         assertEquals( "key", null, transport.getKey() );
         assertEquals( "getTransmitBuffer", tx, transport.getTransmitBuffer() );
+    }
+
+    private ChannelTransport newTransport( final UnboundedFifoBuffer tx )
+    {
+        return new ChannelTransport( m_channel, tx,
+                                     new DefaultBufferManager(),
+                                     new NullEventSink() );
     }
 
     public void testNullChannelPassedToCtor()
@@ -55,7 +62,10 @@ public class ChannelTransportTestCase
         final UnboundedFifoBuffer tx = new UnboundedFifoBuffer( 1 );
         try
         {
-            new ChannelTransport( null, tx, new DefaultBufferManager() );
+            new ChannelTransport( null,
+                                  tx,
+                                  new DefaultBufferManager(),
+                                  new NullEventSink() );
         }
         catch( final NullPointerException npe )
         {
@@ -68,10 +78,9 @@ public class ChannelTransportTestCase
     public void testNullTransmitBufferPassedToCtor()
         throws Exception
     {
-        final SocketChannel channel = SocketChannel.open();
         try
         {
-            new ChannelTransport( channel, null, new DefaultBufferManager() );
+            newTransport( null );
         }
         catch( final NullPointerException npe )
         {
@@ -95,9 +104,7 @@ public class ChannelTransportTestCase
             m_channel.configureBlocking( false );
             m_channel.connect( socketAddress );
             final ChannelTransport transport =
-                new ChannelTransport( m_channel,
-                                      new UnboundedFifoBuffer( 1 ),
-                                      new DefaultBufferManager() );
+                newTransport( new UnboundedFifoBuffer( 1 ) );
             assertEquals( "channel.isOpen()", true, m_channel.isOpen() );
             transport.close();
             assertEquals( "key", null, transport.getKey() );
@@ -113,9 +120,7 @@ public class ChannelTransportTestCase
         throws Exception
     {
         final ChannelTransport transport =
-            new ChannelTransport( m_channel,
-                                  new UnboundedFifoBuffer( 1 ),
-                                  new DefaultBufferManager() );
+            newTransport( new UnboundedFifoBuffer( 1 ) );
         m_channel.close();
         assertEquals( "channel.isOpen()", false, m_channel.isOpen() );
         transport.close();
@@ -127,9 +132,7 @@ public class ChannelTransportTestCase
         throws Exception
     {
         final ChannelTransport transport =
-            new ChannelTransport( m_channel,
-                                  new UnboundedFifoBuffer( 1 ),
-                                  new DefaultBufferManager() );
+            newTransport( new UnboundedFifoBuffer( 1 ) );
         final Buffer writeBuffer = transport.getTransmitBuffer();
         writeBuffer.add( new Object() );
         assertEquals( "SelectOps",
@@ -143,7 +146,8 @@ public class ChannelTransportTestCase
         final ChannelTransport transport =
             new ChannelTransport( m_channel,
                                   new UnboundedFifoBuffer( 1 ),
-                                  new DefaultBufferManager() );
+                                  new DefaultBufferManager(),
+                                  new NullEventSink() );
         assertEquals( "SelectOps",
                       SelectionKey.OP_READ,
                       transport.getSelectOps() );
