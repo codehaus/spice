@@ -46,7 +46,7 @@ import org.realityforge.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-04-23 10:28:57 $
+ * @version $Revision: 1.11 $ $Date: 2003-04-23 10:29:40 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
@@ -265,7 +265,7 @@ public class DefaultConnectionManager
 
         synchronized( m_acceptors )
         {
-            if( null != m_acceptors.get( name ) )
+            if( m_acceptors.containsKey( name ) )
             {
                 final String message =
                     "Connection already exists with name " + name;
