@@ -10,6 +10,8 @@ public interface SelectorEventHandler
 {
    /**
     * Method that receives events from selector.
+    * The user MUST NOT modify or access the
+    * keys attachment.
     *
     * @param key the SelectionKey
     */
