@@ -16,7 +16,7 @@ import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-05-17 05:46:01 $
+ * @version $Revision: 1.2 $ $Date: 2004-05-17 06:15:21 $
  */
 class NetRuntime
 {
@@ -84,7 +84,7 @@ class NetRuntime
         final DefaultEventQueue queue2 = new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
         final SelectableChannelEventSource source1 = new SelectableChannelEventSource( queue1 );
-        source1.setSelectTimeout( 0 );
+        source1.setSelectTimeout( 200 );
 
         final DefaultBufferManager bufferManager = new DefaultBufferManager();
         final ChannelEventHandler ceh = new ChannelEventHandler( source1,
