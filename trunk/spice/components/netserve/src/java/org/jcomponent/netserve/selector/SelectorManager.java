@@ -203,6 +203,9 @@ public class SelectorManager
    public void run()
    {
       setRunning( true );
+
+      getMonitor().enteringSelectorLoop();
+
       // Here's where everything happens. The select method will
       // return when any operations registered above have occurred, the
       // thread has been interrupted, etc.

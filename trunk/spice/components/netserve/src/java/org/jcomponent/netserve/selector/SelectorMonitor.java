@@ -14,7 +14,7 @@ import java.nio.channels.SelectionKey;
  * Monitor used to monitor events in the AcceptorManager.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-23 05:02:41 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-23 05:51:53 $
  */
 public interface SelectorMonitor
 {
@@ -22,6 +22,12 @@ public interface SelectorMonitor
      * Selector being started up.
      */
     void selectorStartup();
+
+    /**
+     * Entering the main loop that
+     * accepts connections.
+     */
+    void enteringSelectorLoop();
 
     /**
      * Entering select call.
