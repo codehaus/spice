@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * This class makes it easy to manipulate data stored in exceptions.
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-02 02:15:04 $
+ * @version $Revision: 1.2 $ $Date: 2005-02-23 16:29:18 $
  */
 public final class ExceptionUtil
 {
@@ -185,7 +185,7 @@ public final class ExceptionUtil
             final Class clazz = throwable.getClass();
             final Method method =
                 clazz.getMethod( GET_CAUSE_NAME, GET_CAUSE_PARAMTYPES );
-            return (Throwable)method.invoke( throwable, null );
+            return (Throwable)method.invoke( throwable, (Object[])null );
         }
         catch( final Throwable t )
         {
