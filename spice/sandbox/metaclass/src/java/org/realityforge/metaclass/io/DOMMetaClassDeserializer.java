@@ -22,7 +22,7 @@ import org.w3c.dom.Attr;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-31 23:48:14 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-31 23:49:32 $
  */
 public class DOMMetaClassDeserializer
 {
@@ -300,17 +300,26 @@ public class DOMMetaClassDeserializer
         }
     }
 
-
+    /**
+     * Expect that specified element has attribute with specified
+     * name and return value. If attribute can not be located then
+     * throw an exception.
+     *
+     * @param element the element
+     * @param name the attributes name
+     * @return the attributes value
+     * @throws Exception if unable to locate attribute
+     */
     String expectAttribute( final Element element,
-                            final String expected )
+                            final String name )
         throws Exception
     {
-        final Attr actual = element.getAttributeNode( expected );
+        final Attr actual = element.getAttributeNode( name );
         if( null == actual )
         {
             final String message =
                 "Element named " + element.getTagName() +
-                " missing attribute named " + expected +
+                " missing attribute named " + name +
                 " @ " + getPathDescription( element ) + ".";
             throw new Exception( message );
         }
