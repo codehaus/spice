@@ -23,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-22 02:49:48 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-22 02:53:48 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -51,7 +51,7 @@ public class MetaClassIOBinaryTestCase
             0, 0, 0, 0 //length
         };
         final MetaClassIOBinary io = new MetaClassIOBinary();
-        final ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
         final DataInputStream data = new DataInputStream( in );
         final Attribute[] attributes = io.readAttributes( data );
         assertEquals( "attributes.length", 0, attributes.length );
@@ -77,6 +77,31 @@ public class MetaClassIOBinaryTestCase
         assertEquals( "bytes[" + offset + "] = " + "''", "", readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE;
         assertEquals( "bytes[" + offset + "] = 0", 0, readInteger( bytes, offset ) );
+    }
+
+    public void testBinaryIOReadAttributeWithoutValueOrParameters()
+        throws Exception
+    {
+        final String name = "name";
+        final String value = "";
+        final int paramCount = 0;
+        final byte[] bytes = new byte[]
+        {
+            0, 0, 0, 1, //length
+            0, 4, //length of name
+            'n', 'a', 'm', 'e',
+            0, 0, //length of value
+            0, 0, 0, 0 //count of params
+
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
+        final DataInputStream data = new DataInputStream( in );
+        final Attribute[] attributes = io.readAttributes( data );
+        assertEquals( "attributes.length", 1, attributes.length );
+        assertEquals( "attributes[0].name", name, attributes[ 0 ].getName() );
+        assertEquals( "attributes[0].value", null, attributes[ 0 ].getValue() );
+        assertEquals( "attributes[0].parameterCount", 0, attributes[ 0 ].getParameterCount() );
     }
 
     public void testBinaryIOWriteAttributeWithValue()
