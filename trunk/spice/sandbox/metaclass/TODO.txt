@@ -1,21 +1,12 @@
+* Uncomment section in Attribute constructor to make sure that it is not
+  possible to have both text and parameters and if both are set a exception should be thrown
 * Refactor tests so that all tests only have attributes that have either
   value or parameters - not both
 * Add in unit test to make sure that it is impossible to have text and parameters
 * Need to parse the value from QDox Tags. If the tags have the format (@name a="b" c="s")
   then they are treated as parameter tags otherwise they are treated as raw text.
-* Uncomment section in Attribute constructor to make sure that it is not
-  possible to have both text and parameters and if both are set a exception
-  should be thrown
 * Add in Javadoc for all classes, and all methods
-* Move the MetaGenerateTask.extractClassDescriptor and related methods into a new class
 * Consider using a new extension that is a little more logical. Maybe -meta.binary, -meta.xml, -meta.ser ?
-* Rename Utilities to MetaClassTestUtils and move it into the test hierarchy. Also remove the
-  equals() implementations from all the model elements as they are only used in unit tests but
-  in the real world we only want equals() to be true when they are the same object. The reason
-  for this is that it is unlikely that multiple descriptors for the same class would ever be loaded
-  and compared against each other. So there is no real advantag and doing a deep comparison takes
-  time (ie we could perform this check 100 times each time we access descriptors from the cache or
-  something).
 * Add in a convenience class to extract attributes in a much more easier format. The file should
   be in org.realityforge.metaclass and should allow use cases such as;
 

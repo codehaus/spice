@@ -12,7 +12,6 @@ import java.util.Vector;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
-import org.realityforge.metaclass.Utility;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
@@ -156,7 +155,7 @@ public class BasicMethodTestCase
             assertNotNull( methodDescriptor );
             final ParameterDescriptor[] parameters = methodDescriptor.getParameters();
             assertNotNull( parameters );
-            assertTrue( Utility.areContentsEqual( EXPECTED_PARAMETERS[ i ],
+            assertTrue( org.realityforge.metaclass.test.MetaClassTestUtility.areContentsEqual( EXPECTED_PARAMETERS[ i ],
                                                   parameters ) );
         }
     }

@@ -25,7 +25,7 @@ import java.io.Serializable;
  * information such as display name for a Parameter.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:40:47 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-05 04:43:34 $
  */
 public final class ParameterDescriptor
     implements Serializable
@@ -90,17 +90,5 @@ public final class ParameterDescriptor
     public String toString()
     {
         return "PARAMETER: " + getName() + " (" + getType() + ") ";
-    }
-
-    public boolean equals( final Object o )
-    {
-        if( !( o instanceof ParameterDescriptor ) )
-        {
-            return false;
-        }
-
-        final ParameterDescriptor other = (ParameterDescriptor)o;
-        return getName().equals( other.getName() ) &&
-            getType().equals( other.getType() );
     }
 }
