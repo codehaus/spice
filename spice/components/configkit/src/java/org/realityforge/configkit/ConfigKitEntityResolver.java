@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
  * Schemas.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-04 11:12:09 $
+ * @version $Revision: 1.3 $ $Date: 2003-04-05 09:39:24 $
  */
 class ConfigKitEntityResolver
     implements EntityResolver
@@ -58,7 +58,6 @@ class ConfigKitEntityResolver
         for( int i = 0; i < m_infos.length; i++ )
         {
             final EntityInfo info = m_infos[ i ];
-
             if( ( publicId != null && publicId.equals( info.getPublicId() ) ) ||
                 ( systemId != null && systemId.equals( info.getSystemId() ) ) )
             {
