@@ -1,2 +1,1 @@
-This is the location for all the common utilities 
-for the Spice project.
+This is where the main set of code for Spice will sit
