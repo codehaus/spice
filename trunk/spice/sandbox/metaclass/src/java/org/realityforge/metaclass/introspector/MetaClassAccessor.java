@@ -11,22 +11,29 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
  * This is the interface used to access MetaClass
- * {@link ClassDescriptor}s for a particular class.
+ * ClassDescriptors for a particular class. Note that
+ * the Accessor is passed another MetaClassAccessor that
+ * it can use to load other auxilliar classes such as super
+ * classes or interfaces. However there is no protection
+ * against circular references so MetaClassAccessor
+ * implementations must guard against such circumstances.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-04 00:50:43 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-28 07:01:01 $
  */
 public interface MetaClassAccessor
 {
     /**
-     * Return a {@link ClassDescriptor} for specified class.
+     * Return a ClassDescriptor for specified class.
      *
-     * @param classname the classname to get {@link ClassDescriptor} for
+     * @param classname the classname to get ClassDescriptor for
      * @param classLoader the classLoader to use
-     * @return the newly created {@link ClassDescriptor}
-     * @throws MetaClassException if unable to create {@link ClassDescriptor}
+     * @param accessor the accessor to use to load auxilliary classes
+     * @return the newly created ClassDescriptor
+     * @throws MetaClassException if unable to create ClassDescriptor
      */
     ClassDescriptor getClassDescriptor( String classname,
-                                        ClassLoader classLoader )
+                                        ClassLoader classLoader,
+                                        MetaClassAccessor accessor )
         throws MetaClassException;
 }

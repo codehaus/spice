@@ -14,7 +14,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-22 09:19:41 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-28 07:01:01 $
  */
 public class DefaultMetaClassAccessorTestCase
     extends TestCase
@@ -36,7 +36,7 @@ public class DefaultMetaClassAccessorTestCase
         final MockClassLoader classLoader = new MockClassLoader();
         classLoader.bindResource( location, data );
         final DefaultMetaClassAccessor accessor = new DefaultMetaClassAccessor();
-        final ClassDescriptor clazz = accessor.getClassDescriptor( name, classLoader );
+        final ClassDescriptor clazz = accessor.getClassDescriptor( name, classLoader, null );
         assertEquals( "class.name", name, clazz.getName() );
         assertEquals( "class.attributes.length",
                       0, clazz.getAttributes().length );
@@ -54,7 +54,7 @@ public class DefaultMetaClassAccessorTestCase
         final DefaultMetaClassAccessor accessor = new DefaultMetaClassAccessor();
         try
         {
-            accessor.getClassDescriptor( name, classLoader );
+            accessor.getClassDescriptor( name, classLoader, null );
         }
         catch( MetaClassException e )
         {
@@ -77,7 +77,7 @@ public class DefaultMetaClassAccessorTestCase
         final DefaultMetaClassAccessor accessor = new DefaultMetaClassAccessor();
         try
         {
-            accessor.getClassDescriptor( name, classLoader );
+            accessor.getClassDescriptor( name, classLoader, null );
         }
         catch( MetaClassException e )
         {
