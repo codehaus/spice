@@ -10,11 +10,13 @@ package org.realityforge.metaclass.tools.qdox;
 import junit.framework.TestCase;
 import java.util.Properties;
 import java.lang.reflect.Modifier;
+import com.thoughtworks.qdox.model.DocletTag;
+import org.realityforge.metaclass.model.Attribute;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-22 05:56:47 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-22 06:02:16 $
  */
 public class InfoBuilderTestCase
     extends TestCase
@@ -264,5 +266,67 @@ public class InfoBuilderTestCase
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final int modifiers = parser.parseModifiers( qualifiers );
         assertEquals( "modifiers", Modifier.VOLATILE | Modifier.PUBLIC, modifiers );
+    }
+
+    public void testBuildAttributeWithNullQDoxValue()
+        throws Exception
+    {
+        final String name = "myTag";
+        final String value = null;
+        final DocletTag tag = new DocletTag( name, null );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final Attribute attribute = parser.buildAttribute( tag );
+        assertNotNull( "attribute", attribute );
+        assertEquals( "attribute.name", name, attribute.getName() );
+        assertEquals( "attribute.value", value, attribute.getValue() );
+        assertEquals( "attribute.parameterCount",
+                      0, attribute.getParameterCount() );
+    }
+
+    public void testBuildAttributeWithEmptyQDoxValue()
+        throws Exception
+    {
+        final String name = "myTag";
+        final String value = null;
+        final DocletTag tag = new DocletTag( name, "" );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final Attribute attribute = parser.buildAttribute( tag );
+        assertNotNull( "attribute", attribute );
+        assertEquals( "attribute.name", name, attribute.getName() );
+        assertEquals( "attribute.value", value, attribute.getValue() );
+        assertEquals( "attribute.parameterCount",
+                      0, attribute.getParameterCount() );
+    }
+
+    public void testBuildAttributeWithValue()
+        throws Exception
+    {
+        final String name = "myTag";
+        final String value = "Here is some text";
+        final DocletTag tag = new DocletTag( name, value );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final Attribute attribute = parser.buildAttribute( tag );
+        assertNotNull( "attribute", attribute );
+        assertEquals( "attribute.name", name, attribute.getName() );
+        assertEquals( "attribute.value", value, attribute.getValue() );
+        assertEquals( "attribute.parameterCount",
+                      0, attribute.getParameterCount() );
+    }
+
+    public void testBuildAttributeWithParameters()
+        throws Exception
+    {
+        final String name = "myTag";
+        final String value = null;
+        final DocletTag tag = new DocletTag( name, "key=\"value\"" );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final Attribute attribute = parser.buildAttribute( tag );
+        assertNotNull( "attribute", attribute );
+        assertEquals( "attribute.name", name, attribute.getName() );
+        assertEquals( "attribute.value", value, attribute.getValue() );
+        assertEquals( "attribute.parameterCount",
+                      1, attribute.getParameterCount() );
+        assertEquals( "attribute.parameter('key')",
+                      "value", attribute.getParameter( "key" ) );
     }
 }
