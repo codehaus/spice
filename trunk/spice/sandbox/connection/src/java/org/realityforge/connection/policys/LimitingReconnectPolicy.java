@@ -44,7 +44,7 @@ public class LimitingReconnectPolicy
    public boolean attemptConnection( final long lastConnectionAttempt,
                                      final int connectionAttempts )
    {
-      if( connectionAttempts > _attempts )
+      if( connectionAttempts >= _attempts )
       {
          final long now = System.currentTimeMillis();
          final long nextAttempt = lastConnectionAttempt + _delay;
