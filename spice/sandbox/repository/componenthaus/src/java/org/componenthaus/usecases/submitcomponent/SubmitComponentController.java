@@ -13,6 +13,7 @@ import org.componenthaus.repository.services.RegisterDownloadableComponentComman
 import org.componenthaus.repository.services.SubmitComponentCommand;
 import org.componenthaus.repository.api.Component;
 import org.componenthaus.repository.api.ServiceImplementation;
+import org.componenthaus.util.source.CodeFormatter;
 import org.prevayler.Prevayler;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,6 +42,7 @@ public class SubmitComponentController extends SimpleFormController implements I
     private Prevayler prevayler;
     private ComponentFactory componentFactory;
     private ServiceImplementationFactory serviceImplementationFactory;
+    private CodeFormatter codeFormatter;
 
     public SubmitComponentController() {
         setCommandClass(Object.class);
@@ -67,10 +69,15 @@ public class SubmitComponentController extends SimpleFormController implements I
         this.serviceImplementationFactory = serviceImplementationFactory;
     }
 
+    public void setCodeFormatter(final CodeFormatter codeFormatter) {
+        this.codeFormatter = codeFormatter;
+    }
+
     public void afterPropertiesSet() throws Exception {
         assertSet("prevayler",prevayler);
         assertSet("componentFactory",componentFactory);
         assertSet("serviceImplementationFactory",serviceImplementationFactory);
+        assertSet("codeFormatter",codeFormatter);
     }
 
     private void assertSet(String name, Object property) {
