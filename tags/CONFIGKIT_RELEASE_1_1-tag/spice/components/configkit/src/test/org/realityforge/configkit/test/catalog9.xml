@@ -1,0 +1,3 @@
+<catalog version="1.0">
+    <entity resource="org/apache/avalon/phoenix/tools/assembly.dtd"/>
+</catalog>
