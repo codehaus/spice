@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<document>
+   <properties>
+      <title>XSysLog</title>
+   </properties>
+   <body>
+      <section name="Introduction">
+	    <p>
+	        XSysLog is a toolkit to help configuring logging subsystem for an application. The logging
+	        toolkit is primarily designed to be easily accessible to administrators while
+	        still being extensible by developers.
+	    </p>
+      </section>
+   </body>
+</document>
