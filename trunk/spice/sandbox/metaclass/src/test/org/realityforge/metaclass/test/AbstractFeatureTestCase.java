@@ -19,7 +19,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  */
 public abstract class AbstractFeatureTestCase
     extends TestCase
-    implements EmptyClassTestDataConstants
+    implements EmptyClassTestDataConstants, BasicClassTestDataConstants
 {
     private String _className;
     private ClassDescriptor _classDescriptor;

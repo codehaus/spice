@@ -13,7 +13,6 @@ import org.realityforge.metaclass.model.FieldDescriptor;
 
 public class BasicFieldAttributesTestCase
     extends AbstractFeatureTestCase
-    implements BasicClassTestDataConstants
 {
     private FieldDescriptor[] _fieldDescriptors;
 

@@ -14,7 +14,6 @@ import org.realityforge.metaclass.model.Attribute;
  */
 public class BasicClassLoaderTestCase
     extends AbstractFeatureTestCase
-    implements BasicClassTestDataConstants
 {
     public BasicClassLoaderTestCase()
     {

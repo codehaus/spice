@@ -11,7 +11,6 @@ import org.realityforge.metaclass.model.Attribute;
 
 public class EmptyClassTestCase
     extends AbstractFeatureTestCase
-    implements EmptyClassTestDataConstants
 {
     public EmptyClassTestCase()
     {
