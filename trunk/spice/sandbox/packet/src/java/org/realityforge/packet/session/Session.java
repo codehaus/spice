@@ -18,7 +18,7 @@ import org.realityforge.packet.events.PacketWriteRequestEvent;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.17 $ $Date: 2004-02-05 04:08:16 $
+ * @version $Revision: 1.18 $ $Date: 2004-02-05 05:57:28 $
  */
 public class Session
 {
@@ -209,16 +209,6 @@ public class Session
         return _timeoutKey;
     }
 
-    public short getLastPacketTransmitted()
-    {
-        return _lastPacketTransmitted;
-    }
-
-    public void setLastPacketTransmitted( final short lastPacketTransmitted )
-    {
-        _lastPacketTransmitted = lastPacketTransmitted;
-    }
-
     public short getLastPacketReceived()
     {
         return _lastPacketReceived;
@@ -361,10 +351,10 @@ public class Session
         }
         else
         {
-            final short sequence =
-                (short)(getLastPacketTransmitted() + 1);
-            setLastPacketTransmitted( sequence );
-            final Packet packet = new Packet( sequence, 0, buffer );
+            final Packet packet =
+                new Packet( ++_lastPacketTransmitted, 0, buffer );
+            System.out.println( (isClient() ? "PACK CL" : "PACK SV") +
+                                ": Queuing a packet: " + packet );
             final PacketWriteRequestEvent ev =
                 new PacketWriteRequestEvent( this, packet );
             _sink.addEvent( ev );

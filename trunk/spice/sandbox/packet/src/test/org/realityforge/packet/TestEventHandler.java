@@ -8,9 +8,7 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.ChannelClosedEvent;
 import org.codehaus.spice.netevent.handlers.AbstractDirectedHandler;
 import org.codehaus.spice.timeevent.events.TimeEvent;
-import org.codehaus.spice.timeevent.source.SchedulingKey;
 import org.codehaus.spice.timeevent.source.TimeEventSource;
-import org.codehaus.spice.timeevent.triggers.PeriodicTimeTrigger;
 import org.realityforge.packet.events.AbstractSessionEvent;
 import org.realityforge.packet.events.DataPacketReadyEvent;
 import org.realityforge.packet.events.SessionActiveEvent;
@@ -22,7 +20,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2004-02-03 06:34:04 $
+ * @version $Revision: 1.8 $ $Date: 2004-02-05 05:57:28 $
  */
 class TestEventHandler
     extends AbstractDirectedHandler
@@ -36,7 +34,6 @@ class TestEventHandler
     private int _clientSessions;
     private int _serverSessions;
     private final TimeEventSource _timeEventSource;
-    private SchedulingKey _key;
 
     public TestEventHandler( final TimeEventSource timeEventSource,
                              final EventSink sink,
@@ -58,31 +55,7 @@ class TestEventHandler
         {
             final TimeEvent e = (TimeEvent)event;
             final Session session = (Session)e.getKey().getUserData();
-            final SessionData sd = getSessionData( session );
-            if( Session.STATUS_ESTABLISHED == session.getStatus() )
-            {
-                final int receivedMessages = sd.getReceivedMessages();
-                if( receivedMessages > 5 )
-                {
-                    final SessionDisconnectRequestEvent sdr =
-                        new SessionDisconnectRequestEvent( session );
-                    getSink().addEvent( sdr );
-                }
-                else if( null != session.getTransport() &&
-                         RANDOM.nextBoolean() )
-                {
-                    System.out.println( "^^^^^^^^^^^^^" +
-                                        "CLOSING PERSISTENT CONNECTION" +
-                                        "^^^^^^^^^^^^^" );
-                    final ChannelClosedEvent cc =
-                        new ChannelClosedEvent( session.getTransport() );
-                    getSink().addEvent( cc );
-                }
-                else
-                {
-                    transmitData( session );
-                }
-            }
+            performLogic( session );
             return;
         }
 
@@ -92,12 +65,16 @@ class TestEventHandler
 
         if( event instanceof DataPacketReadyEvent )
         {
+            //final DataPacketReadyEvent e = (DataPacketReadyEvent)event;
+            //output( session, "Received " + e.getPacket().getData().limit() );
             sd.incReceivedMessages();
-            transmitData( session );
+            performLogic( session );
         }
         else if( event instanceof SessionActiveEvent )
         {
-            transmitData( session );
+            final String text = "Session Active. " + sd;
+            output( session, text );
+            performLogic( session );
         }
         else if( event instanceof SessionInactiveEvent )
         {
@@ -108,15 +85,17 @@ class TestEventHandler
         {
             if( null == session.getUserData() )
             {
-                sd = new SessionData( session, false );
+                sd = new SessionData( session );
                 session.setUserData( sd );
             }
-            if( sd.isPersistent() )
-            {
-                final PeriodicTimeTrigger trigger =
-                    new PeriodicTimeTrigger( 0, 3000 );
-                _key = _timeEventSource.addTrigger( trigger, session );
-            }
+
+            /*
+            final PeriodicTimeTrigger trigger =
+                new PeriodicTimeTrigger( 0, 3000 );
+            final SchedulingKey key =
+                _timeEventSource.addTrigger( trigger, session );
+            sd.setKey( key );
+            */
 
             if( !session.isClient() )
             {
@@ -126,15 +105,15 @@ class TestEventHandler
             {
                 _clientSessions++;
             }
-            final String text = "Session Active. " + sd;
+            final String text = "Session Started. " + sd;
             output( session, text );
         }
         else if( event instanceof SessionDisconnectEvent )
         {
-            if( sd.isPersistent() && null != _key )
+            if( null != sd.getKey() )
             {
-                _key.cancel();
-                _key = null;
+                sd.getKey().cancel();
+                sd.setKey( null );
             }
 
             final int sessions;
@@ -152,6 +131,41 @@ class TestEventHandler
                 "Session Completed. " + sd +
                 "." + sessions + " sessions remaining.";
             output( session, text );
+        }
+    }
+
+    private void performLogic( final Session session )
+    {
+        if( Session.STATUS_ESTABLISHED != session.getStatus() )
+        {
+            return;
+        }
+        final SessionData sd = getSessionData( session );
+        final int receivedMessages = sd.getReceivedMessages();
+        final long dropOn = sd.getSession().getSessionID() % 5;
+        if( receivedMessages == 5 )
+        {
+            final SessionDisconnectRequestEvent sdr =
+                new SessionDisconnectRequestEvent( session );
+            getSink().addEvent( sdr );
+        }
+        else if( null != session.getTransport() &&
+                 receivedMessages == dropOn &&
+                 !sd.isDisconencted() &&
+                 session.isClient() )
+        {
+            output( session, "----------------- CLOSING CONNECTION" );
+            sd.setDisconencted();
+            final ChannelClosedEvent cc =
+                new ChannelClosedEvent( session.getTransport() );
+            getSink().addEvent( cc );
+        }
+        else
+        {
+            if( sd.getSentMessages() < 5 )
+            {
+                transmitData( session );
+            }
         }
     }
 
@@ -174,11 +188,12 @@ class TestEventHandler
         }
         buffer.flip();
 
-        if( session.sendPacket( buffer ) )
+        final SessionData sd = getSessionData( session );
+        if( sd.getSentMessages() < 5 &&
+            session.sendPacket( buffer ) )
         {
-            final SessionData sd = getSessionData( session );
             sd.incSentMessages();
-            output( session, "Transmitting " + transmitCount );
+            //output( session, "Transmitting " + transmitCount );
         }
         else
         {

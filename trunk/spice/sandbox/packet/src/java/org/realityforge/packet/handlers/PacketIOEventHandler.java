@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.buffers.BufferManager;
+import org.codehaus.spice.netevent.events.AbstractTransportEvent;
 import org.codehaus.spice.netevent.events.ChannelClosedEvent;
 import org.codehaus.spice.netevent.events.ConnectEvent;
 import org.codehaus.spice.netevent.events.InputDataPresentEvent;
@@ -33,7 +34,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.12 $ $Date: 2004-02-03 06:34:04 $
+ * @version $Revision: 1.13 $ $Date: 2004-02-05 05:57:27 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -103,44 +104,72 @@ public class PacketIOEventHandler
      */
     public void handleEvent( final Object event )
     {
-        if( event instanceof InputDataPresentEvent )
-        {
-            final InputDataPresentEvent ie = (InputDataPresentEvent)event;
-            handleInput( ie );
-        }
-        else if( event instanceof TimeEvent )
+        if( event instanceof TimeEvent )
         {
             final TimeEvent e = (TimeEvent)event;
             handleTimeout( e );
-        }
-        else if( event instanceof ConnectEvent )
-        {
-            final ConnectEvent ce = (ConnectEvent)event;
-            handleGreeting( ce );
         }
         else if( event instanceof ChannelClosedEvent )
         {
             final ChannelClosedEvent cc = (ChannelClosedEvent)event;
             handleClose( cc );
         }
-        else if( event instanceof SessionDisconnectRequestEvent )
-        {
-            final SessionDisconnectRequestEvent e =
-                (SessionDisconnectRequestEvent)event;
-            handleSessionDisconnect( e.getSession() );
-        }
         else
         {
-            handleOutput( event );
+            final ChannelTransport transport;
+            if( event instanceof AbstractTransportEvent )
+            {
+                final AbstractTransportEvent e = (AbstractTransportEvent)event;
+                transport = e.getTransport();
+            }
+            else
+            {
+                final AbstractSessionEvent e = (AbstractSessionEvent)event;
+                transport = e.getSession().getTransport();
+            }
+            try
+            {
+                if( event instanceof InputDataPresentEvent )
+                {
+                    final InputDataPresentEvent ie = (InputDataPresentEvent)event;
+                    handleInput( ie );
+                }
+                else if( event instanceof ConnectEvent )
+                {
+                    final ConnectEvent ce = (ConnectEvent)event;
+                    handleGreeting( ce );
+                }
+                else if( event instanceof SessionDisconnectRequestEvent )
+                {
+                    final SessionDisconnectRequestEvent e =
+                        (SessionDisconnectRequestEvent)event;
+                    handleSessionDisconnectRequest( e.getSession() );
+                }
+                else if( event instanceof PacketWriteRequestEvent )
+                {
+                    final PacketWriteRequestEvent e =
+                        (PacketWriteRequestEvent)event;
+                    handleOutput( e );
+                }
+                else
+                {
+                    signalDisconnectTransport( transport,
+                                               Protocol.ERROR_BAD_MESSAGE );
+                }
+            }
+            catch( final IOException ioe )
+            {
+                ioe.printStackTrace( System.out );
+                signalDisconnectTransport( transport,
+                                           Protocol.ERROR_IO_ERROR );
+            }
         }
     }
 
     private void handleNack( final Session session,
                              final short sequence )
     {
-        System.out.println(
-            "RECEIVE NACK " + sequence + " on " + session.isClient() );
-
+        output( session, "RECEIVED NACK " + sequence );
         final Packet packet =
             session.getTransmitQueue().getPacket( sequence );
         if( null == packet )
@@ -169,7 +198,6 @@ public class PacketIOEventHandler
         final int status = session.getStatus();
         if( Session.STATUS_LOST == status )
         {
-            session.setPendingDisconnect();
             final SessionDisconnectRequestEvent response =
                 new SessionDisconnectRequestEvent( session );
             getSink().addEvent( response );
@@ -181,14 +209,20 @@ public class PacketIOEventHandler
      * 
      * @param session the session
      */
-    private void handleSessionDisconnect( final Session session )
+    private void handleSessionDisconnectRequest( final Session session )
+        throws IOException
     {
+        session.setDisconnectRequested();
         final ChannelTransport transport = session.getTransport();
-        if( null != transport )
+        if( !canOutput( transport ) )
         {
-            handleDisconnect( transport, Protocol.ERROR_NONE );
+            return;
         }
-        disconnectSession( session );
+
+        sendSessionStatus( session );
+        final TransportOutputStream output = transport.getOutputStream();
+        output.write( MessageCodes.DISCONNECT_REQUEST );
+        output.flush();
     }
 
     private void disconnectSession( final Session session )
@@ -225,8 +259,8 @@ public class PacketIOEventHandler
         if( session.isDataProcessed() )
         {
             final short processed = session.getLastPacketProcessed();
-            System.out.println( "SEND ACK " + processed +
-                                " on " + session.isClient() );
+            output( session, "SEND ACK " + processed +
+                             " at " + transport.getTxByteCount() );
             sendAck( transport, processed );
         }
     }
@@ -236,7 +270,7 @@ public class PacketIOEventHandler
     {
         final ChannelTransport transport = session.getTransport();
         final short processed = session.getLastPacketProcessed();
-        final PacketQueue queue = session.getRxQueue();
+        final PacketQueue queue = session.getReceiveQueue();
         final short received = session.getLastPacketReceived();
         final short initial = (short)(processed + 1);
         for( short i = initial; i < received; i++ )
@@ -244,8 +278,8 @@ public class PacketIOEventHandler
             final Packet packet = queue.getPacket( i );
             if( null == packet )
             {
-                System.out.println( "SEND NACK " + i +
-                                    " on " + session.isClient() );
+                output( session, "SEND NACK " + i +
+                                 " at " + transport.getTxByteCount() );
                 sendNack( transport, i );
             }
         }
@@ -266,6 +300,11 @@ public class PacketIOEventHandler
     {
         final ChannelTransport transport = cc.getTransport();
         final Session session = (Session)transport.getUserData();
+
+        if( null != session && session.isPendingDisconnect() )
+        {
+            disconnectSession( session );
+        }
         if( null != session &&
             Session.STATUS_DISCONNECTED != session.getStatus() )
         {
@@ -285,6 +324,7 @@ public class PacketIOEventHandler
      * @param e the event
      */
     private void handleGreeting( final ConnectEvent e )
+        throws IOException
     {
         final ChannelTransport transport = e.getTransport();
         final Session session = (Session)transport.getUserData();
@@ -300,38 +340,19 @@ public class PacketIOEventHandler
             session.setTransport( transport );
             if( session.isClient() )
             {
-                try
-                {
-                    sendGreeting( transport,
-                                  session.getSessionID(),
-                                  session.getAuthID() );
-                }
-                catch( final IOException ioe )
-                {
-                    signalDisconnectTransport( transport,
-                                               Protocol.ERROR_IO_ERROR );
-                }
+                sendGreeting( transport,
+                              session.getSessionID(),
+                              session.getAuthID() );
             }
-        }
-    }
-
-    /**
-     * Handle disconenect event.
-     */
-    private void handleDisconnect( final ChannelTransport transport,
-                                   final byte reason )
-    {
-        try
-        {
-            sendDisconnect( transport, reason );
-        }
-        catch( final IOException ioe )
-        {
         }
     }
 
     private void closeTransport( final ChannelTransport transport )
     {
+        if( null == transport )
+        {
+            return;
+        }
         transport.getOutputStream().close();
         final Session session = (Session)transport.getUserData();
         if( null != session )
@@ -343,36 +364,19 @@ public class PacketIOEventHandler
     /**
      * Handle event relating to output.
      * 
-     * @param event the output event
+     * @param e the output event
      */
-    private void handleOutput( final Object event )
+    private void handleOutput( final PacketWriteRequestEvent e )
+        throws IOException
     {
-        final AbstractSessionEvent se = (AbstractSessionEvent)event;
-        final Session session = se.getSession();
-        final ChannelTransport transport = session.getTransport();
+        final ChannelTransport transport = e.getSession().getTransport();
         if( !canOutput( transport ) )
         {
             return;
         }
-        try
+        else
         {
-            if( event instanceof PacketWriteRequestEvent )
-            {
-                final PacketWriteRequestEvent e =
-                    (PacketWriteRequestEvent)event;
-                sendData( transport, e.getPacket() );
-            }
-            else
-            {
-                signalDisconnectTransport( transport,
-                                           Protocol.ERROR_BAD_MESSAGE );
-            }
-        }
-        catch( final IOException ioe )
-        {
-            ioe.printStackTrace( System.out );
-            signalDisconnectTransport( transport,
-                                       Protocol.ERROR_IO_ERROR );
+            sendData( transport, e.getPacket() );
         }
     }
 
@@ -382,27 +386,20 @@ public class PacketIOEventHandler
      * @param ie the event indicating data present
      */
     private void handleInput( final InputDataPresentEvent ie )
+        throws IOException
     {
         final ChannelTransport transport = ie.getTransport();
-        try
+        boolean dataPresent = true;
+        while( dataPresent )
         {
-            boolean dataPresent = true;
-            while( dataPresent )
+            if( null == transport.getUserData() )
             {
-                if( null == transport.getUserData() )
-                {
-                    dataPresent = receiveGreeting( transport );
-                }
-                else
-                {
-                    dataPresent = handleConnectedInput( transport );
-                }
+                dataPresent = receiveGreeting( transport );
             }
-        }
-        catch( final IOException ioe )
-        {
-            signalDisconnectTransport( transport,
-                                       Protocol.ERROR_IO_ERROR );
+            else
+            {
+                dataPresent = handleConnectedInput( transport );
+            }
         }
     }
 
@@ -419,6 +416,7 @@ public class PacketIOEventHandler
     {
         final InputStream input = transport.getInputStream();
         final int available = input.available();
+
         if( available < Protocol.SIZEOF_BYTE )
         {
             return false;
@@ -427,15 +425,32 @@ public class PacketIOEventHandler
         input.mark( Protocol.MAX_MESSAGE_HEADER );
 
         final Session session = (Session)transport.getUserData();
-
+        final long count = transport.getRxByteCount();
+        System.out.println();
         final int msg = input.read();
-        if( !session.isClient() && MessageCodes.ESTABLISHED == msg )
+        output( session, "MSG " + msg + " read at " +
+                         count + "/" + available +
+                         " transport=" + transport );
+
+        if( !session.isClient() &&
+            MessageCodes.ESTABLISHED == msg &&
+            Session.STATUS_CONNECTED == session.getStatus() )
         {
             return receiveEstablish( transport );
         }
-        else if( session.isClient() && MessageCodes.CONNECT == msg )
+        else if( session.isClient() &&
+                 MessageCodes.CONNECT == msg &&
+                 Session.STATUS_CONNECTED == session.getStatus() )
         {
             return receiveConnect( transport );
+        }
+        else if( MessageCodes.ERROR == msg )
+        {
+            return receiveError( transport );
+        }
+        else if( MessageCodes.DISCONNECT_REQUEST == msg )
+        {
+            return receiveDisconnectRequest( transport );
         }
         else if( MessageCodes.DISCONNECT == msg )
         {
@@ -455,7 +470,7 @@ public class PacketIOEventHandler
         }
         else
         {
-            System.out.println( "PACK msg = " + msg );
+            output( session, "PACK msg = " + msg );
             signalDisconnectTransport( transport,
                                        Protocol.ERROR_BAD_MESSAGE );
             return false;
@@ -674,6 +689,7 @@ public class PacketIOEventHandler
                           final short sequence )
         throws IOException
     {
+
         ensureValidSession( transport );
         if( canOutput( transport ) )
         {
@@ -705,9 +721,9 @@ public class PacketIOEventHandler
         else
         {
             final short sequence = TypeIOUtil.readShort( input );
-            System.out.println(
-                "RECEIVE ACK " + sequence + " on " + session.isClient() );
+            output( session, "RECEIVE ACK " + sequence );
             session.getTransmitQueue().ack( sequence );
+            checkDisconnect( session, transport );
             return true;
         }
     }
@@ -761,14 +777,66 @@ public class PacketIOEventHandler
      * @param transport the transport
      * @throws IOException if io error occurs
      */
-    private void sendDisconnect( final ChannelTransport transport,
-                                 final byte reason )
+    private void sendDisconnect( final ChannelTransport transport )
         throws IOException
     {
         final TransportOutputStream output = transport.getOutputStream();
         output.write( MessageCodes.DISCONNECT );
-        output.write( reason );
         output.flush();
+    }
+
+    /**
+     * Receive a disconnect message.
+     *
+     * @param transport the transport
+     * @return if message received
+     * @throws IOException if io error occurs
+     */
+    private boolean receiveDisconnectRequest( final ChannelTransport transport )
+        throws IOException
+    {
+        ensureValidSession( transport );
+
+        final Session session = (Session)transport.getUserData();
+        session.setPendingDisconnect();
+        sendSessionStatus( session );
+
+        checkDisconnect( session, transport );
+        return true;
+    }
+
+    private void checkDisconnect( final Session session,
+                                  final ChannelTransport transport )
+        throws IOException
+    {
+        if( session.isPendingDisconnect() && completionPossible( session ) )
+        {
+            sendDisconnect( transport );
+        }
+    }
+
+    private boolean completionPossible( final Session session )
+    {
+        final int txQueueSize = session.getTransmitQueue().size();
+        final int rxQueueSize = session.getReceiveQueue().size();
+        return 0 == rxQueueSize && 0 == txQueueSize;
+    }
+
+    /**
+     * Receive a disconnect message.
+     *
+     * @param transport the transport
+     * @return if message received
+     * @throws IOException if io error occurs
+     */
+    private boolean receiveDisconnect( final ChannelTransport transport )
+        throws IOException
+    {
+        ensureValidSession( transport );
+        final Session session = (Session)transport.getUserData();
+        closeTransport( session.getTransport() );
+        disconnectSession( session );
+        return false;
     }
 
     /**
@@ -778,7 +846,7 @@ public class PacketIOEventHandler
      * @return if message received
      * @throws IOException if io error occurs
      */
-    private boolean receiveDisconnect( final ChannelTransport transport )
+    private boolean receiveError( final ChannelTransport transport )
         throws IOException
     {
         final InputStream input = transport.getInputStream();
@@ -792,12 +860,6 @@ public class PacketIOEventHandler
         {
             final byte reason = (byte)input.read();
             signalDisconnectTransport( transport, reason );
-            final Session session = (Session)transport.getUserData();
-            if( null != session && Protocol.ERROR_NONE == reason )
-            {
-                session.setPendingDisconnect();
-                disconnectSession( session );
-            }
             closeTransport( transport );
             return false;
         }
@@ -815,6 +877,8 @@ public class PacketIOEventHandler
     {
         ensureValidSession( transport );
         final Session session = (Session)transport.getUserData();
+        output( session, "SENT " + packet.getSequence() +
+                         " at " + transport.getTxByteCount() );
         session.getTransmitQueue().addPacket( packet );
         final TransportOutputStream output = transport.getOutputStream();
         output.write( MessageCodes.DATA );
@@ -823,12 +887,13 @@ public class PacketIOEventHandler
         final ByteBuffer data = packet.getData();
         final int dataSize = data.limit();
         TypeIOUtil.writeShort( output, (short)dataSize );
+        data.position( 0 );
         while( data.remaining() > 0 )
         {
             output.write( data.get() );
         }
-
         output.flush();
+
         _bufferManager.releaseBuffer( data );
     }
 
@@ -868,6 +933,10 @@ public class PacketIOEventHandler
             }
 
             buffer.flip();
+
+            output( (Session)transport.getUserData(),
+                    "RECEIVED " + sequence );
+
             final Session session = (Session)transport.getUserData();
             final Packet packet = new Packet( sequence, 0, buffer );
             handlePacketReadEvent( session, packet );
@@ -885,7 +954,16 @@ public class PacketIOEventHandler
                                         final Packet packet )
         throws IOException
     {
-        final PacketQueue queue = session.getRxQueue();
+        final short sequence = packet.getSequence();
+        if( sequence <= session.getLastPacketProcessed() )
+        {
+            //Discarding packet as it has already been processed on this side
+            output( session, "DISCARDING DUPLICATE " + sequence );
+            return;
+        }
+
+        final PacketQueue queue = session.getReceiveQueue();
+
         queue.addPacket( packet );
 
         Packet candidate = queue.peek();
@@ -895,15 +973,16 @@ public class PacketIOEventHandler
                Protocol.isNextInSequence( candidate.getSequence(),
                                           processed ) )
         {
+            queue.pop();
             final DataPacketReadyEvent response =
                 new DataPacketReadyEvent( session, packet );
             _target.addEvent( response );
             processed++;
             session.setLastPacketProcessed( processed );
-            candidate = queue.pop();
+            candidate = queue.peek();
         }
 
-        session.setLastPacketReceived( packet.getSequence() );
+        session.setLastPacketReceived( sequence );
 
         sendSessionStatus( session );
     }
@@ -918,14 +997,21 @@ public class PacketIOEventHandler
     private void ensureValidSession( final ChannelTransport transport )
         throws IOException
     {
+        ensureSessionPresent( transport );
+        final Session session = (Session)transport.getUserData();
+        if( Session.STATUS_ESTABLISHED != session.getStatus() )
+        {
+            throw new IOException( "Session not established. " + session );
+        }
+    }
+
+    private void ensureSessionPresent( final ChannelTransport transport )
+        throws IOException
+    {
         final Session session = (Session)transport.getUserData();
         if( null == session )
         {
             throw new IOException( "No session specififed." );
-        }
-        if( Session.STATUS_ESTABLISHED != session.getStatus() )
-        {
-            throw new IOException( "Session not established." );
         }
     }
 
@@ -949,6 +1035,15 @@ public class PacketIOEventHandler
         {
         }
         transport.getInputStream().close();
+    }
+
+    private void output( final Session session, final String text )
+    {
+        final String message =
+            (session.isClient() ? "PACK CL" : "PACK SV") +
+            " (" + session.getSessionID() + "): " + text + " -- " +
+            session.getUserData();
+        System.out.println( message );
     }
 }
 
