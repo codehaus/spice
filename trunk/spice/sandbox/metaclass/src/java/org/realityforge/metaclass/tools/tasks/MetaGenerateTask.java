@@ -24,7 +24,6 @@ import org.realityforge.metaclass.io.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.ClassDescriptor;
-import org.realityforge.metaclass.tools.qdox.MulticastInterceptor;
 import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
 import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
 
@@ -33,7 +32,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.19 $ $Date: 2003-08-31 08:01:17 $
+ * @version $Revision: 1.20 $ $Date: 2003-08-31 08:09:07 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -74,10 +73,9 @@ public class MetaGenerateTask
     private static final QDoxDescriptorParser c_infoBuilder = new QDoxDescriptorParser();
 
     /**
-     * The interceptor used to process source files.
-     * Defaults to a noop interceptor.
+     * The interceptors used to process source files.
      */
-    private QDoxAttributeInterceptor m_interceptor;
+    private QDoxAttributeInterceptor[] m_interceptors;
 
     /**
      * Internal list of interceptor elements added by user.
@@ -138,8 +136,7 @@ public class MetaGenerateTask
      */
     private void setupInterceptorChain()
     {
-        final QDoxAttributeInterceptor[] interceptors = buildInterceptors();
-        m_interceptor = new MulticastInterceptor( interceptors );
+        m_interceptors = buildInterceptors();
     }
 
     /**
@@ -186,7 +183,7 @@ public class MetaGenerateTask
     /**
      * This method provides an access point for subclasses to use custom filters
      * on the list of classes parsed, i.e. to return null if the class has been filtered.
-     * 
+     *
      * @param javaClass
      * @return javaClass or null
      */
@@ -230,7 +227,7 @@ public class MetaGenerateTask
         {
             final JavaClass javaClass = (JavaClass)iterator.next();
             final ClassDescriptor descriptor =
-                c_infoBuilder.buildClassDescriptor( javaClass, m_interceptor );
+                c_infoBuilder.buildClassDescriptor( javaClass, m_interceptors );
             descriptors.add( descriptor );
         }
         return descriptors;
