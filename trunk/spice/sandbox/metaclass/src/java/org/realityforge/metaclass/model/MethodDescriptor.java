@@ -24,8 +24,7 @@ import java.io.Serializable;
  * about method.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-05 04:43:34 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-15 06:53:32 $
  */
 public final class MethodDescriptor
     extends FeatureDescriptor
@@ -108,22 +107,5 @@ public final class MethodDescriptor
     public ParameterDescriptor[] getParameters()
     {
         return _parameters;
-    }
-
-    /**
-     * Return a string representation of the method.
-     * @return a string representation of the method.
-     */
-    public String toString()
-    {
-        final StringBuffer result = new StringBuffer();
-        result.append( "METHOD: " + getModifiers() + " " + getReturnType() + " " + getName() + "\n" );
-        for( int i = 0; i < _parameters.length; i++ )
-        {
-            final ParameterDescriptor parameterDescriptor = _parameters[ i ];
-            result.append( " (" + parameterDescriptor + ")" + "\n" );
-        }
-        result.append( attributesToString() );
-        return result.toString();
     }
 }

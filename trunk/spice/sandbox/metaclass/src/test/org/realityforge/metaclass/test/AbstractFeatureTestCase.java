@@ -37,7 +37,7 @@ public abstract class AbstractFeatureTestCase
         try
         {
             final Class clazz = Class.forName( _className );
-            _classDescriptor = MetaClassIntrospector.getClassInfo( clazz );
+            _classDescriptor = MetaClassIntrospector.getClassDescriptor( clazz );
         }
         catch ( final Exception e )
         {

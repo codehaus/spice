@@ -15,18 +15,12 @@ import java.io.Serializable;
  * the classes methods.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.3 $ $Date: 2003-06-10 01:39:56 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-15 06:53:32 $
  */
 public class ClassDescriptor
     extends FeatureDescriptor
     implements Serializable
 {
-    /**
-     * The current version of Attributes object.
-     */
-    public static final int VERSION = 100;
-
     /**
      * The name of class.
      */
@@ -42,6 +36,17 @@ public class ClassDescriptor
      */
     private final MethodDescriptor[] _methods;
 
+    /**
+     * Create a ClassDescriptor with metadata about a class.
+     * The descriptor usually represents a corrresponding
+     * java class but this is not always the case.
+     *
+     * @param classname the name of class
+     * @param modifiers the modifiers on class (ie public, private etc).
+     * @param attributes the top level attribute metadata
+     * @param fields the field descriptors for class
+     * @param methods the method descriptors for class
+     */
     public ClassDescriptor( final String classname,
                             final int modifiers,
                             final Attribute[] attributes,
@@ -49,7 +54,6 @@ public class ClassDescriptor
                             final MethodDescriptor[] methods )
     {
         super( attributes, modifiers );
-
         if( null == classname )
         {
             throw new NullPointerException( "classname" );
@@ -58,11 +62,24 @@ public class ClassDescriptor
         {
             throw new NullPointerException( "fields" );
         }
+        for ( int i = 0; i < fields.length; i++ )
+        {
+           if( null == fields[ i ] )
+           {
+              throw new NullPointerException( "fields[" + i + "]" );
+           }
+        }
         if( null == methods )
         {
             throw new NullPointerException( "methods" );
         }
-
+        for ( int i = 0; i < methods.length; i++ )
+        {
+           if( null == methods[ i ] )
+           {
+              throw new NullPointerException( "methods[" + i + "]" );
+           }
+        }
         _name = classname;
         _fields = fields;
         _methods = methods;
@@ -78,35 +95,27 @@ public class ClassDescriptor
         return _name;
     }
 
+    /**
+     * Return the FieldDescriptors for class.
+     * Note that it is not necessary that all fields in the
+     * class have corresponding FieldDescriptors.
+     *
+     * @return the FieldDescriptors for class.
+     */
     public FieldDescriptor[] getFields()
     {
         return _fields;
     }
 
+    /**
+     * Return the MethodDescriptors for class.
+     * Note that it is not necessary that all methods in the
+     * class have corresponding MethodDescriptors.
+     *
+     * @return the MethodDescriptors for class.
+     */
     public MethodDescriptor[] getMethods()
     {
         return _methods;
-    }
-
-    /**
-     * Return a string representation of the class.
-     * @return a string representation of the class.
-     */
-    public String toString()
-    {
-        final StringBuffer result = new StringBuffer();
-        result.append( "CLASS: " + getModifiers() + " " + getName() + "\n" );
-        result.append( attributesToString() );
-        for( int i = 0; i < _fields.length; i++ )
-        {
-            final FieldDescriptor fieldDescriptor = _fields[ i ];
-            result.append( "field: " + fieldDescriptor + "\n" );
-        }
-        for( int i = 0; i < _methods.length; i++ )
-        {
-            final MethodDescriptor methodDescriptor = _methods[ i ];
-            result.append( "method: " + methodDescriptor + "\n" );
-        }
-        return result.toString();
     }
 }

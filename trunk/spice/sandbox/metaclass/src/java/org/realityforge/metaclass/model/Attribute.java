@@ -25,205 +25,183 @@ import java.util.Set;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.4 $ $Date: 2003-06-25 03:54:58 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-15 06:53:32 $
  */
 public final class Attribute
-    implements Serializable
+   implements Serializable
 {
-    private static final String[] EMPTY_SET = new String[ 0 ];
+   /**
+    * The constant for Empty Set of attributes.
+    */
+   public static final Attribute[] EMPTY_SET = new Attribute[ 0 ];
 
-    /**
-     * The name of the Attribute.
-     */
-    private final String _name;
+   /**
+    * The constant for Empty Set of keys.
+    */
+   private static final String[] EMPTY_NAMES_SET = new String[ 0 ];
 
-    /**
-     * The value of the Attribute.
-     */
-    private final String _value;
+   /**
+    * The name of the Attribute.
+    */
+   private final String _name;
 
-    /**
-     * The arbitrary set of parameters associated with the Attribute.
-     */
-    private final Properties _parameters;
+   /**
+    * The value of the Attribute.
+    */
+   private final String _value;
 
-    /**
-     * Create a Attribute with specified name.
-     *
-     * @param name the Attribute name
-     */
-    public Attribute( final String name )
-    {
-        this( name, null, null );
-    }
+   /**
+    * The arbitrary set of parameters associated with the Attribute.
+    */
+   private final Properties _parameters;
 
-    /**
-     * Create a Attribute with specified name and parameters.
-     *
-     * @param name the Attribute name
-     * @param parameters the Attribute parameters
-     */
-    public Attribute( final String name,
-                      final Properties parameters )
-    {
-        this( name, null, parameters );
-    }
+   /**
+    * Create a Attribute with specified name.
+    *
+    * @param name the Attribute name
+    */
+   public Attribute( final String name )
+   {
+      this( name, null, null );
+   }
 
-    /**
-     * Create a Attribute with specified name and value.
-     *
-     * @param name the Attribute name
-     * @param value the Attribute value
-     */
-    public Attribute( final String name,
-                      final String value )
-    {
-        this( name, value, null );
-    }
+   /**
+    * Create a Attribute with specified name and parameters.
+    *
+    * @param name the Attribute name
+    * @param parameters the Attribute parameters
+    */
+   public Attribute( final String name,
+                     final Properties parameters )
+   {
+      this( name, null, parameters );
+   }
 
-    /**
-     * Create a Attribute with specified name, value
-     * and parameters. Note that it is invalid for both
-     * the value and parameters to be invalid.
-     *
-     * @param name the Attribute name
-     * @param value the Attribute value
-     * @param parameters the Attribute parameters
-     */
-    public Attribute( final String name,
-                      final String value,
-                      final Properties parameters )
-    {
-        if ( null == name )
-        {
-            throw new NullPointerException( "name" );
-        }
+   /**
+    * Create a Attribute with specified name and value.
+    *
+    * @param name the Attribute name
+    * @param value the Attribute value
+    */
+   public Attribute( final String name,
+                     final String value )
+   {
+      this( name, value, null );
+   }
 
-        if ( null != value && null != parameters )
-        {
-            final String message =
-                "Can not create an Attribute with both " +
-                "a text value and parameters:" + "\n" +
-                "Name = " + name + "\n" +
-                "Value = " + value + "\n" +
-                "Parameters = " + parameters;
-            throw new IllegalArgumentException( message );
-        }
+   /**
+    * Create a Attribute with specified name, value
+    * and parameters. Note that it is invalid for both
+    * the value and parameters to be invalid.
+    *
+    * @param name the Attribute name
+    * @param value the Attribute value
+    * @param parameters the Attribute parameters
+    */
+   public Attribute( final String name,
+                     final String value,
+                     final Properties parameters )
+   {
+      if ( null == name )
+      {
+         throw new NullPointerException( "name" );
+      }
 
-        _name = name;
-        _value = value;
-        _parameters = parameters;
-    }
+      if ( null != value && null != parameters )
+      {
+         final String message =
+            "Can not create an Attribute with both " +
+            "a text value and parameters. (" +
+            "name='" + name + "', " +
+            "value='" + value + "', " +
+            "parameters = " + parameters +
+            "')";
+         throw new IllegalArgumentException( message );
+      }
 
-    /**
-     * Return the name of the Attribute.
-     *
-     * @return the name of the Attribute.
-     */
-    public String getName()
-    {
-        return _name;
-    }
+      _name = name;
+      _value = value;
+      _parameters = parameters;
+   }
 
-    /**
-     * Return the value of the Attribute.
-     * @return the value of the Attribute.
-     */
-    public String getValue()
-    {
-        return _value;
-    }
+   /**
+    * Return the name of the Attribute.
+    *
+    * @return the name of the Attribute.
+    */
+   public String getName()
+   {
+      return _name;
+   }
 
-    /**
-     * Return the parameters of the Attribute.
-     * @return the parameters of the Attribute.
-     */
-    public Properties getParameters()
-    {
-        return _parameters;
-    }
+   /**
+    * Return the value of the Attribute.
+    * @return the value of the Attribute.
+    */
+   public String getValue()
+   {
+      return _value;
+   }
 
-    /**
-     * Return the parameter for specified key.
-     *
-     * @return the parameter for specified key.
-     */
-    public String getParameter( final String key )
-    {
-        if ( null == _parameters )
-        {
-            return null;
-        }
-        else
-        {
-            return _parameters.getProperty( key );
-        }
-    }
+   /**
+    * Return the parameters of the Attribute.
+    * @return the parameters of the Attribute.
+    */
+   public Properties getParameters()
+   {
+      return _parameters;
+   }
 
-    /**
-     * Return the parameter for specified key, or defaultValue if unspecified.
-     *
-     * @return the parameter for specified key, or defaultValue if unspecified.
-     */
-    public String getParameter( final String key,
-                                final String defaultValue )
-    {
-        if ( null == _parameters )
-        {
-            return defaultValue;
-        }
-        else
-        {
-            return _parameters.getProperty( key, defaultValue );
-        }
-    }
+   /**
+    * Return the parameter for specified key.
+    *
+    * @return the parameter for specified key.
+    */
+   public String getParameter( final String key )
+   {
+      if ( null == _parameters )
+      {
+         return null;
+      }
+      else
+      {
+         return _parameters.getProperty( key );
+      }
+   }
 
-    /**
-     * Returns an array of parameter names available under this Attribute.
-     *
-     * @return an array of parameter names available under this Attribute.
-     */
-    public String[] getParameterNames()
-    {
-        if ( null == _parameters )
-        {
-            return EMPTY_SET;
-        }
-        else
-        {
-            final Set set = _parameters.keySet();
-            return (String[]) set.toArray( EMPTY_SET );
-        }
-    }
+   /**
+    * Return the parameter for specified key, or defaultValue if unspecified.
+    *
+    * @return the parameter for specified key, or defaultValue if unspecified.
+    */
+   public String getParameter( final String key,
+                               final String defaultValue )
+   {
+      if ( null == _parameters )
+      {
+         return defaultValue;
+      }
+      else
+      {
+         return _parameters.getProperty( key, defaultValue );
+      }
+   }
 
-    /**
-     * Return the string representation of attribute.
-     *
-     * @return the string representation of attribute.
-     */
-    public String toString()
-    {
-        final StringBuffer result = new StringBuffer();
-        result.append( getName() );
-        result.append( ": " );
-
-        if ( null == _parameters )
-        {
-            result.append( "value: " + _value );
-        }
-        else
-        {
-            final String[] names = getParameterNames();
-            for ( int i = 0; i < names.length; i++ )
-            {
-                final String name = names[ i ];
-                result.append( "param: " );
-                result.append( name );
-                result.append( "=" );
-                result.append( getParameter( name ) );
-                result.append( "," );
-            }
-        }
-        return result.toString();
-    }
+   /**
+    * Returns an array of parameter names available under this Attribute.
+    *
+    * @return an array of parameter names available under this Attribute.
+    */
+   public String[] getParameterNames()
+   {
+      if ( null == _parameters )
+      {
+         return EMPTY_NAMES_SET;
+      }
+      else
+      {
+         final Set set = _parameters.keySet();
+         return (String[]) set.toArray( EMPTY_NAMES_SET );
+      }
+   }
 }

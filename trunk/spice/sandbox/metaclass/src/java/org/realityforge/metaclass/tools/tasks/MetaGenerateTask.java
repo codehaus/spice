@@ -7,25 +7,25 @@
  */
 package org.realityforge.metaclass.tools.tasks;
 
-import com.thoughtworks.qdox.ant.AbstractQdoxTask;
-import com.thoughtworks.qdox.model.JavaClass;
-import org.apache.tools.ant.BuildException;
-import org.realityforge.metaclass.ClassDescriptorUtility;
-import org.realityforge.metaclass.io.MetaClassIO;
-import org.realityforge.metaclass.io.MetaClassIOBinary;
-import org.realityforge.metaclass.model.ClassDescriptor;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import com.thoughtworks.qdox.ant.AbstractQdoxTask;
+import com.thoughtworks.qdox.model.JavaClass;
+import org.apache.tools.ant.BuildException;
+import org.realityforge.metaclass.io.MetaClassIO;
+import org.realityforge.metaclass.io.MetaClassIOBinary;
+import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
 
 /**
  * A Task to generate Attributes descriptors from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.3 $ $Date: 2003-06-10 01:39:56 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-15 06:53:33 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -59,6 +59,11 @@ public class MetaGenerateTask
      * The class to output ClassDescriptors in binary format.
      */
     private static final MetaClassIO c_metaClassIO = new MetaClassIOBinary();
+
+    /**
+     * The utility class used to generate MetaClass object.
+     */
+    private static final QDoxDescriptorParser c_infoBuilder = new QDoxDescriptorParser();
 
     /**
      * Set the destination directory for generated files.
@@ -135,7 +140,7 @@ public class MetaGenerateTask
                 continue;
             }
 
-            writeClassDescriptor( ClassDescriptorUtility.extractClassDescriptor( javaClass ) );
+            writeClassDescriptor( c_infoBuilder.buildClassDescriptor( javaClass ) );
         }
     }
 
@@ -204,7 +209,7 @@ public class MetaGenerateTask
         }
         else
         {
-            final String message = getDescription() + "Not a supported format at this time.";
+            final String message = getOutputDescription() + " Not a supported format at this time.";
             throw new BuildException( message );
         }
     }
@@ -247,7 +252,7 @@ public class MetaGenerateTask
         else
         {
             final String message =
-                getDescription() + "Not a supported format at this time.";
+                getOutputDescription() + " Not a supported format at this time.";
             throw new BuildException( message );
         }
         return new File( m_destDir, filename ).getCanonicalFile();
@@ -258,7 +263,7 @@ public class MetaGenerateTask
      *
      * @return the output formats descriptive name
      */
-    public String getOutputDescription()
+    private final String getOutputDescription()
     {
         if ( XML_TYPE == m_format )
         {
