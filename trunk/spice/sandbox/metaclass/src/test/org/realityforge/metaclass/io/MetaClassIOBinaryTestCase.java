@@ -23,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-08-22 03:03:19 $
+ * @version $Revision: 1.10 $ $Date: 2003-08-22 03:19:49 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -285,6 +285,33 @@ public class MetaClassIOBinaryTestCase
         final DataInputStream data = new DataInputStream( in );
         final ParameterDescriptor[] parameters = io.readParameters( data );
         assertEquals( "parameters.length", 0, parameters.length );
+    }
+
+    public void testBinaryIOWriteZeroFields()
+        throws Exception
+    {
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final DataOutputStream data = new DataOutputStream( out );
+        io.writeFields( data, FieldDescriptor.EMPTY_SET );
+        data.flush();
+        final byte[] bytes = out.toByteArray();
+        assertEquals( "length", 4, bytes.length );
+        assertEquals( "bytes[0-4] = 0", 0, readInteger( bytes, 0 ) );
+    }
+
+    public void testBinaryIOReadZeroFields()
+        throws Exception
+    {
+        final byte[] bytes = new byte[]
+        {
+            0, 0, 0, 0 //length
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
+        final DataInputStream data = new DataInputStream( in );
+        final FieldDescriptor[] fields = io.readFields( data );
+        assertEquals( "fields.length", 0, fields.length );
     }
 
     public void testBinaryIOWriteRead()
