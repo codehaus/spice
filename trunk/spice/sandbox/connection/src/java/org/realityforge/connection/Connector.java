@@ -81,7 +81,7 @@ public class Connector
     *
     * @param policy the policy
     */
-   public void setConnection( final ReconnectionPolicy policy )
+   public void setPolicy( final ReconnectionPolicy policy )
    {
       if ( null == policy )
       {
