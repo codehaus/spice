@@ -53,6 +53,13 @@
                     for MetaClass descriptors as they were never used and are
                     unlikely to be used in the future.
                 </li>
+                <li>
+                    GenerateClassDescriptorsTask will continue to process source
+                    files even if generation of a descriptor fails. However if
+                    generation of descriptor does fail it will still throw a
+                    BuildException after it has finished processing the rest of
+                    the descriptors.
+                </li>
             </ul>
         </section>
     </body>
