@@ -19,7 +19,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-09-28 03:58:01 $
+ * @version $Revision: 1.9 $ $Date: 2003-09-28 04:50:39 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -137,6 +137,25 @@ public class AttributesTestCase
         assertEquals( "attributes[ 1 ]", attribute2, results[ 1 ] );
     }
 
+    public void testGetAttributesForClassSansMetaData()
+    {
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+        MetaClassIntrospector.clearCompleteCache();
+        final Attribute[] results =
+            Attributes.getAttributes( AttributesTestCase.class );
+        assertEquals( "attributes.length", 0, results.length );
+    }
+
+    public void testGetAttributesForClassWithNameSansMetaData()
+    {
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        final Attribute[] results =
+            Attributes.getAttributes( AttributesTestCase.class, "aName" );
+        assertEquals( "attributes.length", 0, results.length );
+    }
+
     public void testGetAttributesForClassWithName()
     {
         final String name = "name";
@@ -157,6 +176,16 @@ public class AttributesTestCase
             Attributes.getAttributes( AttributesTestCase.class, name );
         assertEquals( "attributes.length", 1, results.length );
         assertEquals( "attributes[ 0 ]", attribute1, results[ 0 ] );
+    }
+
+    public void testGetAttributeForClassWithNameSansMetaData()
+    {
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        final Attribute result =
+            Attributes.getAttribute( AttributesTestCase.class, "name" );
+        assertEquals( "attribute", null, result );
     }
 
     public void testGetAttributeForClassWithName()
@@ -206,6 +235,25 @@ public class AttributesTestCase
         assertEquals( "attributes[ 1 ]", attribute2, results[ 1 ] );
     }
 
+    public void testGetAttributesForFieldSansMetaData()
+    {
+        final Field field = AttributesTestCase.class.getDeclaredFields()[ 0 ];
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+        MetaClassIntrospector.clearCompleteCache();
+        final Attribute[] results = Attributes.getAttributes( field );
+        assertEquals( "attributes.length", 0, results.length );
+    }
+
+    public void testGetAttributesForFieldWithNameSansMetaData()
+    {
+        final Field field = AttributesTestCase.class.getDeclaredFields()[ 0 ];
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+        MetaClassIntrospector.clearCompleteCache();
+        final Attribute[] results =
+            Attributes.getAttributes( field, "name" );
+        assertEquals( "attributes.length", 0, results.length );
+    }
+
     public void testGetAttributesForFieldWithName()
     {
         final String name = "name";
@@ -233,6 +281,17 @@ public class AttributesTestCase
         assertEquals( "attributes[ 0 ]", attribute1, results[ 0 ] );
     }
 
+    public void testGetAttributeForFieldWithNameSansMetaData()
+    {
+        final Field field = AttributesTestCase.class.getDeclaredFields()[ 0 ];
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        final Attribute result =
+            Attributes.getAttribute( field, "name" );
+        assertEquals( "attribute", null, result );
+    }
+
     public void testGetAttributeForFieldWithName()
     {
         final String name = "name";
@@ -258,6 +317,15 @@ public class AttributesTestCase
         final Attribute result =
             Attributes.getAttribute( field, name );
         assertEquals( "attribute", attribute1, result );
+    }
+
+    public void testGetAttributesForMethodSansMetaData()
+    {
+        final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+        MetaClassIntrospector.clearCompleteCache();
+        final Attribute[] results = Attributes.getAttributes( method );
+        assertEquals( "attributes.length", 0, results.length );
     }
 
     public void testGetAttributesForMethod()
@@ -293,6 +361,16 @@ public class AttributesTestCase
         assertEquals( "attributes[ 1 ]", attribute2, results[ 1 ] );
     }
 
+    public void testGetAttributesForMethodWithNameSansMetaData()
+    {
+        final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+        MetaClassIntrospector.clearCompleteCache();
+        final Attribute[] results =
+            Attributes.getAttributes( method, "name" );
+        assertEquals( "attributes.length", 0, results.length );
+    }
+
     public void testGetAttributesForMethodWithName()
     {
         final String name = "name";
@@ -326,6 +404,17 @@ public class AttributesTestCase
             Attributes.getAttributes( method, name );
         assertEquals( "attributes.length", 1, results.length );
         assertEquals( "attributes[ 0 ]", attribute1, results[ 0 ] );
+    }
+
+    public void testGetAttributeForMethodWithNameSansMetaData()
+    {
+        final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        final Attribute result =
+            Attributes.getAttribute( method, "name" );
+        assertEquals( "attribute", null, result );
     }
 
     public void testGetAttributeForMethodWithName()
