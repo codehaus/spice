@@ -13,6 +13,7 @@ import org.codehaus.spice.event.impl.BlockingEventSource;
 import org.codehaus.spice.event.impl.DefaultEventQueue;
 import org.codehaus.spice.event.impl.EventPump;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
+import org.codehaus.spice.event.impl.collections.BoundedFifoBuffer;
 import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
 import org.codehaus.spice.netevent.handlers.ChannelEventHandler;
 import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
@@ -23,7 +24,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.18 $ $Date: 2004-03-18 03:37:42 $
+ * @version $Revision: 1.19 $ $Date: 2004-03-21 23:32:36 $
  */
 public class TestServer
 {
@@ -128,7 +129,14 @@ public class TestServer
       {
          public void run()
          {
-            doPump( pump );
+             try
+             {
+                 doPump( pump );
+             }
+             catch( final Throwable e )
+             {
+                 e.printStackTrace( );
+             }
          }
       };
       final Thread thread = new Thread( runnable );
@@ -142,7 +150,7 @@ public class TestServer
       throws IOException
    {
       final DefaultEventQueue queue1 =
-         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+         new DefaultEventQueue( new BoundedFifoBuffer( 15 ) );
       final DefaultEventQueue queue2 =
          new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
       final DefaultEventQueue queue3 =
@@ -205,7 +213,7 @@ public class TestServer
       throws IOException
    {
       final DefaultEventQueue queue1 =
-         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+         new DefaultEventQueue( new BoundedFifoBuffer( 15 ) );
       c_sessionQueue = new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
       final DefaultEventQueue queue3 =
          new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
