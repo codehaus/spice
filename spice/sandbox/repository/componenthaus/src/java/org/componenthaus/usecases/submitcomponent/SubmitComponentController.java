@@ -98,10 +98,8 @@ public class SubmitComponentController extends SimpleFormController implements I
         } catch (FileUploadException e1) {
             throw new ServletException("Exception during file upload", e1);
         }
-        System.out.println("Components uploaded");
         for (Iterator i = items.iterator(); i.hasNext();) {
             final FileItem item = (FileItem) i.next();
-            System.out.println("Found form item with name " + item.getName());
             if (item.getFieldName().equalsIgnoreCase("submission")) {
                 try {
                     handleSubmission(item);
@@ -158,7 +156,6 @@ public class SubmitComponentController extends SimpleFormController implements I
                 copyStream(in, out);
                 in.close();
                 out.close();
-                System.out.println("Binary saves to dest " + dest.getAbsolutePath());
                 handled = true;
                 prevayler.executeCommand(new RegisterDownloadableComponentCommand(componentId, dest));
             }
@@ -222,7 +219,6 @@ public class SubmitComponentController extends SimpleFormController implements I
                                 def.getOneLineDescription(),
                                 def.getFullDescription(),
                                 def.getServiceInterface());
-                System.out.println("Adding plug " + plug);
                 impl.addPlug(plug);
             }
         }

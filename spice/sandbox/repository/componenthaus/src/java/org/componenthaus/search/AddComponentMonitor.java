@@ -19,7 +19,6 @@ public class AddComponentMonitor implements ComponentRepository.Monitor, Initial
     }
 
     public void componentAdded(final Component component) {
-        System.out.println("Indexing component " + component);
         try {
             searchService.index(component.getId(),component.getFullDescription());
         } catch (SearchService.Exception e) {

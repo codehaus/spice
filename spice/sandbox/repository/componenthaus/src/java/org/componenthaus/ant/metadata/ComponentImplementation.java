@@ -27,13 +27,11 @@ public class ComponentImplementation extends AbstractService {
     }
 
     public void addServiceDependency(ComponentDefinition serviceDependency) {
-        System.out.println("Calling addServiceDependency");
         serviceDependencies.add(serviceDependency);
     }
 
     //Named so that betwixt can figure out the add method
     public void addServiceDependencie(ComponentDefinition serviceDependency) {
-        System.out.println("Calling addServiceDependencie");
         serviceDependencies.add(serviceDependency);
     }
 

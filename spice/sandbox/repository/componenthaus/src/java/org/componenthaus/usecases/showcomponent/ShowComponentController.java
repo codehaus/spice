@@ -21,7 +21,6 @@ public class ShowComponentController extends AbstractController {
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         final ComponentRepository repository = (ComponentRepository) prevayler.system();
         final Component component = repository.getComponent(request.getParameter("id"));
-        System.out.println("Displaying component details with full desc " + component.getFullDescription());
         return new ModelAndView("showComponentView","component",component);
     }
 }

@@ -27,8 +27,6 @@ public class DownloadComponentController extends AbstractController {
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("uri is " +  request.getRequestURI());
-        System.out.println("url is " +  request.getRequestURL());
         final ComponentRepository repository = (ComponentRepository) prevayler.system();
         final OutputStream out = new BufferedOutputStream(response.getOutputStream());
         final File f = repository.getDownloadable(request.getParameter("id"));

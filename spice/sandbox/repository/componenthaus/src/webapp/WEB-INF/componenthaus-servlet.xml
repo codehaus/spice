@@ -102,6 +102,9 @@
         <property name="searchService">
             <ref bean="searchService"/>
         </property>
+        <property name="repository">
+            <ref bean="repository"/>
+        </property>
     </bean>
 
     <bean id="showComponentController" class="org.componenthaus.usecases.showcomponent.ShowComponentController">

@@ -1,5 +1,6 @@
 package org.componenthaus.usecases.searchcomponents;
 
+import org.componenthaus.repository.api.ComponentRepository;
 import org.componenthaus.search.SearchService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContextException;
@@ -11,10 +12,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class SearchComponentsController extends SimpleFormController implements InitializingBean {
+    private static final int RESULTS_PER_PAGE = 10;
     private SearchService searchService;
+    private ComponentRepository repository = null;
 
     public SearchComponentsController() {
         setCommandClass(Object.class);
@@ -24,20 +32,80 @@ public class SearchComponentsController extends SimpleFormController implements 
         if ( searchService == null ) {
             throw new ApplicationContextException("Must set property 'searchService' on " + getClass());
         }
+        if ( repository == null ) {
+            throw new ApplicationContextException("Must set property 'repository' on " + getClass());
+        }
     }
 
     public void setSearchService(SearchService searchService) {
         this.searchService = searchService;
     }
 
+    public void setRepository(ComponentRepository repository) {
+        this.repository = repository;
+    }
+
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object o, BindException e) throws ServletException, IOException {
-        Collection results = null;
+        final String query = request.getParameter("query");
+        final String begin = request.getParameter("beginIndex");
+        final String end = request.getParameter("endIndex");
+        final List componentIds = new ArrayList();
+        final int beginIndex = !isEmpty(begin) ? Integer.parseInt(begin) - 1 : 0;
+        final int endIndex = !isEmpty(end) ? Integer.parseInt(end) - 1 : RESULTS_PER_PAGE - 1;
+        int totalMatches = 0;
         try {
-            results = searchService.search(request.getParameter("query"));
+            totalMatches = searchService.search(query, beginIndex, endIndex, componentIds);
         } catch (SearchService.Exception sse) {
             throw new ServletException("Exception performing search",sse);
         }
-        System.out.println("Search result size = " + results.size());
-        return new ModelAndView("searchResultsView","results",results);
+        final Collection components = getComponent(componentIds);
+        final Map model = new Hashtable();
+        model.put("results",components);
+        model.put("query",query);
+        model.put("beginIndex",new Integer(beginIndex + 1));
+        model.put("endIndex",new Integer(Math.min(totalMatches, endIndex + 1)));
+        model.put("totalMatches",new Integer(totalMatches));
+        model.put("pages",computePages(totalMatches,RESULTS_PER_PAGE));
+        final int currentPage = ((beginIndex+1) / RESULTS_PER_PAGE) + 1;
+        model.put("currentPage",new Page(currentPage));
+
+        return new ModelAndView("searchResultsView",model);
+    }
+
+    private Collection computePages(int totalMatches, int resultsPerPage) {
+        int numPages = (totalMatches / resultsPerPage);
+        if ( (totalMatches % resultsPerPage ) != 0 ) {
+            numPages++;
+        }
+        final Collection result = new ArrayList();
+        for(int i=0;i<numPages;i++) {
+            result.add(new Page(i+1));
+        }
+        return result;
+    }
+
+    private boolean isEmpty(String s) {
+        return s == null || s.equals("");
+    }
+
+    private Collection getComponent(List componentIds) {
+        final Collection results = new ArrayList();
+        for(Iterator i=componentIds.iterator();i.hasNext();) {
+            final String componentId = (String) i.next();
+            results.add(repository.getComponent(componentId));
+        }
+        return results;
+    }
+
+    public static final class Page {
+        private int id;
+
+        public Page(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
     }
 }
