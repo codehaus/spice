@@ -7,7 +7,7 @@ import org.componenthaus.repository.api.ComponentRepository;
 
 import java.io.Serializable;
 
-public class SubmitComponentCommand implements Command {
+class SubmitComponentCommand implements Command {
     private final Component component;
 
     public SubmitComponentCommand(final Component component) {

@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <id>spring</id>
-            <version>1.0M1</version>
+            <version>1.0M2</version>
             <properties>
                 <war.bundle>true</war.bundle>
             </properties>
@@ -33,6 +33,13 @@
         <dependency>
             <id>servletapi</id>
             <version>2.3</version>
+        </dependency>
+        <dependency>
+            <id>xstream</id>
+            <version>0.1</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
         </dependency>
         <dependency>
             <id>ant</id>
@@ -50,15 +57,22 @@
             </properties>
         </dependency>
         <dependency>
-            <id>commons-logging</id>
-            <version>1.0.2</version>
+            <id>commons-digester</id>
+            <version>1.5</version>
             <properties>
                 <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
-            <id>dom4j</id>
-            <version>1.4    </version>
+            <id>commons-beanutils</id>
+            <version>1.6.1</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+        <dependency>
+            <id>commons-logging</id>
+            <version>1.0.2</version>
             <properties>
                 <war.bundle>true</war.bundle>
             </properties>
@@ -85,43 +99,8 @@
             </properties>
         </dependency>
         <dependency>
-            <id>jdom</id>
-            <version>1.0b8</version>
-            <properties>
-                <war.bundle>true</war.bundle>
-            </properties>
-        </dependency>
-        <dependency>
-            <id>commons-beanutils</id>
-            <version>1.6.1</version>
-            <properties>
-                <war.bundle>true</war.bundle>
-            </properties>
-        </dependency>
-        <dependency>
-            <id>commons-digester</id>
-            <version>1.5</version>
-            <properties>
-                <war.bundle>true</war.bundle>
-            </properties>
-        </dependency>
-        <dependency>
             <id>commons-lang</id>
             <version>1.0.1</version>
-            <properties>
-                <war.bundle>true</war.bundle>
-            </properties>
-        </dependency>
-        <dependency>
-            <id>commons-collections</id>
-            <version>2.1</version>
-            <properties>
-                <war.bundle>true</war.bundle>
-            </properties>
-        </dependency>
-        <dependency>
-            <id>commons-betwixt</id>
-            <version>1.0-alpha-1</version>
             <properties>
                 <war.bundle>true</war.bundle>
             </properties>
@@ -177,10 +156,39 @@
                 <war.bundle>true</war.bundle>
             </properties>
         </dependency>
+        <dependency>
+            <groupId>mockobjects</groupId>
+            <artifactId>mockobjects-core</artifactId>
+            <version>0.09</version>
+        </dependency>
+        <dependency>
+            <groupId>mockobjects</groupId>
+            <artifactId>mockobjects-jdk1.4</artifactId>
+            <version>0.09</version>
+        </dependency>
+        <dependency>
+            <groupId>mockobjects</groupId>
+            <artifactId>mockobjects-jdk1.4-j2ee1.3</artifactId>
+            <version>0.09</version>
+        </dependency>
     </dependencies>
 
     <build>
         <nagEmailAddress>me@mikehogan.net</nagEmailAddress>
         <sourceDirectory>src/java</sourceDirectory>
+        <unitTestSourceDirectory>src/tests</unitTestSourceDirectory>
+        <unitTest>
+            <includes>
+                <include>**/*TestCase.java</include>
+            </includes>
+            <resources>
+                <resource>
+                    <directory>${basedir}/src/tests/testdata/jars</directory>
+                    <includes>
+                        <include>*.jar</include>
+                    </includes>
+                </resource>
+            </resources>
+        </unitTest>
     </build>
 </project>

@@ -14,7 +14,7 @@ import org.springframework.context.ContextOptions;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
-import org.springframework.context.support.ApplicationEventMulticasterImpl;
+import org.springframework.context.event.ApplicationEventMulticasterImpl;
 import org.springframework.context.support.StaticMessageSource;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.ui.context.Theme;

@@ -7,7 +7,7 @@ import org.componenthaus.repository.api.ComponentRepository;
 import java.io.Serializable;
 import java.io.File;
 
-public class RegisterDownloadableComponentCommand implements Command {
+class RegisterDownloadableComponentCommand implements Command {
     private final String componentId;
     private final File downloadable;
 

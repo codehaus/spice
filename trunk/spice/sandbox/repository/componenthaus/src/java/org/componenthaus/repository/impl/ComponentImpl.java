@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Collections;
 
 public class ComponentImpl extends ServiceImpl implements Component, Serializable {
     private String id = null;
@@ -14,7 +15,7 @@ public class ComponentImpl extends ServiceImpl implements Component, Serializabl
     private final Collection implementations;
 
     public ComponentImpl() {
-        implementations = new ArrayList();
+        this(null,null,Collections.EMPTY_LIST,null,null,null);
     }
 
     public ComponentImpl(String fullyQualifiedName, String version, List authors, String oneLineDescription, String fullDescription,String serviceInterface) {
