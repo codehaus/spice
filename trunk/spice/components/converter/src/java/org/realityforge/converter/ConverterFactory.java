@@ -7,7 +7,23 @@
  */
 package org.realityforge.converter;
 
+/**
+ * This factory is used to create instances of factory objects.
+ * The Factory is used so we can lazily instantiate converters
+ * which may be useful if there is a large number of them created
+ * for some reason.
+ *
+ * @author <a href="mailto:adammurdoch at apache.org">Adam Murdoch</a>
+ * @version $Revision: 1.5 $ $Date: 2003-05-24 23:48:49 $
+ */
 public interface ConverterFactory
 {
-    Converter createConverter() throws Exception;
+    /**
+     * Create an instance of converter.
+     *
+     * @return the Converter object
+     * @throws Exception if unable to create converter
+     */
+    Converter createConverter()
+        throws Exception;
 }
