@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * This class makes it easy to manipulate data stored in exceptions.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-06-12 22:42:43 $
+ * @version $Revision: 1.4 $ $Date: 2003-06-12 22:44:01 $
  */
 public final class ExceptionUtil
 {
@@ -34,6 +34,12 @@ public final class ExceptionUtil
      * Constant for method parameter types used to lookup to get cause of exception.
      */
     private static final Class[] GET_CAUSE_PARAMTYPES = new Class[ 0 ];
+
+    /**
+     * Constant that used to separate causes when recursively printing exceptions.
+     * Matches JDK1.4s separator.
+     */
+    private static final String CAUSED_BY = "Caused by: ";
 
     /**
      * Generate string for specified exception and the cause of
@@ -119,7 +125,7 @@ public final class ExceptionUtil
             Throwable cause = getCause( throwable );
             while( null != cause )
             {
-                sb.append( "Caused by: " );
+                sb.append( CAUSED_BY );
                 sb.append( printStackTrace( cause, depth ) );
 
                 cause = getCause( cause );
