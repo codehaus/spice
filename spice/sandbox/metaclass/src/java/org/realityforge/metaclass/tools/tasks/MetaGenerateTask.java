@@ -13,23 +13,27 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.types.Path;
 import org.realityforge.metaclass.io.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.tools.qdox.MulticastInterceptor;
+import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
 import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
-import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 
 /**
  * A Task to generate Attributes descriptors from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.17 $ $Date: 2003-08-31 05:55:02 $
+ * @version $Revision: 1.18 $ $Date: 2003-08-31 07:58:50 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -73,7 +77,26 @@ public class MetaGenerateTask
      * The interceptor used to process source files.
      * Defaults to a noop interceptor.
      */
-    private DefaultQDoxAttributeInterceptor m_interceptor = new DefaultQDoxAttributeInterceptor();
+    private QDoxAttributeInterceptor m_interceptor;
+
+    /**
+     * Internal list of interceptor elements added by user.
+     */
+    private final List m_elements = new ArrayList();
+
+    /**
+     * Add an interceptor definition that will create interceptor to process metadata.
+     *
+     * @param element the interceptor definition
+     */
+    public void addInterceptor( final InterceptorElement element )
+    {
+        if( null == element.getName() )
+        {
+            throw new BuildException( "Interceptor must have a name" );
+        }
+        m_elements.add( element );
+    }
 
     /**
      * Set the destination directory for generated files.
@@ -102,16 +125,62 @@ public class MetaGenerateTask
     {
         validate();
 
+        setupInterceptorChain();
+
         super.execute();
-        try
+
+        processSourceFiles();
+    }
+
+    /**
+     * Setup the interceptor chain from interceptor
+     * element definitions.
+     */
+    private void setupInterceptorChain()
+    {
+        final QDoxAttributeInterceptor[] interceptors = buildInterceptors();
+        m_interceptor = new MulticastInterceptor( interceptors );
+    }
+
+    /**
+     * Build an array of interceptors from the InterceptorElement
+     * objects added by the user.
+     *
+     * @return an array of interceptors
+     */
+    private QDoxAttributeInterceptor[] buildInterceptors()
+    {
+        final ClassLoader classLoader = getClass().getClassLoader();
+        final Project project = getProject();
+
+        final ArrayList interceptors = new ArrayList();
+        final Iterator iterator = m_elements.iterator();
+        while( iterator.hasNext() )
         {
-            processSourceFiles();
+            final InterceptorElement element = (InterceptorElement)iterator.next();
+            Path path = element.getPath();
+            if( null == path )
+            {
+                path = new Path( project );
+            }
+
+            final AntClassLoader loader =
+                new AntClassLoader( classLoader, project, path, true );
+            final String name = element.getName();
+            try
+            {
+                final QDoxAttributeInterceptor interceptor =
+                    (QDoxAttributeInterceptor)loader.loadClass( name ).newInstance();
+                interceptors.add( interceptor );
+            }
+            catch( final Exception e )
+            {
+                final String message = "Error creating interceptor " + name;
+                log( message );
+                throw new BuildException( message, e );
+            }
         }
-        catch( final IOException ioe )
-        {
-            log( "IOException " + ioe.getMessage() );
-            throw new BuildException( "IOException " + ioe.getMessage(), ioe );
-        }
+        return (QDoxAttributeInterceptor[])interceptors.toArray( new QDoxAttributeInterceptor[ interceptors.size() ] );
     }
 
     /**
@@ -128,11 +197,8 @@ public class MetaGenerateTask
 
     /**
      * Output the ClassDescriptors that are not filtered out.
-     *
-     * @throws IOException If there is a problem writing output
      */
     protected void processSourceFiles()
-        throws IOException
     {
         final List classes = collectClassesToSerialize();
         log( "MetaClass Attributes Compiler compiling " + classes.size() +
@@ -140,7 +206,16 @@ public class MetaGenerateTask
 
         final List descriptors = buildClassDescriptors( classes );
 
-        writeClassDescriptors( descriptors );
+        try
+        {
+            writeClassDescriptors( descriptors );
+        }
+        catch( final IOException ioe )
+        {
+            final String message = "IOException " + ioe.getMessage();
+            log( message );
+            throw new BuildException( message, ioe );
+        }
     }
 
     /**

@@ -19,11 +19,13 @@ import org.apache.tools.ant.types.FileSet;
 import org.realityforge.metaclass.io.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
+import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-08-31 05:55:54 $
+ * @version $Revision: 1.8 $ $Date: 2003-08-31 07:58:51 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -196,6 +198,121 @@ public class MetaGenerateTaskTestCase
         task.setProject( project );
         task.setDestDir( destDirectory );
         task.addFileset( fileSet );
+        task.execute();
+        final String destFilename =
+            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+        final File destFile = new File( destFilename );
+
+        assertTrue( "destFile.exists()", destFile.exists() );
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final FileInputStream input = new FileInputStream( destFile );
+        final ClassDescriptor descriptor = io.deserializeClass( input );
+        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
+        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
+        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+    }
+
+    public void testSingleSourceFileWithPassThroughInterceptor()
+        throws Exception
+    {
+        final String source =
+            "package com.biz;\n" +
+            "\n" +
+            "/**\n" +
+            " * @anAttribute\n" +
+            " */\n" +
+            "public class MyClass\n" +
+            "{\n" +
+            "}\n";
+
+        final Project project = new Project();
+
+        final File sourceDirectory = generateDirectory();
+        final File destDirectory = generateDirectory();
+        final FileSet fileSet = new FileSet();
+        fileSet.setProject( project );
+        fileSet.setDir( sourceDirectory );
+        fileSet.setIncludes( "**/*.java" );
+
+        final InterceptorElement element = new InterceptorElement();
+        element.setName( DefaultQDoxAttributeInterceptor.class.getName() );
+
+        final String sourceFilename =
+            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+        final File sourceFile = new File( sourceFilename );
+        sourceFile.getParentFile().mkdirs();
+        final FileOutputStream output = new FileOutputStream( sourceFile );
+        output.write( source.getBytes() );
+        output.close();
+
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        project.setBaseDir( getBaseDirectory() );
+        task.setProject( project );
+        task.setDestDir( destDirectory );
+        task.addFileset( fileSet );
+        task.addInterceptor( element );
+        task.execute();
+        final String destFilename =
+            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+        final File destFile = new File( destFilename );
+
+        assertTrue( "destFile.exists()", destFile.exists() );
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final FileInputStream input = new FileInputStream( destFile );
+        final ClassDescriptor descriptor = io.deserializeClass( input );
+        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
+        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
+        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+    }
+
+
+    public void testSingleSourceFileWithDeletingInterceptor()
+        throws Exception
+    {
+        final String source =
+            "package com.biz;\n" +
+            "\n" +
+            "/**\n" +
+            " * @anAttribute\n" +
+            " * @deleteme\n" +
+            " */\n" +
+            "public class MyClass\n" +
+            "{\n" +
+            "}\n";
+
+        final Project project = new Project();
+
+        final File sourceDirectory = generateDirectory();
+        final File destDirectory = generateDirectory();
+        final FileSet fileSet = new FileSet();
+        fileSet.setProject( project );
+        fileSet.setDir( sourceDirectory );
+        fileSet.setIncludes( "**/*.java" );
+
+        final InterceptorElement element = new InterceptorElement();
+        element.setName( DefaultQDoxAttributeInterceptor.class.getName() );
+        element.setName( DeletingAttributeInterceptor.class.getName() );
+
+        final String sourceFilename =
+            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+        final File sourceFile = new File( sourceFilename );
+        sourceFile.getParentFile().mkdirs();
+        final FileOutputStream output = new FileOutputStream( sourceFile );
+        output.write( source.getBytes() );
+        output.close();
+
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        project.setBaseDir( getBaseDirectory() );
+        task.setProject( project );
+        task.setDestDir( destDirectory );
+        task.addFileset( fileSet );
+        task.addInterceptor( element );
         task.execute();
         final String destFilename =
             destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
