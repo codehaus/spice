@@ -21,7 +21,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-13 06:59:47 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-13 23:35:44 $
  */
 public class SessionInputEventHandler
     extends AbstractDirectedHandler
@@ -63,13 +63,17 @@ public class SessionInputEventHandler
         final ChannelTransport transport = ie.getTransport();
         try
         {
-            if( null == transport.getUserData() )
+            boolean dataPresent = true;
+            while( dataPresent )
             {
-                handleUnconnectedInput( transport );
-            }
-            else
-            {
-                handleConnectedInput( transport );
+                if( null == transport.getUserData() )
+                {
+                    dataPresent = handleUnconnectedInput( transport );
+                }
+                else
+                {
+                    dataPresent = handleConnectedInput( transport );
+                }
             }
         }
         catch( final IOException ioe )
@@ -84,7 +88,7 @@ public class SessionInputEventHandler
      * @param transport the transport
      * @throws IOException if an error occurs reading from transport
      */
-    void handleUnconnectedInput( final ChannelTransport transport )
+    boolean handleUnconnectedInput( final ChannelTransport transport )
         throws IOException
     {
         final InputStream input = transport.getInputStream();
@@ -95,7 +99,7 @@ public class SessionInputEventHandler
             {
                 disconnectTransport( transport,
                                      Protocol.ERROR_BAD_MAGIC );
-                return;
+                return false;
             }
 
             final long sessionID = TypeIOUtil.readLong( input );
@@ -105,6 +109,7 @@ public class SessionInputEventHandler
                 final Session session = _sessionManager.newSession();
                 session.setTransport( transport );
                 sendConnectMessage( session );
+                return true;
             }
             else
             {
@@ -114,13 +119,23 @@ public class SessionInputEventHandler
                 {
                     disconnectTransport( transport,
                                          Protocol.ERROR_BAD_SESSION );
+                    return false;
                 }
                 else if( session.getAuthID() != authID )
                 {
                     disconnectTransport( transport,
                                          Protocol.ERROR_BAD_AUTH );
+                    return false;
+                }
+                else
+                {
+                    return true;
                 }
             }
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -172,14 +187,14 @@ public class SessionInputEventHandler
      * @param transport the transport
      * @throws IOException if error reading input
      */
-    void handleConnectedInput( final ChannelTransport transport )
+    boolean handleConnectedInput( final ChannelTransport transport )
         throws IOException
     {
         final InputStream input = transport.getInputStream();
         final int available = input.available();
         if( available < Protocol.SIZEOF_BYTE )
         {
-            return;
+            return false;
         }
 
         input.mark( Protocol.SIZEOF_MSG_HEADER );
@@ -188,26 +203,30 @@ public class SessionInputEventHandler
         if( Protocol.C2S_ESTABLISHED == msg )
         {
             handleEstablish( transport );
+            return true;
         }
         else if( Protocol.MSG_DISCONNECT == msg )
         {
-            handleDisconnect( transport );
+            return handleDisconnect( transport );
         }
         else if( Protocol.MSG_DATA == msg )
         {
-            handleDataMessage( transport );
+            return handleDataMessage( transport );
         }
         else if( Protocol.MSG_ACK == msg )
         {
             handleAck( transport );
+            return true;
         }
         else if( Protocol.MSG_NACK == msg )
         {
             handleNack( transport );
+            return true;
         }
         else
         {
             disconnectTransport( transport, Protocol.ERROR_BAD_MESSAGE );
+            return false;
         }
     }
 
@@ -261,7 +280,7 @@ public class SessionInputEventHandler
      * @param transport the transport
      * @throws IOException if io error occurs
      */
-    void handleDisconnect( final ChannelTransport transport )
+    boolean handleDisconnect( final ChannelTransport transport )
         throws IOException
     {
         final InputStream input = transport.getInputStream();
@@ -269,11 +288,13 @@ public class SessionInputEventHandler
         if( available < Protocol.SIZEOF_BYTE )
         {
             input.reset();
+            return false;
         }
         else
         {
             final byte reason = (byte)input.read();
             disconnectTransport( transport, reason );
+            return true;
         }
     }
 
@@ -283,7 +304,7 @@ public class SessionInputEventHandler
      * @param transport the transport
      * @throws IOException if io error occurs
      */
-    void handleDataMessage( final ChannelTransport transport )
+    boolean handleDataMessage( final ChannelTransport transport )
         throws IOException
     {
         ensureValidSession( transport );
@@ -292,11 +313,13 @@ public class SessionInputEventHandler
         if( input.available() < length )
         {
             input.reset();
+            return false;
         }
         else if( length < Protocol.SIZEOF_SHORT )
         {
             //Can not get sequence number out
             disconnectTransport( transport, Protocol.ERROR_NO_SEQUENCE );
+            return false;
         }
         else
         {
@@ -311,6 +334,7 @@ public class SessionInputEventHandler
             final Session session = (Session)transport.getUserData();
             final Packet packet = new Packet( sequence, 0, buffer );
             getSink().addEvent( new PacketReadEvent( session, packet ) );
+            return true;
         }
     }
 
