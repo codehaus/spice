@@ -26,21 +26,6 @@ import java.util.Map;
 public interface LoggerStoreFactory
 {
     /**
-     * Constant used to define LogKit Logger type
-     */
-    String LOGKIT = "logkit";
-
-    /**
-     * Constant used to define Log4J Logger type
-     */
-    String LOG4J = "log4j";
-
-    /**
-     * Constant used to define JDK14 Logger type
-     */
-    String JDK14 = "jdk14";
-
-    /**
      *  The CONFIGURATION key.  Used to denote the configuration object
      *  required by the LoggerStore.  Each LoggerStore accepts different
      *  configuration objects.

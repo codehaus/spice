@@ -8,6 +8,7 @@
 package org.realityforge.loggerstore;
 
 import java.io.InputStream;
+import java.util.Properties;
 import org.apache.avalon.framework.logger.Log4JLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.log4j.LogManager;
@@ -68,12 +69,24 @@ public class Log4JLoggerStore
         if( type.equals( LoggerStoreFactory.PROPERTIES ) )
         {
             final PropertyConfigurator configurator = new PropertyConfigurator();
-            configurator.doConfigure( Configurator.buildProperties( resource ), repository );
+            configurator.doConfigure( buildProperties( resource ), repository );
         }
         else if( type.equals( LoggerStoreFactory.PROPERTIES ) )
         {
             final DOMConfigurator configurator = new DOMConfigurator();
             configurator.doConfigure( resource, repository );
         }
+    }
+
+    /**
+     *  Parses Properties InputStream to build a Properties object
+     *  @param resource the InputStream of the configuration resource
+     */
+    private static Properties buildProperties( final InputStream resource )
+        throws Exception
+    {
+        final Properties properties = new Properties();
+        properties.load( resource );
+        return properties;
     }
 }

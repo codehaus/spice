@@ -11,11 +11,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationUtil;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.w3c.dom.Element;
 
 /**
  * Configurator is a collection of utility methods to create and configure
@@ -26,6 +21,21 @@ import org.w3c.dom.Element;
  */
 public class Configurator
 {
+    /**
+     * Constant used to define LogKit Logger type
+     */
+    public static final String LOGKIT = LogKitLoggerStoreFactory.class.getName();
+
+    /**
+     * Constant used to define Log4J Logger type
+     */
+    public static final String LOG4J = Log4JLoggerStoreFactory.class.getName();
+
+    /**
+     * Constant used to define JDK14 Logger type
+     */
+    public static final String JDK14 = Jdk14LoggerStoreFactory.class.getName();
+
     /**
      * Create and configure a {@link LoggerStore} from a specified
      * configuration file.
@@ -89,85 +99,22 @@ public class Configurator
     }
 
     /**
-     *  Parses XML InputStream to build a Configuration object
-     *  @param resource the path of the configuration resource
-     */
-    public static Configuration buildConfiguration( final String resource )
-        throws Exception
-    {
-        return buildConfiguration( new FileInputStream( resource ) );
-    }
-
-    /**
-     *  Parses XML InputStream to build a Configuration object
-     *  @param resource the InputStream of the configuration resource
-     */
-    public static Configuration buildConfiguration( final InputStream resource )
-        throws Exception
-    {
-        DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-        return builder.build( resource );
-    }
-
-    /**
-     *  Parses XML InputStream to build an Element object
-     *  @param resource the path of the configuration resource
-     */
-    public static Element buildElement( final String resource )
-        throws Exception
-    {
-        return buildElement( new FileInputStream( resource ) );
-    }
-
-    /**
-     *  Parses XML InputStream to build an Element object
-     *  @param resource the InputStream of the configuration resource
-     */
-    public static Element buildElement( final InputStream resource )
-        throws Exception
-    {
-        return ConfigurationUtil.toElement( buildConfiguration( resource ) );
-    }
-
-    /**
-     *  Parses Properties InputStream to build a Properties object
-     *  @param resource the path of the configuration resource
-     */
-    public static Properties buildProperties( final String resource )
-        throws Exception
-    {
-        return buildProperties( new FileInputStream( resource ) );
-    }
-
-    /**
-     *  Parses Properties InputStream to build a Properties object
-     *  @param resource the InputStream of the configuration resource
-     */
-    public static Properties buildProperties( final InputStream resource )
-        throws Exception
-    {
-        Properties properties = new Properties();
-        properties.load( resource );
-        return properties;
-    }
-
-    /**
      * Get the Factory class name of the LoggerStoreFactory that corresponds
      * to specified type of Logger.
      *
      * @param type the type of Logger
      */
-    static String getFactoryClassName( final String type )
+    private static String getFactoryClassName( final String type )
     {
-        if( type.equals( LoggerStoreFactory.LOGKIT ) )
+        if( type.equals( LOGKIT ) )
         {
             return LogKitLoggerStoreFactory.class.getName();
         }
-        else if( type.equals( LoggerStoreFactory.LOG4J ) )
+        else if( type.equals( LOG4J ) )
         {
             return Log4JLoggerStoreFactory.class.getName();
         }
-        else if( type.equals( LoggerStoreFactory.JDK14 ) )
+        else if( type.equals( JDK14 ) )
         {
             return Jdk14LoggerStoreFactory.class.getName();
         }
@@ -183,8 +130,8 @@ public class Configurator
      *  @param configurationType the type of the configuration
      *  @param resource the InputStream of the configuration resource
      */
-    static Map buildConfigurationMap( final String configurationType,
-                                      final InputStream resource )
+    private static Map buildConfigurationMap( final String configurationType,
+                                              final InputStream resource )
         throws Exception
     {
         Map map = new HashMap();
