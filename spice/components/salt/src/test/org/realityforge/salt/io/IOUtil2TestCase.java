@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-06-13 04:34:09 $
+ * @version $Revision: 1.5 $ $Date: 2003-06-13 04:35:11 $
  */
 public class IOUtil2TestCase
     extends TestCase
@@ -321,7 +321,6 @@ public class IOUtil2TestCase
         assertEqualArrays( DATA_4_ELEMENTS, bytes );
     }
 
-
     public void testCopyReaderToOutputWithDefaultBuffer()
         throws Exception
     {
@@ -355,9 +354,6 @@ public class IOUtil2TestCase
         assertEqualArrays( DATA_4_ELEMENTS, bytes );
     }
 
-
-
-
     public void testCopyStringToOutputWithDefaultBuffer()
         throws Exception
     {
@@ -384,6 +380,19 @@ public class IOUtil2TestCase
         final MockOutputStream output = new MockOutputStream();
         final String input = new String( DATA_4_ELEMENTS );
         IOUtil.copy( input, output );
+        final byte[] bytes = output.toByteArray();
+        assertEqualArrays( DATA_4_ELEMENTS, bytes );
+    }
+
+
+    public void testCopyStringToWriter()
+        throws Exception
+    {
+        final String input = new String( DATA_4_ELEMENTS );
+        final MockOutputStream output = new MockOutputStream();
+        final OutputStreamWriter writer = new OutputStreamWriter( output );
+        IOUtil.copy( input, writer );
+        writer.flush();
         final byte[] bytes = output.toByteArray();
         assertEqualArrays( DATA_4_ELEMENTS, bytes );
     }
