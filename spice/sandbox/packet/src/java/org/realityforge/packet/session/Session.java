@@ -25,7 +25,7 @@ import org.realityforge.packet.events.SessionDisconnectRequestEvent;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.26 $ $Date: 2004-02-13 04:41:51 $
+ * @version $Revision: 1.27 $ $Date: 2004-02-17 03:18:29 $
  */
 public class Session
 {
@@ -237,6 +237,24 @@ public class Session
       channel.socket().setSoLinger( true, 2 );
       channel.connect( getAddress() );
       setConnecting( true );
+   }
+
+   public synchronized void waitUntilConnected()
+   {
+      while( true )
+      {
+         if( STATUS_ESTABLISHED == _status && !isConnecting() )
+         {
+            return;
+         }
+         try
+         {
+            wait();
+         }
+         catch( InterruptedException e )
+         {
+         }
+      }
    }
 
    public void requestShutdown()
@@ -548,6 +566,10 @@ public class Session
    public void setConnecting( final boolean connecting )
    {
       _connecting = connecting;
+      synchronized( this )
+      {
+         notifyAll();
+      }
    }
 
    public String toString()
