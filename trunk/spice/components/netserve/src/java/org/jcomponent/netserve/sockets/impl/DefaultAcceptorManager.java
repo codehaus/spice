@@ -19,7 +19,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.9 $ $Date: 2003-10-09 04:09:28 $
+ * @version $Revision: 1.10 $ $Date: 2003-10-09 05:58:14 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -125,8 +125,8 @@ public class DefaultAcceptorManager
                 throw new IllegalArgumentException( message );
             }
 
-            acceptor =
-                new ConnectionAcceptor( name, socket, handler, m_monitor );
+            final AcceptorConfig config = new AcceptorConfig( name, socket, handler );
+            acceptor = new ConnectionAcceptor( config, m_monitor );
             m_acceptors.put( name, acceptor );
         }
 
