@@ -2,6 +2,7 @@
     <name>MyThreadPool</name>
     <priority>5</priority>
     <is-daemon>false</is-daemon>
+    <resource-limiting>false</resource-limiting>
     <max-threads>10</max-threads>
     <max-idle>5</max-idle>
 </root>
