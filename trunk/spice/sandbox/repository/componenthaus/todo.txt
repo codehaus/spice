@@ -1,0 +1,15 @@
+ * aspico integration, so we can have type 3 IoC
+ * take version number from maven pom
+ * take dependency jars from maven pom
+ * fix search engine indexing problem - last component only indexed
+ * better search results page
+ * test cases
+ * remote System.out.printlns
+ * Federation
+ * Live XPath query/reporting of component model
+ * Acceptable UI
+ * Menubar on each page
+ * Console on each page, displaying result of last significant action (use monitor and tiles)
+ * Add Submit date to component
+ * Access control (for write actions)
+ * Users and user management
