@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-12 21:55:11 $
+ * @version $Revision: 1.3 $ $Date: 2003-06-12 21:58:07 $
  */
 public class JavaVersionTestCase
     extends TestCase
@@ -31,7 +31,7 @@ public class JavaVersionTestCase
     public void testIsLessThanOrEqual()
     {
         final JavaVersion javaVersion = new JavaVersion( "test", 125 );
-        assertEquals( "javaVersion.getName()", "toString", javaVersion.toString() );
+        assertEquals( "javaVersion.toString()", "test", javaVersion.toString() );
         assertTrue( "javaVersion.isLessThanOrEqual()",
                     javaVersion.isLessThanOrEqual( javaVersion ) );
         assertTrue( "JAVA1_0.isLessThanOrEqual()",
