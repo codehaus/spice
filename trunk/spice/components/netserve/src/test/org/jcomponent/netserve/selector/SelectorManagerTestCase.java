@@ -54,4 +54,17 @@ public class SelectorManagerTestCase
       }
       fail( "expected to fail with npe" );
    }
+
+   public void testStartupAndShutdownSelectorManager()
+      throws Exception
+   {
+      final SelectorManager manager = new SelectorManager();
+      manager.setTimeout( 400 );
+      assertEquals( "isRunning pre start", false, manager.isRunning() );
+      manager.startup();
+      assertEquals( "isRunning post start", true, manager.isRunning() );
+      Thread.sleep( 150 );
+      manager.shutdown();
+      assertEquals( "isRunning post shutdown", false, manager.isRunning() );
+   }
 }
