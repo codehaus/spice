@@ -10,6 +10,8 @@ package org.realityforge.loggerstore;
 import java.io.InputStream;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.log.Hierarchy;
 
 /**
@@ -35,7 +37,7 @@ public class LogKitLoggerStore
         throws Exception
     {
         m_hierarchy = new Hierarchy();
-        HierarchyUtil.configure( Configurator.buildConfiguration( resource ),
+        HierarchyUtil.configure( buildConfiguration( resource ),
                                  m_hierarchy );
         setRootLogger( new LogKitLogger( m_hierarchy.getRootLogger() ) );
     }
@@ -56,4 +58,15 @@ public class LogKitLoggerStore
         HierarchyUtil.closeLogTargets( m_hierarchy );
     }
 
+    /**
+     *  Parses XML InputStream to build a Configuration object
+     *
+     *  @param resource the InputStream of the configuration resource
+     */
+    private static Configuration buildConfiguration( final InputStream resource )
+        throws Exception
+    {
+        DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        return builder.build( resource );
+    }
 }
