@@ -27,7 +27,7 @@ import org.realityforge.metaclass.model.PackageDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.8 $ $Date: 2003-08-18 07:18:22 $
+ * @version $Revision: 1.9 $ $Date: 2003-08-18 14:11:28 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -207,7 +207,7 @@ public class MetaClassIOBinary
      * @return the method parameters
      * @throws IOException if unable to read parameters
      */
-    private ParameterDescriptor[] readParameters( final DataInputStream data )
+    ParameterDescriptor[] readParameters( final DataInputStream data )
         throws IOException
     {
         final ArrayList parameters = new ArrayList();
@@ -232,8 +232,8 @@ public class MetaClassIOBinary
      * @param parameters the method parameters
      * @throws IOException if unable to write parameters
      */
-    private void writeParameters( final DataOutputStream data,
-                                  final ParameterDescriptor[] parameters )
+    void writeParameters( final DataOutputStream data,
+                          final ParameterDescriptor[] parameters )
         throws IOException
     {
         data.writeInt( parameters.length );
@@ -252,7 +252,7 @@ public class MetaClassIOBinary
      * @return the attributes
      * @throws IOException if unable to read attributes
      */
-    private Attribute[] readAttributes( final DataInputStream data )
+    Attribute[] readAttributes( final DataInputStream data )
         throws IOException
     {
         final int count = data.readInt();
@@ -295,7 +295,7 @@ public class MetaClassIOBinary
      * @return the parameters
      * @throws IOException if unable to read attribute parameters
      */
-    private Properties readAttributeParameters( final DataInputStream data )
+    Properties readAttributeParameters( final DataInputStream data )
         throws IOException
     {
         final Properties parameters = new Properties();
@@ -318,8 +318,8 @@ public class MetaClassIOBinary
      * @param attributes the attributes
      * @throws IOException if unable to write attributes
      */
-    private void writeAttributes( final DataOutputStream data,
-                                  final Attribute[] attributes )
+    void writeAttributes( final DataOutputStream data,
+                          final Attribute[] attributes )
         throws IOException
     {
         data.writeInt( attributes.length );
@@ -349,8 +349,8 @@ public class MetaClassIOBinary
      * @param attribute the attribute
      * @throws IOException if unable to write attribute parameters
      */
-    private void writeAttributeParameters( final DataOutputStream data,
-                                           final Attribute attribute )
+    void writeAttributeParameters( final DataOutputStream data,
+                                   final Attribute attribute )
         throws IOException
     {
         if( null == attribute )
