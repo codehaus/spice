@@ -7,15 +7,15 @@
  */
 package org.realityforge.packet.event.impl;
 
-import org.realityforge.packet.event.EventValve;
 import org.realityforge.packet.event.EventSink;
+import org.realityforge.packet.event.EventValve;
 
 /**
  * The ValveControlledSink passes events onto a destination sink unless they are
  * filtered out by a valve.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-12-05 00:52:48 $
+ * @version $Revision: 1.5 $ $Date: 2003-12-05 02:11:00 $
  */
 public class ValveControlledSink
     implements EventSink
@@ -75,5 +75,13 @@ public class ValveControlledSink
         {
             return _sink.addEvents( events );
         }
+    }
+
+    /**
+     * @see EventSink#getSyncLock()
+     */
+    public Object getSyncLock()
+    {
+        return _sink.getSyncLock();
     }
 }

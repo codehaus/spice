@@ -11,7 +11,7 @@ package org.realityforge.packet.event;
  * A EventSink represents the destination for events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-05 00:52:48 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-05 02:11:00 $
  */
 public interface EventSink
 {
@@ -27,9 +27,17 @@ public interface EventSink
     /**
      * Attempt to add a set of events to the sink. If unable to add one event to
      * sink then do not add any event and return false.
-     *
+     * 
      * @param events the events
      * @return false if unable to add events.
      */
     boolean addEvents( Object[] events );
+
+    /**
+     * Return the underlying object that is synchronized upon if synchronization
+     * is necessary.
+     * 
+     * @return the lock object
+     */
+    Object getSyncLock();
 }
