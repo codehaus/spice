@@ -27,7 +27,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-04-23 09:47:11 $
+ * @version $Revision: 1.13 $ $Date: 2003-04-23 10:00:20 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -65,34 +65,26 @@ public class ConnectionTestCase
         throws Exception
     {
         final String name = "test-" + getName() + "-";
+        final RandmoizingHandler handlerManager = new RandmoizingHandler();
         final ServerSocket serverSocket = getServerSocket();
+        final ConnectionAcceptor acceptor =
+            new ConnectionAcceptor( name,
+                                    serverSocket,
+                                    handlerManager,
+                                    null );
+        acceptor.enableLogging( new ConsoleLogger() );
         Socket socket = null;
         try
         {
-            final RandmoizingHandler handlerManager = new RandmoizingHandler();
-            final ConnectionAcceptor acceptor =
-                new ConnectionAcceptor( name,
-                                        serverSocket,
-                                        handlerManager,
-                                        null );
             final Runnable runnable = new Runnable()
             {
                 public void run()
                 {
-                    while( !serverSocket.isClosed() )
-                    {
-                        try
-                        {
-                            serverSocket.accept();
-                        }
-                        catch( IOException ioe )
-                        {
-                        }
-                    }
+                    acceptLoop( serverSocket );
                 }
             };
             start( runnable );
-            Thread.sleep( 200 );
+            Thread.sleep( 50 );
             socket = new Socket( HOST, PORT );
 
             try
@@ -188,11 +180,26 @@ public class ConnectionTestCase
         finally
         {
             shutdown( serverSocket );
+            acceptor.close( 1, true );
             try
             {
                 socket.close();
             }
             catch( Exception ioe )
+            {
+            }
+        }
+    }
+
+    private void acceptLoop( final ServerSocket serverSocket )
+    {
+        while( !serverSocket.isClosed() )
+        {
+            try
+            {
+                serverSocket.accept();
+            }
+            catch( IOException ioe )
             {
             }
         }
@@ -216,7 +223,7 @@ public class ConnectionTestCase
             for( int i = 0; i < 1000; i++ )
             {
                 final Thread thread = runClientConnect();
-                list.add( thread);
+                list.add( thread );
             }
             final Thread[] threads = (Thread[])list.toArray( new Thread[ list.size() ] );
             for( int i = 0; i < threads.length; i++ )
