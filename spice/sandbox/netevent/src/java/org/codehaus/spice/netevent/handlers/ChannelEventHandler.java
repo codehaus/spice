@@ -7,6 +7,7 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.AcceptEvent;
 import org.codehaus.spice.netevent.events.AcceptPossibleEvent;
 import org.codehaus.spice.netevent.events.ChannelClosedEvent;
+import org.codehaus.spice.netevent.events.CloseChannelRequestEvent;
 import org.codehaus.spice.netevent.events.IOErrorEvent;
 import org.codehaus.spice.netevent.events.OutputDataPresentEvent;
 import org.codehaus.spice.netevent.events.ReadEvent;
@@ -19,7 +20,7 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-12 05:05:18 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-12 23:55:18 $
  */
 public class ChannelEventHandler
     extends AbstractEventHandler
@@ -52,6 +53,7 @@ public class ChannelEventHandler
     public void handleEvent( final Object event )
     {
         if( event instanceof ChannelClosedEvent ||
+            event instanceof CloseChannelRequestEvent ||
             event instanceof IOErrorEvent )
         {
             _closeHandler.handleEvent( event );
