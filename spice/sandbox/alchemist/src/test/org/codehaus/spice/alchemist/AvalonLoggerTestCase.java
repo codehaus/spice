@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import junit.framework.TestCase;
 
 import org.codehaus.spice.alchemist.impl.AvalonLogger;
-import org.jcontainer.dna.impl.Jdk14Logger;
+import org.codehaus.dna.impl.Jdk14Logger;
 
 public class AvalonLoggerTestCase
     extends TestCase

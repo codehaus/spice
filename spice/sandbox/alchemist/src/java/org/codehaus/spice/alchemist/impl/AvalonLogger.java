@@ -22,7 +22,7 @@ import org.apache.avalon.framework.logger.Logger;
  *   <li>fatalError ==&gt; error</li>
  * </ul>
  *
- * @version $Revision: 1.1 $ $Date: 2003-11-20 11:01:20 $
+ * @version $Revision: 1.2 $ $Date: 2004-04-18 22:59:05 $
  */
 public class AvalonLogger
     implements Logger
@@ -30,14 +30,14 @@ public class AvalonLogger
     /**
      * The DNA logger.
      */
-    private final org.jcontainer.dna.Logger m_logger;
+    private final org.codehaus.dna.Logger m_logger;
 
     /**
      * Create an instance of logger facade.
      *
      * @param logger the DNA logger
      */
-    public AvalonLogger( final org.jcontainer.dna.Logger logger )
+    public AvalonLogger( final org.codehaus.dna.Logger logger )
     {
         if( null == logger )
         {

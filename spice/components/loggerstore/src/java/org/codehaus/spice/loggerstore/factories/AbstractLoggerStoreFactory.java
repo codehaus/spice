@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.Map;
 import org.codehaus.spice.loggerstore.LoggerStore;
 import org.codehaus.spice.loggerstore.LoggerStoreFactory;
-import org.jcontainer.dna.AbstractLogEnabled;
+import org.codehaus.dna.AbstractLogEnabled;
 
 /**
  * The abstract class that makes it easy to create LoggerStoreFactory
@@ -22,7 +22,7 @@ import org.jcontainer.dna.AbstractLogEnabled;
  *
  * @author Peter Donald
  * @author Mauro Talevi
- * @version $Revision: 1.3 $ $Date: 2004-02-28 21:13:22 $
+ * @version $Revision: 1.4 $ $Date: 2004-04-18 22:59:38 $
  */
 public abstract class AbstractLoggerStoreFactory
     extends AbstractLogEnabled

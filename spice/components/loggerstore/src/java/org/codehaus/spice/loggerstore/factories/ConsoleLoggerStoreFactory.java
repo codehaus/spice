@@ -10,13 +10,13 @@ package org.codehaus.spice.loggerstore.factories;
 import java.util.Map;
 import org.codehaus.spice.loggerstore.LoggerStore;
 import org.codehaus.spice.loggerstore.stores.ConsoleLoggerStore;
-import org.jcontainer.dna.impl.ConsoleLogger;
+import org.codehaus.dna.impl.ConsoleLogger;
 
 /**
  * This is a basic factory for ConsoleLoggerStore.
  *
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:01 $
+ * @version $Revision: 1.3 $ $Date: 2004-04-18 22:59:38 $
  */
 public class ConsoleLoggerStoreFactory
     extends AbstractLoggerStoreFactory

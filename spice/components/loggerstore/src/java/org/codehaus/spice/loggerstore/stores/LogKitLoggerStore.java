@@ -74,7 +74,7 @@ public class LogKitLoggerStore
     /**
      * Creates new LogKitLogger for the given category.
      */
-    protected org.jcontainer.dna.Logger createLogger( final String name )
+    protected org.codehaus.dna.Logger createLogger( final String name )
     {
         return LoggerAlchemist.toDNALogger(
             m_loggerManager.getLoggerForCategory( name ) );

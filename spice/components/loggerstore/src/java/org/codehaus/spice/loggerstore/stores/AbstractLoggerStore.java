@@ -10,8 +10,8 @@ package org.codehaus.spice.loggerstore.stores;
 import java.util.HashMap;
 import java.util.Map;
 import org.codehaus.spice.loggerstore.LoggerStore;
-import org.jcontainer.dna.LogEnabled;
-import org.jcontainer.dna.Logger;
+import org.codehaus.dna.LogEnabled;
+import org.codehaus.dna.Logger;
 
 /**
  * AbstractLoggerStore is an abstract implementation of LoggerStore for the

@@ -18,7 +18,7 @@ import org.codehaus.spice.loggerstore.stores.ConsoleLoggerStore;
 import org.codehaus.spice.loggerstore.stores.Jdk14LoggerStore;
 import org.codehaus.spice.loggerstore.stores.Log4JLoggerStore;
 import org.codehaus.spice.loggerstore.stores.LogKitLoggerStore;
-import org.jcontainer.dna.impl.ConsoleLogger;
+import org.codehaus.dna.impl.ConsoleLogger;
 
 /**
  * Test case for LoggerStore

@@ -7,7 +7,7 @@
  */
 package org.codehaus.spice.loggerstore;
 
-import org.jcontainer.dna.impl.ConsoleLogger;
+import org.codehaus.dna.impl.ConsoleLogger;
 
 /**
  * Test case for Configurator

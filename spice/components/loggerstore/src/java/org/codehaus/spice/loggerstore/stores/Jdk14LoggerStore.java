@@ -9,8 +9,8 @@ package org.codehaus.spice.loggerstore.stores;
 
 import java.io.InputStream;
 import java.util.logging.LogManager;
-import org.jcontainer.dna.Logger;
-import org.jcontainer.dna.impl.Jdk14Logger;
+import org.codehaus.dna.Logger;
+import org.codehaus.dna.impl.Jdk14Logger;
 
 /**
  * Jdk14LoggerStore extends AbstractLoggerStore to provide the implementation

@@ -20,9 +20,9 @@ import org.codehaus.spice.loggerstore.factories.Jdk14LoggerStoreFactory;
 import org.codehaus.spice.loggerstore.factories.LogKitLoggerStoreFactory;
 import org.codehaus.spice.loggerstore.factories.PropertyLog4JLoggerStoreFactory;
 import org.codehaus.spice.loggerstore.factories.SimpleLogKitLoggerStoreFactory;
-import org.jcontainer.dna.Logger;
-import org.jcontainer.dna.impl.ConsoleLogger;
-import org.jcontainer.dna.impl.ContainerUtil;
+import org.codehaus.dna.Logger;
+import org.codehaus.dna.impl.ConsoleLogger;
+import org.codehaus.dna.impl.ContainerUtil;
 import org.w3c.dom.Element;
 
 /**
