@@ -27,7 +27,7 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-16 06:53:13 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-17 14:30:14 $
  */
 public class ClassDescriptorCompilerTestCase
     extends TestCase
@@ -377,6 +377,7 @@ public class ClassDescriptorCompilerTestCase
             "package com.biz;\n" +
             "\n" +
             "/**\n" +
+            " * @anAttribute\n" +
             " * @anAttribute\n" +
             " */\n" +
             "public class MyClass\n" +

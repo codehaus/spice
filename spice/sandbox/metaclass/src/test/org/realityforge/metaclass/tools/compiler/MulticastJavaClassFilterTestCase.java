@@ -8,12 +8,13 @@
 package org.realityforge.metaclass.tools.compiler;
 
 import com.thoughtworks.qdox.model.JavaClass;
+import com.thoughtworks.qdox.model.JavaSource;
 import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 04:30:12 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-17 14:30:14 $
  */
 public class MulticastJavaClassFilterTestCase
     extends TestCase
@@ -26,7 +27,7 @@ public class MulticastJavaClassFilterTestCase
         final MulticastJavaClassFilter filter =
             new MulticastJavaClassFilter( new JavaClassFilter[]{baseFilter} );
         final JavaClass result1 = filter.filterClass( null );
-        final JavaClass javaClass = new JavaClass();
+        final JavaClass javaClass = new JavaClass( new JavaSource() );
         final JavaClass result2 = filter.filterClass( javaClass );
         assertEquals( "filter(null)", null, result1 );
         assertEquals( "filter(javaClass)", javaClass, result2 );
