@@ -59,8 +59,7 @@ public class InactivityPingPolicy
 
         if( -1 != _txInactivity )
         {
-            final long lastTxTime = _connector.getLastTxTime();
-            final long period = now - lastTxTime;
+            final long period = now - calcLastTxTime();
             if( period > _txInactivity )
             {
                 return true;
@@ -69,8 +68,7 @@ public class InactivityPingPolicy
 
         if( -1 != _rxInactivity )
         {
-            final long lastRxTime = _connector.getLastRxTime();
-            final long period = now - lastRxTime;
+            final long period = now - calcLastRxTime();
             if( period > _rxInactivity )
             {
                 return true;
@@ -88,8 +86,7 @@ public class InactivityPingPolicy
         final long txPeriod;
         if( -1 != _txInactivity )
         {
-            final long lastTxTime = _connector.getLastTxTime();
-            txPeriod = lastTxTime + _txInactivity;
+            txPeriod = calcLastTxTime() + _txInactivity;
         }
         else
         {
@@ -99,8 +96,7 @@ public class InactivityPingPolicy
         final long rxPeriod;
         if( -1 != _rxInactivity )
         {
-            final long lastRxTime = _connector.getLastRxTime();
-            rxPeriod = lastRxTime + _rxInactivity;
+            rxPeriod = calcLastRxTime() + _rxInactivity;
         }
         else
         {
@@ -108,5 +104,35 @@ public class InactivityPingPolicy
         }
 
         return Math.min( txPeriod, rxPeriod );
+    }
+
+    /**
+     * Get last time of RX transmission. The time is either the last RX time,
+     * the last connection  time or the last ping time.
+     * 
+     * @return the last rx time
+     */
+    private long calcLastRxTime()
+    {
+        final long lastRxTime = _connector.getLastRxTime();
+        final long lastConnectionTime = _connector.getLastConnectionTime();
+        final long lastPingTime = _connector.getLastPingTime();
+        return Math.max( lastPingTime,
+                         Math.max( lastRxTime, lastConnectionTime ) );
+    }
+
+    /**
+     * Get last time of TX transmission. The time is either the last TX time,
+     * the last connection  time or the last ping time.
+     * 
+     * @return the last tx time
+     */
+    private long calcLastTxTime()
+    {
+        final long lastTxTime = _connector.getLastTxTime();
+        final long lastConnectionTime = _connector.getLastConnectionTime();
+        final long lastPingTime = _connector.getLastPingTime();
+        return Math.max( lastPingTime,
+                         Math.max( lastTxTime, lastConnectionTime ) );
     }
 }
