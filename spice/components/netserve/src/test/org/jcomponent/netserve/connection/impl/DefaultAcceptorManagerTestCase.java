@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-28 00:34:57 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-28 00:54:16 $
  */
 public class DefaultAcceptorManagerTestCase
    extends TestCase
@@ -84,7 +84,8 @@ public class DefaultAcceptorManagerTestCase
       throws Exception
    {
       final DefaultAcceptorManager manager = new DefaultAcceptorManager();
-      manager.setMonitor( NullAcceptorMonitor.MONITOR );
+      final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
+      manager.setMonitor( monitor );
       manager.setSoTimeout( 10 );
       final String name = "name";
       assertEquals( "isConnected pre connect", false, manager.isConnected( name ) );
@@ -102,12 +103,13 @@ public class DefaultAcceptorManagerTestCase
          Thread.yield();
       }
 
+      final MockSocketConnectionHandler handler = new MockSocketConnectionHandler();
       manager.connect( name,
                        serverSocket,
-                       new MockSocketConnectionHandler() );
+                       handler );
 
       final Socket clientSocket = new Socket( localAddress, port );
-      System.out.print( "Socket Connecting to Key with InvalidAttachment" );
+      System.out.print( "Socket Connecting" );
       while ( !clientSocket.isConnected() )
       {
          System.out.print( "." );
@@ -115,6 +117,11 @@ public class DefaultAcceptorManagerTestCase
       }
       System.out.println( " - Connected" );
       clientSocket.close();
+
+      //Sleep to make sure accept goes through
+      Thread.sleep( 200 );
+
+      assertNotNull( "handler.socket", handler.getSocket() );
 
       assertEquals( "isConnected pre disconnect", true, manager.isConnected( name ) );
       manager.disconnect( name );
