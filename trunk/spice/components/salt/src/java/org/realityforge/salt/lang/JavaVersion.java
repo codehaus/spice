@@ -9,21 +9,52 @@ package org.realityforge.salt.lang;
 
 /**
  * Type safe wrapper class for Java Version enums.
+ * {@link JavaVersion#CURRENT} defines the current Java version
+ * and JAVA1_* define allowable versions. You can also compare
+ * different versions via constructions such as;
+ * <pre>
+ *    JavaVersion.CURRENT.isLessThanOrEqual( JavaVersion.JAVA1_3 );
+ * </pre>
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-08 01:38:27 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003-07-16 04:44:51 $
  */
 public final class JavaVersion
 {
-    //standard enums for version of JVM
+    /**
+     * Enum for JDK1.0 JVM.
+     */
     public static final JavaVersion JAVA1_0 = new JavaVersion( "Java 1.0", 100 );
+
+    /**
+     * Enum for JDK1.1 JVM.
+     */
     public static final JavaVersion JAVA1_1 = new JavaVersion( "Java 1.1", 110 );
+
+    /**
+     * Enum for JDK1.2 JVM.
+     */
     public static final JavaVersion JAVA1_2 = new JavaVersion( "Java 1.2", 120 );
+
+    /**
+     * Enum for JDK1.3 JVM.
+     */
     public static final JavaVersion JAVA1_3 = new JavaVersion( "Java 1.3", 130 );
+
+    /**
+     * Enum for JDK1.4 JVM.
+     */
     public static final JavaVersion JAVA1_4 = new JavaVersion( "Java 1.4", 140 );
+
+    /**
+     * Enum for JDK1.5 JVM.
+     */
     public static final JavaVersion JAVA1_5 = new JavaVersion( "Java 1.5", 150 );
 
-    private static final JavaVersion CURRENT = determineCurrentJavaVersion();
+    /**
+     * Enum for Current JDK.
+     */
+    public static final JavaVersion CURRENT = determineCurrentJavaVersion();
 
     /**
      * The name of version.
@@ -45,16 +76,6 @@ public final class JavaVersion
     {
         m_name = name;
         m_code = code;
-    }
-
-    /**
-     * Method to retrieve the current JVM version.
-     *
-     * @return the current JVM version
-     */
-    public static final JavaVersion getCurrentJavaVersion()
-    {
-        return CURRENT;
     }
 
     /**
