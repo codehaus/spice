@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-06-12 22:55:44 $
+ * @version $Revision: 1.6 $ $Date: 2003-06-12 22:57:45 $
  */
 public class ExceptionUtilTestCase
     extends TestCase
@@ -164,5 +164,25 @@ public class ExceptionUtilTestCase
         final MockThrowable throwable = new MockThrowable( "s1", null, TRACE1 );
         final String trace = ExceptionUtil.printStackTrace( throwable );
         assertEquals( "printStackTrace", TRACE1, trace );
+    }
+
+    public void testPrintStackTraceOnOneLevelDeepException()
+    {
+        final MockThrowable throwable2 = new MockThrowable( "s2", null, TRACE2 );
+        final MockThrowable throwable = new MockThrowable( "s1", throwable2, TRACE1 );
+        final String trace = ExceptionUtil.printStackTrace( throwable );
+        assertEquals( "printStackTrace", TRACE1 + ExceptionUtil.SEPARATOR + TRACE2, trace );
+    }
+
+    public void testPrintStackTraceOnManyLevelDeepException()
+    {
+        final MockThrowable throwable3 = new MockThrowable( "s3", null, TRACE3 );
+        final MockThrowable throwable2 = new MockThrowable( "s2", throwable3, TRACE2 );
+        final MockThrowable throwable = new MockThrowable( "s1", throwable2, TRACE1 );
+        final String trace = ExceptionUtil.printStackTrace( throwable );
+        assertEquals( "printStackTrace", TRACE1 + ExceptionUtil.SEPARATOR +
+                                         TRACE2 + ExceptionUtil.SEPARATOR +
+                                         TRACE3,
+                      trace );
     }
 }
