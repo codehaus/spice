@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-06-13 04:46:30 $
+ * @version $Revision: 1.8 $ $Date: 2003-06-13 04:49:35 $
  */
 public class IOUtil2TestCase
     extends TestCase
@@ -506,7 +506,7 @@ public class IOUtil2TestCase
         throws Exception
     {
         final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
-        final String string = IOUtil.toString( new InputStreamReader(input1)  );
+        final String string = IOUtil.toString( new InputStreamReader( input1 ) );
         assertEquals( new String( DATA_4_ELEMENTS ), string );
     }
 
@@ -523,6 +523,49 @@ public class IOUtil2TestCase
     {
         final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
         final String string = IOUtil.toString( new InputStreamReader( input1 ), 20 );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testBytesToStringWithDefaultBuffer()
+        throws Exception
+    {
+        final String string = IOUtil.toString( DATA_4_ELEMENTS );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testBytesToStringWithLesserBuffer()
+        throws Exception
+    {
+        final String string = IOUtil.toString( DATA_4_ELEMENTS, 2 );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testBytesToStringWithGreaterBuffer()
+        throws Exception
+    {
+        final String string = IOUtil.toString( DATA_4_ELEMENTS, 20 );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+
+    public void testEncodedBytesToStringWithDefaultBuffer()
+        throws Exception
+    {
+        final String string = IOUtil.toString( DATA_4_ELEMENTS, "US-ASCII" );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testEncodedBytesToStringWithLesserBuffer()
+        throws Exception
+    {
+        final String string = IOUtil.toString( DATA_4_ELEMENTS, "US-ASCII", 2 );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testEncodedBytesToStringWithGreaterBuffer()
+        throws Exception
+    {
+        final String string = IOUtil.toString( DATA_4_ELEMENTS, "US-ASCII", 20 );
         assertEquals( new String( DATA_4_ELEMENTS ), string );
     }
 
