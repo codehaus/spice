@@ -1,7 +1,9 @@
-package org.jcomponent.netserve.selector;
+package org.jcomponent.netserve.selector.impl;
 
 import java.nio.channels.SelectionKey;
 import java.io.IOException;
+
+import org.jcomponent.netserve.selector.impl.SelectorMonitor;
 
 class DebugSelectorMonitor
    implements SelectorMonitor

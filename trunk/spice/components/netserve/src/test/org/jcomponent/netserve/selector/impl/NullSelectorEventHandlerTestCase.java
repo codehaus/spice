@@ -1,6 +1,7 @@
-package org.jcomponent.netserve.selector;
+package org.jcomponent.netserve.selector.impl;
 
 import junit.framework.TestCase;
+import org.jcomponent.netserve.selector.impl.NullSelectorEventHandler;
 
 public class NullSelectorEventHandlerTestCase
    extends TestCase

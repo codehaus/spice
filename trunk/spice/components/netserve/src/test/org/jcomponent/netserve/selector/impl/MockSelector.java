@@ -1,4 +1,4 @@
-package org.jcomponent.netserve.selector;
+package org.jcomponent.netserve.selector.impl;
 
 import java.nio.channels.Selector;
 import java.nio.channels.spi.SelectorProvider;

@@ -1,6 +1,8 @@
-package org.jcomponent.netserve.selector;
+package org.jcomponent.netserve.selector.impl;
 
 import java.nio.channels.SelectionKey;
+
+import org.jcomponent.netserve.selector.SelectorEventHandler;
 
 /**
  * Basic implementation of
@@ -15,7 +17,7 @@ public class NullSelectorEventHandler
    public static final NullSelectorEventHandler HANDLER = new NullSelectorEventHandler();
 
    /**
-    * @see SelectorEventHandler#handleSelectorEvent
+    * @see org.jcomponent.netserve.selector.SelectorEventHandler#handleSelectorEvent
     */
    public void handleSelectorEvent( final SelectionKey key )
    {

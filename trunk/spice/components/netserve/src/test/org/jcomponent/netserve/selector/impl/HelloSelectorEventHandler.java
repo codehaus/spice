@@ -1,9 +1,11 @@
-package org.jcomponent.netserve.selector;
+package org.jcomponent.netserve.selector.impl;
 
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.io.IOException;
+
+import org.jcomponent.netserve.selector.SelectorEventHandler;
 
 class HelloSelectorEventHandler
    implements SelectorEventHandler
