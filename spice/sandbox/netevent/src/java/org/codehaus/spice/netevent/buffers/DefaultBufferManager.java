@@ -8,36 +8,36 @@ import java.util.List;
  * A simple BufferManager that caches buffers in map.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-09 00:28:32 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-09 00:34:02 $
  */
 public class DefaultBufferManager
     implements BufferManager
 {
+    /** The buffer cache. */
     private final List _cache = new ArrayList();
+
+    /** the number of new buffers created. */
+    private int _newCount;
+
+    /** the number of buffers currently active. */
+    private int _activeCount;
 
     /**
      * @see BufferManager#aquireBuffer(int)
      */
     public ByteBuffer aquireBuffer( final int size )
     {
+        _activeCount++;
         final int count = _cache.size();
         if( count > 0 )
         {
-            final ByteBuffer buffer = (ByteBuffer)_cache.remove( count - 1 );
-            /*
-            System.out.println( "OLD aquireBuffer(" +
-                                System.identityHashCode( buffer ) + ")" );
-            */
-            return buffer;
+            return (ByteBuffer)_cache.remove( count - 1 );
         }
         else
         {
+            _newCount++;
             final ByteBuffer buffer = ByteBuffer.allocate( 1024 * 8 );
             buffer.clear();
-            /*
-            System.out.println( "NEW aquireBuffer(" +
-                                System.identityHashCode( buffer ) + ")" );
-            */
             return buffer;
         }
     }
@@ -47,11 +47,28 @@ public class DefaultBufferManager
      */
     public void releaseBuffer( final ByteBuffer buffer )
     {
-        /*
-        System.out.println( "releaseBuffer(" +
-                            System.identityHashCode( buffer ) + ")" );
-        */
+        _activeCount--;
         buffer.clear();
         _cache.add( buffer );
+    }
+
+    /**
+     * Return the number of new buffers created.
+     * 
+     * @return the number of new buffers created.
+     */
+    public int getNewCount()
+    {
+        return _newCount;
+    }
+
+    /**
+     * Return the number of buffers currently active.
+     * 
+     * @return the number of buffers currently active.
+     */
+    public int getActiveCount()
+    {
+        return _activeCount;
     }
 }
