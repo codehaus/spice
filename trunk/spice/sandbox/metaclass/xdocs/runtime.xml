@@ -122,6 +122,11 @@ Attribute[] attributes =
                 must be loaded via standard mechanisms.
             </p>
         </section>
+        <section name="Accessing Complete Descriptors">
+            <p>
+                TODO
+            </p>
+        </section>
     </body>
 
 </document>
