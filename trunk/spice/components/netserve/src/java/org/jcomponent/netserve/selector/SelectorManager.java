@@ -239,7 +239,6 @@ public class SelectorManager
 
       getMonitor().exitingSelectorLoop();
       setSelector( null );
-      System.out.println( "SelectorManager.run ended" );
    }
 
    /**
