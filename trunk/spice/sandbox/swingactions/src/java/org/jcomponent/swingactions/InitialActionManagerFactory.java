@@ -15,12 +15,12 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * ConfigurableActionManagerFactory is used as a bootstrap factory to
+ * InitialActionManagerFactory is used as an intial context factory to
  * to create an ActionManager when the factory type is configurable.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
-public class ConfigurableActionManagerFactory
+public class InitialActionManagerFactory
 {
     /**
      * The CONFIGURABLE_FACTORY key.  Used to define the classname of the
@@ -33,7 +33,7 @@ public class ConfigurableActionManagerFactory
      * file will be used to load default configuration settings if user failed
      * to specify them.
      */
-    public static final String DEFAULT_PROPERTIES = "META-INF/spice/swingactions.properties";
+    public static final String DEFAULT_PROPERTIES = "META-INF/jcomponent/swingactions.properties";
 
     /**
      * Create ActionManager by first determining the correct ActionManagerFactory
@@ -77,7 +77,7 @@ public class ConfigurableActionManagerFactory
             loader = Thread.currentThread().getContextClassLoader();
             if( null == loader )
             {
-                loader = ConfigurableActionManagerFactory.class.getClassLoader();
+                loader = InitialActionManagerFactory.class.getClassLoader();
             }
         }
         return loader;
