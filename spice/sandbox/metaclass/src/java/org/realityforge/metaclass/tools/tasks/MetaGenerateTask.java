@@ -33,7 +33,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.18 $ $Date: 2003-08-31 07:58:50 $
+ * @version $Revision: 1.19 $ $Date: 2003-08-31 08:01:17 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -186,6 +186,7 @@ public class MetaGenerateTask
     /**
      * This method provides an access point for subclasses to use custom filters
      * on the list of classes parsed, i.e. to return null if the class has been filtered.
+     * 
      * @param javaClass
      * @return javaClass or null
      */
