@@ -21,7 +21,7 @@ import org.w3c.dom.NodeList;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-29 10:27:26 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-29 10:30:12 $
  */
 public class DOMMetaClassDeserializer
 {
@@ -42,18 +42,19 @@ public class DOMMetaClassDeserializer
             final short nodeType = node.getNodeType();
             if( nodeType == Node.ELEMENT_NODE )
             {
-                final String childName = node.getNodeName();
+                final Element child = (Element)node;
+                final String childName = child.getNodeName();
                 if( childName.equals( SAXMetaClassSerializer.METHODS_ELEMENT ) )
                 {
-                    methods = buildMethods( (Element)node );
+                    methods = buildMethods( child );
                 }
                 else if( childName.equals( SAXMetaClassSerializer.FIELDS_ELEMENT ) )
                 {
-                    fields = buildFields( (Element)node );
+                    fields = buildFields( child );
                 }
                 else
                 {
-                    attributes = buildAttributes( element );
+                    attributes = buildAttributes( child );
                 }
             }
         }
@@ -105,14 +106,15 @@ public class DOMMetaClassDeserializer
             final short nodeType = node.getNodeType();
             if( nodeType == Node.ELEMENT_NODE )
             {
-                final String childName = node.getNodeName();
+                final Element child = (Element)node;
+                    final String childName = child.getNodeName();
                 if( childName.equals( SAXMetaClassSerializer.PARAMETERS_ELEMENT ) )
                 {
-                    parameters = buildParameters( (Element)node );
+                    parameters = buildParameters( child );
                 }
                 else
                 {
-                    attributes = buildAttributes( element );
+                    attributes = buildAttributes( child );
                 }
             }
         }
@@ -195,7 +197,7 @@ public class DOMMetaClassDeserializer
             final short nodeType = node.getNodeType();
             if( nodeType == Node.ELEMENT_NODE )
             {
-                attributes = buildAttributes( element );
+                attributes = buildAttributes( (Element)node );
             }
         }
         return new FieldDescriptor( name, type, attributes, attributes );
