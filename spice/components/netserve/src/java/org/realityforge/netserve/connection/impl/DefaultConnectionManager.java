@@ -15,6 +15,9 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.realityforge.netserve.connection.ConnectionHandlerManager;
 import org.realityforge.netserve.connection.ConnectionManager;
 import org.realityforge.threadpool.ThreadPool;
@@ -27,13 +30,13 @@ import org.realityforge.threadpool.ThreadPool;
  * to ConnectionHandler instances to handle the connection.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-04-23 04:29:25 $
+ * @version $Revision: 1.6 $ $Date: 2003-04-23 04:48:51 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
 public class DefaultConnectionManager
     extends AbstractLogEnabled
-    implements ConnectionManager, Serviceable, Disposable
+    implements ConnectionManager, Serviceable, Configurable, Disposable
 {
     /**
      * The map of name->acceptor.
@@ -49,6 +52,26 @@ public class DefaultConnectionManager
     private ThreadPool m_threadpool;
 
     /**
+     * Set to the number of milliseconds that we will wait
+     * for a connection to shutdown gracefully. Defaults to 0
+     * which indicates indefinite wait.
+     */
+    private int m_shutdownTimeout;
+
+    /**
+     * Set to true if we need to force shutdown
+     * connections if they don't shutdown gracefully
+     * in specified time-period.
+     */
+    private boolean m_forceShutdown;
+
+    /**
+     * Value that we are to set SO_TIMEOUT to if the user
+     * has not already set the timeout. Defaults to 0 (inifinite timeout).
+     */
+    private int m_soTimeout;
+
+    /**
      * Get ThreadPool service if present.
      *
      * @param manager the manager to retrieve services from
@@ -62,6 +85,22 @@ public class DefaultConnectionManager
         {
             m_threadpool = (ThreadPool)manager.lookup( ThreadPool.ROLE );
         }
+    }
+
+    /**
+     * Configure the ConnectionManager.
+     *
+     * @param configuration the configuration
+     * @throws ConfigurationException if error reading configuration
+     * @phoenix.configuration type="http://relaxng.org/ns/structure/1.0"
+     *    location="DefaultConnectionManager-schema.xml"
+     */
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
+    {
+        m_shutdownTimeout = configuration.getChild( "shutdownTimeout" ).getValueAsInteger( 0 );
+        m_forceShutdown = configuration.getChild( "forceShutdown" ).getValueAsBoolean( false );
+        m_soTimeout = configuration.getChild( "soTimeout" ).getValueAsInteger( 0 );
     }
 
     /**
@@ -159,12 +198,11 @@ public class DefaultConnectionManager
 
         if( !tearDown )
         {
-            acceptor.close( 0 );
+            acceptor.close( 0, m_forceShutdown );
         }
         else
         {
-            //TODO: Stop ignoring tearDown
-            acceptor.close( 0 );
+            acceptor.close( m_shutdownTimeout, m_forceShutdown );
         }
     }
 
@@ -196,7 +234,10 @@ public class DefaultConnectionManager
             throw new NullPointerException( "handlerManager" );
         }
 
-        socket.setSoTimeout( 500 );
+        if( 0 == socket.getSoTimeout() )
+        {
+            socket.setSoTimeout( m_soTimeout );
+        }
 
         final ConnectionAcceptor runner = new ConnectionAcceptor( name, socket, handlerManager, threadPool );
         setupLogger( runner );
