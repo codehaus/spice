@@ -25,7 +25,7 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2003-10-04 09:24:55 $
+ * @version $Revision: 1.17 $ $Date: 2003-10-04 10:12:32 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -79,7 +79,7 @@ public class MetaGenerateTaskTestCase
         fail( "Expected to be unable to get IO for XML type" );
     }
 
-   public void testCreateFilterOfBadType()
+    public void testCreateFilterOfBadType()
         throws Exception
     {
         final MockMetaGenerateTask task = new MockMetaGenerateTask();
@@ -399,6 +399,62 @@ public class MetaGenerateTaskTestCase
         task.setDestDir( destDirectory );
         task.addFileset( fileSet );
         task.addInterceptor( element );
+        task.execute();
+        final String destFilename =
+            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+        final File destFile = new File( destFilename );
+
+        assertTrue( "destFile.exists()", destFile.exists() );
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final FileInputStream input = new FileInputStream( destFile );
+        final ClassDescriptor descriptor = io.deserializeClass( input );
+        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
+        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
+        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+    }
+
+    public void testSingleSourceFileWithPassThroughFilter()
+        throws Exception
+    {
+        final String source =
+            "package com.biz;\n" +
+            "\n" +
+            "/**\n" +
+            " * @anAttribute\n" +
+            " */\n" +
+            "public class MyClass\n" +
+            "{\n" +
+            "}\n";
+
+        final File sourceDirectory = generateDirectory();
+        final File destDirectory = generateDirectory();
+        final FileSet fileSet = new FileSet();
+        fileSet.setDir( sourceDirectory );
+        fileSet.setIncludes( "**/*.java" );
+
+        final String sourceFilename =
+            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+        final File sourceFile = new File( sourceFilename );
+        sourceFile.getParentFile().mkdirs();
+        final FileOutputStream output = new FileOutputStream( sourceFile );
+        output.write( source.getBytes() );
+        output.close();
+
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final Project project = new Project();
+        project.setBaseDir( getBaseDirectory() );
+        task.setProject( project );
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "binary" );
+        task.setFormat( format );
+        task.setDestDir( destDirectory );
+        task.addFileset( fileSet );
+        final PluginElement element = new PluginElement();
+        element.setName( PassThroughFilter.class.getName() );
+        task.addFilter( element );
         task.execute();
         final String destFilename =
             destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
