@@ -21,7 +21,23 @@
         <developer>
             <name>Peter Donald</name>
             <id>donaldp</id>
-            <email>peter@apache.org</email>
+            <email>peter at apache.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Mauro Talevi</name>
+            <id>maurotalevi</id>
+            <email>mauro.talevi at aquilonia.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Paul Hammant</name>
+            <id>paul-h</id>
+            <email>paul_hammant at yahoo.com</email>
             <roles>
                 <role>Developer</role>
             </roles>
