@@ -7,20 +7,31 @@
  */
 package org.codehaus.spice.netevent.handlers;
 
-import org.codehaus.spice.event.AbstractEventHandler;
 import org.codehaus.spice.event.EventHandler;
+import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.events.AbstractTransportEvent;
+import org.codehaus.spice.netevent.events.ChannelClosedEvent;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * Simple handler that closes underlying transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-15 05:51:47 $
  */
 public class CloseEventHandler
-    extends AbstractEventHandler
+    extends AbstractDirectedHandler
 {
+    /**
+     * Create handler with specified target.
+     * 
+     * @param sink the destination sink
+     */
+    public CloseEventHandler( final EventSink sink )
+    {
+        super( sink );
+    }
+
     /**
      * @see EventHandler#handleEvent(Object)
      */
@@ -28,6 +39,12 @@ public class CloseEventHandler
     {
         final AbstractTransportEvent ce = (AbstractTransportEvent)event;
         final ChannelTransport transport = ce.getTransport();
-        transport.close();
+        if( !transport.isClosed() )
+        {
+            transport.close();
+            final ChannelClosedEvent result =
+                new ChannelClosedEvent( transport );
+            getSink().addEvent( result );
+        }
     }
 }
