@@ -1,94 +1,101 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.packet.transport;
 
 import java.nio.ByteBuffer;
 
 /**
  * A circular byte buffer.
- * 
+ *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-24 05:19:34 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-26 02:10:28 $
  */
 public class CircularBuffer
 {
     /** The underlying byte array containing data. */
-    private final ByteBuffer[] _byteBuffers;
+    private final ByteBuffer[] m_byteBuffers;
 
     /** The underlying byte array containing data. */
-    private final byte[] _data;
+    private final byte[] m_data;
 
     /** The index into array marking the start of the available data. */
-    private int _start;
+    private int m_start;
 
     /** The index into array marking the byte after end of the available data. */
-    private int _end;
+    private int m_end;
 
     /**
      * Create a circular buffer.
-     * 
+     *
      * @param size the size of underlying byte buffer
      */
     public CircularBuffer( final int size )
     {
-        _data = new byte[ size ];
-        _byteBuffers = new ByteBuffer[ 2 ];
-        _byteBuffers[ 0 ] = ByteBuffer.wrap( _data );
-        _byteBuffers[ 1 ] = ByteBuffer.wrap( _data );
+        m_data = new byte[ size ];
+        m_byteBuffers = new ByteBuffer[ 2 ];
+        m_byteBuffers[ 0 ] = ByteBuffer.wrap( m_data );
+        m_byteBuffers[ 1 ] = ByteBuffer.wrap( m_data );
     }
 
     /**
      * Return an array of ByteBuffers representing Circular buffer in state
      * ready to read.
-     * 
+     *
      * @return the read buffers
      */
     public ByteBuffer[] asReadBuffers()
     {
         if( isWrappedBuffer() )
         {
-            _byteBuffers[ 0 ].position( _start );
-            _byteBuffers[ 0 ].limit( getCapacity() );
-            _byteBuffers[ 1 ].position( 0 );
-            _byteBuffers[ 1 ].limit( _end );
+            m_byteBuffers[ 0 ].position( m_start );
+            m_byteBuffers[ 0 ].limit( getCapacity() );
+            m_byteBuffers[ 1 ].position( 0 );
+            m_byteBuffers[ 1 ].limit( m_end );
         }
         else
         {
-            _byteBuffers[ 0 ].position( _start );
-            _byteBuffers[ 0 ].limit( _end );
-            _byteBuffers[ 1 ].position( 0 );
-            _byteBuffers[ 1 ].limit( 0 );
+            m_byteBuffers[ 0 ].position( m_start );
+            m_byteBuffers[ 0 ].limit( m_end );
+            m_byteBuffers[ 1 ].position( 0 );
+            m_byteBuffers[ 1 ].limit( 0 );
         }
-        return _byteBuffers;
+        return m_byteBuffers;
     }
 
     /**
      * Return an array of ByteBuffers representing Circular buffer in state
      * ready to write.
-     * 
+     *
      * @return the write buffers
      */
     public ByteBuffer[] asWriteBuffers()
     {
         if( isWrappedBuffer() )
         {
-            _byteBuffers[ 0 ].position( _end );
-            _byteBuffers[ 0 ].limit( _start );
-            _byteBuffers[ 1 ].position( 0 );
-            _byteBuffers[ 1 ].limit( 0 );
+            m_byteBuffers[ 0 ].position( m_end );
+            m_byteBuffers[ 0 ].limit( m_start );
+            m_byteBuffers[ 1 ].position( 0 );
+            m_byteBuffers[ 1 ].limit( 0 );
         }
         else
         {
-            _byteBuffers[ 0 ].position( _end );
-            _byteBuffers[ 0 ].limit( getCapacity() );
-            _byteBuffers[ 1 ].position( 0 );
-            _byteBuffers[ 1 ].limit( _start );
+            m_byteBuffers[ 0 ].position( m_end );
+            m_byteBuffers[ 0 ].limit( getCapacity() );
+            m_byteBuffers[ 1 ].position( 0 );
+            m_byteBuffers[ 1 ].limit( m_start );
         }
-        return _byteBuffers;
+        return m_byteBuffers;
     }
 
     /**
      * Increment start counter by specified amount. (ie Simulating a read from
      * buffer)
-     * 
+     *
      * @param count the number of bytes read
      */
     public void readBytes( final int count )
@@ -98,13 +105,13 @@ public class CircularBuffer
             final String message = count + " > " + getAvailable();
             throw new IllegalArgumentException( message );
         }
-        _start = (_start + count) % getCapacity();
+        m_start = ( m_start + count ) % getCapacity();
     }
 
     /**
      * Increment end counter by specified amount. (ie Simulating a write to
      * buffer)
-     * 
+     *
      * @param count the number of bytes written
      */
     public void writeBytes( final int count )
@@ -114,29 +121,29 @@ public class CircularBuffer
             final String message = count + " > " + getSpace();
             throw new IllegalArgumentException( message );
         }
-        _end = (_end + count) % getCapacity();
+        m_end = ( m_end + count ) % getCapacity();
     }
 
     /**
      * Return the used space in buffer in bytes.
-     * 
+     *
      * @return the used space in buffer in bytes.
      */
     public int getAvailable()
     {
         if( isWrappedBuffer() )
         {
-            return _data.length - _start + _end;
+            return m_data.length - m_start + m_end;
         }
         else
         {
-            return _end - _start;
+            return m_end - m_start;
         }
     }
 
     /**
      * Return the unused space in buffer in bytes.
-     * 
+     *
      * @return the unused space in buffer in bytes.
      */
     public int getSpace()
@@ -146,41 +153,41 @@ public class CircularBuffer
 
     /**
      * Return the buffers capacity in bytes.
-     * 
+     *
      * @return the buffers capacity in bytes.
      */
     public int getCapacity()
     {
-        return _data.length;
+        return m_data.length;
     }
 
     /**
      * Return true if buffer is wrapped.
-     * 
+     *
      * @return true if buffer is wrapped.
      */
     boolean isWrappedBuffer()
     {
-        return _start > _end;
+        return m_start > m_end;
     }
 
     /**
      * Return the index at start of available data.
-     * 
+     *
      * @return the index at start of available data.
      */
     int getStart()
     {
-        return _start;
+        return m_start;
     }
 
     /**
      * Return the index after end of available data.
-     * 
+     *
      * @return the index after end of available data.
      */
     int getEnd()
     {
-        return _end;
+        return m_end;
     }
 }
