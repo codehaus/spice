@@ -36,7 +36,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.20 $ $Date: 2004-02-11 00:02:29 $
+ * @version $Revision: 1.21 $ $Date: 2004-02-11 00:45:02 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -232,6 +232,10 @@ public class PacketIOEventHandler
 
     private void disconnectSession( final Session session )
     {
+        if( Session.STATUS_ESTABLISHED == session.getStatus() )
+        {
+            _target.addEvent( new SessionInactiveEvent( session ) );
+        }
         session.setStatus( Session.STATUS_DISCONNECTED );
         _sessionManager.deleteSession( session );
         _target.addEvent( new SessionDisconnectEvent( session ) );
