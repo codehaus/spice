@@ -24,7 +24,7 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-11 08:41:51 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-16 01:40:57 $
  */
 public class MetaClassIOASMTestCase
     extends TestCase
@@ -34,7 +34,11 @@ public class MetaClassIOASMTestCase
     {
         final MetaClassIOASM io = new MetaClassIOASM();
         final String name = io.getResourceName( "com.biz.Foo" );
-        assertEquals( "name", "com/biz/Foo.class", name );
+        assertEquals( "name", "com" +
+                              File.separatorChar +
+                              "biz" +
+                              File.separatorChar +
+                              "Foo.class", name );
     }
 
     public void testSerializeThenDeserializeClass()
