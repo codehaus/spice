@@ -26,7 +26,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-23 08:13:19 $
+ * @version $Revision: 1.3 $ $Date: 2003-04-23 08:15:50 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -66,7 +66,6 @@ public class ConnectionTestCase
         final ServerSocket serverSocket = new ServerSocket( PORT, 5, HOST );
         try
         {
-            serverSocket.setSoTimeout( 50 );
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
             chm.addHandler( new DelayingConnectionHandler( 200 ) );
             final ConnectionAcceptor acceptor =
@@ -75,10 +74,8 @@ public class ConnectionTestCase
                                         chm,
                                         null );
             acceptor.enableLogging( new ConsoleLogger() );
-            final Thread thread = new Thread( acceptor );
-            thread.start();
-            final Socket socket = new Socket( HOST, PORT );
-            socket.close();
+            start( acceptor );
+            doClientConnect();
             acceptor.close( 0, false );
         }
         finally
@@ -87,13 +84,18 @@ public class ConnectionTestCase
         }
     }
 
+    private void doClientConnect() throws IOException
+    {
+        final Socket socket = new Socket( HOST, PORT );
+        socket.close();
+    }
+
     public void testOverRunCleanShutdownNoLogging()
         throws Exception
     {
         final ServerSocket serverSocket = new ServerSocket( PORT, 5, HOST );
         try
         {
-            serverSocket.setSoTimeout( 50 );
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
             chm.addHandler( new DelayingConnectionHandler( 200 ) );
             final ConnectionAcceptor acceptor =
@@ -102,10 +104,8 @@ public class ConnectionTestCase
                                         chm,
                                         new TestThreadPool() );
             acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
-            final Thread thread = new Thread( acceptor );
-            thread.start();
-            final Socket socket = new Socket( HOST, PORT );
-            socket.close();
+            start( acceptor );
+            doClientConnect();
             acceptor.close( 0, false );
         }
         finally
@@ -120,7 +120,6 @@ public class ConnectionTestCase
         final ServerSocket serverSocket = new ServerSocket( PORT, 5, HOST );
         try
         {
-            serverSocket.setSoTimeout( 50 );
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
             chm.addHandler( new DelayingConnectionHandler( 200 ) );
             final ConnectionAcceptor acceptor =
@@ -129,10 +128,8 @@ public class ConnectionTestCase
                                         chm,
                                         new TestThreadPool() );
             acceptor.enableLogging( new ConsoleLogger() );
-            final Thread thread = new Thread( acceptor );
-            thread.start();
-            final Socket socket = new Socket( HOST, PORT );
-            socket.close();
+            start( acceptor );
+            doClientConnect();
             acceptor.close( 5, true );
         }
         finally
@@ -147,7 +144,6 @@ public class ConnectionTestCase
         final ServerSocket serverSocket = new ServerSocket( PORT, 5, HOST );
         try
         {
-            serverSocket.setSoTimeout( 50 );
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
             chm.addHandler( new DelayingConnectionHandler( 200 ) );
             final ConnectionAcceptor acceptor =
@@ -156,16 +152,50 @@ public class ConnectionTestCase
                                         chm,
                                         null );
             acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
-            final Thread thread = new Thread( acceptor );
-            thread.start();
-            final Socket socket = new Socket( HOST, PORT );
-            socket.close();
+            start( acceptor );
+            doClientConnect();
             acceptor.close( 5, true );
         }
         finally
         {
             shutdown( serverSocket );
         }
+    }
+
+    public void testNoAquire()
+        throws Exception
+    {
+        final ServerSocket serverSocket = getServerSocket();
+        try
+        {
+            final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
+            final ConnectionAcceptor acceptor =
+                new ConnectionAcceptor( "test-" + getName() + "-",
+                                        serverSocket,
+                                        chm,
+                                        null );
+            acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
+            start( acceptor );
+            doClientConnect();
+            acceptor.close( 5, true );
+        }
+        finally
+        {
+            shutdown( serverSocket );
+        }
+    }
+
+    private ServerSocket getServerSocket() throws IOException
+    {
+        final ServerSocket serverSocket = new ServerSocket( PORT, 5, HOST );
+        serverSocket.setSoTimeout( 50 );
+        return serverSocket;
+    }
+
+    private void start( final Runnable acceptor )
+    {
+        final Thread thread = new Thread( acceptor );
+        thread.start();
     }
 
     private void shutdown( final ServerSocket serverSocket )
