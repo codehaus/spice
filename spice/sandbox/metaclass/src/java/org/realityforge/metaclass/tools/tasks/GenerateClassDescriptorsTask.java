@@ -27,84 +27,56 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.tools.compiler.ClassDescriptorCompiler;
 import org.realityforge.metaclass.tools.compiler.CompilerMonitor;
 import org.realityforge.metaclass.tools.compiler.JavaClassFilter;
-import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
 import org.realityforge.metaclass.tools.qdox.NonNamespaceAttributeRemovingInterceptor;
+import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
 
 /**
  * A Task to generate Attributes descriptors from source files.
  *
  * @author Peter Donald
- * @version $Revision: 1.17 $ $Date: 2003-11-27 08:13:43 $
+ * @version $Revision: 1.18 $ $Date: 2003-11-29 09:28:02 $
  */
 public class GenerateClassDescriptorsTask
     extends Task
     implements CompilerMonitor
 {
-    /**
-     * Constant indicating should write out binary descriptors.
-     */
+    /** Constant indicating should write out binary descriptors. */
     public static final int BINARY_TYPE = 0;
 
-    /**
-     * Constant indicating should write out serialized xml descriptors.
-     */
+    /** Constant indicating should write out serialized xml descriptors. */
     public static final int XML_TYPE = 1;
 
-    /**
-     * Destination directory
-     */
+    /** Destination directory */
     private File m_destDir;
 
-    /**
-     * Variable that indicates the output type. See above constants.
-     */
+    /** Variable that indicates the output type. See above constants. */
     private int m_format = BINARY_TYPE;
 
-    /**
-     * Flag indicating whether the compacter
-     * should methods with no attributes.
-     */
+    /** Flag indicating whether the compacter should methods with no attributes. */
     private boolean m_keepEmptyMethods = false;
 
-    /**
-     * Variable that indicates whether non-namespaced tags
-     * are filtered out.
-     */
+    /** Variable that indicates whether non-namespaced tags are filtered out. */
     private boolean m_namespaceTagsOnly = true;
 
-    /**
-     * The class to output ClassDescriptors in binary format.
-     */
+    /** The class to output ClassDescriptors in binary format. */
     private static final MetaClassIO c_binaryIO = new MetaClassIOBinary();
 
-    /**
-     * The class to output ClassDescriptors in xml format.
-     */
+    /** The class to output ClassDescriptors in xml format. */
     private static final MetaClassIO c_xmlIO = new MetaClassIOXml();
 
-    /**
-     * Internal list of filter elements added by user.
-     */
+    /** Internal list of filter elements added by user. */
     private final FilterSet m_filterSet = new FilterSet();
 
-    /**
-     * Internal list of interceptor elements added by user.
-     */
+    /** Internal list of interceptor elements added by user. */
     private final InterceptorSet m_interceptorSet = new InterceptorSet();
 
-    /**
-     * Flag set to true if writing a descriptor fails.
-     */
+    /** Flag set to true if writing a descriptor fails. */
     private boolean m_failed;
 
-    /**
-     * Compiler used to compile descriptors.
-     */
+    /** Compiler used to compile descriptors. */
     private final ClassDescriptorCompiler m_compiler = new ClassDescriptorCompiler();
 
-    /**
-     * List of filesets to process.
-     */
+    /** List of filesets to process. */
     private final List m_filesets = new ArrayList();
 
     /**
@@ -140,7 +112,8 @@ public class GenerateClassDescriptorsTask
     }
 
     /**
-     * Add an interceptor definition that will create interceptor to process metadata.
+     * Add an interceptor definition that will create interceptor to process
+     * metadata.
      *
      * @param element the interceptor definition
      */
@@ -192,7 +165,7 @@ public class GenerateClassDescriptorsTask
     /**
      * Set flag indicating whether Compacter should keep empty methods.
      *
-     * @param keepEmptyMethods  the flag
+     * @param keepEmptyMethods the flag
      */
     public void setKeepEmptyMethods( final boolean keepEmptyMethods )
     {
@@ -220,7 +193,8 @@ public class GenerateClassDescriptorsTask
         if( m_namespaceTagsOnly )
         {
             m_compiler.
-                addInterceptor( NonNamespaceAttributeRemovingInterceptor.INTERCEPTOR );
+                addInterceptor(
+                    NonNamespaceAttributeRemovingInterceptor.INTERCEPTOR );
         }
 
         m_compiler.setDestDir( m_destDir );
@@ -300,7 +274,9 @@ public class GenerateClassDescriptorsTask
      */
     private void setupFilters()
     {
-        final Iterator iterator = m_filterSet.toPlugins().iterator();
+        final Collection collection = m_filterSet.toPlugins();
+        log( "Using " + collection.size() + " Filters", Project.MSG_VERBOSE );
+        final Iterator iterator = collection.iterator();
         while( iterator.hasNext() )
         {
             final PluginElement element = (PluginElement)iterator.next();
@@ -308,6 +284,7 @@ public class GenerateClassDescriptorsTask
                 createInstance( element,
                                 JavaClassFilter.class,
                                 "filter" );
+            log( "Adding Filter " + filter, Project.MSG_DEBUG );
             m_compiler.addFilter( filter );
         }
     }
@@ -317,7 +294,10 @@ public class GenerateClassDescriptorsTask
      */
     private void setupInterceptors()
     {
-        final Iterator iterator = m_interceptorSet.toPlugins().iterator();
+        final Collection collection = m_interceptorSet.toPlugins();
+        log( "Using " + collection.size() + " Interceptors",
+             Project.MSG_VERBOSE );
+        final Iterator iterator = collection.iterator();
         while( iterator.hasNext() )
         {
             final PluginElement element = (PluginElement)iterator.next();
@@ -325,6 +305,7 @@ public class GenerateClassDescriptorsTask
                 createInstance( element,
                                 QDoxAttributeInterceptor.class,
                                 "interceptor" );
+            log( "Adding Interceptor " + interceptor, Project.MSG_DEBUG );
             m_compiler.addInterceptor( interceptor );
         }
     }
@@ -350,7 +331,10 @@ public class GenerateClassDescriptorsTask
             if( !type.isInstance( object ) )
             {
                 final String message =
-                    "Error creating " + description + " " + name +
+                    "Error creating " +
+                    description +
+                    " " +
+                    name +
                     " as it does not implement " + type.getName() + ".";
                 log( message );
                 throw new BuildException( message );
@@ -359,7 +343,10 @@ public class GenerateClassDescriptorsTask
         }
         catch( final Exception e )
         {
-            final String message = "Error creating " + description + " " + name;
+            final String message = "Error creating " +
+                description +
+                " " +
+                name;
             log( message );
             throw new BuildException( message, e );
         }
@@ -379,7 +366,10 @@ public class GenerateClassDescriptorsTask
             path = new Path( getProject() );
         }
 
-        return new AntClassLoader( getClass().getClassLoader(), getProject(), path, true );
+        return new AntClassLoader( getClass().getClassLoader(),
+                                   getProject(),
+                                   path,
+                                   true );
     }
 
     /**
@@ -439,8 +429,8 @@ public class GenerateClassDescriptorsTask
      */
     public void postFilterJavaClassList( final Collection classes )
     {
-        log( "MetaClass Attributes Compiler building " + classes.size() +
-             " " + getOutputDescription() + " descriptors.",
+        log( "MetaClass Attributes Compiler building " +
+             classes.size() + " " + getOutputDescription() + " descriptors.",
              Project.MSG_DEBUG );
     }
 
@@ -456,9 +446,11 @@ public class GenerateClassDescriptorsTask
      */
     public void postCompactDescriptorsList( final Collection descriptors )
     {
-        log( "MetaClass Attributes Compiler writing " + descriptors.size() +
-             " " + getOutputDescription() + " descriptors.",
-             Project.MSG_INFO );
+        log( "MetaClass Attributes Compiler writing " +
+             descriptors.size() +
+             " " +
+             getOutputDescription() +
+             " descriptors.", Project.MSG_INFO );
     }
 
     /**
@@ -467,7 +459,8 @@ public class GenerateClassDescriptorsTask
     public void errorGeneratingDescriptor( final String classname,
                                            final Throwable t )
     {
-        log( "Error Generating decriptor for  " + classname +
+        log( "Error Generating decriptor for  " +
+             classname +
              ". Reason: " + t, Project.MSG_ERR );
         m_failed = true;
     }

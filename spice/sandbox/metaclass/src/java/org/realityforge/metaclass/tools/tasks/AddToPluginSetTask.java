@@ -7,31 +7,26 @@
  */
 package org.realityforge.metaclass.tools.tasks;
 
-import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
 
 /**
  * An ant task to add one plugin set to another.
  *
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-11-27 08:16:50 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-29 09:28:02 $
  */
 public abstract class AddToPluginSetTask
     extends Task
 {
-    /**
-     * The rexpected type of plugin.
-     */
+    /** The rexpected type of plugin. */
     private Class m_type;
 
-    /**
-     * The PluginSet that will be added to.
-     */
+    /** The PluginSet that will be added to. */
     private String m_dest;
 
-    /**
-     * The PluginSet that will be added.
-     */
+    /** The PluginSet that will be added. */
     private String m_source;
 
     /**
@@ -92,6 +87,7 @@ public abstract class AddToPluginSetTask
 
         final PluginSet base = (PluginSet)destObject;
         final PluginSet other = (PluginSet)sourceObject;
+        log( "Adding " + other + " to " + base, Project.MSG_DEBUG );
         base.addPluginSet( other );
     }
 
