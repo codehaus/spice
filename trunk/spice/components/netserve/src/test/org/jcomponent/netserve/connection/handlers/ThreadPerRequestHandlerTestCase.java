@@ -12,12 +12,13 @@ import com.mockobjects.dynamic.Mock;
 import com.mockobjects.dynamic.C;
 import org.jcomponent.netserve.connection.RequestHandler;
 import org.jcomponent.threadpool.ThreadPool;
+import org.jcomponent.threadpool.ThreadControl;
 import java.net.Socket;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-29 03:00:14 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-29 03:51:59 $
  */
 public class ThreadPerRequestHandlerTestCase
     extends TestCase
@@ -42,11 +43,14 @@ public class ThreadPerRequestHandlerTestCase
     public void testThreadPoolInvoked()
         throws Exception
     {
+        final Mock mockControl = new Mock( ThreadControl.class );
+        final ThreadControl control = (ThreadControl)mockControl.proxy();
+
         final Mock mockHandler = new Mock( RequestHandler.class );
         final RequestHandler handler = (RequestHandler)mockHandler.proxy();
 
         final Mock mockPool = new Mock( ThreadPool.class );
-        mockPool.expectAndReturn( "execute", C.args( C.isA( Runnable.class ) ), null );
+        mockPool.expectAndReturn( "execute", C.args( C.isA( Runnable.class ) ), control );
         final ThreadPool threadPool = (ThreadPool)mockPool.proxy();
 
         final ThreadPerRequestHandler requestHandler =
@@ -55,5 +59,57 @@ public class ThreadPerRequestHandlerTestCase
 
         mockHandler.verify();
         mockPool.verify();
+        mockControl.verify();
+    }
+
+    public void testShutdownWhileThreadStillGoingButInteruptible()
+        throws Exception
+    {
+        final DelayingRequestHandler handler =
+            new DelayingRequestHandler( 2000, true );
+
+        final ThreadPerRequestHandler requestHandler =
+            new ThreadPerRequestHandler( handler, new MockThreadPool() );
+        requestHandler.handleConnection( new Socket() );
+        Thread.sleep( 50 );
+
+        requestHandler.shutdown( 50 );
+        assertEquals( "isShutdown", true, handler.isShutdown() );
+        assertEquals( "isExited", true, handler.isExited() );
+        assertEquals( "isExitDueToInterrupt", true, handler.isExitDueToInterrupt() );
+    }
+
+    public void testShutdownWhileThreadStillGoingAndNotInteruptible()
+        throws Exception
+    {
+        final DelayingRequestHandler handler =
+            new DelayingRequestHandler( 2000, false );
+
+        final ThreadPerRequestHandler requestHandler =
+            new ThreadPerRequestHandler( handler, new MockThreadPool() );
+        requestHandler.handleConnection( new Socket() );
+        Thread.sleep( 50 );
+
+        requestHandler.shutdown( 50 );
+        assertEquals( "isShutdown", true, handler.isShutdown() );
+        assertEquals( "isExited", false, handler.isExited() );
+        assertEquals( "isExitDueToInterrupt", false, handler.isExitDueToInterrupt() );
+    }
+
+    public void testShutdownWhileThreadStillGoingAndWaitIndefinetly()
+        throws Exception
+    {
+        final DelayingRequestHandler handler =
+            new DelayingRequestHandler( 200, false );
+
+        final ThreadPerRequestHandler requestHandler =
+            new ThreadPerRequestHandler( handler, new MockThreadPool() );
+        requestHandler.handleConnection( new Socket() );
+        Thread.sleep( 50 );
+
+        requestHandler.shutdown( 0 );
+        assertEquals( "isShutdown", true, handler.isShutdown() );
+        assertEquals( "isExited", true, handler.isExited() );
+        assertEquals( "isExitDueToInterrupt", false, handler.isExitDueToInterrupt() );
     }
 }

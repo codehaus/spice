@@ -8,18 +8,27 @@
 package org.jcomponent.netserve.connection.handlers;
 
 import java.net.Socket;
+import java.util.Map;
+import java.util.Hashtable;
+import java.util.Collection;
 import org.jcomponent.netserve.connection.RequestHandler;
 import org.jcomponent.threadpool.ThreadPool;
+import org.jcomponent.threadpool.ThreadControl;
 
 /**
  * A Handler that uses a thread from a pool for each different request.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-27 05:34:57 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-29 03:51:58 $
  */
 public class ThreadPerRequestHandler
     extends DelegatingRequestHandler
 {
+    /**
+     * A map of Socket->ThreadControl.
+     */
+    private final Map m_controlMap = new Hashtable();
+
     /**
      * the thread pool that used to handle requests.
      */
@@ -50,6 +59,59 @@ public class ThreadPerRequestHandler
     public void handleConnection( final Socket socket )
     {
         final Runnable runnable = createRunnable( socket );
-        m_threadPool.execute( runnable );
+        final ThreadControl control = m_threadPool.execute( runnable );
+        m_controlMap.put( socket, control );
+    }
+
+    /**
+     * Remove ThreadControl from list of active threads.
+     *
+     * @param socket the socket
+     */
+    protected void endConnection( Socket socket )
+    {
+        m_controlMap.remove( socket );
+        super.endConnection( socket );
+    }
+
+    /**
+     * Shutdown all requests including those executing in thread pool.
+     *
+     * @param timeout the timeout
+     */
+    public void shutdown( final long timeout )
+    {
+        markAsShutdown();
+        final ThreadControl[] controls;
+        synchronized( m_controlMap )
+        {
+            final Collection collection = m_controlMap.values();
+            controls = (ThreadControl[])collection.
+                toArray( new ThreadControl[ collection.size() ] );
+        }
+        for( int i = 0; i < controls.length; i++ )
+        {
+            final ThreadControl control = controls[ i ];
+            if( !control.isFinished() )
+            {
+                control.interrupt();
+            }
+        }
+        super.shutdown( timeout );
+        for( int i = 0; i < controls.length; i++ )
+        {
+            final ThreadControl control = controls[ i ];
+            if( !control.isFinished() )
+            {
+                try
+                {
+                    control.join( timeout );
+                }
+                catch( final InterruptedException ie )
+                {
+                    //Ignore
+                }
+            }
+        }
     }
 }
