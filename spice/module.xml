@@ -2,7 +2,7 @@
 
     <url href="http://spice.sourceforge.net"/>
     <description>
-      A repository of reusable components for Java Containers.
+        A repository of reusable components for Java Containers.
     </description>
 
     <cvs repository="sourceforge" host-prefix="cvs.spice"
@@ -86,32 +86,12 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="excalibur-i18n"  runtime="true"/>
+        <depend project="excalibur-i18n" runtime="true"/>
         <work nested="components/converter/target/classes"/>
         <work nested="components/converter/target/test-classes"/>
 
         <home nested="components/converter"/>
         <jar name="target/spice-converter-@@DATE@@.jar"/>
-        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
-            to="spice-devel@lists.sourceforge.net"/>
-    </project>
-
-    <project name="spice-io">
-        <package>org.realityforge.io</package>
-
-        <ant basedir="components/io">
-            <property name="final.name" value="spice-io-@@DATE@@"/>
-        </ant>
-
-        <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="xml-xerces"/>
-        <depend project="jakarta-oro" runtime="true"/>
-        <work nested="components/io/target/classes"/>
-        <work nested="components/io/target/test-classes"/>
-
-        <home nested="components/io"/>
-        <jar name="target/spice-io-@@DATE@@.jar"/>
         <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
             to="spice-devel@lists.sourceforge.net"/>
     </project>
@@ -229,6 +209,26 @@
         <jar name="tools/lib/qdox-1.0.jar"/>
     </project>
 
+    <project name="spice-salt">
+        <package>org.realityforge.salt</package>
+
+        <ant basedir="components/salt">
+            <property name="final.name" value="spice-salt-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="jakarta-oro" runtime="true"/>
+        <work nested="components/salt/target/classes"/>
+        <work nested="components/salt/target/test-classes"/>
+
+        <home nested="components/salt"/>
+        <jar name="target/spice-salt-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+    </project>
+
     <project name="spice-threadpool">
         <package>org.realityforge.threadpool</package>
 
@@ -295,30 +295,30 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
-<!--
-    <project name="spice-xsyslog">
-        <package>org.realityforge.xsyslog</package>
+    <!--
+        <project name="spice-xsyslog">
+            <package>org.realityforge.xsyslog</package>
 
-        <ant basedir="components/xsyslog">
-            <property name="final.name" value="spice-xsyslog-@@DATE@@"/>
-        </ant>
+            <ant basedir="components/xsyslog">
+                <property name="final.name" value="spice-xsyslog-@@DATE@@"/>
+            </ant>
 
-        <depend project="jakarta-ant" inherit="runtime"/>
-        <depend project="junit"/>
-        <depend project="xml-xerces"/>
-        <depend project="avalon"/>
-        <depend project="dist-avalon-logkit"/>
-        <depend project="jakarta-oro"/>
-        <depend project="spice-configkit" inherit="runtime"/>
+            <depend project="jakarta-ant" inherit="runtime"/>
+            <depend project="junit"/>
+            <depend project="xml-xerces"/>
+            <depend project="avalon"/>
+            <depend project="dist-avalon-logkit"/>
+            <depend project="jakarta-oro"/>
+            <depend project="spice-configkit" inherit="runtime"/>
 
-        <work nested="components/xinvoke/target/classes"/>
-        <work nested="components/xinvoke/target/test-classes"/>
+            <work nested="components/xinvoke/target/classes"/>
+            <work nested="components/xinvoke/target/test-classes"/>
 
-        <home nested="components/xinvoke"/>
-        <jar name="target/spice-xinvoke-@@DATE@@.jar"/>
-        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
-            to="spice-devel@lists.sourceforge.net"/>
-    </project>
- -->
+            <home nested="components/xinvoke"/>
+            <jar name="target/spice-xinvoke-@@DATE@@.jar"/>
+            <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+                to="spice-devel@lists.sourceforge.net"/>
+        </project>
+     -->
 
 </module>
