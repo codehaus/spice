@@ -47,7 +47,7 @@ public class BasicFieldTestCase
         {
             _fieldDescriptors = getClassDescriptor().getFields();
         }
-        catch ( final Exception e )
+        catch( final Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );
@@ -73,7 +73,7 @@ public class BasicFieldTestCase
 
     public void testName()
     {
-        for ( int i = 0; i < _fieldDescriptors.length; i++ )
+        for( int i = 0; i < _fieldDescriptors.length; i++ )
         {
             final FieldDescriptor fieldDescriptor = _fieldDescriptors[ i ];
             assertNotNull( fieldDescriptor );
@@ -83,7 +83,7 @@ public class BasicFieldTestCase
 
     public void testType()
     {
-        for ( int i = 0; i < _fieldDescriptors.length; i++ )
+        for( int i = 0; i < _fieldDescriptors.length; i++ )
         {
             final FieldDescriptor fieldDescriptor = _fieldDescriptors[ i ];
             assertNotNull( fieldDescriptor );
@@ -93,7 +93,7 @@ public class BasicFieldTestCase
 
     public void testModifiers()
     {
-        for ( int i = 0; i < _fieldDescriptors.length; i++ )
+        for( int i = 0; i < _fieldDescriptors.length; i++ )
         {
             final FieldDescriptor fieldDescriptor = _fieldDescriptors[ i ];
             assertNotNull( fieldDescriptor );
@@ -103,14 +103,14 @@ public class BasicFieldTestCase
 
     public void testGetAttributes()
     {
-        for ( int i = 0; i < _fieldDescriptors.length; i++ )
+        for( int i = 0; i < _fieldDescriptors.length; i++ )
         {
             final FieldDescriptor fieldDescriptor = _fieldDescriptors[ i ];
             assertNotNull( fieldDescriptor );
 
             final Attribute[] attributes = fieldDescriptor.getAttributes();
             final Attribute[] expectedAttributes = FIELD_ATTRIBUTES[ i ];
-            if ( i < FIELD_ATTRIBUTES.length )
+            if( i < FIELD_ATTRIBUTES.length )
             {
                 checkAttributesMatchExpected( expectedAttributes, attributes,
                                               "Field: getAttributes" + i );

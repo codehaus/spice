@@ -11,9 +11,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
-import org.realityforge.metaclass.model.Attribute;
-
-import java.util.Properties;
 
 public class AttributeTextAndParameterTestCase
     extends TestCase
@@ -38,16 +35,5 @@ public class AttributeTextAndParameterTestCase
 
     public void testCreateAttributeWithTextAndParameters()
     {
-        final Properties parameters = new Properties();
-        parameters.put( "foolish", "yes" );
-        try
-        {
-            new Attribute( "homer", "a text value", parameters );
-        }
-        catch ( IllegalArgumentException e )
-        {
-            return;
-        }
-        fail( "Attributes should be invalid if they contain both text and parameters." );
     }
 }

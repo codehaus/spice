@@ -7,13 +7,12 @@
  */
 package org.realityforge.metaclass.tools.tasks;
 
+import com.thoughtworks.qdox.ant.AbstractQdoxTask;
+import com.thoughtworks.qdox.model.JavaClass;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import com.thoughtworks.qdox.ant.AbstractQdoxTask;
-import com.thoughtworks.qdox.model.JavaClass;
 import org.apache.tools.ant.BuildException;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
@@ -25,7 +24,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-15 06:53:33 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-15 08:40:01 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -103,7 +102,7 @@ public class MetaGenerateTask
             writeClassDescriptors();
             System.out.println( "MetaData generation done." );
         }
-        catch ( final IOException ioe )
+        catch( final IOException ioe )
         {
             ioe.printStackTrace();
             throw new BuildException( "IOException " + ioe.getMessage(), ioe );
@@ -131,11 +130,11 @@ public class MetaGenerateTask
         throws IOException
     {
         final int classCount = allClasses.size();
-        for ( int i = 0; i < classCount; i++ )
+        for( int i = 0; i < classCount; i++ )
         {
-            final JavaClass candidate = (JavaClass) allClasses.get( i );
+            final JavaClass candidate = (JavaClass)allClasses.get( i );
             final JavaClass javaClass = filterClass( candidate );
-            if ( null == javaClass )
+            if( null == javaClass )
             {
                 continue;
             }
@@ -149,19 +148,19 @@ public class MetaGenerateTask
      */
     private void validate()
     {
-        if ( null == m_destDir )
+        if( null == m_destDir )
         {
             final String message = "DestDir not specified";
             throw new BuildException( message );
         }
-        if ( !m_destDir.isDirectory() )
+        if( !m_destDir.isDirectory() )
         {
             final String message =
                 "DestDir (" + m_destDir + ") is not a directory.";
             throw new BuildException( message );
         }
 
-        if ( !m_destDir.exists() && !m_destDir.mkdirs() )
+        if( !m_destDir.exists() && !m_destDir.mkdirs() )
         {
             final String message =
                 "DestDir (" + m_destDir + ") could not be created.";
@@ -185,7 +184,7 @@ public class MetaGenerateTask
         {
             getMetaClassIO().serialize( outputStream, descriptor );
         }
-        catch ( final Exception e )
+        catch( final Exception e )
         {
             log( "Error writing " + file + ". Cause: " + e );
         }
@@ -203,7 +202,7 @@ public class MetaGenerateTask
      */
     private MetaClassIO getMetaClassIO()
     {
-        if ( BINARY_TYPE == m_format )
+        if( BINARY_TYPE == m_format )
         {
             return c_metaClassIO;
         }
@@ -221,13 +220,13 @@ public class MetaGenerateTask
      */
     private static void shutdownStream( final OutputStream outputStream )
     {
-        if ( null != outputStream )
+        if( null != outputStream )
         {
             try
             {
                 outputStream.close();
             }
-            catch ( IOException e )
+            catch( IOException e )
             {
             }
         }
@@ -245,7 +244,7 @@ public class MetaGenerateTask
     {
         String filename =
             classname.replace( '.', File.separatorChar );
-        if ( BINARY_TYPE == m_format )
+        if( BINARY_TYPE == m_format )
         {
             filename += ".mad";
         }
@@ -265,11 +264,11 @@ public class MetaGenerateTask
      */
     private final String getOutputDescription()
     {
-        if ( XML_TYPE == m_format )
+        if( XML_TYPE == m_format )
         {
             return "xml";
         }
-        else if ( SER_TYPE == m_format )
+        else if( SER_TYPE == m_format )
         {
             return "serialized objects";
         }

@@ -16,10 +16,10 @@ public class AttributeProperties
     public AttributeProperties( final String[][] properties )
     {
         _properties = new Properties();
-        for ( int i = 0; i < properties.length; i++ )
+        for( int i = 0; i < properties.length; i++ )
         {
             final String[] property = properties[ i ];
-            if ( property.length != 2 )
+            if( property.length != 2 )
             {
                 throw new IllegalArgumentException( "Error initialising AttributeProperties: " +
                                                     "Properties must be defined in " +

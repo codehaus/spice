@@ -12,46 +12,46 @@ package org.realityforge.metaclass;
  * for a particular class.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-15 06:53:33 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-15 08:40:00 $
  */
 public class MetaClassException
-   extends Exception
+    extends Exception
 {
-   /**
-    * The throwable that caused this exception.
-    */
-   private final Throwable m_cause;
+    /**
+     * The throwable that caused this exception.
+     */
+    private final Throwable m_cause;
 
-   /**
-    * Create an exception with specified message.
-    *
-    * @param message the message
-    */
-   public MetaClassException( final String message )
-   {
-      this( message, null );
-   }
+    /**
+     * Create an exception with specified message.
+     *
+     * @param message the message
+     */
+    public MetaClassException( final String message )
+    {
+        this( message, null );
+    }
 
-   /**
-    * Create an exception with specified message and cause.
-    *
-    * @param message the message
-    * @param cause the exception that caused this exception
-    */
-   public MetaClassException( final String message,
-                                     final Throwable cause )
-   {
-      super( message );
-      m_cause = cause;
-   }
+    /**
+     * Create an exception with specified message and cause.
+     *
+     * @param message the message
+     * @param cause the exception that caused this exception
+     */
+    public MetaClassException( final String message,
+                               final Throwable cause )
+    {
+        super( message );
+        m_cause = cause;
+    }
 
-   /**
-    * Return the exception that caused this exception (if any).
-    *
-    * @return the exception that caused this exception (if any).
-    */
-   public Throwable getCause()
-   {
-      return m_cause;
-   }
+    /**
+     * Return the exception that caused this exception (if any).
+     *
+     * @return the exception that caused this exception (if any).
+     */
+    public Throwable getCause()
+    {
+        return m_cause;
+    }
 }

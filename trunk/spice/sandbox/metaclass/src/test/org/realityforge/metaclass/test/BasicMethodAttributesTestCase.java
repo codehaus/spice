@@ -7,6 +7,7 @@
  */
 package org.realityforge.metaclass.test;
 
+import java.util.ArrayList;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
@@ -14,8 +15,6 @@ import org.realityforge.metaclass.Attributes;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
-
-import java.util.ArrayList;
 
 public class BasicMethodAttributesTestCase
     extends AbstractFeatureTestCase
@@ -51,7 +50,7 @@ public class BasicMethodAttributesTestCase
         {
             _methodDescriptors = getClassDescriptor().getMethods();
         }
-        catch ( final Exception e )
+        catch( final Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );
@@ -80,16 +79,16 @@ public class BasicMethodAttributesTestCase
         try
         {
             final Class aClass = Class.forName( CLASS_NAME );
-            for ( int i = 0; i < METHOD_ATTRIBUTES.length; i++ )
+            for( int i = 0; i < METHOD_ATTRIBUTES.length; i++ )
             {
                 final Attribute[] expectedAttributes = METHOD_ATTRIBUTES[ i ];
                 final ParameterDescriptor[] expectedParameters = METHOD_PARAMETERS[ i ];
 
                 final ArrayList parameterTypes = new ArrayList();
-                for ( int j = 0; j < expectedParameters.length; j++ )
+                for( int j = 0; j < expectedParameters.length; j++ )
                 {
                     final ParameterDescriptor expectedParameter = expectedParameters[ j ];
-                    if ( null != expectedParameter )
+                    if( null != expectedParameter )
                     {
                         parameterTypes.add( Class.forName( expectedParameter.getType() ) );
                     }
@@ -97,9 +96,9 @@ public class BasicMethodAttributesTestCase
 
                 final int parametersCount = parameterTypes.size();
                 final Class[] parameterTypeClasses = new Class[ parametersCount ];
-                for ( int j = 0; j < parametersCount; j++ )
+                for( int j = 0; j < parametersCount; j++ )
                 {
-                    final Class parameterType = (Class) parameterTypes.get( j );
+                    final Class parameterType = (Class)parameterTypes.get( j );
                     parameterTypeClasses[ j ] = parameterType;
                 }
 
@@ -113,7 +112,7 @@ public class BasicMethodAttributesTestCase
                                               "getAttributes" );
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );
@@ -133,7 +132,7 @@ public class BasicMethodAttributesTestCase
             checkAttributesMatchExpected( METHOD_1_ATTRIBUTES_NAMED_TAG_0, attributes,
                                           "getNamedAttributes" );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );
@@ -150,14 +149,14 @@ public class BasicMethodAttributesTestCase
                                                                          aClass,
                                                                          new Class[]{},
                                                                          METHOD_1_TAG_0_NAME );
-            if ( !MetaClassTestUtility.areAttributesEqual( METHOD_1_TAG_0,
-                                                           attribute ) )
+            if( !MetaClassTestUtility.areAttributesEqual( METHOD_1_TAG_0,
+                                                          attribute ) )
             {
                 fail( "getNamedValueAttribute: Attributes not equal:\n" +
                       METHOD_1_TAG_0 + " != " + attribute );
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );
@@ -173,14 +172,14 @@ public class BasicMethodAttributesTestCase
                 Attributes.getAttribute( aClass.getDeclaredMethod( METHOD_NAMES[ 3 ],
                                                                    new Class[]{} ),
                                          METHOD_3_TAG_0_NAME );
-            if ( !MetaClassTestUtility.areAttributesEqual( METHOD_3_TAG_0,
-                                                           attribute ) )
+            if( !MetaClassTestUtility.areAttributesEqual( METHOD_3_TAG_0,
+                                                          attribute ) )
             {
                 fail( "getNamedParametersAttribute: Attributes not equal:\n" +
                       METHOD_3_TAG_0 + " != " + attribute );
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );
