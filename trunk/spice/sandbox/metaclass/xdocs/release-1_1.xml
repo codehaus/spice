@@ -63,6 +63,13 @@
                 <li>
                     Achieve 100% unit test coverage of MetaClass code.
                 </li>
+                <li>
+                    Remove modifiers from FeatureDescriptor as they can be
+                    derived from the corresponding classes in java.lang.reflect.
+                    This was a backwards incompatible change in serialization
+                    format and thus the version of the MetaClass file format
+                    was increased to 2.
+                </li>
             </ul>
         </section>
     </body>
