@@ -71,9 +71,21 @@
                     was increased to 2.
                 </li>
                 <li>
-                    Added in RegistryMetaClassAccessor that is an Accessor
-                    implementation that only returns descriptors that have
-                    been explicitly registered with Accessor. 
+                    Added in CachingMetaClassAccessor that caches results to a child
+                    Accessor and reworked Introspector to use this internally.
+                </li>
+                <li>
+                    Modified the MetaClassAccessor interface to accept an
+                    extra parameter of type MetaClassAccessor. This accessor
+                    can be used to resolve related classes when loading a
+                    ClassDescriptor. This enables support for creating an
+                    Accessor that supports inheritance of attributes.
+                </li>
+                <li>
+                    By default the ant task will now not filter out attributes
+                    that do not have a name space (ie are not in the form X.Y).
+                    To disable this behaviour use set the
+                    namespaceTagsOnly="false" attribute on the task.
                 </li>
             </ul>
         </section>
