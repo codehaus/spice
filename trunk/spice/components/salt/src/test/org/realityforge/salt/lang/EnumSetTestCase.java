@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-06-06 06:27:54 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-06 06:33:34 $
  */
 public class EnumSetTestCase
     extends TestCase
@@ -128,6 +128,18 @@ public class EnumSetTestCase
         {
             EnumSet.createFrom( SuperConstants.class, "(.*_VAL" );
             fail( "Expected to fail as had malformed pattern");
+        }
+        catch( final IllegalArgumentException iae )
+        {
+        }
+    }
+
+    public void testPatternHasMultipleGroups()
+    {
+        try
+        {
+            EnumSet.createFrom( SuperConstants.class, "(.*)(_VAL)" );
+            fail( "Expected to fail as had multiple groups in pattern" );
         }
         catch( final IllegalArgumentException iae )
         {
