@@ -124,6 +124,19 @@ public class LoggerStoreFactoryTestCase
         runInvalidInputData( new LogKitLoggerStoreFactory() );
     }
 
+    public void testLogKitLoggerStoreFactoryWithSpecifiedClassLoader()
+        throws Exception
+    {
+        Thread.currentThread().setContextClassLoader( null );
+        final HashMap config = new HashMap();
+        config.put( ClassLoader.class.getName(),
+                    LogKitLoggerStoreFactory.class.getClassLoader() );
+        runFactoryTest( new LogKitLoggerStoreFactory(),
+                        ConsoleLogger.LEVEL_DEBUG,
+                        config,
+                        "log4j-properties" );
+    }
+
     public void testLogKitLoggerStoreFactoryWithConfigurationAndDefaultLoggerManager()
         throws Exception
     {
@@ -178,6 +191,27 @@ public class LoggerStoreFactoryTestCase
                                    ConsoleLogger.LEVEL_INFO,
                                    "logkit-simple",
                                    config );
+    }
+
+    public void testLogKitLoggerStoreFactoryWithStreamsAndInvalidLoggerManager()
+        throws Exception
+    {
+
+        final HashMap config = new HashMap();
+        config.put( LogKitLoggerStoreFactory.LOGGER_MANAGER,
+                    "SomeInvalidLoggerManager" );
+        try
+        {
+            runStreamBasedFactoryTest( "logkit-simple.xml",
+                                       new LogKitLoggerStoreFactory(),
+                                       ConsoleLogger.LEVEL_INFO,
+                                       "logkit-simple",
+                                       config );
+            fail( "Expected to not be able to create LoggerManager ");
+        }
+        catch( final Exception e )
+        {
+        }
     }
 
     public void testExcaliburLogKitLoggerStoreFactoryInvalidInput()
