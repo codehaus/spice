@@ -8,11 +8,13 @@
 package org.jcomponent.netserve.sockets.impl;
 
 import org.jcomponent.netserve.sockets.SocketAcceptorManager;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-09 07:02:17 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-09 07:08:30 $
  */
 public class DefaultAcceptorManagerTestCase
     extends AbstractAcceptorManagerTestCase
@@ -85,6 +87,39 @@ public class DefaultAcceptorManagerTestCase
         assertEquals( "isConnected pre disconnect", true, manager.isConnected( name ) );
         manager.disconnect( name );
         assertEquals( "isConnected post disconnect", false, manager.isConnected( name ) );
+    }
+
+    public void testDuplicateConnect()
+        throws Exception
+    {
+        final SocketAcceptorManager manager = createAcceptorManager();
+        final String name = "name";
+        assertEquals( "isConnected pre connect", false, manager.isConnected( name ) );
+        final ExceptOnAcceptServerSocket socket = new ExceptOnAcceptServerSocket( true );
+        final InetAddress lh = InetAddress.getLocalHost();
+        final InetSocketAddress isa = new InetSocketAddress( lh, 1234 );
+        socket.bind( isa );
+        manager.connect( name,
+                         socket,
+                         new MockSocketConnectionHandler() );
+        assertEquals( "isConnected pre disconnect", true, manager.isConnected( name ) );
+        try
+        {
+            manager.connect( name,
+                             new ExceptOnAcceptServerSocket( true ),
+                             new MockSocketConnectionHandler() );
+        }
+        catch( final IllegalArgumentException iae )
+        {
+            return;
+        }
+        finally
+        {
+            socket.close();
+            shutdownAcceptorManager( manager );
+            assertEquals( "isConnected post disconnect", false, manager.isConnected( name ) );
+        }
+        fail( "Expected to fail due to duplicate connect" );
     }
 
     protected SocketAcceptorManager createAcceptorManager()
