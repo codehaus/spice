@@ -18,8 +18,8 @@ import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
-import org.realityforge.metaclass.model.ParameterDescriptor;
 import org.realityforge.metaclass.model.PackageDescriptor;
+import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
  * This is a utility class that writes out a Attributes object
@@ -27,7 +27,7 @@ import org.realityforge.metaclass.model.PackageDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.10 $ $Date: 2003-08-22 03:00:39 $
+ * @version $Revision: 1.11 $ $Date: 2003-08-22 03:25:46 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -73,7 +73,7 @@ public class MetaClassIOBinary
      */
     public void serializePackage( final OutputStream output,
                                   final PackageDescriptor info )
-      throws IOException
+        throws IOException
     {
         final DataOutputStream data = new DataOutputStream( output );
         try
@@ -82,9 +82,9 @@ public class MetaClassIOBinary
             data.writeUTF( info.getName() );
             writeAttributes( data, info.getAttributes() );
         }
-       finally
+        finally
         {
-           data.flush();
+            data.flush();
         }
     }
 
@@ -113,39 +113,8 @@ public class MetaClassIOBinary
         final int classModifiers = data.readInt();
         final Attribute[] classAttributes = readAttributes( data );
 
-        final int fieldCount = data.readInt();
-        final ArrayList fieldSet = new ArrayList();
-        for( int i = 0; i < fieldCount; i++ )
-        {
-            final String name = data.readUTF();
-            final String type = data.readUTF();
-            final int modifiers = data.readInt();
-            final Attribute[] attributes = readAttributes( data );
-            final FieldDescriptor field =
-                new FieldDescriptor( name, type, modifiers, attributes );
-            fieldSet.add( field );
-        }
-
-        final int methodCount = data.readInt();
-        final ArrayList methodSet = new ArrayList();
-        for( int i = 0; i < methodCount; i++ )
-        {
-            final String name = data.readUTF();
-            final String type = data.readUTF();
-            final ParameterDescriptor[] parameters = readParameters( data );
-            final int modifiers = data.readInt();
-            final Attribute[] attributes = readAttributes( data );
-            final MethodDescriptor method =
-                new MethodDescriptor( name, type,
-                                      modifiers, parameters,
-                                      attributes );
-            methodSet.add( method );
-        }
-
-        final FieldDescriptor[] fields =
-            (FieldDescriptor[])fieldSet.toArray( new FieldDescriptor[ fieldSet.size() ] );
-        final MethodDescriptor[] methods =
-            (MethodDescriptor[])methodSet.toArray( new MethodDescriptor[ methodSet.size() ] );
+        final FieldDescriptor[] fields = readFields( data );
+        final MethodDescriptor[] methods = readMethods( data );
 
         return
             new ClassDescriptor( classname, classModifiers,
@@ -170,34 +139,164 @@ public class MetaClassIOBinary
             data.writeUTF( info.getName() );
             data.writeInt( info.getModifiers() );
             writeAttributes( data, info.getAttributes() );
-
-            final FieldDescriptor[] fields = info.getFields();
-            data.writeInt( fields.length );
-            for( int i = 0; i < fields.length; i++ )
-            {
-                final FieldDescriptor field = fields[ i ];
-                data.writeUTF( field.getName() );
-                data.writeUTF( field.getType() );
-                data.writeInt( field.getModifiers() );
-                writeAttributes( data, field.getAttributes() );
-            }
-
-            final MethodDescriptor[] methods = info.getMethods();
-            data.writeInt( methods.length );
-            for( int i = 0; i < methods.length; i++ )
-            {
-                final MethodDescriptor method = methods[ i ];
-                data.writeUTF( method.getName() );
-                data.writeUTF( method.getReturnType() );
-                writeParameters( data, method.getParameters() );
-                data.writeInt( method.getModifiers() );
-                writeAttributes( data, method.getAttributes() );
-            }
+            writeFields( data, info.getFields() );
+            writeMethods( data, info.getMethods() );
         }
         finally
         {
             data.flush();
         }
+    }
+
+    /**
+     * Write out a set of fields.
+     *
+     * @param data the output stream
+     * @param fields the fields
+     * @throws IOException if unable to write fields
+     */
+    void writeFields( final DataOutputStream data,
+                      final FieldDescriptor[] fields )
+        throws IOException
+    {
+        data.writeInt( fields.length );
+        for( int i = 0; i < fields.length; i++ )
+        {
+            final FieldDescriptor field = fields[ i ];
+            writeField( data, field );
+        }
+    }
+
+    /**
+     * Write out a field.
+     *
+     * @param data the output stream
+     * @param field the field
+     * @throws IOException if unable to write field
+     */
+    private void writeField( final DataOutputStream data,
+                             final FieldDescriptor field )
+        throws IOException
+    {
+        data.writeUTF( field.getName() );
+        data.writeUTF( field.getType() );
+        data.writeInt( field.getModifiers() );
+        writeAttributes( data, field.getAttributes() );
+    }
+
+    /**
+     * Write out a set of methods.
+     *
+     * @param data the output stream
+     * @param methods the methods
+     * @throws IOException if unable to write methods
+     */
+    void writeMethods( final DataOutputStream data,
+                       final MethodDescriptor[] methods )
+        throws IOException
+    {
+        data.writeInt( methods.length );
+        for( int i = 0; i < methods.length; i++ )
+        {
+            final MethodDescriptor method = methods[ i ];
+            writeMethod( data, method );
+        }
+    }
+
+    /**
+     * Write out a method.
+     *
+     * @param data the output stream
+     * @param method the method
+     * @throws IOException if unable to write method
+     */
+    private void writeMethod( final DataOutputStream data,
+                              final MethodDescriptor method )
+        throws IOException
+    {
+        data.writeUTF( method.getName() );
+        data.writeUTF( method.getReturnType() );
+        writeParameters( data, method.getParameters() );
+        data.writeInt( method.getModifiers() );
+        writeAttributes( data, method.getAttributes() );
+    }
+
+    /**
+     * Read in a set of methods.
+     *
+     * @param data the input
+     * @return the methods
+     * @throws IOException if unable to read methods
+     */
+    MethodDescriptor[] readMethods( final DataInputStream data )
+        throws IOException
+    {
+        final int methodCount = data.readInt();
+        final ArrayList methodSet = new ArrayList();
+        for( int i = 0; i < methodCount; i++ )
+        {
+            methodSet.add( readMethod( data ) );
+        }
+
+        return (MethodDescriptor[])methodSet.
+            toArray( new MethodDescriptor[ methodSet.size() ] );
+    }
+
+    /**
+     * Read in a method.
+     *
+     * @param data the input
+     * @return the method
+     * @throws IOException if unable to read method
+     */
+    private MethodDescriptor readMethod( final DataInputStream data )
+        throws IOException
+    {
+        final String name = data.readUTF();
+        final String type = data.readUTF();
+        final ParameterDescriptor[] parameters = readParameters( data );
+        final int modifiers = data.readInt();
+        final Attribute[] attributes = readAttributes( data );
+        return
+            new MethodDescriptor( name, type,
+                                  modifiers, parameters,
+                                  attributes );
+    }
+
+    /**
+     * Read in a set of fields.
+     *
+     * @param data the input
+     * @return the fields
+     * @throws IOException if unable to read fields
+     */
+    FieldDescriptor[] readFields( final DataInputStream data ) throws IOException
+    {
+        final int fieldCount = data.readInt();
+        final ArrayList fieldSet = new ArrayList();
+        for( int i = 0; i < fieldCount; i++ )
+        {
+            fieldSet.add( readField( data ) );
+        }
+        return (FieldDescriptor[])fieldSet.
+            toArray( new FieldDescriptor[ fieldSet.size() ] );
+    }
+
+    /**
+     * Read in a field.
+     *
+     * @param data the input
+     * @return the field
+     * @throws IOException if unable to read field
+     */
+    private FieldDescriptor readField( final DataInputStream data )
+        throws IOException
+    {
+        final String name = data.readUTF();
+        final String type = data.readUTF();
+        final int modifiers = data.readInt();
+        final Attribute[] attributes = readAttributes( data );
+        return new FieldDescriptor( name, type, modifiers, attributes );
     }
 
     /**
@@ -228,14 +327,12 @@ public class MetaClassIOBinary
      * @return the method parameter
      * @throws IOException if unable to read parameter
      */
-    ParameterDescriptor readParameter( final DataInputStream data )
+    private ParameterDescriptor readParameter( final DataInputStream data )
         throws IOException
     {
         final String name = data.readUTF();
         final String type = data.readUTF();
-        final ParameterDescriptor parameter =
-            new ParameterDescriptor( name, type );
-        return parameter;
+        return new ParameterDescriptor( name, type );
     }
 
     /**
@@ -253,9 +350,23 @@ public class MetaClassIOBinary
         for( int i = 0; i < parameters.length; i++ )
         {
             final ParameterDescriptor parameter = parameters[ i ];
-            data.writeUTF( parameter.getName() );
-            data.writeUTF( parameter.getType() );
+            writeParameter( data, parameter );
         }
+    }
+
+    /**
+     * Write out a method parameter.
+     *
+     * @param data the output stream
+     * @param parameter the method parameter
+     * @throws IOException if unable to write parameter
+     */
+    private void writeParameter( final DataOutputStream data,
+                                 final ParameterDescriptor parameter )
+        throws IOException
+    {
+        data.writeUTF( parameter.getName() );
+        data.writeUTF( parameter.getType() );
     }
 
     /**
