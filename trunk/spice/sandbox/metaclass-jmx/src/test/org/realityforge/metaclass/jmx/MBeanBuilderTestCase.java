@@ -25,7 +25,7 @@ import java.beans.PropertyDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2003-10-14 00:56:24 $
+ * @version $Revision: 1.15 $ $Date: 2003-10-14 01:03:34 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -675,5 +675,38 @@ public class MBeanBuilderTestCase
         assertEquals( "returnType", "int", attribute.getType() );
         assertEquals( "currencyTimeLimit", new Integer( 1 ),
                       attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+    }
+
+    public void testExtractAttributes()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final PropertyDescriptor descriptor1 =
+            new PropertyDescriptor( "value", TestBean.class );
+        final PropertyDescriptor descriptor2 =
+            new PropertyDescriptor( "otherValue", TestBean.class );
+
+        final Attribute[] attributesSansDescription =
+            new Attribute[]{new Attribute( "mx.attribute" )};
+        final MethodDescriptor writer =
+            new MethodDescriptor( "setValue",
+                                  "",
+                                  0,
+                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  attributesSansDescription );
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( TestBean.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{writer} );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final PropertyDescriptor[] propertys = new PropertyDescriptor[]{descriptor1,descriptor2};
+        final ModelInfoCreationHelper helper = new ModelInfoCreationHelper();
+        builder.extractAttributes( propertys, helper );
+        assertEquals( "attributes.length", 1, helper.getAttributes().length );
     }
 }
