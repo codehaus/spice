@@ -17,11 +17,12 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Attr;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-31 23:42:53 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-31 23:48:14 $
  */
 public class DOMMetaClassDeserializer
 {
@@ -299,11 +300,12 @@ public class DOMMetaClassDeserializer
         }
     }
 
+
     String expectAttribute( final Element element,
                             final String expected )
         throws Exception
     {
-        final String actual = element.getAttribute( expected );
+        final Attr actual = element.getAttributeNode( expected );
         if( null == actual )
         {
             final String message =
@@ -312,7 +314,7 @@ public class DOMMetaClassDeserializer
                 " @ " + getPathDescription( element ) + ".";
             throw new Exception( message );
         }
-        return actual;
+        return actual.getValue();
     }
 
     /**
