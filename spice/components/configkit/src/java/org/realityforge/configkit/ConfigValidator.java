@@ -33,7 +33,7 @@ import javax.xml.parsers.ParserConfigurationException;
  * ConfigValidatorFactory.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-04-05 09:40:03 $
+ * @version $Revision: 1.4 $ $Date: 2003-04-05 10:47:12 $
  */
 public class ConfigValidator
 {
@@ -52,7 +52,7 @@ public class ConfigValidator
      *
      * @param schema the schema
      */
-    ConfigValidator( final Schema schema, 
+    ConfigValidator( final Schema schema,
                      final EntityResolver resolver )
     {
         if( null == schema )
@@ -364,8 +364,8 @@ public class ConfigValidator
             final VerifierFilter filter = verifier.getVerifierFilter();
             filter.setParent( reader );
             filter.setContentHandler( contentHandler );
-            filter.parse( input );
             filter.setEntityResolver( m_resolver );
+            filter.parse( input );
 
             if( !filter.isValid() )
             {
