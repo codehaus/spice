@@ -17,8 +17,8 @@ import java.net.ServerSocket;
  * sockets created could be proxied, SSL enabled, TLS enabled etc.
  * However clients just care that they return sockets.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-23 01:32:17 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 01:33:29 $
  */
 public interface ServerSocketFactory
 {
