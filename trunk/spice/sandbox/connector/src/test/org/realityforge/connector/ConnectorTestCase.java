@@ -7,6 +7,31 @@ import junit.framework.TestCase;
 public class ConnectorTestCase
    extends TestCase
 {
+   public void testSetPingPolicy()
+      throws Exception
+   {
+      final Connector connector = new Connector();
+      final NeverPingPolicy policy = new NeverPingPolicy();
+      connector.setPingPolicy( policy );
+      assertEquals( "PingPolicy", policy, connector.getPingPolicy() );
+   }
+
+   public void testSetNullPingPolicy()
+      throws Exception
+   {
+      final Connector connector = new Connector();
+      try
+      {
+         connector.setPingPolicy( null );
+      }
+      catch ( final NullPointerException npe )
+      {
+         assertEquals( "npe.message", "pingPolicy", npe.getMessage() );
+         return;
+      }
+      fail( "Expected to fail due to NPE" );
+   }
+
    public void testSetPolicy()
       throws Exception
    {
