@@ -35,14 +35,9 @@
             </subsection>
             <subsection name="JContainer Loom">
                 <p>
-                    <a href="http://avalon.apache.org/framework">Avalon Framework</a>
-                    supports Inversion of Control (IoC), via a set of interfaces
-                    (sometimes called type-1 IoC).
-                </p>
-                <p>
                     The <a href="http://loom.jcontainer.org">JContainer Loom</a>
                     is a container designed and implemented on top of the
-                    Avalon Framework.
+                    DNA and Avalon Frameworks.
                 </p>
             </subsection>
             <subsection name="PicoContainer">
@@ -55,6 +50,13 @@
                 <p>
                     The components which are Pico-compatible will display the
                     logo <img src="http://www.picocontainer.org/images/pico-compatible.png" alt="Pico-compatible"/>.
+                </p>
+            </subsection>
+            <subsection name="Codehaus Plexus">
+                <p>
+                    <a href="http://plexus.codehaus.org">Plexus</a> is is a
+                    container designed and implemented on top of the
+                    DNA and Avalon Frameworks.
                 </p>
             </subsection>
         </section>
