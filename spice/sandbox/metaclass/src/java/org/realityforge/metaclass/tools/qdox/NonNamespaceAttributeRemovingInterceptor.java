@@ -17,8 +17,8 @@ import com.thoughtworks.qdox.model.JavaMethod;
  * Attributes with namespace have names of the form
  * &lt;namespace&gt;.&lt;name&gt;.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-29 08:27:12 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-27 08:08:04 $
  */
 public class NonNamespaceAttributeRemovingInterceptor
     extends DefaultQDoxAttributeInterceptor

@@ -23,8 +23,8 @@ import java.io.Serializable;
  * Attributes that can be used to store extra information
  * about method.</p>
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-10-28 13:40:52 $
+ * @author Peter Donald
+ * @version $Revision: 1.10 $ $Date: 2003-11-27 08:09:53 $
  */
 public final class MethodDescriptor
     extends FeatureDescriptor

@@ -20,8 +20,8 @@ import org.realityforge.metaclass.model.Attribute;
  * interceptor may require the context of the original model
  * during processing.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-24 04:09:05 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-27 08:08:04 $
  */
 public interface QDoxAttributeInterceptor
 {

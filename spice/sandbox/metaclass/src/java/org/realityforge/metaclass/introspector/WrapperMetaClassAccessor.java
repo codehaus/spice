@@ -14,8 +14,8 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * The purpose of the wrapping is to make it impossible for users to
  * get to the underlying accessor implementation.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-28 08:15:01 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003-11-27 08:09:53 $
  */
 public class WrapperMetaClassAccessor
     implements MetaClassAccessor

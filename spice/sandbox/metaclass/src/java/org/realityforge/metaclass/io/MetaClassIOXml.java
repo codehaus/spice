@@ -24,8 +24,8 @@ import org.w3c.dom.Document;
  * This is a utility class that writes out the ClassDescriptor
  * to a stream using the xml format outlined in documentation.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-11-01 01:21:04 $
+ * @author Peter Donald
+ * @version $Revision: 1.10 $ $Date: 2003-11-27 08:09:53 $
  */
 public class MetaClassIOXml
     implements MetaClassIO

@@ -20,8 +20,8 @@ import org.xml.sax.helpers.AttributesImpl;
  * Utility class that serializes a ClassDescriptor object
  * to a SAX2 compliant ContentHandler.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-10-29 10:34:13 $
+ * @author Peter Donald
+ * @version $Revision: 1.10 $ $Date: 2003-11-27 08:09:53 $
  */
 public class SAXMetaClassSerializer
 {

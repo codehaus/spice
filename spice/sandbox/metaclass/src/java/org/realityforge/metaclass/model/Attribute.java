@@ -23,9 +23,9 @@ import java.util.Set;
  *                   also having a text value.</li>
  * </ul>
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.10 $ $Date: 2003-10-03 13:39:49 $
+ * @version $Revision: 1.11 $ $Date: 2003-11-27 08:09:53 $
  */
 public final class Attribute
     implements Serializable

@@ -16,8 +16,8 @@ import org.realityforge.metaclass.model.Attribute;
  * A base implementation of QDoxAttributeInterceptor that
  * just returns original values parsed from source files.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-04 00:47:48 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-11-27 08:08:04 $
  */
 public class DefaultQDoxAttributeInterceptor
     implements QDoxAttributeInterceptor

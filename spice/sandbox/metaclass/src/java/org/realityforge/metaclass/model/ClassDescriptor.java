@@ -14,8 +14,8 @@ import java.io.Serializable;
  * the name of the class, access modifiers, attributes, the classes fields and
  * the classes methods.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-10-28 13:26:54 $
+ * @author Peter Donald
+ * @version $Revision: 1.11 $ $Date: 2003-11-27 08:09:53 $
  */
 public class ClassDescriptor
     extends FeatureDescriptor

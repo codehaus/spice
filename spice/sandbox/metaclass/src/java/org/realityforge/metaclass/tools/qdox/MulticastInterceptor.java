@@ -18,8 +18,8 @@ import org.realityforge.metaclass.model.Attribute;
  * attribute the chain will terminate when the first interceptor
  * returns null.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-04 00:47:48 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003-11-27 08:08:04 $
  */
 class MulticastInterceptor
     implements QDoxAttributeInterceptor

@@ -11,8 +11,8 @@ package org.realityforge.metaclass.introspector;
  * Exception if unable to locate MetaClass data
  * for a particular class.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 00:47:48 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-27 08:09:53 $
  */
 public class MetaClassException
     extends Exception
