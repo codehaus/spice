@@ -46,7 +46,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * ClassDescriptor for class) then either an empty array
  * or a null will be returned depending on the method.</p>
  *
- * @version $Revision: 1.10 $ $Date: 2003-10-04 00:49:15 $
+ * @version $Revision: 1.11 $ $Date: 2003-10-14 01:24:23 $
  */
 public class Attributes
 {
@@ -470,7 +470,7 @@ public class Attributes
      * @throws MetaClassException if unable to get ClassDescriptor
      */
     private static ClassDescriptor getClassInfo( final Class clazz )
-        throws org.realityforge.metaclass.introspector.MetaClassException
+        throws MetaClassException
     {
         return MetaClassIntrospector.getClassDescriptor( clazz );
     }
