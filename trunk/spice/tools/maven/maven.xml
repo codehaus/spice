@@ -6,8 +6,8 @@
     default="java:jar">
 
     <preGoal name="site:generate">
-        <mkdir dir="${maven.docs.dest}"/>
-        <copy todir="${maven.docs.dest}">
+        <mkdir dir="target/docs"/>
+        <copy todir="target/docs">
             <fileset dir="${basedir}/../../tools/site" filtering="no">
                 <include name="images/*.gif"/>
             </fileset>
@@ -21,7 +21,7 @@
             </fileset>
         </copy>
     </preGoal>
-    
+
     <preGoal name="xdoc:transform">
         <attainGoal name="generateNavigation"/>
     </preGoal>
