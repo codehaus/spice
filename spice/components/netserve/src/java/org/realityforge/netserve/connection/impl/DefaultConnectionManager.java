@@ -8,7 +8,6 @@
 package org.realityforge.netserve.connection.impl;
 
 import java.net.ServerSocket;
-import java.net.SocketException;
 import java.util.Hashtable;
 import java.util.Map;
 import org.apache.avalon.framework.activity.Disposable;
@@ -28,7 +27,7 @@ import org.realityforge.threadpool.ThreadPool;
  * to ConnectionHandler instances to handle the connection.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-04-23 04:24:37 $
+ * @version $Revision: 1.5 $ $Date: 2003-04-23 04:29:25 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
@@ -45,7 +44,7 @@ public class DefaultConnectionManager
      * The ThreadPool dependency that will be used to initiate
      * connections if clients do not specify threadPool. Is an
      * optional dependency and if not specified a new thread will
-     * be instantiated as is needed.  
+     * be instantiated as is needed.
      */
     private ThreadPool m_threadpool;
 
@@ -65,40 +64,52 @@ public class DefaultConnectionManager
         }
     }
 
+    /**
+     * Dispose the ConnectionManager which involves shutting down all
+     * the connected acceptors.
+     */
     public void dispose()
     {
         final String[] names = (String[])m_acceptors.keySet().toArray( new String[ 0 ] );
         for( int i = 0; i < names.length; i++ )
         {
+            final String name = names[ i ];
             try
             {
-                disconnect( names[ i ], true );
+                disconnect( name, true );
             }
             catch( final Exception e )
             {
-                getLogger().warn( "Error disconnecting " + names[ i ], e );
+                final String message =
+                    "Error disconnecting " + name + "due tyo: " + e;
+                getLogger().warn( message, e );
             }
         }
     }
 
     /**
-     * Start managing a connection.
-     * Management involves accepting connections and farming them out to threads
-     * from pool to be handled.
+     * Start managing a connection. Once a connection is managed by
+     * this service it will accept connections from ServerSocket and pass
+     * the connections to the ConnectionHandlers. The ConnectionHandlers
+     * will be called in a Thread aquired from the specified ThreadPool.
      *
-     * @param name the name of connection
-     * @param socket the ServerSocket from which to
-     * @param handlerFactory the factory from which to aquire handlers
-     * @param threadPool the thread pool to use
-     * @exception Exception if an error occurs
+     * @param name the name of connection. This serves as a key
+     * @param socket the ServerSocket from which connections are accepted
+     * @param handlerManager the manager from which to aquire handlers and
+     *                       release them afterwards
+     * @param threadPool the threadPool that threads are aquired from to handle
+     *                   the connections.
+     * @throws Exception if unable to initiate connection management. This could
+     *                   be due to the key already being used for another connection
+     *                   the serversocket being closed, the handlerManager being null etc.
      */
     public void connect( String name,
                          ServerSocket socket,
-                         ConnectionHandlerManager handlerFactory,
+                         ConnectionHandlerManager handlerManager,
                          ThreadPool threadPool )
         throws Exception
     {
-        doConnect( name, socket, handlerFactory, threadPool );
+        doConnect( name, socket, handlerManager, threadPool );
     }
 
     /**
@@ -140,11 +151,11 @@ public class DefaultConnectionManager
         throws Exception
     {
         final ConnectionAcceptor acceptor = (ConnectionAcceptor)m_acceptors.remove( name );
-            if( null == acceptor )
-            {
-                final String message = "No connection with name " + name;
-                throw new IllegalArgumentException( message );
-            }
+        if( null == acceptor )
+        {
+            final String message = "No connection with name " + name;
+            throw new IllegalArgumentException( message );
+        }
 
         if( !tearDown )
         {
@@ -157,11 +168,20 @@ public class DefaultConnectionManager
         }
     }
 
+    /**
+     * Actually perform the establishment of acceptor.
+     *
+     * @param name the name of connection
+     * @param socket the serversocket we accept connections from
+     * @param handlerManager the manager
+     * @param threadPool the threadPool to use (may be null)
+     * @throws Exception if unable to setup socket properly
+     */
     private void doConnect( final String name,
                             final ServerSocket socket,
                             final ConnectionHandlerManager handlerManager,
                             final ThreadPool threadPool )
-        throws SocketException
+        throws Exception
     {
         if( null == name )
         {
