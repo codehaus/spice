@@ -70,6 +70,11 @@
                     format and thus the version of the MetaClass file format
                     was increased to 2.
                 </li>
+                <li>
+                    Added in RegistryMetaClassAccessor that is an Accessor
+                    implementation that only returns descriptors that have
+                    been explicitly registered with Accessor. 
+                </li>
             </ul>
         </section>
     </body>
