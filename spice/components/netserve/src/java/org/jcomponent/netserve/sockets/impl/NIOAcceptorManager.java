@@ -25,14 +25,18 @@ import org.jcomponent.netserve.selector.SelectorEventHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.20 $ $Date: 2003-10-23 05:21:30 $
+ * @version $Revision: 1.21 $ $Date: 2003-10-23 07:18:43 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
 public class NIOAcceptorManager
-   extends SelectorManager
-   implements SocketAcceptorManager,SelectorEventHandler
+   implements SocketAcceptorManager, SelectorEventHandler
 {
+   /**
+    * The associated selector manager.
+    */
+   private final SelectorManager m_selectorManager = new SelectorManager();
+
    /**
     * Monitor to receive events.
     */
@@ -46,15 +50,15 @@ public class NIOAcceptorManager
    public void setMonitor( final NIOAcceptorMonitor monitor )
    {
       //Super call will check null
-      super.setMonitor( monitor );
+      m_selectorManager.setMonitor( monitor );
       m_monitor = monitor;
    }
 
    public void startup()
       throws IOException
    {
-      setHandler( this );
-      super.startup();
+      m_selectorManager.setHandler( this );
+      m_selectorManager.startup();
    }
 
    /**
@@ -62,9 +66,9 @@ public class NIOAcceptorManager
     */
    public void shutdown()
    {
-      setRunning( false );
+      m_selectorManager.setInactive();
       shutdownAcceptors();
-      shutdownSelector();
+      m_selectorManager.shutdown();
    }
 
    /**
@@ -125,7 +129,7 @@ public class NIOAcceptorManager
 
          channel.configureBlocking( false );
          final SelectionKey key =
-            registerChannel( channel, SelectionKey.OP_ACCEPT );
+            m_selectorManager.registerChannel( channel, SelectionKey.OP_ACCEPT );
 
          final AcceptorConfig config =
             new AcceptorConfig( name, socket, handler );
@@ -189,5 +193,10 @@ public class NIOAcceptorManager
       {
          m_monitor.errorAcceptingConnection( name, ioe );
       }
+   }
+
+   public boolean isRunning()
+   {
+      return m_selectorManager.isRunning();
    }
 }

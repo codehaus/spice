@@ -21,7 +21,7 @@ import java.util.Random;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-10-23 05:12:49 $
+ * @version $Revision: 1.14 $ $Date: 2003-10-23 07:18:43 $
  */
 public class NIOAcceptorManagerTestCase
    extends AbstractAcceptorManagerTestCase
@@ -151,7 +151,6 @@ public class NIOAcceptorManagerTestCase
       m_manager.startup();
       final RecordingNIOAcceptorMonitor monitor = new RecordingNIOAcceptorMonitor();
       m_manager.setMonitor( monitor );
-      m_manager.setTimeout( 500 );
 
       final String name = "name";
       assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
