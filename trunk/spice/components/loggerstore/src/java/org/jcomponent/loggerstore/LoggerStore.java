@@ -24,6 +24,7 @@ public interface LoggerStore
 {
     /**
      * Retrieves the root Logger from the store.
+     *
      * @return the Logger
      * @throws Exception if unable to retrieve Logger
      */
@@ -32,11 +33,12 @@ public interface LoggerStore
 
     /**
      * Retrieves a Logger hierarchy from the store for a given category name.
+     *
      * @param categoryName the name of the logger category.
      * @return the Logger
      * @throws Exception if unable to retrieve Logger
      */
-    Logger getLogger( final String categoryName )
+    Logger getLogger( String categoryName )
         throws Exception;
 
     /**
