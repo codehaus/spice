@@ -13,12 +13,12 @@ import java.nio.channels.SocketChannel;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.events.AcceptErrorEvent;
+import org.codehaus.spice.netevent.events.AcceptEvent;
 import org.codehaus.spice.netevent.events.AcceptPossibleEvent;
-import org.codehaus.spice.netevent.events.ConnectEvent;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-08 04:03:58 $
  */
 public class AcceptEventHandler
     extends AbstractDirectedHandler
@@ -41,7 +41,7 @@ public class AcceptEventHandler
             final SocketChannel channel = ssChannel.accept();
             if( null != channel )
             {
-                final ConnectEvent result = new ConnectEvent( channel );
+                final AcceptEvent result = new AcceptEvent( channel );
                 getSink().addEvent( result );
             }
         }
