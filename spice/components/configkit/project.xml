@@ -44,6 +44,7 @@
         <dependency>
             <id>msv</id>
             <version>20020414</version>
+            <url>http://wwws.sun.com/software/xml/developers/multischema/</url>
             <properties>
                 <category>runtime</category>
             </properties>
