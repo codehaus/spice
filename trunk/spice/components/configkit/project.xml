@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>ConfigKit</name>
     <id>spice-configkit</id>
-    <currentVersion>1.2</currentVersion>
+    <currentVersion>1.3-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
     <package>org.codehaus.spice.configkit</package>
 
