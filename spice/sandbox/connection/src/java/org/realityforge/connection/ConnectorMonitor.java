@@ -44,9 +44,13 @@ public interface ConnectorMonitor
 
    /**
     * Notify monitor that there was an error
-    * validating connection.
+    * validating connection. After this method
+    * is called the connection will be disconnected.
+    * If the user returns true a conenction will
+    * attempt to be re-established.
     *
     * @param t the error
+    * @return true if reconnection should be imediately attempted
     */
    boolean errorValidatingConnection( Throwable t );
 }
