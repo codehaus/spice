@@ -13,12 +13,17 @@ import java.io.IOException;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-06-13 04:05:21 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-13 04:07:08 $
  */
 class MockInputStream
     extends ByteArrayInputStream
 {
     private boolean m_closed;
+
+    public MockInputStream()
+    {
+        super( new byte[ 100 ] );
+    }
 
     public MockInputStream( byte buf[] )
     {
