@@ -10,7 +10,7 @@
     xmlns:velocity="jelly:org.apache.commons.jelly.tags.velocity.VelocityTagLibrary"
     default="jar:install">
 
-    <j:set var="spice.tool.dir" value="${basedir}/../../tools"/>
+    <j:set var="spiceToolDir" value="${basedir}/../../tools"/>
 
     <define:taglib uri="spice:archive">
         <define:tag name="copy-runtime-deps">
@@ -103,14 +103,14 @@
             property="componentMenuAvailable"/>
 
         <j:if test="${componentMenuAvailable != 'true'}">
-	        <j:file name="target/templates/component.menu" 
-    	    		omitXmlDeclaration="true" 
+	        <j:file name="target/templates/component.menu"
+    	    		omitXmlDeclaration="true"
         			prettyPrint="true"/>
 		</j:if>
-		
+
 		<!-- Repository menu -->
-        <j:file name="target/templates/repository.menu" 
-        		omitXmlDeclaration="true" 
+        <j:file name="target/templates/repository.menu"
+        		omitXmlDeclaration="true"
         		prettyPrint="true">
             <menu name="Repository">
                 <ant:fileScanner var="components">
@@ -166,7 +166,7 @@
             </menu>
         </j:file>
         <ant:mkdir dir="target/generated-xdocs"/>
-        <velocity:merge 
+        <velocity:merge
           name="target/generated-xdocs/navigation.xml"
           basedir="target/templates"
           template="navigation.xml"/>
