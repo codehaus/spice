@@ -14,13 +14,13 @@ import java.util.logging.LogRecord;
  * Class that extends base formatter to provide raw text output.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-05-23 04:41:46 $
+ * @version $Revision: 1.2 $ $Date: 2003-05-23 06:45:07 $
  */
 public class JDK14RawFormatter
     extends Formatter
 {
     public String format( final LogRecord record )
     {
-        return formatMessage( record );
+        return formatMessage( record ) + "\n";
     }
 }
