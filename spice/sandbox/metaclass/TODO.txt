@@ -1,10 +1,3 @@
-* Uncomment section in Attribute constructor to make sure that it is not
-  possible to have both text and parameters and if both are set a exception should be thrown
-* Refactor tests so that all tests only have attributes that have either
-  value or parameters - not both
-* Add in unit test to make sure that it is impossible to have text and parameters
-* Need to parse the value from QDox Tags. If the tags have the format (@name a="b" c="s")
-  then they are treated as parameter tags otherwise they are treated as raw text.
 * Add in Javadoc for all classes, and all methods
 * Consider using a new extension that is a little more logical. Maybe -meta.binary, -meta.xml, -meta.ser ?
 * Add in a convenience class to extract attributes in a much more easier format. The file should
