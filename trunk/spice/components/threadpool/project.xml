@@ -4,8 +4,8 @@
     <name>ThreadPool</name>
     <id>spice-threadpool</id>
     <gumpRepositoryId>components</gumpRepositoryId>
-    <package>org.jcomponent.threadpool</package>
-    <currentVersion>1.0</currentVersion>
+    <package>org.codehaus.spice.threadpool</package>
+    <currentVersion>1.0-b1</currentVersion>
 
     <shortDescription>ThreadPool component</shortDescription>
 

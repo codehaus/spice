@@ -30,9 +30,9 @@
                supports type-1 Inversion of Control (IoC).
             </p>
             <p>
-               <a href="apidocs/org/jcomponent/threadpool/impl/AvalonCommonsThreadPool.html">
+               <a href="apidocs/org/codehaus/spice/threadpool/impl/AvalonCommonsThreadPool.html">
                   AvalonCommonsThreadPool</a> provides an implementation of the
-               <a href="apidocs/org/jcomponent/threadpool/ThreadPool.html">
+               <a href="apidocs/org/codehaus/spice/threadpool/ThreadPool.html">
                   ThreadPool</a> interface which is Avalon-compatible.
             </p>
          </subsection>
@@ -42,9 +42,9 @@
                supports type-1 Inversion of Control (IoC).
             </p>
             <p>
-               <a href="apidocs/org/jcomponent/threadpool/impl/DNACommonsThreadPool.html">
+               <a href="apidocs/org/codehaus/spice/threadpool/impl/DNACommonsThreadPool.html">
                   DNACommonsThreadPool</a> provides an implementation of the
-               <a href="apidocs/org/jcomponent/threadpool/ThreadPool.html">
+               <a href="apidocs/org/codehaus/spice/threadpool/ThreadPool.html">
                   ThreadPool</a> interface which is DNA-compatible.
             </p>
          </subsection>
@@ -54,9 +54,9 @@
                supports type-3 IoC.
             </p>
             <p>
-               <a href="apidocs/org/jcomponent/threadpool/impl/PicoCommonsThreadPool.html">
+               <a href="apidocs/org/codehaus/spice/threadpool/impl/PicoCommonsThreadPool.html">
                   PicoCommonsThreadPool</a> provides an implementation of the
-               <a href="apidocs/org/jcomponent/threadpool/ThreadPool.html">
+               <a href="apidocs/org/codehaus/spice/threadpool/ThreadPool.html">
                   ThreadPool</a> interface which is
                   <img src="http://www.picocontainer.org/images/pico-compatible.png" alt="Pico-compatible"/>.
             </p>

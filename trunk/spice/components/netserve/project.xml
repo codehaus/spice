@@ -4,8 +4,8 @@
     <name>Netserve</name>
     <id>spice-netserve</id>
     <gumpRepositoryId>components</gumpRepositoryId>
-    <package>org.jcomponent.netserve</package>
-    <currentVersion>0.7</currentVersion>
+    <package>org.codehaus.spice.netserve</package>
+    <currentVersion>1.0-b1</currentVersion>
     <inceptionYear>1999</inceptionYear>
 
     <shortDescription>Components useful for creating a Network Server.</shortDescription>
@@ -38,9 +38,9 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>jcomponent</groupId>
-           	<artifactId>jcomponent-threadpool</artifactId>
-            <version>1.0</version>
+            <groupId>spice</groupId>
+           	<artifactId>spice-threadpool</artifactId>
+            <version>1.0-b1</version>
             <properties>
                 <category>runtime</category>
             </properties>
