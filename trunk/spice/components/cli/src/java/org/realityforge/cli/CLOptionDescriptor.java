@@ -5,9 +5,8 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  *
- * Portions of this software are based upon software originally
- * developed as part of the Apache Avalon project under
- * the Apache 1.1 License.
+ * This product includes software developed by the
+ * Apache Software Foundation (http://www.apache.org/).
  */
 package org.realityforge.cli;
 
@@ -17,7 +16,7 @@ package org.realityforge.cli;
  * and passes it to {@link CLArgsParser#CLArgsParser(String[], CLOptionDescriptor[])}.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-03-16 04:01:34 $
+ * @version $Revision: 1.3 $ $Date: 2003-03-17 18:39:42 $
  * @since 4.0
  * @see CLArgsParser
  * @see CLUtil

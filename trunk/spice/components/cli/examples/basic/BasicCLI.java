@@ -5,9 +5,8 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  *
- * Portions of this software are based upon software originally
- * developed as part of the Apache Avalon project under
- * the Apache 1.1 License.
+ * This product includes software developed by the
+ * Apache Software Foundation (http://www.apache.org/).
  */
 
 import java.util.List;
