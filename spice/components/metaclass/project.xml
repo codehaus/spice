@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>MetaClass</name>
     <id>metaclass</id>
-    <groupId>components</groupId>
+    <gumpRepositoryId>components</gumpRepositoryId>
 
     <shortDescription>Provides runtime access to attributes</shortDescription>
 

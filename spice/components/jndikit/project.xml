@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>JNDI Kit</name>
     <id>jndikit</id>
-    <groupId>components</groupId>
+    <gumpRepositoryId>components</gumpRepositoryId>
 
     <shortDescription>A toolkit for building JNDI providers</shortDescription>
     <description>

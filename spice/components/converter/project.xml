@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>Converter</name>
     <id>converter</id>
-    <groupId>components</groupId>
+    <gumpRepositoryId>components</gumpRepositoryId>
     <currentVersion>0.9.1</currentVersion>
 
     <shortDescription>Convert objects of one type to another type</shortDescription>

@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>MetaSchema</name>
     <id>metaschema</id>
-    <groupId>components</groupId>
+    <gumpRepositoryId>components</gumpRepositoryId>
 
     <shortDescription>
     	Provides a validation schema for MetaClass
@@ -34,7 +34,7 @@
             <version>1.2</version>
         </dependency>
         <dependency>
-			<groupId>exteca</groupId>	
+			<groupId>exteca</groupId>
 		  	<artifactId>exteca-ontology</artifactId>
             <version>1.0-b1</version>
         </dependency>
