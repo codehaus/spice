@@ -26,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * 
  * @author Peter Donald
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.21 $ $Date: 2003-12-08 00:55:02 $
+ * @version $Revision: 1.22 $ $Date: 2003-12-08 00:56:02 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -258,10 +258,8 @@ public class MetaClassIOBinary
         {
             parameters.add( readParameter( data ) );
         }
-        final ParameterDescriptor[] parameterDescriptorArray =
-            new ParameterDescriptor[ parameters.size() ];
-        return (ParameterDescriptor[])parameters.toArray(
-            parameterDescriptorArray );
+        return (ParameterDescriptor[])parameters.
+            toArray( new ParameterDescriptor[ parameters.size() ] );
     }
 
     /**
