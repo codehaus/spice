@@ -1,6 +1,5 @@
 package org.jcomponent.netserve.connection.handlers;
 
-import java.io.IOException;
 import java.net.Socket;
 import org.jcomponent.netserve.connection.ConnectionHandler;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
@@ -10,13 +9,13 @@ import org.jcomponent.netserve.connection.ConnectionHandlerManager;
  * the connection.
  */
 public abstract class DefaultRequestHandler
-    implements ConnectionHandler
+    extends AbstractRequestHandler
 {
     /**
      * the Manager responsible for creating/managing
      * all handlers.
      */
-    private final ConnectionHandlerManager _handlerManager;
+    private final ConnectionHandlerManager m_handlerManager;
 
     /**
      * Create a new RequestHandler.
@@ -29,40 +28,7 @@ public abstract class DefaultRequestHandler
         {
             throw new NullPointerException( "handlerManager" );
         }
-        _handlerManager = handlerManager;
-    }
-
-    /**
-     * Handle a connection.
-     *
-     * @param socket the socket
-     */
-    public void handleConnection( Socket socket )
-    {
-        performRequest( socket );
-    }
-
-    /**
-     * Perform the request for socket by delegating to
-     * underlying handler.
-     *
-     * @param socket the socket to handle
-     */
-    protected void performRequest( final Socket socket )
-    {
-        setupThreadName( socket );
-        try
-        {
-            doPerformRequest( socket );
-        }
-        catch( final Throwable t )
-        {
-            errorHandlingConnection( socket, t );
-        }
-        finally
-        {
-            endConnection( socket );
-        }
+        m_handlerManager = handlerManager;
     }
 
     /**
@@ -77,98 +43,14 @@ public abstract class DefaultRequestHandler
     protected void doPerformRequest( final Socket socket )
         throws Exception
     {
-        final ConnectionHandler handler = _handlerManager.aquireHandler();
+        final ConnectionHandler handler = m_handlerManager.aquireHandler();
         try
         {
             handler.handleConnection( socket );
         }
         finally
         {
-            _handlerManager.releaseHandler( handler );
+            m_handlerManager.releaseHandler( handler );
         }
-    }
-
-    /**
-     * Setup the name of the thread.
-     *
-     * @param socket the socket associated with request
-     */
-    protected void setupThreadName( final Socket socket )
-    {
-        final String name = getThreadName( socket );
-        Thread.currentThread().setName( name );
-    }
-
-    /**
-     * End connection for socket.
-     *
-     * @param socket the socket
-     */
-    protected void endConnection( final Socket socket )
-    {
-        if( socket.isConnected() )
-        {
-            try
-            {
-                socket.close();
-            }
-            catch( final IOException ioe )
-            {
-                errorClosingConnection( socket, ioe );
-            }
-        }
-    }
-
-    /**
-     * Create Runnable to perform the request.
-     *
-     * @param socket the socket to handle
-     * @return thee runnable
-     */
-    protected Runnable createRunnable( final Socket socket )
-    {
-        return new Runnable()
-        {
-            public void run()
-            {
-                performRequest( socket );
-            }
-        };
-    }
-
-    /**
-     * Return the name should be set for current thread.
-     *
-     * @param socket the socket being handled in thread
-     * @return the thread name.
-     */
-    protected String getThreadName( final Socket socket )
-    {
-        return "RequestHandler for " +
-            socket.getInetAddress().getHostAddress() + ":" +
-            socket.getPort();
-    }
-
-    /**
-     * Notify handler of an error handling socket.
-     *
-     * @param socket the socket
-     * @param t the error
-     */
-    protected void errorHandlingConnection( final Socket socket,
-                                            final Throwable t )
-    {
-    }
-
-    /**
-     * Notify handler of an error closing socket.
-     *
-     * @param socket the socket
-     * @param t the error
-     */
-    protected void errorClosingConnection( final Socket socket,
-                                           final Throwable t )
-    {
-        errorHandlingConnection( socket, t );
     }
 }
