@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-12-05 06:57:12 $
+ * @version $Revision: 1.3 $ $Date: 2003-12-09 00:04:38 $
  */
 public class FifoBufferTestCase
     extends TestCase
@@ -203,5 +203,68 @@ public class FifoBufferTestCase
         assertEquals( "buffer.m_buffer[ 0 ]", object4, buffer.m_buffer[ 0 ] );
         assertEquals( "buffer.m_buffer[ 1 ]", object2, buffer.m_buffer[ 1 ] );
         assertEquals( "buffer.m_buffer[ 2 ]", object3, buffer.m_buffer[ 2 ] );
+    }
+
+    public void testObjectsPassedIntoAddAll()
+        throws Exception
+    {
+        final AbstractFifoBuffer buffer = new BoundedFifoBuffer( 3 );
+        try
+        {
+            buffer.addAll( null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.getMessage()", "objects", npe.getMessage() );
+            return;
+        }
+        fail( "Expected a NPE when passing objects into AddAll" );
+    }
+
+    public void testObjectPassedIntoAdd()
+        throws Exception
+    {
+        final AbstractFifoBuffer buffer = new BoundedFifoBuffer( 3 );
+        try
+        {
+            buffer.add( null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.getMessage()", "object", npe.getMessage() );
+            return;
+        }
+        fail( "Expected a NPE when passing object into Add" );
+    }
+
+    public void testPopOnEmpty()
+        throws Exception
+    {
+        final AbstractFifoBuffer buffer = new BoundedFifoBuffer( 3 );
+        final Object element = buffer.pop();
+        assertEquals( "element", null, element );
+    }
+
+    public void testPopAndWrap()
+        throws Exception
+    {
+        final AbstractFifoBuffer buffer = new BoundedFifoBuffer( 3 );
+        final Object object1 = new Object();
+        final Object object2 = new Object();
+        final Object object3 = new Object();
+        final Object object4 = new Object();
+        buffer.add( object1 );
+        buffer.add( object2 );
+        buffer.add( object3 );
+        final Object element1 = buffer.pop();
+        final Object element2 = buffer.pop();
+        final Object element3 = buffer.pop();
+        buffer.add( object4 );
+        final Object element4 = buffer.pop();
+
+        assertEquals( "element1", object1, element1 );
+        assertEquals( "element2", object2, element2 );
+        assertEquals( "element3", object3, element3 );
+        assertEquals( "element4", object4, element4 );
     }
 }
