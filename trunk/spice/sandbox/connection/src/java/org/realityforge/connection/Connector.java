@@ -271,6 +271,7 @@ public class Connector
     * failure or failure during operation.
     *
     * @return the last connection error
+    * @mx.attribute
     */
    public String getConnectionError()
    {
