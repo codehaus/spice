@@ -14,7 +14,7 @@ import java.nio.ByteBuffer;
  * A basic encoder that writes packet using simple mechanisms.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-11 09:36:20 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-11 11:18:50 $
  */
 public class BasicEncoder
     implements Encoder
@@ -22,7 +22,7 @@ public class BasicEncoder
     /**
      * The number of bytes in packets header.
      */
-    private static final int SIZEOF_HEADER = 2 + 2;
+    static final int SIZEOF_HEADER = 2 + 2;
 
     /**
      * @see Encoder#encode
