@@ -16,16 +16,11 @@ import junit.framework.TestCase;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-02 02:15:05 $
+ * @version $Revision: 1.2 $ $Date: 2004-07-11 23:37:54 $
  */
 public class FileUtil2TestCase
     extends TestCase
 {
-    public FileUtil2TestCase( String name )
-    {
-        super( name );
-    }
-
     public void testResolveFileSet()
         throws Exception
     {
@@ -324,14 +319,14 @@ public class FileUtil2TestCase
                       FileUtil.removePath( "foo.txt" ) );
         assertEquals( "Remove path",
                       "c.jpg",
-                      FileUtil.removePath( "a/b/c.jpg" ) );
+                      FileUtil.removePath( "a" + File.separator + "b" + File.separator + "c.jpg" ) );
     }
 
     public void testGetPath()
         throws Exception
     {
         assertEquals( "Get path", "", FileUtil.getPath( "foo.txt" ) );
-        assertEquals( "Get path", "a/b", FileUtil.getPath( "a/b/c.jpg" ) );
+        assertEquals( "Get path", "a" + File.separator + "b", FileUtil.getPath( "a" + File.separator + "b" + File.separator + "c.jpg" ) );
     }
 
     private File genTestDirectory()
