@@ -2,8 +2,9 @@
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>XInvoke</name>
-    <id>xinvoke</id>
+    <id>spice-xinvoke</id>
     <gumpRepositoryId>components</gumpRepositoryId>
+    <inceptionYear>2003</inceptionYear>
 
     <shortDescription>Easy to use interceptor toolkit</shortDescription>
 
