@@ -8,6 +8,8 @@
 package org.realityforge.loggerstore;
 
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
+import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
@@ -25,20 +27,25 @@ public class LogKitLoggerStore
     extends AbstractLoggerStore
 {
     /** The Logger Manager */
-    private LogKitLoggerManager m_loggerManager;
+    private LoggerManager m_loggerManager;
 
     /**
-     * Creates a <code>LogKitLoggerStore</code> using the configuration configuration
+     * Creates a <code>LogKitLoggerStore</code> using the given configuration 
      *
+     * @param loggerManager the LoggerManager used to configure the store
+     * @param logger the Logger to logEnable the LoggerManager
+     * @param context the Context of the LoggerManager
      * @param configuration the logger configuration
      * @throws Exception if fails to create or configure Logger
      */
-    public LogKitLoggerStore( final Logger logger,
+    public LogKitLoggerStore( final LoggerManager loggerManager,
+                              final Logger logger,
                               final Context context,
                               final Configuration configuration )
         throws Exception
     {
-        m_loggerManager = new LogKitLoggerManager();
+        m_loggerManager = loggerManager;
+        checkLoggerManager();
         if( null != logger )
         {
             ContainerUtil.enableLogging( m_loggerManager, logger );
@@ -59,7 +66,8 @@ public class LogKitLoggerStore
         setRootLogger( m_loggerManager.getDefaultLogger() );
     }
 
-    /**
+
+	/**
      *  Creates new LogKitLogger for the given category.
      */
     protected Logger createLogger( final String name )
@@ -78,6 +86,25 @@ public class LogKitLoggerStore
         }
         catch( Exception e )
         {
+        }
+    }
+
+    /**
+     *  Checks the validity of the LoggerManager
+     *  @throws Exception if invalid
+     */
+    private void checkLoggerManager() throws Exception
+    {
+        if ( m_loggerManager == null) 
+        {
+            throw new NullPointerException( "loggerManager" );
+        }
+        final boolean valid  = 
+               (  m_loggerManager instanceof LogKitLoggerManager
+               || m_loggerManager instanceof SimpleLogKitManager ); 
+        if ( !valid )
+        {
+            throw new IllegalArgumentException( "loggerManager" );
         }
     }
 }

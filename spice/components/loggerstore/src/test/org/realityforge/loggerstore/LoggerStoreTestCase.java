@@ -8,10 +8,14 @@
 package org.realityforge.loggerstore;
 
 import java.util.Properties;
+
+import org.apache.avalon.excalibur.logger.Log4JLoggerManager;
+import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.NullLogger;
-import org.apache.avalon.framework.context.DefaultContext;
 
 /**
  *  Test case for LoggerStore 
@@ -42,6 +46,7 @@ public class LoggerStoreTestCase
         }
     }
 
+    // ConsoleLoggerStore tests
     public void testConsoleLoggerStore()
         throws Exception
     {
@@ -57,78 +62,89 @@ public class LoggerStoreTestCase
             new ConsoleLoggerStore( ConsoleLogger.LEVEL_DEBUG );
         performConsoleTest( store, ConsoleLogger.LEVEL_DISABLED );
     }
-
  
-    public void testJDK14Configuration()
-        throws Exception
-    {
-        final LoggerStore store =
-            new Jdk14LoggerStore( getResource( "logging.properties" ) );
-        runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_DEBUG );
-    }
 
-    public void testJDK14ConfigurationNoDebug()
+    // LogKitLoggerStore tests
+    public void testLogKitExcaliburConfiguration()
         throws Exception
     {
-        final LoggerStore store =
-            new Jdk14LoggerStore( getResource( "logging.properties" ) );
-        runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_DISABLED );
-    }
-
-    public void testJDK14ConfigurationNoLog()
-        throws Exception
-    {
-        final LoggerStore store =
-            new Jdk14LoggerStore( getResource( "logging.properties" ) );
-        runLoggerTest( "jdk14", store );
-    }
-
-    public void testLogKitConfiguration()
-        throws Exception
-    {
+        final LoggerManager loggerManager = new LogKitLoggerManager();
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( null, null, builder.build( getResource( "logkit.xml" ) ) );
-        runLoggerTest( "logkit", store, ConsoleLogger.LEVEL_DEBUG );
+            new LogKitLoggerStore( loggerManager, null, null, builder.build( getResource( "logkit-excalibur.xml" ) ) );
+        runLoggerTest( "logkit-excalibur", store, ConsoleLogger.LEVEL_DEBUG );
     }
 
-    public void testLogKitConfigurationWithLogger()
+    public void testLogKitExcaliburConfigurationWithLogger()
         throws Exception
     {
+        final LoggerManager loggerManager = new LogKitLoggerManager();
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( new NullLogger(), null, builder.build( getResource( "logkit.xml" ) ) );
-        runLoggerTest( "logkit", store, ConsoleLogger.LEVEL_DEBUG );
+            new LogKitLoggerStore( loggerManager, new NullLogger(), null, builder.build( getResource( "logkit-excalibur.xml" ) ) );
+        runLoggerTest( "logkit-excalibur", store, ConsoleLogger.LEVEL_DEBUG );
     }
 
-    public void testLogKitConfigurationWithContext()
+    public void testLogKitExcaliburConfigurationWithContext()
         throws Exception
     {
+        final LoggerManager loggerManager = new LogKitLoggerManager();
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( null, new DefaultContext(), builder.build( getResource( "logkit.xml" ) ) );
-        runLoggerTest( "logkit", store, ConsoleLogger.LEVEL_DEBUG );
+            new LogKitLoggerStore( loggerManager, null, new DefaultContext(), builder.build( getResource( "logkit-excalibur.xml" ) ) );
+        runLoggerTest( "logkit-excalibur", store, ConsoleLogger.LEVEL_DEBUG );
     }
 
-    public void testLogKitConfigurationNoDebug()
+    public void testLogKitExcaliburConfigurationNoDebug()
         throws Exception
     {
+        final LoggerManager loggerManager = new LogKitLoggerManager();
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( null, null, builder.build( getResource( "logkit.xml" ) ) );
-        runLoggerTest( "logkit", store, ConsoleLogger.LEVEL_DISABLED );
+            new LogKitLoggerStore( loggerManager, null, null, builder.build( getResource( "logkit-excalibur.xml" ) ) );
+        runLoggerTest( "logkit-excalibur", store, ConsoleLogger.LEVEL_DISABLED );
     }
 
-    public void testLogKitConfigurationNoLog()
+    public void testLogKitExcaliburConfigurationNoLog()
         throws Exception
     {
+        final LoggerManager loggerManager = new LogKitLoggerManager();
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( null, null, builder.build( getResource( "logkit.xml" ) ) );
-        runLoggerTest( "logkit", store );
+            new LogKitLoggerStore( loggerManager, null, null, builder.build( getResource( "logkit-excalibur.xml" ) ) );
+        runLoggerTest( "logkit-excalibur", store );
     }
-
   
+    public void testLogKitExcaliburConfigurationNoManager()
+        throws Exception
+    {
+        try
+        {
+            final LoggerStore store =
+                new LogKitLoggerStore( null, null, null, null);
+            fail( "Expected to get an exception as LoggerManager is null." );
+        }
+        catch( final Exception e )
+        {
+        }
+    }
+    
+    public void testLogKitExcaliburConfigurationInvalidManager()
+        throws Exception
+    {
+        try
+        {
+            final LoggerManager loggerManager = new Log4JLoggerManager();
+            final LoggerStore store =
+                new LogKitLoggerStore( loggerManager, null, null, null);
+            fail( "Expected to get an exception as LoggerManager is invalid." );
+        }
+        catch( final Exception e )
+        {
+        }
+    }
+    
+    // Log4JLoggerStore tests
     public void testLog4JElementConfiguration()
         throws Exception
     {
@@ -210,5 +226,29 @@ public class LoggerStoreTestCase
         runLoggerTest( "log4j-properties", store );
     }
 
+    // JDK14LoggerStore tests
+    public void testJDK14Configuration()
+        throws Exception
+    {
+        final LoggerStore store =
+            new Jdk14LoggerStore( getResource( "logging.properties" ) );
+        runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_DEBUG );
+    }
+
+    public void testJDK14ConfigurationNoDebug()
+        throws Exception
+    {
+        final LoggerStore store =
+            new Jdk14LoggerStore( getResource( "logging.properties" ) );
+        runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_DISABLED );
+    }
+
+    public void testJDK14ConfigurationNoLog()
+        throws Exception
+    {
+        final LoggerStore store =
+            new Jdk14LoggerStore( getResource( "logging.properties" ) );
+        runLoggerTest( "jdk14", store );
+    }
 
 }

@@ -9,6 +9,7 @@ package org.realityforge.loggerstore;
 
 import java.util.HashMap;
 import java.util.Properties;
+
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.container.ContainerUtil;
@@ -31,6 +32,7 @@ public class LoggerStoreFactoryTestCase
         super( name );
     }
 
+    // InitialLoggerStoreFactory tests
     public void testInitialLoggerStoreFactoryFromConfigurerClassLoader()
         throws Exception
     {
@@ -113,67 +115,72 @@ public class LoggerStoreFactoryTestCase
                         "log4j-properties" );
     }
 
-    public void testJDK14LoggerStoreFactoryInvalidInput()
+
+    // LogKitLoggerStoreFactory tests
+    public void testExcaliburLogKitLoggerStoreFactoryInvalidInput()
         throws Exception
     {
-        runInvalidInputData( new Jdk14LoggerStoreFactory() );
+        runInvalidInputData( new ExcaliburLogKitLoggerStoreFactory() );
     }
 
-    public void testJDK14LoggerStoreFactoryWithProperties()
-        throws Exception
-    {
-        final Properties properties = new Properties();
-        properties.load( getResource( "logging.properties" ) );
-        final HashMap config = new HashMap();
-        config.put( Properties.class.getName(), properties );
-
-        runFactoryTest( new Jdk14LoggerStoreFactory(),
-                        ConsoleLogger.LEVEL_DEBUG,
-                        config,
-                        "jdk14" );
-    }
-
-    public void testJDK14LoggerStoreFactoryWithStreams()
-        throws Exception
-    {
-        runStreamBasedFactoryTest( "logging.properties",
-                                   new Jdk14LoggerStoreFactory(),
-                                   ConsoleLogger.LEVEL_DEBUG,
-                                   "jdk14",
-                                   new HashMap() );
-    }
-
-
-    public void testLogKitLoggerStoreFactoryInvalidInput()
-        throws Exception
-    {
-        runInvalidInputData( new LogKitLoggerStoreFactory() );
-    }
-
-    public void testLogKitLoggerStoreFactoryWithConfiguration()
+    public void testExcaliburLogKitLoggerStoreFactoryWithConfiguration()
         throws Exception
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(), builder.build( getResource( "logkit.xml" ) ) );
+        config.put( Configuration.class.getName(), 
+                    builder.build( getResource( "logkit-excalibur.xml" ) ) );
         config.put( Logger.class.getName(), new NullLogger() );
 
-        runFactoryTest( new LogKitLoggerStoreFactory(),
-                        ConsoleLogger.LEVEL_DEBUG,
+        runFactoryTest( new ExcaliburLogKitLoggerStoreFactory(),
+                        ConsoleLogger.LEVEL_INFO,
                         config,
-                        "logkit" );
+                        "logkit-excalibur" );
     }
 
-    public void testLogKitLoggerStoreFactoryWithStreams()
+    public void testExcaliburLogKitLoggerStoreFactoryWithStreams()
         throws Exception
     {
-        runStreamBasedFactoryTest( "logkit.xml",
-                                   new LogKitLoggerStoreFactory(),
-                                   ConsoleLogger.LEVEL_DEBUG,
-                                   "logkit",
+        runStreamBasedFactoryTest( "logkit-excalibur.xml",
+                                   new ExcaliburLogKitLoggerStoreFactory(),
+                                   ConsoleLogger.LEVEL_INFO,
+                                   "logkit-excalibur",
                                    new HashMap() );
     }
 
+    public void testSimpleLogKitLoggerStoreFactoryInvalidInput()
+        throws Exception
+    {
+        runInvalidInputData( new SimpleLogKitLoggerStoreFactory() );
+    }
+
+    public void testSimpleLogKitLoggerStoreFactoryWithConfiguration()
+        throws Exception
+    {
+        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        final HashMap config = new HashMap();
+        config.put( Configuration.class.getName(), 
+                    builder.build( getResource( "logkit-simple.xml" ) ) );
+        config.put( Logger.class.getName(), new NullLogger() );
+
+        runFactoryTest( new SimpleLogKitLoggerStoreFactory(),
+                        ConsoleLogger.LEVEL_INFO,
+                        config,
+                        "logkit-simple" );
+    }
+
+    public void testSimpleLogKitLoggerStoreFactoryWithStreams()
+        throws Exception
+    {
+        final HashMap config = new HashMap();
+        runStreamBasedFactoryTest( "logkit-simple.xml",
+                                   new SimpleLogKitLoggerStoreFactory(),
+                                   ConsoleLogger.LEVEL_INFO,
+                                   "logkit-simple",
+                                   config );
+    }
+    
+    // Log4JLoggerStoreFactory tests
     public void testPropertyLog4jLoggerStoreFactoryInvalidInput()
         throws Exception
     {
@@ -235,6 +242,37 @@ public class LoggerStoreFactoryTestCase
                                    ConsoleLogger.LEVEL_DEBUG,
                                    "log4j-properties",
                                    inputData );
+    }
+
+    // JDK14LoggerStoreFactory tests
+    public void testJDK14LoggerStoreFactoryInvalidInput()
+        throws Exception
+    {
+        runInvalidInputData( new Jdk14LoggerStoreFactory() );
+    }
+
+    public void testJDK14LoggerStoreFactoryWithProperties()
+        throws Exception
+    {
+        final Properties properties = new Properties();
+        properties.load( getResource( "logging.properties" ) );
+        final HashMap config = new HashMap();
+        config.put( Properties.class.getName(), properties );
+
+        runFactoryTest( new Jdk14LoggerStoreFactory(),
+                        ConsoleLogger.LEVEL_DEBUG,
+                        config,
+                        "jdk14" );
+    }
+
+    public void testJDK14LoggerStoreFactoryWithStreams()
+        throws Exception
+    {
+        runStreamBasedFactoryTest( "logging.properties",
+                                   new Jdk14LoggerStoreFactory(),
+                                   ConsoleLogger.LEVEL_DEBUG,
+                                   "jdk14",
+                                   new HashMap() );
     }
 
 }

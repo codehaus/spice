@@ -32,9 +32,14 @@ public class Configurator
     public static final String LOG4J_PROPERTY = "log4j-property";
     
     /**
-     * Constant used to define LogKit type
+     * Constant used to define LogKit type with Excalibur configuration
      */
-    public static final String LOGKIT = "logkit";
+    public static final String LOGKIT_EXCALIBUR = "logkit-excalibur";
+    
+    /**
+     * Constant used to define LogKit type with Simple configuration
+     */
+    public static final String LOGKIT_SIMPLE = "logkit-simple";
     
     /**
      * Constant used to define JDK14 type
@@ -97,9 +102,13 @@ public class Configurator
         {
             return PropertyLog4JLoggerStoreFactory.class.getName();
         }
-        else if( LOGKIT.equals( type ) )
+        else if( LOGKIT_EXCALIBUR.equals( type ) )
         {
-            return LogKitLoggerStoreFactory.class.getName();
+            return ExcaliburLogKitLoggerStoreFactory.class.getName();
+        }
+        else if( LOGKIT_SIMPLE.equals( type ) )
+        {
+            return SimpleLogKitLoggerStoreFactory.class.getName();
         }
         else if( JDK14.equals( type ) )
         {

@@ -15,12 +15,12 @@
 
     <targets>
         <file id="FILE1">
-            <filename>logs/logkit.log</filename>
+            <filename>logs/logkit-excalibur.log</filename>
             <append>false</append>
             <format type="extended">%{message}\n</format>
         </file>
         <file id="FILE2">
-            <filename>logs/logkit2.log</filename>
+            <filename>logs/logkit-excalibur2.log</filename>
             <append>false</append>
             <format type="extended">%{message}\n</format>
         </file>
