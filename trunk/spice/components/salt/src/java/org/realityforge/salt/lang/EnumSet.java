@@ -206,7 +206,8 @@ public final class EnumSet
             if( matcher.contains( name, pattern ) )
             {
                 final MatchResult match = matcher.getMatch();
-                if( 1 != match.groups() )
+                final int groups = match.groups();
+                if( 2 != groups )
                 {
                     final String message = "Pattern must have one group";
                     throw new IllegalArgumentException( message );
