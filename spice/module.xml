@@ -205,6 +205,26 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
+    <project name="spice-xmlpolicy">
+        <package>org.realityforge.xmlpolicy</package>
+
+        <ant basedir="components/xmlpolicy">
+            <property name="final.name" value="spice-xmlpolicy-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <work nested="components/xmlpolicy/target/classes"/>
+        <work nested="components/xmlpolicy/target/test-classes"/>
+
+        <home nested="components/xmlpolicy"/>
+        <jar name="target/spice-xmlpolicy-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+    </project>
+
     <project name="spice-xinvoke">
         <package>org.realityforge.xinvoke</package>
 
