@@ -19,7 +19,7 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-12 04:12:19 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-12 05:05:18 $
  */
 public class ChannelEventHandler
     extends AbstractEventHandler
