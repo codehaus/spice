@@ -13,9 +13,9 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * This class is responsible for loading and caching the {@link ClassDescriptor}
  * objects for corresponding java classes. It serves a similar purpose as the
  * {@link java.beans.Introspector} class does for Java Beans.
- *
+ * 
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2003-12-11 08:41:50 $
+ * @version $Revision: 1.9 $ $Date: 2004-01-16 00:25:55 $
  */
 public final class MetaClassIntrospector
 {
@@ -28,7 +28,8 @@ public final class MetaClassIntrospector
         new RuntimePermission( "metaclass.setAccessor" );
 
     /** The cache in which descriptor objects are stored. */
-    private static final CachingMetaClassAccessor c_cachingAccessor = new CachingMetaClassAccessor();
+    private static final CachingMetaClassAccessor c_cachingAccessor =
+        new CachingMetaClassAccessor();
 
     /**
      * Wrapper Accessor that is passed to the above accessor to retrieve
@@ -36,19 +37,19 @@ public final class MetaClassIntrospector
      * the CachingMetaClassAccessor and thus subvert descriptor loading
      * process.
      */
-    private static final WrapperMetaClassAccessor c_wrapperAccessor = new WrapperMetaClassAccessor(
-        c_cachingAccessor );
+    private static final WrapperMetaClassAccessor c_wrapperAccessor =
+        new WrapperMetaClassAccessor( c_cachingAccessor );
 
     /**
      * Flush all of the Introspector's internal caches.  This method is not
      * normally required.  It is normally only needed by advanced tools that
      * update existing "Class" objects in-place and need to make the
      * Introspector re-analyze existing Class objects.
-     *
+     * 
      * <p>Note that the caller must have been granted the
      * "metaclass.clearCompleteCache" {@link java.lang.RuntimePermission} or
      * else a security exception will be thrown.</p>
-     *
+     * 
      * @throws java.lang.SecurityException if the caller does not have
      * permission to clear cache
      */
@@ -64,11 +65,11 @@ public final class MetaClassIntrospector
 
     /**
      * Set the MetaClassAccessor to use to locate ClassDescriptor objects.
-     *
+     * 
      * <p>Note that the caller must have been granted the
      * "metaclass.setAccessor" {@link java.lang.RuntimePermission} or else a
      * security exception will be thrown.</p>
-     *
+     * 
      * @param accessor the MetaClassAccessor
      * @throws SecurityException if the caller does not have permission to clear
      * cache
@@ -95,8 +96,9 @@ public final class MetaClassIntrospector
     /**
      * @see MetaClassAccessor#getClassDescriptor
      */
-    public static ClassDescriptor getClassDescriptor( final String classname,
-                                                      final ClassLoader classLoader )
+    public static ClassDescriptor
+        getClassDescriptor( final String classname,
+                            final ClassLoader classLoader )
         throws MetaClassException
     {
         return c_cachingAccessor.getClassDescriptor( classname,
