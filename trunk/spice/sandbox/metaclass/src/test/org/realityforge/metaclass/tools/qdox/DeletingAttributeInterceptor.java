@@ -15,30 +15,30 @@ import com.thoughtworks.qdox.model.JavaMethod;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-24 04:40:13 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-31 05:26:00 $
  */
 class DeletingAttributeInterceptor
     extends DefaultQDoxAttributeInterceptor
 {
-    public Attribute processClassAttribute( JavaClass clazz,
-                                            Attribute attribute )
+    public Attribute processClassAttribute( final JavaClass clazz,
+                                            final Attribute attribute )
     {
         return processAttribute( attribute );
     }
 
-    public Attribute processFieldAttribute( JavaField field,
-                                            Attribute attribute )
+    public Attribute processFieldAttribute( final JavaField field,
+                                            final Attribute attribute )
     {
         return processAttribute( attribute );
     }
 
-    public Attribute processMethodAttribute( JavaMethod method,
-                                             Attribute attribute )
+    public Attribute processMethodAttribute( final JavaMethod method,
+                                             final Attribute attribute )
     {
         return processAttribute( attribute );
     }
 
-    private Attribute processAttribute( Attribute attribute )
+    private Attribute processAttribute( final Attribute attribute )
     {
         if( attribute.getName().startsWith( "deleteme" ) )
         {
