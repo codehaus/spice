@@ -14,9 +14,9 @@ import org.jcomponent.netserve.connection.RequestHandler;
  * A simple handler that delegates to another handler.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-27 05:34:57 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-28 05:43:23 $
  */
-public abstract class DelegatingRequestHandler
+public class DelegatingRequestHandler
     extends AbstractRequestHandler
 {
     /**
