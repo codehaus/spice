@@ -6,8 +6,8 @@ public interface Reactor
 {
    void addConnection( String name,
                        SocketChannel channel,
-                       Object passback,
-                       SocketDataHandler handler )
+                       SocketDataHandler handler,
+                       Object passback )
       throws Exception;
 
    void removeConnection( String name )
