@@ -61,9 +61,8 @@
         <module name="MemberName">
             <property name="format" value="^m_[a-z](_?[a-zA-Z0-9])*$"/>
         </module>
-
         <module name="ConstantName">
-            <property name="format" value="(^[A-Z](_?[A-Z0-9]+)*$)|(^c_[a-z](_?[a-zA-Z0-9])*$)"/>
+            <property name="format" value="^[A-Z](_?[A-Z0-9]+)*$|^c_[a-z](_?[a-zA-Z0-9])*$"/>
         </module>
         <module name="StaticVariableName">
             <property name="format" value="^c_[a-z](_?[a-zA-Z0-9])*$"/>
@@ -93,7 +92,6 @@
 
         <!-- Checks for Naming Conventions.                  -->
         <!-- See http://checkstyle.sf.net/config_naming.html -->
-        <module name="ConstantName"/>
         <module name="PackageName"/>
         <module name="TypeName"/>
         <module name="LocalFinalVariableName"/>
