@@ -9,6 +9,6 @@ public class NullSelectorEventHandlerTestCase
    public void testNullSelectorEventHandler()
       throws Exception
    {
-      NullSelectorEventHandler.HANDLER.handleSelectorEvent( null );
+      NullSelectorEventHandler.HANDLER.handleSelectorEvent( null, null );
    }
 }

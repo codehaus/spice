@@ -25,7 +25,7 @@ import org.jcomponent.netserve.selector.SelectorEventHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.25 $ $Date: 2003-10-24 03:39:04 $
+ * @version $Revision: 1.26 $ $Date: 2003-10-24 03:51:45 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -127,15 +127,13 @@ public class NIOAcceptorManager
          }
 
          channel.configureBlocking( false );
+         final AcceptorConfig config =
+            new AcceptorConfig( name, socket, handler );
          final SelectionKey key =
             m_selectorManager.registerChannel( channel,
                                                SelectionKey.OP_ACCEPT,
                                                this,
-                                               null );
-
-         final AcceptorConfig config =
-            new AcceptorConfig( name, socket, handler );
-         key.attach( config );
+                                               config );
          m_acceptors.put( name, key );
          m_monitor.acceptorCreated( name, socket );
       }
@@ -168,13 +166,13 @@ public class NIOAcceptorManager
    /**
     * @see SelectorEventHandler#handleSelectorEvent
     */
-   public void handleSelectorEvent( final SelectionKey key )
+   public void handleSelectorEvent( final SelectionKey key,
+                                    final Object userData )
    {
       final ServerSocketChannel channel =
          (ServerSocketChannel) key.channel();
       final ServerSocket serverSocket = channel.socket();
-      final AcceptorConfig config =
-         (AcceptorConfig) key.attachment();
+      final AcceptorConfig config = (AcceptorConfig) userData;
       if ( null == config )
       {
          //The acceptor must have been disconnected
