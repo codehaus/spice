@@ -43,7 +43,7 @@
         <dependency>
             <groupId>excalibur</groupId>
             <artifactId>excalibur-logger</artifactId>
-            <version>20030527</version>
+            <version>20030602</version>
             <properties>
                 <category>runtime</category>
             </properties>
