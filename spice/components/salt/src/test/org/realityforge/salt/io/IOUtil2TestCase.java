@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-06-13 04:21:53 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-13 04:25:37 $
  */
 public class IOUtil2TestCase
     extends TestCase
@@ -131,6 +131,78 @@ public class IOUtil2TestCase
         final MockInputStream input = new MockInputStream( DATA_4_ELEMENTS );
         final MockOutputStream output = new MockOutputStream();
         IOUtil.copy( input, output, 50 );
+        final byte[] bytes = output.toByteArray();
+        assertEqualArrays( DATA_4_ELEMENTS, bytes );
+    }
+
+    public void testCopyInputToWriterWithDefaultBuffer()
+        throws Exception
+    {
+        final MockInputStream input = new MockInputStream( DATA_4_ELEMENTS );
+        final MockOutputStream output = new MockOutputStream();
+        final OutputStreamWriter writer = new OutputStreamWriter( output );
+        IOUtil.copy( input, writer );
+        writer.flush();
+        final byte[] bytes = output.toByteArray();
+        assertEqualArrays( DATA_4_ELEMENTS, bytes );
+    }
+
+    public void testCopyInputToWriterWithLesserBuffer()
+        throws Exception
+    {
+        final MockInputStream input = new MockInputStream( DATA_4_ELEMENTS );
+        final MockOutputStream output = new MockOutputStream();
+        final OutputStreamWriter writer = new OutputStreamWriter( output );
+        IOUtil.copy( input, writer, 2 );
+        writer.flush();
+        final byte[] bytes = output.toByteArray();
+        assertEqualArrays( DATA_4_ELEMENTS, bytes );
+    }
+
+    public void testCopyInputToWriterWithGreaterBuffer()
+        throws Exception
+    {
+        final MockInputStream input = new MockInputStream( DATA_4_ELEMENTS );
+        final MockOutputStream output = new MockOutputStream();
+        final OutputStreamWriter writer = new OutputStreamWriter( output );
+        IOUtil.copy( input, writer, 50 );
+        writer.flush();
+        final byte[] bytes = output.toByteArray();
+        assertEqualArrays( DATA_4_ELEMENTS, bytes );
+    }
+
+    public void testCopyEncodedInputToWriterWithDefaultBuffer()
+        throws Exception
+    {
+        final MockInputStream input = new MockInputStream( DATA_4_ELEMENTS );
+        final MockOutputStream output = new MockOutputStream();
+        final OutputStreamWriter writer = new OutputStreamWriter( output );
+        IOUtil.copy( input, writer, "US-ASCII" );
+        writer.flush();
+        final byte[] bytes = output.toByteArray();
+        assertEqualArrays( DATA_4_ELEMENTS, bytes );
+    }
+
+    public void testCopyEncodedInputToWriterWithLesserBuffer()
+        throws Exception
+    {
+        final MockInputStream input = new MockInputStream( DATA_4_ELEMENTS );
+        final MockOutputStream output = new MockOutputStream();
+        final OutputStreamWriter writer = new OutputStreamWriter( output );
+        IOUtil.copy( input, writer, "US-ASCII",  2 );
+        writer.flush();
+        final byte[] bytes = output.toByteArray();
+        assertEqualArrays( DATA_4_ELEMENTS, bytes );
+    }
+
+    public void testCopyEncodedInputToWriterWithGreaterBuffer()
+        throws Exception
+    {
+        final MockInputStream input = new MockInputStream( DATA_4_ELEMENTS );
+        final MockOutputStream output = new MockOutputStream();
+        final OutputStreamWriter writer = new OutputStreamWriter( output );
+        IOUtil.copy( input, writer, "US-ASCII", 50 );
+        writer.flush();
         final byte[] bytes = output.toByteArray();
         assertEqualArrays( DATA_4_ELEMENTS, bytes );
     }
