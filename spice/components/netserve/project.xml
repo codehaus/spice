@@ -2,11 +2,9 @@
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>Netserve</name>
-    <groupId>jcomponent</groupId>
-    <id>jcomponent-netserve</id>
+    <id>spice-netserve</id>
     <gumpRepositoryId>components</gumpRepositoryId>
     <package>org.jcomponent.netserve</package>
-    <siteDirectory>/home/groups/s/sp/spice/htdocs/netserve</siteDirectory>
     <currentVersion>0.7</currentVersion>
     <inceptionYear>1999</inceptionYear>
 

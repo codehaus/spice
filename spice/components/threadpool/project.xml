@@ -2,11 +2,9 @@
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>ThreadPool</name>
-    <groupId>jcomponent</groupId>
-    <id>jcomponent-threadpool</id>
+    <id>spice-threadpool</id>
     <gumpRepositoryId>components</gumpRepositoryId>
     <package>org.jcomponent.threadpool</package>
-    <siteDirectory>/home/groups/s/sp/spice/htdocs/threadpool</siteDirectory>
     <currentVersion>1.0</currentVersion>
 
     <shortDescription>ThreadPool component</shortDescription>

@@ -2,11 +2,9 @@
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>LoggerStore</name>
-    <groupId>jcomponent</groupId>
-    <id>jcomponent-loggerstore</id>
+    <id>spice-loggerstore</id>
     <gumpRepositoryId>components</gumpRepositoryId>
     <package>org.jcomponent.loggerstore</package>
-    <siteDirectory>/home/groups/s/sp/spice/htdocs/loggerstore</siteDirectory>
     <currentVersion>1.0-b2</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
