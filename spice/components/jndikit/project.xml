@@ -2,8 +2,9 @@
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>JNDI Kit</name>
-    <id>jndikit</id>
+    <id>spice-jndikit</id>
     <gumpRepositoryId>components</gumpRepositoryId>
+    <inceptionYear>1999</inceptionYear>
 
     <shortDescription>A toolkit for building JNDI providers</shortDescription>
     <description>
