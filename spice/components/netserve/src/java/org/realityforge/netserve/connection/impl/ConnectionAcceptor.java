@@ -19,9 +19,10 @@ import org.realityforge.netserve.connection.ConnectionHandlerManager;
 import org.realityforge.threadpool.ThreadPool;
 
 /**
+ * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-04-23 04:04:32 $
+ * @version $Revision: 1.9 $ $Date: 2003-04-23 04:06:18 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
