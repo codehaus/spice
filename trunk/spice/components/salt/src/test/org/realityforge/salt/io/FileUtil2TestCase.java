@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-06-13 05:04:10 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-13 23:59:21 $
  */
 public class FileUtil2TestCase
     extends TestCase
@@ -54,5 +54,49 @@ public class FileUtil2TestCase
         catch( final IllegalArgumentException iae )
         {
         }
+    }
+
+    public void testNormalize()
+        throws Exception
+    {
+        doTestNormalize( "", "" );
+        doTestNormalize( "/", "/" );
+        doTestNormalize( "///", "/" );
+        doTestNormalize( "/foo", "/foo" );
+        doTestNormalize( "/foo//", "/foo/" );
+        doTestNormalize( "/./", "/" );
+        doTestNormalize( "/foo/./", "/foo/" );
+        doTestNormalize( "/foo/./bar", "/foo/bar" );
+        doTestNormalize( "/foo/../bar", "/bar" );
+        doTestNormalize( "/foo/../bar/../baz", "/baz" );
+        doTestNormalize( "/foo/bar/../../baz", "/baz" );
+        doTestNormalize( "/././", "/" );
+        doTestNormalize( "/foo/./../bar", "/bar" );
+        doTestNormalize( "/foo/.././bar/", "/bar/" );
+        doTestNormalize( "/../", null );
+        doTestNormalize( "/foo/../../", null );
+    }
+
+    private void doTestNormalize( final String input, final String expected )
+    {
+        assertEquals( "Check if '" + input + "' normalized to '" + expected + "'",
+                      expected, FileUtil.normalize( input ) );
+    }
+
+    public void testCatPath()
+    {
+        doCatPathTest( "/a/b/c", "../d", "/a/d" );
+        doCatPathTest( "a", "b", "b" );
+        doCatPathTest( "/a/b/c", "d", "/a/b/d" );
+        doCatPathTest( "a/b/c", "d", "a/b/d" );
+        doCatPathTest( "a/b/c", "../d", "a/d" );
+    }
+
+    private void doCatPathTest( final String lhs,
+                                final String rhs,
+                                final String result )
+    {
+        final String message = "CatPath: " + lhs + " + " + rhs + " == " + result;
+        assertEquals( message, result, FileUtil.catPath( lhs, rhs ) );
     }
 }
