@@ -9,14 +9,15 @@ package org.jcomponent.netserve.connection.impl;
 
 import java.net.Socket;
 import org.jcomponent.netserve.connection.ConnectionHandler;
+import org.jcomponent.netserve.connection.handlers.AbstractRequestHandler;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-24 08:05:22 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-26 01:04:18 $
  */
 class DelayingConnectionHandler
-    implements ConnectionHandler
+    extends AbstractRequestHandler
 {
     private final long m_delay;
 
@@ -25,7 +26,8 @@ class DelayingConnectionHandler
         m_delay = delay;
     }
 
-    public void handleConnection( final Socket connection )
+    protected void doPerformRequest( Socket socket )
+        throws Exception
     {
         final long start = System.currentTimeMillis();
         final long end = start + m_delay;

@@ -14,7 +14,7 @@ import org.jcomponent.netserve.connection.ConnectionHandler;
  * This class is responsible for handling a single connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-09 05:30:00 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-26 01:04:18 $
  */
 class ConnectionRunner
     implements Runnable
@@ -108,7 +108,7 @@ class ConnectionRunner
      * @param forceShutdown true if when we timeout we should forcefully
      *                      shutdown connection
      */
-    synchronized void close( final int waitTime, final boolean forceShutdown )
+    synchronized void close( final long waitTime, final boolean forceShutdown )
     {
         if( !m_done )
         {

@@ -15,16 +15,11 @@ import org.jcomponent.threadpool.ThreadPool;
  * A Handler that uses a thread from a pool for each different request.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-24 08:21:40 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-26 01:04:18 $
  */
 public class ThreadPerRequestHandler
-    extends AbstractRequestHandler
+    extends DelegatingRequestHandler
 {
-    /**
-     * The underlying handler to delegate to.
-     */
-    private final ConnectionHandler m_handler;
-
     /**
      * the thread pool that used to handle requests.
      */
@@ -39,15 +34,11 @@ public class ThreadPerRequestHandler
     public ThreadPerRequestHandler( final ConnectionHandler handler,
                                     final ThreadPool threadPool )
     {
-        if( null == handler )
-        {
-            throw new NullPointerException( "handler" );
-        }
+        super( handler );
         if( null == threadPool )
         {
             throw new NullPointerException( "threadPool" );
         }
-        m_handler = handler;
         m_threadPool = threadPool;
     }
 
@@ -60,17 +51,5 @@ public class ThreadPerRequestHandler
     {
         final Runnable runnable = createRunnable( socket );
         m_threadPool.execute( runnable );
-    }
-
-    /**
-     * Delegate request to supplied handler.
-     *
-     * @param socket the socket
-     * @throws Exception on error
-     */
-    protected void doPerformRequest( final Socket socket )
-        throws Exception
-    {
-        m_handler.handleConnection( socket );
     }
 }

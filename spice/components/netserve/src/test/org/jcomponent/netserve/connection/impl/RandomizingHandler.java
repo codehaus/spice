@@ -11,14 +11,16 @@ import java.net.Socket;
 import java.util.Random;
 import org.jcomponent.netserve.connection.ConnectionHandler;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
+import org.jcomponent.netserve.connection.handlers.AbstractRequestHandler;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-24 08:05:22 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-26 01:04:18 $
  */
 class RandomizingHandler
-    implements ConnectionHandlerManager, ConnectionHandler
+    extends AbstractRequestHandler
+    implements ConnectionHandlerManager
 {
     private static final Random RANDOM = new Random();
 
@@ -32,7 +34,8 @@ class RandomizingHandler
     {
     }
 
-    public void handleConnection( Socket connection )
+    protected void doPerformRequest( Socket socket )
+        throws Exception
     {
         try
         {

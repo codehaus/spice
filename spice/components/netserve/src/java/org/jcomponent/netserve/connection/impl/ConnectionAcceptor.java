@@ -20,7 +20,7 @@ import org.jcomponent.threadpool.ThreadPool;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-10-24 08:05:22 $
+ * @version $Revision: 1.9 $ $Date: 2003-10-26 01:04:18 $
  */
 class ConnectionAcceptor
     implements ConnectionHandler
@@ -92,6 +92,11 @@ class ConnectionAcceptor
         m_threadPool = threadPool;
     }
 
+    public void shutdown( long timeout )
+    {
+        close( timeout, true );
+    }
+
     /**
      * Shutdown the acceptor and any active handlers.
      * Wait specified waittime for handlers to gracefully shutdown.
@@ -100,7 +105,7 @@ class ConnectionAcceptor
      * @param forceShutdown true if when we timeout we should forcefully
      *                      shutdown connection
      */
-    void close( final int waitTime, final boolean forceShutdown )
+    void close( final long waitTime, final boolean forceShutdown )
     {
         final ConnectionRunner[] runners;
         synchronized( this )

@@ -7,33 +7,26 @@
  */
 package org.jcomponent.netserve.sockets.impl;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
-import org.jcomponent.netserve.connection.ConnectionHandler;
+import org.jcomponent.netserve.connection.handlers.AbstractRequestHandler;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-24 08:07:21 $
+ * @version $Revision: 1.8 $ $Date: 2003-10-26 01:04:18 $
  */
 class ClosingSocketConnectionHandler
-    implements ConnectionHandler
+    extends AbstractRequestHandler
 {
     static final String MESSAGE = "Bye!";
 
-    public void handleConnection( final Socket socket )
+    protected void doPerformRequest( Socket socket )
+        throws Exception
     {
-        try
-        {
-            final OutputStream outputStream = socket.getOutputStream();
-            outputStream.write( MESSAGE.getBytes() );
-            outputStream.flush();
-            outputStream.close();
-        }
-        catch( final IOException ioe )
-        {
-            ioe.printStackTrace();
-        }
+        final OutputStream outputStream = socket.getOutputStream();
+        outputStream.write( MESSAGE.getBytes() );
+        outputStream.flush();
+        outputStream.close();
     }
 }
