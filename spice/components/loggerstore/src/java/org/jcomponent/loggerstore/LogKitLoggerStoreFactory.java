@@ -23,7 +23,7 @@ import org.apache.avalon.framework.logger.Logger;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 11:51:41 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 14:59:57 $
  */
 public class LogKitLoggerStoreFactory
     extends AbstractLoggerStoreFactory
@@ -122,12 +122,6 @@ public class LogKitLoggerStoreFactory
     private LoggerManager createLoggerManager( final String type,
                                                 final ClassLoader classLoader )
     {
-        if( null == type )
-        {
-            final String message = "No LoggerManager type specified.";
-            throw new IllegalStateException( message );
-        }
-
         try
         {
             final Class clazz = classLoader.loadClass( type );
