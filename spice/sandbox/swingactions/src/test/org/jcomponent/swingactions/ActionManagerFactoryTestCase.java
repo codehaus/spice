@@ -13,7 +13,7 @@ import java.util.HashMap;
  *  Test case for ActionManagerFactory
  *
  * @author Mauro Talevi
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class ActionManagerFactoryTestCase
     extends AbstractTestCase

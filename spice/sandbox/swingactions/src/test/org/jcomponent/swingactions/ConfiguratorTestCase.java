@@ -12,7 +12,7 @@ package org.jcomponent.swingactions;
  *  Test case for Configurator
  *
  * @author Mauro Talevi
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class ConfiguratorTestCase
     extends AbstractTestCase

@@ -19,7 +19,7 @@ import java.util.Properties;
  * to create an ActionManager when the factory type is configurable.
  *
  * @author Mauro Talevi
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class InitialActionManagerFactory implements ActionManagerFactory
 {
