@@ -21,7 +21,7 @@ import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.15 $ $Date: 2004-01-22 02:43:36 $
+ * @version $Revision: 1.16 $ $Date: 2004-01-29 05:48:23 $
  */
 public class ChannelTransport
 {
@@ -191,7 +191,7 @@ public class ChannelTransport
      * 
      * @param source the source.
      */
-    public void register( final SelectableChannelEventSource source )
+    public synchronized void register( final SelectableChannelEventSource source )
         throws IOException
     {
         final AbstractSelectableChannel channel =
@@ -205,9 +205,9 @@ public class ChannelTransport
      * Reregister key operations. Call this after the transmit buffer has been
      * modified.
      */
-    public void reregister()
+    public synchronized void reregister()
     {
-        if( null != m_key )
+        if( null != m_key && m_key.isValid() )
         {
             m_key.interestOps( getSelectOps() );
         }
@@ -226,7 +226,7 @@ public class ChannelTransport
     /**
      * Close the channel and disconnect the key.
      */
-    public void close()
+    public synchronized void close()
     {
         if( !m_closed )
         {
