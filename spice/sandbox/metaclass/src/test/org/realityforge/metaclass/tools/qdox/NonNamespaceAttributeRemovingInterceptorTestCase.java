@@ -11,9 +11,8 @@ import junit.framework.TestCase;
 import org.realityforge.metaclass.model.Attribute;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-11-01 01:07:27 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 11:14:55 $
  */
 public class NonNamespaceAttributeRemovingInterceptorTestCase
     extends TestCase
@@ -64,7 +63,8 @@ public class NonNamespaceAttributeRemovingInterceptorTestCase
         final NonNamespaceAttributeRemovingInterceptor interceptor =
             new NonNamespaceAttributeRemovingInterceptor();
         final Attribute attribute = new Attribute( "foo.baz" );
-        final Attribute result = interceptor.processClassAttribute( null, attribute );
+        final Attribute result = interceptor.processClassAttribute( null,
+                                                                    attribute );
         assertEquals( "attribute", attribute, result );
     }
 
@@ -74,7 +74,8 @@ public class NonNamespaceAttributeRemovingInterceptorTestCase
         final NonNamespaceAttributeRemovingInterceptor interceptor =
             new NonNamespaceAttributeRemovingInterceptor();
         final Attribute attribute = new Attribute( "foo.baz" );
-        final Attribute result = interceptor.processMethodAttribute( null, attribute );
+        final Attribute result = interceptor.processMethodAttribute( null,
+                                                                     attribute );
         assertEquals( "attribute", attribute, result );
     }
 
@@ -84,7 +85,8 @@ public class NonNamespaceAttributeRemovingInterceptorTestCase
         final NonNamespaceAttributeRemovingInterceptor interceptor =
             new NonNamespaceAttributeRemovingInterceptor();
         final Attribute attribute = new Attribute( "foo.baz" );
-        final Attribute result = interceptor.processFieldAttribute( null, attribute );
+        final Attribute result = interceptor.processFieldAttribute( null,
+                                                                    attribute );
         assertEquals( "attribute", attribute, result );
     }
 }

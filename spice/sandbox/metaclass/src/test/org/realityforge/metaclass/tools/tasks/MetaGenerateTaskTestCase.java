@@ -28,9 +28,8 @@ import org.realityforge.metaclass.tools.compiler.JavaClassFilter;
 import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.26 $ $Date: 2003-11-28 11:08:18 $
+ * @author Peter Donald
+ * @version $Revision: 1.27 $ $Date: 2003-11-28 11:14:55 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -212,7 +211,8 @@ public class MetaGenerateTaskTestCase
         final MockMetaGenerateTask task = new MockMetaGenerateTask();
         final File baseDirectory = getBaseDirectory();
         final File destDir =
-            File.createTempFile( "mgtest", ".tmp", baseDirectory ).getCanonicalFile();
+            File.createTempFile( "mgtest", ".tmp", baseDirectory )
+            .getCanonicalFile();
         task.setDestDir( destDir );
         try
         {
@@ -220,7 +220,8 @@ public class MetaGenerateTaskTestCase
         }
         catch( final BuildException e )
         {
-            assertEquals( "DestDir (" + destDir + ") is not a directory.", e.getMessage() );
+            assertEquals( "DestDir (" + destDir + ") is not a directory.",
+                          e.getMessage() );
             return;
         }
         fail( "Expected execute to fail as destdir specified by file." );
@@ -250,7 +251,8 @@ public class MetaGenerateTaskTestCase
         }
         catch( final BuildException e )
         {
-            assertEquals( "DestDir (" + destDir + ") could not be created.", e.getMessage() );
+            assertEquals( "DestDir (" + destDir + ") could not be created.",
+                          e.getMessage() );
             return;
         }
         fail( "Expected execute to fail as destdir could not be created." );
@@ -295,7 +297,13 @@ public class MetaGenerateTaskTestCase
         fileSet.setIncludes( "**/*.java" );
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -315,18 +323,35 @@ public class MetaGenerateTaskTestCase
         task.addFileset( fileSet );
         task.execute();
         final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+            destDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass" +
+            DefaultMetaClassAccessor.BINARY_EXT;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
         final MetaClassIOBinary io = new MetaClassIOBinary();
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
-        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
-        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
-        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
-        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+        assertEquals( "descriptor.name",
+                      "com.biz.MyClass",
+                      descriptor.getName() );
+        assertEquals( "descriptor.attributes.length",
+                      1,
+                      descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name",
+                      "anAttribute",
+                      descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length",
+                      0,
+                      descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length",
+                      0,
+                      descriptor.getFields().length );
     }
 
     public void testSingleSourceFileAsXML()
@@ -349,7 +374,13 @@ public class MetaGenerateTaskTestCase
         fileSet.setIncludes( "**/*.java" );
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -368,18 +399,35 @@ public class MetaGenerateTaskTestCase
         task.addFileset( fileSet );
         task.execute();
         final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.XML_EXT;
+            destDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass" +
+            DefaultMetaClassAccessor.XML_EXT;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
         final MetaClassIOXml io = new MetaClassIOXml();
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
-        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
-        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
-        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
-        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+        assertEquals( "descriptor.name",
+                      "com.biz.MyClass",
+                      descriptor.getName() );
+        assertEquals( "descriptor.attributes.length",
+                      1,
+                      descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name",
+                      "anAttribute",
+                      descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length",
+                      0,
+                      descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length",
+                      0,
+                      descriptor.getFields().length );
     }
 
     public void testSingleSourceFileCompactedAway()
@@ -401,7 +449,13 @@ public class MetaGenerateTaskTestCase
         fileSet.setIncludes( "**/*.java" );
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -417,7 +471,14 @@ public class MetaGenerateTaskTestCase
         task.addFileset( fileSet );
         task.execute();
         final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.XML_EXT;
+            destDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass" +
+            DefaultMetaClassAccessor.XML_EXT;
         final File destFile = new File( destFilename );
 
         assertTrue( "!destFile.exists()", !destFile.exists() );
@@ -443,7 +504,11 @@ public class MetaGenerateTaskTestCase
         fileSet.setIncludes( "**/*.java" );
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -458,18 +523,35 @@ public class MetaGenerateTaskTestCase
         task.addFileset( fileSet );
         task.execute();
         final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+            destDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass" +
+            DefaultMetaClassAccessor.BINARY_EXT;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
         final MetaClassIOBinary io = new MetaClassIOBinary();
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
-        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
-        assertEquals( "descriptor.attributes[0].name", "anAttribute.baz", descriptor.getAttributes()[ 0 ].getName() );
-        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
-        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+        assertEquals( "descriptor.name",
+                      "com.biz.MyClass",
+                      descriptor.getName() );
+        assertEquals( "descriptor.attributes.length",
+                      1,
+                      descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name",
+                      "anAttribute.baz",
+                      descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length",
+                      0,
+                      descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length",
+                      0,
+                      descriptor.getFields().length );
     }
 
     public void testErrorWritingDescriptor()
@@ -495,7 +577,13 @@ public class MetaGenerateTaskTestCase
         fileSet.setIncludes( "**/*.java" );
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -551,7 +639,13 @@ public class MetaGenerateTaskTestCase
         fileSet.setIncludes( "**/*.java" );
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -604,7 +698,13 @@ public class MetaGenerateTaskTestCase
         element.setName( DefaultQDoxAttributeInterceptor.class.getName() );
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -621,18 +721,35 @@ public class MetaGenerateTaskTestCase
         task.addInterceptorSet( new InterceptorSet() );
         task.execute();
         final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+            destDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass" +
+            DefaultMetaClassAccessor.BINARY_EXT;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
         final MetaClassIOBinary io = new MetaClassIOBinary();
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
-        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
-        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
-        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
-        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+        assertEquals( "descriptor.name",
+                      "com.biz.MyClass",
+                      descriptor.getName() );
+        assertEquals( "descriptor.attributes.length",
+                      1,
+                      descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name",
+                      "anAttribute",
+                      descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length",
+                      0,
+                      descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length",
+                      0,
+                      descriptor.getFields().length );
     }
 
     public void testSingleSourceFileWithPassThroughFilter()
@@ -655,7 +772,13 @@ public class MetaGenerateTaskTestCase
         fileSet.setIncludes( "**/*.java" );
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -678,18 +801,35 @@ public class MetaGenerateTaskTestCase
         task.setNamespaceTagsOnly( false );
         task.execute();
         final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+            destDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass" +
+            DefaultMetaClassAccessor.BINARY_EXT;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
         final MetaClassIOBinary io = new MetaClassIOBinary();
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
-        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
-        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
-        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
-        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+        assertEquals( "descriptor.name",
+                      "com.biz.MyClass",
+                      descriptor.getName() );
+        assertEquals( "descriptor.attributes.length",
+                      1,
+                      descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name",
+                      "anAttribute",
+                      descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length",
+                      0,
+                      descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length",
+                      0,
+                      descriptor.getFields().length );
     }
 
     private static final File generateDirectory()
@@ -697,7 +837,8 @@ public class MetaGenerateTaskTestCase
     {
         final File baseDirectory = getBaseDirectory();
         final File dir =
-            File.createTempFile( "mgtest", ".tmp", baseDirectory ).getCanonicalFile();
+            File.createTempFile( "mgtest", ".tmp", baseDirectory )
+            .getCanonicalFile();
         dir.delete();
         dir.mkdirs();
         assertTrue( "dir.exists()", dir.exists() );

@@ -7,16 +7,15 @@
  */
 package org.realityforge.metaclass.introspector;
 
-import junit.framework.TestCase;
-import com.mockobjects.dynamic.Mock;
 import com.mockobjects.dynamic.C;
 import com.mockobjects.dynamic.ConstraintMatcher;
+import com.mockobjects.dynamic.Mock;
+import junit.framework.TestCase;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 10:43:28 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 11:14:54 $
  */
 public class WrapperMetaClassAccessorTestCase
     extends TestCase
@@ -48,7 +47,8 @@ public class WrapperMetaClassAccessorTestCase
 
         final MetaClassAccessor accessor = (MetaClassAccessor)mock.proxy();
 
-        final WrapperMetaClassAccessor wrapper = new WrapperMetaClassAccessor( accessor );
+        final WrapperMetaClassAccessor wrapper = new WrapperMetaClassAccessor(
+            accessor );
         final ClassDescriptor result =
             wrapper.getClassDescriptor( classname, classLoader, null );
         assertEquals( "result", null, result );

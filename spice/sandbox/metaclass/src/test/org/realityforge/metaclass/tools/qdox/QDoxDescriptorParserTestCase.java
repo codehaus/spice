@@ -23,9 +23,8 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-28 13:26:55 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003-11-28 11:14:55 $
  */
 public class QDoxDescriptorParserTestCase
     extends TestCase
@@ -237,7 +236,8 @@ public class QDoxDescriptorParserTestCase
     {
         final String name = "myTag";
         final String value = null;
-        final DefaultDocletTag tag = new DefaultDocletTag( name, "key=\"value\"" );
+        final DefaultDocletTag tag = new DefaultDocletTag( name,
+                                                           "key=\"value\"" );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final Attribute attribute = parser.buildAttribute( tag );
         assertNotNull( "attribute", attribute );
@@ -260,11 +260,14 @@ public class QDoxDescriptorParserTestCase
         javaField.setModifiers( new String[]{"public"} );
         javaField.setName( name );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final FieldDescriptor field = parser.buildField( javaField, new DefaultQDoxAttributeInterceptor() );
+        final FieldDescriptor field = parser.buildField( javaField,
+                                                         new DefaultQDoxAttributeInterceptor() );
         assertNotNull( "field", field );
         assertEquals( "field.name", name, field.getName() );
         assertEquals( "field.type", type, field.getType() );
-        assertEquals( "field.attributes.length", 0, field.getAttributes().length );
+        assertEquals( "field.attributes.length",
+                      0,
+                      field.getAttributes().length );
     }
 
     public void testBuildFields()
@@ -286,7 +289,9 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "field", field );
         assertEquals( "field.name", name, field.getName() );
         assertEquals( "field.type", type, field.getType() );
-        assertEquals( "field.attributes.length", 0, field.getAttributes().length );
+        assertEquals( "field.attributes.length",
+                      0,
+                      field.getAttributes().length );
     }
 
     public void testBuildFieldWitAttributeDeletion()
@@ -303,12 +308,17 @@ public class QDoxDescriptorParserTestCase
         javaField.setModifiers( new String[]{"public"} );
         javaField.setName( name );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final FieldDescriptor field = parser.buildField( javaField, new DeletingAttributeInterceptor() );
+        final FieldDescriptor field = parser.buildField( javaField,
+                                                         new DeletingAttributeInterceptor() );
         assertNotNull( "field", field );
         assertEquals( "field.name", name, field.getName() );
         assertEquals( "field.type", type, field.getType() );
-        assertEquals( "field.attributes.length", 1, field.getAttributes().length );
-        assertEquals( "field.attributes[0].name", "dna.persist", field.getAttributes()[ 0 ].getName() );
+        assertEquals( "field.attributes.length",
+                      1,
+                      field.getAttributes().length );
+        assertEquals( "field.attributes[0].name",
+                      "dna.persist",
+                      field.getAttributes()[ 0 ].getName() );
     }
 
     public void testBuildFieldWitAttributeRewritten()
@@ -325,13 +335,20 @@ public class QDoxDescriptorParserTestCase
         javaField.setModifiers( new String[]{"public"} );
         javaField.setName( name );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final FieldDescriptor field = parser.buildField( javaField, new RewritingAttributeInterceptor() );
+        final FieldDescriptor field = parser.buildField( javaField,
+                                                         new RewritingAttributeInterceptor() );
         assertNotNull( "field", field );
         assertEquals( "field.name", name, field.getName() );
         assertEquals( "field.type", type, field.getType() );
-        assertEquals( "field.attributes.length", 2, field.getAttributes().length );
-        assertEquals( "field.attributes[0].name", "rewritten", field.getAttributes()[ 0 ].getName() );
-        assertEquals( "field.attributes[1].name", "dna.persist", field.getAttributes()[ 1 ].getName() );
+        assertEquals( "field.attributes.length",
+                      2,
+                      field.getAttributes().length );
+        assertEquals( "field.attributes[0].name",
+                      "rewritten",
+                      field.getAttributes()[ 0 ].getName() );
+        assertEquals( "field.attributes[1].name",
+                      "dna.persist",
+                      field.getAttributes()[ 1 ].getName() );
     }
 
     public void testBuildFieldWitAttributesReplaced()
@@ -348,11 +365,14 @@ public class QDoxDescriptorParserTestCase
         javaField.setModifiers( new String[]{"public"} );
         javaField.setName( name );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final FieldDescriptor field = parser.buildField( javaField, new ReplacingAttributeInterceptor() );
+        final FieldDescriptor field = parser.buildField( javaField,
+                                                         new ReplacingAttributeInterceptor() );
         assertNotNull( "field", field );
         assertEquals( "field.name", name, field.getName() );
         assertEquals( "field.type", type, field.getType() );
-        assertEquals( "field.attributes.length", 0, field.getAttributes().length );
+        assertEquals( "field.attributes.length",
+                      0,
+                      field.getAttributes().length );
     }
 
     public void testBuildParameter()
@@ -360,9 +380,11 @@ public class QDoxDescriptorParserTestCase
     {
         final String name = "myField";
         final String type = "int";
-        final JavaParameter javaParameter = new JavaParameter( new Type( type ), name );
+        final JavaParameter javaParameter = new JavaParameter(
+            new Type( type ), name );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final ParameterDescriptor parameter = parser.buildParameter( javaParameter );
+        final ParameterDescriptor parameter = parser.buildParameter(
+            javaParameter );
         assertNotNull( "parameter", parameter );
         assertEquals( "parameter.name", name, parameter.getName() );
         assertEquals( "parameter.type", type, parameter.getType() );
@@ -373,7 +395,8 @@ public class QDoxDescriptorParserTestCase
     {
         final String name = "myField";
         final String type = "int";
-        final JavaParameter javaParameter = new JavaParameter( new Type( type ), name );
+        final JavaParameter javaParameter = new JavaParameter(
+            new Type( type ), name );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final ParameterDescriptor[] parameters =
             parser.buildParameters( new JavaParameter[]{javaParameter} );
@@ -398,12 +421,17 @@ public class QDoxDescriptorParserTestCase
         javaMethod.setModifiers( new String[]{"public"} );
         javaMethod.setTags( new ArrayList() );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final MethodDescriptor method = parser.buildMethod( javaMethod, new DefaultQDoxAttributeInterceptor() );
+        final MethodDescriptor method = parser.buildMethod( javaMethod,
+                                                            new DefaultQDoxAttributeInterceptor() );
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", type, method.getReturnType() );
-        assertEquals( "method.parameters.length", 0, method.getParameters().length );
-        assertEquals( "field.attributes.length", 0, method.getAttributes().length );
+        assertEquals( "method.parameters.length",
+                      0,
+                      method.getParameters().length );
+        assertEquals( "field.attributes.length",
+                      0,
+                      method.getAttributes().length );
     }
 
     public void testBuildMethodWithNullReturn()
@@ -419,12 +447,17 @@ public class QDoxDescriptorParserTestCase
         javaMethod.setModifiers( new String[]{"public"} );
         javaMethod.setTags( new ArrayList() );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final MethodDescriptor method = parser.buildMethod( javaMethod, new DefaultQDoxAttributeInterceptor() );
+        final MethodDescriptor method = parser.buildMethod( javaMethod,
+                                                            new DefaultQDoxAttributeInterceptor() );
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", "", method.getReturnType() );
-        assertEquals( "method.parameters.length", 0, method.getParameters().length );
-        assertEquals( "field.attributes.length", 0, method.getAttributes().length );
+        assertEquals( "method.parameters.length",
+                      0,
+                      method.getParameters().length );
+        assertEquals( "field.attributes.length",
+                      0,
+                      method.getAttributes().length );
     }
 
     public void testBuildMethods()
@@ -449,8 +482,12 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", type, method.getReturnType() );
-        assertEquals( "method.parameters.length", 0, method.getParameters().length );
-        assertEquals( "field.attributes.length", 0, method.getAttributes().length );
+        assertEquals( "method.parameters.length",
+                      0,
+                      method.getParameters().length );
+        assertEquals( "field.attributes.length",
+                      0,
+                      method.getAttributes().length );
     }
 
     public void testBuildMethodWithAttributeDeletion()
@@ -470,13 +507,20 @@ public class QDoxDescriptorParserTestCase
         tags.add( new DefaultDocletTag( "dna.entry", "" ) );
         javaMethod.setTags( tags );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final MethodDescriptor method = parser.buildMethod( javaMethod, new DeletingAttributeInterceptor() );
+        final MethodDescriptor method = parser.buildMethod( javaMethod,
+                                                            new DeletingAttributeInterceptor() );
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", type, method.getReturnType() );
-        assertEquals( "method.parameters.length", 0, method.getParameters().length );
-        assertEquals( "field.attributes.length", 1, method.getAttributes().length );
-        assertEquals( "field.attributes[0].name", "dna.entry", method.getAttributes()[ 0 ].getName() );
+        assertEquals( "method.parameters.length",
+                      0,
+                      method.getParameters().length );
+        assertEquals( "field.attributes.length",
+                      1,
+                      method.getAttributes().length );
+        assertEquals( "field.attributes[0].name",
+                      "dna.entry",
+                      method.getAttributes()[ 0 ].getName() );
     }
 
     public void testBuildMethodWithAttributeRewritten()
@@ -496,14 +540,23 @@ public class QDoxDescriptorParserTestCase
         tags.add( new DefaultDocletTag( "dna.entry", "" ) );
         javaMethod.setTags( tags );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final MethodDescriptor method = parser.buildMethod( javaMethod, new RewritingAttributeInterceptor() );
+        final MethodDescriptor method = parser.buildMethod( javaMethod,
+                                                            new RewritingAttributeInterceptor() );
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", type, method.getReturnType() );
-        assertEquals( "method.parameters.length", 0, method.getParameters().length );
-        assertEquals( "field.attributes.length", 2, method.getAttributes().length );
-        assertEquals( "field.attributes[0].name", "rewritten", method.getAttributes()[ 0 ].getName() );
-        assertEquals( "field.attributes[1].name", "dna.entry", method.getAttributes()[ 1 ].getName() );
+        assertEquals( "method.parameters.length",
+                      0,
+                      method.getParameters().length );
+        assertEquals( "field.attributes.length",
+                      2,
+                      method.getAttributes().length );
+        assertEquals( "field.attributes[0].name",
+                      "rewritten",
+                      method.getAttributes()[ 0 ].getName() );
+        assertEquals( "field.attributes[1].name",
+                      "dna.entry",
+                      method.getAttributes()[ 1 ].getName() );
     }
 
     public void testBuildMethodWithAttributesReplaced()
@@ -523,12 +576,17 @@ public class QDoxDescriptorParserTestCase
         tags.add( new DefaultDocletTag( "dna.entry", "" ) );
         javaMethod.setTags( tags );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final MethodDescriptor method = parser.buildMethod( javaMethod, new ReplacingAttributeInterceptor() );
+        final MethodDescriptor method = parser.buildMethod( javaMethod,
+                                                            new ReplacingAttributeInterceptor() );
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", type, method.getReturnType() );
-        assertEquals( "method.parameters.length", 0, method.getParameters().length );
-        assertEquals( "field.attributes.length", 0, method.getAttributes().length );
+        assertEquals( "method.parameters.length",
+                      0,
+                      method.getParameters().length );
+        assertEquals( "field.attributes.length",
+                      0,
+                      method.getAttributes().length );
     }
 
     public void testBuildClass()
@@ -545,7 +603,9 @@ public class QDoxDescriptorParserTestCase
         final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass );
         assertNotNull( "clazz", clazz );
         assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
-        assertEquals( "clazz.attributes.length", 0, clazz.getAttributes().length );
+        assertEquals( "clazz.attributes.length",
+                      0,
+                      clazz.getAttributes().length );
         assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
         assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
     }
@@ -561,10 +621,13 @@ public class QDoxDescriptorParserTestCase
         javaClass.setModifiers( new String[]{"public"} );
         javaClass.setTags( new ArrayList() );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new DefaultQDoxAttributeInterceptor() );
+        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass,
+                                                                   new DefaultQDoxAttributeInterceptor() );
         assertNotNull( "clazz", clazz );
         assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
-        assertEquals( "clazz.attributes.length", 0, clazz.getAttributes().length );
+        assertEquals( "clazz.attributes.length",
+                      0,
+                      clazz.getAttributes().length );
         assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
         assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
     }
@@ -583,11 +646,16 @@ public class QDoxDescriptorParserTestCase
         tags.add( new DefaultDocletTag( "dna.service", "" ) );
         javaClass.setTags( tags );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new DeletingAttributeInterceptor() );
+        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass,
+                                                                   new DeletingAttributeInterceptor() );
         assertNotNull( "clazz", clazz );
         assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
-        assertEquals( "clazz.attributes.length", 1, clazz.getAttributes().length );
-        assertEquals( "clazz.attributes[0].getName()", "dna.service", clazz.getAttributes()[ 0 ].getName() );
+        assertEquals( "clazz.attributes.length",
+                      1,
+                      clazz.getAttributes().length );
+        assertEquals( "clazz.attributes[0].getName()",
+                      "dna.service",
+                      clazz.getAttributes()[ 0 ].getName() );
         assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
         assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
     }
@@ -606,12 +674,19 @@ public class QDoxDescriptorParserTestCase
         tags.add( new DefaultDocletTag( "dna.service", "" ) );
         javaClass.setTags( tags );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new RewritingAttributeInterceptor() );
+        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass,
+                                                                   new RewritingAttributeInterceptor() );
         assertNotNull( "clazz", clazz );
         assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
-        assertEquals( "clazz.attributes.length", 2, clazz.getAttributes().length );
-        assertEquals( "clazz.attributes[0].getName()", "rewritten", clazz.getAttributes()[ 0 ].getName() );
-        assertEquals( "clazz.attributes[1].getName()", "dna.service", clazz.getAttributes()[ 1 ].getName() );
+        assertEquals( "clazz.attributes.length",
+                      2,
+                      clazz.getAttributes().length );
+        assertEquals( "clazz.attributes[0].getName()",
+                      "rewritten",
+                      clazz.getAttributes()[ 0 ].getName() );
+        assertEquals( "clazz.attributes[1].getName()",
+                      "dna.service",
+                      clazz.getAttributes()[ 1 ].getName() );
         assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
         assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
     }
@@ -630,10 +705,13 @@ public class QDoxDescriptorParserTestCase
         tags.add( new DefaultDocletTag( "dna.service", "" ) );
         javaClass.setTags( tags );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new ReplacingAttributeInterceptor() );
+        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass,
+                                                                   new ReplacingAttributeInterceptor() );
         assertNotNull( "clazz", clazz );
         assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
-        assertEquals( "clazz.attributes.length", 0, clazz.getAttributes().length );
+        assertEquals( "clazz.attributes.length",
+                      0,
+                      clazz.getAttributes().length );
         assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
         assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
     }

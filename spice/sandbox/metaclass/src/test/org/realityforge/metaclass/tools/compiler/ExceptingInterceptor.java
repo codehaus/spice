@@ -7,19 +7,19 @@
  */
 package org.realityforge.metaclass.tools.compiler;
 
-import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
-import org.realityforge.metaclass.model.Attribute;
 import com.thoughtworks.qdox.model.JavaClass;
+import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-16 06:53:13 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 11:14:54 $
  */
 class ExceptingInterceptor
     extends DefaultQDoxAttributeInterceptor
 {
-    static final IllegalStateException EXCEPTION = new IllegalStateException( "Blah!" );
+    static final IllegalStateException EXCEPTION = new IllegalStateException(
+        "Blah!" );
 
     public Attribute processClassAttribute( JavaClass clazz,
                                             Attribute attribute )

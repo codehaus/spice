@@ -10,9 +10,8 @@ package org.realityforge.metaclass.model;
 import junit.framework.TestCase;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 11:08:12 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 11:14:54 $
  */
 public class ParameterDescriptorTestCase
     extends TestCase
@@ -43,7 +42,8 @@ public class ParameterDescriptorTestCase
 
     public void testParameter()
     {
-        final ParameterDescriptor param = new ParameterDescriptor( "paramName", "paramType" );
+        final ParameterDescriptor param = new ParameterDescriptor( "paramName",
+                                                                   "paramType" );
         assertEquals( "param.getName() == paramName",
                       "paramName", param.getName() );
         assertEquals( "param.getType() == paramType",

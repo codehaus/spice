@@ -7,17 +7,17 @@
  */
 package org.realityforge.metaclass.tools.qdox;
 
+import com.thoughtworks.qdox.model.ClassLibrary;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaClassParent;
 import com.thoughtworks.qdox.model.JavaSource;
-import com.thoughtworks.qdox.model.ClassLibrary;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-17 14:30:15 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003-11-28 11:14:55 $
  */
-class MockPackage implements JavaClassParent
+class MockPackage
+    implements JavaClassParent
 {
     public String asClassNamespace()
     {

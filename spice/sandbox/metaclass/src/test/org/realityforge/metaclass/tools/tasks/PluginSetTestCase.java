@@ -7,15 +7,14 @@
  */
 package org.realityforge.metaclass.tools.tasks;
 
-import junit.framework.TestCase;
 import java.util.Collection;
+import junit.framework.TestCase;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Reference;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-11-20 10:00:39 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 11:14:55 $
  */
 public class PluginSetTestCase
     extends TestCase

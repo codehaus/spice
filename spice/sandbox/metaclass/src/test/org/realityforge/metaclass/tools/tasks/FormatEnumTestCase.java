@@ -11,9 +11,8 @@ import junit.framework.TestCase;
 import org.apache.tools.ant.BuildException;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-04 01:39:44 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 11:14:55 $
  */
 public class FormatEnumTestCase
     extends TestCase

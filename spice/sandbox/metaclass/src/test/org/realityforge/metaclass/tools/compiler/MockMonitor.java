@@ -12,9 +12,8 @@ import java.util.Collection;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-16 06:53:13 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2003-11-28 11:14:54 $
  */
 class MockMonitor
     extends DefaultCompilerMonitor
@@ -24,14 +23,16 @@ class MockMonitor
     public void errorWritingDescriptor( ClassDescriptor descriptor,
                                         Exception e )
     {
-        System.out.println( "errorWritingDescriptor(" + descriptor.getName() + "," + e + ")" );
+        System.out.println(
+            "errorWritingDescriptor(" + descriptor.getName() + "," + e + ")" );
         m_error = true;
         super.errorWritingDescriptor( descriptor, e );
     }
 
     public void errorGeneratingDescriptor( String classname, Throwable t )
     {
-        System.out.println( "errorGeneratingDescriptor(" + classname + "," + t + ")" );
+        System.out.println(
+            "errorGeneratingDescriptor(" + classname + "," + t + ")" );
         m_error = true;
         super.errorGeneratingDescriptor( classname, t );
     }

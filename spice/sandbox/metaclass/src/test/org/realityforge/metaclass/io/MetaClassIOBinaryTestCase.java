@@ -21,9 +21,8 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.21 $ $Date: 2003-10-28 13:40:53 $
+ * @author Peter Donald
+ * @version $Revision: 1.22 $ $Date: 2003-11-28 11:14:54 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -70,13 +69,21 @@ public class MetaClassIOBinaryTestCase
         final byte[] bytes = out.toByteArray();
         assertEquals( "length", 24, bytes.length );
         int offset = 0;
-        assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = 1",
+                      1,
+                      readInteger( bytes, offset ) );
         offset = 4;
-        assertEquals( "bytes[" + offset + "] = " + name, name, readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + name,
+                      name,
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + name.length();
-        assertEquals( "bytes[" + offset + "] = " + "''", "", readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + "''",
+                      "",
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE;
-        assertEquals( "bytes[" + offset + "] = 0", 0, readInteger( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = 0",
+                      0,
+                      readInteger( bytes, offset ) );
     }
 
     public void testBinaryIOReadAttributeWithoutValueOrParameters()
@@ -100,8 +107,12 @@ public class MetaClassIOBinaryTestCase
         final Attribute[] attributes = io.readAttributes( data );
         assertEquals( "attributes.length", 1, attributes.length );
         assertEquals( "attributes[0].name", name, attributes[ 0 ].getName() );
-        assertEquals( "attributes[0].value", value, attributes[ 0 ].getValue() );
-        assertEquals( "attributes[0].parameterCount", paramCount, attributes[ 0 ].getParameterCount() );
+        assertEquals( "attributes[0].value",
+                      value,
+                      attributes[ 0 ].getValue() );
+        assertEquals( "attributes[0].parameterCount",
+                      paramCount,
+                      attributes[ 0 ].getParameterCount() );
     }
 
     public void testBinaryIOWriteAttributeWithValue()
@@ -118,13 +129,21 @@ public class MetaClassIOBinaryTestCase
         final byte[] bytes = out.toByteArray();
         assertEquals( "length", 44, bytes.length );
         int offset = 0;
-        assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = 1",
+                      1,
+                      readInteger( bytes, offset ) );
         offset = 4;
-        assertEquals( "bytes[" + offset + "] = " + name, name, readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + name,
+                      name,
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + name.length();
-        assertEquals( "bytes[" + offset + "] = " + value, value, readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + value,
+                      value,
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + value.length();
-        assertEquals( "bytes[" + offset + "] = 0", 0, readInteger( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = 0",
+                      0,
+                      readInteger( bytes, offset ) );
     }
 
     public void testBinaryIOReadAttributeWithValueAndParameters()
@@ -180,8 +199,12 @@ public class MetaClassIOBinaryTestCase
         final Attribute[] attributes = io.readAttributes( data );
         assertEquals( "attributes.length", 1, attributes.length );
         assertEquals( "attributes[0].name", name, attributes[ 0 ].getName() );
-        assertEquals( "attributes[0].value", value, attributes[ 0 ].getValue() );
-        assertEquals( "attributes[0].parameterCount", paramCount, attributes[ 0 ].getParameterCount() );
+        assertEquals( "attributes[0].value",
+                      value,
+                      attributes[ 0 ].getValue() );
+        assertEquals( "attributes[0].parameterCount",
+                      paramCount,
+                      attributes[ 0 ].getParameterCount() );
     }
 
     public void testBinaryIOWriteAttributeWithParameters()
@@ -202,17 +225,29 @@ public class MetaClassIOBinaryTestCase
         final byte[] bytes = out.toByteArray();
         assertEquals( "length", 37, bytes.length );
         int offset = 0;
-        assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = 1",
+                      1,
+                      readInteger( bytes, offset ) );
         offset = 4;
-        assertEquals( "bytes[" + offset + "] = " + name, name, readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + name,
+                      name,
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + name.length();
-        assertEquals( "bytes[" + offset + "] = " + "''", "", readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + "''",
+                      "",
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE;
-        assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = 1",
+                      1,
+                      readInteger( bytes, offset ) );
         offset += 4;
-        assertEquals( "bytes[" + offset + "] = " + paramKey, paramKey, readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + paramKey,
+                      paramKey,
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + paramKey.length();
-        assertEquals( "bytes[" + offset + "] = " + paramValue, paramValue, readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + paramValue,
+                      paramValue,
+                      readString( bytes, offset ) );
     }
 
     public void testBinaryIOReadAttributeWithParameters()
@@ -241,9 +276,15 @@ public class MetaClassIOBinaryTestCase
         final Attribute[] attributes = io.readAttributes( data );
         assertEquals( "attributes.length", 1, attributes.length );
         assertEquals( "attributes[0].name", name, attributes[ 0 ].getName() );
-        assertEquals( "attributes[0].value", value, attributes[ 0 ].getValue() );
-        assertEquals( "attributes[0].parameterCount", paramCount, attributes[ 0 ].getParameterCount() );
-        assertEquals( "attributes[0].parameter(key)", paramValue, attributes[ 0 ].getParameter( paramKey ) );
+        assertEquals( "attributes[0].value",
+                      value,
+                      attributes[ 0 ].getValue() );
+        assertEquals( "attributes[0].parameterCount",
+                      paramCount,
+                      attributes[ 0 ].getParameterCount() );
+        assertEquals( "attributes[0].parameter(key)",
+                      paramValue,
+                      attributes[ 0 ].getParameter( paramKey ) );
     }
 
     public void testBinaryIOWriteParameters()
@@ -254,17 +295,24 @@ public class MetaClassIOBinaryTestCase
         final DataOutputStream data = new DataOutputStream( out );
         final String name = "name";
         final String type = "aType";
-        final ParameterDescriptor descriptor = new ParameterDescriptor( name, type );
+        final ParameterDescriptor descriptor = new ParameterDescriptor( name,
+                                                                        type );
         io.writeParameters( data, new ParameterDescriptor[]{descriptor} );
         data.flush();
         final byte[] bytes = out.toByteArray();
         assertEquals( "length", 17, bytes.length );
         int offset = 0;
-        assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = 1",
+                      1,
+                      readInteger( bytes, offset ) );
         offset = 4;
-        assertEquals( "bytes[" + offset + "] = " + name, name, readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + name,
+                      name,
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + name.length();
-        assertEquals( "bytes[" + offset + "] = " + type, type, readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + type,
+                      type,
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + type.length();
     }
 
@@ -361,14 +409,21 @@ public class MetaClassIOBinaryTestCase
         final byte[] bytes = out.toByteArray();
         assertEquals( "length", 21, bytes.length );
         int offset = 0;
-        assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = 1",
+                      1,
+                      readInteger( bytes, offset ) );
         offset = 4;
-        assertEquals( "bytes[" + offset + "] = " + name, name, readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + name,
+                      name,
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + name.length();
-        assertEquals( "bytes[" + offset + "] = " + type, type, readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + type,
+                      type,
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + type.length();
         assertEquals( "bytes[" + offset + "] = " + Attribute.EMPTY_SET.length,
-                      Attribute.EMPTY_SET.length, readInteger( bytes, offset ) );
+                      Attribute.EMPTY_SET.length,
+                      readInteger( bytes, offset ) );
         offset += 4;
     }
 
@@ -422,7 +477,9 @@ public class MetaClassIOBinaryTestCase
         final MethodDescriptor[] methods = io.readMethods( data );
         assertEquals( "methods.length", 1, methods.length );
         assertEquals( "methods[0].name", name, methods[ 0 ].getName() );
-        assertEquals( "methods[0].returnType", type, methods[ 0 ].getReturnType() );
+        assertEquals( "methods[0].returnType",
+                      type,
+                      methods[ 0 ].getReturnType() );
         assertEquals( "methods[0].attributes.length",
                       attributeCount, methods[ 0 ].getAttributes().length );
         assertEquals( "methods[0].attributes.length",
@@ -447,17 +504,26 @@ public class MetaClassIOBinaryTestCase
         final byte[] bytes = out.toByteArray();
         assertEquals( "length", 25, bytes.length );
         int offset = 0;
-        assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = 1",
+                      1,
+                      readInteger( bytes, offset ) );
         offset = 4;
-        assertEquals( "bytes[" + offset + "] = " + name, name, readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + name,
+                      name,
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + name.length();
-        assertEquals( "bytes[" + offset + "] = " + type, type, readString( bytes, offset ) );
+        assertEquals( "bytes[" + offset + "] = " + type,
+                      type,
+                      readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + type.length();
-        assertEquals( "bytes[" + offset + "] = " + ParameterDescriptor.EMPTY_SET.length,
-                      ParameterDescriptor.EMPTY_SET.length, readInteger( bytes, offset ) );
+        assertEquals(
+            "bytes[" + offset + "] = " + ParameterDescriptor.EMPTY_SET.length,
+            ParameterDescriptor.EMPTY_SET.length,
+            readInteger( bytes, offset ) );
         offset += 4;
         assertEquals( "bytes[" + offset + "] = " + Attribute.EMPTY_SET.length,
-                      Attribute.EMPTY_SET.length, readInteger( bytes, offset ) );
+                      Attribute.EMPTY_SET.length,
+                      readInteger( bytes, offset ) );
         offset += 4;
     }
 
@@ -497,7 +563,8 @@ public class MetaClassIOBinaryTestCase
             new Attribute( "persist", parameters );
         final Attribute valueAttribute =
             new Attribute( "mx.attribute", "This is an attribute" );
-        final Attribute[] attributes = new Attribute[]{valueAttribute, paramAttribute};
+        final Attribute[] attributes = new Attribute[]{valueAttribute,
+                                                       paramAttribute};
         final FieldDescriptor field =
             new FieldDescriptor( "m_field",
                                  "int",
@@ -519,7 +586,8 @@ public class MetaClassIOBinaryTestCase
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         io.serializeClass( out, descriptor );
 
-        final ByteArrayInputStream in = new ByteArrayInputStream( out.toByteArray() );
+        final ByteArrayInputStream in = new ByteArrayInputStream(
+            out.toByteArray() );
         io.deserializeClass( in );
     }
 
@@ -547,7 +615,8 @@ public class MetaClassIOBinaryTestCase
             //expect version mis match
             return;
         }
-        fail( "Expected to fail reading descriptor as it has the wrong version" );
+        fail(
+            "Expected to fail reading descriptor as it has the wrong version" );
     }
 
     public void testBinaryIOReadClass()
@@ -580,14 +649,14 @@ public class MetaClassIOBinaryTestCase
     private int readShort( final byte[] data, final int offset )
     {
         return (
-            ( ( data[ offset + 1 ] & 0xff ) << 0 ) +
+                   ( ( data[ offset + 1 ] & 0xff ) << 0 ) +
             ( ( data[ offset + 0 ] & 0xff ) << 8 ) );
     }
 
     private int readInteger( final byte[] data, final int offset )
     {
         return (
-            ( ( data[ offset + 3 ] & 0xff ) << 0 ) +
+                   ( ( data[ offset + 3 ] & 0xff ) << 0 ) +
             ( ( data[ offset + 2 ] & 0xff ) << 8 ) +
             ( ( data[ offset + 1 ] & 0xff ) << 16 ) +
             ( ( data[ offset + 0 ] & 0xff ) << 24 ) );

@@ -7,9 +7,8 @@
  */
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-09-28 05:31:15 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 11:14:54 $
  */
 public class DefaultPackageClass
 {

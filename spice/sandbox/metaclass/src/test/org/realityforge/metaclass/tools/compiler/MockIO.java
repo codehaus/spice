@@ -7,16 +7,15 @@
  */
 package org.realityforge.metaclass.tools.compiler;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.model.ClassDescriptor;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 06:58:56 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 11:14:54 $
  */
 class MockIO
     implements MetaClassIO

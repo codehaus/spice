@@ -11,9 +11,8 @@ import com.thoughtworks.qdox.model.JavaClass;
 import org.realityforge.metaclass.tools.compiler.JavaClassFilter;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 10:12:39 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 11:14:55 $
  */
 public class PassThroughFilter
     implements JavaClassFilter

@@ -11,9 +11,8 @@ import junit.framework.TestCase;
 import org.realityforge.metaclass.model.Attribute;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-09-28 06:30:39 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 11:14:55 $
  */
 public class MulticastInterceptorTestCase
     extends TestCase
@@ -72,7 +71,8 @@ public class MulticastInterceptorTestCase
         throws Exception
     {
         final MulticastInterceptor mcInterceptor = createMCInterceptor();
-        final Attribute[] attributes = new Attribute[]{new Attribute( "ignore" )};
+        final Attribute[] attributes = new Attribute[]{
+            new Attribute( "ignore" )};
         final Attribute[] result =
             mcInterceptor.processClassAttributes( null, attributes );
         assertNotNull( "attributes", result );
@@ -85,7 +85,8 @@ public class MulticastInterceptorTestCase
         final String name = "NotDeleteme";
         final MulticastInterceptor mcInterceptor = createMCInterceptor();
         final Attribute attribute =
-            mcInterceptor.processMethodAttribute( null, new Attribute( name ) );
+            mcInterceptor.processMethodAttribute( null,
+                                                  new Attribute( name ) );
         assertNotNull( "attribute", attribute );
     }
 
@@ -95,7 +96,8 @@ public class MulticastInterceptorTestCase
         final String name = "deleteme";
         final MulticastInterceptor mcInterceptor = createMCInterceptor();
         final Attribute attribute =
-            mcInterceptor.processMethodAttribute( null, new Attribute( name ) );
+            mcInterceptor.processMethodAttribute( null,
+                                                  new Attribute( name ) );
         assertNull( "attribute", attribute );
     }
 
@@ -103,7 +105,8 @@ public class MulticastInterceptorTestCase
         throws Exception
     {
         final MulticastInterceptor mcInterceptor = createMCInterceptor();
-        final Attribute[] attributes = new Attribute[]{new Attribute( "ignore" )};
+        final Attribute[] attributes = new Attribute[]{
+            new Attribute( "ignore" )};
         final Attribute[] result =
             mcInterceptor.processMethodAttributes( null, attributes );
         assertNotNull( "attributes", result );
@@ -134,7 +137,8 @@ public class MulticastInterceptorTestCase
         throws Exception
     {
         final MulticastInterceptor mcInterceptor = createMCInterceptor();
-        final Attribute[] attributes = new Attribute[]{new Attribute( "ignore" )};
+        final Attribute[] attributes = new Attribute[]{
+            new Attribute( "ignore" )};
         final Attribute[] result =
             mcInterceptor.processFieldAttributes( null, attributes );
         assertNotNull( "attributes", result );
@@ -143,6 +147,7 @@ public class MulticastInterceptorTestCase
 
     private MulticastInterceptor createMCInterceptor()
     {
-        return new MulticastInterceptor( new QDoxAttributeInterceptor[]{new DeletingAttributeInterceptor()} );
+        return new MulticastInterceptor(
+            new QDoxAttributeInterceptor[]{new DeletingAttributeInterceptor()} );
     }
 }

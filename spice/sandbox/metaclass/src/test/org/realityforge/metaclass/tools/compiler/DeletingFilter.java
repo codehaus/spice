@@ -8,12 +8,10 @@
 package org.realityforge.metaclass.tools.compiler;
 
 import com.thoughtworks.qdox.model.JavaClass;
-import org.realityforge.metaclass.tools.compiler.JavaClassFilter;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 06:59:14 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 11:14:54 $
  */
 class DeletingFilter
     implements JavaClassFilter

@@ -24,9 +24,8 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-10-28 13:26:55 $
+ * @author Peter Donald
+ * @version $Revision: 1.10 $ $Date: 2003-11-28 11:14:54 $
  */
 public class ClassDescriptorCompilerTestCase
     extends TestCase
@@ -176,7 +175,7 @@ public class ClassDescriptorCompilerTestCase
         task.setDestDir( generateDirectory() );
         final ClassDescriptor descriptor =
             new ClassDescriptor( "test",
-                                 Attribute.EMPTY_SET, 
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -206,7 +205,8 @@ public class ClassDescriptorCompilerTestCase
         final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
         final File baseDirectory = getBaseDirectory();
         final File destDir =
-            File.createTempFile( "mgtest", ".tmp", baseDirectory ).getCanonicalFile();
+            File.createTempFile( "mgtest", ".tmp", baseDirectory )
+            .getCanonicalFile();
         task.setDestDir( destDir );
         try
         {
@@ -214,7 +214,8 @@ public class ClassDescriptorCompilerTestCase
         }
         catch( final Exception e )
         {
-            assertEquals( "DestDir (" + destDir + ") is not a directory.", e.getMessage() );
+            assertEquals( "DestDir (" + destDir + ") is not a directory.",
+                          e.getMessage() );
             return;
         }
         fail( "Expected execute to fail as destdir specified by file." );
@@ -244,7 +245,8 @@ public class ClassDescriptorCompilerTestCase
         }
         catch( final Exception e )
         {
-            assertEquals( "DestDir (" + destDir + ") could not be created.", e.getMessage() );
+            assertEquals( "DestDir (" + destDir + ") could not be created.",
+                          e.getMessage() );
             return;
         }
         fail( "Expected execute to fail as destdir could not be created." );
@@ -279,7 +281,13 @@ public class ClassDescriptorCompilerTestCase
         final File destDirectory = generateDirectory();
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -293,18 +301,35 @@ public class ClassDescriptorCompilerTestCase
         task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+            destDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass" +
+            DefaultMetaClassAccessor.BINARY_EXT;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
         final MetaClassIOBinary io = new MetaClassIOBinary();
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
-        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
-        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
-        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
-        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+        assertEquals( "descriptor.name",
+                      "com.biz.MyClass",
+                      descriptor.getName() );
+        assertEquals( "descriptor.attributes.length",
+                      1,
+                      descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name",
+                      "anAttribute",
+                      descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length",
+                      0,
+                      descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length",
+                      0,
+                      descriptor.getFields().length );
     }
 
     public void testSingleSourceFileInWrongDirectory()
@@ -324,7 +349,11 @@ public class ClassDescriptorCompilerTestCase
         final File destDirectory = generateDirectory();
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -338,18 +367,35 @@ public class ClassDescriptorCompilerTestCase
         task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+            destDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass" +
+            DefaultMetaClassAccessor.BINARY_EXT;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
         final MetaClassIOBinary io = new MetaClassIOBinary();
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
-        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
-        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
-        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
-        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+        assertEquals( "descriptor.name",
+                      "com.biz.MyClass",
+                      descriptor.getName() );
+        assertEquals( "descriptor.attributes.length",
+                      1,
+                      descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name",
+                      "anAttribute",
+                      descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length",
+                      0,
+                      descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length",
+                      0,
+                      descriptor.getFields().length );
     }
 
     public void testNonExistentSourceFile()
@@ -385,7 +431,13 @@ public class ClassDescriptorCompilerTestCase
         final File destDirectory = generateDirectory();
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -400,18 +452,35 @@ public class ClassDescriptorCompilerTestCase
         task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+            destDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass" +
+            DefaultMetaClassAccessor.BINARY_EXT;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
         final MetaClassIOBinary io = new MetaClassIOBinary();
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
-        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
-        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
-        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
-        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+        assertEquals( "descriptor.name",
+                      "com.biz.MyClass",
+                      descriptor.getName() );
+        assertEquals( "descriptor.attributes.length",
+                      1,
+                      descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name",
+                      "anAttribute",
+                      descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length",
+                      0,
+                      descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length",
+                      0,
+                      descriptor.getFields().length );
     }
 
     public void testSingleSourceFileWithExceptingInterceptor()
@@ -431,7 +500,13 @@ public class ClassDescriptorCompilerTestCase
         final File destDirectory = generateDirectory();
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -448,7 +523,14 @@ public class ClassDescriptorCompilerTestCase
         compiler.setMetaClassIO( new MetaClassIOBinary() );
         compiler.execute();
         final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+            destDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass" +
+            DefaultMetaClassAccessor.BINARY_EXT;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", !destFile.exists() );
@@ -473,7 +555,13 @@ public class ClassDescriptorCompilerTestCase
         final File destDirectory = generateDirectory();
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -488,18 +576,35 @@ public class ClassDescriptorCompilerTestCase
         task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+            destDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass" +
+            DefaultMetaClassAccessor.BINARY_EXT;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
         final MetaClassIOBinary io = new MetaClassIOBinary();
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
-        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
-        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
-        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
-        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+        assertEquals( "descriptor.name",
+                      "com.biz.MyClass",
+                      descriptor.getName() );
+        assertEquals( "descriptor.attributes.length",
+                      1,
+                      descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name",
+                      "anAttribute",
+                      descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length",
+                      0,
+                      descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length",
+                      0,
+                      descriptor.getFields().length );
     }
 
     public void testSingleSourceFileWithDeletingFilter()
@@ -520,7 +625,13 @@ public class ClassDescriptorCompilerTestCase
         final File destDirectory = generateDirectory();
 
         final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+            sourceDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -536,7 +647,14 @@ public class ClassDescriptorCompilerTestCase
         task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+            destDirectory +
+            File.separator +
+            "com" +
+            File.separator +
+            "biz" +
+            File.separator +
+            "MyClass" +
+            DefaultMetaClassAccessor.BINARY_EXT;
         final File destFile = new File( destFilename );
 
         assertTrue( "!destFile.exists()", !destFile.exists() );
@@ -547,7 +665,8 @@ public class ClassDescriptorCompilerTestCase
     {
         final File baseDirectory = getBaseDirectory();
         final File dir =
-            File.createTempFile( "mgtest", ".tmp", baseDirectory ).getCanonicalFile();
+            File.createTempFile( "mgtest", ".tmp", baseDirectory )
+            .getCanonicalFile();
         dir.delete();
         dir.mkdirs();
         assertTrue( "dir.exists()", dir.exists() );
