@@ -18,9 +18,9 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="excalibur-extension"/>
-        <depend project="excalibur-i18n"/>
-        <depend project="jakarta-oro"/>
+        <depend project="excalibur-extension" runtime="true"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="jakarta-oro" runtime="true"/>
         <work nested="components/classman/target/classes"/>
         <work nested="components/classman/target/test-classes"/>
 
@@ -59,8 +59,8 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="spice-isorelax"/>
-        <depend project="msv"/>
+        <depend project="spice-isorelax" runtime="true"/>
+        <depend project="msv" runtime="true"/>
         <work nested="components/configkit/target/classes"/>
         <work nested="components/configkit/target/test-classes"/>
 
@@ -72,8 +72,8 @@
 
     <!-- Ugly hackity project as isorelax is not gumpified -->
     <project name="spice-isorelax">
-        <jar name="tools/lib/isorelax-20020414.jar"/>
-        <jar name="tools/lib/relaxngDatatype-20020414.jar"/>
+        <jar name="tools/lib/isorelax-20020414.jar" runtime="true"/>
+        <jar name="tools/lib/relaxngDatatype-20020414.jar" runtime="true"/>
     </project>
 
     <project name="spice-converter">
@@ -86,7 +86,7 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="excalibur-i18n" />
+        <depend project="excalibur-i18n"  runtime="true"/>
         <work nested="components/converter/target/classes"/>
         <work nested="components/converter/target/test-classes"/>
 
@@ -106,7 +106,7 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="jakarta-oro"/>
+        <depend project="jakarta-oro" runtime="true"/>
         <work nested="components/io/target/classes"/>
         <work nested="components/io/target/test-classes"/>
 
@@ -144,7 +144,7 @@
 
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
-        <depend project="spice-qdox"/>
+        <depend project="spice-qdox" runtime="true"/>
         <depend project="xml-xerces"/>
         <work nested="components/metaclass/target/classes"/>
         <work nested="components/metaclass/target/test-classes"/>
@@ -165,8 +165,8 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="excalibur-i18n"/>
-        <depend project="jakarta-avalon"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="jakarta-avalon" runtime="true"/>
         <work nested="components/nativekit/target/classes"/>
         <work nested="components/nativekit/target/test-classes"/>
 
@@ -191,9 +191,9 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="jakarta-avalon"/>
-        <depend project="jakarta-oro"/>
-        <depend project="commons-pool"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="jakarta-oro" runtime="true"/>
+        <depend project="commons-pool" runtime="true"/>
         <depend project="spice-configkit" inherit="runtime"/>
         <work nested="components/threadpool/target/classes"/>
         <work nested="components/threadpool/target/test-classes"/>
@@ -214,8 +214,8 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="jakarta-avalon"/>
-        <depend project="jakarta-oro"/>
+        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="jakarta-oro" runtime="true"/>
         <depend project="commons-jexl" inherit="runtime"/>
         <work nested="components/xinvoke/target/classes"/>
         <work nested="components/xinvoke/target/test-classes"/>
