@@ -22,7 +22,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-22 05:52:16 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-23 06:53:06 $
  */
 public class TestServer
 {
@@ -52,7 +52,8 @@ public class TestServer
         thread.start();
 
         int count = 1;
-        final Session session = newSession( true );
+        final Session session = new Session();
+        session.setUserData( new SessionData( session, true ) );
         makeClientConnection( session );
         int loop = 0;
         while( !c_done )
@@ -60,7 +61,7 @@ public class TestServer
             loop++;
             if( count < 20 )
             {
-                //makeClientConnection( newSession( false ) );
+                //makeClientConnection( new Session() );
                 count++;
             }
             if( Session.STATUS_LOST == session.getStatus() &&
@@ -89,13 +90,6 @@ public class TestServer
         channel.connect( address );
     }
 
-    private static Session newSession( final boolean isPersistent )
-    {
-        final Session session = new Session();
-        session.setUserData( (isPersistent) ? Boolean.TRUE : Boolean.FALSE );
-        return session;
-    }
-
     private static EventPump[] createServerSidePumps()
         throws IOException
     {
@@ -105,13 +99,18 @@ public class TestServer
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
         final DefaultEventQueue queue3 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+        final DefaultEventQueue queue4 =
+            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+        final DefaultEventQueue queue5 =
+            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
         final SelectableChannelEventSource source1 =
             new SelectableChannelEventSource( queue1 );
-        final TimeEventSource source2 = new TimeEventSource( queue2 );
+        final TimeEventSource source2 = new TimeEventSource( queue4 );
+        final TimeEventSource source3 = new TimeEventSource( queue5 );
 
         final EventHandler handler1 =
-            new EchoHandler( null, //"CHAN SV",
+            new EchoHandler( "CHAN SV",
                              new ChannelEventHandler( source1,
                                                       queue1,
                                                       queue2,
@@ -127,12 +126,10 @@ public class TestServer
 
         final EventHandler handler3 =
             new EchoHandler( "TEST SV",
-                             new TestEventHandler( queue2,
+                             new TestEventHandler( source3,
+                                                   queue2,
                                                    BUFFER_MANAGER,
-                                                   "TEST SV",
-                                                   2,
-                                                   -1,
-                                                   false ) );
+                                                   "TEST SV" ) );
 
         final EventPump pump1 = new EventPump( source1, handler1 );
         pump1.setBatchSize( 10 );
@@ -146,13 +143,16 @@ public class TestServer
         final EventPump pump4 = new EventPump( source2, handler2 );
         pump4.setBatchSize( 10 );
 
+        final EventPump pump5 = new EventPump( source3, handler3 );
+        pump5.setBatchSize( 10 );
+
         final ServerSocketChannel channel = ServerSocketChannel.open();
         channel.socket().bind( new InetSocketAddress( 1980 ) );
         source1.registerChannel( channel,
                                  SelectionKey.OP_ACCEPT,
                                  null );
 
-        return new EventPump[]{pump1, pump2, pump3, pump4};
+        return new EventPump[]{pump1, pump2, pump3, pump4, pump5};
     }
 
     private static EventPump[] createClientSidePumps()
@@ -164,13 +164,18 @@ public class TestServer
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
         final DefaultEventQueue queue3 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+        final DefaultEventQueue queue4 =
+            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+        final DefaultEventQueue queue5 =
+            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
         final SelectableChannelEventSource source1 =
             new SelectableChannelEventSource( queue1 );
-        final TimeEventSource source2 = new TimeEventSource( queue2 );
+        final TimeEventSource source2 = new TimeEventSource( queue4 );
+        final TimeEventSource source3 = new TimeEventSource( queue5 );
 
         final EventHandler handler1 =
-            new EchoHandler( null, //"CHAN CL",
+            new EchoHandler( "CHAN CL",
                              new ChannelEventHandler( source1,
                                                       queue1,
                                                       queue2,
@@ -186,12 +191,10 @@ public class TestServer
 
         final EventHandler handler3 =
             new EchoHandler( "TEST CL",
-                             new TestEventHandler( queue2,
+                             new TestEventHandler( source3,
+                                                   queue2,
                                                    BUFFER_MANAGER,
-                                                   "TEST CL",
-                                                   -1,
-                                                   2,
-                                                   true ) );
+                                                   "TEST CL" ) );
 
         final EventPump pump1 = new EventPump( source1, handler1 );
         pump1.setBatchSize( 10 );
@@ -205,9 +208,12 @@ public class TestServer
         final EventPump pump4 = new EventPump( source2, handler2 );
         pump4.setBatchSize( 10 );
 
+        final EventPump pump5 = new EventPump( source3, handler3 );
+        pump5.setBatchSize( 10 );
+
         c_clientSocketSouce = source1;
 
-        return new EventPump[]{pump1, pump2, pump3, pump4};
+        return new EventPump[]{pump1, pump2, pump3, pump4, pump5};
     }
 
     private static void doPump( final EventPump[] pumps )

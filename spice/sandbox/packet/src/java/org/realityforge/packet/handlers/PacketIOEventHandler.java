@@ -38,7 +38,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2004-01-22 05:57:01 $
+ * @version $Revision: 1.9 $ $Date: 2004-01-23 06:53:05 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -191,6 +191,10 @@ public class PacketIOEventHandler
     {
         final Session session = e.getSession();
         final ChannelTransport transport = session.getTransport();
+        if( transport.getOutputStream().isClosed() )
+        {
+            return;
+        }
         try
         {
             sendEstablished( transport );
@@ -198,6 +202,7 @@ public class PacketIOEventHandler
         }
         catch( final IOException ioe )
         {
+            ioe.printStackTrace( System.out );
             signalDisconnectTransport( transport,
                                        Protocol.ERROR_IO_ERROR,
                                        getSink() );
@@ -331,6 +336,7 @@ public class PacketIOEventHandler
         }
         catch( final IOException ioe )
         {
+            ioe.printStackTrace( System.out );
             signalDisconnectTransport( transport,
                                        Protocol.ERROR_IO_ERROR,
                                        getSink() );

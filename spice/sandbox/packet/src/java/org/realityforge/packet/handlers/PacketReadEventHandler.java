@@ -12,12 +12,14 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-16 06:48:00 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-23 06:53:05 $
  */
 public class PacketReadEventHandler
     extends AbstractDirectedHandler
 {
-    /** The destination of all events destined for next layer. */
+    /**
+     * The destination of all events destined for next layer.
+     */
     private final EventSink _target;
 
     /**
@@ -46,20 +48,27 @@ public class PacketReadEventHandler
         final Packet packet = pe.getPacket();
 
         final PacketQueue queue = session.getMessageQueue();
-        queue.addPacket( packet );
 
         Packet candidate = queue.peek();
         short processed = session.getLastPacketProcessed();
 
-        while( null != candidate &&
-               Protocol.isNextInSequence( candidate.getSequence(), processed ) )
+        if( null == candidate )
         {
-            candidate = queue.pop();
-            final DataPacketReadyEvent response =
-                new DataPacketReadyEvent( session, packet );
-            _target.addEvent( response );
-            processed++;
-            session.setLastPacketProcessed( processed );
+            processed = packet.getSequence();
+        }
+        else
+        {
+            while( null != candidate &&
+                   Protocol.isNextInSequence( candidate.getSequence(),
+                                              processed ) )
+            {
+                final DataPacketReadyEvent response =
+                    new DataPacketReadyEvent( session, packet );
+                _target.addEvent( response );
+                processed++;
+                session.setLastPacketProcessed( processed );
+                candidate = queue.pop();
+            }
         }
 
         getSink().addEvent( new AckRequestEvent( session, processed ) );
