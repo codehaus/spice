@@ -50,14 +50,10 @@ public abstract class DefaultRequestHandler
      */
     protected void performRequest( final Socket socket )
     {
-        final String name = getThreadName( socket );
-        Thread.currentThread().setName( name );
-
-        ConnectionHandler handler = null;
+        setupThreadName( socket );
         try
         {
-            handler = _handlerManager.aquireHandler();
-            handler.handleConnection( socket );
+            doPerformRequest( socket );
         }
         catch( final Throwable t )
         {
@@ -65,12 +61,42 @@ public abstract class DefaultRequestHandler
         }
         finally
         {
-            if( null != handler )
-            {
-                _handlerManager.releaseHandler( handler );
-            }
             endConnection( socket );
         }
+    }
+
+    /**
+     * Actually handle the request.
+     * Assume that the caller will gracefully
+     * handle unexpected exceptions and shutdown
+     * the socket when this method returns.
+     *
+     * @param socket the socket
+     * @throws Exception if an erro roccurs
+     */
+    protected void doPerformRequest( final Socket socket )
+        throws Exception
+    {
+        final ConnectionHandler handler = _handlerManager.aquireHandler();
+        try
+        {
+            handler.handleConnection( socket );
+        }
+        finally
+        {
+            _handlerManager.releaseHandler( handler );
+        }
+    }
+
+    /**
+     * Setup the name of the thread.
+     *
+     * @param socket the socket associated with request
+     */
+    protected void setupThreadName( final Socket socket )
+    {
+        final String name = getThreadName( socket );
+        Thread.currentThread().setName( name );
     }
 
     /**
