@@ -15,7 +15,7 @@ import org.realityforge.packet.event.impl.collections.Buffer;
  * An event queue that acts as a Source and Sink of events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2003-12-09 03:11:46 $
+ * @version $Revision: 1.7 $ $Date: 2003-12-09 03:19:19 $
  */
 public class DefaultEventQueue
     implements EventSource, EventSink
@@ -48,7 +48,7 @@ public class DefaultEventQueue
      */
     public Object getEvent()
     {
-        final Object lock = getSourceLock();
+        final Object lock = getSinkLock();
         synchronized( lock )
         {
             final Buffer buffer = getBuffer();
@@ -71,7 +71,7 @@ public class DefaultEventQueue
      */
     public Object[] getEvents( final int count )
     {
-        final Object lock = getSourceLock();
+        final Object lock = getSinkLock();
         synchronized( lock )
         {
             final Buffer buffer = getBuffer();
@@ -92,7 +92,7 @@ public class DefaultEventQueue
      */
     public boolean addEvent( final Object event )
     {
-        final Object lock = getSinkLock();
+        final Object lock = getSourceLock();
         synchronized( lock )
         {
             final boolean result = getBuffer().add( event );
@@ -109,7 +109,7 @@ public class DefaultEventQueue
      */
     public boolean addEvents( final Object[] events )
     {
-        final Object lock = getSinkLock();
+        final Object lock = getSourceLock();
         synchronized( lock )
         {
             final boolean result = getBuffer().addAll( events );
