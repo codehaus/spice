@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-06-13 04:49:35 $
+ * @version $Revision: 1.9 $ $Date: 2003-06-13 04:50:40 $
  */
 public class IOUtil2TestCase
     extends TestCase
@@ -482,7 +482,7 @@ public class IOUtil2TestCase
         throws Exception
     {
         final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
-        final String string = IOUtil.toString( input1, "US_ASCII" );
+        final String string = IOUtil.toString( input1, "US-ASCII" );
         assertEquals( new String( DATA_4_ELEMENTS ), string );
     }
 
@@ -490,7 +490,7 @@ public class IOUtil2TestCase
         throws Exception
     {
         final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
-        final String string = IOUtil.toString( input1, "US_ASCII", 2 );
+        final String string = IOUtil.toString( input1, "US-ASCII", 2 );
         assertEquals( new String( DATA_4_ELEMENTS ), string );
     }
 
@@ -498,7 +498,7 @@ public class IOUtil2TestCase
         throws Exception
     {
         final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
-        final String string = IOUtil.toString( input1, "US_ASCII", 20 );
+        final String string = IOUtil.toString( input1, "US-ASCII", 20 );
         assertEquals( new String( DATA_4_ELEMENTS ), string );
     }
 
