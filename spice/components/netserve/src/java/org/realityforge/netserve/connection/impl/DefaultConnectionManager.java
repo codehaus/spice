@@ -45,8 +45,8 @@ import org.realityforge.threadpool.ThreadPool;
  *                                              shutdown --&gt;
  * </pre>
  *
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-04-23 04:56:31 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.9 $ $Date: 2003-04-23 04:58:12 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
