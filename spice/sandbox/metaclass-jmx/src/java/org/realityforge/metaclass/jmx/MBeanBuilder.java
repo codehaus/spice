@@ -242,7 +242,9 @@ public class MBeanBuilder
         }
         final String description =
             attribute.getParameter( DESCRIPTION_KEY_CONSTANT, EMPTY_STRING );
-        final int impactCode = parseImpact( attribute );
+        final String impact =
+            attribute.getParameter( IMPACT_KEY_CONSTANT, EMPTY_STRING );
+        final int impactCode = parseImpact( impact );
 
         final MBeanParameterInfo[] infos = parseParameterInfos( method.getMethod() );
 
@@ -338,10 +340,8 @@ public class MBeanBuilder
         return EMPTY_STRING;
     }
 
-    private int parseImpact( final Attribute attribute )
+    private int parseImpact( final String impact )
     {
-        final String impact =
-            attribute.getParameter( IMPACT_KEY_CONSTANT, EMPTY_STRING );
         if( IMPACT_INFO.equals( impact ) )
         {
             return ModelMBeanOperationInfo.INFO;
