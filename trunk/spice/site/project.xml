@@ -4,12 +4,11 @@
     <pomVersion>3</pomVersion>
 
     <name>Website</name>
-    <id>site</id>
+    <id>spice-site</id>
 
     <currentVersion>1.0</currentVersion>
     <inceptionYear>2000</inceptionYear>
-    <package>org.realityforge.${pom.id}</package>
-    <!--<logo>/images/${pom.id}.gif</logo>-->
+    <!--<logo>/images/${pom.artifactId.substring(6)}.gif</logo>-->
 
     <organization>
         <name>SourceForge.net</name>
