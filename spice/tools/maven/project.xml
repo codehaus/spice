@@ -21,7 +21,7 @@
 
     <repository>
         <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:spice</connection>
-        <url>http://cvs.codehaus.org/viewcvs.cgi/spice/?root=codehaus</url>
+        <url>http://cvs.spice.codehaus.org/</url>
     </repository>
 
     <versions>
