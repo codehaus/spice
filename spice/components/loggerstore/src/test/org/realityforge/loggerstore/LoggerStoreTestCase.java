@@ -51,6 +51,20 @@ public class LoggerStoreTestCase
         m_logsDir.mkdirs();
     }
 
+    public void testNullRootLogger()
+        throws Exception
+    {
+        final LoggerStore store = new MalformedLoggerStore();
+        try
+        {
+            store.getLogger();
+            fail( "Expected to get an exception as no root logger is defined." );
+        }
+        catch( final Exception e )
+        {
+        }
+    }
+
     public void testConsoleLoggerStore()
         throws Exception
     {
@@ -226,6 +240,10 @@ public class LoggerStoreTestCase
             final Logger noExistLogger = store.getLogger( "no-exist" );
             assertNotNull( "noExistLogger for " + filename, noExistLogger );
             noExistLogger.info( MESSAGE2 );
+
+            assertEquals( "Same Logger returned multiple times:",
+                          noExistLogger,
+                          store.getLogger( "no-exist" ) );
 
             try
             {
