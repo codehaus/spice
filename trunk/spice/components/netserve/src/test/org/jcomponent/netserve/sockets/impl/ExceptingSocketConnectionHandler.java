@@ -8,14 +8,13 @@
 package org.jcomponent.netserve.sockets.impl;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.Socket;
 import org.jcomponent.netserve.sockets.SocketConnectionHandler;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-09 08:30:59 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-09 08:33:12 $
  */
 class ExceptingSocketConnectionHandler
     implements SocketConnectionHandler
