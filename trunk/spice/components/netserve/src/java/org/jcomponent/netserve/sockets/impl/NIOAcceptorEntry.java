@@ -13,7 +13,7 @@ import java.nio.channels.SelectionKey;
  * The entry describing an acceptor for NIO AcceptorManager.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-23 03:38:24 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-23 03:38:44 $
  */
 class NIOAcceptorEntry
 {
@@ -33,7 +33,8 @@ class NIOAcceptorEntry
      * @param config the config
      * @param key the key
      */
-    NIOAcceptorEntry( AcceptorConfig config, SelectionKey key )
+    NIOAcceptorEntry( final AcceptorConfig config,
+                      final SelectionKey key )
     {
         if( null == config )
         {
