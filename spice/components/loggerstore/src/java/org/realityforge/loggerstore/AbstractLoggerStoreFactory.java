@@ -20,7 +20,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-05-24 21:30:52 $
+ * @version $Revision: 1.2 $ $Date: 2003-05-25 08:05:51 $
  */
 public abstract class AbstractLoggerStoreFactory
     extends AbstractLogEnabled
@@ -43,7 +43,7 @@ public abstract class AbstractLoggerStoreFactory
         return loggerStore;
     }
 
-    protected abstract LoggerStore doCreateLoggerStore( Map config ) 
+    protected abstract LoggerStore doCreateLoggerStore( Map config )
         throws Exception;
 
     /**
@@ -98,7 +98,7 @@ public abstract class AbstractLoggerStoreFactory
             return url.openStream();
         }
 
-        final String fileLocation = (String)config.get( URL_LOCATION );
+        final String fileLocation = (String)config.get( FILE_LOCATION );
         File file = null;
         if( null != fileLocation )
         {
