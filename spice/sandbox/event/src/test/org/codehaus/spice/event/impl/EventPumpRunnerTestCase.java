@@ -2,10 +2,11 @@ package org.codehaus.spice.event.impl;
 
 import junit.framework.TestCase;
 import org.codehaus.spice.event.DummyEventHandler;
+import org.codehaus.spice.event.DummyEventSource;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-04-19 08:05:35 $
+ * @version $Revision: 1.3 $ $Date: 2004-04-19 08:25:54 $
  */
 public class EventPumpRunnerTestCase
     extends TestCase

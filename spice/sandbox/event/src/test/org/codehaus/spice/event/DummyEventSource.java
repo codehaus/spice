@@ -1,12 +1,10 @@
-package org.codehaus.spice.event.impl;
-
-import org.codehaus.spice.event.EventSource;
+package org.codehaus.spice.event;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-16 02:03:12 $
+ * @version $Revision: 1.1 $ $Date: 2004-04-19 08:25:55 $
  */
-class DummyEventSource
+public class DummyEventSource
     implements EventSource
 {
     public Object[] getEvents( final int count )
