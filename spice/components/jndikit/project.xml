@@ -5,6 +5,8 @@
     <id>spice-jndikit</id>
     <gumpRepositoryId>components</gumpRepositoryId>
     <inceptionYear>1999</inceptionYear>
+    <currentVersion>1.1</currentVersion>
+    <package>org.codehaus.spice.jndikit</package>
 
     <shortDescription>A toolkit for building JNDI providers</shortDescription>
     <description>
@@ -31,8 +33,7 @@
         <report>maven-javadoc-plugin</report>
         <report>maven-jxr-plugin</report>
         <report>maven-junit-report-plugin</report>
-        <!--<report>maven-linkcheck-plugin</report>-->
-        <!--<report>maven-clover-plugin</report>-->
-        <!--<report>maven-license-plugin</report>-->
+	<!--<report>maven-clover-plugin</report>-->
+        <report>maven-license-plugin</report>
     </reports>
 </project>
