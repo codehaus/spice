@@ -12,7 +12,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import junit.framework.TestCase;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -20,16 +19,13 @@ import org.apache.tools.ant.types.FileSet;
 import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.ClassDescriptor;
-import org.realityforge.metaclass.model.Attribute;
-import org.realityforge.metaclass.model.FieldDescriptor;
-import org.realityforge.metaclass.model.MethodDescriptor;
+import org.realityforge.metaclass.tools.compiler.JavaClassFilter;
 import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
-import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2003-10-04 02:20:56 $
+ * @version $Revision: 1.16 $ $Date: 2003-10-04 09:24:55 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -61,7 +57,8 @@ public class MetaGenerateTaskTestCase
         final FormatEnum format = new FormatEnum();
         format.setValue( "binary" );
         task.setFormat( format );
-        assertNotNull( "MetaClassIO", task.getMetaClassIO() );
+        task.setupTarget();
+        assertNotNull( "MetaClassIO", task.getCompiler().getMetaClassIO() );
     }
 
     public void testGetMetaClassIOWithXML()
@@ -73,7 +70,7 @@ public class MetaGenerateTaskTestCase
         task.setFormat( format );
         try
         {
-            task.getMetaClassIO();
+            task.setupTarget();
         }
         catch( BuildException e )
         {
@@ -82,35 +79,7 @@ public class MetaGenerateTaskTestCase
         fail( "Expected to be unable to get IO for XML type" );
     }
 
-    public void testGetOutputFileForClassWithBinary()
-        throws Exception
-    {
-        final MockMetaGenerateTask task = new MockMetaGenerateTask();
-        final FormatEnum format = new FormatEnum();
-        format.setValue( "binary" );
-        task.setFormat( format );
-        final File destDir = new File( "." );
-        task.setDestDir( destDir );
-        final File file = task.getOutputFileForClass( "foo" );
-        final File expected = new File( destDir, "foo-meta.binary" ).getCanonicalFile();
-        assertEquals( expected, file );
-    }
-
-    public void testGetOutputFileForClassWithXML()
-        throws Exception
-    {
-        final MockMetaGenerateTask task = new MockMetaGenerateTask();
-        final FormatEnum format = new FormatEnum();
-        format.setValue( "xml" );
-        task.setFormat( format );
-        final File destDir = new File( "." );
-        task.setDestDir( destDir );
-        final File file = task.getOutputFileForClass( "foo" );
-        final File expected = new File( destDir, "foo-meta.xml" ).getCanonicalFile();
-        assertEquals( expected, file );
-    }
-
-    public void testCreateFilterOfBadType()
+   public void testCreateFilterOfBadType()
         throws Exception
     {
         final MockMetaGenerateTask task = new MockMetaGenerateTask();
@@ -201,30 +170,6 @@ public class MetaGenerateTaskTestCase
             return;
         }
         fail( "Expected execute to fail as Interceptor must have a name." );
-    }
-
-    public void testFailToWriteClassDescriptors()
-        throws Exception
-    {
-        final FailingMockMetaGenerateTask task = new FailingMockMetaGenerateTask();
-
-        final ArrayList descriptors = new ArrayList();
-        final ClassDescriptor descriptor =
-            new ClassDescriptor( "test",
-                                 0,
-                                 Attribute.EMPTY_SET,
-                                 FieldDescriptor.EMPTY_SET,
-                                 MethodDescriptor.EMPTY_SET );
-        descriptors.add( descriptor );
-        try
-        {
-            task.processClassDescriptors( descriptors );
-        }
-        catch( Exception e )
-        {
-            return;
-        }
-        fail( "Expected to fail to process class descriptors." );
     }
 
     public void testNullDestDir()
@@ -469,116 +414,6 @@ public class MetaGenerateTaskTestCase
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
         assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
-    }
-
-    public void testSingleSourceFileWithDeletingInterceptor()
-        throws Exception
-    {
-        final String source =
-            "package com.biz;\n" +
-            "\n" +
-            "/**\n" +
-            " * @anAttribute\n" +
-            " * @deleteme\n" +
-            " */\n" +
-            "public class MyClass\n" +
-            "{\n" +
-            "}\n";
-
-        final Project project = new Project();
-
-        final File sourceDirectory = generateDirectory();
-        final File destDirectory = generateDirectory();
-        final FileSet fileSet = new FileSet();
-        fileSet.setProject( project );
-        fileSet.setDir( sourceDirectory );
-        fileSet.setIncludes( "**/*.java" );
-
-        final PluginElement element = new PluginElement();
-        element.setName( DeletingAttributeInterceptor.class.getName() );
-
-        final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
-        final File sourceFile = new File( sourceFilename );
-        sourceFile.getParentFile().mkdirs();
-        final FileOutputStream output = new FileOutputStream( sourceFile );
-        output.write( source.getBytes() );
-        output.close();
-
-        final MockMetaGenerateTask task = new MockMetaGenerateTask();
-        project.setBaseDir( getBaseDirectory() );
-        task.setProject( project );
-        task.setDestDir( destDirectory );
-        task.addFileset( fileSet );
-        task.addInterceptor( element );
-        task.execute();
-        final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
-        final File destFile = new File( destFilename );
-
-        assertTrue( "destFile.exists()", destFile.exists() );
-        final MetaClassIOBinary io = new MetaClassIOBinary();
-        final FileInputStream input = new FileInputStream( destFile );
-        final ClassDescriptor descriptor = io.deserializeClass( input );
-        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
-        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
-        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
-        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
-        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
-    }
-
-    public void testSingleSourceFileWithDeletingFilter()
-        throws Exception
-    {
-        final String source =
-            "package com.biz;\n" +
-            "\n" +
-            "/**\n" +
-            " * @anAttribute\n" +
-            " * @deleteme\n" +
-            " */\n" +
-            "public class MyClass\n" +
-            "{\n" +
-            "}\n";
-
-        final Project project = new Project();
-
-        final File sourceDirectory = generateDirectory();
-        final File destDirectory = generateDirectory();
-        final FileSet fileSet = new FileSet();
-        fileSet.setProject( project );
-        fileSet.setDir( sourceDirectory );
-        fileSet.setIncludes( "**/*.java" );
-
-        final PluginElement filterElement = new PluginElement();
-        filterElement.setName( DeletingFilter.class.getName() );
-
-        final PluginElement element = new PluginElement();
-        element.setName( DefaultQDoxAttributeInterceptor.class.getName() );
-        element.setName( DeletingAttributeInterceptor.class.getName() );
-
-        final String sourceFilename =
-            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
-        final File sourceFile = new File( sourceFilename );
-        sourceFile.getParentFile().mkdirs();
-        final FileOutputStream output = new FileOutputStream( sourceFile );
-        output.write( source.getBytes() );
-        output.close();
-
-        final MockMetaGenerateTask task = new MockMetaGenerateTask();
-        project.setBaseDir( getBaseDirectory() );
-        task.setProject( project );
-        task.setDestDir( destDirectory );
-        task.addFileset( fileSet );
-        task.addInterceptor( element );
-        task.addFilter( filterElement );
-        task.execute();
-        final String destFilename =
-            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
-        final File destFile = new File( destFilename );
-
-        assertTrue( "!destFile.exists()", !destFile.exists() );
     }
 
     private static final File generateDirectory()
