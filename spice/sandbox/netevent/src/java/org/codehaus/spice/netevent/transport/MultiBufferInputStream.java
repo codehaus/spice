@@ -16,7 +16,7 @@ import org.codehaus.spice.netevent.events.CloseChannelRequestEvent;
  * specified in the constructor.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-15 05:55:19 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-16 06:38:40 $
  */
 public class MultiBufferInputStream
     extends InputStream
@@ -108,6 +108,11 @@ public class MultiBufferInputStream
         notifyAll();
     }
 
+    public boolean isClosed()
+    {
+        return _closed;
+    }
+
     /**
      * @see InputStream#close()
      */
@@ -161,7 +166,7 @@ public class MultiBufferInputStream
                     (ByteBuffer)_buffers.get( _currentBuffer );
                 if( buffer.remaining() > 0 )
                 {
-                    return buffer.get();
+                    return buffer.get() & 0xff;
                 }
                 else if( _currentBuffer + 1 != _buffers.size() )
                 {
@@ -260,7 +265,7 @@ public class MultiBufferInputStream
      */
     public synchronized int available()
     {
-        if( -1 == _currentBuffer )
+        if( _closed || -1 == _currentBuffer )
         {
             return 0;
         }
