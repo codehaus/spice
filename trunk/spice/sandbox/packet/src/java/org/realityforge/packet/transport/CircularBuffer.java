@@ -11,9 +11,9 @@ import java.nio.ByteBuffer;
 
 /**
  * A circular byte buffer.
- * 
+ *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-11-26 02:14:04 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-26 04:32:54 $
  */
 public class CircularBuffer
 {
@@ -28,6 +28,9 @@ public class CircularBuffer
 
     /** The index into array marking the byte after end of the available data. */
     private int m_end;
+
+    /** Flag set to true if the buffer wrape past end of array. */
+    private boolean m_isWrappedBuffer;
 
     /**
      * Create a circular buffer.
@@ -100,12 +103,21 @@ public class CircularBuffer
      */
     public void readBytes( final int count )
     {
+        if( 0 == count )
+        {
+            return;
+        }
         if( count > getAvailable() )
         {
             final String message = count + " > " + getAvailable();
             throw new IllegalArgumentException( message );
         }
+        final int oldStart = m_start;
         m_start = ( m_start + count ) % getCapacity();
+        if( m_start <= oldStart )
+        {
+            m_isWrappedBuffer = false;
+        }
     }
 
     /**
@@ -116,12 +128,21 @@ public class CircularBuffer
      */
     public void writeBytes( final int count )
     {
+        if( 0 == count )
+        {
+            return;
+        }
         if( count > getSpace() )
         {
             final String message = count + " > " + getSpace();
             throw new IllegalArgumentException( message );
         }
+        final int oldEnd = m_end;
         m_end = ( m_end + count ) % getCapacity();
+        if( m_end <= oldEnd )
+        {
+            m_isWrappedBuffer = true;
+        }
     }
 
     /**
@@ -168,7 +189,7 @@ public class CircularBuffer
      */
     boolean isWrappedBuffer()
     {
-        return m_start > m_end;
+        return m_isWrappedBuffer;
     }
 
     /**
