@@ -7,10 +7,10 @@ import org.realityforge.packet.session.Session;
  * Event indicating a packet is ready to be processed by next layer.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-21 04:26:19 $
+ * @version $Revision: 1.3 $ $Date: 2004-02-03 06:09:14 $
  */
 public class DataPacketReadyEvent
-    extends SessionEvent
+    extends AbstractSessionEvent
 {
     /**
      * The associated packet.
@@ -45,7 +45,7 @@ public class DataPacketReadyEvent
     }
 
     /**
-     * @see SessionEvent#getEventDescription()
+     * @see AbstractSessionEvent#getEventDescription()
      */
     protected String getEventDescription()
     {

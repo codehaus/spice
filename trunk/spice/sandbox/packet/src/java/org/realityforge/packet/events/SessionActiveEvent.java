@@ -6,10 +6,10 @@ import org.realityforge.packet.session.Session;
  * Event indicating connect occured for session.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-19 04:45:03 $
+ * @version $Revision: 1.2 $ $Date: 2004-02-03 06:09:14 $
  */
 public class SessionActiveEvent
-    extends SessionEvent
+    extends AbstractSessionEvent
 {
     /**
      * Create event.

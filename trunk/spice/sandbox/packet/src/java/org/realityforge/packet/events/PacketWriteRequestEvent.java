@@ -7,10 +7,10 @@ import org.realityforge.packet.session.Session;
  * Event request a packet be written.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-19 04:41:53 $
+ * @version $Revision: 1.3 $ $Date: 2004-02-03 06:09:14 $
  */
 public class PacketWriteRequestEvent
-    extends PacketEvent
+    extends AbstractPacketEvent
 {
     /**
      * Create event.

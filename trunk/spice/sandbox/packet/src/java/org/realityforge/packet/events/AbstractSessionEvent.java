@@ -7,9 +7,9 @@ import org.realityforge.packet.session.Session;
  * An event about a Session.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-29 05:48:23 $
+ * @version $Revision: 1.1 $ $Date: 2004-02-03 06:09:14 $
  */
-public abstract class SessionEvent
+public abstract class AbstractSessionEvent
     extends AbstractEvent
 {
     /**
@@ -22,7 +22,7 @@ public abstract class SessionEvent
      * 
      * @param session the session
      */
-    public SessionEvent( final Session session )
+    public AbstractSessionEvent( final Session session )
     {
         if( null == session )
         {
