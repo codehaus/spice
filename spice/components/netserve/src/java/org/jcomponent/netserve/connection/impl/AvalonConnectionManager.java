@@ -21,12 +21,9 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.jcomponent.threadpool.ThreadPool;
 
 /**
- * This component is used to manage serverside network acceptors.
- * To establish a connection the service is provided with a
- * ServerSocket and a ConnectionHandlerManager. The service will start
- * accepting connections to ServerSocket and then pass the accepted socket
- * to ConnectionHandler instances to handle the connection.
- *
+ * An implementation of {@link ConnectionManager} which honours the 
+ * Avalon framework interfaces.
+ * 
  * <p>A sample configuration for the component is below. Note that on some OS/JVM
  * combinations <tt>soTimeout</tt> must be set to non-0 value or else the ServerSocket will
  * never get out of accept() system call and we wont be able to shutdown the server
@@ -44,7 +41,7 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-08-31 02:50:40 $
+ * @version $Revision: 1.7 $ $Date: 2003-08-31 10:37:12 $
  * @phoenix.component
  * @phoenix.service type="org.jcomponent.netserve.connection.ConnectionManager"
  */
