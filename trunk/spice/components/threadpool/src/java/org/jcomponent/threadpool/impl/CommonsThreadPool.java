@@ -28,7 +28,7 @@ import org.jcomponent.threadpool.ThreadPoolMonitor;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-29 07:24:25 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-29 07:30:01 $
  * @phoenix.service type="ThreadPool"
  */
 public class CommonsThreadPool
@@ -59,11 +59,8 @@ public class CommonsThreadPool
 
    /**
      * Initialize the underlying pool.
-     *
-     * @throws Exception if error occurs creating pool
      */
     public void initialize()
-        throws Exception
     {
         setThreadGroup( Thread.currentThread().getThreadGroup() );
         m_monitor.newThreadPool( getName(),
