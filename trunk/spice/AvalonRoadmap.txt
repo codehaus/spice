@@ -1,4 +1,4 @@
-    $Id: AvalonRoadmap.txt,v 1.5 2002-11-26 06:52:07 donaldp Exp $
+    $Id: AvalonRoadmap.txt,v 1.6 2002-11-26 22:03:19 donaldp Exp $
 
                      Roadmap for development of 
                         Avalon Framework
@@ -25,7 +25,7 @@ I happen to think that we are far closer now than in any point in our past
 to creating a generic container but I don't want to abandon our current users 
 while we spend a year or more finding out if the ideas will work out. I will
 try to spend some time drawing together the ideas I have been talking about
-for the last few months and documenting them. However I don't think we should
+for the last year or so and documenting them. However I don't think we should
 bet the farm on these ideas.
 
 So what I think we should focus on is the problems that have practical 

@@ -1,0 +1,5 @@
+The physical form of the metadata is not that important - whether the metadata
+is extracted from xml, binary or some type of runtime attribute metadata is 
+irrelevent. Different systems are likely to have different requirements (ie
+J2ME will likely use binary metadata for speed/memory advantages but something 
+like Phoenix will probably continue to use XML descriptors).
