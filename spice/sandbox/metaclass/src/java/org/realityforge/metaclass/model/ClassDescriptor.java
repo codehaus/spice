@@ -8,7 +8,6 @@
 package org.realityforge.metaclass.model;
 
 import java.io.Serializable;
-import org.realityforge.metaclass.Utility;
 
 /**
  * This class contains the meta information about a Class. It contains
@@ -17,7 +16,7 @@ import org.realityforge.metaclass.Utility;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:40:47 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-05 04:43:34 $
  */
 public class ClassDescriptor
     extends FeatureDescriptor
@@ -109,20 +108,5 @@ public class ClassDescriptor
             result.append( methodDescriptor + "\n" );
         }
         return result.toString();
-    }
-
-    public boolean equals( final Object o )
-    {
-        if( !( o instanceof ClassDescriptor ) )
-        {
-            return false;
-        }
-
-        final ClassDescriptor other = (ClassDescriptor)o;
-        return getName().equals( other.getName() ) &&
-            getModifiers() == other.getModifiers() &&
-            Utility.areContentsEqual( getAttributes(), other.getAttributes() ) &&
-            Utility.areContentsEqual( getFields(), other.getFields() ) &&
-            Utility.areContentsEqual( getMethods(), other.getMethods() );
     }
 }

@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:40:46 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-05 04:43:34 $
  */
 public final class Attribute
     implements Serializable
@@ -98,7 +98,7 @@ public final class Attribute
         {
             throw new NullPointerException( "name" );
         }
-        //Uncomment this as soon as it works
+
 /*
         if( null != value && null != parameters )
         {
