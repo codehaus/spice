@@ -12,68 +12,11 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-10-28 11:04:21 $
+ * @version $Revision: 1.11 $ $Date: 2003-10-28 11:24:21 $
  */
 public class ModelTestCase
     extends TestCase
 {
-    public void testFieldWithNullName()
-    {
-        try
-        {
-            new FieldDescriptor( null, "type", Attribute.EMPTY_SET );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for name", "name", npe.getMessage() );
-        }
-    }
-
-    public void testFieldWithNullType()
-    {
-        try
-        {
-            new FieldDescriptor( "name", null, Attribute.EMPTY_SET );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for type", "type", npe.getMessage() );
-        }
-    }
-
-    public void testFieldWithNullAttributes()
-    {
-        try
-        {
-            new FieldDescriptor( "name", "type", null );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for attributes", "attributes", npe.getMessage() );
-        }
-    }
-
-    public void testFieldWithAttributesContainingNull()
-    {
-        try
-        {
-            new FieldDescriptor( "name", "type", new Attribute[]{null} );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for attributes[0]", "attributes[0]", npe.getMessage() );
-        }
-    }
-
-    public void testField()
-    {
-        final FieldDescriptor field =
-            new FieldDescriptor( "name", "type", Attribute.EMPTY_SET );
-        assertEquals( "field.name", "name", field.getName() );
-        assertEquals( "field.type", "type", field.getType() );
-        assertEquals( "field.getAttributes().length", 0, field.getAttributes().length );
-    }
-
     public void testMethodWithNullName()
     {
         try
