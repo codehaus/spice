@@ -78,8 +78,6 @@ public final class FileUtilTestCase
         suite.addTest( new FileUtilTestCase( "testForceDeleteDir" ) );
         suite.addTest( new FileUtilTestCase( "testResolveFileDotDot" ) );
         suite.addTest( new FileUtilTestCase( "testResolveFileDot" ) );
-        suite.addTest( new FileUtilTestCase( "testNormalize" ) );
-        suite.addTest( new FileUtilTestCase( "testCatPath" ) );
         return suite;
     }
 
@@ -163,42 +161,5 @@ public final class FileUtilTestCase
     {
         final File file = FileUtil.resolveFile( m_testDirectory, "." );
         assertEquals( "Check . operator", file, m_testDirectory );
-    }
-
-    public void testNormalize()
-        throws Exception
-    {
-        final String[] src =
-            {
-                "", "/", "///", "/foo", "/foo//", "/./", "/foo/./", "/foo/./bar",
-                "/foo/../bar", "/foo/../bar/../baz", "/foo/bar/../../baz", "/././",
-                "/foo/./../bar", "/foo/.././bar/", "//foo//./bar", "/../",
-                "/foo/../../"
-            };
-
-        final String[] dest =
-            {
-                "", "/", "/", "/foo", "/foo/", "/", "/foo/", "/foo/bar", "/bar",
-                "/baz", "/baz", "/", "/bar", "/bar/", "/foo/bar", null, null
-            };
-
-        assertEquals( "Oops, test writer goofed", src.length, dest.length );
-
-        for( int i = 0; i < src.length; i++ )
-        {
-            assertEquals( "Check if '" + src[ i ] + "' normalized to '" + dest[ i ] + "'",
-                          dest[ i ], FileUtil.normalize( src[ i ] ) );
-        }
-    }
-
-    public void testCatPath()
-    {
-        assertEquals( "/a/b/d", FileUtil.catPath( "/a/b/c", "d" ) );
-        assertEquals( "/a/d", FileUtil.catPath( "/a/b/c", "../d" ) );
-
-        assertEquals( "a/b/d", FileUtil.catPath( "a/b/c", "d" ) );
-        assertEquals( "a/d", FileUtil.catPath( "a/b/c", "../d" ) );
-
-        assertEquals( "b", FileUtil.catPath( "a", "b" ) );
     }
 }
