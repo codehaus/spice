@@ -49,18 +49,13 @@
          <dependency>
             <groupId>excalibur-instrument</groupId>
             <artifactId>excalibur-instrument</artifactId>
-            <version>1.2</version>
+            <version>1.0</version>
          </dependency>
         <dependency> <!-- for unit test -->
             <groupId>dna</groupId>
             <artifactId>dna-impl</artifactId>
             <version>1.1</version>
         </dependency>
-         <dependency> <!-- for unit test -->
-            <groupId>excalibur-instrument</groupId>
-            <artifactId>excalibur-instrument-impl</artifactId>
-            <version>1.2</version>
-         </dependency>
     </dependencies>
 
     <developers>
