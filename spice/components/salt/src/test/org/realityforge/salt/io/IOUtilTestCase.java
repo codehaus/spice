@@ -16,9 +16,9 @@ import java.io.OutputStreamWriter;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-06-13 04:56:19 $
+ * @version $Revision: 1.3 $ $Date: 2003-06-13 05:00:37 $
  */
-public class IOUtil2TestCase
+public class IOUtilTestCase
     extends TestCase
 {
     private final static byte[] DATA_5_ELEMENTS = new byte[]
@@ -41,7 +41,7 @@ public class IOUtil2TestCase
         (byte)'a', (byte)'b', (byte)'c', (byte)'j'
     };
 
-    public IOUtil2TestCase( final String name )
+    public IOUtilTestCase( final String name )
     {
         super( name );
     }
