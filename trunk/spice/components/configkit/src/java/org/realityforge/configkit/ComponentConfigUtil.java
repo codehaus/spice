@@ -20,7 +20,7 @@ import org.xml.sax.InputSource;
  * explanation about how ConfigValidator objects are loaded.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-06 04:21:37 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-06 04:35:38 $
  */
 public class ComponentConfigUtil
 {
@@ -66,9 +66,8 @@ public class ComponentConfigUtil
          throw new NullPointerException( "classLoader" );
       }
       final String actualLocation = calculateLocation( classname, location );
-      final String resource = calcSchemaResource( classname, actualLocation );
       final InputSource inputSource =
-         getSchemaInputSource( resource, classLoader );
+         getSchemaInputSource( actualLocation, classLoader );
       return ConfigValidatorFactory.create( type, inputSource );
    }
 
@@ -92,9 +91,23 @@ public class ComponentConfigUtil
          return "/" + classname.replace( '.', '/' ) +
             DEFAULT_LOCATION_POSTFIX;
       }
-      else
+      else if ( location.startsWith( "/" ) )
       {
          return location;
+      }
+      else
+      {
+         final int index = classname.lastIndexOf( '.' );
+         String packageName;
+         if ( -1 != index )
+         {
+            packageName = classname.substring( 0, index + 1 );
+         }
+         else
+         {
+            packageName = "";
+         }
+         return "/" + packageName.replace( '.', '/' ) + location;
       }
    }
 
@@ -118,36 +131,5 @@ public class ComponentConfigUtil
       final InputSource inputSource = new InputSource( inputStream );
       inputSource.setSystemId( url.toExternalForm() );
       return inputSource;
-   }
-
-   /**
-    * Determine the absolute name of the resource that contains schema.
-    * If the location starts with a '/' then the location is absolute
-    * otherwise the location is relative to the components class.
-    *
-    * @param classname the classname of the component
-    * @param location the relative location of schema
-    * @return the absolute name of schema resource
-    */
-   static String calcSchemaResource( final String classname,
-                                     final String location )
-   {
-      if ( location.startsWith( "/" ) )
-      {
-         return location;
-      }
-      else
-      {
-         String resource = classname;
-         final int index = classname.lastIndexOf( '.' );
-         resource = classname;
-         if ( -1 != index )
-         {
-            resource = classname.substring( 0, index + 1 );
-         }
-         resource = resource.replace( '.', '/' );
-         resource += location;
-         return resource;
-      }
    }
 }
