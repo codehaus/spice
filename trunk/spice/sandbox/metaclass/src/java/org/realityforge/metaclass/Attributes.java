@@ -44,7 +44,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * ClassDescriptor for class) then either an empty array
  * or a null will be returned depending on the method.</p>
  *
- * @version $Revision: 1.6 $ $Date: 2003-09-01 06:33:45 $
+ * @version $Revision: 1.7 $ $Date: 2003-09-28 05:01:46 $
  */
 public class Attributes
 {
@@ -169,7 +169,7 @@ public class Attributes
     {
         try
         {
-           return getField( field ).getAttributes();
+            return getField( field ).getAttributes();
         }
         catch( final Exception e )
         {
@@ -190,7 +190,7 @@ public class Attributes
     {
         try
         {
-           return getAttributesByName( getField( field ).getAttributes(), name );
+            return getAttributesByName( getField( field ).getAttributes(), name );
         }
         catch( final Exception e )
         {
@@ -213,7 +213,7 @@ public class Attributes
     {
         try
         {
-           return getAttributeByName( getField( field ).getAttributes(), name );
+            return getAttributeByName( getField( field ).getAttributes(), name );
         }
         catch( Exception e )
         {
@@ -294,7 +294,7 @@ public class Attributes
     {
         try
         {
-           return getConstructor( constructor ).getAttributes();
+            return getConstructor( constructor ).getAttributes();
         }
         catch( Exception e )
         {
@@ -315,9 +315,9 @@ public class Attributes
     {
         try
         {
-           final Attribute[] attributes =
-              getConstructor( constructor ).getAttributes();
-           return getAttributesByName( attributes, name );
+            final Attribute[] attributes =
+                getConstructor( constructor ).getAttributes();
+            return getAttributesByName( attributes, name );
         }
         catch( Exception e )
         {
@@ -339,9 +339,9 @@ public class Attributes
     {
         try
         {
-           final Attribute[] attributes =
-               getConstructor( constructor ).getAttributes();
-           return getAttributeByName( attributes, name );
+            final Attribute[] attributes =
+                getConstructor( constructor ).getAttributes();
+            return getAttributeByName( attributes, name );
         }
         catch( Exception e )
         {
@@ -389,14 +389,14 @@ public class Attributes
         {
             final MethodDescriptor candidate = methods[ i ];
             if( candidate.getName().equals( method.getName() ) &&
-               candidate.getParameters().length == method.getParameterTypes().length )
+                candidate.getParameters().length == method.getParameterTypes().length )
             {
                 final ParameterDescriptor[] parameters = candidate.getParameters();
-                for ( int j = 0; j < parameters.length; j++ )
+                for( int j = 0; j < parameters.length; j++ )
                 {
                     final ParameterDescriptor parameter = parameters[ j ];
-                    final Class type = method.getParameterTypes()[j];
-                    if( !type.getName().equals(parameter.getType()))
+                    final Class type = method.getParameterTypes()[ j ];
+                    if( !type.getName().equals( parameter.getType() ) )
                     {
                         continue;
                     }
@@ -429,10 +429,10 @@ public class Attributes
         {
             final MethodDescriptor candidate = methods[ i ];
             if( candidate.getName().equals( name ) &&
-               candidate.getParameters().length == constructor.getParameterTypes().length )
+                candidate.getParameters().length == constructor.getParameterTypes().length )
             {
                 final ParameterDescriptor[] parameters = candidate.getParameters();
-                for ( int j = 0; j < parameters.length; j++ )
+                for( int j = 0; j < parameters.length; j++ )
                 {
                     final String parameter = parameters[ j ].getType();
                     final String type = constructor.getParameterTypes()[ j ].getName();
