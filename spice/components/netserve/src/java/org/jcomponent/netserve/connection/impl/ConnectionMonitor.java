@@ -7,37 +7,32 @@
  */
 package org.jcomponent.netserve.connection.impl;
 
+import java.net.Socket;
+import org.jcomponent.netserve.sockets.impl.AcceptorMonitor;
+
 /**
  * Monitor interface for Connection.
  * Provides a facade to support different types of events, including logging.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  */
 public interface ConnectionMonitor
+    extends AcceptorMonitor
 {
-    void acceptorClosed( String name );
+    void acceptorDisconnecting( String name, boolean tearDown );
 
-    void acceptorCreated( ConnectionAcceptor acceptor );
+    void connectionEnding( String name, Socket socket );
 
-    void acceptorDisconnected( ConnectionAcceptor acceptor,
-                               boolean tearDown );
+    void connectionStarting( String name, Socket socket );
 
-    void acceptorStopping( String name );
+    void disposingHandler( String name, Socket socket );
 
-    void connectionEnding( String name, String hostAddress );
+    void errorHandlerAlreadyDisposed( String name, Socket socket );
 
-    void connectionStarting( String name, String hostAddress );
+    void errorClosingSocket( String name, Socket socket, Exception e );
 
-    void runnerAlreadyDisposed( ConnectionRunner runner );
+    void errorAquiringHandler( String name, Exception e );
 
-    void runnerCreating( String name );
-
-    void runnerDisposing( ConnectionRunner runner );
-
-    void serverSocketClosing( String name );
-
-    void serverSocketListening( String name );
-
-    void unexpectedError( String message,
-                          Throwable t );
+    void errorHandlingConnection( String name, Socket socket, Exception e );
 }
