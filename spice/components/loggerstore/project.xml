@@ -44,7 +44,7 @@
         <dependency>
             <groupId>avalon</groupId>
             <artifactId>avalon-logkit</artifactId>
-            <version>20030527</version>
+            <version>1.2.2</version>
         </dependency>
         <dependency>
             <groupId>dna</groupId>
@@ -62,9 +62,9 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>excalibur</groupId>
+            <groupId>avalon</groupId>
             <artifactId>excalibur-logger</artifactId>
-            <version>20030713</version>
+            <version>20031126.191921</version>
             <properties>
                 <category>runtime</category>
             </properties>
