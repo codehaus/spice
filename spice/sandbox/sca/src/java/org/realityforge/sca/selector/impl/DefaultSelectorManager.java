@@ -21,7 +21,7 @@ import org.realityforge.sca.selector.SelectorManager;
  * events on selection.
  * 
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2003-12-16 03:37:18 $
+ * @version $Revision: 1.7 $ $Date: 2003-12-16 03:39:53 $
  */
 public class DefaultSelectorManager
     implements SelectorManager, Runnable
@@ -166,7 +166,8 @@ public class DefaultSelectorManager
     }
 
     /**
-     * @see SelectorManager#registerChannel
+     * @see SelectorManager#registerChannel(SelectableChannel, int,
+        *      SelectorEventHandler, Object)
      */
     public SelectionKey registerChannel( final SelectableChannel channel,
                                          final int ops,
@@ -327,7 +328,7 @@ public class DefaultSelectorManager
      * 
      * @param running the flag to specify whether th Reactor is running
      */
-    protected void setRunning( final boolean running )
+    public void setRunning( final boolean running )
     {
         synchronized( getSelectorLock() )
         {
