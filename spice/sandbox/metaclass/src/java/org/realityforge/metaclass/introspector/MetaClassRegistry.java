@@ -15,7 +15,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * objects for corresponding java classes.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 06:14:17 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-28 06:19:06 $
  */
 public interface MetaClassRegistry
 {
@@ -30,13 +30,4 @@ public interface MetaClassRegistry
    ClassDescriptor getClassDescriptor( String classname,
                                        ClassLoader classLoader )
       throws MetaClassException;
-
-   /**
-    * Register a ClassDescriptor associated with specified classLoader.
-    *
-    * @param descriptor the descriptor
-    * @param classLoader the classloader
-    */
-   void registerDescriptor( ClassDescriptor descriptor,
-                            ClassLoader classLoader );
 }
