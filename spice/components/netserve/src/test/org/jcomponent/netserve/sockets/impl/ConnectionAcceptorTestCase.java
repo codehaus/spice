@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-09 02:13:57 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-09 02:25:19 $
  */
 public class ConnectionAcceptorTestCase
     extends TestCase
@@ -171,6 +171,42 @@ public class ConnectionAcceptorTestCase
         acceptor.close();
         thread.join();
     }
+
+
+    public void testInteruptOnAccept()
+        throws Exception
+    {
+        final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
+        final ConnectionAcceptor acceptor =
+            new ConnectionAcceptor( "name",
+                                    new ExceptOnAcceptServerSocket( true ),
+                                    new MockSocketConnectionHandler(),
+                                    monitor );
+        assertEquals( "getErrorAcceptingConnection pre-shutdownServerSocket()",
+                      null,
+                      monitor.getErrorAcceptingConnection() );
+        acceptor.shutdownServerSocket();
+
+        final Thread thread = startAcceptor( acceptor );
+        waitUntilStarted( acceptor );
+
+        //Sleep enough so that exception can be thrown
+        try
+        {
+            Thread.sleep( 30 );
+        }
+        catch( final InterruptedException e )
+        {
+        }
+
+        assertEquals( "getErrorAcceptingConnection post-shutdownServerSocket()",
+                      ExceptOnAcceptServerSocket.INTERRUPTED_EXCEPTION,
+                      monitor.getErrorAcceptingConnection() );
+
+        acceptor.close();
+        thread.join();
+    }
+
 
     private Thread startAcceptor( final ConnectionAcceptor acceptor )
     {
