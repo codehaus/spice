@@ -11,7 +11,7 @@ package org.codehaus.spice.configkit;
  * Data for unit tests.
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:29 $
+ * @version $Revision: 1.2 $ $Date: 2004-03-21 23:45:45 $
  */
 class TestData
 {
@@ -28,7 +28,7 @@ class TestData
     static final String XML_DATA3 = DATA_DIR + "data2.xml";
 
     static final String SCHEMA_PUBLIC_ID = "-//TEST/Blah DTD Version 1.0//EN";
-    static final String SCHEMA_SYSTEM_ID = "http://www.realityforge.org/test/test.xml";
+    static final String SCHEMA_SYSTEM_ID = "http://spice.codehaus.org/test/test.xml";
 
     static final EntityInfo INFO = new EntityInfo( PUBLIC_ID,
                                                    SYSTEM_ID,

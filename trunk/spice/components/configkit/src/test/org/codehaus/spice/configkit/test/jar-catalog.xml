@@ -5,6 +5,6 @@
     <entity systemId="http://jakarta.apache.org/phoenix/assembly_1_0.dtd" resource="META-INF/empty.txt"/>
     <entity
         publicId="-//TEST/Blah DTD Version 1.0//EN"
-        systemId="http://www.realityforge.org/test/test.xml"
+        systemId="http://spice.codehaus.org/test/test.xml"
         resource="org/codehaus/spice/configkit/test/relax-schema.xml"/>
 </catalog>
