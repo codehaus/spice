@@ -23,7 +23,7 @@ import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.18 $ $Date: 2004-02-06 00:49:49 $
+ * @version $Revision: 1.19 $ $Date: 2004-02-10 02:59:26 $
  */
 public class ChannelTransport
 {
@@ -245,8 +245,8 @@ public class ChannelTransport
      * 
      * @param source the source.
      */
-    public synchronized void register(
-        final SelectableChannelEventSource source )
+    public synchronized void
+        register( final SelectableChannelEventSource source )
         throws IOException
     {
         final AbstractSelectableChannel channel =

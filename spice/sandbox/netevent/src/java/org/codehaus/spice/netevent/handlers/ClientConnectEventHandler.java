@@ -24,7 +24,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-22 02:43:36 $
+ * @version $Revision: 1.6 $ $Date: 2004-02-10 02:59:25 $
  */
 public class ClientConnectEventHandler
     extends AbstractIOEventHandler
@@ -35,9 +35,9 @@ public class ClientConnectEventHandler
     private final SelectableChannelEventSource _source;
 
     /**
-     * Handler to pass high-level events on to.
+     * The destination for events relating to next layer.
      */
-    private final EventSink _target;
+    private EventSink _target;
 
     /**
      * Create handler with specified destination sink.
@@ -94,6 +94,7 @@ public class ClientConnectEventHandler
             final ConnectErrorEvent error =
                 new ConnectErrorEvent( transport, ioe );
             getSink().addEvent( error );
+            _target.addEvent( error );
         }
     }
 }
