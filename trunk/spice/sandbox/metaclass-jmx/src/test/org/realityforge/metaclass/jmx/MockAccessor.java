@@ -14,7 +14,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-13 23:57:09 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-18 23:13:38 $
  */
 class MockAccessor
     implements MetaClassAccessor
@@ -26,8 +26,9 @@ class MockAccessor
         m_classDescriptor = classDescriptor;
     }
 
-    public ClassDescriptor getClassDescriptor( String classname,
-                                               ClassLoader classLoader )
+    public ClassDescriptor getClassDescriptor( final String classname,
+                                               final ClassLoader classLoader,
+                                               final MetaClassAccessor accessor )
         throws MetaClassException
     {
         if( null != m_classDescriptor )

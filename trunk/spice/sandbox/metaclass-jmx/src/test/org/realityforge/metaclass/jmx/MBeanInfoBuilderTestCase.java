@@ -27,7 +27,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-17 08:14:48 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-18 23:13:38 $
  */
 public class MBeanInfoBuilderTestCase
     extends TestCase
@@ -157,12 +157,12 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor md =
             new MethodDescriptor( m.getName(),
                                   "",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( c.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{md} );
@@ -197,12 +197,12 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor md =
             new MethodDescriptor( "MBeanInfoBuilderTestCase",
                                   "",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( c.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{md} );
@@ -262,12 +262,12 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor md =
             new MethodDescriptor( method.getName(),
                                   method.getReturnType().getName(),
-                                  method.getModifiers(),
                                   ParameterDescriptor.EMPTY_SET,
+                                  attributes,
                                   attributes );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( c.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{md} );
@@ -311,12 +311,12 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor md =
             new MethodDescriptor( method.getName(),
                                   method.getReturnType().getName(),
-                                  method.getModifiers(),
                                   ParameterDescriptor.EMPTY_SET,
-                                  attributes );
+                                  attributes,
+                                  attributes);
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( c.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{md} );
@@ -360,18 +360,18 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor reader =
             new MethodDescriptor( "getValue",
                                   "int",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
+                                  attributes,
                                   attributes );
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  0,
                                   new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  attributesSansDescription,
                                   attributesSansDescription );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{reader, writer} );
@@ -407,18 +407,18 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor reader =
             new MethodDescriptor( "getValue",
                                   "int",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
+                                  attributesSansDescription,
                                   attributesSansDescription );
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  0,
                                   new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  attributes,
                                   attributes );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{reader, writer} );
@@ -450,18 +450,18 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor reader =
             new MethodDescriptor( "getValue",
                                   "int",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
+                                  attributesSansDescription,
                                   attributesSansDescription );
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  0,
                                   new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  attributesSansDescription,
                                   attributesSansDescription );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{reader, writer} );
@@ -493,18 +493,18 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor reader =
             new MethodDescriptor( "getValue",
                                   "int",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  0,
                                   new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  attributesSansDescription,
                                   attributesSansDescription );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{reader, writer} );
@@ -536,18 +536,18 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor reader =
             new MethodDescriptor( "getValue",
                                   "int",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
+                                  attributesSansDescription,
                                   attributesSansDescription );
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  0,
                                   new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{reader, writer} );
@@ -577,18 +577,18 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor reader =
             new MethodDescriptor( "getValue",
                                   "int",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  0,
                                   new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{reader, writer} );
@@ -615,12 +615,12 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor reader =
             new MethodDescriptor( "getValue",
                                   "int",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
+                                  attributesSansDescription,
                                   attributesSansDescription );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{reader} );
@@ -654,12 +654,12 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  0,
                                   new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  attributesSansDescription,
                                   attributesSansDescription );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{writer} );
@@ -693,12 +693,12 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor writer =
             new MethodDescriptor( "setValue",
                                   "",
-                                  0,
                                   new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  attributesSansDescription,
                                   attributesSansDescription );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{writer} );
@@ -722,7 +722,7 @@ public class MBeanInfoBuilderTestCase
             new Attribute[]{new Attribute( "mx.component", parameters )};
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 attributes,
                                  attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -741,7 +741,7 @@ public class MBeanInfoBuilderTestCase
         final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -773,7 +773,7 @@ public class MBeanInfoBuilderTestCase
     {
         final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Class c = TestBean.class;
-        final Constructor constructor = c.getConstructors()[ 0 ];
+        final Constructor constructor = c.getConstructor( new Class[0] );
 
         final Properties parameters = new Properties();
         parameters.setProperty( "description", "Magical Mystery Tour!" );
@@ -782,12 +782,12 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor md =
             new MethodDescriptor( "TestBean",
                                   "",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
+                                  attributes,
                                   attributes );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( c.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{md} );
@@ -818,12 +818,12 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor md =
             new MethodDescriptor( "DefaultPackageClass",
                                   "",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
+                                  attributes,
                                   attributes );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( c.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{md} );
@@ -855,12 +855,12 @@ public class MBeanInfoBuilderTestCase
         final MethodDescriptor md =
             new MethodDescriptor( "TestBean",
                                   "",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
+                                  attributes,
                                   attributes );
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( c.getName(),
-                                 0,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{md} );
@@ -879,10 +879,11 @@ public class MBeanInfoBuilderTestCase
     {
         final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Class c = TestBean.class;
+        final Attribute[] classAttributes = new Attribute[]{new Attribute( "mx.component" )};
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( c.getName(),
-                                 0,
-                                 new Attribute[]{new Attribute( "mx.component" )},
+                                 classAttributes,
+                                 classAttributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
         final MockAccessor accessor = new MockAccessor( classDescriptor );
@@ -915,7 +916,7 @@ public class MBeanInfoBuilderTestCase
                             new Attribute( "mx.interface", parameters )};
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 attributes,
                                  attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
