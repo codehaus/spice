@@ -14,7 +14,7 @@ import org.codehaus.spice.timeevent.source.SchedulingKey;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.11 $ $Date: 2004-01-22 05:52:16 $
+ * @version $Revision: 1.12 $ $Date: 2004-01-22 05:57:01 $
  */
 public class Session
 {
@@ -251,9 +251,6 @@ public class Session
      */
     public void setStatus( final int status )
     {
-        System.out.println(
-            (isClient() ? "PACK CL" : "PACK SV") + ": setStatus(" + status +
-            ")" );
         _status = status;
         _timeOfLastStatusChange = System.currentTimeMillis();
         cancelTimeout();

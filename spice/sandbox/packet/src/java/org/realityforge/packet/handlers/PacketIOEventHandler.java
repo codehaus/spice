@@ -38,7 +38,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2004-01-22 05:52:16 $
+ * @version $Revision: 1.8 $ $Date: 2004-01-22 05:57:01 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -216,9 +216,6 @@ public class PacketIOEventHandler
         if( null != session &&
             Session.STATUS_DISCONNECTED != session.getStatus() )
         {
-            System.out.println( (session.isClient() ? "PACK CL" : "PACK SV") +
-                                ": getStatus()=" +
-                                session.getStatus() );
             closeTransport( transport );
             final PeriodicTimeTrigger trigger =
                 new PeriodicTimeTrigger( TIMEOUT_IN_MILLIS, -1 );
@@ -238,7 +235,7 @@ public class PacketIOEventHandler
     {
         final ChannelTransport transport = e.getTransport();
         final Session session = (Session)transport.getUserData();
-        if( null != session )
+        if( null != session && session.isClient() )
         {
             final int status = session.getStatus();
             if( Session.STATUS_DISCONNECTED == status )
@@ -247,12 +244,6 @@ public class PacketIOEventHandler
                                            Protocol.ERROR_SESSION_DISCONNECTED,
                                            getSink() );
                 return;
-            }
-            if( !session.isClient() )
-            {
-                System.out.println( "PACK Handle Greeting on " +
-                                    "server with session? " +
-                                    transport );
             }
             session.setTransport( transport );
             if( session.isClient() )
@@ -400,24 +391,12 @@ public class PacketIOEventHandler
         final Session session = (Session)transport.getUserData();
 
         final int msg = input.read();
-        if( /*!session.isClient() && */Protocol.C2S_ESTABLISHED == msg )
+        if( !session.isClient() && Protocol.C2S_ESTABLISHED == msg )
         {
-            if( session.isClient() )
-            {
-                System.out.println( "PACK Got a C2S_ESTABLISHED on " +
-                                    "client session: " + session + " via " +
-                                    session.getTransport() );
-            }
             return receiveEstablish( transport );
         }
-        else if( /*session.isClient() && */Protocol.S2C_CONNECT == msg )
+        else if( session.isClient() && Protocol.S2C_CONNECT == msg )
         {
-            if( !session.isClient() )
-            {
-                System.out.println( "PACK Got a S2C_CONNECT on " +
-                                    "server session: " + session + " via " +
-                                    session.getTransport() );
-            }
             return receiveConnect( transport );
         }
         else if( Protocol.MSG_DISCONNECT == msg )
@@ -438,11 +417,7 @@ public class PacketIOEventHandler
         }
         else
         {
-            System.out.println( "PACK Error at " + transport +
-                                ") Avail: " +
-                                transport.getInputStream().available() +
-                                " status = " + session.getStatus() );
-            System.out.println( "PACK msg = " + msg + " KK: " + (char)msg );
+            System.out.println( "PACK msg = " + msg );
             signalDisconnectTransport( transport,
                                        Protocol.ERROR_BAD_MESSAGE,
                                        getSink() );
