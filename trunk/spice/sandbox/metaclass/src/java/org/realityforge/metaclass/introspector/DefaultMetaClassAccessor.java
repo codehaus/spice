@@ -10,6 +10,7 @@ package org.realityforge.metaclass.introspector;
 import java.io.InputStream;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
+import org.realityforge.metaclass.io.MetaClassIOXml;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
@@ -35,7 +36,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-11-01 01:14:56 $
+ * @version $Revision: 1.7 $ $Date: 2003-11-01 01:31:57 $
  */
 public class DefaultMetaClassAccessor
     implements MetaClassAccessor
@@ -51,26 +52,34 @@ public class DefaultMetaClassAccessor
     public static final String XML_EXT = "-meta.xml";
 
     /**
-     * Class used to read the MetaData.
+     * Class used to read the MetaData in binary format.
      */
-    private static final MetaClassIO c_metaClassIO = new MetaClassIOBinary();
+    private static final MetaClassIO c_binaryIO = new MetaClassIOBinary();
 
     /**
-     * Return a {@link ClassDescriptor} for specified class.
-     * Uses process specified in class Javadoc to create descriptor.
-     *
-     * @param classname the classname to get {@link ClassDescriptor} for
-     * @param classLoader the classLoader to use
-     * @return the newly created {@link ClassDescriptor}
-     * @throws MetaClassException if unable to create {@link ClassDescriptor}
+     * Class used to read the MetaData in XML format.
+     */
+    private static final MetaClassIO c_xmlIO = new MetaClassIOXml();
+
+    /**
+     * @see MetaClassAccessor#getClassDescriptor
      */
     public ClassDescriptor getClassDescriptor( final String classname,
-                                               final ClassLoader classLoader, MetaClassAccessor accessor )
+                                               final ClassLoader classLoader,
+                                               final MetaClassAccessor accessor )
         throws MetaClassException
     {
-        final String resource = classname.replace( '.', '/' ) + BINARY_EXT;
-        final InputStream inputStream =
-            classLoader.getResourceAsStream( resource );
+        boolean isXML = false;
+        final String baseName = classname.replace( '.', '/' );
+        String resource = baseName + BINARY_EXT;
+        InputStream inputStream = classLoader.getResourceAsStream( resource );
+        if( null == inputStream )
+        {
+            resource = baseName + XML_EXT;
+            inputStream = classLoader.getResourceAsStream( resource );
+            isXML = true;
+        }
+
         if( null == inputStream )
         {
             final String message =
@@ -80,7 +89,14 @@ public class DefaultMetaClassAccessor
 
         try
         {
-            return c_metaClassIO.deserializeClass( inputStream );
+            if( isXML )
+            {
+                return c_xmlIO.deserializeClass( inputStream );
+            }
+            else
+            {
+                return c_binaryIO.deserializeClass( inputStream );
+            }
         }
         catch( final Exception e )
         {
