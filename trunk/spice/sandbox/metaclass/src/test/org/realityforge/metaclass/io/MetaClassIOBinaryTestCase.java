@@ -23,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-22 02:53:48 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-22 02:54:10 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -83,7 +83,7 @@ public class MetaClassIOBinaryTestCase
         throws Exception
     {
         final String name = "name";
-        final String value = "";
+        final String value = null;
         final int paramCount = 0;
         final byte[] bytes = new byte[]
         {
@@ -100,8 +100,8 @@ public class MetaClassIOBinaryTestCase
         final Attribute[] attributes = io.readAttributes( data );
         assertEquals( "attributes.length", 1, attributes.length );
         assertEquals( "attributes[0].name", name, attributes[ 0 ].getName() );
-        assertEquals( "attributes[0].value", null, attributes[ 0 ].getValue() );
-        assertEquals( "attributes[0].parameterCount", 0, attributes[ 0 ].getParameterCount() );
+        assertEquals( "attributes[0].value", value, attributes[ 0 ].getValue() );
+        assertEquals( "attributes[0].parameterCount", paramCount, attributes[ 0 ].getParameterCount() );
     }
 
     public void testBinaryIOWriteAttributeWithValue()
