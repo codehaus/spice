@@ -22,7 +22,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-05-24 22:29:57 $
+ * @version $Revision: 1.6 $ $Date: 2003-05-24 22:44:59 $
  */
 public interface LoggerStoreFactory
 {
@@ -30,13 +30,13 @@ public interface LoggerStoreFactory
      * The URL key.  Used to define the URL where the configuration
      * for LoggerStore can be found.
      */
-    String URL_LOCATION = LoggerStoreFactory.class.getName() + ".url";
+    String URL_LOCATION = "org.realityforge.loggerstore.url";
 
     /**
      * The URL key.  Used to define the URL where the configuration
      * for LoggerStore can be found.
      */
-    String FILE_LOCATION = LoggerStoreFactory.class.getName() + ".file";
+    String FILE_LOCATION = "org.realityforge.loggerstore.file";
 
     /**
      * Creates a LoggerStore from a given set of configuration parameters.

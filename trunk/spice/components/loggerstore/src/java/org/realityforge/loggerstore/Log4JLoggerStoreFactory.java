@@ -18,7 +18,7 @@ import org.w3c.dom.Element;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-05-24 22:29:25 $
+ * @version $Revision: 1.6 $ $Date: 2003-05-24 22:44:59 $
  */
 public class Log4JLoggerStoreFactory
     extends AbstractLoggerStoreFactory
@@ -27,11 +27,13 @@ public class Log4JLoggerStoreFactory
      * The CONFIGURATION_TYPE key.  Used to denote the type of configuration,
      * which can take value PROPERTIES or XML.
      */
-    public static final String CONFIGURATION_TYPE = "configurationType";
+    public static final String CONFIGURATION_TYPE = "org.realityforge.loggerstore.log4j.type";
+
     /**
      * The PROPERTIES bound value.
      */
     public static final String PROPERTIES = "properties";
+
     /**
      * The XML bound value.
      */
