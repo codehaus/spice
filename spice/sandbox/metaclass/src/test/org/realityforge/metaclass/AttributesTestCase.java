@@ -9,6 +9,7 @@ package org.realityforge.metaclass;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Constructor;
 import junit.framework.TestCase;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
@@ -19,7 +20,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-09-28 04:50:39 $
+ * @version $Revision: 1.10 $ $Date: 2003-09-28 05:02:01 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -337,9 +338,9 @@ public class AttributesTestCase
         final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
         final Class[] types = method.getParameterTypes();
         final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
-        for ( int i = 0; i < types.length; i++ )
+        for( int i = 0; i < types.length; i++ )
         {
-           parameters[i] = new ParameterDescriptor( "", types[ i ].getName() );
+            parameters[ i ] = new ParameterDescriptor( "", types[ i ].getName() );
         }
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( method.getName(),
@@ -381,9 +382,9 @@ public class AttributesTestCase
         final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
         final Class[] types = method.getParameterTypes();
         final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
-        for ( int i = 0; i < types.length; i++ )
+        for( int i = 0; i < types.length; i++ )
         {
-           parameters[i] = new ParameterDescriptor( "", types[ i ].getName() );
+            parameters[ i ] = new ParameterDescriptor( "", types[ i ].getName() );
         }
 
         final MethodDescriptor methodDescriptor =
@@ -427,9 +428,9 @@ public class AttributesTestCase
         final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
         final Class[] types = method.getParameterTypes();
         final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
-        for ( int i = 0; i < types.length; i++ )
+        for( int i = 0; i < types.length; i++ )
         {
-           parameters[i] = new ParameterDescriptor( "", types[ i ].getName() );
+            parameters[ i ] = new ParameterDescriptor( "", types[ i ].getName() );
         }
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( method.getName(),
@@ -449,5 +450,228 @@ public class AttributesTestCase
         final Attribute result =
             Attributes.getAttribute( method, name );
         assertEquals( "attribute", attribute1, result );
+    }
+
+    public void testGetNonExistentField()
+    {
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        final Field field = AttributesTestCase.class.getDeclaredFields()[ 0 ];
+
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        try
+        {
+            Attributes.getField( field );
+        }
+        catch( MetaClassException e )
+        {
+            return;
+        }
+        fail( "Expected to fail accessing non-existent field" );
+    }
+
+    public void testGetNonExistentMethod()
+    {
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
+
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        try
+        {
+            Attributes.getMethod( method );
+        }
+        catch( MetaClassException e )
+        {
+            return;
+        }
+        fail( "Expected to fail accessing non-existent method" );
+    }
+
+    public void testGetNonExistentConstructor()
+    {
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        final Constructor constructor = AttributesTestCase.class.getDeclaredConstructors()[ 0 ];
+
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        try
+        {
+            Attributes.getConstructor( constructor );
+        }
+        catch( MetaClassException e )
+        {
+            return;
+        }
+        fail( "Expected to fail accessing non-existent constructor" );
+    }
+
+    public void testGetAttributesForConstructorSansMetaData()
+    {
+        final Constructor constructor =
+            AttributesTestCase.class.getDeclaredConstructors()[ 0 ];
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+        MetaClassIntrospector.clearCompleteCache();
+        final Attribute[] results = Attributes.getAttributes( constructor );
+        assertEquals( "attributes.length", 0, results.length );
+    }
+
+    public void testGetAttributesForConstructor()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( name );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+        final Constructor constructor =
+            AttributesTestCase.class.getDeclaredConstructors()[ 0 ];
+        final Class[] types = constructor.getParameterTypes();
+        final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
+        for( int i = 0; i < types.length; i++ )
+        {
+            parameters[ i ] = new ParameterDescriptor( "", types[ i ].getName() );
+        }
+        final MethodDescriptor methodDescriptor =
+            new MethodDescriptor( getConstructorName( constructor ),
+                                  "",
+                                  constructor.getModifiers(),
+                                  parameters,
+                                  attributes );
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{methodDescriptor} );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
+        MetaClassIntrospector.clearCompleteCache();
+        final Attribute[] results = Attributes.getAttributes( constructor );
+        assertEquals( "attributes.length", 2, results.length );
+        assertEquals( "attributes[ 0 ]", attribute1, results[ 0 ] );
+        assertEquals( "attributes[ 1 ]", attribute2, results[ 1 ] );
+    }
+
+    public void testGetAttributesForConstructorWithNameSansMetaData()
+    {
+        final Constructor constructor =
+            AttributesTestCase.class.getDeclaredConstructors()[ 0 ];
+
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+        MetaClassIntrospector.clearCompleteCache();
+        final Attribute[] results =
+            Attributes.getAttributes( constructor, "name" );
+        assertEquals( "attributes.length", 0, results.length );
+    }
+
+    public void testGetAttributesForConstructorWithName()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( "bleh" );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+
+        final Constructor constructor =
+            AttributesTestCase.class.getDeclaredConstructors()[ 0 ];
+
+        final Class[] types = constructor.getParameterTypes();
+        final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
+        for( int i = 0; i < types.length; i++ )
+        {
+            parameters[ i ] = new ParameterDescriptor( "", types[ i ].getName() );
+        }
+
+        final MethodDescriptor methodDescriptor =
+            new MethodDescriptor( getConstructorName( constructor ),
+                                  "",
+                                  constructor.getModifiers(),
+                                  parameters,
+                                  attributes );
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{methodDescriptor} );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
+        MetaClassIntrospector.clearCompleteCache();
+        final Attribute[] results =
+            Attributes.getAttributes( constructor, name );
+        assertEquals( "attributes.length", 1, results.length );
+        assertEquals( "attributes[ 0 ]", attribute1, results[ 0 ] );
+    }
+
+    public void testGetAttributeForConstructorWithNameSansMetaData()
+    {
+        final Constructor constructor =
+            AttributesTestCase.class.getDeclaredConstructors()[ 0 ];
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        final Attribute result =
+            Attributes.getAttribute( constructor, "name" );
+        assertEquals( "attribute", null, result );
+    }
+
+    public void testGetAttributeForConstructorWithName()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( "bleh" );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+
+        final Constructor constructor =
+            AttributesTestCase.class.getDeclaredConstructors()[ 0 ];
+        final Class[] types = constructor.getParameterTypes();
+        final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
+        for( int i = 0; i < types.length; i++ )
+        {
+            parameters[ i ] = new ParameterDescriptor( "", types[ i ].getName() );
+        }
+        final MethodDescriptor methodDescriptor =
+            new MethodDescriptor( getConstructorName( constructor ),
+                                  "",
+                                  constructor.getModifiers(),
+                                  parameters,
+                                  attributes );
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{methodDescriptor} );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        final Attribute result =
+            Attributes.getAttribute( constructor, name );
+        assertEquals( "attribute", attribute1, result );
+    }
+
+    private String getConstructorName( final Constructor constructor )
+    {
+        String name = constructor.getName();
+        final int index = name.lastIndexOf( "." );
+        if( -1 != index )
+        {
+            name = name.substring( index + 1 );
+        }
+        return name;
     }
 }
