@@ -14,13 +14,15 @@ import java.lang.reflect.Modifier;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.Type;
+import com.thoughtworks.qdox.model.JavaParameter;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.FieldDescriptor;
+import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-22 06:06:57 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-22 06:08:44 $
  */
 public class InfoBuilderTestCase
     extends TestCase
@@ -351,5 +353,18 @@ public class InfoBuilderTestCase
         assertEquals( "field.type", type, field.getType() );
         assertEquals( "field.modifiers", Modifier.PUBLIC, field.getModifiers() );
         assertEquals( "field.attributes.length", 0, field.getAttributes().length );
+    }
+
+    public void testBuildParameter()
+        throws Exception
+    {
+        final String name = "myField";
+        final String type = "int";
+        final JavaParameter javaParameter = new JavaParameter( new Type(type), name );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final ParameterDescriptor parameter = parser.buildParameter( javaParameter );
+        assertNotNull( "parameter", parameter );
+        assertEquals( "parameter.name", name, parameter.getName() );
+        assertEquals( "parameter.type", type, parameter.getType() );
     }
 }
