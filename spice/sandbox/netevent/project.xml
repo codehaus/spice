@@ -12,11 +12,6 @@
     <dependencies>
         <dependency>
             <groupId>spice</groupId>
-            <artifactId>spice-sca</artifactId>
-            <version>20031216.044751</version>
-        </dependency>
-        <dependency>
-            <groupId>spice</groupId>
             <artifactId>spice-event</artifactId>
             <version>1.0-dev</version>
         </dependency>

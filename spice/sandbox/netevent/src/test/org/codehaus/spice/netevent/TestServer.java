@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
@@ -15,11 +14,10 @@ import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
 import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
 import org.codehaus.spice.netevent.handlers.ChannelEventHandler;
 import org.codehaus.spice.netevent.selector.SocketEventSource;
-import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2004-01-16 03:19:09 $
+ * @version $Revision: 1.8 $ $Date: 2004-01-21 23:44:58 $
  */
 public class TestServer
 {
@@ -29,12 +27,8 @@ public class TestServer
     public static void main( final String[] args )
         throws Exception
     {
-        final DefaultSelectorManager sm = new DefaultSelectorManager();
-        sm.setRunning( true );
-        sm.setSelector( Selector.open() );
-
-        final EventPump[] serverSidePumps = createServerSidePumps( sm );
-        final EventPump[] clientSidePumps = createClientSidePumps( sm );
+        final EventPump[] serverSidePumps = createServerSidePumps();
+        final EventPump[] clientSidePumps = createClientSidePumps();
         final ArrayList pumpList = new ArrayList();
         pumpList.addAll( Arrays.asList( serverSidePumps ) );
         pumpList.addAll( Arrays.asList( clientSidePumps ) );
@@ -66,8 +60,7 @@ public class TestServer
         System.exit( 1 );
     }
 
-    private static EventPump[]
-        createServerSidePumps( final DefaultSelectorManager sm )
+    private static EventPump[] createServerSidePumps()
         throws IOException
     {
         final DefaultEventQueue queue1 =
@@ -75,8 +68,7 @@ public class TestServer
         final DefaultEventQueue queue2 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
-        final SocketEventSource source1 =
-            new SocketEventSource( sm, queue1 );
+        final SocketEventSource source1 = new SocketEventSource( queue1 );
 
         final ServerSocketChannel channel = ServerSocketChannel.open();
         channel.socket().bind( new InetSocketAddress( 1980 ) );
@@ -102,15 +94,15 @@ public class TestServer
         return new EventPump[]{pump1, pump2};
     }
 
-    private static EventPump[]
-        createClientSidePumps( final DefaultSelectorManager sm )
+    private static EventPump[] createClientSidePumps()
+        throws IOException
     {
         final DefaultEventQueue queue1 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
         final DefaultEventQueue queue2 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
-        c_clientSocketSouce = new SocketEventSource( sm, queue1 );
+        c_clientSocketSouce = new SocketEventSource( queue1 );
 
         final DefaultBufferManager bufferManager = new DefaultBufferManager();
 
