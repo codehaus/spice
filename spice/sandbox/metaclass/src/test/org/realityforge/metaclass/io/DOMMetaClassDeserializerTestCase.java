@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-31 23:41:47 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-31 23:49:39 $
  */
 public class DOMMetaClassDeserializerTestCase
     extends TestCase
@@ -41,6 +41,37 @@ public class DOMMetaClassDeserializerTestCase
         element.appendChild( child );
         final String description = deserializer.getPathDescription( child );
         assertEquals( "description", "foo/baz", description );
+    }
+
+    public void testExpectAttributeThatIsPresent()
+        throws Exception
+    {
+        final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+        final Document document = createDocument();
+        final Element element = document.createElement( "foo" );
+        element.setAttribute( "baz", "bar" );
+        final String result = deserializer.expectAttribute( element, "baz" );
+        assertEquals( "result", "bar", result );
+    }
+
+    public void testExpectAttributeThatIsNotPresent()
+        throws Exception
+    {
+        final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+        final Document document = createDocument();
+        final Element element = document.createElement( "foo" );
+        try
+        {
+            deserializer.expectAttribute( element, "baz" );
+        }
+        catch( Exception e )
+        {
+            final String message =
+                "Element named foo missing attribute named baz @ foo.";
+            assertEquals( "e.getMessage()", message, e.getMessage() );
+            return;
+        }
+        fail( "Expected exception as missing attribute" );
     }
 
     private Document createDocument()
