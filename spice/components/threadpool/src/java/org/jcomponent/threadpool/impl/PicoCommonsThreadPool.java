@@ -14,94 +14,94 @@ import org.apache.commons.pool.impl.GenericObjectPool;
  * Pico component system.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-29 10:03:49 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-31 00:36:30 $
  */
 public class PicoCommonsThreadPool
-   extends CommonsThreadPool
+    extends CommonsThreadPool
 {
-   public static class Default
-      extends PicoCommonsThreadPool
-   {
-      public Default()
-      {
-         super( new NullThreadPoolMonitor(),
-                "Default ThreadPool",
-                Thread.NORM_PRIORITY,
-                false,
-                false,
-                10,
-                5 );
-      }
-   }
+    public static class Default
+        extends PicoCommonsThreadPool
+    {
+        public Default()
+        {
+            super( new NullThreadPoolMonitor(),
+                   "Default ThreadPool",
+                   Thread.NORM_PRIORITY,
+                   false,
+                   false,
+                   10,
+                   5 );
+        }
+    }
 
-   public static class WithMonitor
-      extends PicoCommonsThreadPool
-   {
-      public WithMonitor( final ThreadPoolMonitor monitor )
-      {
-         super( monitor,
-                "Default ThreadPool",
-                Thread.NORM_PRIORITY,
-                false,
-                false,
-                10,
-                5 );
-      }
-   }
+    public static class WithMonitor
+        extends PicoCommonsThreadPool
+    {
+        public WithMonitor( final ThreadPoolMonitor monitor )
+        {
+            super( monitor,
+                   "Default ThreadPool",
+                   Thread.NORM_PRIORITY,
+                   false,
+                   false,
+                   10,
+                   5 );
+        }
+    }
 
-   public static class WithMonitorAndConfig
-      extends PicoCommonsThreadPool
-   {
-      public WithMonitorAndConfig( final ThreadPoolMonitor monitor,
-                                   final String name,
-                                   final int priority,
-                                   final boolean isDaemon,
-                                   final boolean limited,
-                                   final int maxActiveThreads,
-                                   final int maxIdleThreads )
-      {
-         super( monitor, name, priority, isDaemon, limited, maxActiveThreads, maxIdleThreads );
-      }
-   }
+    public static class WithMonitorAndConfig
+        extends PicoCommonsThreadPool
+    {
+        public WithMonitorAndConfig( final ThreadPoolMonitor monitor,
+                                     final String name,
+                                     final int priority,
+                                     final boolean isDaemon,
+                                     final boolean limited,
+                                     final int maxActiveThreads,
+                                     final int maxIdleThreads )
+        {
+            super( monitor, name, priority, isDaemon, limited, maxActiveThreads, maxIdleThreads );
+        }
+    }
 
-   /**
-    * Constructor
-    *
-    */
-   protected PicoCommonsThreadPool( final ThreadPoolMonitor monitor,
-                                    final String name,
-                                    final int priority,
-                                    final boolean isDaemon,
-                                    final boolean limited,
-                                    final int maxActiveThreads,
-                                    final int maxIdleThreads )
-   {
-      setMonitor( monitor );
-      setName( name );
-      setPriority( priority );
-      setDaemon( isDaemon );
+    /**
+     * Constructor
+     *
+     */
+    protected PicoCommonsThreadPool( final ThreadPoolMonitor monitor,
+                                     final String name,
+                                     final int priority,
+                                     final boolean isDaemon,
+                                     final boolean limited,
+                                     final int maxActiveThreads,
+                                     final int maxIdleThreads )
+    {
+        setMonitor( monitor );
+        setName( name );
+        setPriority( priority );
+        setDaemon( isDaemon );
 
-      final GenericObjectPool.Config config = getCommonsConfig();
-      if ( limited )
-      {
-         config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_BLOCK;
-      }
-      else
-      {
-         config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_GROW;
-      }
+        final GenericObjectPool.Config config = getCommonsConfig();
+        if( limited )
+        {
+            config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_BLOCK;
+        }
+        else
+        {
+            config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_GROW;
+        }
 
-      config.maxActive = maxActiveThreads;
-      config.maxIdle = maxIdleThreads;
-      super.initialize();
-   }
+        config.maxActive = maxActiveThreads;
+        config.maxIdle = maxIdleThreads;
+        setup();
+    }
 
-   /**
-    * Make sure that finalize results in disposal
-    * of the system.
-    */
-   protected void finalize()
-   {
-      dispose();
-   }
+    /**
+     * Make sure that finalize results in disposal
+     * of the system.
+     */
+    protected void finalize()
+    {
+        shutdown();
+    }
 }
