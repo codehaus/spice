@@ -106,6 +106,7 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
+        <depend project="jakarta-oro"/>
         <work nested="components/io/target/classes"/>
         <work nested="components/io/target/test-classes"/>
 
