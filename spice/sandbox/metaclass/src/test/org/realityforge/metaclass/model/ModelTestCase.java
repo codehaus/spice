@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-04 00:47:49 $
+ * @version $Revision: 1.8 $ $Date: 2003-10-22 09:19:41 $
  */
 public class ModelTestCase
     extends TestCase
@@ -120,7 +120,7 @@ public class ModelTestCase
     {
         try
         {
-            new FieldDescriptor( null, "type", 0, Attribute.EMPTY_SET );
+            new FieldDescriptor( null, "type", Attribute.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {
@@ -132,7 +132,7 @@ public class ModelTestCase
     {
         try
         {
-            new FieldDescriptor( "name", null, 0, Attribute.EMPTY_SET );
+            new FieldDescriptor( "name", null, Attribute.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {
@@ -144,7 +144,7 @@ public class ModelTestCase
     {
         try
         {
-            new FieldDescriptor( "name", "type", 0, null );
+            new FieldDescriptor( "name", "type", null );
         }
         catch( final NullPointerException npe )
         {
@@ -156,7 +156,7 @@ public class ModelTestCase
     {
         try
         {
-            new FieldDescriptor( "name", "type", 0, new Attribute[]{null} );
+            new FieldDescriptor( "name", "type", new Attribute[]{null} );
         }
         catch( final NullPointerException npe )
         {
@@ -167,10 +167,9 @@ public class ModelTestCase
     public void testField()
     {
         final FieldDescriptor field =
-            new FieldDescriptor( "name", "type", 0, Attribute.EMPTY_SET );
+            new FieldDescriptor( "name", "type", Attribute.EMPTY_SET );
         assertEquals( "field.name", "name", field.getName() );
         assertEquals( "field.type", "type", field.getType() );
-        assertEquals( "field.modifiers", 0, field.getModifiers() );
         assertEquals( "field.getAttributes().length", 0, field.getAttributes().length );
     }
 
@@ -179,7 +178,7 @@ public class ModelTestCase
     {
         try
         {
-            new MethodDescriptor( null, "type", 0, ParameterDescriptor.EMPTY_SET, Attribute.EMPTY_SET );
+            new MethodDescriptor( null, "type", ParameterDescriptor.EMPTY_SET, Attribute.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {
@@ -191,7 +190,7 @@ public class ModelTestCase
     {
         try
         {
-            new MethodDescriptor( "name", null, 0, ParameterDescriptor.EMPTY_SET, Attribute.EMPTY_SET );
+            new MethodDescriptor( "name", null, ParameterDescriptor.EMPTY_SET, Attribute.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {
@@ -203,7 +202,7 @@ public class ModelTestCase
     {
         try
         {
-            new MethodDescriptor( "name", "type", 0, null, Attribute.EMPTY_SET );
+            new MethodDescriptor( "name", "type", null, Attribute.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {
@@ -215,7 +214,7 @@ public class ModelTestCase
     {
         try
         {
-            new MethodDescriptor( "name", "type", 0, new ParameterDescriptor[]{null}, Attribute.EMPTY_SET );
+            new MethodDescriptor( "name", "type", new ParameterDescriptor[]{null}, Attribute.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {
@@ -227,7 +226,7 @@ public class ModelTestCase
     {
         try
         {
-            new MethodDescriptor( "name", "type", 0, ParameterDescriptor.EMPTY_SET, null );
+            new MethodDescriptor( "name", "type", ParameterDescriptor.EMPTY_SET, null );
         }
         catch( final NullPointerException npe )
         {
@@ -239,7 +238,7 @@ public class ModelTestCase
     {
         try
         {
-            new MethodDescriptor( "name", "type", 0, ParameterDescriptor.EMPTY_SET, new Attribute[]{null} );
+            new MethodDescriptor( "name", "type", ParameterDescriptor.EMPTY_SET, new Attribute[]{null} );
         }
         catch( final NullPointerException npe )
         {
@@ -250,10 +249,9 @@ public class ModelTestCase
     public void testMethod()
     {
         final MethodDescriptor method =
-            new MethodDescriptor( "name", "type", 0, ParameterDescriptor.EMPTY_SET, Attribute.EMPTY_SET );
+            new MethodDescriptor( "name", "type", ParameterDescriptor.EMPTY_SET, Attribute.EMPTY_SET );
         assertEquals( "method.name", "name", method.getName() );
         assertEquals( "method.type", "type", method.getReturnType() );
-        assertEquals( "method.modifiers", 0, method.getModifiers() );
         assertEquals( "method.getParameters().length", 0, method.getParameters().length );
         assertEquals( "method.getAttributes().length", 0, method.getAttributes().length );
     }
@@ -262,7 +260,7 @@ public class ModelTestCase
     {
         try
         {
-            new ClassDescriptor( "name", 0, null, FieldDescriptor.EMPTY_SET, MethodDescriptor.EMPTY_SET );
+            new ClassDescriptor( "name", null, FieldDescriptor.EMPTY_SET, MethodDescriptor.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {
@@ -274,7 +272,7 @@ public class ModelTestCase
     {
         try
         {
-            new ClassDescriptor( "name", 0, new Attribute[]{null}, FieldDescriptor.EMPTY_SET, MethodDescriptor.EMPTY_SET );
+            new ClassDescriptor( "name", new Attribute[]{null}, FieldDescriptor.EMPTY_SET, MethodDescriptor.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {
@@ -286,7 +284,7 @@ public class ModelTestCase
     {
         try
         {
-            new ClassDescriptor( null, 0, Attribute.EMPTY_SET, FieldDescriptor.EMPTY_SET, MethodDescriptor.EMPTY_SET );
+            new ClassDescriptor( null, Attribute.EMPTY_SET, FieldDescriptor.EMPTY_SET, MethodDescriptor.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {
@@ -298,7 +296,7 @@ public class ModelTestCase
     {
         try
         {
-            new ClassDescriptor( "name", 0, Attribute.EMPTY_SET, null, MethodDescriptor.EMPTY_SET );
+            new ClassDescriptor( "name", Attribute.EMPTY_SET, null, MethodDescriptor.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {
@@ -310,7 +308,7 @@ public class ModelTestCase
     {
         try
         {
-            new ClassDescriptor( "name", 0, Attribute.EMPTY_SET, new FieldDescriptor[]{null}, MethodDescriptor.EMPTY_SET );
+            new ClassDescriptor( "name", Attribute.EMPTY_SET, new FieldDescriptor[]{null}, MethodDescriptor.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {
@@ -322,7 +320,7 @@ public class ModelTestCase
     {
         try
         {
-            new ClassDescriptor( "name", 0, Attribute.EMPTY_SET, FieldDescriptor.EMPTY_SET, null );
+            new ClassDescriptor( "name", Attribute.EMPTY_SET, FieldDescriptor.EMPTY_SET, null );
         }
         catch( final NullPointerException npe )
         {
@@ -334,7 +332,7 @@ public class ModelTestCase
     {
         try
         {
-            new ClassDescriptor( "name", 0, Attribute.EMPTY_SET, FieldDescriptor.EMPTY_SET, new MethodDescriptor[]{null} );
+            new ClassDescriptor( "name", Attribute.EMPTY_SET, FieldDescriptor.EMPTY_SET, new MethodDescriptor[]{null} );
         }
         catch( final NullPointerException npe )
         {
@@ -346,12 +344,10 @@ public class ModelTestCase
     {
         final ClassDescriptor descriptor =
             new ClassDescriptor( "name",
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
         assertEquals( "descriptor.name", "name", descriptor.getName() );
-        assertEquals( "descriptor.modifiers", 0, descriptor.getModifiers() );
         assertEquals( "descriptor.getFields().length", 0, descriptor.getFields().length );
         assertEquals( "descriptor.getMethods().length", 0, descriptor.getMethods().length );
         assertEquals( "descriptor.getAttributes().length", 0, descriptor.getAttributes().length );

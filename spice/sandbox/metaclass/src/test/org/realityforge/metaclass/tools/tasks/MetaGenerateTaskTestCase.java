@@ -28,7 +28,7 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.18 $ $Date: 2003-10-04 10:29:42 $
+ * @version $Revision: 1.19 $ $Date: 2003-10-22 09:19:42 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -306,7 +306,6 @@ public class MetaGenerateTaskTestCase
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
         assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
         assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
@@ -356,7 +355,6 @@ public class MetaGenerateTaskTestCase
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
         assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
         assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
@@ -400,7 +398,6 @@ public class MetaGenerateTaskTestCase
         task.addFileset( fileSet );
         final ClassDescriptor descriptor =
             new ClassDescriptor( "test",
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -516,7 +513,6 @@ public class MetaGenerateTaskTestCase
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
         assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
         assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
@@ -572,7 +568,6 @@ public class MetaGenerateTaskTestCase
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
         assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
         assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );

@@ -7,13 +7,12 @@
  */
 package org.realityforge.metaclass.tools.compiler;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.ByteArrayInputStream;
-import java.lang.reflect.Modifier;
 import junit.framework.TestCase;
 import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
@@ -27,7 +26,7 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-19 01:44:01 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-22 09:19:42 $
  */
 public class ClassDescriptorCompilerTestCase
     extends TestCase
@@ -176,7 +175,6 @@ public class ClassDescriptorCompilerTestCase
         task.setMetaClassIO( new MockIO() );
         final ClassDescriptor descriptor =
             new ClassDescriptor( "test",
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -301,7 +299,6 @@ public class ClassDescriptorCompilerTestCase
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
         assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
         assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
@@ -347,7 +344,6 @@ public class ClassDescriptorCompilerTestCase
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
         assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
         assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
@@ -410,7 +406,6 @@ public class ClassDescriptorCompilerTestCase
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
         assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
         assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
@@ -499,7 +494,6 @@ public class ClassDescriptorCompilerTestCase
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
         assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
-        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
         assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );

@@ -24,7 +24,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-25 13:12:45 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-22 09:19:41 $
  */
 public final class FieldDescriptor
     extends FeatureDescriptor
@@ -50,15 +50,13 @@ public final class FieldDescriptor
      *
      * @param name the name of the field
      * @param type the return type of the field
-     * @param modifiers the access modifiers for field
      * @param attributes any attributes associated with method
      */
     public FieldDescriptor( final String name,
                             final String type,
-                            final int modifiers,
                             final Attribute[] attributes )
     {
-        super( attributes, modifiers );
+        super( attributes );
         if( null == name )
         {
             throw new NullPointerException( "name" );

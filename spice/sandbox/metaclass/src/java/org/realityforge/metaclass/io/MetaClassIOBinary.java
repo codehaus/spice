@@ -26,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.14 $ $Date: 2003-09-28 03:53:00 $
+ * @version $Revision: 1.15 $ $Date: 2003-10-22 09:19:41 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -34,7 +34,7 @@ public class MetaClassIOBinary
     /**
      * The current version of Attributes object.
      */
-    static final int VERSION = 1;
+    static final int VERSION = 2;
 
     /**
      * Read a ClassDescriptor from an input stream.
@@ -49,14 +49,13 @@ public class MetaClassIOBinary
         final DataInputStream data = new DataInputStream( input );
         checkVersionHeader( data );
         final String classname = data.readUTF();
-        final int classModifiers = data.readInt();
         final Attribute[] classAttributes = readAttributes( data );
 
         final FieldDescriptor[] fields = readFields( data );
         final MethodDescriptor[] methods = readMethods( data );
 
         return
-            new ClassDescriptor( classname, classModifiers,
+            new ClassDescriptor( classname,
                                  classAttributes, fields,
                                  methods );
     }
@@ -76,7 +75,6 @@ public class MetaClassIOBinary
         {
             data.writeInt( VERSION );
             data.writeUTF( info.getName() );
-            data.writeInt( info.getModifiers() );
             writeAttributes( data, info.getAttributes() );
             writeFields( data, info.getFields() );
             writeMethods( data, info.getMethods() );
@@ -119,7 +117,6 @@ public class MetaClassIOBinary
     {
         data.writeUTF( field.getName() );
         data.writeUTF( field.getType() );
-        data.writeInt( field.getModifiers() );
         writeAttributes( data, field.getAttributes() );
     }
 
@@ -156,7 +153,6 @@ public class MetaClassIOBinary
         data.writeUTF( method.getName() );
         data.writeUTF( method.getReturnType() );
         writeParameters( data, method.getParameters() );
-        data.writeInt( method.getModifiers() );
         writeAttributes( data, method.getAttributes() );
     }
 
@@ -194,11 +190,10 @@ public class MetaClassIOBinary
         final String name = data.readUTF();
         final String type = data.readUTF();
         final ParameterDescriptor[] parameters = readParameters( data );
-        final int modifiers = data.readInt();
         final Attribute[] attributes = readAttributes( data );
         return
             new MethodDescriptor( name, type,
-                                  modifiers, parameters,
+                                  parameters,
                                   attributes );
     }
 
@@ -233,9 +228,8 @@ public class MetaClassIOBinary
     {
         final String name = data.readUTF();
         final String type = data.readUTF();
-        final int modifiers = data.readInt();
         final Attribute[] attributes = readAttributes( data );
-        return new FieldDescriptor( name, type, modifiers, attributes );
+        return new FieldDescriptor( name, type, attributes );
     }
 
     /**

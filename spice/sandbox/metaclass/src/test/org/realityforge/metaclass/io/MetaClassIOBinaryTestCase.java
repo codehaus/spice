@@ -12,7 +12,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Modifier;
 import java.util.Properties;
 import junit.framework.TestCase;
 import org.realityforge.metaclass.model.Attribute;
@@ -24,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.17 $ $Date: 2003-09-28 04:26:49 $
+ * @version $Revision: 1.18 $ $Date: 2003-10-22 09:19:41 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -323,7 +322,6 @@ public class MetaClassIOBinaryTestCase
     {
         final String name = "name";
         final String type = "type";
-        final int modifiers = 0;
         final int attributeCount = 0;
         final byte[] bytes = new byte[]
         {
@@ -332,7 +330,6 @@ public class MetaClassIOBinaryTestCase
             'n', 'a', 'm', 'e',
             0, 4, //length of type
             't', 'y', 'p', 'e',
-            0, 0, 0, 0, //modifiers
             0, 0, 0, 0 //attribute count
         };
         final MetaClassIOBinary io = new MetaClassIOBinary();
@@ -342,7 +339,6 @@ public class MetaClassIOBinaryTestCase
         assertEquals( "fields.length", 1, fields.length );
         assertEquals( "fields[0].name", name, fields[ 0 ].getName() );
         assertEquals( "fields[0].type", type, fields[ 0 ].getType() );
-        assertEquals( "fields[0].modifiers", modifiers, fields[ 0 ].getModifiers() );
         assertEquals( "fields[0].attributes.length",
                       attributeCount, fields[ 0 ].getAttributes().length );
     }
@@ -355,12 +351,11 @@ public class MetaClassIOBinaryTestCase
         final DataOutputStream data = new DataOutputStream( out );
         final String name = "name";
         final String type = "aType";
-        final int modifiers = 0;
-        final FieldDescriptor descriptor = new FieldDescriptor( name, type, modifiers, Attribute.EMPTY_SET );
+        final FieldDescriptor descriptor = new FieldDescriptor( name, type, Attribute.EMPTY_SET );
         io.writeFields( data, new FieldDescriptor[]{descriptor} );
         data.flush();
         final byte[] bytes = out.toByteArray();
-        assertEquals( "length", 25, bytes.length );
+        assertEquals( "length", 21, bytes.length );
         int offset = 0;
         assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
         offset = 4;
@@ -368,8 +363,6 @@ public class MetaClassIOBinaryTestCase
         offset += STRING_HEADER_SIZE + name.length();
         assertEquals( "bytes[" + offset + "] = " + type, type, readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + type.length();
-        assertEquals( "bytes[" + offset + "] = " + modifiers, modifiers, readInteger( bytes, offset ) );
-        offset += 4;
         assertEquals( "bytes[" + offset + "] = " + Attribute.EMPTY_SET.length,
                       Attribute.EMPTY_SET.length, readInteger( bytes, offset ) );
         offset += 4;
@@ -407,7 +400,6 @@ public class MetaClassIOBinaryTestCase
     {
         final String name = "name";
         final String type = "type";
-        final int modifiers = 0;
         final int parameterCount = 0;
         final int attributeCount = 0;
         final byte[] bytes = new byte[]
@@ -417,7 +409,6 @@ public class MetaClassIOBinaryTestCase
             'n', 'a', 'm', 'e',
             0, 4, //length of return type
             't', 'y', 'p', 'e',
-            0, 0, 0, 0, //modifiers
             0, 0, 0, 0, //parameter count
             0, 0, 0, 0 //attribute count
         };
@@ -428,7 +419,6 @@ public class MetaClassIOBinaryTestCase
         assertEquals( "methods.length", 1, methods.length );
         assertEquals( "methods[0].name", name, methods[ 0 ].getName() );
         assertEquals( "methods[0].returnType", type, methods[ 0 ].getReturnType() );
-        assertEquals( "methods[0].modifiers", modifiers, methods[ 0 ].getModifiers() );
         assertEquals( "methods[0].attributes.length",
                       attributeCount, methods[ 0 ].getAttributes().length );
         assertEquals( "methods[0].attributes.length",
@@ -443,17 +433,15 @@ public class MetaClassIOBinaryTestCase
         final DataOutputStream data = new DataOutputStream( out );
         final String name = "name";
         final String type = "aType";
-        final int modifiers = 0;
         final MethodDescriptor descriptor =
             new MethodDescriptor( name,
                                   type,
-                                  modifiers,
                                   ParameterDescriptor.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         io.writeMethods( data, new MethodDescriptor[]{descriptor} );
         data.flush();
         final byte[] bytes = out.toByteArray();
-        assertEquals( "length", 29, bytes.length );
+        assertEquals( "length", 25, bytes.length );
         int offset = 0;
         assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
         offset = 4;
@@ -461,8 +449,6 @@ public class MetaClassIOBinaryTestCase
         offset += STRING_HEADER_SIZE + name.length();
         assertEquals( "bytes[" + offset + "] = " + type, type, readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + type.length();
-        assertEquals( "bytes[" + offset + "] = " + modifiers, modifiers, readInteger( bytes, offset ) );
-        offset += 4;
         assertEquals( "bytes[" + offset + "] = " + ParameterDescriptor.EMPTY_SET.length,
                       ParameterDescriptor.EMPTY_SET.length, readInteger( bytes, offset ) );
         offset += 4;
@@ -511,17 +497,14 @@ public class MetaClassIOBinaryTestCase
         final FieldDescriptor field =
             new FieldDescriptor( "m_field",
                                  "int",
-                                 Modifier.PUBLIC,
                                  attributes );
         final MethodDescriptor method =
             new MethodDescriptor( "doMagic",
                                   "",
-                                  Modifier.PROTECTED,
                                   ParameterDescriptor.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         final ClassDescriptor descriptor =
             new ClassDescriptor( "com.biz.MyClass",
-                                 Modifier.FINAL,
                                  Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{field},
                                  new MethodDescriptor[]{method} );
@@ -567,7 +550,7 @@ public class MetaClassIOBinaryTestCase
         final int attributeCount = 0;
         final byte[] bytes = new byte[]
         {
-            0, 0, 0, 1, //version
+            0, 0, 0, 2, //version
             0, 4, //length of package name
             'n', 'a', 'm', 'e',
             0, 0, 0, 0, //modifers
@@ -579,8 +562,6 @@ public class MetaClassIOBinaryTestCase
         final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
         final ClassDescriptor clazz = io.deserializeClass( in );
         assertEquals( "class.name", name, clazz.getName() );
-        assertEquals( "class.modifiers",
-                      0, clazz.getModifiers() );
         assertEquals( "class.attributes.length",
                       attributeCount, clazz.getAttributes().length );
         assertEquals( "class.methods.length",

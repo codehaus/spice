@@ -26,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-17 14:30:15 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-22 09:19:42 $
  */
 public class QDoxDescriptorParserTestCase
     extends TestCase
@@ -407,7 +407,6 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "field", field );
         assertEquals( "field.name", name, field.getName() );
         assertEquals( "field.type", type, field.getType() );
-        assertEquals( "field.modifiers", Modifier.PUBLIC, field.getModifiers() );
         assertEquals( "field.attributes.length", 0, field.getAttributes().length );
     }
 
@@ -430,7 +429,6 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "field", field );
         assertEquals( "field.name", name, field.getName() );
         assertEquals( "field.type", type, field.getType() );
-        assertEquals( "field.modifiers", Modifier.PUBLIC, field.getModifiers() );
         assertEquals( "field.attributes.length", 0, field.getAttributes().length );
     }
 
@@ -452,7 +450,6 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "field", field );
         assertEquals( "field.name", name, field.getName() );
         assertEquals( "field.type", type, field.getType() );
-        assertEquals( "field.modifiers", Modifier.PUBLIC, field.getModifiers() );
         assertEquals( "field.attributes.length", 1, field.getAttributes().length );
         assertEquals( "field.attributes[0].name", "dna.persist", field.getAttributes()[ 0 ].getName() );
     }
@@ -475,7 +472,6 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "field", field );
         assertEquals( "field.name", name, field.getName() );
         assertEquals( "field.type", type, field.getType() );
-        assertEquals( "field.modifiers", Modifier.PUBLIC, field.getModifiers() );
         assertEquals( "field.attributes.length", 2, field.getAttributes().length );
         assertEquals( "field.attributes[0].name", "rewritten", field.getAttributes()[ 0 ].getName() );
         assertEquals( "field.attributes[1].name", "dna.persist", field.getAttributes()[ 1 ].getName() );
@@ -499,7 +495,6 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "field", field );
         assertEquals( "field.name", name, field.getName() );
         assertEquals( "field.type", type, field.getType() );
-        assertEquals( "field.modifiers", Modifier.PUBLIC, field.getModifiers() );
         assertEquals( "field.attributes.length", 0, field.getAttributes().length );
     }
 
@@ -550,7 +545,6 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", type, method.getReturnType() );
-        assertEquals( "method.modifiers", Modifier.PUBLIC, method.getModifiers() );
         assertEquals( "method.parameters.length", 0, method.getParameters().length );
         assertEquals( "field.attributes.length", 0, method.getAttributes().length );
     }
@@ -572,7 +566,6 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", "", method.getReturnType() );
-        assertEquals( "method.modifiers", Modifier.PUBLIC, method.getModifiers() );
         assertEquals( "method.parameters.length", 0, method.getParameters().length );
         assertEquals( "field.attributes.length", 0, method.getAttributes().length );
     }
@@ -599,7 +592,6 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", type, method.getReturnType() );
-        assertEquals( "method.modifiers", Modifier.PUBLIC, method.getModifiers() );
         assertEquals( "method.parameters.length", 0, method.getParameters().length );
         assertEquals( "field.attributes.length", 0, method.getAttributes().length );
     }
@@ -625,7 +617,6 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", type, method.getReturnType() );
-        assertEquals( "method.modifiers", Modifier.PUBLIC, method.getModifiers() );
         assertEquals( "method.parameters.length", 0, method.getParameters().length );
         assertEquals( "field.attributes.length", 1, method.getAttributes().length );
         assertEquals( "field.attributes[0].name", "dna.entry", method.getAttributes()[ 0 ].getName() );
@@ -652,7 +643,6 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", type, method.getReturnType() );
-        assertEquals( "method.modifiers", Modifier.PUBLIC, method.getModifiers() );
         assertEquals( "method.parameters.length", 0, method.getParameters().length );
         assertEquals( "field.attributes.length", 2, method.getAttributes().length );
         assertEquals( "field.attributes[0].name", "rewritten", method.getAttributes()[ 0 ].getName() );
@@ -680,7 +670,6 @@ public class QDoxDescriptorParserTestCase
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", type, method.getReturnType() );
-        assertEquals( "method.modifiers", Modifier.PUBLIC, method.getModifiers() );
         assertEquals( "method.parameters.length", 0, method.getParameters().length );
         assertEquals( "field.attributes.length", 0, method.getAttributes().length );
     }
@@ -699,7 +688,6 @@ public class QDoxDescriptorParserTestCase
         final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass );
         assertNotNull( "clazz", clazz );
         assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
-        assertEquals( "clazz.modifiers", Modifier.PUBLIC, clazz.getModifiers() );
         assertEquals( "clazz.attributes.length", 0, clazz.getAttributes().length );
         assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
         assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
@@ -719,7 +707,6 @@ public class QDoxDescriptorParserTestCase
         final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new DefaultQDoxAttributeInterceptor() );
         assertNotNull( "clazz", clazz );
         assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
-        assertEquals( "clazz.modifiers", Modifier.PUBLIC, clazz.getModifiers() );
         assertEquals( "clazz.attributes.length", 0, clazz.getAttributes().length );
         assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
         assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
@@ -742,7 +729,6 @@ public class QDoxDescriptorParserTestCase
         final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new DeletingAttributeInterceptor() );
         assertNotNull( "clazz", clazz );
         assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
-        assertEquals( "clazz.modifiers", Modifier.PUBLIC, clazz.getModifiers() );
         assertEquals( "clazz.attributes.length", 1, clazz.getAttributes().length );
         assertEquals( "clazz.attributes[0].getName()", "dna.service", clazz.getAttributes()[ 0 ].getName() );
         assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
@@ -766,7 +752,6 @@ public class QDoxDescriptorParserTestCase
         final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new RewritingAttributeInterceptor() );
         assertNotNull( "clazz", clazz );
         assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
-        assertEquals( "clazz.modifiers", Modifier.PUBLIC, clazz.getModifiers() );
         assertEquals( "clazz.attributes.length", 2, clazz.getAttributes().length );
         assertEquals( "clazz.attributes[0].getName()", "rewritten", clazz.getAttributes()[ 0 ].getName() );
         assertEquals( "clazz.attributes[1].getName()", "dna.service", clazz.getAttributes()[ 1 ].getName() );
@@ -791,7 +776,6 @@ public class QDoxDescriptorParserTestCase
         final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new ReplacingAttributeInterceptor() );
         assertNotNull( "clazz", clazz );
         assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
-        assertEquals( "clazz.modifiers", Modifier.PUBLIC, clazz.getModifiers() );
         assertEquals( "clazz.attributes.length", 0, clazz.getAttributes().length );
         assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
         assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
