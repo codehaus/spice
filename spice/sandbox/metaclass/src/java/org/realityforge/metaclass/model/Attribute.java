@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.6 $ $Date: 2003-08-15 08:35:18 $
+ * @version $Revision: 1.7 $ $Date: 2003-08-15 08:35:34 $
  */
 public final class Attribute
     implements Serializable
@@ -105,18 +105,6 @@ public final class Attribute
         if( null == name )
         {
             throw new NullPointerException( "name" );
-        }
-
-        if( null != value && null != parameters )
-        {
-            final String message =
-                "Can not create an Attribute with both " +
-                "a text value and parameters. (" +
-                "name='" + name + "', " +
-                "value='" + value + "', " +
-                "parameters = " + parameters +
-                "')";
-            throw new IllegalArgumentException( message );
         }
 
         _name = name;
