@@ -14,7 +14,7 @@ import org.jcomponent.netserve.connection.ConnectionHandler;
 import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 
 /**
- * Default implementation of {@link SocketAcceptorManager} that uses
+ * Default implementation of SocketAcceptorManager that uses
  * a thread per acceptor approach.
  *
  * <p>Note that on some OS/JVM combinations <tt>soTimeout</tt> must
@@ -25,7 +25,7 @@ import org.jcomponent.netserve.sockets.SocketAcceptorManager;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.15 $ $Date: 2003-10-27 05:13:29 $
+ * @version $Revision: 1.16 $ $Date: 2003-10-27 05:20:30 $
  */
 public class DefaultAcceptorManager
     implements SocketAcceptorManager
