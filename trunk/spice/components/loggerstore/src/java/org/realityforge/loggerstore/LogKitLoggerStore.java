@@ -25,25 +25,25 @@ public class LogKitLoggerStore
     private final Hierarchy m_hierarchy;
 
     /**
-     * Creates a <code>LogKitLoggerStore</code> using the configuration resource
+     * Creates a <code>LogKitLoggerStore</code> using the configuration configuration
      *
-     * @param resource the Configuration encoding the configuration resource
+     * @param configuration the logger configuration
      * @throws Exception if fails to create or configure Logger
      */
-    public LogKitLoggerStore( final Configuration resource )
+    public LogKitLoggerStore( final Configuration configuration )
         throws Exception
     {
         m_hierarchy = new Hierarchy();
-        HierarchyUtil.configure( resource, m_hierarchy );
+        HierarchyUtil.configure( configuration, m_hierarchy );
         setRootLogger( new LogKitLogger( m_hierarchy.getRootLogger() ) );
     }
 
     /**
      *  Creates new LogKitLogger for the given category.
      */
-    protected Logger createLogger( final String categoryName )
+    protected Logger createLogger( final String name )
     {
-        return new LogKitLogger( m_hierarchy.getLoggerFor( categoryName ) );
+        return new LogKitLogger( m_hierarchy.getLoggerFor( name ) );
     }
 
     /**
