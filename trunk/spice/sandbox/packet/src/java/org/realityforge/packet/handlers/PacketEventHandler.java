@@ -4,6 +4,7 @@ import org.codehaus.spice.event.AbstractEventHandler;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.buffers.BufferManager;
+import org.codehaus.spice.timeevent.source.TimeEventSource;
 import org.realityforge.packet.events.AckEvent;
 import org.realityforge.packet.events.NackEvent;
 import org.realityforge.packet.events.PacketReadEvent;
@@ -11,7 +12,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-16 06:48:00 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-22 05:52:16 $
  */
 public class PacketEventHandler
     extends AbstractEventHandler
@@ -26,12 +27,14 @@ public class PacketEventHandler
      * 
      * @param sink the destination
      */
-    public PacketEventHandler( final EventSink sink,
+    public PacketEventHandler( final TimeEventSource timeEventSource,
+                               final EventSink sink,
                                final EventSink target,
                                final BufferManager bufferManager,
                                final SessionManager sessionManager )
     {
-        _ioHandler = new PacketIOEventHandler( sink,
+        _ioHandler = new PacketIOEventHandler( timeEventSource,
+                                               sink,
                                                target,
                                                bufferManager,
                                                sessionManager );

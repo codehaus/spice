@@ -11,11 +11,13 @@ package org.realityforge.packet.handlers;
  * Set of constants used in network protocol.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-19 04:28:23 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-22 05:52:16 $
  */
 public class Protocol
 {
-    /** Byte array containing magic number sent at start of stream. */
+    /**
+     * Byte array containing magic number sent at start of stream.
+     */
     public static final byte[] MAGIC = new byte[]
     {
         'm', 'a', 'g', 'i', 'c', '0', '1'
@@ -25,7 +27,9 @@ public class Protocol
     public static final int SIZEOF_SHORT = 2;
     public static final int SIZEOF_LONG = 8;
 
-    /** The sizeof header that client sends to server. */
+    /**
+     * The sizeof header that client sends to server.
+     */
     public static final int SIZEOF_GREETING = MAGIC.length +
                                               SIZEOF_LONG /* session */ +
                                               SIZEOF_SHORT /* auth */;
@@ -45,10 +49,14 @@ public class Protocol
      */
     public static final byte S2C_CONNECT = 0;
 
-    /** Message indicating regular data being transmitted. */
+    /**
+     * Message indicating regular data being transmitted.
+     */
     public static final byte C2S_ESTABLISHED = 1;
 
-    /** Message indicating regular data being transmitted. */
+    /**
+     * Message indicating regular data being transmitted.
+     */
     public static final byte MSG_DATA = 2;
 
     /**
@@ -57,7 +65,9 @@ public class Protocol
      */
     public static final byte MSG_DISCONNECT = 3;
 
-    /** Message indicating that received packet. Sequence follows (as short). */
+    /**
+     * Message indicating that received packet. Sequence follows (as short).
+     */
     public static final byte MSG_ACK = 4;
 
     /**
@@ -66,29 +76,50 @@ public class Protocol
      */
     public static final byte MSG_NACK = 5;
 
-    /** Message indicating No Error. */
+    /**
+     * Message indicating No Error.
+     */
     public static final byte ERROR_NONE = 0;
 
-    /** Message indicating that there stream header was invalid. */
+    /**
+     * Message indicating that there stream header was invalid.
+     */
     public static final byte ERROR_BAD_MAGIC = 1;
 
-    /** Message indicating bad SessionID. */
+    /**
+     * Message indicating bad SessionID.
+     */
     public static final byte ERROR_BAD_SESSION = 2;
 
-    /** Message indicating bad SessionAuth. */
+    /**
+     * Message indicating bad SessionAuth.
+     */
     public static final byte ERROR_BAD_AUTH = 3;
 
-    /** Message indicating Nack for unknown packet. */
+    /**
+     * Message indicating Nack for unknown packet.
+     */
     public static final byte ERROR_BAD_NACK = 4;
 
-    /** Message indicating unknown message code. */
+    /**
+     * Message indicating unknown message code.
+     */
     public static final byte ERROR_BAD_MESSAGE = 5;
 
-    /** Message indicating unknown message code. */
+    /**
+     * Message indicating unknown message code.
+     */
     public static final byte ERROR_NO_SEQUENCE = 6;
 
-    /** Message indicating IO Error. */
+    /**
+     * Message indicating IO Error.
+     */
     public static final byte ERROR_IO_ERROR = 7;
+
+    /**
+     * Message indicating local session has been disconnected.
+     */
+    public static final byte ERROR_SESSION_DISCONNECTED = 8;
     /**
      * Max difference between successive sequence numbers to test for wrap
      * around.
