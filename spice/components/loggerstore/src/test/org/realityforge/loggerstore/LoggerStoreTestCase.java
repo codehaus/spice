@@ -12,15 +12,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Properties;
-import java.util.HashMap;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Properties;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import junit.framework.TestCase;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
@@ -82,6 +82,88 @@ public class LoggerStoreTestCase
         final LoggerStore store =
             new ConsoleLoggerStore( ConsoleLogger.LEVEL_DEBUG );
         performConsoleTest( store, ConsoleLogger.LEVEL_DISABLED );
+    }
+
+    public void testInitialLoggerStoreFactoryFromConfigurerClassLoader()
+        throws Exception
+    {
+        Thread.currentThread().setContextClassLoader( null );
+        final HashMap config = new HashMap();
+        runFactoryTest( new InitialLoggerStoreFactory(),
+                        ConsoleLogger.LEVEL_DEBUG,
+                        config,
+                        "log4j-properties" );
+    }
+
+    public void testInitialLoggerStoreFactoryUsingDefaults()
+        throws Exception
+    {
+        final HashMap config = new HashMap();
+        config.put( ClassLoader.class.getName(),
+                    ClassLoader.getSystemClassLoader().getParent() );
+        final InitialLoggerStoreFactory factory = new InitialLoggerStoreFactory();
+        ContainerUtil.enableLogging( factory, new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
+        try
+        {
+            factory.createLoggerStore( config );
+            fail( "Expected to not be able to create LoggerStoreFactory as no type was specified or on ClassPath" );
+        }
+        catch( final Exception e )
+        {
+        }
+    }
+
+    public void testInitialLoggerStoreFactoryUsingSpecifiedType()
+        throws Exception
+    {
+        final HashMap config = new HashMap();
+        config.put( InitialLoggerStoreFactory.INITIAL_FACTORY,
+                    ConsoleLoggerStoreFactory.class.getName() );
+        final InitialLoggerStoreFactory factory = new InitialLoggerStoreFactory();
+        ContainerUtil.enableLogging( factory, new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
+        final LoggerStore store = factory.createLoggerStore( config );
+        performConsoleTest( store, ConsoleLogger.LEVEL_DEBUG );
+    }
+
+    public void testInitialLoggerStoreFactoryWithInvalidType()
+        throws Exception
+    {
+        final HashMap config = new HashMap();
+        config.put( InitialLoggerStoreFactory.INITIAL_FACTORY, "Blah" );
+        final InitialLoggerStoreFactory factory = new InitialLoggerStoreFactory();
+        ContainerUtil.enableLogging( factory, new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
+        try
+        {
+            factory.createLoggerStore( config );
+            fail( "Expected exception as invalid type specified" );
+        }
+        catch( final Exception e )
+        {
+        }
+    }
+
+    public void testInitialLoggerStoreFactoryFromSpecifiedClassLoader()
+        throws Exception
+    {
+        Thread.currentThread().setContextClassLoader( null );
+        final HashMap config = new HashMap();
+        config.put( ClassLoader.class.getName(),
+                    InitialLoggerStoreFactory.class.getClassLoader() );
+        runFactoryTest( new InitialLoggerStoreFactory(),
+                        ConsoleLogger.LEVEL_DEBUG,
+                        config,
+                        "log4j-properties" );
+    }
+
+    public void testInitialLoggerStoreFactoryFromContextClassLoader()
+        throws Exception
+    {
+        Thread.currentThread().setContextClassLoader( InitialLoggerStoreFactory.class.getClassLoader() );
+        final HashMap config = new HashMap();
+        runFactoryTest( new InitialLoggerStoreFactory(),
+                        ConsoleLogger.LEVEL_DEBUG,
+                        config,
+                        "log4j-properties" );
     }
 
     public void testJDK14LoggerStoreFactoryInvalidInput()
