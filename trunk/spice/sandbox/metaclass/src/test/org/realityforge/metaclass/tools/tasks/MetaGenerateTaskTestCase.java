@@ -25,7 +25,7 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-08-31 08:18:15 $
+ * @version $Revision: 1.11 $ $Date: 2003-08-31 08:32:07 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -270,7 +270,6 @@ public class MetaGenerateTaskTestCase
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
         assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
     }
-
 
     public void testSingleSourceFileWithDeletingInterceptor()
         throws Exception
