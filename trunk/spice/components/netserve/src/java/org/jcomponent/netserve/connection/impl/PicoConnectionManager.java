@@ -24,56 +24,45 @@ import org.jcomponent.threadpool.ThreadPool;
  * gracefully and <tt>forceShutdown</tt> is true then the connection will be forced
  * to be shutdown if the user asked for connection to be "tearedDown".</p>
  * <ul>
- *  <li>soTimeout=500 -- 500 ms timeouts on Server Sockets --</li>
  *  <li>forceShutdown=true -- forcefully shutdown connections if they don't shutdown gracefully --</li>
  *  <li>shutdownTimeout=200 -- wait 200ms for connections to gracefully shutdown --</li>
  * </ul>
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-14 04:12:43 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-14 04:19:49 $
  */
 public class PicoConnectionManager
     extends AbstractConnectionManager
     implements ConnectionManager
 {
-    public static class Default
-        extends PicoConnectionManager
+    /**
+     * Create component but only specify the default thread pool.
+     *
+     * @param defaultThreadPool the default thread pool
+     */
+    public PicoConnectionManager( final ThreadPool defaultThreadPool )
     {
-        public Default( final ThreadPool defaultThreadPool )
-        {
-            super( new NullConnectionMonitor(),
-                   defaultThreadPool,
-                   new DefaultAcceptorManager(),
-                   false,
-                   200 );
-        }
+        this( new NullConnectionMonitor(),
+              defaultThreadPool,
+              new DefaultAcceptorManager(),
+              false,
+              200 );
     }
 
-    public static class WithMonitor
-        extends PicoConnectionManager
+    /**
+     * Create ConnectionManager specifying monitor and thread pool.
+     *
+     * @param monitor the monitor
+     * @param defaultThreadPool the default thread pool
+     */
+    public PicoConnectionManager( final ConnectionMonitor monitor,
+                                  final ThreadPool defaultThreadPool )
     {
-        public WithMonitor( final ConnectionMonitor monitor,
-                            final ThreadPool defaultThreadPool )
-        {
-            super( monitor,
-                   defaultThreadPool,
-                   new DefaultAcceptorManager(),
-                   false,
-                   200 );
-        }
-    }
-
-    public static class WithMonitorAndConfig
-        extends PicoConnectionManager
-    {
-        public WithMonitorAndConfig( final ConnectionMonitor monitor,
-                                     final ThreadPool defaultThreadPool,
-                                     final SocketAcceptorManager acceptorManager,
-                                     final boolean forceShutdown,
-                                     final int shutdownTimeout )
-        {
-            super( monitor, defaultThreadPool, acceptorManager, forceShutdown, shutdownTimeout );
-        }
+        this( monitor,
+              defaultThreadPool,
+              new DefaultAcceptorManager(),
+              false,
+              200 );
     }
 
     /**
@@ -86,7 +75,7 @@ public class PicoConnectionManager
      * @param forceShutdown boolean <code>true</code> if we need to force connections shutdown when they don't gracefully in specified time-period.
      * @param shutdownTimeout  the number of milliseconds to wait for connection to shutdown gracefully.
      */
-    protected PicoConnectionManager( final ConnectionMonitor monitor,
+    public PicoConnectionManager( final ConnectionMonitor monitor,
                                      final ThreadPool defaultThreadPool,
                                      final SocketAcceptorManager acceptorManager,
                                      final boolean forceShutdown,
