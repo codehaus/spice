@@ -8,7 +8,7 @@ import org.realityforge.packet.event.impl.collections.Buffer;
  * An event queue that acts as a Source and Sink of events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-12-05 02:21:03 $
+ * @version $Revision: 1.4 $ $Date: 2003-12-05 02:25:24 $
  */
 public class DefaultEventQueue
     implements EventSource, EventSink
@@ -35,14 +35,15 @@ public class DefaultEventQueue
      */
     public Object getEvent()
     {
-        synchronized( getSyncLock() )
+        final Object syncLock = getSyncLock();
+        synchronized( syncLock )
         {
             final Buffer buffer = getBuffer();
             final int size = buffer.size();
             if( size > 0 )
             {
                 final Object result = buffer.pop();
-                getSyncLock().notifyAll();
+                syncLock.notifyAll();
                 return result;
             }
             else
@@ -57,7 +58,8 @@ public class DefaultEventQueue
      */
     public Object[] getEvents( final int count )
     {
-        synchronized( getSyncLock() )
+        final Object syncLock = getSyncLock();
+        synchronized( syncLock )
         {
             final Buffer buffer = getBuffer();
             final int size = buffer.size();
@@ -67,7 +69,7 @@ public class DefaultEventQueue
             {
                 objects[ i ] = buffer.pop();
             }
-            getSyncLock().notifyAll();
+            syncLock.notifyAll();
             return objects;
         }
     }
@@ -77,12 +79,13 @@ public class DefaultEventQueue
      */
     public boolean addEvent( final Object event )
     {
-        synchronized( getSyncLock() )
+        final Object syncLock = getSyncLock();
+        synchronized( syncLock )
         {
             final boolean result = getBuffer().add( event );
             if( result )
             {
-                getSyncLock().notifyAll();
+                syncLock.notifyAll();
             }
             return result;
         }
@@ -93,12 +96,13 @@ public class DefaultEventQueue
      */
     public boolean addEvents( final Object[] events )
     {
-        synchronized( getSyncLock() )
+        final Object syncLock = getSyncLock();
+        synchronized( syncLock )
         {
             final boolean result = getBuffer().addAll( events );
             if( result )
             {
-                getSyncLock().notifyAll();
+                syncLock.notifyAll();
             }
             return result;
         }
