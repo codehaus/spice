@@ -19,7 +19,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * An event source that generates events based from SelectableChannels.
  *
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2004-03-26 02:23:02 $
+ * @version $Revision: 1.9 $ $Date: 2004-05-17 05:41:50 $
  */
 public class SelectableChannelEventSource
     extends AbstractEventSource
@@ -61,10 +61,9 @@ public class SelectableChannelEventSource
      * @return the SelectionKey
      * @throws IOException if unable to register with source
      */
-    public synchronized SelectionKey
-        registerChannel( final SelectableChannel channel,
-                         final int ops,
-                         final Object userData )
+    public synchronized SelectionKey registerChannel( final SelectableChannel channel,
+                                                      final int ops,
+                                                      final Object userData )
         throws IOException
     {
         if( null == _selector )
@@ -100,12 +99,7 @@ public class SelectableChannelEventSource
      * @see AbstractEventSource#refresh()
      */
     protected void refresh()
-    {                                           
-        System.out.println("Refresh chan .... " +
-                           "in " + Thread.currentThread().getName() +
-                           " _selectTimeout=" + _selectTimeout +
-                           " _selector.keys().size()=" + _selector.keys().size() );
-
+    {
         final Selector selector;
         synchronized( this )
         {
@@ -137,7 +131,7 @@ public class SelectableChannelEventSource
         // Walk through the ready keys collection and process date requests.
         while( iterator.hasNext() )
         {
-            final SelectionKey key = (SelectionKey)iterator.next();
+            final SelectionKey key = (SelectionKey) iterator.next();
             iterator.remove();
             handleSelectorEvent( key );
         }
@@ -158,30 +152,27 @@ public class SelectableChannelEventSource
 
         if( key.isAcceptable() )
         {
-            final ServerSocketChannel channel =
-                (ServerSocketChannel)key.channel();
-            final AcceptPossibleEvent event =
-                new AcceptPossibleEvent( channel, userData );
+            final ServerSocketChannel channel = (ServerSocketChannel) key.channel();
+            final AcceptPossibleEvent event = new AcceptPossibleEvent( channel, userData );
             getJoin().addEvent( event );
         }
         if( key.isWritable() )
         {
-            final ChannelTransport transport = (ChannelTransport)userData;
-            final WritePossibleEvent event =
-                new WritePossibleEvent( transport );
+            final ChannelTransport transport = (ChannelTransport) userData;
+            final WritePossibleEvent event = new WritePossibleEvent( transport );
             getJoin().addEvent( event );
         }
         if( key.isReadable() )
         {
-            final ChannelTransport transport = (ChannelTransport)userData;
-            final ReadPossibleEvent event =
-                new ReadPossibleEvent( transport );
+            final ChannelTransport transport = (ChannelTransport) userData;
+            final ReadPossibleEvent event = new ReadPossibleEvent( transport );
             getJoin().addEvent( event );
         }
         if( key.isConnectable() )
         {
-            final ConnectPossibleEvent event =
-                new ConnectPossibleEvent( key.channel(), userData, key );
+            final ConnectPossibleEvent event = new ConnectPossibleEvent( key.channel(),
+                                                                         userData,
+                                                                         key );
             getJoin().addEvent( event );
         }
     }
