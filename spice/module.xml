@@ -230,7 +230,7 @@
     <project name="spice-xsyslog">
         <package>org.realityforge.xsyslog</package>
 
-        <ant basedir="components/xinvoke">
+        <ant basedir="components/xsyslog">
             <property name="final.name" value="spice-xsyslog-@@DATE@@"/>
         </ant>
 
