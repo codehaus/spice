@@ -25,8 +25,8 @@ containers or frameworks, while honouring the same API.
 via a set of interfaces.  
 </p>
 <p>
-<code>org.jcomponent.threadpool.impl.AvalonCommonsThreadPool</code> provides an implementation of
-the <code>org.jcomponent.threadpool.ThreadPool</code> interface which is Avalon-compatible.
+<a href="apidocs/org/jcomponent/threadpool/impl/AvalonCommonsThreadPool.html">AvalonCommonsThreadPool</a> provides an implementation of
+the <a href="apidocs/org/jcomponent/threadpool/ThreadPool.html">ThreadPool</a> interface which is Avalon-compatible.
 </p>
 			</subsection>
 			<subsection name="Pico Container">
@@ -35,8 +35,8 @@ the <code>org.jcomponent.threadpool.ThreadPool</code> interface which is Avalon-
 way, without the need to import any external interface or class.
 </p>
 <p>
-<code>org.jcomponent.threadpool.impl.PicoCommonsThreadPool</code> provides an implementation of
-the <code>org.jcomponent.threadpool.ThreadPool</code> interface which is Pico-compatible.
+<a href="apidocs/org/jcomponent/threadpool/impl/PicoCommonsThreadPool.html">PicoCommonsThreadPool</a> provides an implementation of
+the <a href="apidocs/org/jcomponent/threadpool/ThreadPool.html">ThreadPool</a> interface which is Pico-compatible.
 </p>
 			</subsection>
         </section>
