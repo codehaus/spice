@@ -22,7 +22,7 @@ public class Jdk14LoggerStore
     extends AbstractLoggerStore
 {
     /** The LogManager repository */
-    private LogManager m_manager;
+    private final LogManager m_manager;
 
     /**
      * Creates a <code>Log4JLoggerStore</code> using the configuration resource.
@@ -41,9 +41,9 @@ public class Jdk14LoggerStore
     /**
      *  Creates new Jdk14Logger for the given category.
      */
-    protected Logger createLogger( final String categoryName )
+    protected Logger createLogger( final String name )
     {
-        return new Jdk14Logger( m_manager.getLogger( categoryName ) );
+        return new Jdk14Logger( java.util.logging.Logger.getLogger( name ) );
     }
 
     /**
