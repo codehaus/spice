@@ -35,13 +35,6 @@ public class Configurator
     public static final String JDK14 = "jdk14";
 
     /**
-     *  Private constructor to prevent instantiation of utility class
-     */
-    private Configurator()
-    {
-    }
-
-    /**
      * Create and configure a {@link LoggerStore} from a specified
      * configuration file.
      *
