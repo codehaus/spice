@@ -8,6 +8,8 @@ import java.nio.channels.ServerSocketChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.codehaus.spice.event.EventHandler;
+import org.codehaus.spice.event.EventSource;
+import org.codehaus.spice.event.impl.BlockingEventSource;
 import org.codehaus.spice.event.impl.DefaultEventQueue;
 import org.codehaus.spice.event.impl.EventPump;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
@@ -21,7 +23,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.17 $ $Date: 2004-02-23 04:06:24 $
+ * @version $Revision: 1.18 $ $Date: 2004-03-18 03:37:42 $
  */
 public class TestServer
 {
@@ -46,16 +48,7 @@ public class TestServer
       final EventPump[] pumps =
          (EventPump[])pumpList.toArray( new EventPump[ pumpList.size() ] );
 
-      final Runnable runnable = new Runnable()
-      {
-         public void run()
-         {
-            doPump( pumps );
-         }
-      };
-      final Thread thread = new Thread( runnable );
-      thread.start();
-      thread.setPriority( Thread.NORM_PRIORITY - 1 );
+      startPumps( pumps );
 
       final InetSocketAddress address =
          new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
@@ -110,6 +103,41 @@ public class TestServer
       }
    }
 
+   private static void startPumps( final EventPump[] pumps )
+   {
+      /*
+      final Runnable runnable = new Runnable()
+      {
+         public void run()
+         {
+            doPump( pumps );
+         }
+      };
+      startThread( runnable );
+      */
+      for( int i = 0; i < pumps.length; i++ )
+      {
+         final EventPump pump = pumps[ i ];
+         startThread( pump );
+      }
+   }
+
+   private static void startThread( final EventPump pump )
+   {
+      final Runnable runnable = new Runnable()
+      {
+         public void run()
+         {
+            doPump( pump );
+         }
+      };
+      final Thread thread = new Thread( runnable );
+      thread.setName( pump.getName() );
+      thread.start();
+
+      thread.setPriority( Thread.NORM_PRIORITY - 1 );
+   }
+
    private static EventPump[] createServerSidePumps()
       throws IOException
    {
@@ -126,6 +154,7 @@ public class TestServer
 
       final SelectableChannelEventSource source1 =
          new SelectableChannelEventSource( queue1 );
+      source1.setSelectTimeout( 0 );
       final TimeEventSource source2 = new TimeEventSource( queue4 );
       final TimeEventSource source3 = new TimeEventSource( queue5 );
 
@@ -151,11 +180,11 @@ public class TestServer
                                                 BUFFER_MANAGER,
                                                 "TEST SV" ) );
 
-      final EventPump pump1 = new EventPump( source1, handler1 );
-      final EventPump pump2 = new EventPump( queue2, handler2 );
-      final EventPump pump3 = new EventPump( queue3, handler3 );
-      final EventPump pump4 = new EventPump( source2, handler2 );
-      final EventPump pump5 = new EventPump( source3, handler3 );
+      final EventPump pump1 = newPump( "CHAN SV", source1, handler1 );
+      final EventPump pump2 = newPump( "PACK SV", queue2, handler2 );
+      final EventPump pump3 = newPump( "TEST SV", queue3, handler3 );
+      final EventPump pump4 = newPump( "PACK TIME SV", source2, handler2 );
+      final EventPump pump5 = newPump( "TEST TIME SV", source3, handler3 );
       final ServerSocketChannel channel = ServerSocketChannel.open();
       source1.registerChannel( channel,
                                SelectionKey.OP_ACCEPT,
@@ -163,6 +192,13 @@ public class TestServer
       channel.socket().bind( new InetSocketAddress( 1980 ) );
 
       return new EventPump[]{pump1, pump2, pump3, pump4, pump5};
+   }
+
+   private static EventPump newPump( final String name,
+                                     final EventSource source,
+                                     final EventHandler handler )
+   {
+      return new EventPump( name, new BlockingEventSource( source ), handler );
    }
 
    private static EventPump[] createClientSidePumps()
@@ -180,6 +216,7 @@ public class TestServer
 
       final SelectableChannelEventSource source1 =
          new SelectableChannelEventSource( queue1 );
+      source1.setSelectTimeout( 0 );
       final TimeEventSource source2 = new TimeEventSource( queue4 );
       final TimeEventSource source3 = new TimeEventSource( queue5 );
 
@@ -205,23 +242,20 @@ public class TestServer
                                                 BUFFER_MANAGER,
                                                 "TEST CL" ) );
 
-      final EventPump pump1 = new EventPump( source1, handler1 );
-      final EventPump pump2 = new EventPump( c_sessionQueue, handler2 );
-      final EventPump pump3 = new EventPump( queue3, handler3 );
-      final EventPump pump4 = new EventPump( source2, handler2 );
-      final EventPump pump5 = new EventPump( source3, handler3 );
+      final EventPump pump1 = newPump( "CHAN CL", source1, handler1 );
+      final EventPump pump2 = newPump( "PACK CL", c_sessionQueue, handler2 );
+      final EventPump pump3 = newPump( "TEST CL", queue3, handler3 );
+      final EventPump pump4 = newPump( "PACK TIME CL", source2, handler2 );
+      final EventPump pump5 = newPump( "TEST TIME CL", source3, handler3 );
 
       return new EventPump[]{pump1, pump2, pump3, pump4, pump5};
    }
 
-   private static void doPump( final EventPump[] pumps )
+   private static void doPump( final EventPump pump )
    {
       while( !c_done )
       {
-         for( int j = 0; j < pumps.length; j++ )
-         {
-            pumps[ j ].refresh();
-         }
+         pump.refresh();
       }
    }
 }
