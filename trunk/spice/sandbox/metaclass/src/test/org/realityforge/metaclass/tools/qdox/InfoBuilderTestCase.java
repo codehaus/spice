@@ -15,14 +15,16 @@ import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.Type;
 import com.thoughtworks.qdox.model.JavaParameter;
+import com.thoughtworks.qdox.model.JavaMethod;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
+import org.realityforge.metaclass.model.MethodDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-08-22 06:08:44 $
+ * @version $Revision: 1.7 $ $Date: 2003-08-22 06:11:58 $
  */
 public class InfoBuilderTestCase
     extends TestCase
@@ -360,11 +362,33 @@ public class InfoBuilderTestCase
     {
         final String name = "myField";
         final String type = "int";
-        final JavaParameter javaParameter = new JavaParameter( new Type(type), name );
+        final JavaParameter javaParameter = new JavaParameter( new Type( type ), name );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final ParameterDescriptor parameter = parser.buildParameter( javaParameter );
         assertNotNull( "parameter", parameter );
         assertEquals( "parameter.name", name, parameter.getName() );
         assertEquals( "parameter.type", type, parameter.getType() );
+    }
+
+    public void testBuildMethod()
+        throws Exception
+    {
+        final String name = "myField";
+        final String type = "int";
+        final JavaMethod javaMethod = new JavaMethod();
+        javaMethod.setName( name );
+        javaMethod.setReturns( new Type( type ) );
+        javaMethod.setConstructor( false );
+        javaMethod.setExceptions( new Type[ 0 ] );
+        javaMethod.setParameters( new JavaParameter[ 0 ] );
+        javaMethod.setModifiers( new String[]{"public"} );
+        javaMethod.setTags( new ArrayList() );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final MethodDescriptor method = parser.buildMethod( javaMethod );
+        assertNotNull( "method", method );
+        assertEquals( "method.name", name, method.getName() );
+        assertEquals( "method.type", type, method.getReturnType() );
+        assertEquals( "method.modifiers", Modifier.PUBLIC, method.getModifiers() );
+        assertEquals( "method.parameters.length", 0, method.getParameters().length );
     }
 }
