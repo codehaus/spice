@@ -173,7 +173,7 @@ public class DefaultSelectorManager
     }
 
     /**
-     * @see org.realityforge.sca.selector.SelectorManager#registerChannel
+     * @see SelectorManager#registerChannel
      */
     public SelectionKey registerChannel( final SelectableChannel channel,
                                          final int ops,
