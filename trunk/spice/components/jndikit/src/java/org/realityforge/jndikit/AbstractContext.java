@@ -19,8 +19,8 @@ import javax.naming.NamingException;
  * Abstract JNDI Context that can be inherited from to
  * provide a particular type of Context.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractContext
     implements Context

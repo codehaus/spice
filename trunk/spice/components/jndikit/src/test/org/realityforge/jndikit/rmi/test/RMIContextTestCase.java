@@ -20,8 +20,8 @@ import org.realityforge.jndikit.test.AbstractContextTestCase;
 /**
  * Unit testing for JNDI system
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.3 $
  */
 public class RMIContextTestCase
     extends AbstractContextTestCase

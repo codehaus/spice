@@ -20,8 +20,8 @@ import org.realityforge.jndikit.DefaultNamespace;
  * Thus this factory will always return the same instance of
  * memory context.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $
  */
 public class StaticMemoryInitialContextFactory
     implements InitialContextFactory

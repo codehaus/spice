@@ -23,8 +23,8 @@ import org.realityforge.jndikit.rmi.RMINamingProvider;
 /**
  * The RMI implementation of provider.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $
  */
 public class RMINamingProviderImpl
     implements Serializable, RMINamingProvider

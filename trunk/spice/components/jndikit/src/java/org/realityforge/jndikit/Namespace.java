@@ -17,8 +17,8 @@ import javax.naming.spi.StateFactory;
  * Associated with each namespace is a name parser,
  * object factories and state factories.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $
  */
 public interface Namespace
     extends ObjectFactory, StateFactory

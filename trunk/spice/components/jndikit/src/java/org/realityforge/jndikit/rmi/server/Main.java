@@ -25,8 +25,8 @@ import org.realityforge.jndikit.memory.MemoryContext;
  * This is a simple test name server and should NOT be used in a
  * production system.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.3 $
  */
 public class Main
     implements Runnable
