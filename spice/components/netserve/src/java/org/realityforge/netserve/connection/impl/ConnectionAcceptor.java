@@ -22,7 +22,7 @@ import org.realityforge.threadpool.ThreadPool;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-04-23 07:55:56 $
+ * @version $Revision: 1.14 $ $Date: 2003-04-23 09:02:53 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
@@ -65,6 +65,11 @@ class ConnectionAcceptor
      * The id of next handler created. Used to decorate the names of connections.
      */
     private long m_id;
+
+    /**
+     * True when acceptor is finished.
+     */
+    private boolean m_done;
 
     /**
      * Create the acceptor.
@@ -164,11 +169,13 @@ class ConnectionAcceptor
             catch( final IOException ioe )
             {
                 final String message =
-                    "Exception accepting connection due to: " + ioe;
+                    "Exception accepting connection due to: " + ioe +
+                    "m_thread = " + m_thread;
                 getLogger().error( message, ioe );
             }
         }
 
+        m_thread = null;
         shutdownServerSocket();
 
         synchronized( this )
@@ -187,7 +194,7 @@ class ConnectionAcceptor
             final String message = "Closing ServerSocket " + m_name + ".";
             getLogger().debug( message );
         }
-
+        m_done = true;
         try
         {
             m_serverSocket.close();
@@ -327,6 +334,7 @@ class ConnectionAcceptor
         }
         if( isRunning() )
         {
+            m_done = true;
             final Thread thread = m_thread;
             m_thread = null;
             thread.interrupt();
@@ -356,6 +364,6 @@ class ConnectionAcceptor
      */
     private synchronized boolean isRunning()
     {
-        return null != m_thread;
+        return !m_done;
     }
 }
