@@ -131,6 +131,13 @@ public class MBeanBuilder
 
         final MBeanParameterInfo[] infos = parseParameterInfos( constructor );
 
+        String name = constructor.getName();
+        final int index = name.lastIndexOf( "." );
+        if( -1 != index )
+        {
+            name = name.substring( index + 1 );
+        }
+
         final ModelMBeanConstructorInfo info =
             new ModelMBeanConstructorInfo( constructor.getName(),
                                            description,
