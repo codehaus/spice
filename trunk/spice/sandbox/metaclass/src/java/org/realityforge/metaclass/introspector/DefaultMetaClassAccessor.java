@@ -35,7 +35,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * look for attributes.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 00:47:48 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-04 00:50:43 $
  */
 public class DefaultMetaClassAccessor
     implements MetaClassAccessor
@@ -61,13 +61,13 @@ public class DefaultMetaClassAccessor
     private static final MetaClassIO c_metaClassIO = new MetaClassIOBinary();
 
     /**
-     * Return a {@link org.realityforge.metaclass.model.ClassDescriptor} for specified class.
+     * Return a {@link ClassDescriptor} for specified class.
      * Uses process specified in class Javadoc to create descriptor.
      *
-     * @param classname the classname to get {@link org.realityforge.metaclass.model.ClassDescriptor} for
+     * @param classname the classname to get {@link ClassDescriptor} for
      * @param classLoader the classLoader to use
-     * @return the newly created {@link org.realityforge.metaclass.model.ClassDescriptor}
-     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to create {@link org.realityforge.metaclass.model.ClassDescriptor}
+     * @return the newly created {@link ClassDescriptor}
+     * @throws MetaClassException if unable to create {@link ClassDescriptor}
      */
     public ClassDescriptor getClassDescriptor( final String classname,
                                                final ClassLoader classLoader )

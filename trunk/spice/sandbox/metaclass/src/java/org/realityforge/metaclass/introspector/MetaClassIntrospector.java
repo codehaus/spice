@@ -12,12 +12,12 @@ import java.util.WeakHashMap;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
- * This class is responsible for loading and caching the {@link org.realityforge.metaclass.model.ClassDescriptor}
+ * This class is responsible for loading and caching the {@link ClassDescriptor}
  * objects for corresponding java classes. It serves a similar purpose as the
  * {@link java.beans.Introspector} class does for Java Beans.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 00:47:48 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-04 00:50:43 $
  */
 public final class MetaClassIntrospector
 {
@@ -96,11 +96,11 @@ public final class MetaClassIntrospector
     }
 
     /**
-     * Return a {@link org.realityforge.metaclass.model.ClassDescriptor} for specified class.
+     * Return a {@link ClassDescriptor} for specified class.
      *
-     * @param clazz the class to {@link org.realityforge.metaclass.model.ClassDescriptor} for
-     * @return the newly created {@link org.realityforge.metaclass.model.ClassDescriptor}
-     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to create {@link org.realityforge.metaclass.model.ClassDescriptor}
+     * @param clazz the class to {@link ClassDescriptor} for
+     * @return the newly created {@link ClassDescriptor}
+     * @throws MetaClassException if unable to create {@link ClassDescriptor}
      */
     public static ClassDescriptor getClassDescriptor( final Class clazz )
         throws MetaClassException
@@ -109,12 +109,12 @@ public final class MetaClassIntrospector
     }
 
     /**
-     * Return a {@link org.realityforge.metaclass.model.ClassDescriptor} for specified class.
+     * Return a {@link ClassDescriptor} for specified class.
      *
-     * @param classname the classname to get {@link org.realityforge.metaclass.model.ClassDescriptor} for
+     * @param classname the classname to get {@link ClassDescriptor} for
      * @param classLoader the classLoader to use
-     * @return the newly created {@link org.realityforge.metaclass.model.ClassDescriptor}
-     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to create {@link org.realityforge.metaclass.model.ClassDescriptor}
+     * @return the newly created {@link ClassDescriptor}
+     * @throws MetaClassException if unable to create {@link ClassDescriptor}
      */
     public static ClassDescriptor getClassDescriptor( final String classname,
                                                       final ClassLoader classLoader )
