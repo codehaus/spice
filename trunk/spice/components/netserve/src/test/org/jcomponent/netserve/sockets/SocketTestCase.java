@@ -8,12 +8,12 @@
 package org.jcomponent.netserve.sockets;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import junit.framework.TestCase;
 import org.jcomponent.netserve.sockets.impl.DefaultServerSocketFactory;
 import org.jcomponent.netserve.sockets.impl.DefaultSocketFactory;
@@ -22,7 +22,7 @@ import org.jcomponent.netserve.sockets.impl.DefaultSocketFactory;
  * TestCase for {@link SocketFactory} and {@link ServerSocketFactory}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:12 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 02:27:09 $
  */
 public class SocketTestCase
     extends TestCase

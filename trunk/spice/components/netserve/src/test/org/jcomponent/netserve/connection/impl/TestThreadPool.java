@@ -7,15 +7,15 @@
  */
 package org.jcomponent.netserve.connection.impl;
 
-import org.jcomponent.threadpool.ThreadPool;
-import org.jcomponent.threadpool.ThreadControl;
 import org.jcomponent.threadpool.Executable;
+import org.jcomponent.threadpool.ThreadControl;
+import org.jcomponent.threadpool.ThreadPool;
 
 /**
  * test thread pool/.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-07-13 18:03:53 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-31 02:27:03 $
  */
 class TestThreadPool
     implements ThreadPool

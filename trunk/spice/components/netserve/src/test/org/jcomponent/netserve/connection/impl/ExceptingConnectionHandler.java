@@ -7,15 +7,15 @@
  */
 package org.jcomponent.netserve.connection.impl;
 
-import org.jcomponent.netserve.connection.ConnectionHandler;
-import java.net.Socket;
-import java.net.ProtocolException;
 import java.io.IOException;
+import java.net.ProtocolException;
+import java.net.Socket;
+import org.jcomponent.netserve.connection.ConnectionHandler;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 02:27:03 $
  */
 class ExceptingConnectionHandler implements ConnectionHandler
 {
