@@ -262,7 +262,13 @@ public class MBeanBuilder
         return info;
     }
 
-    private MBeanParameterInfo[] parseParameterInfos( final Constructor constructor )
+    /**
+     * Extract the parameter infos for specified constructor.
+     *
+     * @param constructor the constructor
+     * @return the infos
+     */
+    MBeanParameterInfo[] parseParameterInfos( final Constructor constructor )
     {
         try
         {
