@@ -7,10 +7,10 @@
     xmlns:util="jelly:util"
     xmlns:ant="jelly:ant"
     xmlns:archive="spice:archive"
+    xmlns:velocity="jelly:org.apache.commons.jelly.tags.velocity.VelocityTagLibrary"
     default="jar:jar">
 
     <j:set var="spice.tool.dir" value="${basedir}/../../tools"/>
-    <j:set var="generateNavigation" value="false"/>
 
     <define:taglib uri="spice:archive">
         <define:tag name="copy-runtime-deps">
@@ -84,87 +84,70 @@
     </preGoal>
 
     <goal name="generateNavigation">
-        <ant:mkdir dir="target/generated-xdocs"/>
-        <ant:available
-            file="xdocs/navigation.xml"
-            type="file"
-            property="navigationAvailable"/>
 
-        <j:if test="${generateNavigation == 'true'}">
-            <ant:echo message="Generating Navigation"/>
-            <j:file name="target/navigation.xml" omitXmlDeclaration="true">
-                <naproject name="${pom.name}">
-                    <title>${pom.name}</title>
-                    <body>
-                        <links>
-                            <item name="Home" href="../index.html"/>
-                            <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
-                        </links>
-                        <menu name="Overview">
-                            <item name="Home" href="../index.html"/>
-                            <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
+        <ant:echo message="Generating Navigation"/>
+        <j:file name="${basedir}/../../tools/maven/templates/components.menu" 
+        		omitXmlDeclaration="true" 
+        		prettyPrint="true">
+            <menu name="Components">
    		                    <ant:fileScanner var="components">
-       		                    <fileset dir="${basedir}/../../components">
-           		                    <include name="*/project.xml"/>
-               		            </fileset>
-                   		    </ant:fileScanner>
+   		                    <fileset dir="${basedir}/../../components">
+   		                    <include name="*/project.xml"/>
+   		            </fileset>
+       		    </ant:fileScanner>
    		                    <ant:fileScanner var="sandbox">
-       		                    <fileset dir="${basedir}/../../sandbox">
-           		                    <include name="*/project.xml"/>
-               		            </fileset>
-                   		    </ant:fileScanner>
-		                    <item name="Spice" href="index.html" collapse="false">
-		                    	<item name="Components" href="index.html" collapse="false">
-	                        		<j:forEach items="${components.iterator()}" var="component">
-    	                        		<maven:pom projectDescriptor="${component}" var="cPOM"/>
-                	            		<j:if test="${cPOM.groupId != 'jcomponent'}">
-                    	        			<item name="${cPOM.name}"
-                        	        			href="../${component.parentFile.name}/index.html"/>
-                            	    	</j:if>
-	                        		</j:forEach>
-                        		</item>
-		                    	<item name="Sandbox" href="index.html" collapse="false">
-	                        		<j:forEach items="${sandbox.iterator()}" var="component">
-    	                        		<maven:pom projectDescriptor="${component}" var="cPOM"/>
-                	            		<j:if test="${cPOM.groupId != 'jcomponent'}">
-                    	        			<item name="${cPOM.name}"
-                        	        			href="../${component.parentFile.name}/index.html"/>
-                            	    	</j:if>
-	                        		</j:forEach>
-                        		</item>
-                    		</item>
-		                    <item name="JComponent" href="index.html" collapse="false">
-		                    	<item name="Components" href="index.html" collapse="false">
-	                        		<j:forEach items="${components.iterator()}" var="component">
-    	                        		<maven:pom projectDescriptor="${component}" var="cPOM"/>
-                	            		<j:if test="${cPOM.groupId == 'jcomponent'}">
-                    	        			<item name="${cPOM.name}"
-                        	        			href="../${component.parentFile.name}/index.html"/>
-                            	    	</j:if>
-	                        		</j:forEach>
-                        		</item>
-		                    	<item name="Sandbox" href="index.html" collapse="false">
-	                        		<j:forEach items="${sandbox.iterator()}" var="component">
-    	                        		<maven:pom projectDescriptor="${component}" var="cPOM"/>
-                	            		<j:if test="${cPOM.groupId == 'jcomponent'}">
-                    	        			<item name="${cPOM.name}"
-                        	        			href="../${component.parentFile.name}/index.html"/>
-                            	    	</j:if>
-	                        		</j:forEach>
-                        		</item>
-                    		</item>
-                        </menu>
-                    </body>
-                </naproject>
-            </j:file>
-            <doc:jslFile
-                input="target/navigation.xml"
-                output="target/generated-xdocs/navigation.xml"
-                stylesheet="${basedir}/../../tools/navigation.jsl"
-                omitXmlDeclaration="true"
-                outputMode="xml"
-                prettyPrint="true"/>
-        </j:if>
+   		                    <fileset dir="${basedir}/../../sandbox">
+   		                    <include name="*/project.xml"/>
+   		            </fileset>
+       		    </ant:fileScanner>
+                <item name="Spice" href="index.html" collapse="false">
+                	<item name="Components" href="index.html" collapse="false">
+                		<j:forEach items="${components.iterator()}" var="component">
+                    		<maven:pom projectDescriptor="${component}" var="cPOM"/>
+    	            		<j:if test="${cPOM.groupId != 'jcomponent'}">
+        	        			<item name="${cPOM.name}"
+            	        			href="../${component.parentFile.name}/index.html"/>
+                	    	</j:if>
+                		</j:forEach>
+            		</item>
+                	<item name="Sandbox" href="index.html" collapse="false">
+                		<j:forEach items="${sandbox.iterator()}" var="component">
+                    		<maven:pom projectDescriptor="${component}" var="cPOM"/>
+    	            		<j:if test="${cPOM.groupId != 'jcomponent'}">
+        	        			<item name="${cPOM.name}"
+            	        			href="../${component.parentFile.name}/index.html"/>
+                	    	</j:if>
+                		</j:forEach>
+            		</item>
+        		</item>
+                <item name="JComponent" href="index.html" collapse="false">
+                	<item name="Components" href="index.html" collapse="false">
+                		<j:forEach items="${components.iterator()}" var="component">
+                    		<maven:pom projectDescriptor="${component}" var="cPOM"/>
+    	            		<j:if test="${cPOM.groupId == 'jcomponent'}">
+        	        			<item name="${cPOM.name}"
+            	        			href="../${component.parentFile.name}/index.html"/>
+                	    	</j:if>
+                		</j:forEach>
+            		</item>
+                	<item name="Sandbox" href="index.html" collapse="false">
+                		<j:forEach items="${sandbox.iterator()}" var="component">
+                    		<maven:pom projectDescriptor="${component}" var="cPOM"/>
+    	            		<j:if test="${cPOM.groupId == 'jcomponent'}">
+        	        			<item name="${cPOM.name}"
+            	        			href="../${component.parentFile.name}/index.html"/>
+                	    	</j:if>
+                		</j:forEach>
+            		</item>
+        		</item>
+            </menu>
+        </j:file>
+        <ant:mkdir dir="target/generated-xdocs"/>
+        <velocity:merge 
+          name="target/generated-xdocs/navigation.xml"
+          basedir="${basedir}/../../tools/maven/templates"
+          template="navigation.xml"/>
+
     </goal>
 
     <preGoal name="checkstyle:check-license-file">
