@@ -1,34 +1,25 @@
 <?xml version="1.0"?>
 <document>
 
-  <properties>
-    	<title>MetaClass</title>
-    	<author email="peter at realityforge.org">Peter Donald</author>
-  </properties>
+    <properties>
+        <title>MetaClass</title>
+        <author email="peter at realityforge.org">Peter Donald</author>
+    </properties>
 
-  <body>
-	  <section name="MetaClass">
-			<p>MetaClass provides runtime access to attributes specified in javadoc format.</p>
-		
-			<p>There are two steps involved: pre-runtime generation and runtime retrieval.</p>
-	  </section>
-		
-	  <section name="Generation">
-			<p>Generation is done with ant (refer run.xml).  There exists an ant task called MetaGenerateTask
-		that must be <code>taskdef</code> ed into your xml file, which is then run over .class
-		files to produce .mad (metaclass data) files.  It can be run in paired or non-paired mode.</p>
-		
-			<p>In paired mode the .mad files are created in the same directory as the .class files.  This is
-		the default mode.</p>
-		
-			<p>In non-paired mode all .mad files are created in the specified directory and named with
-		dot-delimited full package structure.  This is enabled by passing <code>dest="${specified-directory}"</code> to
-		the metagenerate task.</p>
-	  </section>
-	
-	  <section name="Retrieval">
-			<p>Not yet documented.</p>
-	  </section>
-  </body>
+    <body>
+        <section name="MetaClass">
+            <p>
+                MetaClass supports runtime access to metadata associated with program elements
+                or artefacts. The program elements include packages, classes, methods and fields
+                and each metadata element is referred to as an attribute.
+            </p>
+            <p>
+                The attributes are usually specified in the java source files as javadoc
+                markup. The source file is then processed and the metadata is compiled into
+                descriptors that MetaClass is capable of reading. These descriptors are then
+                loaded at runtime to provide metadata about the program elements.
+            </p>
+        </section>
+    </body>
 
 </document>
