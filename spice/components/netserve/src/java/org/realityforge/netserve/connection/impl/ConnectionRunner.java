@@ -15,7 +15,7 @@ import org.realityforge.netserve.connection.ConnectionHandler;
  * This class is responsible for handling a single connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-04-23 03:21:22 $
+ * @version $Revision: 1.6 $ $Date: 2003-04-23 03:47:07 $
  */
 class ConnectionRunner
     extends AbstractLogEnabled
@@ -54,10 +54,18 @@ class ConnectionRunner
      */
     private boolean m_done;
 
+    /**
+     * Create a ConnectionRunner.
+     *
+     * @param name the name of the runner
+     * @param socket the socket
+     * @param handler the handler that will do the handling
+     * @param acceptor the acceptor that created the runner
+     */
     ConnectionRunner( final String name,
                       final Socket socket,
-                      final ConnectionAcceptor acceptor,
-                      final ConnectionHandler handler )
+                      final ConnectionHandler handler,
+                      final ConnectionAcceptor acceptor )
     {
         if( null == name )
         {
@@ -81,6 +89,14 @@ class ConnectionRunner
         m_handler = handler;
     }
 
+    /**
+     * Attempt to close the runner. The runner will wait upto
+     * the specified waitTime to allow the runner the chance to gracefully
+     * shutdown the connection.
+     *
+     * @param waitTime the time to wait when attempting to gracefully
+     *                 shutdown connection. 0 means wait indefinetly
+     */
     synchronized void close( final int waitTime )
     {
         if( !m_done )
@@ -88,11 +104,9 @@ class ConnectionRunner
             if( null != m_thread )
             {
                 m_thread.interrupt();
-                m_thread = null;
             }
 
-            //wait "waitTime" or untill done is true?
-            m_done = true;
+            //wait "waitTime" or until m_done is true?
         }
     }
 
