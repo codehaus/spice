@@ -339,6 +339,13 @@ public class MBeanBuilder
         return EMPTY_STRING;
     }
 
+    /**
+     * Parse Impact enum. Should be one of the IMPACT_*
+     * constants otherwise impact will be set to UNKNOWN.
+     *
+     * @param impact the impact string
+     * @return the impact code
+     */
     private int parseImpact( final String impact )
     {
         if( IMPACT_INFO.equals( impact ) )
