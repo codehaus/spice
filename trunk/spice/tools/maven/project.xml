@@ -101,7 +101,7 @@
         <report>maven-junit-report-plugin</report>
         <!--<report>maven-linkcheck-plugin</report>-->
         <report>maven-clover-plugin</report>
-        <!--<report>maven-license-plugin</report>-->
+        <report>maven-license-plugin</report>
     </reports>
 
 </project>
