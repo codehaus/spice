@@ -10,26 +10,15 @@ package org.jcomponent.netserve.connection.impl;
 import java.net.ServerSocket;
 import java.util.Hashtable;
 import java.util.Map;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
+
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 import org.jcomponent.netserve.connection.ConnectionManager;
 import org.jcomponent.threadpool.ThreadPool;
 
 /**
- * This component is used to manage serverside network acceptors.
- * To establish a connection the service is provided with a
- * ServerSocket and a ConnectionHandlerManager. The service will start
- * accepting connections to ServerSocket and then pass the accepted socket
- * to ConnectionHandler instances to handle the connection.
+ * Abstract implementation of {@link ConnectionManager}.
  *
- * <p>A sample configuration for the component is below. Note that on some OS/JVM
+ * <p>A sample of configuration parameters for the component are given below. Note that on some OS/JVM
  * combinations <tt>soTimeout</tt> must be set to non-0 value or else the ServerSocket will
  * never get out of accept() system call and we wont be able to shutdown the server
  * socket properly. However it can introduce performance problems if constantly
@@ -37,22 +26,20 @@ import org.jcomponent.threadpool.ThreadPool;
  * incoming connections will shutdown gracefully when asked. If they dont shutdown
  * gracefully and <tt>forceShutdown</tt> is true then the connection will be forced
  * to be shutdown if the user asked for connection to be "tearedDown".</p>
- * <pre>
- *  &lt;soTimeout&gt;500&lt;/soTimeout&gt; &lt;!-- 500 ms timeouts on Server Sockets --&gt;
- *  &lt;forceShutdown&gt;true&lt;/forceShutdown&gt; &lt;!-- forcefully shutdown connections
- *                                           if they dont shutdown gracefully --&gt;
- *  &lt;shutdownTimeout&gt;200&lt;/shutdownTimeout&gt; &lt;!-- wait 200ms for connections to gracefully
- *                                              shutdown --&gt;
- * </pre>
+ * <ul>
+ *  <li>soTimeout=500 -- 500 ms timeouts on Server Sockets --</li>
+ *  <li>forceShutdown=true -- forcefully shutdown connections if they don't shutdown gracefully --</li>
+ *  <li>shutdownTimeout=200 -- wait 200ms for connections to gracefully shutdown --</li>
+ * </ul>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-07-13 18:03:53 $
+ * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @version $Revision: 1.1 $ $Date: 2003-08-29 19:12:58 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
-public class DefaultConnectionManager
-    extends AbstractLogEnabled
-    implements ConnectionManager, Serviceable, Configurable, Disposable
+public class AbstractConnectionManager
+    implements ConnectionManager
 {
     /**
      * The map of name->acceptor.
@@ -60,12 +47,17 @@ public class DefaultConnectionManager
     private final Map m_acceptors = new Hashtable();
 
     /**
-     * The ThreadPool dependency that will be used to initiate
+     * The monitor that receives notifications of Connection events
+     */
+    private ConnectionMonitor m_monitor;
+
+    /**
+     * The default ThreadPool dependency will be used to initiate
      * connections if clients do not specify threadPool. Is an
      * optional dependency and if not specified a new thread will
      * be instantiated as is needed.
      */
-    private ThreadPool m_threadpool;
+    private ThreadPool m_defaultThreadPool;
 
     /**
      * Set to the number of milliseconds that we will wait
@@ -87,36 +79,54 @@ public class DefaultConnectionManager
      */
     private int m_soTimeout;
 
+
     /**
-     * Get ThreadPool service if present.
-     *
-     * @param manager the manager to retrieve services from
-     * @throws ServiceException if unable to aquire ThreadPool
-     * @phoenix.dependency type="ThreadPool" optional="true"
+     * Constructor
      */
-    public void service( final ServiceManager manager )
-        throws ServiceException
+    protected AbstractConnectionManager( )
     {
-        if( manager.hasService( ThreadPool.ROLE ) )
-        {
-            m_threadpool = (ThreadPool)manager.lookup( ThreadPool.ROLE );
-        }
+        this( new NullConnectionMonitor(),
+               null,
+               1000, 
+               false, 
+               0);
     }
 
     /**
-     * Configure the ConnectionManager.
-     *
-     * @param configuration the configuration
-     * @throws ConfigurationException if error reading configuration
-     * @phoenix.configuration type="http://relaxng.org/ns/structure/1.0"
-     *    location="DefaultConnectionManager-schema.xml"
+     * Constructor
+     * @param monitor
+     * @param defaultThreadPool
+     * @param soTimeout
+     * @param forceShutdown
+     * @param shutdownTimeout
      */
-    public void configure( final Configuration configuration )
-        throws ConfigurationException
+    protected AbstractConnectionManager( final ConnectionMonitor monitor,
+                                          final ThreadPool defaultThreadPool,
+                                          final int soTimeout, 
+                                          final boolean forceShutdown,
+                                          final int shutdownTimeout )
     {
-        m_soTimeout = configuration.getChild( "soTimeout" ).getValueAsInteger( 1000 );
-        m_forceShutdown = configuration.getChild( "forceShutdown" ).getValueAsBoolean( false );
-        m_shutdownTimeout = configuration.getChild( "shutdownTimeout" ).getValueAsInteger( 0 );
+        m_monitor = monitor;
+        m_defaultThreadPool = defaultThreadPool;
+        m_soTimeout = soTimeout;
+        m_forceShutdown = forceShutdown;
+        m_shutdownTimeout = shutdownTimeout;
+    }
+
+    protected void setShutdownTimeout( final int shutdownTimeout ){
+        m_shutdownTimeout = shutdownTimeout;
+    }
+ 
+    protected void setForceShutdown( final boolean forceShutdown ){
+        m_forceShutdown = forceShutdown;
+    }
+
+    protected void setSoTimeout( final int soTimeout ){
+        m_soTimeout = soTimeout;
+    }
+
+    protected void setDefaultThreadPool( final ThreadPool threadPool ){
+        m_defaultThreadPool = threadPool;
     }
 
     /**
@@ -141,7 +151,7 @@ public class DefaultConnectionManager
             {
                 final String message =
                     "Error disconnecting " + name + "due to: " + e;
-                getLogger().warn( message, e );
+                m_monitor.unexpectedError( message, e );
             }
         }
     }
@@ -191,7 +201,7 @@ public class DefaultConnectionManager
                          ConnectionHandlerManager handlerManager )
         throws Exception
     {
-        doConnect( name, socket, handlerManager, m_threadpool );
+        doConnect( name, socket, handlerManager, m_defaultThreadPool );
     }
 
     /**
@@ -216,12 +226,7 @@ public class DefaultConnectionManager
             throw new IllegalArgumentException( message );
         }
 
-        if( getLogger().isInfoEnabled() )
-        {
-            final String message =
-                "Disconnecting Acceptor " + acceptor + ". tearDown=" + tearDown;
-            getLogger().info( message );
-        }
+        m_monitor.acceptorDisconnected( acceptor, tearDown );
 
         if( !tearDown )
         {
@@ -242,10 +247,10 @@ public class DefaultConnectionManager
      * @param threadPool the threadPool to use (may be null)
      * @throws Exception if unable to setup socket properly
      */
-    private void doConnect( final String name,
-                            final ServerSocket socket,
-                            final ConnectionHandlerManager handlerManager,
-                            final ThreadPool threadPool )
+    protected void doConnect( final String name,
+                                final ServerSocket socket,
+                                final ConnectionHandlerManager handlerManager,
+                                final ThreadPool threadPool )
         throws Exception
     {
         if( null == name )
@@ -266,14 +271,9 @@ public class DefaultConnectionManager
             socket.setSoTimeout( m_soTimeout );
         }
 
-        final ConnectionAcceptor acceptor = new ConnectionAcceptor( name, socket, handlerManager, threadPool );
-        setupLogger( acceptor );
+        final ConnectionAcceptor acceptor = new ConnectionAcceptor( name, socket, handlerManager, m_monitor, threadPool );
 
-        if( getLogger().isInfoEnabled() )
-        {
-            final String message = "Creating Acceptor " + acceptor + ".";
-            getLogger().info( message );
-        }
+        m_monitor.acceptorCreated( acceptor );
         synchronized( m_acceptors )
         {
             if( m_acceptors.containsKey( name ) )
