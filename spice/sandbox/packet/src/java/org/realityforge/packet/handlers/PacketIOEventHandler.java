@@ -36,7 +36,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.21 $ $Date: 2004-02-11 00:45:02 $
+ * @version $Revision: 1.22 $ $Date: 2004-02-11 01:32:16 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -496,7 +496,6 @@ public class PacketIOEventHandler
 
         final Session session = (Session)transport.getUserData();
         final int msg = input.read();
-        System.out.println( "msg=" + msg + " for " + session );
         if( !session.isClient() &&
             MessageCodes.ESTABLISHED == msg &&
             Session.STATUS_CONNECTED == session.getStatus() )
