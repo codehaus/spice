@@ -7,12 +7,12 @@
  */
 package org.realityforge.loggerstore;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.net.URL;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * This is the initial LoggerStoreFactory tyhat the user accesses
@@ -20,7 +20,7 @@ import java.io.InputStream;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.3 $ $Date: 2003-05-24 22:14:41 $
+ * @version $Revision: 1.4 $ $Date: 2003-05-24 22:18:27 $
  */
 public class InitialLoggerStoreFactory
     implements LoggerStoreFactory
