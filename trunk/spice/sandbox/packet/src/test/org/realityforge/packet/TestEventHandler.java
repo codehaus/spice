@@ -5,24 +5,24 @@ import java.util.Random;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.buffers.BufferManager;
-import org.codehaus.spice.netevent.handlers.AbstractDirectedHandler;
 import org.codehaus.spice.netevent.events.ChannelClosedEvent;
+import org.codehaus.spice.netevent.handlers.AbstractDirectedHandler;
 import org.codehaus.spice.timeevent.events.TimeEvent;
 import org.codehaus.spice.timeevent.source.SchedulingKey;
 import org.codehaus.spice.timeevent.source.TimeEventSource;
 import org.codehaus.spice.timeevent.triggers.PeriodicTimeTrigger;
+import org.realityforge.packet.events.AbstractSessionEvent;
 import org.realityforge.packet.events.DataPacketReadyEvent;
-import org.realityforge.packet.events.PacketWriteRequestEvent;
 import org.realityforge.packet.events.SessionActiveEvent;
 import org.realityforge.packet.events.SessionConnectEvent;
 import org.realityforge.packet.events.SessionDisconnectEvent;
-import org.realityforge.packet.events.SessionEvent;
+import org.realityforge.packet.events.SessionDisconnectRequestEvent;
 import org.realityforge.packet.events.SessionInactiveEvent;
 import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-01-29 05:48:23 $
+ * @version $Revision: 1.7 $ $Date: 2004-02-03 06:34:04 $
  */
 class TestEventHandler
     extends AbstractDirectedHandler
@@ -64,7 +64,9 @@ class TestEventHandler
                 final int receivedMessages = sd.getReceivedMessages();
                 if( receivedMessages > 5 )
                 {
-                    session.setPendingDisconnect();
+                    final SessionDisconnectRequestEvent sdr =
+                        new SessionDisconnectRequestEvent( session );
+                    getSink().addEvent( sdr );
                 }
                 else if( null != session.getTransport() &&
                          RANDOM.nextBoolean() )
@@ -84,7 +86,7 @@ class TestEventHandler
             return;
         }
 
-        final SessionEvent se = (SessionEvent)event;
+        final AbstractSessionEvent se = (AbstractSessionEvent)event;
         final Session session = se.getSession();
         SessionData sd = getSessionData( session );
 
@@ -160,10 +162,6 @@ class TestEventHandler
 
     private void transmitData( final Session session )
     {
-        if( session.isPendingDisconnect() )
-        {
-            return;
-        }
         final int transmitCount =
             Math.abs( RANDOM.nextInt() % 16 * 1024 );
         final ByteBuffer buffer =
@@ -174,17 +172,18 @@ class TestEventHandler
             final byte ch = DATA[ i % DATA.length ];
             buffer.put( ch );
         }
-        final short sequence =
-            (short)(session.getLastPacketTransmitted() + 1);
-        session.setLastPacketTransmitted( sequence );
         buffer.flip();
-        final Packet packet = new Packet( sequence, 0, buffer );
-        final PacketWriteRequestEvent ev =
-            new PacketWriteRequestEvent( session, packet );
-        getSink().addEvent( ev );
-        final SessionData sd = getSessionData( session );
-        sd.incSentMessages();
-        output( session, "Transmitting " + transmitCount );
+
+        if( session.sendPacket( buffer ) )
+        {
+            final SessionData sd = getSessionData( session );
+            sd.incSentMessages();
+            output( session, "Transmitting " + transmitCount );
+        }
+        else
+        {
+            _bufferManager.releaseBuffer( buffer );
+        }
     }
 
     private void output( final Session session, final String text )

@@ -7,14 +7,18 @@
  */
 package org.realityforge.packet.session;
 
+import java.nio.ByteBuffer;
+import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 import org.codehaus.spice.timeevent.source.SchedulingKey;
+import org.realityforge.packet.Packet;
+import org.realityforge.packet.events.PacketWriteRequestEvent;
 
 /**
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.15 $ $Date: 2004-02-03 04:07:42 $
+ * @version $Revision: 1.16 $ $Date: 2004-02-03 06:34:04 $
  */
 public class Session
 {
@@ -114,6 +118,11 @@ public class Session
     private SchedulingKey _timeoutKey;
 
     /**
+     * The EventSink that this Session sends events to.
+     */
+    private EventSink _sink;
+
+    /**
      * Create Serverside session with specified ID.
      * 
      * @param sessionID the session ID
@@ -147,6 +156,11 @@ public class Session
         _sessionID = sessionID;
         _authID = authID;
         _client = client;
+    }
+
+    public void setSink( final EventSink sink )
+    {
+        _sink = sink;
     }
 
     public void setTimeoutKey( final SchedulingKey timeoutKey )
@@ -321,6 +335,25 @@ public class Session
     public PacketQueue getRxQueue()
     {
         return _rxQueue;
+    }
+
+    public boolean sendPacket( final ByteBuffer buffer )
+    {
+        if( isPendingDisconnect() )
+        {
+            return false;
+        }
+        else
+        {
+            final short sequence =
+                (short)(getLastPacketTransmitted() + 1);
+            setLastPacketTransmitted( sequence );
+            final Packet packet = new Packet( sequence, 0, buffer );
+            final PacketWriteRequestEvent ev =
+                new PacketWriteRequestEvent( this, packet );
+            _sink.addEvent( ev );
+            return true;
+        }
     }
 
     public ChannelTransport getTransport()

@@ -22,13 +22,16 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2004-01-29 05:48:23 $
+ * @version $Revision: 1.8 $ $Date: 2004-02-03 06:34:04 $
  */
 public class TestServer
 {
+    public static final long START_TIME = System.currentTimeMillis();
     private static boolean c_done;
+
     private static SelectableChannelEventSource c_clientSocketSouce;
     private static final DefaultBufferManager BUFFER_MANAGER = new DefaultBufferManager();
+    private static final DefaultSessionManager SESSION_MANAGER = new DefaultSessionManager();
 
     public static void main( final String[] args )
         throws Exception
@@ -71,9 +74,14 @@ public class TestServer
                                     "connection in " + loop );
                 makeClientConnection( session );
             }
-            Thread.sleep( 100 );
+            Thread.sleep( 20 );
+            if( Session.STATUS_DISCONNECTED == session.getStatus() &&
+                0 == SESSION_MANAGER.getSessionCount() )
+            {
+                c_done = true;
+            }
         }
-        System.exit( 1 );
+        //System.exit( 1 );
     }
 
     private static void makeClientConnection( final Session session )
@@ -117,12 +125,12 @@ public class TestServer
                                                       BUFFER_MANAGER ) );
 
         final EventHandler handler2 =
-            new EchoHandler( null, //"PACK SV",
+            new EchoHandler( "PACK SV",
                              new PacketIOEventHandler( source2,
-                                                     queue2,
-                                                     queue3,
-                                                     BUFFER_MANAGER,
-                                                     new DefaultSessionManager() ) );
+                                                       queue2,
+                                                       queue3,
+                                                       BUFFER_MANAGER,
+                                                       SESSION_MANAGER ) );
 
         final EventHandler handler3 =
             new EchoHandler( "TEST SV",
@@ -182,12 +190,12 @@ public class TestServer
                                                       BUFFER_MANAGER ) );
 
         final EventHandler handler2 =
-            new EchoHandler( null, //"PACK CL",
+            new EchoHandler( "PACK CL",
                              new PacketIOEventHandler( source2,
-                                                     queue2,
-                                                     queue3,
-                                                     BUFFER_MANAGER,
-                                                     new DefaultSessionManager() ) );
+                                                       queue2,
+                                                       queue3,
+                                                       BUFFER_MANAGER,
+                                                       new DefaultSessionManager() ) );
 
         final EventHandler handler3 =
             new EchoHandler( "TEST CL",
@@ -218,7 +226,7 @@ public class TestServer
 
     private static void doPump( final EventPump[] pumps )
     {
-        for( int i = 0; i < 1000; i++ )
+        while( !c_done )
         {
             for( int j = 0; j < pumps.length; j++ )
             {
@@ -233,6 +241,5 @@ public class TestServer
                 }
             }
         }
-        c_done = true;
     }
 }
