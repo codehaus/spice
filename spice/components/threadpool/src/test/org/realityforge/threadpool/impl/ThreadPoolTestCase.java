@@ -18,13 +18,14 @@ import org.realityforge.threadpool.impl.ThreadPoolEntry;
 import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ConfigValidator;
 import org.realityforge.configkit.ValidateException;
+import org.xml.sax.ErrorHandler;
 import java.io.InputStream;
 
 /**
  *  An basic test case for the ThreadPools.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-04 11:39:39 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-07 11:02:40 $
  */
 public class ThreadPoolTestCase
     extends TestCase
@@ -48,7 +49,7 @@ public class ThreadPoolTestCase
             getClass().getResourceAsStream( "commons-config.xml" );
         try
         {
-            validator.validate( config, null );
+            validator.validate( config, (ErrorHandler)null );
         }
         catch( ValidateException e )
         {
