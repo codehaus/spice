@@ -8,6 +8,7 @@
 package org.jcomponent.netserve.sockets.impl;
 
 import org.jcomponent.netserve.sockets.SocketAcceptorManager;
+
 import java.nio.channels.ServerSocketChannel;
 import java.net.ServerSocket;
 import java.net.InetSocketAddress;
@@ -20,207 +21,207 @@ import java.util.Random;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-10-14 04:16:41 $
+ * @version $Revision: 1.11 $ $Date: 2003-10-23 03:23:24 $
  */
 public class NIOAcceptorManagerTestCase
-    extends AbstractAcceptorManagerTestCase
+   extends AbstractAcceptorManagerTestCase
 {
-    private static int c_index;
-    private NIOAcceptorManager m_manager;
+   private static int c_index;
+   private NIOAcceptorManager m_manager;
 
-    protected void setUp() throws Exception
-    {
-        System.out.println( "Running " + getName() );
-    }
+   protected void setUp() throws Exception
+   {
+      System.out.println( "Running " + getName() );
+   }
 
-    protected void tearDown() throws Exception
-    {
-        m_manager.shutdownSelector();
-    }
+   protected void tearDown() throws Exception
+   {
+      m_manager.shutdown();
+   }
 
-    public void testHandleChannelWithNonExistentEntry()
-        throws Exception
-    {
-        m_manager = new NIOAcceptorManager();
-        final ServerSocketChannel channel = ServerSocketChannel.open();
-        m_manager.handleChannel( channel );
-    }
+   public void testHandleChannelWithNonExistentEntry()
+      throws Exception
+   {
+      m_manager = new NIOAcceptorManager();
+      final ServerSocketChannel channel = ServerSocketChannel.open();
+      m_manager.handleChannel( channel );
+   }
 
-    public void testStartupAndShutdown()
-        throws Exception
-    {
-        m_manager = new NIOAcceptorManager();
-        m_manager.setMonitor( new NullNIOAcceptorMonitor() );
-        assertEquals( "isRunning() pre startup", false, m_manager.isRunning() );
-        m_manager.startupSelector();
-        assertEquals( "isRunning() post startup", true, m_manager.isRunning() );
-        m_manager.shutdownSelector();
-        assertEquals( "isRunning() post shutdown", false, m_manager.isRunning() );
-    }
+   public void testStartupAndShutdown()
+      throws Exception
+   {
+      m_manager = new NIOAcceptorManager();
+      m_manager.setMonitor( new NullNIOAcceptorMonitor() );
+      assertEquals( "isRunning() pre startup", false, m_manager.isRunning() );
+      m_manager.startupSelector();
+      assertEquals( "isRunning() post startup", true, m_manager.isRunning() );
+      m_manager.shutdown();
+      assertEquals( "isRunning() post shutdown", false, m_manager.isRunning() );
+   }
 
-    public void testShutdownWithoutStartup()
-        throws Exception
-    {
-        m_manager = new NIOAcceptorManager();
-        m_manager.setMonitor( new NullNIOAcceptorMonitor() );
-        assertEquals( "isRunning() pre shutdown", false, m_manager.isRunning() );
-        m_manager.shutdownSelector();
-        assertEquals( "isRunning() post shutdown", false, m_manager.isRunning() );
-    }
+   public void testShutdownWithoutStartup()
+      throws Exception
+   {
+      m_manager = new NIOAcceptorManager();
+      m_manager.setMonitor( new NullNIOAcceptorMonitor() );
+      assertEquals( "isRunning() pre shutdown", false, m_manager.isRunning() );
+      m_manager.shutdown();
+      assertEquals( "isRunning() post shutdown", false, m_manager.isRunning() );
+   }
 
-    public void testDuplicateConnect()
-        throws Exception
-    {
-        m_manager = new NIOAcceptorManager();
-        m_manager.startupSelector();
-        final String name = "name";
-        assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
-        final ServerSocketChannel channel = ServerSocketChannel.open();
-        m_manager.connect( name,
-                           channel.socket(),
-                           new MockSocketConnectionHandler() );
-        assertEquals( "isConnected pre disconnect", true, m_manager.isConnected( name ) );
-        try
-        {
-            m_manager.connect( name,
-                               new ExceptOnAcceptServerSocket( true ),
-                               new MockSocketConnectionHandler() );
-        }
-        catch( final IllegalArgumentException iae )
-        {
-            return;
-        }
-        finally
-        {
-            m_manager.shutdownSelector();
-            channel.close();
-            assertEquals( "isConnected post disconnect", false, m_manager.isConnected( name ) );
-        }
-        fail( "Expected to fail due to duplicate connect" );
-    }
+   public void testDuplicateConnect()
+      throws Exception
+   {
+      m_manager = new NIOAcceptorManager();
+      m_manager.startupSelector();
+      final String name = "name";
+      assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
+      final ServerSocketChannel channel = ServerSocketChannel.open();
+      m_manager.connect( name,
+                         channel.socket(),
+                         new MockSocketConnectionHandler() );
+      assertEquals( "isConnected pre disconnect", true, m_manager.isConnected( name ) );
+      try
+      {
+         m_manager.connect( name,
+                            new ExceptOnAcceptServerSocket( true ),
+                            new MockSocketConnectionHandler() );
+      }
+      catch ( final IllegalArgumentException iae )
+      {
+         return;
+      }
+      finally
+      {
+         m_manager.shutdown();
+         channel.close();
+         assertEquals( "isConnected post disconnect", false, m_manager.isConnected( name ) );
+      }
+      fail( "Expected to fail due to duplicate connect" );
+   }
 
-    public void testAcceptConnections()
-        throws Exception
-    {
-        m_manager = new NIOAcceptorManager();
-        m_manager.startupSelector();
-        final String name = "name";
-        assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
-        final ServerSocketChannel channel = ServerSocketChannel.open();
-        try
-        {
-            final ServerSocket socket = channel.socket();
-            socket.setReuseAddress( true );
-            final InetAddress localAddress = InetAddress.getLocalHost();
-            final int port = nextPort();
-            final InetSocketAddress address = new InetSocketAddress( localAddress, port );
-            socket.bind( address );
-            m_manager.connect( name,
-                               socket,
-                               new ClosingSocketConnectionHandler() );
-            assertEquals( "isConnected pre disconnect", true, m_manager.isConnected( name ) );
+   public void testAcceptConnections()
+      throws Exception
+   {
+      m_manager = new NIOAcceptorManager();
+      m_manager.startupSelector();
+      final String name = "name";
+      assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
+      final ServerSocketChannel channel = ServerSocketChannel.open();
+      try
+      {
+         final ServerSocket socket = channel.socket();
+         socket.setReuseAddress( true );
+         final InetAddress localAddress = InetAddress.getLocalHost();
+         final int port = nextPort();
+         final InetSocketAddress address = new InetSocketAddress( localAddress, port );
+         socket.bind( address );
+         m_manager.connect( name,
+                            socket,
+                            new ClosingSocketConnectionHandler() );
+         assertEquals( "isConnected pre disconnect", true, m_manager.isConnected( name ) );
 
-            final Socket clientSocket = new Socket( localAddress, port );
-            final InputStream inputStream = clientSocket.getInputStream();
-            final StringBuffer sb = new StringBuffer();
-            while( sb.length() < ClosingSocketConnectionHandler.MESSAGE.length() )
+         final Socket clientSocket = new Socket( localAddress, port );
+         final InputStream inputStream = clientSocket.getInputStream();
+         final StringBuffer sb = new StringBuffer();
+         while ( sb.length() < ClosingSocketConnectionHandler.MESSAGE.length() )
+         {
+            final int ch = inputStream.read();
+            if ( -1 != ch )
             {
-                final int ch = inputStream.read();
-                if( -1 != ch )
-                {
-                    sb.append( (char)ch );
-                }
+               sb.append( (char) ch );
             }
-            clientSocket.close();
-            final String message = sb.toString();
-            assertEquals( "message", ClosingSocketConnectionHandler.MESSAGE, message );
-        }
-        finally
-        {
-            m_manager.shutdownSelector();
-            channel.close();
-            assertEquals( "isConnected post disconnect", false, m_manager.isConnected( name ) );
-        }
-    }
+         }
+         clientSocket.close();
+         final String message = sb.toString();
+         assertEquals( "message", ClosingSocketConnectionHandler.MESSAGE, message );
+      }
+      finally
+      {
+         m_manager.shutdown();
+         channel.close();
+         assertEquals( "isConnected post disconnect", false, m_manager.isConnected( name ) );
+      }
+   }
 
-    public void testExceptingHandler()
-        throws Exception
-    {
-        m_manager = new NIOAcceptorManager();
-        m_manager.startupSelector();
-        final RecordingNIOAcceptorMonitor monitor = new RecordingNIOAcceptorMonitor();
-        m_manager.setMonitor( monitor );
-        m_manager.setTimeout( 500 );
+   public void testExceptingHandler()
+      throws Exception
+   {
+      m_manager = new NIOAcceptorManager();
+      m_manager.startupSelector();
+      final RecordingNIOAcceptorMonitor monitor = new RecordingNIOAcceptorMonitor();
+      m_manager.setMonitor( monitor );
+      m_manager.setTimeout( 500 );
 
-        final String name = "name";
-        assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
-        final ServerSocketChannel channel = ServerSocketChannel.open();
-        try
-        {
-            final ServerSocket socket = channel.socket();
-            socket.setReuseAddress( true );
-            final InetAddress localAddress = InetAddress.getLocalHost();
-            final int port = nextPort();
-            final InetSocketAddress address =
-                new InetSocketAddress( localAddress, port );
-            socket.bind( address );
-            m_manager.connect( name,
-                               socket,
-                               new ExceptingSocketConnectionHandler() );
-            assertEquals( "isConnected pre disconnect",
-                          true,
-                          m_manager.isConnected( name ) );
-            try
-            {
-                Thread.sleep( 250 );
-            }
-            catch( InterruptedException e )
-            {
-            }
-            final Socket clientSocket = new Socket( localAddress, port );
-            final OutputStream outputStream = clientSocket.getOutputStream();
-            outputStream.write( 'a' );
-            outputStream.flush();
-            clientSocket.close();
+      final String name = "name";
+      assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
+      final ServerSocketChannel channel = ServerSocketChannel.open();
+      try
+      {
+         final ServerSocket socket = channel.socket();
+         socket.setReuseAddress( true );
+         final InetAddress localAddress = InetAddress.getLocalHost();
+         final int port = nextPort();
+         final InetSocketAddress address =
+            new InetSocketAddress( localAddress, port );
+         socket.bind( address );
+         m_manager.connect( name,
+                            socket,
+                            new ExceptingSocketConnectionHandler() );
+         assertEquals( "isConnected pre disconnect",
+                       true,
+                       m_manager.isConnected( name ) );
+         try
+         {
+            Thread.sleep( 250 );
+         }
+         catch ( InterruptedException e )
+         {
+         }
+         final Socket clientSocket = new Socket( localAddress, port );
+         final OutputStream outputStream = clientSocket.getOutputStream();
+         outputStream.write( 'a' );
+         outputStream.flush();
+         clientSocket.close();
 
-            try
-            {
-                Thread.sleep( 250 );
-            }
-            catch( InterruptedException e )
-            {
-            }
+         try
+         {
+            Thread.sleep( 250 );
+         }
+         catch ( InterruptedException e )
+         {
+         }
 
-            assertEquals( "error",
-                          ExceptingSocketConnectionHandler.EXCEPTION,
-                          monitor.getErrorAcceptingConnection() );
-        }
-        finally
-        {
-            m_manager.shutdownSelector();
-            channel.close();
-            assertEquals( "isConnected post disconnect", false, m_manager.isConnected( name ) );
-        }
-    }
+         assertEquals( "error",
+                       ExceptingSocketConnectionHandler.EXCEPTION,
+                       monitor.getErrorAcceptingConnection() );
+      }
+      finally
+      {
+         m_manager.shutdown();
+         channel.close();
+         assertEquals( "isConnected post disconnect", false, m_manager.isConnected( name ) );
+      }
+   }
 
-    private int nextPort()
-    {
-        final int random = new Random().nextInt() % 100;
-        return 1400 + c_index++ + random;
-    }
+   private int nextPort()
+   {
+      final int random = new Random().nextInt() % 100;
+      return 1400 + c_index++ + random;
+   }
 
-    protected SocketAcceptorManager createAcceptorManager()
-        throws Exception
-    {
-        m_manager = new NIOAcceptorManager();
-        m_manager.startupSelector();
-        return m_manager;
-    }
+   protected SocketAcceptorManager createAcceptorManager()
+      throws Exception
+   {
+      m_manager = new NIOAcceptorManager();
+      m_manager.startupSelector();
+      return m_manager;
+   }
 
-    protected void shutdownAcceptorManager( SocketAcceptorManager manager )
-        throws Exception
-    {
-        ( (NIOAcceptorManager)manager ).shutdownSelector();
-    }
+   protected void shutdownAcceptorManager( SocketAcceptorManager manager )
+      throws Exception
+   {
+      m_manager.shutdown();
+   }
 }
 
