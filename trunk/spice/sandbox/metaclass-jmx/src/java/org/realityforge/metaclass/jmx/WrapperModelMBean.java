@@ -16,63 +16,103 @@ import javax.management.ObjectName;
 import javax.management.MBeanServer;
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanRegistration;
+import javax.management.JMException;
 
+/**
+ * A extension of RequiredModelMBean that propogates MBeanRegistration
+ * events to managed object.
+ */
 public class WrapperModelMBean
-   extends RequiredModelMBean
+    extends RequiredModelMBean
+    implements MBeanRegistration
 {
-   private Object m_resource;
+    /**
+     * Constant for managed resource type.
+     */
+    private static final String OBJECT_REFERNECE_RESOURCE_TYPE = "ObjectReference";
 
-   public WrapperModelMBean( final ModelMBeanInfo info )
-      throws MBeanException, RuntimeOperationsException
-   {
-      super( info );
-   }
+    /**
+     * The managed resource.
+     */
+    private Object m_resource;
 
-   public ObjectName preRegister( final MBeanServer server,
-                                  final ObjectName name )
-      throws Exception
-   {
-      final ObjectName objectName = super.preRegister( server, name );
-      if ( m_resource instanceof MBeanRegistration )
-      {
-         ( (MBeanRegistration) m_resource ).preRegister( server, name );
-      }
-      return objectName;
-   }
+    /**
+     * Create the MBean.
+     *
+     * @param info the ModelMBeanInfo object.
+     * @param managedResource the managed resource
+     * @throws JMException if error creating MBean
+     * @throws InvalidTargetObjectTypeException if thrown from setManagedResource
+     */
+    public WrapperModelMBean( final ModelMBeanInfo info,
+                              final Object managedResource )
+        throws JMException, InvalidTargetObjectTypeException
+    {
+        super( info );
+        setManagedResource( managedResource, OBJECT_REFERNECE_RESOURCE_TYPE );
+    }
 
-   public void postRegister( final Boolean registrationDone )
-   {
-      super.postRegister( registrationDone );
-      if ( m_resource instanceof MBeanRegistration )
-      {
-         ( (MBeanRegistration) m_resource ).postRegister( registrationDone );
-      }
-   }
+    /**
+     * @see MBeanRegistration#preRegister(MBeanServer, ObjectName)
+     */
+    public ObjectName preRegister( final MBeanServer server,
+                                   final ObjectName name )
+        throws Exception
+    {
+        final ObjectName objectName = super.preRegister( server, name );
+        if( m_resource instanceof MBeanRegistration )
+        {
+            ( (MBeanRegistration)m_resource ).preRegister( server, name );
+        }
+        return objectName;
+    }
 
-   public void preDeregister()
-      throws Exception
-   {
-      super.preDeregister();
-      if ( m_resource instanceof MBeanRegistration )
-      {
-         ( (MBeanRegistration) m_resource ).preDeregister();
-      }
-   }
+    /**
+     * @see MBeanRegistration#postRegister(Boolean)
+     */
+    public void postRegister( final Boolean registrationDone )
+    {
+        super.postRegister( registrationDone );
+        if( m_resource instanceof MBeanRegistration )
+        {
+            ( (MBeanRegistration)m_resource ).postRegister( registrationDone );
+        }
+    }
 
-   public void postDeregister()
-   {
-      super.postDeregister();
-      if ( m_resource instanceof MBeanRegistration )
-      {
-         ( (MBeanRegistration) m_resource ).postDeregister();
-      }
-   }
+    /**
+     * @see MBeanRegistration#preDeregister()
+     */
+    public void preDeregister()
+        throws Exception
+    {
+        super.preDeregister();
+        if( m_resource instanceof MBeanRegistration )
+        {
+            ( (MBeanRegistration)m_resource ).preDeregister();
+        }
+    }
 
-   public void setManagedResource( final Object resource,
-                                   final String resourceType )
-      throws MBeanException, RuntimeOperationsException, InstanceNotFoundException, InvalidTargetObjectTypeException
-   {
-      super.setManagedResource( resource, resourceType );
-      m_resource = resource;
-   }
+    /**
+     * @see MBeanRegistration#postDeregister()
+     */
+    public void postDeregister()
+    {
+        super.postDeregister();
+        if( m_resource instanceof MBeanRegistration )
+        {
+            ( (MBeanRegistration)m_resource ).postDeregister();
+        }
+    }
+
+    /**
+     * Overloaded setManagedResource that caches the resource.
+     * @see RequiredModelMBean#setManagedResource(Object,String)
+     */
+    public void setManagedResource( final Object resource,
+                                    final String resourceType )
+        throws MBeanException, RuntimeOperationsException, InstanceNotFoundException, InvalidTargetObjectTypeException
+    {
+        super.setManagedResource( resource, resourceType );
+        m_resource = resource;
+    }
 }
