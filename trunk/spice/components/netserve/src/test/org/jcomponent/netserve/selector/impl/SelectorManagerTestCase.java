@@ -200,6 +200,68 @@ public class SelectorManagerTestCase
         mockMonitor.verify();
     }
 
+    public void testInvalidAttachment()
+        throws Exception
+    {
+        final ServerSocketChannel channel = ServerSocketChannel.open();
+        channel.socket().setReuseAddress( true );
+        final InetAddress localAddress = InetAddress.getLocalHost();
+        final Random random = new Random();
+        final int port = Math.abs( random.nextInt() % 5000 ) + 1024;
+        final InetSocketAddress address = new InetSocketAddress( localAddress, port );
+        channel.socket().bind( address );
+        //Wait for binding to go through
+        Thread.sleep( 200 );
+
+        final Mock mockMonitor = new Mock( SelectorMonitor.class );
+
+        mockMonitor.expect( "selectorStartup", C.NO_ARGS );
+        mockMonitor.expect( "enteringSelectorLoop", C.NO_ARGS );
+        mockMonitor.expect( "enteringSelect", C.NO_ARGS );
+        mockMonitor.expect( "selectCompleted", C.args( C.eq( 0 ) ) );
+        mockMonitor.expect( "enteringSelect", C.NO_ARGS );
+        mockMonitor.expect( "selectCompleted", C.args( C.eq( 1 ) ) );
+        mockMonitor.expect( "invalidAttachment", C.anyArgs( 1 ) );
+        mockMonitor.expect( "enteringSelect", C.NO_ARGS );
+        mockMonitor.expect( "selectorShutdown", C.NO_ARGS );
+        mockMonitor.expect( "selectCompleted", C.args( C.eq( 0 ) ) );
+        mockMonitor.expect( "exitingSelectorLoop", C.NO_ARGS );
+        final SelectorMonitor monitor = (SelectorMonitor)mockMonitor.proxy();
+
+        final DefaultSelectorManager manager = new DefaultSelectorManager();
+        manager.setTimeout( 5000 );
+        manager.setMonitor( monitor );
+
+        assertEquals( "isRunning pre start", false, manager.isRunning() );
+        assertNullSelector( manager );
+        manager.startup();
+        assertEquals( "isRunning post start", true, manager.isRunning() );
+        assertNotNull( "getSelector post start", manager.getSelector() );
+
+        final SelectionKey key =
+          manager.registerChannel( channel,
+                                        SelectionKey.OP_ACCEPT,
+                                        new HelloSelectorEventHandler(),
+                                        null );
+        key.attach( null );
+
+        final Socket clientSocket = new Socket( localAddress, port );
+        System.out.print( "Socket Connecting to Key with InvalidAttachment" );
+        while( !clientSocket.isConnected() )
+        {
+            System.out.print( "." );
+            Thread.yield();
+        }
+        System.out.println( " - Connected" );
+        clientSocket.close();
+        Thread.sleep( 50 );
+        manager.shutdown();
+        assertNullSelector( manager );
+        assertEquals( "isRunning post shutdown", false, manager.isRunning() );
+
+        mockMonitor.verify();
+    }
+
     private void assertNullSelector( final DefaultSelectorManager manager )
     {
         try
