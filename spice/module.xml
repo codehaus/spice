@@ -25,11 +25,6 @@
         <jar name="target/converter-@@DATE@@.jar"/>
         <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
             to="spice-devel@lists.sourceforge.net"/>
-        <nag>
-            <regexp pattern="/^$/" from="peter@realityforge.org"
-                to="spice-devel@lists.sourceforge.net"
-                subject="PRE-REQ FAILED for spice-converter"/>
-        </nag>
     </project>
 
     <project name="spice-jndikit">
@@ -48,11 +43,6 @@
         <jar name="target/jndikit-@@DATE@@.jar"/>
         <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
             to="spice-devel@lists.sourceforge.net"/>
-        <nag>
-            <regexp pattern="/^$/" from="peter@realityforge.org"
-                to="spice-devel@lists.sourceforge.net"
-                subject="PRE-REQ FAILED for spice-jndikit"/>
-        </nag>
     </project>
 
     <project name="spice-metaclass">
@@ -72,11 +62,6 @@
         <jar name="target/metaclass-@@DATE@@.jar"/>
         <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
             to="spice-devel@lists.sourceforge.net"/>
-        <nag>
-            <regexp pattern="/^$/" from="peter@realityforge.org"
-                to="spice-devel@lists.sourceforge.net"
-                subject="PRE-REQ FAILED for spice-metaclass"/>
-        </nag>
     </project>
 
     <project name="spice-nativekit">
@@ -97,11 +82,6 @@
         <jar name="target/nativekit-@@DATE@@.jar"/>
         <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
             to="spice-devel@lists.sourceforge.net"/>
-        <nag>
-            <regexp pattern="/^$/" from="peter@realityforge.org"
-                to="spice-devel@lists.sourceforge.net"
-                subject="PRE-REQ FAILED for spice-nativekit"/>
-        </nag>
     </project>
 
     <!-- Ugly hackity project as qdox is not gumpified -->
@@ -127,11 +107,6 @@
         <jar name="target/xinvoke-@@DATE@@.jar"/>
         <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
             to="spice-devel@lists.sourceforge.net"/>
-        <nag>
-            <regexp pattern="/^$/" from="peter@realityforge.org"
-                to="spice-devel@lists.sourceforge.net"
-                subject="PRE-REQ FAILED for spice-xinvoke"/>
-        </nag>
     </project>
 
 </module>
