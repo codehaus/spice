@@ -16,11 +16,43 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-28 08:15:03 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-28 08:19:32 $
  */
 public class CachingMetaClassAccessorTestCase
     extends TestCase
 {
+    public void testNullClassnamePassedToGetClassDescriptor()
+        throws Exception
+    {
+        final CachingMetaClassAccessor accessor = new CachingMetaClassAccessor();
+        try
+        {
+            accessor.getClassDescriptor( null, getClass().getClassLoader(), accessor );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.getMessage()", "classname", npe.getMessage() );
+            return;
+        }
+        fail( "Expected to fail due to null Classname passed into GetClassDescriptor" );
+    }
+
+    public void testNullClassLoaderPassedToGetClassDescriptor()
+        throws Exception
+    {
+        final CachingMetaClassAccessor accessor = new CachingMetaClassAccessor();
+        try
+        {
+            accessor.getClassDescriptor( "X", null, accessor );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.getMessage()", "classLoader", npe.getMessage() );
+            return;
+        }
+        fail( "Expected to fail due to null ClassLoader passed into GetClassDescriptor" );
+    }
+
     public void testGetNonExistent()
         throws Exception
     {
