@@ -1,34 +1,23 @@
 package org.componenthaus.repository.api;
 
 import org.prevayler.implementation.AbstractPrevalentSystem;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContextException;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.io.File;
+import java.util.Map;
 
-public class RepositoryImpl extends AbstractPrevalentSystem implements ComponentRepository,InitializingBean {
+public class RepositoryImpl extends AbstractPrevalentSystem implements ComponentRepository {
     private final Map components;
     private final Map downloadables;
-    private ComponentRepository.Monitor monitor = null;
+    private final ComponentRepository.Monitor monitor;
 
-    public RepositoryImpl() {
+    public RepositoryImpl(final ComponentRepository.Monitor monitor) {
         components = new HashMap();
         downloadables = new HashMap();
-    }
-
-    public void setMonitor(ComponentRepository.Monitor monitor) {
         this.monitor = monitor;
-    }
-
-    public void afterPropertiesSet() throws Exception {
-        if ( monitor == null ) {
-            throw new ApplicationContextException("Must set property 'monitor' on " + getClass());
-        }
     }
 
     public String add(Component component) {
@@ -38,6 +27,7 @@ public class RepositoryImpl extends AbstractPrevalentSystem implements Component
         components.put(component.getId(),component);
         giveIdsToImplementations(component);
         monitor.componentAdded(component);
+        System.out.println("Added component " + component);
         return component.getId();
     }
 

@@ -2,8 +2,6 @@ package org.componenthaus.usecases.searchcomponents;
 
 import org.componenthaus.repository.api.ComponentRepository;
 import org.componenthaus.search.SearchService;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContextException;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
@@ -19,31 +17,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class SearchComponentsController extends SimpleFormController implements InitializingBean {
+public class SearchComponentsController extends SimpleFormController {
     private static final int HITS_PER_PAGE = 10;
-    private SearchService searchService;
-    private ComponentRepository repository = null;
-    private final ViewConfiguration viewConfiguration;
+    private final SearchService searchService;
+    private final ComponentRepository repository;
 
-    public SearchComponentsController(final ViewConfiguration viewConfiguration) {
+    public SearchComponentsController(final ViewConfiguration viewConfiguration,
+                                      final SearchService searchService,
+                                      final ComponentRepository repository) {
+        setFormView(viewConfiguration.getFormView());
         setCommandClass(Object.class);
-        this.viewConfiguration = viewConfiguration;
-    }
-
-    public void afterPropertiesSet() throws Exception {
-        if ( searchService == null ) {
-            throw new ApplicationContextException("Must set property 'searchService' on " + getClass());
-        }
-        if ( repository == null ) {
-            throw new ApplicationContextException("Must set property 'repository' on " + getClass());
-        }
-    }
-
-    public void setSearchService(SearchService searchService) {
         this.searchService = searchService;
-    }
-
-    public void setRepository(ComponentRepository repository) {
         this.repository = repository;
     }
 

@@ -1,7 +1,6 @@
 package org.componenthaus.usecases.listcomponents;
 
 import org.componenthaus.repository.api.ComponentRepository;
-import org.prevayler.Prevayler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -12,17 +11,16 @@ import java.io.IOException;
 import java.util.Collection;
 
 public class ListComponentsController extends AbstractController {
-    private Prevayler prevayler = null;
+    private final ComponentRepository repository;
 
-    public void setPrevayler(Prevayler prevayler) {
-        this.prevayler = prevayler;
+    public ListComponentsController(ComponentRepository repository) {
+        this.repository = repository;
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final ComponentRepository repository = (ComponentRepository) prevayler.system();
+        System.out.println("repository = " + repository);
         final Collection modelObject = repository.listComponents();
+        System.out.println("Num components " + modelObject.size());
         return new ModelAndView("listComponentsView","components",modelObject);
     }
-
-
 }

@@ -129,7 +129,7 @@ public abstract class AbstractPicoApplicationContext implements WebApplicationCo
         System.out.println("getBeanDefinitionNames");
         final Collection names = new ArrayList();
         for(Iterator i=pico.getComponentKeys().iterator();i.hasNext();) {
-            final String key = (String) i.next();
+            final Object key = i.next();
             if ( type.isAssignableFrom(pico.getComponentInstance(key).getClass())) {
                 names.add(key);
             }

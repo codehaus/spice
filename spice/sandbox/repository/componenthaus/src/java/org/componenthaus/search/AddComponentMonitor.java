@@ -2,19 +2,11 @@ package org.componenthaus.search;
 
 import org.componenthaus.repository.api.Component;
 import org.componenthaus.repository.api.ComponentRepository;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContextException;
 
-public class AddComponentMonitor implements ComponentRepository.Monitor, InitializingBean {
-    private SearchService searchService = null;
+public class AddComponentMonitor implements ComponentRepository.Monitor {
+    private final SearchService searchService;
 
-    public void afterPropertiesSet() throws Exception {
-        if ( searchService == null ) {
-            throw new ApplicationContextException("Must set property 'searchService' on " + getClass());
-        }
-    }
-
-    public void setSearchService(SearchService searchService) {
+    public AddComponentMonitor(SearchService searchService) {
         this.searchService = searchService;
     }
 

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.io.FileNotFoundException;
 
 public class FileManagerImpl implements FileManager {
     private static final int chunk = 1024;

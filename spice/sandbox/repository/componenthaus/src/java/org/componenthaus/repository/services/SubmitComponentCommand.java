@@ -16,6 +16,10 @@ public class SubmitComponentCommand implements Command {
 
     public Serializable execute(PrevalentSystem prevalentSystem) throws Exception {
         final ComponentRepository repository = (ComponentRepository) prevalentSystem;
-        return repository.add(component);
+        System.out.println("repository = " + repository);
+        int numComponents = repository.listComponents().size();
+        final String result = repository.add(component);
+        assert numComponents < repository.listComponents().size();
+        return result;
     }
 }
