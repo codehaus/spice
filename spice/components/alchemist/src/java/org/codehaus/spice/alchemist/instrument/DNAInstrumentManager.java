@@ -25,7 +25,7 @@ import org.codehaus.spice.alchemist.logger.LoggerAlchemist;
  * 
  * @author Johan Sjoberg
  * @author Mauro Talevi
- * @version $Revision: 1.4 $ $Date: 2004-06-20 12:48:45 $
+ * @version $Revision: 1.5 $ $Date: 2004-06-20 13:37:27 $
  */
 public class DNAInstrumentManager implements InstrumentManager, LogEnabled,
         Configurable, Active {
@@ -54,7 +54,7 @@ public class DNAInstrumentManager implements InstrumentManager, LogEnabled,
             LoggerAlchemist.toAvalonLogEnabled( _manager ).enableLogging(
                     LoggerAlchemist.toAvalonLogger( logger ) );
         } catch ( IllegalArgumentException e ) {
-            // The manager is not Avalon LogEnabled            
+            // The manager is not Avalon LogEnabled   
         }
     }
 
@@ -67,7 +67,9 @@ public class DNAInstrumentManager implements InstrumentManager, LogEnabled,
             ConfigurationAlchemist.toAvalonConfigurable( _manager )
                     .configure( ConfigurationAlchemist
                             .toAvalonConfiguration( configuration ) );
-        } catch ( Exception e ) {
+        } catch ( IllegalArgumentException e ) {
+            // The manager is not Avalon Configurable            
+        } catch ( org.apache.avalon.framework.configuration.ConfigurationException e ) {
             throw new ConfigurationException( e.getMessage(), e );
         }
     }
