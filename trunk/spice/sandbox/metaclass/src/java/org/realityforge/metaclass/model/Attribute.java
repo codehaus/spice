@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-05 04:43:34 $
+ * @version $Revision: 1.3 $ $Date: 2003-06-05 23:47:55 $
  */
 public final class Attribute
     implements Serializable
@@ -94,20 +94,21 @@ public final class Attribute
                       final String value,
                       final Properties parameters )
     {
-        if( null == name )
+        if ( null == name )
         {
             throw new NullPointerException( "name" );
         }
 
-/*
-        if( null != value && null != parameters )
+        if ( null != value && null != parameters )
         {
             final String message =
-                "Can not create an Attribute with both a " +
-                "text value and parameters";
+                "Can not create an Attribute with both " +
+                "a text value and parameters:" + "\n" +
+                "Name = " + name + "\n" +
+                "Value = " + value + "\n" +
+                "Parameters = " + parameters;
             throw new IllegalArgumentException( message );
         }
-*/
 
         _name = name;
         _value = value;
@@ -149,7 +150,7 @@ public final class Attribute
      */
     public String getParameter( final String key )
     {
-        if( null == _parameters )
+        if ( null == _parameters )
         {
             return null;
         }
@@ -167,7 +168,7 @@ public final class Attribute
     public String getParameter( final String key,
                                 final String defaultValue )
     {
-        if( null == _parameters )
+        if ( null == _parameters )
         {
             return defaultValue;
         }
@@ -184,26 +185,15 @@ public final class Attribute
      */
     public String[] getParameterNames()
     {
-        if( null == _parameters )
+        if ( null == _parameters )
         {
             return EMPTY_SET;
         }
         else
         {
             final Set set = _parameters.keySet();
-            return (String[])set.toArray( EMPTY_SET );
+            return (String[]) set.toArray( EMPTY_SET );
         }
-    }
-
-    public boolean equals( final Object o )
-    {
-        if( !( o instanceof Attribute ) )
-        {
-            return false;
-        }
-
-        final Attribute other = (Attribute)o;
-        return getName().equals( other.getName() );
     }
 
     /**
@@ -217,7 +207,7 @@ public final class Attribute
         result.append( getName() );
         result.append( ": " );
         final String[] names = getParameterNames();
-        for( int i = 0; i < names.length; i++ )
+        for ( int i = 0; i < names.length; i++ )
         {
             final String name = names[ i ];
             result.append( name );
