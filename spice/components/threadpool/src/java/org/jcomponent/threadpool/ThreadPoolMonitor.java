@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
- package org.jcomponent.threadpool.impl;
+ package org.jcomponent.threadpool;
 
 /**
  * Monitor interface for ThreadPool.  
