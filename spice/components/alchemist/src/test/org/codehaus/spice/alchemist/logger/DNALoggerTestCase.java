@@ -5,14 +5,11 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.codehaus.spice.alchemist;
+package org.codehaus.spice.alchemist.logger;
 
 import java.util.logging.Level;
-
 import junit.framework.TestCase;
-
 import org.apache.avalon.framework.logger.Jdk14Logger;
-import org.codehaus.spice.alchemist.impl.DNALogger;
 
 public class DNALoggerTestCase
     extends TestCase

@@ -5,13 +5,10 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.codehaus.spice.alchemist;
+package org.codehaus.spice.alchemist.logger;
 
 import java.util.logging.Level;
-
 import junit.framework.TestCase;
-
-import org.codehaus.spice.alchemist.impl.AvalonLogger;
 import org.codehaus.dna.impl.Jdk14Logger;
 
 public class AvalonLoggerTestCase
