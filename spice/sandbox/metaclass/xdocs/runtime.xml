@@ -124,8 +124,30 @@ Attribute[] attributes =
         </section>
         <section name="Accessing Complete Descriptors">
             <p>
-                TODO
+                The other method of accessing metadata about programming
+                elements is to directly load and manipulate the PackageDescriptor
+                and ClassDescriptor objects. The developer accesses the descriptors
+                using the <tt>MetaClassIntrospector</tt> to retrieve the
+                ClassDescriptor and PackageDescriptor objects. The Descriptors
+                can then be traversed to access the relevent metadata such
+                as Method and Field attributes. See below for an example usage
+                and the <a href="apidocs/org/realityforge/metaclass/model/package-summary.html">
+                API docs</a> for detailed description of the Descriptor objects.
             </p>
+<source><![CDATA[
+ClassDescriptor clazzDescriptor =
+    MetaClassIntrospector.getClassDescriptor( MyClass.class );
+
+FieldDescriptor[] fields = clazzDescriptor.getFields()
+processFields( fields );
+
+MethodDescriptor[] methods = clazzDescriptor.getMethods()
+processMethods( methods );
+
+PackageDescriptor pakkageDescriptor =
+    MetaClassIntrospector.getPackageDescriptor( MyClass.class );
+Attribute[] attributes = pakkageDescriptor.getAttributes();
+]]></source>
         </section>
     </body>
 
