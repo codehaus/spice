@@ -18,22 +18,11 @@ import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.commons.pool.impl.GenericObjectPool;
 
 /**
- * The CommonsThreadPool is a component that provides a basic
- * mechanism for pooling threads. A sample configuration for this
- * component is;
- * <pre>
- * &lt;config&gt;
- *   &lt;name&gt;MyThreadPool&lt;/name&gt; &lt;!-- base name of all threads --&gt;
- *   &lt;priority&gt;5&lt;/priority&gt; &lt;!-- set to default priority --&gt;
- *   &lt;is-daemon&gt;false&lt;/is-daemon&gt; &lt;!-- are threads daemon threads? --&gt;
- *   &lt;resource-limiting&gt;false&lt;/resource-limiting&gt; &lt;!-- will pool block when max threads reached? --&gt;
- *   &lt;max-threads&gt;10&lt;/max-threads&gt;
- *   &lt;max-idle&gt;5&lt;/max-idle&gt; &lt;!-- maximum number of idle threads --&gt;
- * &lt;/config&gt;
- * </pre>
- *
+ * The AvalonCommonsThreadPool wraps the CommonsThreadPool for
+ * Avalon-compatible systems.
+ * 
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-31 00:36:30 $
+ * @version $Revision: 1.4 $ $Date: 2003-09-02 08:07:29 $
  * @phoenix.service type="ThreadPool"
  */
 public class AvalonCommonsThreadPool
