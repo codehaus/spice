@@ -20,7 +20,7 @@ import org.realityforge.converter.AbstractMasterConverter;
  * any of the converters in this package.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-03-25 02:51:26 $
+ * @version $Revision: 1.4 $ $Date: 2003-04-04 11:28:55 $
  */
 public class SimpleMasterConverter
     extends AbstractMasterConverter
@@ -37,27 +37,48 @@ public class SimpleMasterConverter
         registerConverter( new SimpleConverterFactory( StringToBooleanConverter.class ),
                            String.class.getName(),
                            Boolean.class.getName() );
+        registerConverter( new SimpleConverterFactory( StringToBooleanConverter.class ),
+                           String.class.getName(),
+                           Boolean.TYPE.getName() );
         registerConverter( new SimpleConverterFactory( StringToByteConverter.class ),
                            String.class.getName(),
                            Byte.class.getName() );
+        registerConverter( new SimpleConverterFactory( StringToByteConverter.class ),
+                           String.class.getName(),
+                           Byte.TYPE.getName() );
         registerConverter( new SimpleConverterFactory( StringToClassConverter.class ),
                            String.class.getName(),
                            Class.class.getName() );
         registerConverter( new SimpleConverterFactory( StringToDoubleConverter.class ),
                            String.class.getName(),
                            Double.class.getName() );
+        registerConverter( new SimpleConverterFactory( StringToDoubleConverter.class ),
+                           String.class.getName(),
+                           Double.TYPE.getName() );
         registerConverter( new SimpleConverterFactory( StringToFloatConverter.class ),
                            String.class.getName(),
                            Float.class.getName() );
+        registerConverter( new SimpleConverterFactory( StringToFloatConverter.class ),
+                           String.class.getName(),
+                           Float.TYPE.getName() );
         registerConverter( new SimpleConverterFactory( StringToIntegerConverter.class ),
                            String.class.getName(),
                            Integer.class.getName() );
+        registerConverter( new SimpleConverterFactory( StringToIntegerConverter.class ),
+                           String.class.getName(),
+                           Integer.TYPE.getName() );
         registerConverter( new SimpleConverterFactory( StringToLongConverter.class ),
                            String.class.getName(),
                            Long.class.getName() );
+        registerConverter( new SimpleConverterFactory( StringToLongConverter.class ),
+                           String.class.getName(),
+                           Long.TYPE.getName() );
         registerConverter( new SimpleConverterFactory( StringToShortConverter.class ),
                            String.class.getName(),
                            Short.class.getName() );
+        registerConverter( new SimpleConverterFactory( StringToShortConverter.class ),
+                           String.class.getName(),
+                           Short.TYPE.getName() );
         registerConverter( new SimpleConverterFactory( StringToURLConverter.class ),
                            String.class.getName(),
                            URL.class.getName() );
