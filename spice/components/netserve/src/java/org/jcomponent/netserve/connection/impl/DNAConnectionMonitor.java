@@ -7,17 +7,17 @@
  */
 package org.jcomponent.netserve.connection.impl;
 
-import org.jcontainer.dna.AbstractLogEnabled;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.io.IOException;
+import org.jcontainer.dna.AbstractLogEnabled;
 
 /**
  * Implementation of ConnectionMonitor which logs event with the DNA logger.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-08 07:40:45 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-24 07:59:42 $
  */
 class DNAConnectionMonitor
     extends AbstractLogEnabled
@@ -120,7 +120,7 @@ class DNAConnectionMonitor
     }
 
     public void disposingHandler( final String name,
-                                 final Socket socket )
+                                  final Socket socket )
     {
         if( getLogger().isDebugEnabled() )
         {

@@ -7,14 +7,14 @@
  */
 package org.jcomponent.netserve.sockets.impl;
 
-import java.net.ServerSocket;
 import java.io.IOException;
+import java.net.ServerSocket;
 
 /**
  * Monitor used to monitor events in the AcceptorManager.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-08 08:23:46 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-24 07:59:43 $
  */
 public interface AcceptorMonitor
 {

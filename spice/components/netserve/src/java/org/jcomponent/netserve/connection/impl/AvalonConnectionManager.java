@@ -18,8 +18,8 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.jcomponent.threadpool.ThreadPool;
 import org.jcomponent.netserve.sockets.SocketAcceptorManager;
+import org.jcomponent.threadpool.ThreadPool;
 
 /**
  * An implementation of ConnectionManager which honours the
@@ -38,7 +38,7 @@ import org.jcomponent.netserve.sockets.SocketAcceptorManager;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-10-14 04:23:58 $
+ * @version $Revision: 1.14 $ $Date: 2003-10-24 07:59:42 $
  * @dna.component
  * @dna.service type="org.jcomponent.netserve.connection.ConnectionManager"
  */

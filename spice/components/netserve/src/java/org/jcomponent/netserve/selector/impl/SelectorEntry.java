@@ -8,51 +8,51 @@ import org.jcomponent.netserve.selector.SelectorEventHandler;
  */
 class SelectorEntry
 {
-   /**
-    * The associated handler that is passed
-    * events about channel.
-    */
-   private final SelectorEventHandler _handler;
+    /**
+     * The associated handler that is passed
+     * events about channel.
+     */
+    private final SelectorEventHandler _handler;
 
-   /**
-    * The user specified data that is passed to the handler.
-    */
-   private final Object _userData;
+    /**
+     * The user specified data that is passed to the handler.
+     */
+    private final Object _userData;
 
-   /**
-    * Create an Entry for Selector registration.
-    *
-    * @param handler the handler
-    * @param userData the user specified data
-    */
-   SelectorEntry( final SelectorEventHandler handler,
-                  final Object userData )
-   {
-      if ( null == handler )
-      {
-         throw new NullPointerException( "handler" );
-      }
-      _handler = handler;
-      _userData = userData;
-   }
+    /**
+     * Create an Entry for Selector registration.
+     *
+     * @param handler the handler
+     * @param userData the user specified data
+     */
+    SelectorEntry( final SelectorEventHandler handler,
+                   final Object userData )
+    {
+        if( null == handler )
+        {
+            throw new NullPointerException( "handler" );
+        }
+        _handler = handler;
+        _userData = userData;
+    }
 
-   /**
-    * Return the handler for channel.
-    *
-    * @return the handler for channel.
-    */
-   SelectorEventHandler getHandler()
-   {
-      return _handler;
-   }
+    /**
+     * Return the handler for channel.
+     *
+     * @return the handler for channel.
+     */
+    SelectorEventHandler getHandler()
+    {
+        return _handler;
+    }
 
-   /**
-    * Return the userData passed to handler.
-    *
-    * @return the userData passed to handler.
-    */
-   Object getUserData()
-   {
-      return _userData;
-   }
+    /**
+     * Return the userData passed to handler.
+     *
+     * @return the userData passed to handler.
+     */
+    Object getUserData()
+    {
+        return _userData;
+    }
 }
