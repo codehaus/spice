@@ -7,15 +7,15 @@
  */
 package org.realityforge.metaclass.introspector;
 
-import com.mockobjects.dynamic.C;
-import com.mockobjects.dynamic.ConstraintMatcher;
-import com.mockobjects.dynamic.Mock;
 import junit.framework.TestCase;
 import org.realityforge.metaclass.model.ClassDescriptor;
+import org.jmock.Mock;
+import org.jmock.C;
+import org.jmock.InvocationMatcher;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-11-28 11:14:54 $
+ * @version $Revision: 1.3 $ $Date: 2003-12-09 07:51:26 $
  */
 public class WrapperMetaClassAccessorTestCase
     extends TestCase
@@ -41,7 +41,7 @@ public class WrapperMetaClassAccessorTestCase
         final Mock mock = new Mock( MetaClassAccessor.class );
         final String classname = "X";
         final ClassLoader classLoader = getClass().getClassLoader();
-        final ConstraintMatcher matcher =
+        final InvocationMatcher matcher =
             C.args( C.eq( classname ), C.eq( classLoader ), C.IS_NULL );
         mock.expectAndReturn( "getClassDescriptor", matcher, null );
 

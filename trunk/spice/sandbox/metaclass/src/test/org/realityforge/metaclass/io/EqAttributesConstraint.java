@@ -1,7 +1,7 @@
 package org.realityforge.metaclass.io;
 
-import com.mockobjects.constraint.Constraint;
 import org.xml.sax.helpers.AttributesImpl;
+import org.jmock.Constraint;
 
 class EqAttributesConstraint
     implements Constraint
