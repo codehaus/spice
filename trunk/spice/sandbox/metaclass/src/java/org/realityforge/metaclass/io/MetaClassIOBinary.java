@@ -26,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.18 $ $Date: 2003-10-28 13:40:52 $
+ * @version $Revision: 1.19 $ $Date: 2003-11-01 01:21:42 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -37,11 +37,7 @@ public class MetaClassIOBinary
     static final int VERSION = 2;
 
     /**
-     * Read a ClassDescriptor from an input stream.
-     *
-     * @param input the input stream
-     * @return the ClassDescriptor
-     * @throws IOException if unable ot read class descriptor
+     * @see MetaClassIO#deserializeClass
      */
     public ClassDescriptor deserializeClass( final InputStream input )
         throws IOException
@@ -63,11 +59,7 @@ public class MetaClassIOBinary
     }
 
     /**
-     * Write a ClassDescriptor to an output stream.
-     *
-     * @param output the stream to write class descriptor out to
-     * @param info the ClassDescriptor to write out
-     * @throws IOException if unable ot write class descriptor
+     * @see MetaClassIO#serializeClass
      */
     public void serializeClass( final OutputStream output, final ClassDescriptor info )
         throws IOException
@@ -197,7 +189,7 @@ public class MetaClassIOBinary
             new MethodDescriptor( name,
                                   type,
                                   parameters,
-                                  attributes, 
+                                  attributes,
                                   attributes );
     }
 
