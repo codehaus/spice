@@ -23,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-08-22 02:54:10 $
+ * @version $Revision: 1.7 $ $Date: 2003-08-22 02:55:29 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -125,6 +125,32 @@ public class MetaClassIOBinaryTestCase
         assertEquals( "bytes[" + offset + "] = " + value, value, readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + value.length();
         assertEquals( "bytes[" + offset + "] = 0", 0, readInteger( bytes, offset ) );
+    }
+
+    public void testBinaryIOReadAttributeWithValue()
+        throws Exception
+    {
+        final String name = "name";
+        final String value = "aValue";
+        final int paramCount = 0;
+        final byte[] bytes = new byte[]
+        {
+            0, 0, 0, 1, //length
+            0, 4, //length of name
+            'n', 'a', 'm', 'e',
+            0, 6, //length of value
+            'a', 'V', 'a', 'l', 'u', 'e',
+            0, 0, 0, 0 //count of params
+
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
+        final DataInputStream data = new DataInputStream( in );
+        final Attribute[] attributes = io.readAttributes( data );
+        assertEquals( "attributes.length", 1, attributes.length );
+        assertEquals( "attributes[0].name", name, attributes[ 0 ].getName() );
+        assertEquals( "attributes[0].value", value, attributes[ 0 ].getValue() );
+        assertEquals( "attributes[0].parameterCount", paramCount, attributes[ 0 ].getParameterCount() );
     }
 
     public void testBinaryIOWriteAttributeWithParameters()
