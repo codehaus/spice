@@ -10,7 +10,7 @@ package org.jcomponent.threadpool.impl;
 import java.io.InputStream;
 
 import junit.framework.TestCase;
-import org.apache.avalon.framework.container.ContainerUtil;
+
 import org.jcomponent.threadpool.Executable;
 import org.jcomponent.threadpool.ThreadPool;
 import org.realityforge.configkit.ConfigValidator;
@@ -22,7 +22,7 @@ import org.xml.sax.ErrorHandler;
  *  An basic test case for the ThreadPools.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-29 07:40:28 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-29 16:11:41 $
  */
 public class PicoThreadPoolTestCase
     extends TestCase
@@ -52,8 +52,7 @@ public class PicoThreadPoolTestCase
         }
     }
 
-    // Huh ?
-    public void doNot_testNullInCtor()
+    public void testNullInCtor()
         throws Exception
     {
         try
@@ -158,10 +157,6 @@ public class PicoThreadPoolTestCase
         Thread.sleep( 1000 );
     }
 
-    private void destroyThreadPool( final ThreadPool threadPool ) throws Exception
-    {
-        ContainerUtil.shutdown( threadPool );
-    }
 
     private void verifyEntry( ThreadPoolEntry entry )
     {
@@ -196,6 +191,13 @@ public class PicoThreadPoolTestCase
 
     private AbstractThreadPool createThreadPool() throws Exception
     {
-       return new PicoCommonsThreadPool( new AvalonThreadPoolMonitor(), "testThreadPool", 5, false, false, 3, 1 );
+       return new PicoCommonsThreadPool( new NullThreadPoolMonitor(), "testThreadPool", 5, false, false, 3, 1 );
     }
+
+    private void destroyThreadPool( final ThreadPool threadPool ) throws Exception
+    {
+        final PicoCommonsThreadPool picoThreadPool = (PicoCommonsThreadPool)threadPool;
+        picoThreadPool.dispose();
+    }
+
 }
