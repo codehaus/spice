@@ -27,7 +27,7 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-29 10:03:49 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-31 00:36:30 $
  * @phoenix.service type="ThreadPool"
  */
 public class CommonsThreadPool
@@ -59,7 +59,7 @@ public class CommonsThreadPool
    /**
      * Initialize the underlying pool.
      */
-    public void initialize()
+    public void setup()
     {
         setThreadGroup( Thread.currentThread().getThreadGroup() );
         m_monitor.newThreadPool( getName(),
@@ -74,7 +74,7 @@ public class CommonsThreadPool
     /**
      * Shutdown all threads associated with pool.
      */
-    public void dispose()
+    public void shutdown()
     {
         shutdownInUseThreads();
         m_disposed = true;

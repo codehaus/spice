@@ -17,7 +17,6 @@ import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.commons.pool.impl.GenericObjectPool;
 
-
 /**
  * The CommonsThreadPool is a component that provides a basic
  * mechanism for pooling threads. A sample configuration for this
@@ -34,77 +33,83 @@ import org.apache.commons.pool.impl.GenericObjectPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-29 07:42:04 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-31 00:36:30 $
  * @phoenix.service type="ThreadPool"
  */
 public class AvalonCommonsThreadPool
-   extends CommonsThreadPool
-   implements LogEnabled, Configurable, Initializable, Disposable
+    extends CommonsThreadPool
+    implements LogEnabled, Configurable, Initializable, Disposable
 {
-   /**
-    * The logger for component.
-    */
-   private Logger m_logger;
+    /**
+     * The logger for component.
+     */
+    private Logger m_logger;
 
-   /**
-    * Set the logger for component.
-    *
-    * @param logger the logger for component.
-    */
-   public void enableLogging( final Logger logger )
-   {
-      m_logger = logger;
-   }
+    /**
+     * Set the logger for component.
+     *
+     * @param logger the logger for component.
+     */
+    public void enableLogging( final Logger logger )
+    {
+        m_logger = logger;
+    }
 
-   /**
-    * Configure the pool. See class javadocs for example.
-    *
-    * @param configuration the configuration object
-    * @throws ConfigurationException if malformed configuration
-    * @phoenix.configuration
-    *    type="http://relaxng.org/ns/structure/1.0"
-    *    location="CommonsThreadPool-schema.xml"
-    */
-   public void configure( final Configuration configuration )
-      throws ConfigurationException
-   {
-      final String name =
-         configuration.getChild( "name" ).getValue();
-      setName( name );
-      final int priority =
-         configuration.getChild( "priority" ).getValueAsInteger( Thread.NORM_PRIORITY );
-      setPriority( priority );
-      final boolean isDaemon =
-         configuration.getChild( "is-daemon" ).getValueAsBoolean( false );
-      setDaemon( isDaemon );
+    /**
+     * Configure the pool. See class javadocs for example.
+     *
+     * @param configuration the configuration object
+     * @throws ConfigurationException if malformed configuration
+     * @phoenix.configuration
+     *    type="http://relaxng.org/ns/structure/1.0"
+     *    location="CommonsThreadPool-schema.xml"
+     */
+    public void configure( final Configuration configuration )
+        throws ConfigurationException
+    {
+        final String name =
+            configuration.getChild( "name" ).getValue();
+        setName( name );
+        final int priority =
+            configuration.getChild( "priority" ).getValueAsInteger( Thread.NORM_PRIORITY );
+        setPriority( priority );
+        final boolean isDaemon =
+            configuration.getChild( "is-daemon" ).getValueAsBoolean( false );
+        setDaemon( isDaemon );
 
-      final GenericObjectPool.Config config = getCommonsConfig();
+        final GenericObjectPool.Config config = getCommonsConfig();
 
-      final boolean limit =
-         configuration.getChild( "resource-limiting" ).getValueAsBoolean( false );
-      if ( limit )
-      {
-         config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_BLOCK;
-      }
-      else
-      {
-         config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_GROW;
-      }
+        final boolean limit =
+            configuration.getChild( "resource-limiting" ).getValueAsBoolean( false );
+        if( limit )
+        {
+            config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_BLOCK;
+        }
+        else
+        {
+            config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_GROW;
+        }
 
-      config.maxActive =
-         configuration.getChild( "max-threads" ).getValueAsInteger( 10 );
-      config.maxIdle = configuration.getChild( "max-idle" ).
-         getValueAsInteger( config.maxActive / 2 );
-   }
+        config.maxActive =
+            configuration.getChild( "max-threads" ).getValueAsInteger( 10 );
+        config.maxIdle = configuration.getChild( "max-idle" ).
+            getValueAsInteger( config.maxActive / 2 );
+    }
 
-   /**
-    * Initialize the monitor then initialize parent class.
-    */
-   public void initialize()
-   {
-      final AvalonThreadPoolMonitor monitor = new AvalonThreadPoolMonitor();
-      ContainerUtil.enableLogging( monitor, m_logger );
-      setMonitor( monitor );
-      super.initialize();
-   }
+    /**
+     * Initialize the monitor then initialize parent class.
+     */
+    public void initialize()
+        throws Exception
+    {
+        final AvalonThreadPoolMonitor monitor = new AvalonThreadPoolMonitor();
+        ContainerUtil.enableLogging( monitor, m_logger );
+        setMonitor( monitor );
+        setup();
+    }
+
+    public void dispose()
+    {
+        shutdown();
+    }
 }
