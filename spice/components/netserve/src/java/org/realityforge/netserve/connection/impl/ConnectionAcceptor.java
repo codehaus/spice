@@ -22,7 +22,7 @@ import org.realityforge.threadpool.ThreadPool;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2003-04-23 09:07:19 $
+ * @version $Revision: 1.17 $ $Date: 2003-04-23 09:11:51 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
@@ -118,17 +118,18 @@ class ConnectionAcceptor
             getLogger().info( message );
         }
 
+        final ConnectionRunner[] runners;
         synchronized( this )
         {
             stopRunning( waitTime, forceShutdown );
-
-            final ConnectionRunner[] runners =
+            runners =
                 (ConnectionRunner[])m_runners.toArray( new ConnectionRunner[ m_runners.size() ] );
-            for( int i = 0; i < runners.length; i++ )
-            {
-                runners[ i ].close( waitTime, forceShutdown );
-            }
         }
+        for( int i = 0; i < runners.length; i++ )
+        {
+            runners[ i ].close( waitTime, forceShutdown );
+        }
+
     }
 
     /**
@@ -231,14 +232,17 @@ class ConnectionAcceptor
             final String message = "Disposing runner " + runner + ".";
             getLogger().debug( message );
         }
-        if( !m_runners.contains( runner ) )
+        synchronized( this )
         {
-            final String message = "Attempting to dispose runner " +
-                runner + " that has already been disposed.";
-            getLogger().warn( message );
-            return;
+            if( !m_runners.remove( runner ) )
+            {
+                final String message = "Attempting to dispose runner " +
+                    runner + " that has already been disposed.";
+                getLogger().warn( message );
+                return;
+            }
         }
-        m_runners.remove( runner );
+
         m_handlerManager.releaseHandler( runner.getHandler() );
         shutdown( runner.getSocket() );
     }
@@ -303,7 +307,10 @@ class ConnectionAcceptor
             getLogger().debug( message );
         }
         final ConnectionRunner runner = new ConnectionRunner( name, socket, handler, this );
-        m_runners.add( runner );
+        synchronized( this )
+        {
+            m_runners.add( runner );
+        }
         setupLogger( runner );
         if( null != m_threadPool )
         {
