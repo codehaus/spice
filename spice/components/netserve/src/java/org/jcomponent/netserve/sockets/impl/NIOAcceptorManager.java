@@ -25,7 +25,7 @@ import org.jcomponent.netserve.selector.SelectorEventHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.26 $ $Date: 2003-10-24 03:51:45 $
+ * @version $Revision: 1.27 $ $Date: 2003-10-24 03:54:43 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -65,7 +65,6 @@ public class NIOAcceptorManager
     */
    public void shutdown()
    {
-      m_selectorManager.setInactive();
       shutdownAcceptors();
       m_selectorManager.shutdown();
    }
