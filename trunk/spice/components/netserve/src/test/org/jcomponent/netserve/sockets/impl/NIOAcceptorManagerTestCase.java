@@ -20,13 +20,18 @@ import java.util.Random;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-10 02:26:41 $
+ * @version $Revision: 1.8 $ $Date: 2003-10-10 04:03:12 $
  */
 public class NIOAcceptorManagerTestCase
     extends AbstractAcceptorManagerTestCase
 {
     private static int c_index;
     private NIOAcceptorManager m_manager;
+
+    protected void setUp() throws Exception
+    {
+        System.out.println( "Running " + getName() );
+    }
 
     protected void tearDown() throws Exception
     {
@@ -45,7 +50,7 @@ public class NIOAcceptorManagerTestCase
         throws Exception
     {
         m_manager = new NIOAcceptorManager();
-        m_manager.setMonitor( new NullAcceptorMonitor() );
+        m_manager.setMonitor( new NullNIOAcceptorMonitor() );
         assertEquals( "isRunning() pre startup", false, m_manager.isRunning() );
         m_manager.startupSelector();
         assertEquals( "isRunning() post startup", true, m_manager.isRunning() );
@@ -57,7 +62,7 @@ public class NIOAcceptorManagerTestCase
         throws Exception
     {
         m_manager = new NIOAcceptorManager();
-        m_manager.setMonitor( new NullAcceptorMonitor() );
+        m_manager.setMonitor( new NullNIOAcceptorMonitor() );
         assertEquals( "isRunning() pre shutdown", false, m_manager.isRunning() );
         m_manager.shutdownSelector();
         assertEquals( "isRunning() post shutdown", false, m_manager.isRunning() );
@@ -72,14 +77,14 @@ public class NIOAcceptorManagerTestCase
         assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
         final ServerSocketChannel channel = ServerSocketChannel.open();
         m_manager.connect( name,
-                         channel.socket(),
-                         new MockSocketConnectionHandler() );
+                           channel.socket(),
+                           new MockSocketConnectionHandler() );
         assertEquals( "isConnected pre disconnect", true, m_manager.isConnected( name ) );
         try
         {
             m_manager.connect( name,
-                             new ExceptOnAcceptServerSocket( true ),
-                             new MockSocketConnectionHandler() );
+                               new ExceptOnAcceptServerSocket( true ),
+                               new MockSocketConnectionHandler() );
         }
         catch( final IllegalArgumentException iae )
         {
@@ -111,8 +116,8 @@ public class NIOAcceptorManagerTestCase
             final InetSocketAddress address = new InetSocketAddress( localAddress, port );
             socket.bind( address );
             m_manager.connect( name,
-                             socket,
-                             new ClosingSocketConnectionHandler() );
+                               socket,
+                               new ClosingSocketConnectionHandler() );
             assertEquals( "isConnected pre disconnect", true, m_manager.isConnected( name ) );
 
             final Socket clientSocket = new Socket( localAddress, port );
@@ -143,7 +148,7 @@ public class NIOAcceptorManagerTestCase
     {
         m_manager = new NIOAcceptorManager();
         m_manager.startupSelector();
-        final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
+        final RecordingNIOAcceptorMonitor monitor = new RecordingNIOAcceptorMonitor();
         m_manager.setMonitor( monitor );
         m_manager.setTimeout( 500 );
 
@@ -160,8 +165,8 @@ public class NIOAcceptorManagerTestCase
                 new InetSocketAddress( localAddress, port );
             socket.bind( address );
             m_manager.connect( name,
-                             socket,
-                             new ExceptingSocketConnectionHandler() );
+                               socket,
+                               new ExceptingSocketConnectionHandler() );
             assertEquals( "isConnected pre disconnect",
                           true,
                           m_manager.isConnected( name ) );
@@ -171,6 +176,7 @@ public class NIOAcceptorManagerTestCase
             outputStream.write( 'a' );
             outputStream.flush();
             clientSocket.close();
+
 
             try
             {
