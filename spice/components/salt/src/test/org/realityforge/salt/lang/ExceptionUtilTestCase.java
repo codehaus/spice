@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-06-12 22:57:45 $
+ * @version $Revision: 1.7 $ $Date: 2003-06-12 22:59:39 $
  */
 public class ExceptionUtilTestCase
     extends TestCase
@@ -184,5 +184,29 @@ public class ExceptionUtilTestCase
                                          TRACE2 + ExceptionUtil.SEPARATOR +
                                          TRACE3,
                       trace );
+    }
+
+    public void testPrintStackTraceNonRecursiveOnLeafException()
+    {
+        final MockThrowable throwable = new MockThrowable( "s1", null, TRACE1 );
+        final String trace = ExceptionUtil.printStackTrace( throwable , false );
+        assertEquals( "printStackTrace", TRACE1, trace );
+    }
+
+    public void testPrintStackTraceNonRecursiveOnOneLevelDeepException()
+    {
+        final MockThrowable throwable2 = new MockThrowable( "s2", null, TRACE2 );
+        final MockThrowable throwable = new MockThrowable( "s1", throwable2, TRACE1 );
+        final String trace = ExceptionUtil.printStackTrace( throwable );
+        assertEquals( "printStackTrace", TRACE1, trace );
+    }
+
+    public void testPrintStackTraceNonRecursiveOnManyLevelDeepException()
+    {
+        final MockThrowable throwable3 = new MockThrowable( "s3", null, TRACE3 );
+        final MockThrowable throwable2 = new MockThrowable( "s2", throwable3, TRACE2 );
+        final MockThrowable throwable = new MockThrowable( "s1", throwable2, TRACE1 );
+        final String trace = ExceptionUtil.printStackTrace( throwable );
+        assertEquals( "printStackTrace", TRACE1, trace );
     }
 }
