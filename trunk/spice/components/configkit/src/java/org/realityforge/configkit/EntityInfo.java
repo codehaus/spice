@@ -10,8 +10,8 @@ package org.realityforge.configkit;
 /**
  * Holds information about a given Entity.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-03-11 09:15:56 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-06-27 03:45:56 $
  */
 class EntityInfo
 {

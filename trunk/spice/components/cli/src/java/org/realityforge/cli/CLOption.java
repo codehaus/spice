@@ -15,8 +15,8 @@ import java.util.Arrays;
 /**
  * Basic class describing an instance of option.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-03-17 18:39:42 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:17 $
  * @since 4.0
  */
 public final class CLOption

@@ -97,9 +97,9 @@ import java.io.Writer;
  * using native Java copy methods. As there are method variants to specify buffer size and encoding,
  * each row may correspond to up to 4 methods.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
- * @version $Revision: 1.2 $ $Date: 2003-05-28 12:20:14 $
+ * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:57 $
  */
 public final class IOUtil
 {

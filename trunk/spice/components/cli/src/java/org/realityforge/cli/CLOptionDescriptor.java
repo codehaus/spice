@@ -15,8 +15,8 @@ package org.realityforge.cli;
  * Typically, one creates a static array of <code>CLOptionDescriptor</code>s,
  * and passes it to {@link CLArgsParser#CLArgsParser(String[], CLOptionDescriptor[])}.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-04-04 13:56:23 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.5 $ $Date: 2003-06-27 03:45:17 $
  * @since 4.0
  * @see CLArgsParser
  * @see CLUtil

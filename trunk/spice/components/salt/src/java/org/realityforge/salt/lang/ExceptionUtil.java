@@ -15,8 +15,8 @@ import java.util.StringTokenizer;
 /**
  * This class makes it easy to manipulate data stored in exceptions.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-06-12 23:12:14 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.9 $ $Date: 2003-06-27 03:45:57 $
  */
 public final class ExceptionUtil
 {

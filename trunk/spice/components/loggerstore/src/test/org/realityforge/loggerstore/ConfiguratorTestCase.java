@@ -13,7 +13,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  *  Test case for Configurator
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  */
 public class ConfiguratorTestCase
     extends AbstractTestCase
@@ -22,7 +22,7 @@ public class ConfiguratorTestCase
     {
         super( name );
     }
-    
+
     public void testInvalidConfiguratorType()
         throws Exception
     {
@@ -35,7 +35,7 @@ public class ConfiguratorTestCase
         {
         }
     }
-    
+
     public void testLogKitExcaliburConfigurator()
         throws Exception
     {
@@ -85,7 +85,7 @@ public class ConfiguratorTestCase
         runLoggerTest( "logkit-simple", Configurator.createLoggerStore( Configurator.LOGKIT_SIMPLE, "org/realityforge/loggerstore/logkit-simple.xml" ) );
         runLoggerTest( "logkit-simple", Configurator.createLoggerStore( Configurator.LOGKIT_SIMPLE, getResource( "logkit-simple.xml" )) );
      }
-  
+
     public void testLog4JDOMConfigurator()
         throws Exception
     {

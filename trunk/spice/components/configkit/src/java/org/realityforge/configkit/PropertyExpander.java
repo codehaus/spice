@@ -23,8 +23,8 @@ import org.w3c.dom.Text;
  * any section that begins with "${" and ends with "}" will have
  * inner name replaced with property value from map.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-05-26 12:37:57 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:56 $
  */
 public final class PropertyExpander
 {

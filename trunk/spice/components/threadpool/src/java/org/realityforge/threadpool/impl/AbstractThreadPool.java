@@ -20,8 +20,8 @@ import java.util.Iterator;
  * Sub-classes should implement the abstract methods to
  * retrieve and return Threads to the pool.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-04 11:44:45 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:57 $
  * @phoenix.service type="ThreadPool"
  */
 public abstract class AbstractThreadPool
