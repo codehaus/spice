@@ -304,7 +304,7 @@ public class Connector
             try
             {
                _lastConnectionTime = now;
-               getConnection().connect();
+               getConnection().doConnect();
                _connectionAttempts = 0;
                _connectionError = null;
                setConnected( true );
@@ -331,10 +331,11 @@ public class Connector
       {
          if ( isConnected() )
          {
+            getMonitor().attemptingDisconnection();
             setConnected( false );
             try
             {
-               getConnection().disconnect();
+               getConnection().doDisconnect();
             }
             catch ( final Throwable t )
             {
@@ -397,7 +398,7 @@ public class Connector
    {
       try
       {
-         getConnection().validateConnection();
+         getConnection().doValidateConnection();
       }
       catch ( final Throwable t )
       {
