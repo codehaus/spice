@@ -42,11 +42,6 @@
             <version>4.1.4</version>
         </dependency>
         <dependency>
-            <groupId>avalon</groupId>
-            <artifactId>avalon-logkit</artifactId>
-            <version>1.2.2</version>
-        </dependency>
-        <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-api</artifactId>
             <version>1.0</version>
@@ -62,12 +57,16 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>avalon</groupId>
+            <groupId>excalibur</groupId>
             <artifactId>excalibur-logger</artifactId>
             <version>20031126.191921</version>
             <properties>
                 <category>runtime</category>
             </properties>
+        </dependency>
+        <dependency>
+            <id>logkit</id>
+            <version>1.2.2</version>
         </dependency>
         <dependency>
             <groupId>spice</groupId>
