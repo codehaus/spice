@@ -54,7 +54,7 @@ public class ActivePinger
          thread.interrupt();
          try
          {
-            wait();
+            wait( 200 );
          }
          catch ( final InterruptedException ie )
          {
@@ -86,12 +86,17 @@ public class ActivePinger
 
       while ( null != _thread )
       {
-         final long now = System.currentTimeMillis();
          final long then = _connector.checkPing();
-         final long sleep = then - now;
+         synchronized( this )
+         {
+             if( null == _thread )
+             {
+                 break;
+             }
+         }
          try
          {
-            Thread.sleep( sleep );
+            Thread.sleep( then );
          }
          catch ( final InterruptedException ie )
          {
