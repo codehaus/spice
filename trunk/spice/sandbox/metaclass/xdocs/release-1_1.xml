@@ -60,6 +60,9 @@
                     BuildException after it has finished processing the rest of
                     the descriptors.
                 </li>
+                <li>
+                    Achieve 100% unit test coverage of MetaClass code.
+                </li>
             </ul>
         </section>
     </body>
