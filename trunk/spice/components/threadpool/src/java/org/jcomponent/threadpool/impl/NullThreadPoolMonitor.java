@@ -24,11 +24,6 @@ class NullThreadPoolMonitor
    {
    }
 
-   public void unexpectedError( final String message,
-                                final Throwable t )
-   {
-   }
-
    public void threadRetrieved( final Thread thread )
    {
    }
@@ -42,6 +37,11 @@ class NullThreadPoolMonitor
    }
 
    public void threadDisposing( final Thread thread )
+   {
+   }
+
+   public void unexpectedError( final String message,
+                                final Throwable t )
    {
    }
 }

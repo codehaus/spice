@@ -8,8 +8,8 @@
  package org.jcomponent.threadpool.impl;
 
 /**
- * Monitor interface for ThreadPool.  Provides a facade to support different
- * types of logging, including no-op logging.
+ * Monitor interface for ThreadPool.  
+ * Provides a facade to support different types of events, including logging.
  * 
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:paul_hammant at yahoo.com">Paul Hammant</a>
@@ -22,9 +22,6 @@ public interface ThreadPoolMonitor
                        int maxActive,
                        int maxIdle );
 
-   void unexpectedError( String message,
-                             Throwable t );
-
    void threadRetrieved( Thread thread );
 
    void threadReturned( Thread thread );
@@ -32,4 +29,8 @@ public interface ThreadPoolMonitor
    void threadCreated( Thread thread );
 
    void threadDisposing( Thread thread );
+
+   void unexpectedError( String message,
+                          Throwable t );
+
 }
