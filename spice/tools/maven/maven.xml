@@ -98,7 +98,7 @@
                     <title>${pom.name}</title>
                     <body>
                         <links>
-                            <item name="Home" href="http://spice.sourceforge.net/"/>
+                            <item name="Home" href="/index.html"/>
                         </links>
                         <menu name="Overview">
                             <item name="Home" href="/index.html"/>
