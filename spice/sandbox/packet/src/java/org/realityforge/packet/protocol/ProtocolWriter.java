@@ -13,12 +13,11 @@ import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 
 /**
- * A helper class for writing writing protocol to channel.
- * Note that this class is single threaded as it uses a shared
- * message buffer.
+ * A helper class for writing writing protocol to channel. Note that this class
+ * is single threaded as it uses a shared message buffer.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-11-12 06:08:18 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-26 02:14:04 $
  */
 class ProtocolWriter
 {
@@ -29,15 +28,11 @@ class ProtocolWriter
      */
     static final int SIZEOF_CONNECTED_MSG = 1 + 2 + 2;
 
-    /**
-     * The maximum size of any control message.
-     */
+    /** The maximum size of any control message. */
     static final int MAX_CONTROL_SIZE =
         Math.max( ProtocolConstants.MAGIC.length, SIZEOF_CONNECTED_MSG );
 
-    /**
-     * Internal message buffer used to send control messages.
-     */
+    /** Internal message buffer used to send control messages. */
     private final ByteBuffer m_message =
         ByteBuffer.allocateDirect( MAX_CONTROL_SIZE );
 
@@ -48,8 +43,8 @@ class ProtocolWriter
      * @param sessionAuth the SessionAuth
      * @param channel the channel
      * @throws IOException if error writing to channel
-     * @throws BufferOverflowException if can not write
-     *         whole control to channel
+     * @throws BufferOverflowException if can not write whole control to
+     * channel
      */
     void sendConnectedMessage( final short sessionID,
                                final short sessionAuth,
@@ -70,8 +65,8 @@ class ProtocolWriter
      * @param control the control code
      * @param channel the channel
      * @throws IOException if error writing to channel
-     * @throws BufferOverflowException if can not write
-     *         whole control to channel
+     * @throws BufferOverflowException if can not write whole control to
+     * channel
      */
     void sendControlMessage( final byte control,
                              final WritableByteChannel channel )
@@ -84,15 +79,14 @@ class ProtocolWriter
     }
 
     /**
-     * Write message to specified channel.
-     * If channel can not be written to then a
-     * BufferOverflowException is thrown.
+     * Write message to specified channel. If channel can not be written to then
+     * a BufferOverflowException is thrown.
      *
      * @param message the message
      * @param channel the channel
      * @throws IOException if error writing to channel
-     * @throws BufferOverflowException if can not write
-     *         whole message to channel
+     * @throws BufferOverflowException if can not write whole message to
+     * channel
      */
     void forceWriteMessage( final ByteBuffer message,
                             final WritableByteChannel channel )

@@ -13,26 +13,20 @@ import java.nio.ByteBuffer;
  * The Packet class represents a chunk of data sent across network.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-11-11 09:32:07 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-26 02:14:04 $
  */
 public class Packet
 {
-    /**
-     * The sequence ID of packet.
-     */
+    /** The sequence ID of packet. */
     private final short m_sequence;
 
     /**
-     * The packet flags. Indicate things
-     * like whether the packet needs to be
-     * acked etc. Some encoder/decoders may
-     * specify the flags as always 0.
+     * The packet flags. Indicate things like whether the packet needs to be
+     * acked etc. Some encoder/decoders may specify the flags as always 0.
      */
     private final int m_flags;
 
-    /**
-     * The buffer containing data contained within packet.
-     */
+    /** The buffer containing data contained within packet. */
     private final ByteBuffer m_data;
 
     /**
@@ -76,9 +70,8 @@ public class Packet
     }
 
     /**
-     * Return the data containined within packet.
-     * Note that the position may not be set to start
-     * of packet.
+     * Return the data containined within packet. Note that the position may not
+     * be set to start of packet.
      *
      * @return the data containined within packet.
      */
