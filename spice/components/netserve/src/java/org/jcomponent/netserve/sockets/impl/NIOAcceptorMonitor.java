@@ -17,7 +17,7 @@ import org.jcomponent.netserve.selector.SelectorMonitor;
  * Monitor used to monitor events in the AcceptorManager.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-23 05:08:06 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-23 06:34:19 $
  */
 public interface NIOAcceptorMonitor
    extends SelectorMonitor
@@ -45,36 +45,6 @@ public interface NIOAcceptorMonitor
      * @param ioe the exception
      */
     void errorAcceptingConnection( String name, IOException ioe );
-
-    /**
-     * Selector being shutdown.
-     */
-    void selectorShutdown();
-
-    /**
-     * Error closing selector.
-     *
-     * @param ioe the exception
-     */
-    void errorClosingSelector( IOException ioe );
-
-    /**
-     * Exiting main loop that accepts connections.
-     */
-    void exitingSelectorLoop();
-
-    /**
-     * Entering select call.
-     */
-    void enteringSelect();
-
-    /**
-     * Select completed and resulted in count
-     * accepts being present.
-     *
-     * @param count the number of accepts that are ready
-     */
-    void selectCompleted( int count );
 
     /**
      * Handle a connection.
