@@ -7,18 +7,24 @@
  */
 package org.realityforge.salt.i18n;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
-import java.lang.ref.WeakReference;
 
 /**
  * Manager for resources.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-05-28 12:35:06 $
+ * @version $Revision: 1.6 $ $Date: 2003-05-28 12:41:00 $
  */
 public class ResourceManager
 {
+    /**
+     * Postfix appended to base names to get names of Resource
+     * files.
+     */
+    private static final String POSTFIX = ".Resources";
+
     /**
      * Permission needed to clear complete cache.
      */
@@ -61,12 +67,13 @@ public class ResourceManager
      * @param basename the basename
      * @return the Resources
      */
-    public final static Resources getBaseResources( final String basename )
+    public final static Resources getBaseResources( final String basename,
+                                                    final ClassLoader classLoader )
     {
         Resources resources = getCachedResource( basename );
         if( null == resources )
         {
-            resources = new Resources( basename );
+            resources = new Resources( basename, classLoader );
             putCachedResource( basename, resources );
         }
 
@@ -80,9 +87,10 @@ public class ResourceManager
      * @param resource the base location
      * @return the Resources
      */
-    public final static Resources getResources( final String resource )
+    public final static Resources getResources( final String resource,
+                                                final ClassLoader classLoader)
     {
-        return getBaseResources( resource + ".Resources" );
+        return getBaseResources( resource + POSTFIX, classLoader );
     }
 
     /**
@@ -95,8 +103,8 @@ public class ResourceManager
      */
     public final static Resources getPackageResources( final Class clazz )
     {
-        final String resource = clazz.getPackage().getName() + ".Resources";
-        return getBaseResources( resource );
+        final String resource = clazz.getPackage().getName() + POSTFIX;
+        return getBaseResources( resource, clazz.getClassLoader() );
     }
 
     /**
@@ -109,8 +117,8 @@ public class ResourceManager
      */
     public final static Resources getClassResources( final Class clazz )
     {
-        final String resource = clazz.getName() + ".Resources";
-        return getBaseResources( resource );
+        final String resource = clazz.getName() + POSTFIX;
+        return getBaseResources( resource, clazz.getClassLoader() );
     }
 
     /**
@@ -122,8 +130,7 @@ public class ResourceManager
     private synchronized static final void putCachedResource( final String baseName,
                                                               final Resources resources )
     {
-        c_resources.put( baseName,
-                         new WeakReference( resources ) );
+        c_resources.put( baseName, new WeakReference( resources ) );
     }
 
     /**
