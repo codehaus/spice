@@ -22,7 +22,7 @@ public class LogKitLoggerStore
     extends AbstractLoggerStore
 {
     /** The Logger Hierarchy  */
-    private Hierarchy m_hierarchy;
+    private final Hierarchy m_hierarchy;
 
     /**
      * Creates a <code>LogKitLoggerStore</code> using the configuration resource
@@ -53,5 +53,4 @@ public class LogKitLoggerStore
     {
         HierarchyUtil.closeLogTargets( m_hierarchy );
     }
-
 }
