@@ -69,12 +69,6 @@
 	    <sar.bundle>true</sar.bundle>
 	  </properties>
 	</dependency>
-    <dependency>
-      <groupId>loom</groupId>
-      <artifactId>maven-loom-plugin</artifactId>
-      <version>1.0-rc1</version>
-      <type>plugin</type>
-    </dependency>
   </dependencies>
 
 </project>
