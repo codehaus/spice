@@ -19,7 +19,7 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="excalibur-extension" runtime="true"/>
-        <depend project="spice-salt" runtime="true" inherit="runtime"/>
+        <depend project="spice-salt-pe" runtime="true" inherit="runtime"/>
         <work nested="components/classman/target/classes"/>
         <work nested="components/classman/target/test-classes"/>
 
@@ -58,7 +58,7 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="spice-isorelax" runtime="true"/>
+        <depend project="spice-isorelax-pe" runtime="true"/>
         <depend project="msv" runtime="true"/>
         <work nested="components/configkit/target/classes"/>
         <work nested="components/configkit/target/test-classes"/>
@@ -150,8 +150,8 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="avalon" runtime="true"/>
-        <depend project="spice-configkit" inherit="runtime"/>
-        <depend project="spice-threadpool"/>
+        <depend project="spice-configkit-pe" inherit="runtime"/>
+        <depend project="spice-threadpool-pe"/>
 
         <work nested="components/netserve/target/classes"/>
         <work nested="components/netserve/target/test-classes"/>
@@ -171,7 +171,7 @@
 
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
-        <depend project="spice-qdox" runtime="true"/>
+        <depend project="spice-qdox-pe" runtime="true"/>
         <depend project="xml-xerces"/>
         <work nested="sandbox/metaclass/target/classes"/>
         <work nested="sandbox/metaclass/target/test-classes"/>
@@ -242,7 +242,7 @@
         <depend project="jakarta-oro" runtime="true"/>
         <depend project="commons-pool" runtime="true"/>
         <depend project="commons-collections" runtime="true"/>
-        <depend project="spice-configkit" inherit="runtime"/>
+        <depend project="spice-configkit-pe" inherit="runtime"/>
         <work nested="components/threadpool/target/classes"/>
         <work nested="components/threadpool/target/test-classes"/>
 
@@ -262,7 +262,7 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="spice-salt" runtime="true"/>
+        <depend project="spice-salt-pe" runtime="true"/>
         <work nested="components/xmlpolicy/target/classes"/>
         <work nested="components/xmlpolicy/target/test-classes"/>
 
@@ -308,7 +308,7 @@
             <depend project="avalon"/>
             <depend project="dist-avalon-logkit"/>
             <depend project="jakarta-oro"/>
-            <depend project="spice-configkit" inherit="runtime"/>
+            <depend project="spice-configkit-pe" inherit="runtime"/>
 
             <work nested="components/xinvoke/target/classes"/>
             <work nested="components/xinvoke/target/test-classes"/>
