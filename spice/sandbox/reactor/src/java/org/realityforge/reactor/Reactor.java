@@ -6,12 +6,12 @@ public interface Reactor
 {
    boolean isConnected( String name );
 
-   void addConnection( String name,
-                       SocketChannel channel,
-                       SocketDataHandler handler,
-                       Object passback )
+   void connect( String name,
+                 SocketChannel channel,
+                 SocketDataHandler handler,
+                 Object passback )
       throws Exception;
 
-   void removeConnection( String name )
+   void disconnect( String name )
       throws Exception;
 }
