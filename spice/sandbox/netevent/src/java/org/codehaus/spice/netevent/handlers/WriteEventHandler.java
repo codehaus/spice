@@ -22,7 +22,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Handler for writing data to channel.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-09 00:51:43 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-16 03:06:50 $
  */
 public class WriteEventHandler
     extends AbstractIOEventHandler
@@ -55,6 +55,10 @@ public class WriteEventHandler
 
         final Buffer transmitBuffer = transport.getTransmitBuffer();
         final ByteBuffer buffer = (ByteBuffer)transmitBuffer.peek();
+        if( null == buffer )
+        {
+            return;
+        }
         final int remaining = buffer.remaining();
 
         try
