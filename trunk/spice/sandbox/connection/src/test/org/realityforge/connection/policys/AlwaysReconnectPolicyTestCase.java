@@ -58,7 +58,7 @@ public class AlwaysReconnectPolicyTestCase
       final long now = System.currentTimeMillis();
       assertEquals( "attemptConnection",
                     false,
-                    policy.attemptConnection( now, 3 ) );
+                    policy.attemptConnection( now, 4 ) );
    }
 
    public void testOverThresholdWithDelay()
@@ -68,6 +68,6 @@ public class AlwaysReconnectPolicyTestCase
       final long now = System.currentTimeMillis();
       assertEquals( "attemptConnection",
                     true,
-                    policy.attemptConnection( now - 5000, 3 ) );
+                    policy.attemptConnection( now - 5000, 4 ) );
    }
 }
