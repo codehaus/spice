@@ -3,8 +3,8 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>Salt Utility Library</name>
     <id>spice-salt</id>
-    <gumpRepositoryId>components</gumpRepositoryId>
-    <currentVersion>0.8dev</currentVersion>
+    <currentVersion>1.0</currentVersion>
+    <package>org.codehaus.spice.salt</package>
     <inceptionYear>1999</inceptionYear>
 
     <shortDescription>Salt Utility Library</shortDescription>
@@ -26,15 +26,11 @@
                 <role>Developer</role>
             </roles>
         </developer>
-    </developers>
-
-
-    <contributors>
-        <contributor>
+        <developer>
             <name>Mircea Toma</name>
             <email>mirceatoma@airpost.net</email>
-        </contributor>
-    </contributors>
+        </developer>
+    </developers>
 
     <dependencies>
         <dependency>
