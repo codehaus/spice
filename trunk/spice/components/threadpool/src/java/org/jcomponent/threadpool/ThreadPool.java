@@ -11,13 +11,10 @@ package org.jcomponent.threadpool;
  * This class is the public frontend for the thread pool code.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 18:03:03 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-02 04:07:49 $
  */
 public interface ThreadPool
 {
-    /** Role string for service interface */
-    String ROLE = ThreadPool.class.getName();
-
     /**
      * Run work in separate thread.
      * Return a valid ThreadControl to control work thread.
