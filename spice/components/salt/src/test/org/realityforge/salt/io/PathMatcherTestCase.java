@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-05-28 14:17:06 $
+ * @version $Revision: 1.3 $ $Date: 2003-09-12 21:45:56 $
  */
 public class PathMatcherTestCase
     extends TestCase
@@ -27,6 +27,9 @@ public class PathMatcherTestCase
     private static final String DSTAR_END_PATTERN = "pre/**";
     private static final String DSTAR_START_PATTERN = "**/post";
     private static final String DSTAR_MID_PATTERN = "pre/**/post";
+
+    private static final String INVALID_PATTERN = "&(-!";
+    private static final String INVALID_CAUSE = "org.apache.oro.text.regex.MalformedPatternException: Unmatched parentheses.";
 
     private static final String DATA1 = "X";
     private static final String DATA2 = "pre/X";
@@ -259,4 +262,31 @@ public class PathMatcherTestCase
             assertEquals( "NPE message", "excludes", npe.getMessage() );
         }
     }
+
+    public void testInvalidIncludes()
+    {
+        try
+        {
+            new PathMatcher( new String[]{ INVALID_PATTERN }, new String[ 0 ] );
+            fail( "Expected Exception due to invalid includes" );
+        }
+        catch( IllegalArgumentException e )
+        {
+            assertEquals( "InvalidArgument ", INVALID_PATTERN+":"+INVALID_CAUSE, e.getMessage() );
+        }
+    }
+
+    public void testInvalidExcludes()
+    {
+        try
+        {
+            new PathMatcher( new String[ 0 ], new String[]{ INVALID_PATTERN } );
+            fail( "Expected Exception due to invalid excludes" );
+        }
+        catch( IllegalArgumentException e )
+        {
+            assertEquals( "InvalidArgument ", INVALID_PATTERN+":"+INVALID_CAUSE, e.getMessage() );
+        }
+    }
+
 }
