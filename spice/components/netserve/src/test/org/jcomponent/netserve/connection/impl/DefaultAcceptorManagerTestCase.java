@@ -12,7 +12,7 @@ import org.jcomponent.netserve.connection.SocketAcceptorManager;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-27 05:26:54 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-27 23:55:11 $
  */
 public class DefaultAcceptorManagerTestCase
    extends AbstractAcceptorManagerTestCase
@@ -23,6 +23,7 @@ public class DefaultAcceptorManagerTestCase
       final DefaultAcceptorManager manager = new DefaultAcceptorManager();
       manager.setMonitor( NullAcceptorMonitor.MONITOR );
       manager.setSoTimeout( 10 );
+      manager.setShutdownTimeout( 0 );
       final String name = "name";
       assertEquals( "isConnected pre connect", false, manager.isConnected( name ) );
       final ExceptOnAcceptServerSocket socket = new ExceptOnAcceptServerSocket( true );
