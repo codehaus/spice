@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Extension-Name: metaclass
-Specification-Title: Metaclass application
-Specification-Version: 1.0
-Specification-Vendor: RealityForge
-Implementation-Vendor-Id: org.realityforge
-Implementation-Vendor: RealityForge
-Implementation-Version: 1.0
-
