@@ -9,7 +9,7 @@ public class InactivityPingPolicyTestCase
       throws Exception
    {
       final MockConnector connector = new MockConnector( 0, 0, 0 );
-      final InactivityPingPolicy policy = new InactivityPingPolicy( -1, -1, connector );
+      final InactivityPingPolicy policy = new InactivityPingPolicy( -1, connector );
       assertEquals( "nextPingCheck",
                     Long.MAX_VALUE,
                     policy.nextPingCheck() );
