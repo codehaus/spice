@@ -27,7 +27,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-17 07:38:51 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-17 08:14:48 $
  */
 public class MBeanInfoBuilderTestCase
     extends TestCase
@@ -900,7 +900,7 @@ public class MBeanInfoBuilderTestCase
         MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
 
-        final TopicDescriptor[] infos = builder.buildMBeanInfos( TestBean.class );
+        final TopicDescriptor[] infos = builder.buildTopics( TestBean.class );
         assertEquals( "info.length", 0, infos.length );
     }
 
@@ -923,7 +923,7 @@ public class MBeanInfoBuilderTestCase
         MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( accessor );
 
-        final TopicDescriptor[] infos = builder.buildMBeanInfos( TestBean.class );
+        final TopicDescriptor[] infos = builder.buildTopics( TestBean.class );
         assertEquals( "info.length", 2, infos.length );
     }
 
