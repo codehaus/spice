@@ -20,7 +20,7 @@ import java.util.Properties;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.5 $ $Date: 2003-05-24 22:44:59 $
+ * @version $Revision: 1.6 $ $Date: 2003-05-26 10:28:42 $
  */
 public class InitialLoggerStoreFactory
     implements LoggerStoreFactory
@@ -125,21 +125,21 @@ public class InitialLoggerStoreFactory
     private LoggerStoreFactory createLoggerStoreFactory( final String type,
                                                          final ClassLoader classLoader )
     {
-        String classname = type;
-        if( null == classname )
+        if( null == type )
         {
-            classname = ConsoleLoggerStore.class.getName();
+            final String message = "No LoggerStoreFactory type specified.";
+            throw new IllegalStateException( message );
         }
 
         try
         {
-            final Class clazz = classLoader.loadClass( classname );
+            final Class clazz = classLoader.loadClass( type );
             return (LoggerStoreFactory)clazz.newInstance();
         }
         catch( final Exception e )
         {
             final String message =
-                "Failed to created LoggerStoreFactory " + classname;
+                "Failed to created LoggerStoreFactory " + type;
             throw new IllegalArgumentException( message );
         }
     }
