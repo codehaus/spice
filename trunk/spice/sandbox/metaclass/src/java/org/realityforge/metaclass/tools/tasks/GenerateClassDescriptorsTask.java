@@ -31,7 +31,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-04 00:47:48 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-04 01:56:47 $
  */
 public class GenerateClassDescriptorsTask
     extends AbstractQdoxTask
@@ -42,14 +42,9 @@ public class GenerateClassDescriptorsTask
     public static final int BINARY_TYPE = 0;
 
     /**
-     * Constant indicating should write out serialized object descriptors.
-     */
-    public static final int SER_TYPE = 1;
-
-    /**
      * Constant indicating should write out serialized xml descriptors.
      */
-    public static final int XML_TYPE = 2;
+    public static final int XML_TYPE = 1;
 
     /**
      * Destination directory
@@ -208,9 +203,9 @@ public class GenerateClassDescriptorsTask
      * @param description the description of type
      * @return the instance of type
      */
-    private Object createInstance( final PluginElement element,
-                                   final Class type,
-                                   final String description )
+    Object createInstance( final PluginElement element,
+                           final Class type,
+                           final String description )
     {
         final String name = element.getName();
         final AntClassLoader loader = createLoader( element );
@@ -364,7 +359,7 @@ public class GenerateClassDescriptorsTask
      * Write ClassDescriptor out into a file.
      *
      * @param descriptor the ClassDescriptor object
-     * @throws java.io.IOException if unable to write descriptor out
+     * @throws IOException if unable to write descriptor out
      */
     private void writeClassDescriptor( final ClassDescriptor descriptor )
         throws IOException
@@ -393,7 +388,7 @@ public class GenerateClassDescriptorsTask
      *
      * @return the MetaClassIO to output ClassDescriptor with
      */
-    private MetaClassIO getMetaClassIO()
+    MetaClassIO getMetaClassIO()
     {
         if( BINARY_TYPE == m_format )
         {
@@ -401,7 +396,7 @@ public class GenerateClassDescriptorsTask
         }
         else
         {
-            final String message = getOutputDescription() + " Not a supported format at this time.";
+            final String message = "XML not a supported format at this time.";
             throw new BuildException( message );
         }
     }
@@ -433,7 +428,7 @@ public class GenerateClassDescriptorsTask
      * @return the file for info
      * @throws IOException if unable to determine base file
      */
-    private File getOutputFileForClass( final String classname )
+    File getOutputFileForClass( final String classname )
         throws IOException
     {
         String filename =
@@ -444,9 +439,7 @@ public class GenerateClassDescriptorsTask
         }
         else
         {
-            final String message =
-                getOutputDescription() + " Not a supported format at this time.";
-            throw new BuildException( message );
+            filename += DefaultMetaClassAccessor.XML_EXT;
         }
         return new File( m_destDir, filename ).getCanonicalFile();
     }
@@ -456,15 +449,11 @@ public class GenerateClassDescriptorsTask
      *
      * @return the output formats descriptive name
      */
-    private final String getOutputDescription()
+    final String getOutputDescription()
     {
         if( XML_TYPE == m_format )
         {
             return "xml";
-        }
-        else if( SER_TYPE == m_format )
-        {
-            return "serialized objects";
         }
         else
         {
