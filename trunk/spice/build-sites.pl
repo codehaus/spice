@@ -28,7 +28,7 @@ my $currentDir = &getCurrentDir();
 foreach ( @components ){
 	my $cmd = "cd $currentDir/$_; $COMMAND";
 	print "Executing $cmd\n";
-	system($cmd);
+	##exec($cmd);
 }
 
 exit;
