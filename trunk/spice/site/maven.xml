@@ -6,8 +6,9 @@
     xmlns:ant="jelly:ant">
 
     <preGoal name="xdoc:copy-user-resources">
-        <ant:mkdir dir="xdocs/style"/>
-        <ant:copy file="../tools/site/project.css" todir="xdocs/style"/>
+        <ant:mkdir dir="${basedir}/xdocs/style"/>
+        <ant:copy file="${basedir}/../tools/site/project.css"
+                  todir="${basedir}/xdocs/style"/>
     </preGoal>
 
     <preGoal name="xdoc:transform">
