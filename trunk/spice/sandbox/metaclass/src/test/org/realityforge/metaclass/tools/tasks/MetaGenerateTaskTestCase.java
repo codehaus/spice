@@ -25,7 +25,7 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-08-31 08:32:07 $
+ * @version $Revision: 1.12 $ $Date: 2003-08-31 08:35:44 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -327,6 +327,60 @@ public class MetaGenerateTaskTestCase
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
         assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+    }
+
+
+    public void testSingleSourceFileWithDeletingFilter()
+        throws Exception
+    {
+        final String source =
+            "package com.biz;\n" +
+            "\n" +
+            "/**\n" +
+            " * @anAttribute\n" +
+            " * @deleteme\n" +
+            " */\n" +
+            "public class MyClass\n" +
+            "{\n" +
+            "}\n";
+
+        final Project project = new Project();
+
+        final File sourceDirectory = generateDirectory();
+        final File destDirectory = generateDirectory();
+        final FileSet fileSet = new FileSet();
+        fileSet.setProject( project );
+        fileSet.setDir( sourceDirectory );
+        fileSet.setIncludes( "**/*.java" );
+
+        final PluginElement filterElement = new PluginElement();
+        filterElement.setName( DeletingFilter.class.getName() );
+
+        final PluginElement element = new PluginElement();
+        element.setName( DefaultQDoxAttributeInterceptor.class.getName() );
+        element.setName( DeletingAttributeInterceptor.class.getName() );
+
+        final String sourceFilename =
+            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+        final File sourceFile = new File( sourceFilename );
+        sourceFile.getParentFile().mkdirs();
+        final FileOutputStream output = new FileOutputStream( sourceFile );
+        output.write( source.getBytes() );
+        output.close();
+
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        project.setBaseDir( getBaseDirectory() );
+        task.setProject( project );
+        task.setDestDir( destDirectory );
+        task.addFileset( fileSet );
+        task.addInterceptor( element );
+        task.addFilter( filterElement );
+        task.execute();
+        final String destFilename =
+            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+        final File destFile = new File( destFilename );
+
+        assertTrue( "!destFile.exists()", !destFile.exists() );
     }
 
     private static final File generateDirectory()
