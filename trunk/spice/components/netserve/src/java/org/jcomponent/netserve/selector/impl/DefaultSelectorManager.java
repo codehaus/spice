@@ -8,13 +8,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.jcomponent.netserve.selector.SelectorEventHandler;
+import org.jcomponent.netserve.selector.SelectorManager;
 
 /**
  * The SelectorManager makes it easy to start a selector
  * in a thread and receive events on selection.
  */
 public class DefaultSelectorManager
-   implements Runnable
+   implements SelectorManager, Runnable
 {
    /**
     * The monitor that receives notifications of Connection events
@@ -166,13 +167,7 @@ public class DefaultSelectorManager
    }
 
    /**
-    * Register a channel with selector.
-    * Note the user MUST NOT modify the SelectionKeys attachment.
-    *
-    * @param channel the channel
-    * @param ops the operations to register
-    * @return the SelectionKey
-    * @throws IOException if channel can not be registered
+    * @see SelectorManager#registerChannel
     */
    public SelectionKey registerChannel( final SelectableChannel channel,
                                         final int ops,
