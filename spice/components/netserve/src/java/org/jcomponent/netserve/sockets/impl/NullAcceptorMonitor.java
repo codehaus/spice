@@ -11,10 +11,10 @@ import java.net.ServerSocket;
 import java.io.IOException;
 
 /**
- * A noop connection acceptor.
+ * A noop monitor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-09 03:58:06 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-10 02:41:12 $
  */
 public class NullAcceptorMonitor
     implements AcceptorMonitor
