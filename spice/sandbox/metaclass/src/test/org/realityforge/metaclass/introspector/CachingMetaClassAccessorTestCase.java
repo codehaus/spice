@@ -16,7 +16,7 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 06:40:56 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-28 07:01:01 $
  */
 public class CachingMetaClassAccessorTestCase
    extends TestCase
@@ -27,7 +27,7 @@ public class CachingMetaClassAccessorTestCase
       final CachingMetaClassAccessor accessor = new CachingMetaClassAccessor();
       try
       {
-         accessor.getClassDescriptor( "NoExist", getClass().getClassLoader() );
+         accessor.getClassDescriptor( "NoExist", getClass().getClassLoader(), null );
       }
       catch ( final MetaClassException mce )
       {
@@ -50,7 +50,7 @@ public class CachingMetaClassAccessorTestCase
                               MethodDescriptor.EMPTY_SET );
       final ClassLoader classLoader = getClass().getClassLoader();
       accessor.registerDescriptor( descriptor, classLoader );
-      final ClassDescriptor result = accessor.getClassDescriptor( "MyClass", classLoader );
+      final ClassDescriptor result = accessor.getClassDescriptor( "MyClass", classLoader, null );
       assertEquals( "descriptor", descriptor, result );
    }
 
@@ -65,12 +65,12 @@ public class CachingMetaClassAccessorTestCase
                               MethodDescriptor.EMPTY_SET );
       final ClassLoader classLoader = getClass().getClassLoader();
       accessor.registerDescriptor( descriptor, classLoader );
-      final ClassDescriptor result = accessor.getClassDescriptor( "MyClass", classLoader );
+      final ClassDescriptor result = accessor.getClassDescriptor( "MyClass", classLoader, null );
       assertEquals( "descriptor", descriptor, result );
 
       try
       {
-         accessor.getClassDescriptor( "MyClass", classLoader );
+         accessor.getClassDescriptor( "MyClass", classLoader, null );
       }
       catch ( final MetaClassException mce )
       {
@@ -99,10 +99,10 @@ public class CachingMetaClassAccessorTestCase
       accessor.registerDescriptor( descriptor1, classLoader );
       accessor.registerDescriptor( descriptor2, classLoader );
       final ClassDescriptor result1 =
-         accessor.getClassDescriptor( "MyClass", classLoader );
+         accessor.getClassDescriptor( "MyClass", classLoader, null );
       assertEquals( "descriptor1", descriptor1, result1 );
       final ClassDescriptor result2 =
-         accessor.getClassDescriptor( "MyClass2", classLoader );
+         accessor.getClassDescriptor( "MyClass2", classLoader, null );
       assertEquals( "descriptor2", descriptor2, result2 );
    }
 

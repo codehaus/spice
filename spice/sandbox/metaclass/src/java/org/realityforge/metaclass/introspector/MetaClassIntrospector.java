@@ -15,7 +15,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * {@link java.beans.Introspector} class does for Java Beans.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-28 06:42:33 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-28 07:01:01 $
  */
 public final class MetaClassIntrospector
 {
@@ -100,6 +100,6 @@ public final class MetaClassIntrospector
                                                       final ClassLoader classLoader )
         throws MetaClassException
     {
-        return c_cachingAccessor.getClassDescriptor( classname, classLoader );
+        return c_cachingAccessor.getClassDescriptor( classname, classLoader, null );
     }
 }

@@ -15,7 +15,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * get to the underlying accessor implementation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 06:41:56 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-28 07:01:01 $
  */
 public class WrapperMetaClassAccessor
     implements MetaClassAccessor
@@ -43,9 +43,10 @@ public class WrapperMetaClassAccessor
      * @see MetaClassAccessor#getClassDescriptor
      */
     public synchronized ClassDescriptor getClassDescriptor( final String classname,
-                                                            final ClassLoader classLoader )
+                                                            final ClassLoader classLoader,
+                                                            final MetaClassAccessor accessor )
         throws MetaClassException
     {
-        return m_accessor.getClassDescriptor( classname, classLoader );
+        return m_accessor.getClassDescriptor( classname, classLoader, accessor );
     }
 }

@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.metaclass.introspector;
 
 import java.util.Map;
@@ -9,7 +16,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * Caching MetaClassAccessor implementation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 06:40:56 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-28 07:01:01 $
  */
 public class CachingMetaClassAccessor
    implements MetaClassAccessor
@@ -18,6 +25,14 @@ public class CachingMetaClassAccessor
     * Class used to access the MetaData.
     */
    private MetaClassAccessor m_accessor = new DefaultMetaClassAccessor();
+
+   /**
+    * Wrapper Accessor that is passed to the above accessor
+    * to retrieve ClassDescriptors. Ensures that no Accessor
+    * can get a direct reference to the CachingMetaClassAccessor
+    * and thus subvert descriptor loading process.
+    */
+   private final WrapperMetaClassAccessor m_wrapperAccessor = new WrapperMetaClassAccessor( this );
 
    /**
     * The cache in which info objects are stored.
@@ -33,7 +48,7 @@ public class CachingMetaClassAccessor
     *
     * @param accessor the MetaClassAccessor
     */
-   public void setAccessor( final MetaClassAccessor accessor )
+   public synchronized void setAccessor( final MetaClassAccessor accessor )
    {
       if ( null == accessor )
       {
@@ -45,7 +60,7 @@ public class CachingMetaClassAccessor
    /**
     * Remove all descriptors from registry.
     */
-   public void clear()
+   public synchronized void clear()
    {
       m_cache.clear();
    }
@@ -53,8 +68,9 @@ public class CachingMetaClassAccessor
    /**
     * @see MetaClassAccessor#getClassDescriptor
     */
-   public ClassDescriptor getClassDescriptor( final String classname,
-                                              final ClassLoader classLoader )
+   public synchronized ClassDescriptor getClassDescriptor( final String classname,
+                                              final ClassLoader classLoader,
+                                              final MetaClassAccessor accessor )
       throws MetaClassException
    {
       if ( null == classname )
@@ -73,7 +89,10 @@ public class CachingMetaClassAccessor
       }
       else
       {
-         descriptor = m_accessor.getClassDescriptor( classname, classLoader );
+         descriptor =
+            m_accessor.getClassDescriptor( classname,
+                                           classLoader,
+                                           m_wrapperAccessor );
          cache.put( classname, descriptor );
          return descriptor;
       }
@@ -85,7 +104,7 @@ public class CachingMetaClassAccessor
     * @param descriptor the descriptor
     * @param classLoader the ClassLoader
     */
-   public void registerDescriptor( final ClassDescriptor descriptor,
+   public synchronized void registerDescriptor( final ClassDescriptor descriptor,
                                    final ClassLoader classLoader )
    {
       if ( null == descriptor )
