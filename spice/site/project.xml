@@ -21,7 +21,7 @@
 
     <url>http://spice.sourceforge.net/</url>
     <siteAddress>spice.sf.net</siteAddress>
-    <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=67448</issueTrackingUrl>
+    <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10140</issueTrackingUrl>
 
     <siteDirectory>/home/groups/s/sp/spice/htdocs/</siteDirectory>
 
@@ -32,13 +32,61 @@
             <unsubscribe>spice-devel-request@lists.sourceforge.net</unsubscribe>
             <archive>http://sourceforge.net/mailarchive/forum.php?forum=spice-devel</archive>
         </mailingList>
+        <mailingList>
+            <name>Spice CVS Commits List</name>
+            <subscribe>spice-cvs-request@lists.sourceforge.net</subscribe>
+            <unsubscribe>spice-cvs-request@lists.sourceforge.net</unsubscribe>
+            <archive>http://sourceforge.net/mailarchive/forum.php?forum=spice-cvs</archive>
+        </mailingList>
     </mailingLists>
 
     <developers>
         <developer>
             <name>Peter Donald</name>
             <id>donaldp</id>
-            <email>peter@apache.org</email>
+            <email>peter at realityforge.org</email>
+            <roles>
+                <role>Developer</role>
+                <role>Project Admin</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Mauro Talevi</name>
+            <id>maurotalevi</id>
+            <email>mauro.talevi at aquilonia.org</email>
+            <roles>
+                <role>Developer</role>
+                <role>Project Admin</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Doug Hagan</name>
+            <id>dougecko</id>
+            <email>dougecko at users.sourceforge.net</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Mike Hogan</name>
+            <id>hogie</id>
+            <email>hogie at users.sourceforge.net</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Paul Hammant</name>
+            <id>paul-h</id>
+            <email>paul-h at users.sourceforge.net</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Peter Royal</name>
+            <id>proyal</id>
+            <email>proyal at users.sourceforge.net</email>
             <roles>
                 <role>Developer</role>
             </roles>

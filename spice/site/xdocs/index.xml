@@ -4,6 +4,7 @@
     <properties>
         <title>Spice</title>
         <author email="peter at realityforge.org">Peter Donald</author>
+        <author>Mauro Talevi</author>
     </properties>
 
     <body>
@@ -21,16 +22,25 @@
             </ul>
             </p>
         </section>
-        <section name="Containers">
-            <p>The Components are designed to be deployed in several containers.
-            </p>
-        	<subsection name="Avalon Phoenix">
-        	 	<p>The Avalon Phoenix container (<a href="http://avalon.apache.org/phoenix">http://avalon.apache.org/phoenix</a>) 
-        	 	has an established tradition of COP. </p> 
+        <section name="Multi-Container support">
+<p>
+The Components are designed to support deployment in different containers or frameworks.
+</p>
+			<subsection name="JContainer Loom">
+<p>
+<a href="http://avalon.apache.org/framework">Avalon Framework</a> supports Inversion of Control (IoC),
+via a set of interfaces.  
+</p>
+<p>The <a href="http://loom.jcontainer.org">JContainer Loom</a> 
+is a container designed and implemented on top of the Avalon Framework. 
+</p>
         	</subsection>
-        	<subsection name="PicoContainer">
-        	 	<p>The new kid on the block - see <a href="http://picocontainer.org">http://picocontainer.org</a> for all the gory details.</p>
-        	</subsection>
+			<subsection name="PicoContainer">
+<p>
+<a href="http://picocontainer.org">Pico Container</a> supports IoC in a more agile and embeddable
+way, without the need to import any external interface or class.
+</p>
+			</subsection>
         </section>
     </body>
 </document>
