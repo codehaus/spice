@@ -53,12 +53,12 @@
 
     <build>
         <nagEmailAddress>spice-devel@lists.sourceforge.net</nagEmailAddress>
-        <sourceDirectory>${basedir}/src/java</sourceDirectory>
-        <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+        <sourceDirectory>src/java</sourceDirectory>
+        <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
 
         <unitTest>
             <resource>
-                <directory>${basedir}/src/test</directory>
+                <directory>src/test</directory>
                 <includes>
                     <include>**/*</include>
                 </includes>
@@ -73,7 +73,7 @@
         </unitTest>
         <resources>
             <resource>
-                <directory>${basedir}/src/java</directory>
+                <directory>src/java</directory>
                 <!--<targetPath>path/</targetPath>-->
                 <includes>
                     <exclude>**/*.java</exclude>
