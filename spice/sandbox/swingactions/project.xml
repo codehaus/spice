@@ -6,7 +6,7 @@
     <id>jcomponent-swingactions</id>
     <gumpRepositoryId>components</gumpRepositoryId>
     <package>org.jcomponent.${pom.artifactId.substring(11)}</package>
-    <currentVersion>0.1</currentVersion>
+    <currentVersion>0.2</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
     <shortDescription>Component for managing and configuring Swing Actions.</shortDescription>
@@ -19,6 +19,11 @@
 
     <versions>
         <version>
+            <id>0.2</id>
+            <name>0.2</name>
+            <tag>HEAD</tag>
+        </version>
+        <version>
             <id>0.1</id>
             <name>0.1</name>
             <tag>SWINGACTIONS_0_1-tag</tag>
@@ -26,6 +31,22 @@
     </versions>
 
     <dependencies>
+        <dependency>
+            <id>commons-digester</id>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
+            <id>commons-beanutils</id>
+            <version>1.6</version>
+        </dependency>
+        <dependency>
+            <id>commons-collections</id>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <id>commons-logging</id>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>excalibur</groupId>
             <artifactId>excalibur-i18n</artifactId>
