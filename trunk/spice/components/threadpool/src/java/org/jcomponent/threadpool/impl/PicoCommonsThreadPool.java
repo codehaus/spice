@@ -18,7 +18,7 @@ import org.jcomponent.threadpool.ThreadPoolMonitor;
  * component is;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-27 21:38:15 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-29 07:23:11 $
  */
 public class PicoCommonsThreadPool
     extends AbstractThreadPool
@@ -106,7 +106,7 @@ public class PicoCommonsThreadPool
         try {
             finalize();
         } catch (Throwable throwable) {
-            m_monitor.unexpectedThrowable("Dispose Failed", throwable);
+            m_monitor.unexpectedError("Dispose Failed", throwable);
         }
     }
     protected void finalize() throws Throwable
@@ -119,7 +119,7 @@ public class PicoCommonsThreadPool
         }
         catch( Exception e )
         {
-            m_monitor.unexpectedThrowable("Closing Pool", e);
+            m_monitor.unexpectedError("Closing Pool", e);
         }
     }
 
@@ -139,7 +139,7 @@ public class PicoCommonsThreadPool
         }
         catch( Exception e )
         {
-            m_monitor.unexpectedThrowable("Retrieving thread from pool - " + ( worker == null ? "n/a" : worker.getName()), e );
+            m_monitor.unexpectedError("Retrieving thread from pool - " + ( worker == null ? "n/a" : worker.getName()), e );
             return createWorker();
         }
     }
@@ -165,7 +165,7 @@ public class PicoCommonsThreadPool
         }
         catch( Exception e )
         {
-            m_monitor.unexpectedThrowable("Return Object To Pool", e);
+            m_monitor.unexpectedError("Return Object To Pool", e);
         }
     }
 

@@ -5,15 +5,20 @@ package org.jcomponent.threadpool;
  */
 public interface ThreadPoolMonitor
 {
-   void newThreadPool( String name, int priority, boolean daemon, int maxActive, int maxIdle );
+   void newThreadPool( String name,
+                       int priority,
+                       boolean daemon,
+                       int maxActive,
+                       int maxIdle );
 
-   void unexpectedThrowable( String reference, Throwable t );
+   void unexpectedError( String message,
+                             Throwable t );
 
-   void threadRetrieved( Thread worker );
+   void threadRetrieved( Thread thread );
 
-   void threadReturned( Thread worker );
+   void threadReturned( Thread thread );
 
-   void threadCreated( Thread worker );
+   void threadCreated( Thread thread );
 
-   void threadDisposing( Thread worker );
+   void threadDisposing( Thread thread );
 }
