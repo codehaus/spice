@@ -25,8 +25,8 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * binary format outlined in documentation.
  * 
  * @author Peter Donald
- * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.22 $ $Date: 2003-12-08 00:56:02 $
+ * @author Doug Hagan
+ * @version $Revision: 1.23 $ $Date: 2003-12-08 23:30:10 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO

@@ -24,8 +24,8 @@ import java.util.Set;
  * </ul>
  *
  * @author Peter Donald
- * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.11 $ $Date: 2003-11-27 08:09:53 $
+ * @author Doug Hagan
+ * @version $Revision: 1.12 $ $Date: 2003-12-08 23:30:10 $
  */
 public final class Attribute
     implements Serializable
