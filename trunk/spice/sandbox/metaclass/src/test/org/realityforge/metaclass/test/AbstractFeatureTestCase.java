@@ -23,11 +23,6 @@ public abstract class AbstractFeatureTestCase
 {
     private ClassDescriptor _classDescriptor;
 
-    public AbstractFeatureTestCase( final String name )
-    {
-        super( name );
-    }
-
     /**
      * Set up before test.
      */

@@ -15,11 +15,6 @@ import org.realityforge.metaclass.model.Attribute;
 public class BasicClassTestCase
     extends AbstractFeatureTestCase
 {
-    public BasicClassTestCase()
-    {
-        super( "BasicClass" );
-    }
-
     public void testGetName()
     {
         assertEquals( CLASS_NAME,
