@@ -12,9 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import junit.framework.TestCase;
-import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
@@ -25,18 +23,11 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2003-11-28 11:14:54 $
+ * @version $Revision: 1.11 $ $Date: 2003-12-11 08:41:51 $
  */
 public class ClassDescriptorCompilerTestCase
     extends TestCase
 {
-    public void testNullInShutdownOutputStream()
-        throws Exception
-    {
-        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
-        task.shutdownStream( (OutputStream)null );
-    }
-
     public void testNonNullInShutdownInputStream()
         throws Exception
     {
@@ -124,53 +115,12 @@ public class ClassDescriptorCompilerTestCase
         fail( "Expected to fail due to npe" );
     }
 
-    public void testSetExtension()
-        throws Exception
-    {
-        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
-        try
-        {
-            task.setExtension( null );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe.message", "extension", npe.getMessage() );
-            return;
-        }
-        fail( "Expected to fail due to npe" );
-    }
-
-    public void testGetOutputFileForClassWithBinary()
-        throws Exception
-    {
-        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
-        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
-        final File destDir = new File( "." );
-        task.setDestDir( destDir );
-        final File file = task.getOutputFileForClass( "foo" );
-        final File expected = new File( destDir, "foo-meta.binary" ).getCanonicalFile();
-        assertEquals( expected, file );
-    }
-
-    public void testGetOutputFileForClassWithXML()
-        throws Exception
-    {
-        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
-        task.setExtension( DefaultMetaClassAccessor.XML_EXT );
-        final File destDir = new File( "." );
-        task.setDestDir( destDir );
-        final File file = task.getOutputFileForClass( "foo" );
-        final File expected = new File( destDir, "foo-meta.xml" ).getCanonicalFile();
-        assertEquals( expected, file );
-    }
-
     public void testFailToWriteClassDescriptors()
         throws Exception
     {
         final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
         final MockMonitor mockMonitor = new MockMonitor();
         task.setMonitor( mockMonitor );
-        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
         task.setMetaClassIO( new MockIO() );
         task.setDestDir( generateDirectory() );
         final ClassDescriptor descriptor =
@@ -297,7 +247,6 @@ public class ClassDescriptorCompilerTestCase
         final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
         task.setDestDir( destDirectory );
         task.addSourceFile( sourceFile );
-        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
         task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
@@ -308,7 +257,7 @@ public class ClassDescriptorCompilerTestCase
             "biz" +
             File.separator +
             "MyClass" +
-            DefaultMetaClassAccessor.BINARY_EXT;
+            MetaClassIOBinary.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
@@ -363,7 +312,6 @@ public class ClassDescriptorCompilerTestCase
         final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
         task.setDestDir( destDirectory );
         task.addSourceFile( sourceFile );
-        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
         task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
@@ -374,7 +322,7 @@ public class ClassDescriptorCompilerTestCase
             "biz" +
             File.separator +
             "MyClass" +
-            DefaultMetaClassAccessor.BINARY_EXT;
+            MetaClassIOBinary.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
@@ -406,7 +354,6 @@ public class ClassDescriptorCompilerTestCase
         final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
         task.setDestDir( destDirectory );
         task.addSourceFile( new File( "noExist.txt" ) );
-        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
         task.setMetaClassIO( new MetaClassIOBinary() );
         final MockMonitor monitor = new MockMonitor();
         task.setMonitor( monitor );
@@ -448,7 +395,6 @@ public class ClassDescriptorCompilerTestCase
         task.setDestDir( destDirectory );
         task.addSourceFile( sourceFile );
         task.addInterceptor( new DefaultQDoxAttributeInterceptor() );
-        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
         task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
@@ -459,7 +405,7 @@ public class ClassDescriptorCompilerTestCase
             "biz" +
             File.separator +
             "MyClass" +
-            DefaultMetaClassAccessor.BINARY_EXT;
+            MetaClassIOBinary.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
@@ -519,7 +465,6 @@ public class ClassDescriptorCompilerTestCase
         final MockMonitor monitor = new MockMonitor();
         compiler.setMonitor( monitor );
         compiler.addInterceptor( new ExceptingInterceptor() );
-        compiler.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
         compiler.setMetaClassIO( new MetaClassIOBinary() );
         compiler.execute();
         final String destFilename =
@@ -530,7 +475,7 @@ public class ClassDescriptorCompilerTestCase
             "biz" +
             File.separator +
             "MyClass" +
-            DefaultMetaClassAccessor.BINARY_EXT;
+            MetaClassIOBinary.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", !destFile.exists() );
@@ -572,7 +517,6 @@ public class ClassDescriptorCompilerTestCase
         task.setDestDir( destDirectory );
         task.addSourceFile( sourceFile );
         task.addInterceptor( new DeletingAttributeInterceptor() );
-        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
         task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
@@ -583,7 +527,7 @@ public class ClassDescriptorCompilerTestCase
             "biz" +
             File.separator +
             "MyClass" +
-            DefaultMetaClassAccessor.BINARY_EXT;
+            MetaClassIOBinary.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
@@ -643,7 +587,6 @@ public class ClassDescriptorCompilerTestCase
         task.addSourceFile( sourceFile );
         task.addInterceptor( new DeletingAttributeInterceptor() );
         task.addFilter( new DeletingFilter() );
-        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
         task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
@@ -654,7 +597,7 @@ public class ClassDescriptorCompilerTestCase
             "biz" +
             File.separator +
             "MyClass" +
-            DefaultMetaClassAccessor.BINARY_EXT;
+            MetaClassIOBinary.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "!destFile.exists()", !destFile.exists() );

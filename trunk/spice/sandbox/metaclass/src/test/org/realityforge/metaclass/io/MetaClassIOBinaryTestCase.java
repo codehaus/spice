@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 import junit.framework.TestCase;
@@ -22,12 +23,46 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.22 $ $Date: 2003-11-28 11:14:54 $
+ * @version $Revision: 1.23 $ $Date: 2003-12-11 08:41:51 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
 {
     private static final int STRING_HEADER_SIZE = 2;
+
+    public void testFailToSerialize()
+        throws Exception
+    {
+
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( "com.biz.Foo",
+                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        final File base = generateDirectory();
+        final FailingMetaClasIOBinary io = new FailingMetaClasIOBinary();
+        final String filename = io.getResourceName( descriptor.getName() );
+        final File file = new File( base, filename ).getCanonicalFile();
+        try
+        {
+            io.writeDescriptor( base, descriptor );
+        }
+        catch( final Exception e )
+        {
+            assertTrue( "!file.exists()", !file.exists() );
+            return;
+        }
+        fail( "Expected to fail to do IO" );
+    }
+
+    public void testGetResourceName()
+        throws Exception
+    {
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final String name = io.getResourceName( "Foo" );
+        assertEquals( "name", "Foo-meta.binary", name );
+    }
 
     public void testBinaryIOWriteZeroAttributes()
         throws Exception
@@ -704,5 +739,31 @@ public class MetaClassIOBinaryTestCase
             }
         }
         System.out.println();
+    }
+
+    private static final File generateDirectory()
+        throws IOException
+    {
+        final File baseDirectory = getBaseDirectory();
+        final File dir =
+            File.createTempFile( "mgtest", ".tmp", baseDirectory )
+            .getCanonicalFile();
+        dir.delete();
+        dir.mkdirs();
+        assertTrue( "dir.exists()", dir.exists() );
+        return dir;
+    }
+
+    private static final File getBaseDirectory()
+    {
+        final String tempDir = System.getProperty( "java.io.tmpdir" );
+        final String baseDir = System.getProperty( "basedir", tempDir );
+
+        final File base = new File( baseDir ).getAbsoluteFile();
+        final String pathname =
+            base + File.separator + "target" + File.separator + "test-data";
+        final File dir = new File( pathname );
+        dir.mkdirs();
+        return dir;
     }
 }

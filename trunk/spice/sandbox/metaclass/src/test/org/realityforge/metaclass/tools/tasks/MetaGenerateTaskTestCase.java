@@ -15,8 +15,8 @@ import junit.framework.TestCase;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
-import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIO;
+import org.realityforge.metaclass.io.MetaClassIOASM;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.io.MetaClassIOXml;
 import org.realityforge.metaclass.model.Attribute;
@@ -29,7 +29,7 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.28 $ $Date: 2003-11-29 00:27:42 $
+ * @version $Revision: 1.29 $ $Date: 2003-12-11 08:41:51 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -72,9 +72,6 @@ public class MetaGenerateTaskTestCase
         task.setupTarget();
         final ClassDescriptorCompiler compiler = task.getCompiler();
         final MetaClassIO io = compiler.getMetaClassIO();
-        assertEquals( "compiler.getExtension",
-                      DefaultMetaClassAccessor.BINARY_EXT,
-                      compiler.getExtension() );
         assertTrue( "compiler.getMetaClassIO instanceof Binary",
                     io instanceof MetaClassIOBinary );
     }
@@ -89,11 +86,22 @@ public class MetaGenerateTaskTestCase
         task.setupTarget();
         final ClassDescriptorCompiler compiler = task.getCompiler();
         final MetaClassIO io = compiler.getMetaClassIO();
-        assertEquals( "compiler.getExtension",
-                      DefaultMetaClassAccessor.XML_EXT,
-                      compiler.getExtension() );
         assertTrue( "compiler.getMetaClassIO instanceof XML",
                     io instanceof MetaClassIOXml );
+    }
+
+    public void testGetMetaClassIOWithClass()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "class" );
+        task.setFormat( format );
+        task.setupTarget();
+        final ClassDescriptorCompiler compiler = task.getCompiler();
+        final MetaClassIO io = compiler.getMetaClassIO();
+        assertTrue( "compiler.getMetaClassIO instanceof ASM",
+                    io instanceof MetaClassIOASM );
     }
 
     public void testCreateFilterOfBadType()
@@ -298,7 +306,7 @@ public class MetaGenerateTaskTestCase
             "biz" +
             File.separator +
             "MyClass" +
-            DefaultMetaClassAccessor.BINARY_EXT;
+            MetaClassIOBinary.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
@@ -374,13 +382,13 @@ public class MetaGenerateTaskTestCase
             "biz" +
             File.separator +
             "MyClass" +
-            DefaultMetaClassAccessor.XML_EXT;
+            MetaClassIOXml.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
-        final MetaClassIOXml io = new MetaClassIOXml();
         final FileInputStream input = new FileInputStream( destFile );
-        final ClassDescriptor descriptor = io.deserializeClass( input );
+        final ClassDescriptor descriptor = MetaClassIOXml.IO.deserializeClass(
+            input );
         assertEquals( "descriptor.name",
                       "com.biz.MyClass",
                       descriptor.getName() );
@@ -446,7 +454,7 @@ public class MetaGenerateTaskTestCase
             "biz" +
             File.separator +
             "MyClass" +
-            DefaultMetaClassAccessor.XML_EXT;
+            MetaClassIOXml.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "!destFile.exists()", !destFile.exists() );
@@ -487,6 +495,9 @@ public class MetaGenerateTaskTestCase
         final Project project = new Project();
         project.setBaseDir( getBaseDirectory() );
         task.setProject( project );
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "binary" );
+        task.setFormat( format );
         task.setDestDir( destDirectory );
         task.addFileset( fileSet );
         task.execute();
@@ -498,7 +509,7 @@ public class MetaGenerateTaskTestCase
             "biz" +
             File.separator +
             "MyClass" +
-            DefaultMetaClassAccessor.BINARY_EXT;
+            MetaClassIOBinary.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
@@ -684,6 +695,9 @@ public class MetaGenerateTaskTestCase
         task.setProject( project );
         task.setDestDir( destDirectory );
         task.addFileset( fileSet );
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "binary" );
+        task.setFormat( format );
         task.setNamespaceTagsOnly( false );
         task.addInterceptor( element );
         task.addInterceptorSet( new InterceptorSet() );
@@ -696,7 +710,7 @@ public class MetaGenerateTaskTestCase
             "biz" +
             File.separator +
             "MyClass" +
-            DefaultMetaClassAccessor.BINARY_EXT;
+            MetaClassIOBinary.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
@@ -776,7 +790,7 @@ public class MetaGenerateTaskTestCase
             "biz" +
             File.separator +
             "MyClass" +
-            DefaultMetaClassAccessor.BINARY_EXT;
+            MetaClassIOBinary.EXTENSION;
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );

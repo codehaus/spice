@@ -10,44 +10,31 @@ package org.realityforge.metaclass.model;
 import java.io.Serializable;
 
 /**
- * A descriptor that describes a Method. It contains
- * information about;
- * <ul>
- *   <li>name: the name of the method</li>
- *   <li>return type: the return type of the method</li>
- *   <li>modifiers: the access modifiers for the method</li>
- *   <li>parameters: the parameters a method takes</li>
- * </ul>
+ * A descriptor that describes a Method. It contains information about; <ul>
+ * <li>name: the name of the method</li> <li>return type: the return type of the
+ * method</li> <li>modifiers: the access modifiers for the method</li>
+ * <li>parameters: the parameters a method takes</li> </ul>
  *
- * <p>Also associated with each method is a set of arbitrary
- * Attributes that can be used to store extra information
- * about method.</p>
+ * <p>Also associated with each method is a set of arbitrary Attributes that can
+ * be used to store extra information about method.</p>
  *
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2003-11-27 08:09:53 $
+ * @version $Revision: 1.11 $ $Date: 2003-12-11 08:41:50 $
  */
 public final class MethodDescriptor
     extends FeatureDescriptor
     implements Serializable
 {
-    /**
-     * Constant for empty array of method descriptors.
-     */
+    /** Constant for empty array of method descriptors. */
     public static final MethodDescriptor[] EMPTY_SET = new MethodDescriptor[ 0 ];
 
-    /**
-     * The name of the Method.
-     */
+    /** The name of the Method. */
     private final String m_name;
 
-    /**
-     * The return type of the method.
-     */
+    /** The return type of the method. */
     private final String m_returnType;
 
-    /**
-     * The parameters associated with the method.
-     */
+    /** The parameters associated with the method. */
     private final ParameterDescriptor[] m_parameters;
 
     /**

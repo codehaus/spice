@@ -15,27 +15,23 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * Caching MetaClassAccessor implementation.
  *
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2003-11-27 08:09:53 $
+ * @version $Revision: 1.7 $ $Date: 2003-12-11 08:41:50 $
  */
 public class CachingMetaClassAccessor
     implements MetaClassAccessor
 {
-    /**
-     * Class used to access the MetaData.
-     */
+    /** Class used to access the MetaData. */
     private MetaClassAccessor m_accessor = new DefaultMetaClassAccessor();
 
     /**
-     * The cache in which info objects are stored.
-     * This cache stores maps for ClassLoaders which in
-     * turn stores info for particular classes in
-     * classloader.
+     * The cache in which descriptor objects are stored. This cache stores maps
+     * for ClassLoaders which in turn stores descriptors for particular classes
+     * in classloader.
      */
     private final Map m_cache = new WeakHashMap();
 
     /**
-     * Set the MetaClassAccessor to use to locate
-     * ClassDescriptor objects.
+     * Set the MetaClassAccessor to use to locate ClassDescriptor objects.
      *
      * @param accessor the MetaClassAccessor
      */
@@ -59,9 +55,10 @@ public class CachingMetaClassAccessor
     /**
      * @see MetaClassAccessor#getClassDescriptor
      */
-    public synchronized ClassDescriptor getClassDescriptor( final String classname,
-                                                            final ClassLoader classLoader,
-                                                            final MetaClassAccessor accessor )
+    public synchronized ClassDescriptor getClassDescriptor(
+        final String classname,
+        final ClassLoader classLoader,
+        final MetaClassAccessor accessor )
         throws MetaClassException
     {
         if( null == classname )
@@ -81,9 +78,9 @@ public class CachingMetaClassAccessor
         else
         {
             descriptor =
-                m_accessor.getClassDescriptor( classname,
-                                               classLoader,
-                                               accessor );
+            m_accessor.getClassDescriptor( classname,
+                                           classLoader,
+                                           accessor );
             cache.put( classname, descriptor );
             return descriptor;
         }
@@ -95,8 +92,9 @@ public class CachingMetaClassAccessor
      * @param descriptor the descriptor
      * @param classLoader the ClassLoader
      */
-    public synchronized void registerDescriptor( final ClassDescriptor descriptor,
-                                                 final ClassLoader classLoader )
+    public synchronized void registerDescriptor(
+        final ClassDescriptor descriptor,
+        final ClassLoader classLoader )
     {
         if( null == descriptor )
         {
@@ -116,7 +114,8 @@ public class CachingMetaClassAccessor
      * @param classLoader the ClassLoader to get cache for
      * @return the Map/Cache for ClassLoader
      */
-    private synchronized Map getClassLoaderCache( final ClassLoader classLoader )
+    private synchronized Map getClassLoaderCache(
+        final ClassLoader classLoader )
     {
         Map map = (Map)m_cache.get( classLoader );
         if( null == map )

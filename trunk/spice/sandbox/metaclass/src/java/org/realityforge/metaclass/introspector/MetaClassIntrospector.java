@@ -15,50 +15,42 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * {@link java.beans.Introspector} class does for Java Beans.
  *
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2003-11-27 08:09:53 $
+ * @version $Revision: 1.8 $ $Date: 2003-12-11 08:41:50 $
  */
 public final class MetaClassIntrospector
 {
-    /**
-     * Permission needed to clear complete cache.
-     */
+    /** Permission needed to clear complete cache. */
     private static final RuntimePermission CLEAR_CACHE_PERMISSION =
         new RuntimePermission( "metaclass.clearCompleteCache" );
 
-    /**
-     * Permission needed to set the accessor.
-     */
+    /** Permission needed to set the accessor. */
     private static final RuntimePermission SET_ACCESSOR_PERMISSION =
         new RuntimePermission( "metaclass.setAccessor" );
 
-    /**
-     * The cache in which info objects are stored.
-     * This cache stores maps for ClassLoaders which in
-     * turn stores info for particular classes in
-     * classloader.
-     */
+    /** The cache in which descriptor objects are stored. */
     private static final CachingMetaClassAccessor c_cachingAccessor = new CachingMetaClassAccessor();
 
     /**
-     * Wrapper Accessor that is passed to the above accessor
-     * to retrieve ClassDescriptors. Ensures that no Accessor
-     * can get a direct reference to the CachingMetaClassAccessor
-     * and thus subvert descriptor loading process.
+     * Wrapper Accessor that is passed to the above accessor to retrieve
+     * ClassDescriptors. Ensures that no Accessor can get a direct reference to
+     * the CachingMetaClassAccessor and thus subvert descriptor loading
+     * process.
      */
-    private static final WrapperMetaClassAccessor c_wrapperAccessor = new WrapperMetaClassAccessor( c_cachingAccessor );
+    private static final WrapperMetaClassAccessor c_wrapperAccessor = new WrapperMetaClassAccessor(
+        c_cachingAccessor );
 
     /**
-     * Flush all of the Introspector's internal caches.  This method is
-     * not normally required.  It is normally only needed by advanced
-     * tools that update existing "Class" objects in-place and need
-     * to make the Introspector re-analyze existing Class objects.
+     * Flush all of the Introspector's internal caches.  This method is not
+     * normally required.  It is normally only needed by advanced tools that
+     * update existing "Class" objects in-place and need to make the
+     * Introspector re-analyze existing Class objects.
      *
      * <p>Note that the caller must have been granted the
      * "metaclass.clearCompleteCache" {@link java.lang.RuntimePermission} or
      * else a security exception will be thrown.</p>
      *
      * @throws java.lang.SecurityException if the caller does not have
-     *                           permission to clear cache
+     * permission to clear cache
      */
     public static synchronized void clearCompleteCache()
     {
@@ -71,16 +63,15 @@ public final class MetaClassIntrospector
     }
 
     /**
-     * Set the MetaClassAccessor to use to locate
-     * ClassDescriptor objects.
+     * Set the MetaClassAccessor to use to locate ClassDescriptor objects.
      *
      * <p>Note that the caller must have been granted the
-     * "metaclass.setAccessor" {@link java.lang.RuntimePermission} or
-     * else a security exception will be thrown.</p>
+     * "metaclass.setAccessor" {@link java.lang.RuntimePermission} or else a
+     * security exception will be thrown.</p>
      *
      * @param accessor the MetaClassAccessor
-     * @throws SecurityException if the caller does not have
-     *                           permission to clear cache
+     * @throws SecurityException if the caller does not have permission to clear
+     * cache
      */
     public static void setAccessor( final MetaClassAccessor accessor )
     {
@@ -108,6 +99,8 @@ public final class MetaClassIntrospector
                                                       final ClassLoader classLoader )
         throws MetaClassException
     {
-        return c_cachingAccessor.getClassDescriptor( classname, classLoader, c_wrapperAccessor );
+        return c_cachingAccessor.getClassDescriptor( classname,
+                                                     classLoader,
+                                                     c_wrapperAccessor );
     }
 }

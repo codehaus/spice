@@ -13,11 +13,9 @@ import com.thoughtworks.qdox.model.JavaSource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -26,69 +24,49 @@ import java.util.List;
 import java.util.Set;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.tools.packer.ClassDescriptorPacker;
 import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
 import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
-import org.realityforge.metaclass.tools.packer.ClassDescriptorPacker;
 
 /**
- * A bean that can create MetaClass descriptors by processing
- * Java Source files with qdox.
+ * A bean that can create MetaClass descriptors by processing Java Source files
+ * with qdox.
  *
  * @author Peter Donald
- * @version $Revision: 1.15 $ $Date: 2003-11-27 08:09:53 $
+ * @version $Revision: 1.16 $ $Date: 2003-12-11 08:41:50 $
  */
 public class ClassDescriptorCompiler
 {
-    /**
-     * The utility class used to generate MetaClass object.
-     */
-    private static final QDoxDescriptorParser c_infoBuilder = new QDoxDescriptorParser();
+    /** The utility class used to generate MetaClass object. */
+    private static final QDoxDescriptorParser c_descriptorParser = new QDoxDescriptorParser();
 
     /**
-     * Flag indicating whether the compacter
-     * should methods with no attributes.
+     * Flag indicating whether the compacter should methods with no attributes.
      */
     private boolean m_keepEmptyMethods;
 
-    /**
-     * Destination directory
-     */
+    /** Destination directory */
     private File m_destDir;
 
-    /**
-     * The IO object to use when writing descriptors.
-     */
+    /** The IO object to use when writing descriptors. */
     private MetaClassIO m_metaClassIO;
 
-    /**
-     * The file extension to use for the attributes.
-     */
-    private String m_extension;
-
-    /**
-     * the monitor that receives messages about operation of compiler.
-     */
+    /** the monitor that receives messages about operation of compiler. */
     private CompilerMonitor m_monitor = new DefaultCompilerMonitor();
 
-    /**
-     * The source files to process.
-     */
+    /** The source files to process. */
     private final List m_sourceFiles = new ArrayList();
 
-    /**
-     * The interceptors used to process source files.
-     */
+    /** The interceptors used to process source files. */
     private final List m_interceptors = new ArrayList();
 
-    /**
-     * The filters used to filter source files.
-     */
+    /** The filters used to filter source files. */
     private final List m_filters = new ArrayList();
 
     /**
      * Set flag indicating whether Compacter should keep empty methods.
      *
-     * @param keepEmptyMethods  the flag
+     * @param keepEmptyMethods the flag
      */
     public void setKeepEmptyMethods( final boolean keepEmptyMethods )
     {
@@ -176,20 +154,6 @@ public class ClassDescriptorCompiler
     }
 
     /**
-     * Set the file extension used when generating file descriptors.
-     *
-     * @param extension the file extension used when generating file descriptors.
-     */
-    public void setExtension( final String extension )
-    {
-        if( null == extension )
-        {
-            throw new NullPointerException( "extension" );
-        }
-        m_extension = extension;
-    }
-
-    /**
      * Return the MetaClassIO used to serialize descriptors.
      *
      * @return the MetaClassIO used to serialize descriptors.
@@ -197,16 +161,6 @@ public class ClassDescriptorCompiler
     public MetaClassIO getMetaClassIO()
     {
         return m_metaClassIO;
-    }
-
-    /**
-     * Return the file extension used when generating file descriptors.
-     *
-     * @return the file extension used when generating file descriptors.
-     */
-    public String getExtension()
-    {
-        return m_extension;
     }
 
     /**
@@ -261,7 +215,8 @@ public class ClassDescriptorCompiler
             try
             {
                 final ClassDescriptor descriptor =
-                    c_infoBuilder.buildClassDescriptor( javaClass, interceptors );
+                    c_descriptorParser.buildClassDescriptor( javaClass,
+                                                             interceptors );
                 descriptors.add( descriptor );
             }
             catch( final Throwable t )
@@ -289,8 +244,8 @@ public class ClassDescriptorCompiler
     }
 
     /**
-     * Return the set of classes that will actually be serialized
-     * and have not been filtered out.
+     * Return the set of classes that will actually be serialized and have not
+     * been filtered out.
      *
      * @return list of classes to serialize
      */
@@ -329,8 +284,8 @@ public class ClassDescriptorCompiler
     }
 
     /**
-     * Return the set of classes that will actually be serialized
-     * and have not been filtered out.
+     * Return the set of classes that will actually be serialized and have not
+     * been filtered out.
      *
      * @param input the list of input classes to filter
      * @return list of classes to serialize
@@ -356,7 +311,6 @@ public class ClassDescriptorCompiler
         }
         return classes;
     }
-
 
     /**
      * Return the set of ClassDescriptors after cmpaction.
@@ -417,57 +371,13 @@ public class ClassDescriptorCompiler
      */
     void writeClassDescriptor( final ClassDescriptor descriptor )
     {
-        final String fqn = descriptor.getName();
-        OutputStream outputStream = null;
         try
         {
-            final File file = getOutputFileForClass( fqn );
-            file.getParentFile().mkdirs();
-            outputStream = new FileOutputStream( file );
-            m_metaClassIO.serializeClass( outputStream, descriptor );
+            m_metaClassIO.writeDescriptor( m_destDir, descriptor );
         }
         catch( final Exception e )
         {
             m_monitor.errorWritingDescriptor( descriptor, e );
-        }
-        finally
-        {
-            shutdownStream( outputStream );
-        }
-    }
-
-    /**
-     * Determine the file for specified class.
-     *
-     * @param classname the fully qualified name of file to generate
-     * @return the file for info
-     * @throws IOException if unable to determine base file
-     */
-    File getOutputFileForClass( final String classname )
-        throws IOException
-    {
-        final String filename =
-            classname.replace( '.', File.separatorChar ) + m_extension;
-        return new File( m_destDir, filename ).getCanonicalFile();
-    }
-
-    /**
-     * Close the specified output stream and swallow any exceptions.
-     *
-     * @param outputStream the output stream
-     */
-    void shutdownStream( final OutputStream outputStream )
-    {
-        if( null != outputStream )
-        {
-            try
-            {
-                outputStream.close();
-            }
-            catch( IOException e )
-            {
-                //Ignored
-            }
         }
     }
 

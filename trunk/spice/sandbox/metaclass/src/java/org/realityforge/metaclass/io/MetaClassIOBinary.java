@@ -9,6 +9,7 @@ package org.realityforge.metaclass.io;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -26,16 +27,27 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  *
  * @author Peter Donald
  * @author Doug Hagan
- * @version $Revision: 1.24 $ $Date: 2003-12-10 22:41:23 $
+ * @version $Revision: 1.25 $ $Date: 2003-12-11 08:41:50 $
  */
 public class MetaClassIOBinary
-    implements MetaClassIO
+    extends AbstractMetaClassIO
 {
     /** Constant with instance of MetaClassIO. */
     public static final MetaClassIOBinary IO = new MetaClassIOBinary();
 
+    /** Extension of metadata files that are in binary format. */
+    public static final String EXTENSION = "-meta.binary";
+
     /** The current version of Attributes object. */
     static final int VERSION = 2;
+
+    /**
+     * @see MetaClassIO#getResourceName(String)
+     */
+    public String getResourceName( final String classname )
+    {
+        return classname.replace( '.', File.separatorChar ) + EXTENSION;
+    }
 
     /**
      * @see MetaClassIO#deserializeClass
@@ -60,20 +72,20 @@ public class MetaClassIOBinary
     }
 
     /**
-     * @see MetaClassIO#serializeClass
+     * @see AbstractMetaClassIO#serializeClass(OutputStream, ClassDescriptor)
      */
     public void serializeClass( final OutputStream output,
-                                final ClassDescriptor info )
+                                final ClassDescriptor descriptor )
         throws IOException
     {
         final DataOutputStream data = new DataOutputStream( output );
         try
         {
             data.writeInt( VERSION );
-            data.writeUTF( info.getName() );
-            writeAttributes( data, info.getAttributes() );
-            writeFields( data, info.getFields() );
-            writeMethods( data, info.getMethods() );
+            data.writeUTF( descriptor.getName() );
+            writeAttributes( data, descriptor.getAttributes() );
+            writeFields( data, descriptor.getFields() );
+            writeMethods( data, descriptor.getMethods() );
         }
         finally
         {
