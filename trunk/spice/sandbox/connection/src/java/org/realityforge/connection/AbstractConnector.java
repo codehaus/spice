@@ -65,4 +65,44 @@ public abstract class AbstractConnector
       _lastRxMessage = message;
       _lastTxMessage = message;
    }
+
+   /**
+    * Return the time at which last transmission occured.
+    *
+    * @return the time at which last transmission occured.
+    */
+   public long getLastTxTime()
+   {
+      return _lastTxTime;
+   }
+
+   /**
+    * Return the last message transmitted.
+    *
+    * @return the last message transmitted.
+    */
+   public Object getLastTxMessage()
+   {
+      return _lastTxMessage;
+   }
+
+   /**
+    * Return the time at which last receive occured.
+    *
+    * @return the time at which last receive occured.
+    */
+   public long getLastRxTime()
+   {
+      return _lastRxTime;
+   }
+
+   /**
+    * Return the last message received.
+    *
+    * @return the last message received.
+    */
+   public Object getLastRxMessage()
+   {
+      return _lastRxMessage;
+   }
 }
