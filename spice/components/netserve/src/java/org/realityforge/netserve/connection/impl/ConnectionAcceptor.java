@@ -21,7 +21,7 @@ import org.realityforge.threadpool.ThreadPool;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-23 03:52:46 $
+ * @version $Revision: 1.3 $ $Date: 2003-04-23 03:53:53 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
@@ -88,11 +88,6 @@ class ConnectionAcceptor
         m_threadPool = threadPool;
     }
 
-    synchronized void startRunning()
-    {
-        m_thread = Thread.currentThread();
-    }
-
     synchronized void stopRunning()
     {
         if( isRunning() )
@@ -138,7 +133,10 @@ class ConnectionAcceptor
     public void run()
     {
         //Setup thread to indicate that we are currently running
-        startRunning();
+        synchronized( this )
+        {
+            m_thread = Thread.currentThread();
+        }
 
         while( isRunning() )
         {
