@@ -31,8 +31,9 @@
 
     <goal name="generateNavigation">
         <echo message="Generating documentation"/>
+        <mkdir dir="xdocs"/>
         <available
-            file="${maven.docs.src}/navigation.xml"
+            file="xdocs/navigation.xml"
             type="file"
             property="navigation.available"/>
 
