@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-10-24 08:07:21 $
+ * @version $Revision: 1.11 $ $Date: 2003-10-24 09:47:31 $
  */
 public class ConnectionAcceptorTestCase
     extends TestCase
@@ -50,19 +50,6 @@ public class ConnectionAcceptorTestCase
             return;
         }
         fail( "Expected to fail due to NPE for monitor" );
-    }
-
-    public void testCloseWhenNotRunning()
-        throws Exception
-    {
-        final ConnectionAcceptor acceptor =
-            new ConnectionAcceptor( new AcceptorConfig( "name",
-                                                        new ServerSocket(),
-                                                        new MockSocketConnectionHandler() ),
-                                    new NullAcceptorMonitor() );
-        assertFalse( "isRunning() pre-close()", acceptor.isRunning() );
-        acceptor.close();
-        assertFalse( "isRunning() post-close()", acceptor.isRunning() );
     }
 
     public void testShutdownServerSocketCausesError()
@@ -121,7 +108,7 @@ public class ConnectionAcceptorTestCase
                       ExceptOnAcceptServerSocket.ERROR_EXCEPTION,
                       monitor.getErrorAcceptingConnection() );
 
-        acceptor.close();
+        acceptor.close( 0 );
         thread.join();
     }
 
@@ -147,7 +134,7 @@ public class ConnectionAcceptorTestCase
         }
         assertTrue( "1 < monitor.getListenCount", 1 < monitor.getListenCount() );
 
-        acceptor.close();
+        acceptor.close( 0 );
         thread.join();
     }
 
@@ -176,7 +163,7 @@ public class ConnectionAcceptorTestCase
         assertEquals( "handler.getSocket()",
                       BlockingServerSocket.SOCKET,
                       handler.getSocket() );
-        acceptor.close();
+        acceptor.close( 50 );
         serverSocket.unlock();
         thread.join();
     }
@@ -195,7 +182,7 @@ public class ConnectionAcceptorTestCase
         final Thread thread = startAcceptor( acceptor );
         waitUntilStarted( acceptor );
         waitUntilListening( monitor );
-        acceptor.close();
+        acceptor.close( 50 );
         serverSocket.unlock();
         waitUntilListening( monitor );
         assertEquals( "handler.getSocket()",
