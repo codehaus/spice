@@ -1,18 +1,21 @@
 package org.realityforge.packet.events;
 
 import org.codehaus.spice.netevent.events.AbstractEvent;
+import org.codehaus.spice.netevent.transport.ChannelTransport;
 import org.realityforge.packet.session.Session;
 
 /**
  * An event about a Session.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-13 04:14:50 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-21 04:16:56 $
  */
 public abstract class SessionEvent
     extends AbstractEvent
 {
-    /** The session. */
+    /**
+     * The session.
+     */
     private final Session _session;
 
     /**
@@ -44,6 +47,10 @@ public abstract class SessionEvent
      */
     protected String getEventDescription()
     {
-        return "SessionID: " + getSession().getSessionID();
+        final Session session = getSession();
+        final ChannelTransport transport = session.getTransport();
+        final int transportID = (null != transport) ? transport.getId() : -1;
+        return "SessionID=" + session.getSessionID() +
+               ", TransportID=" + transportID;
     }
 }
