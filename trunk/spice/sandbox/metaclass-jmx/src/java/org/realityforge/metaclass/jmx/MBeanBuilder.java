@@ -309,6 +309,12 @@ public class MBeanBuilder
         return infos;
     }
 
+    /**
+     * Build a set of parameter info objects via reflection.
+     *
+     * @param types the types of parameters
+     * @return the parameter infos
+     */
     private MBeanParameterInfo[] buildParametersViaReflection( final Class[] types )
     {
         final MBeanParameterInfo[] infos = new MBeanParameterInfo[ types.length ];
