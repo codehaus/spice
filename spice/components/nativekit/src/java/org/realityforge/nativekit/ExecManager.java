@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
-import org.realityforge.nativekit.ExecException;
 
 /**
  * Interface via which clients can request that a native
@@ -28,7 +27,7 @@ import org.realityforge.nativekit.ExecException;
  * </ul>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-01-29 00:14:35 $
+ * @version $Revision: 1.2 $ $Date: 2003-03-25 02:59:44 $
  */
 public interface ExecManager
 {
