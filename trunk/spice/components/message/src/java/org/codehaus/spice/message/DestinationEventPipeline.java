@@ -25,12 +25,12 @@ class DestinationEventPipeline implements EventPipeline
     private final Source[] m_sources;
     private final EventHandler m_eventHandler;
 
-    public DestinationEventPipeline( final Destination destination )
+    public DestinationEventPipeline( final Destination destination, final DestinationMonitor monitor )
     {
 
         m_pipe = new DefaultPipe( new ValidMessageEnqueuePredicate( destination ) );
         m_sources = new Source[]{m_pipe};
-        m_eventHandler = new DestinationEventHandler( destination );
+        m_eventHandler = new DestinationEventHandler( destination, monitor );
     }
 
     Sink getSink()
