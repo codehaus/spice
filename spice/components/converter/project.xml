@@ -3,10 +3,9 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>Converter</name>
     <id>spice-converter</id>
-    <currentVersion>1.0</currentVersion>
+    <currentVersion>1.1-dev</currentVersion>
     <inceptionYear>2000</inceptionYear>
     <package>org.codehaus.spice.converter</package>
-
 
     <shortDescription>Convert objects of one type to another type</shortDescription>
 
