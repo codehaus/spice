@@ -23,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-08-22 03:25:33 $
+ * @version $Revision: 1.12 $ $Date: 2003-08-22 03:29:43 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -169,7 +169,6 @@ public class MetaClassIOBinaryTestCase
         io.writeAttributes( data, new Attribute[]{attribute} );
         data.flush();
         final byte[] bytes = out.toByteArray();
-        outputArray( bytes );
         assertEquals( "length", 37, bytes.length );
         int offset = 0;
         assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
@@ -369,6 +368,103 @@ public class MetaClassIOBinaryTestCase
         final DataInputStream data = new DataInputStream( in );
         final FieldDescriptor[] fields = io.readFields( data );
         assertEquals( "fields.length", 0, fields.length );
+    }
+
+
+    public void testBinaryIOReadMethods()
+        throws Exception
+    {
+        final String name = "name";
+        final String type = "type";
+        final int modifiers = 0;
+        final int parameterCount = 0;
+        final int attributeCount = 0;
+        final byte[] bytes = new byte[]
+        {
+            0, 0, 0, 1, //length
+            0, 4, //length of name
+            'n', 'a', 'm', 'e',
+            0, 4, //length of return type
+            't', 'y', 'p', 'e',
+            0, 0, 0, 0, //modifiers
+            0, 0, 0, 0, //parameter count
+            0, 0, 0, 0 //attribute count
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
+        final DataInputStream data = new DataInputStream( in );
+        final MethodDescriptor[] methods = io.readMethods( data );
+        assertEquals( "methods.length", 1, methods.length );
+        assertEquals( "methods[0].name", name, methods[ 0 ].getName() );
+        assertEquals( "methods[0].returnType", type, methods[ 0 ].getReturnType() );
+        assertEquals( "methods[0].modifiers", modifiers, methods[ 0 ].getModifiers() );
+        assertEquals( "methods[0].attributes.length",
+                      attributeCount, methods[ 0 ].getAttributes().length );
+        assertEquals( "methods[0].attributes.length",
+                      parameterCount, methods[ 0 ].getParameters().length );
+    }
+
+    public void testBinaryIOWriteMethods()
+        throws Exception
+    {
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final DataOutputStream data = new DataOutputStream( out );
+        final String name = "name";
+        final String type = "aType";
+        final int modifiers = 0;
+        final MethodDescriptor descriptor =
+            new MethodDescriptor( name,
+                                  type,
+                                  modifiers,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET );
+        io.writeMethods( data, new MethodDescriptor[]{descriptor} );
+        data.flush();
+        final byte[] bytes = out.toByteArray();
+        assertEquals( "length", 29, bytes.length );
+        int offset = 0;
+        assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
+        offset = 4;
+        assertEquals( "bytes[" + offset + "] = " + name, name, readString( bytes, offset ) );
+        offset += STRING_HEADER_SIZE + name.length();
+        assertEquals( "bytes[" + offset + "] = " + type, type, readString( bytes, offset ) );
+        offset += STRING_HEADER_SIZE + type.length();
+        assertEquals( "bytes[" + offset + "] = " + modifiers, modifiers, readInteger( bytes, offset ) );
+        offset += 4;
+        assertEquals( "bytes[" + offset + "] = " + ParameterDescriptor.EMPTY_SET.length,
+                      ParameterDescriptor.EMPTY_SET.length, readInteger( bytes, offset ) );
+        offset += 4;
+        assertEquals( "bytes[" + offset + "] = " + Attribute.EMPTY_SET.length,
+                      Attribute.EMPTY_SET.length, readInteger( bytes, offset ) );
+        offset += 4;
+    }
+
+    public void testBinaryIOWriteZeroMethods()
+        throws Exception
+    {
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final DataOutputStream data = new DataOutputStream( out );
+        io.writeMethods( data, MethodDescriptor.EMPTY_SET );
+        data.flush();
+        final byte[] bytes = out.toByteArray();
+        assertEquals( "length", 4, bytes.length );
+        assertEquals( "bytes[0-4] = 0", 0, readInteger( bytes, 0 ) );
+    }
+
+    public void testBinaryIOReadZeroMethods()
+        throws Exception
+    {
+        final byte[] bytes = new byte[]
+        {
+            0, 0, 0, 0 //length
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
+        final DataInputStream data = new DataInputStream( in );
+        final MethodDescriptor[] methods = io.readMethods( data );
+        assertEquals( "methods.length", 0, methods.length );
     }
 
     public void testBinaryIOWriteRead()
