@@ -70,7 +70,10 @@ final class BinaryHeap
      */
     public void insert( final Comparable element )
     {
-        if( isFull() ) {grow();}
+        if( isFull() )
+        {
+            grow();
+        }
 
         //percolate element to it's place in tree
         if( m_isMinHeap )
@@ -258,10 +261,14 @@ final class BinaryHeap
         m_elements = elements;
     }
 
+    /**
+     * Overide toString method to give list of elements,
+     *
+     * @return the list of elements converted into a string
+     */
     public String toString()
     {
         final StringBuffer sb = new StringBuffer();
-
         sb.append( "[ " );
 
         for( int i = 1; i < m_size + 1; i++ )
@@ -274,7 +281,6 @@ final class BinaryHeap
         }
 
         sb.append( " ]" );
-
         return sb.toString();
     }
 }
