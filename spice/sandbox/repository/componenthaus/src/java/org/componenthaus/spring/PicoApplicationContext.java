@@ -5,25 +5,27 @@ import org.componenthaus.repository.api.ComponentRepository;
 import org.componenthaus.repository.api.RepositoryImpl;
 import org.componenthaus.repository.impl.ComponentFactory;
 import org.componenthaus.repository.impl.ServiceImplementationFactory;
+import org.componenthaus.repository.services.CommandRegistryImpl;
 import org.componenthaus.search.AddComponentMonitor;
 import org.componenthaus.search.LuceneSearchService;
 import org.componenthaus.search.SearchService;
-import org.componenthaus.usecases.submitcomponent.SubmitComponentController;
-import org.componenthaus.usecases.welcomeuser.WelcomeUserController;
+import org.componenthaus.usecases.downloadcomponent.DownloadComponentController;
 import org.componenthaus.usecases.listcomponents.ListComponentsController;
-import org.componenthaus.usecases.showimplementation.ShowImplementationController;
 import org.componenthaus.usecases.searchcomponents.SearchComponentsController;
 import org.componenthaus.usecases.showcomponent.ShowComponentController;
-import org.componenthaus.usecases.downloadcomponent.DownloadComponentController;
+import org.componenthaus.usecases.showimplementation.ShowImplementationController;
+import org.componenthaus.usecases.submitcomponent.SubmitComponentController;
+import org.componenthaus.usecases.submitcomponent.DefaultSubmissionManager;
+import org.componenthaus.usecases.welcomeuser.WelcomeUserController;
 import org.componenthaus.util.file.FileManager;
 import org.componenthaus.util.file.FileManagerImpl;
 import org.componenthaus.util.source.CodeFormatter;
 import org.componenthaus.util.source.JalopyCodeFormatter;
 import org.prevayler.Prevayler;
-import org.prevayler.PrevalentSystem;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextException;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.view.ResourceBundleViewResolver;
@@ -87,6 +89,8 @@ public class PicoApplicationContext extends AbstractPicoApplicationContext {
         pico.registerComponentImplementation(ComponentFactory.class);
         pico.registerComponentImplementation(ServiceImplementationFactory.class);
         pico.registerComponentImplementation(Prevayler.class, PrevaylerBean.class);
+        pico.registerComponentImplementation(DefaultSubmissionManager.class);
+        pico.registerComponentImplementation(CommandRegistryImpl.class);
 
         addSpringStuff();
         //This must be done last, because it reads things from Pico
@@ -106,6 +110,7 @@ public class PicoApplicationContext extends AbstractPicoApplicationContext {
         tilesConfigurer.setDefinitions(new String[]{"/WEB-INF/defs/definitions.xml"});
         pico.registerComponentInstance("tilesConfigurer",tilesConfigurer);
         pico.registerComponentInstance(DispatcherServlet.VIEW_RESOLVER_BEAN_NAME,viewResolver);
+        pico.registerComponentImplementation(DispatcherServlet.MULTIPART_RESOLVER_BEAN_NAME,CommonsMultipartResolver.class);
         viewResolver.setApplicationContext(this);
         tilesConfigurer.setApplicationContext(this);
     }

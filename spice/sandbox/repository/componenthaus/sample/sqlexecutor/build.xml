@@ -1,5 +1,5 @@
 <project name="sqlexecutor" default="car">
-    <taskdef name="mkcar" classname="org.componenthaus.ant.SubmitComponentTask"/>
+    <taskdef name="mkcar" classname="org.componenthaus.ant.ComponentMetadataTask"/>
 
     <target name="init">
         <mkdir dir="build"/>
@@ -22,10 +22,9 @@
         <mkdir dir="componenthaus/staging"/>
 
         <mkcar
-            source="src/java"
-            serviceInterface="net.sf.componentfarm.sqlexecutor.api.SqlExecutor"
-            staging="componenthaus/staging"
-            binary="dist/sqlexecutor-0.1.jar">
+            sourceDirectory="src/java"
+            targetDirectory="componenthaus/staging">
+            <interface name="net.sf.componentfarm.sqlexecutor.api.SqlExecutor"/>
         </mkcar>
 
         <jar destfile="sqlexecutor.car" basedir="componenthaus/staging"/>
