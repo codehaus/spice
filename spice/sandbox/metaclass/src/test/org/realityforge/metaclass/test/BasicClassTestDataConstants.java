@@ -130,7 +130,7 @@ public interface BasicClassTestDataConstants
     };
 
     AttributeProperties METHOD_TAG_3_PARAMETERS =
-        new AttributeProperties( new String[][]{{"1", "2"}} );
+        new AttributeProperties( new String[][]{{"a1", "2"}} );
 
     String METHOD_1_TAG_0_NAME = "return";
     Attribute METHOD_1_TAG_0 = new Attribute( METHOD_1_TAG_0_NAME,
