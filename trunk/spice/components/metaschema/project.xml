@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <project>
-    <extend>../../tools/maven/project.xml</extend>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>MetaSchema</name>
     <id>metaschema</id>
+    <groupId>components</groupId>
 
     <shortDescription>
     	Provides a validation schema for MetaClass
@@ -22,38 +23,6 @@
             </roles>
         </developer>
     </developers>
-
-    <build>
-        <nagEmailAddress>spice-devel@lists.sourceforge.net</nagEmailAddress>
-        <sourceDirectory>src/java</sourceDirectory>
-        <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
-
-
-		<resources>
-            <includes>
-                <include>etc/schema.xml</include>
-            </includes>
-  		</resources>
-
-        <unitTest>
-            <!--
-            Uncomment with next version of Maven and remove
-            coresponding cruft from maven.xml 
-            <resource>
-                <directory>src/test</directory>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-            -->
-            <includes>
-                <include>**/*Test*</include>
-            </includes>
-            <excludes>
-                <exclude>**/Abstract*</exclude>
-            </excludes>
-        </unitTest>
-    </build>
 
     <dependencies>
         <dependency>

@@ -1,25 +1,27 @@
 <project default="main"
-    xmlns:reactor="reactor"
-    xmlns:m="maven">
+    xmlns:maven="jelly:maven">
 
     <goal name="main">
         <attainGoal name="build"/>
     </goal>
 
     <goal name="build">
-        <reactor:execute
+        <echo message="Building Components Repository"/>
+        <maven:reactor
             basedir="${basedir}"
-            glob="converter/project.xml,jndikit/project.xml,metaclass/project.xml,
-                  nativekit/project.xml,site/project.xml,xinvoke/project.xml"
+            includes="*/project.xml"
             goals="clean,jar:install"
             banner="Building"
-            ignoreFailures="true" />
+            ignoreFailures="false" />
+<!--
+excludes="metaschema/project.xml"
+-->
     </goal>
 
     <goal name="site">
-        <reactor:execute
+        <maven:reactor
             basedir="${basedir}"
-            glob="converter/project.xml,jndikit/project.xml,metaclass/project.xml,
+            includes="converter/project.xml,jndikit/project.xml,metaclass/project.xml,
                   nativekit/project.xml,site/project.xml,xinvoke/project.xml"
             goals="clean,site:deploy"
             banner="Deploying Site"
