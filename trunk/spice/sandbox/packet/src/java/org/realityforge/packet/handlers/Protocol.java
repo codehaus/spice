@@ -11,7 +11,7 @@ package org.realityforge.packet.handlers;
  * Set of constants used in network protocol.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-15 00:58:26 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-19 04:28:23 $
  */
 public class Protocol
 {
@@ -29,6 +29,15 @@ public class Protocol
     public static final int SIZEOF_GREETING = MAGIC.length +
                                               SIZEOF_LONG /* session */ +
                                               SIZEOF_SHORT /* auth */;
+
+    /**
+     * The Max-message header is the "connect" message to client. The "data"
+     * message is the largest size but it does secondary checking before reading
+     * from payload.
+     */
+    public static final int MAX_MESSAGE_HEADER = SIZEOF_BYTE +
+                                                 SIZEOF_LONG +
+                                                 SIZEOF_SHORT;
 
     /**
      * Message ID to indicate connection occured. SessionID (short) and
@@ -112,6 +121,6 @@ public class Protocol
     public static final boolean isNextInSequence( final short seq1,
                                                   final short seq2 )
     {
-        return (short)(seq1 + 1) == seq2;
+        return (short)(seq2 + 1) == seq1;
     }
 }
