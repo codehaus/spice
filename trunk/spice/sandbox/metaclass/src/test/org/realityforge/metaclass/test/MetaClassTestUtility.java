@@ -23,12 +23,11 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Properties;
-import java.util.Vector;
 
 /**
  *
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.4 $ $Date: 2003-06-25 03:54:57 $
+ * @version $Revision: 1.5 $ $Date: 2003-06-25 04:53:39 $
  */
 public final class MetaClassTestUtility
 {
@@ -70,41 +69,6 @@ public final class MetaClassTestUtility
             }
         }
         return result;
-    }
-
-    /**
-     * Compares contents of an array with contents of a vector.
-     * Returns true if collections are of equal size
-     * and each member of original is contained by other.
-     * @param original
-     * @param other
-     * @return result
-     */
-    public static boolean areContentsEqual( final Object[] original,
-                                            final Vector other )
-    {
-        if ( original.length != other.size() )
-        {
-            return false;
-        }
-
-        for ( int i = 0; i < original.length; i++ )
-        {
-            final Object originalElement = original[ i ];
-            for ( int j = 0; j < other.size(); j++ )
-            {
-                final Object otherElement = other.elementAt( j );
-                if ( areDescriptorsEqual( originalElement, otherElement ) )
-                {
-                    return true;
-                }
-            }
-            if ( !other.contains( originalElement ) )
-            {
-                return false;
-            }
-        }
-        return true;
     }
 
     public static boolean areDescriptorsEqual( final Object o, final Object p )
