@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-12 11:09:09 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-26 02:09:41 $
  */
 public class ProtocolWriterTestCase
     extends TestCase
@@ -29,7 +29,7 @@ public class ProtocolWriterTestCase
         final ByteBuffer message = ByteBuffer.wrap( data );
 
         final Mock channelMock = new Mock( WritableByteChannel.class );
-        channelMock.matchAndReturn( "forceWriteMessage", C.args( C.eq( message ) ), 3 );
+        channelMock.matchAndReturn( "write", C.args( C.eq( message ) ), 3 );
 
         final WritableByteChannel channel =
             (WritableByteChannel)channelMock.proxy();
@@ -47,7 +47,7 @@ public class ProtocolWriterTestCase
         final ByteBuffer message = ByteBuffer.wrap( data );
 
         final Mock channelMock = new Mock( WritableByteChannel.class );
-        channelMock.matchAndReturn( "forceWriteMessage", C.args( C.eq( message ) ), 2 );
+        channelMock.matchAndReturn( "write", C.args( C.eq( message ) ), 2 );
 
         final WritableByteChannel channel =
             (WritableByteChannel)channelMock.proxy();
