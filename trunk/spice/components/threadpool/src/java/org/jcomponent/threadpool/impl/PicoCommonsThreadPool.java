@@ -13,231 +13,99 @@ import org.jcomponent.threadpool.ThreadPool;
 import org.jcomponent.threadpool.ThreadPoolMonitor;
 
 /**
- * The CommonsThreadPool is a component that provides a basic
- * mechanism for pooling threads. A sample configuration for this
- * component is;
+ * The PicoCommonsThreadPool wraps the CommonsThreadPool for
+ * Pico component system.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-29 07:23:11 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-29 07:31:19 $
  */
 public class PicoCommonsThreadPool
-    extends AbstractThreadPool
-    implements ThreadPool, PoolableObjectFactory
+   extends CommonsThreadPool
+   implements ThreadPool, PoolableObjectFactory
 {
-    /**
-     * The configuration 'struct' for our object pool.
-     */
-    private final GenericObjectPool.Config m_config = new GenericObjectPool.Config();
+   public static class Default
+      extends PicoCommonsThreadPool
+   {
+      public Default()
+      {
+         super( new NullThreadPoolMonitor(),
+                "Default ThreadPool",
+                Thread.NORM_PRIORITY,
+                false,
+                false,
+                10,
+                5 );
+      }
+   }
 
-    /**
-     * The underlying pool used to pool threads.
-     */
-    private GenericObjectPool m_pool;
+   public static class WithMonitor
+      extends PicoCommonsThreadPool
+   {
+      public WithMonitor( final ThreadPoolMonitor monitor )
+      {
+         super( monitor,
+                "Default ThreadPool",
+                Thread.NORM_PRIORITY,
+                false,
+                false,
+                10,
+                5 );
+      }
+   }
 
-    /**
-     * Flag indicating whether component is disposed.
-     * If it is disposed it should not try to repool workers.
-     */
-    private boolean m_disposed;
-    private final ThreadPoolMonitor m_monitor;
+   public static class WithMonitorAndConfig
+      extends PicoCommonsThreadPool
+   {
+      public WithMonitorAndConfig( final ThreadPoolMonitor monitor,
+                                   final String name,
+                                   final int priority,
+                                   final boolean isDaemon,
+                                   final boolean limited,
+                                   final int maxActiveThreads,
+                                   final int maxIdleThreads )
+      {
+         super( monitor, name, priority, isDaemon, limited, maxActiveThreads, maxIdleThreads );
+      }
+   }
 
-    public static class Default extends PicoCommonsThreadPool {
-        public Default() {
-            super(new NullThreadPoolMonitor(), "Default ThreadPool",
-                Thread.NORM_PRIORITY, false,
-                false, 10, 5);
-        }
-    }
+   /**
+    * Constructor
+    *
+    */
+   protected PicoCommonsThreadPool( final ThreadPoolMonitor monitor,
+                                    final String name,
+                                    final int priority,
+                                    final boolean isDaemon,
+                                    final boolean limited,
+                                    final int maxActiveThreads,
+                                    final int maxIdleThreads )
+   {
+      setMonitor( monitor );
+      setName( name );
+      setPriority( priority );
+      setDaemon( isDaemon );
 
-    public static class WithMonitor extends PicoCommonsThreadPool {
-        public WithMonitor(ThreadPoolMonitor threadPoolMonitor) {
-            super(threadPoolMonitor, "Default ThreadPool",
-                Thread.NORM_PRIORITY, false,
-                false, 10, 5);
-        }
-    }
+      final GenericObjectPool.Config config = getCommonsConfig();
+      if ( limited )
+      {
+         config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_BLOCK;
+      }
+      else
+      {
+         config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_GROW;
+      }
 
-    public static class WithMonitorAndConfig extends PicoCommonsThreadPool {
-        public WithMonitorAndConfig(ThreadPoolMonitor threadPoolMonitor,
-                   String name, int priority,
-                   boolean isDaemon, boolean limited, int maxActiveThreads,
-                   int maxIdleThreads) {
-            super(threadPoolMonitor, name, priority, isDaemon, limited, maxActiveThreads, maxIdleThreads);
-        }
-    }
+      config.maxActive = maxActiveThreads;
+      config.maxIdle = maxIdleThreads;
+      super.initialize();
+   }
 
-    /**
-     * Constructor
-     *
-     */
-    protected PicoCommonsThreadPool(ThreadPoolMonitor threadPoolMonitor, String name,
-                                      int priority, boolean isDaemon, boolean limited,
-                                      int maxActiveThreads, int maxIdleThreads )
-    {
-        m_monitor = threadPoolMonitor;
-        setName( name );
-        setPriority( priority );
-        setDaemon( isDaemon );
-
-        if( limited )
-        {
-            m_config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_BLOCK;
-        }
-        else
-        {
-            m_config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_GROW;
-        }
-
-        m_config.maxActive = maxActiveThreads;
-        m_config.maxIdle = maxIdleThreads;
-        setThreadGroup( Thread.currentThread().getThreadGroup() );
-        m_monitor.newThreadPool(getName(),getPriority(), isDaemon(), m_config.maxActive, m_config.maxIdle);
-        m_pool = new GenericObjectPool( this, m_config );
-        setDisposeTime( 100 );
-    }
-
-
-    /**
-     * Shutdown all threads associated with pool.
-     */
-
-    public void dispose ()
-    {
-        try {
-            finalize();
-        } catch (Throwable throwable) {
-            m_monitor.unexpectedError("Dispose Failed", throwable);
-        }
-    }
-    protected void finalize() throws Throwable
-    {
-        shutdownInUseThreads();
-        m_disposed = true;
-        try
-        {
-            m_pool.close();
-        }
-        catch( Exception e )
-        {
-            m_monitor.unexpectedError("Closing Pool", e);
-        }
-    }
-
-    /**
-     * Retrieve a worker thread from pool.
-     *
-     * @return the worker thread retrieved from pool
-     */
-    protected WorkerThread getWorker()
-    {
-        WorkerThread worker = null;
-        try
-        {
-            worker = (WorkerThread)m_pool.borrowObject();
-            m_monitor.threadRetrieved(worker);
-            return worker;
-        }
-        catch( Exception e )
-        {
-            m_monitor.unexpectedError("Retrieving thread from pool - " + ( worker == null ? "n/a" : worker.getName()), e );
-            return createWorker();
-        }
-    }
-
-    /**
-     * Return the WorkerThread to the pool.
-     *
-     * @param worker the worker thread to put back in pool
-     */
-    protected void releaseWorker( final WorkerThread worker )
-    {
-        if( m_disposed )
-        {
-            destroyWorker( worker );
-            return;
-        }
-
-        m_monitor.threadReturned(worker);
-
-        try
-        {
-            m_pool.returnObject( worker );
-        }
-        catch( Exception e )
-        {
-            m_monitor.unexpectedError("Return Object To Pool", e);
-        }
-    }
-
-    /**
-     * Overide creation of worker to add logging.
-     *
-     * @return the new worker thread
-     */
-    protected WorkerThread createWorker()
-    {
-        final WorkerThread worker = super.createWorker();
-
-        m_monitor.threadCreated(worker);
-
-        return worker;
-    }
-
-    /**
-     * Overide destruction of worker to add logging.
-     *
-     * @param worker the worker thread
-     */
-    protected void destroyWorker( final WorkerThread worker )
-    {
-        m_monitor.threadDisposing(worker);
-        super.destroyWorker( worker );
-    }
-
-    /**
-     * Create a new worker. (Part of {@link PoolableObjectFactory} interface)
-     *
-     * @return the new worker
-     */
-    public Object makeObject()
-    {
-        return createWorker();
-    }
-
-    /**
-     * Destroy a worker. (Part of {@link PoolableObjectFactory} interface)
-     *
-     * @param worker the new worker
-     */
-    public void destroyObject( final Object worker )
-    {
-        destroyWorker( (WorkerThread)worker );
-    }
-
-    /**
-     * validate a worker. (Part of {@link PoolableObjectFactory} interface)
-     *
-     * @return true (no validation occurs)
-     */
-    public boolean validateObject( final Object worker )
-    {
-        return true;
-    }
-
-    /**
-     * activate a worker. (Part of {@link PoolableObjectFactory} interface)
-     * No-op.
-     */
-    public void activateObject( final Object worker )
-    {
-    }
-
-    /**
-     * passivate a worker. (Part of {@link PoolableObjectFactory} interface)
-     * No-op.
-     */
-    public void passivateObject( final Object worker )
-    {
-    }
-
+   /**
+    * Make sure that finalize results in disposal
+    * of the system.
+    */
+   protected void finalize()
+   {
+      dispose();
+   }
 }
