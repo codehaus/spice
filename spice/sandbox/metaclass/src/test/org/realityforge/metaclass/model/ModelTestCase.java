@@ -7,115 +7,16 @@
  */
 package org.realityforge.metaclass.model;
 
-import java.util.Properties;
 import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-10-28 08:15:03 $
+ * @version $Revision: 1.10 $ $Date: 2003-10-28 11:04:21 $
  */
 public class ModelTestCase
     extends TestCase
 {
-    public void testAttributeOnlyWithName()
-    {
-        final Attribute attribute = new Attribute( "dna.service" );
-        assertEquals( "attribute.getName() == dna.service",
-                      "dna.service", attribute.getName() );
-        assertEquals( "attribute.getValue() == null",
-                      null, attribute.getValue() );
-        assertEquals( "attribute.getParameterCount() == 0",
-                      0, attribute.getParameterCount() );
-        assertEquals( "attribute.getParameterNames().length == 0",
-                      0, attribute.getParameterNames().length );
-        assertEquals( "attribute.getParameter('key') == null",
-                      null, attribute.getParameter( "key" ) );
-        assertEquals( "attribute.getParameter('dummy','foo') == foo",
-                      "foo", attribute.getParameter( "key", "foo" ) );
-    }
-
-    public void testAttributeWithNameAndValue()
-    {
-        final Attribute attribute = new Attribute( "dna.service", "blah" );
-        assertEquals( "attribute.getName() == dna.service",
-                      "dna.service", attribute.getName() );
-        assertEquals( "attribute.getValue() == blah",
-                      "blah", attribute.getValue() );
-        assertEquals( "attribute.getParameterCount() == 0",
-                      0, attribute.getParameterCount() );
-        assertEquals( "attribute.getParameterNames().length == 0",
-                      0, attribute.getParameterNames().length );
-        assertEquals( "attribute.getParameter('key') == null",
-                      null, attribute.getParameter( "key" ) );
-        assertEquals( "attribute.getParameter('dummy','foo') == foo",
-                      "foo", attribute.getParameter( "key", "foo" ) );
-    }
-
-    public void testAttributeWithNameAndParameters()
-    {
-        final Properties parameters = new Properties();
-        parameters.setProperty( "key", "value" );
-        final Attribute attribute = new Attribute( "dna.service", parameters );
-        assertEquals( "attribute.getName() == dna.service",
-                      "dna.service", attribute.getName() );
-        assertEquals( "attribute.getValue() == null",
-                      null, attribute.getValue() );
-        assertEquals( "attribute.getParameterCount() == 1",
-                      1, attribute.getParameterCount() );
-        assertEquals( "attribute.getParameterNames().length == 1",
-                      1, attribute.getParameterNames().length );
-        assertEquals( "attribute.getParameter('key') == value",
-                      "value", attribute.getParameter( "key" ) );
-        assertEquals( "attribute.getParameter('dummy','foo') == value",
-                      "value", attribute.getParameter( "key", "foo" ) );
-    }
-
-    public void testAttributeWithNullName()
-    {
-        try
-        {
-            new Attribute( null );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for name", "name", npe.getMessage() );
-        }
-    }
-
-    public void testParameterWithNullName()
-    {
-        try
-        {
-            new ParameterDescriptor( null, "type" );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for name", "name", npe.getMessage() );
-        }
-    }
-
-    public void testParameterWithNullType()
-    {
-        try
-        {
-            new ParameterDescriptor( "name", null );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for type", "type", npe.getMessage() );
-        }
-    }
-
-    public void testParameter()
-    {
-        final ParameterDescriptor param = new ParameterDescriptor( "paramName", "paramType" );
-        assertEquals( "param.getName() == paramName",
-                      "paramName", param.getName() );
-        assertEquals( "param.getType() == paramType",
-                      "paramType", param.getType() );
-    }
-
     public void testFieldWithNullName()
     {
         try
