@@ -16,7 +16,7 @@ import org.codehaus.spice.netevent.events.CloseChannelRequestEvent;
  * specified in the constructor.
  * 
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-02-05 03:56:32 $
+ * @version $Revision: 1.7 $ $Date: 2004-02-05 05:56:10 $
  */
 public class MultiBufferInputStream
     extends InputStream
@@ -315,7 +315,6 @@ public class MultiBufferInputStream
         else
         {
             _markBufferIndex = -1;
-            _transport.setRxByteCount( _markByteCount );
             final Iterator iterator = _buffers.iterator();
             while( iterator.hasNext() && _currentBuffer > 0 )
             {
