@@ -19,7 +19,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * An event source that generates events based from SelectableChannels.
  *
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-02-11 04:52:07 $
+ * @version $Revision: 1.6 $ $Date: 2004-03-18 03:35:11 $
  */
 public class SelectableChannelEventSource
     extends AbstractEventSource
@@ -28,6 +28,11 @@ public class SelectableChannelEventSource
      * The source used to schedule events.
      */
     private Selector _selector;
+
+    /**
+     * The amount of time to wait in select.
+     */
+    private long _selectTimeout = -1;
 
     /**
      * Create source.
@@ -40,6 +45,11 @@ public class SelectableChannelEventSource
     {
         super( join );
         open();
+    }
+
+    public void setSelectTimeout( final long selectTimeout )
+    {
+        _selectTimeout = selectTimeout;
     }
 
     /**
@@ -97,7 +107,14 @@ public class SelectableChannelEventSource
         try
         {
             _selector.selectedKeys().clear();
-            _selector.selectNow();
+            if( 0 > _selectTimeout )
+            {
+                _selector.selectNow();
+            }
+            else
+            {
+                _selector.select( _selectTimeout );
+            }
         }
         catch( final IOException ioe )
         {
