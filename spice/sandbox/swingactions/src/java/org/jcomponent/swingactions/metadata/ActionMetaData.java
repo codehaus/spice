@@ -11,11 +11,9 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.KeyStroke;
 
 /**
- * Defines the MetaData of a single Action
+ * Defines the metadata of a single action
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
@@ -36,10 +34,10 @@ public class ActionMetaData
     public static final String LARGE_ICON = "LargeIcon";
     /** The key used for storing the command key the action */
     public static final String ACTION_COMMAND_KEY = Action.ACTION_COMMAND_KEY;
-    /** The key used for storing the mnemonic key for the action */
-    public static final String MNEMONIC_KEY = Action.MNEMONIC_KEY;
     /** The key used for storing the accelerator key for the action */
     public static final String ACCELERATOR_KEY = Action.ACCELERATOR_KEY;
+    /** The key used for storing the mnemonic key for the action */
+    public static final String MNEMONIC_KEY = Action.MNEMONIC_KEY;
 
     /** The list of mandatory keys */
     private static final String[] MANDATORY_KEYS = new String[] { ID, NAME };
@@ -105,6 +103,20 @@ public class ActionMetaData
         sb.append( getValue( ID ) );
         sb.append( ", name=" );
         sb.append( getValue( NAME ) );
+        sb.append( ", shortDescription=" );
+        sb.append( getValue( SHORT_DESCRIPTION ) );
+        sb.append( ", longDescription=" );
+        sb.append( getValue( LONG_DESCRIPTION ) );
+        sb.append( ", smallIcon=" );
+        sb.append( getValue( SMALL_ICON ) );
+        sb.append( ", largeIcon=" );
+        sb.append( getValue( LARGE_ICON ) );
+        sb.append( ", actionCommandKey=" );
+        sb.append( getValue( ACTION_COMMAND_KEY ) );
+        sb.append( ", acceleratorKey=" );
+        sb.append( getValue( ACCELERATOR_KEY ) );
+        sb.append( ", mnemonicKey=" );
+        sb.append( getValue( MNEMONIC_KEY ) );
         sb.append( "]" );
         return sb.toString();
     }
