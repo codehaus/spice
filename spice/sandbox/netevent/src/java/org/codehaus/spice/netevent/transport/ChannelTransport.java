@@ -21,7 +21,7 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.20 $ $Date: 2004-02-11 02:56:01 $
+ * @version $Revision: 1.21 $ $Date: 2004-02-11 04:16:39 $
  */
 public class ChannelTransport
 {
@@ -239,6 +239,12 @@ public class ChannelTransport
 
     public synchronized void setKey( final SelectionKey key )
     {
+        System.out.println( "setKey(" + key + ") existing=" + m_key );
+        if( null != m_key )
+        {
+            m_key.cancel();
+            m_key = null;
+        }
         m_key = key;
     }
 
@@ -272,20 +278,16 @@ public class ChannelTransport
      */
     public synchronized void close()
     {
+        System.out.println( "ChannelTransport.close() m_closed=" + m_closed );
         if( !m_closed )
         {
             m_closed = true;
             m_outputStream.close();
-            if( null != m_key )
-            {
-                m_key.cancel();
-                m_key = null;
-            }
+            setKey( null );
             if( m_channel.isOpen() )
             {
                 try
                 {
-
                     m_channel.close();
                 }
                 catch( final IOException ioe )
