@@ -13,8 +13,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.apache.oro.text.regex.MalformedPatternException;
+import org.apache.oro.text.regex.MatchResult;
+import org.apache.oro.text.regex.Pattern;
+import org.apache.oro.text.regex.Perl5Compiler;
+import org.apache.oro.text.regex.Perl5Matcher;
 
 /**
  * A Utility class for managing a set of name-integer constants.
@@ -153,15 +156,27 @@ public final class EnumSet
      * superclass if deep is true.
      *
      * @param clazz the class to extract constants from
-     * @param match the pattern that constants must match
+     * @param patternString the pattern that constants must match
      * @param deep if true will scan all parent classes to locate constants
      * @return the created EnumSet
      */
     public static EnumSet createFrom( final Class clazz,
-                                      final String match,
+                                      final String patternString,
                                       final boolean deep )
     {
-        final Pattern pattern = Pattern.compile( match );
+        final Perl5Matcher matcher = new Perl5Matcher();
+        final Perl5Compiler compiler = new Perl5Compiler();
+        final Pattern pattern;
+        try
+        {
+            pattern = compiler.compile( patternString );
+        }
+        catch( final MalformedPatternException mpe )
+        {
+            final String message =
+                "Malformed pattern " + patternString + ". Reason: " + mpe;
+            throw new IllegalArgumentException( message );
+        }
 
         final EnumSet set = new EnumSet();
         final Field[] fields = getFields( clazz, deep );
@@ -188,14 +203,14 @@ public final class EnumSet
                 throw new IllegalStateException( message );
             }
 
-            final Matcher matcher = pattern.matcher( name );
-            if( matcher.matches() )
+            if( matcher.contains( patternString, pattern ) )
             {
-                final int count = matcher.groupCount();
+                final MatchResult match = matcher.getMatch();
+                final int count = match.groups();
                 String key = name;
                 if( 0 != count )
                 {
-                    key = matcher.group( 1 );
+                    key = match.group( 1 );
                 }
                 set.add( key, value );
             }
