@@ -135,7 +135,6 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
-<!--
     <project name="spice-loggerstore">
         <package>org.realityforge.loggerstore</package>
 
@@ -156,12 +155,11 @@
         <work nested="components/loggerstore/target/test-classes"/>
 
         <home nested="components/loggerstore"/>
-        <jar name="target/spice-netserve-@@DATE@@.jar"/>
+        <jar name="target/spice-loggerstore-@@DATE@@.jar"/>
         <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
             to="spice-devel@lists.sourceforge.net"/>
     </project>
--->
-    
+
     <project name="spice-netserve">
         <package>org.realityforge.netserve</package>
 
