@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.jcomponent.threadpool.impl;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -10,7 +17,11 @@ public class AvalonThreadPoolMonitor
    extends AbstractLogEnabled
    implements ThreadPoolMonitor
 {
-   public void newThreadPool( String name, int priority, boolean daemon, int maxActive, int maxIdle )
+   public void newThreadPool( final String name,
+                              final int priority,
+                              final boolean daemon,
+                              final int maxActive,
+                              final int maxIdle )
    {
       if ( getLogger().isInfoEnabled() )
       {
@@ -22,47 +33,44 @@ public class AvalonThreadPoolMonitor
       }
    }
 
-   public void unexpectedThrowable( String reference, Throwable t )
+   public void unexpectedError( final String message,
+                                    final Throwable t )
    {
-      if ( getLogger().isErrorEnabled() )
+      if ( getLogger().isWarnEnabled() )
       {
-
-         getLogger().error( "Unexpected Exception (" + reference + ")", t );
+         getLogger().warn( "Unexpected Error (" + message + ")", t );
       }
    }
 
-   public void threadRetrieved( Thread worker )
+   public void threadRetrieved( final Thread thread )
    {
       if ( getLogger().isDebugEnabled() )
       {
-
-         getLogger().debug( "Thread retrieved - " + worker.getName() );
+         getLogger().debug( "Thread retrieved - " + thread.getName() );
       }
    }
 
-   public void threadReturned( Thread worker )
+   public void threadReturned( final Thread thread )
    {
       if ( getLogger().isDebugEnabled() )
       {
-
-         getLogger().debug( "Thread returned - " + worker.getName() );
+         getLogger().debug( "Thread returned - " + thread.getName() );
       }
    }
 
-   public void threadCreated( Thread worker )
+   public void threadCreated( final Thread thread )
    {
       if ( getLogger().isInfoEnabled() )
       {
-
-         getLogger().info( "Thread Created - " + worker.getName() );
+         getLogger().info( "Thread Created - " + thread.getName() );
       }
    }
 
-   public void threadDisposing( final Thread worker )
+   public void threadDisposing( final Thread thread )
    {
       if ( getLogger().isInfoEnabled() )
       {
-         getLogger().info( "Thread Disposing - " + worker.getName() );
+         getLogger().info( "Thread Disposing - " + thread.getName() );
       }
    }
 }

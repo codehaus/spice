@@ -8,27 +8,32 @@ import org.jcomponent.threadpool.ThreadPoolMonitor;
 public class NullThreadPoolMonitor
    implements ThreadPoolMonitor
 {
-   public void newThreadPool( String name, int priority, boolean daemon, int maxActive, int maxIdle )
+   public void newThreadPool( final String name,
+                              final int priority,
+                              final boolean daemon,
+                              final int maxActive,
+                              final int maxIdle )
    {
    }
 
-   public void unexpectedThrowable( String reference, Throwable t )
+   public void unexpectedError( final String message,
+                                final Throwable t )
    {
    }
 
-   public void threadRetrieved( Thread worker )
+   public void threadRetrieved( final Thread thread )
    {
    }
 
-   public void threadReturned( Thread worker )
+   public void threadReturned( final Thread thread )
    {
    }
 
-   public void threadCreated( Thread worker )
+   public void threadCreated( final Thread thread )
    {
    }
 
-   public void threadDisposing( Thread worker )
+   public void threadDisposing( final Thread thread )
    {
    }
 }
