@@ -166,7 +166,7 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="excalibur-i18n" runtime="true"/>
-        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="avalon" runtime="true"/>
         <work nested="sandbox/nativekit/target/classes"/>
         <work nested="sandbox/nativekit/target/test-classes"/>
 
@@ -191,7 +191,7 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="avalon" runtime="true"/>
         <depend project="jakarta-oro" runtime="true"/>
         <depend project="commons-pool" runtime="true"/>
         <depend project="commons-collections" runtime="true"/>
@@ -235,7 +235,7 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="jakarta-avalon" runtime="true"/>
+        <depend project="avalon" runtime="true"/>
         <depend project="jakarta-oro" runtime="true"/>
         <depend project="commons-jexl" inherit="runtime"/>
         <work nested="sandbox/xinvoke/target/classes"/>
@@ -258,8 +258,8 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="jakarta-avalon"/>
-        <depend project="jakarta-avalon-logkit"/>
+        <depend project="avalon"/>
+        <depend project="dist-avalon-logkit"/>
         <depend project="jakarta-oro"/>
         <depend project="spice-configkit" inherit="runtime"/>
 
