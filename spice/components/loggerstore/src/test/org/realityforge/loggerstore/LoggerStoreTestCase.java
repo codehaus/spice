@@ -47,7 +47,8 @@ public class LoggerStoreTestCase
         throws Exception
     {
         final LoggerStore store =
-            new Log4JLoggerStore( Configurator.buildElement( getResource( "log4j.xml" )  ) );
+            new Log4JLoggerStore( Configurator.buildElement( getResource( "log4j.xml" ),
+                                  new org.apache.log4j.xml.Log4jEntityResolver(), null ) );
         runLoggerTest( "Log4jElement", store );
     }
     
