@@ -21,7 +21,7 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.22 $ $Date: 2004-02-11 04:52:07 $
+ * @version $Revision: 1.23 $ $Date: 2004-02-13 04:53:32 $
  */
 public class ChannelTransport
 {
@@ -71,6 +71,16 @@ public class ChannelTransport
     private long _rxByteCount;
 
     /**
+     * The time of last transmit.
+     */
+    private long _lastTxTime;
+
+    /**
+     * The time of last receive.
+     */
+    private long _lastRxTime;
+
+    /**
      * Create transport.
      * 
      * @param channel the underlying channel
@@ -98,6 +108,26 @@ public class ChannelTransport
                                                     this,
                                                     sink,
                                                     1024 * 8 );
+    }
+
+    public long getLastTxTime()
+    {
+        return _lastTxTime;
+    }
+
+    public void setLastTxTime( final long lastTxTime )
+    {
+        _lastTxTime = lastTxTime;
+    }
+
+    public long getLastRxTime()
+    {
+        return _lastRxTime;
+    }
+
+    public void setLastRxTime( final long lastRxTime )
+    {
+        _lastRxTime = lastRxTime;
     }
 
     /**
