@@ -25,7 +25,7 @@ import org.realityforge.metaclass.model.PackageDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2003-08-22 03:42:17 $
+ * @version $Revision: 1.15 $ $Date: 2003-08-22 04:03:28 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -528,6 +528,35 @@ public class MetaClassIOBinaryTestCase
             return;
         }
         fail( "Expected to fail reading descriptor as it has the wrong version" );
+    }
+
+    public void testBinaryIOReadClass()
+        throws Exception
+    {
+        final String name = "name";
+        final int attributeCount = 0;
+        final byte[] bytes = new byte[]
+        {
+            0, 0, 0, 1, //version
+            0, 4, //length of package name
+            'n', 'a', 'm', 'e',
+            0, 0, 0, 0, //modifers
+            0, 0, 0, 0, //attribute count
+            0, 0, 0, 0, //field count
+            0, 0, 0, 0 //method count
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
+        final ClassDescriptor clazz = io.deserializeClass( in );
+        assertEquals( "class.name", name, clazz.getName() );
+        assertEquals( "class.modifiers",
+                      0, clazz.getModifiers() );
+        assertEquals( "class.attributes.length",
+                      attributeCount, clazz.getAttributes().length );
+        assertEquals( "class.methods.length",
+                      0, clazz.getMethods().length );
+        assertEquals( "class.fields.length",
+                      0, clazz.getFields().length );
     }
 
     public void testBinaryIOReadPackage()
