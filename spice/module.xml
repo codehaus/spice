@@ -27,6 +27,24 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
+    <project name="spice-configkit">
+        <package>org.realityforge.configkit</package>
+
+        <ant basedir="components/configkit">
+            <property name="final.name" value="configkit-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <work nested="components/configkit/target/classes"/>
+
+        <home nested="components/configkit"/>
+        <jar name="target/configkit-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+    </project>
+
     <project name="spice-jndikit">
         <package>org.realityforge.jndikit</package>
 
