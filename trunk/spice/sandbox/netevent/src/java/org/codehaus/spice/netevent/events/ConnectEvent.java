@@ -7,13 +7,14 @@
  */
 package org.codehaus.spice.netevent.events;
 
+import java.net.SocketAddress;
 import java.nio.channels.ServerSocketChannel;
 
 /**
  * An Event indicating that ServerSocket can accept a connection.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 04:06:59 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-07 04:07:31 $
  */
 public class ConnectEvent
 {
@@ -42,5 +43,15 @@ public class ConnectEvent
     public ServerSocketChannel getServerSocketChannel()
     {
         return _serverSocketChannel;
+    }
+
+    /**
+     * @see Object#toString()
+     */
+    public String toString()
+    {
+        final SocketAddress address =
+            _serverSocketChannel.socket().getLocalSocketAddress();
+        return getClass().getName() + "[" + address + "]";
     }
 }
