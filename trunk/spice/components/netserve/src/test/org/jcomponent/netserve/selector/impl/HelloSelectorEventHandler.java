@@ -12,7 +12,7 @@ class HelloSelectorEventHandler
 {
    static final byte[] MESSAGE = "HELLO!".getBytes();
 
-   public void handleSelectorEvent( SelectionKey key )
+   public void handleSelectorEvent( SelectionKey key, Object userData )
    {
       final ServerSocketChannel channel = (ServerSocketChannel)key.channel();
       try

@@ -14,6 +14,7 @@ public interface SelectorEventHandler
     * keys attachment.
     *
     * @param key the SelectionKey
+    * @param userData the data user specified when registering listener
     */
-   void handleSelectorEvent( SelectionKey key );
+   void handleSelectorEvent( SelectionKey key, Object userData );
 }

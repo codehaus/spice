@@ -17,9 +17,10 @@ public class NullSelectorEventHandler
    public static final NullSelectorEventHandler HANDLER = new NullSelectorEventHandler();
 
    /**
-    * @see org.jcomponent.netserve.selector.SelectorEventHandler#handleSelectorEvent
+    * @see SelectorEventHandler#handleSelectorEvent
     */
-   public void handleSelectorEvent( final SelectionKey key )
+   public void handleSelectorEvent( final SelectionKey key,
+                                    final Object userData )
    {
    }
 }

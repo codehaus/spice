@@ -233,7 +233,8 @@ public class DefaultSelectorManager
             // The key indexes into the selector so you
             // can retrieve the socket that's ready for I/O
             final SelectorEntry entry = (SelectorEntry) value;
-            entry.getHandler().handleSelectorEvent( key );
+            entry.getHandler().
+               handleSelectorEvent( key, entry.getUserData() );
          }
       }
 
