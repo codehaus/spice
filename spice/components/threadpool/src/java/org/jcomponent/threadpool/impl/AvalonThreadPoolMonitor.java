@@ -8,10 +8,12 @@
 package org.jcomponent.threadpool.impl;
 
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.jcomponent.threadpool.ThreadPoolMonitor;
 
 /**
- * @author Mauro n Paul
+ * Avalon logging implementation of ThreadPoolMonitor.
+ * 
+ * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author <a href="mailto:paul_hammant at yahoo.com">Paul Hammant</a>
  */
 class AvalonThreadPoolMonitor
    extends AbstractLogEnabled
