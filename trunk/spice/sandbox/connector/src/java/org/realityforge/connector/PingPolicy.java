@@ -18,7 +18,6 @@ public interface PingPolicy
     * If the value {@link Long#MAX_VALUE} is returned
     * then no pinging will ever occur.
     *
-    * @param lastPingTime the time of last ping
     * @return the time that ping should be checked
     */
    long nextPingCheck();
