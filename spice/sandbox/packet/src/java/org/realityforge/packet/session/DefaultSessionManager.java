@@ -7,6 +7,7 @@
  */
 package org.realityforge.packet.session;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -15,7 +16,7 @@ import java.util.Random;
  * A basic in memory SessionManager implementation.
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-02-03 04:08:29 $
+ * @version $Revision: 1.6 $ $Date: 2004-02-06 04:04:56 $
  */
 public class DefaultSessionManager
     implements SessionManager
@@ -63,6 +64,11 @@ public class DefaultSessionManager
         _sessions.put( new Long( session.getSessionID() ),
                        session );
         return session;
+    }
+
+    public Collection getSessionIDs()
+    {
+        return _sessions.keySet();
     }
 
     /**

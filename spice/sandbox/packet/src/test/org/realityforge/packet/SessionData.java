@@ -5,7 +5,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-02-05 04:06:49 $
+ * @version $Revision: 1.4 $ $Date: 2004-02-06 04:04:56 $
  */
 class SessionData
 {
@@ -13,11 +13,22 @@ class SessionData
     private SchedulingKey _key;
     private int _sentMessages;
     private int _receivedMessages;
+    private int _connectionCount;
     private boolean _disconencted;
 
     SessionData( final Session session )
     {
         _session = session;
+    }
+
+    public int getConnectionCount()
+    {
+        return _connectionCount;
+    }
+
+    public void incConnectionCount()
+    {
+        _connectionCount++;
     }
 
     public int getSentMessages()
