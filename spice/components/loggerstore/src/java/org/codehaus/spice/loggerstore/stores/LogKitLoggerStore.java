@@ -14,7 +14,7 @@ import org.apache.avalon.framework.context.Context;
 import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.NullLogger;
-import org.jcomponent.alchemist.LoggerAlchemist;
+import org.codehaus.spice.alchemist.LoggerAlchemist;
 
 /**
  * <p>LogKitLoggerStore extends AbstractLoggerStore to provide the implementation
