@@ -8,11 +8,12 @@
 package org.jcomponent.swingactions.reader;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.digester.Digester;
 import org.jcomponent.swingactions.metadata.ActionMetaData;
+import org.jcomponent.swingactions.metadata.ActionSetMetaData;
 
 /** 
  * ConfigReader reads the configuration from an XML file.
@@ -21,10 +22,10 @@ import org.jcomponent.swingactions.metadata.ActionMetaData;
  */
 public class ConfigReader {
     
-    List m_actions; 
+    Set m_actions; 
     
     public ConfigReader() {
-        m_actions = new ArrayList();
+        m_actions = new HashSet();
     }
 
     public void addActionMetaData( final ActionMetaData metadata )
@@ -32,9 +33,10 @@ public class ConfigReader {
         m_actions.add( metadata );
     }
 
-    public ActionMetaData[]  getActionMetaData()
+    public ActionSetMetaData  getActionSetMetaData()
     {
-        return (ActionMetaData[])m_actions.toArray(new ActionMetaData[ m_actions.size() ] );
+        final ActionMetaData[] actions = (ActionMetaData[])m_actions.toArray(new ActionMetaData[ m_actions.size() ] );
+        return new ActionSetMetaData( actions );
     }
 
     /**
