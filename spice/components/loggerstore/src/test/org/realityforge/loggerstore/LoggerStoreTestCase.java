@@ -248,6 +248,20 @@ public class LoggerStoreTestCase
                           MESSAGE2, reader.readLine() );
             assertNull( "Third Line Contents for logger" + filename,
                         reader.readLine() );
+            reader.close();
+
+            if( !( store instanceof Jdk14LoggerStore ) )
+            {
+                final Logger nejney = store.getLogger( "nejney" );
+                nejney.info( MESSAGE );
+
+                final File logFile2 = new File( m_logsDir, filename + "2.log" );
+                reader = new BufferedReader( new InputStreamReader( new FileInputStream( logFile2 ) ) );
+                assertEquals( "First line Contents for nejney logger" + filename,
+                              MESSAGE, reader.readLine() );
+                assertNull( "Second Line Contents for nejney logger" + filename,
+                            reader.readLine() );
+            }
         }
         finally
         {
