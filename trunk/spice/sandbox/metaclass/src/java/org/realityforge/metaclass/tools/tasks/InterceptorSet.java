@@ -10,12 +10,20 @@ package org.realityforge.metaclass.tools.tasks;
 /**
  * An Ant type representing a set of Interceptor definitions.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 06:42:49 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-27 08:15:29 $
  */
 public class InterceptorSet
     extends PluginSet
 {
+    /**
+     * Create set.
+     */
+    public InterceptorSet()
+    {
+        super( "Interceptor" );
+    }
+
     /**
      * Add an interceptor definition that will create interceptor to process metadata.
      *
@@ -23,7 +31,7 @@ public class InterceptorSet
      */
     public void addInterceptor( final PluginElement element )
     {
-        addPlugin( "Interceptor", element );
+        addPlugin( element );
     }
 
     /**
