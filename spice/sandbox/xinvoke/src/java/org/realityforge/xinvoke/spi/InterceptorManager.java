@@ -18,13 +18,10 @@ import org.realityforge.xinvoke.Interceptor;
  * the implementation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:47:01 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-02 04:17:28 $
  */
 public interface InterceptorManager
 {
-    /** The role key for service */
-    String ROLE = InterceptorManager.class.getName();
-
     /**
      * Return an {@link Interceptor} instance for specified parameters.
      * A new {@link Interceptor} may be created for each call or the same

@@ -11,13 +11,10 @@ package org.realityforge.converter;
  * Instances of this interface are used to convert between different types.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-03-25 02:51:26 $
+ * @version $Revision: 1.4 $ $Date: 2003-09-02 04:13:47 $
  */
 public interface Converter
 {
-    /** Role String for interface */
-    String ROLE = Converter.class.getName();
-
     /**
      * Convert original to destination type.
      * Destination is passed so that one converter can potentiall

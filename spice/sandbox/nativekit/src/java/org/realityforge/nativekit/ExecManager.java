@@ -27,12 +27,10 @@ import java.util.Properties;
  * </ul>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:31:48 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-02 04:16:31 $
  */
 public interface ExecManager
 {
-    String ROLE = ExecManager.class.getName();
-
     /**
      * Retrieve a properties object that contains a list of
      * all the native environment variables.

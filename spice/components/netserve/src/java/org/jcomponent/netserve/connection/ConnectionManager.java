@@ -18,13 +18,10 @@ import org.jcomponent.threadpool.ThreadPool;
  * to ConnectionHandler instances to handle the connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-07-13 18:03:53 $
+ * @version $Revision: 1.3 $ $Date: 2003-09-02 04:14:13 $
  */
 public interface ConnectionManager
 {
-    /** Role string for service */
-    String ROLE = ConnectionManager.class.getName();
-
     /**
      * Start managing a connection. Once a connection is managed by
      * this service it will accept connections from ServerSocket and pass

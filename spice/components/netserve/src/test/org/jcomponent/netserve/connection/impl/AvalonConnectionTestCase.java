@@ -19,7 +19,7 @@ import org.jcomponent.threadpool.ThreadPool;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.7 $ $Date: 2003-08-31 10:07:44 $
+ * @version $Revision: 1.8 $ $Date: 2003-09-02 04:15:29 $
  */
 public class AvalonConnectionTestCase
     extends AbstractConnectionTestCase
@@ -34,7 +34,7 @@ public class AvalonConnectionTestCase
         setMonitor( createConnectionMonitor() );
     }
 
-    protected ConnectionManager createConnectionManager( boolean addThreadPool, final int soTimeoutVal, final boolean forceShutdown, final int shutdownTimeout ) 
+    protected ConnectionManager createConnectionManager( boolean addThreadPool, final int soTimeoutVal, final boolean forceShutdown, final int shutdownTimeout )
         throws Exception
     {
         final ConsoleLogger logger = new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED );
@@ -42,7 +42,7 @@ public class AvalonConnectionTestCase
         final DefaultServiceManager manager = new DefaultServiceManager();
         if( addThreadPool )
         {
-            manager.put( ThreadPool.ROLE, new TestThreadPool() );
+            manager.put( ThreadPool.class.getName(), new TestThreadPool() );
         }
 
         final DefaultConfiguration config = new DefaultConfiguration( "root", "" );
@@ -70,7 +70,7 @@ public class AvalonConnectionTestCase
     {
         final AvalonConnectionMonitor monitor = new AvalonConnectionMonitor();
         ContainerUtil.enableLogging( monitor, new ConsoleLogger() );
-        return monitor;        
+        return monitor;
     }
     protected ConnectionMonitor createConnectionMonitorNoLogging()
     {

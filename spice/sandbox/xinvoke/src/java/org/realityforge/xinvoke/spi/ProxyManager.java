@@ -15,13 +15,10 @@ import java.util.Map;
  * the creation and destruction of proxies.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:47:01 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-02 04:17:28 $
  */
 public interface ProxyManager
 {
-    /** The role key for service */
-    String ROLE = ProxyManager.class.getName();
-
     String TARGET = "target";
     String CLASSLOADER = "classloader";
     String INTERFACES = "interfaces";

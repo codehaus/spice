@@ -20,7 +20,7 @@ import java.util.HashMap;
  *
  *
  * @author <a href="mailto:peter at www.stocksoftware.com.au">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:47:02 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-02 04:17:28 $
  */
 public class AbstractXInvokeTestCase
     extends TestCase
@@ -73,7 +73,7 @@ public class AbstractXInvokeTestCase
         final DefaultServiceManager manager = new DefaultServiceManager();
         final InterceptorManager interceptorManager = createInterceptorManager();
 
-        manager.put( InterceptorManager.ROLE, interceptorManager );
+        manager.put( InterceptorManager.class.getName(), interceptorManager );
         manager.makeReadOnly();
         ContainerUtil.service( proxyManager, manager );
         return proxyManager;

@@ -29,7 +29,7 @@ import org.realityforge.xinvoke.spi.ProxyManager;
  * via which the target object was created.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:47:01 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-02 04:17:28 $
  */
 public class DefaultProxyManager
     implements ProxyManager, Serviceable
@@ -52,7 +52,7 @@ public class DefaultProxyManager
         throws ServiceException
     {
         m_interceptorManager =
-            (InterceptorManager)manager.lookup( InterceptorManager.ROLE );
+            (InterceptorManager)manager.lookup( InterceptorManager.class.getName() );
     }
 
     /**
