@@ -25,6 +25,16 @@
             ignoreFailures="false" />
     </goal>
 
+    <goal name="build-sandbox">
+        <echo message="Building Sandbox Repository"/>
+        <maven:reactor
+            basedir="${basedir}"
+            includes="sandbox/*/project.xml"
+            goals="clean,jar:install"
+            banner="Building"
+            ignoreFailures="false" />
+    </goal>
+    
     <goal name="site">
         <maven:reactor
             basedir="${basedir}"
