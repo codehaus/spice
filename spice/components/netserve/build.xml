@@ -44,7 +44,7 @@
         <mkdir dir="${target.reports}"/>
         <property name="target.basedir" location="."/>
         <echo message="target.basedir=${target.basedir}"/>
-        <junit dir="./" printSummary="yes"
+        <junit dir="./" printSummary="yes" fork="true"
             haltonfailure="true" haltonerror="true">
             <sysproperty key="basedir" value="${target.basedir}"/>
             <sysproperty key="netserve.precreate.delay" value="300"/>
