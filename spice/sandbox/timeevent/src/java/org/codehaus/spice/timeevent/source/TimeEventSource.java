@@ -13,7 +13,7 @@ import org.codehaus.spice.timeevent.triggers.TimeTrigger;
  * An EventSource that generates events relating to the passage of time.
  *
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-27 04:11:21 $
+ * @version $Revision: 1.3 $ $Date: 2004-03-18 03:36:57 $
  */
 public class TimeEventSource
     extends AbstractEventSource
@@ -24,6 +24,11 @@ public class TimeEventSource
     private final LinkedList _events = new LinkedList();
 
     /**
+     * The list of events that need to be rescheduled.
+     */
+    private final ArrayList _eventsTriggered = new ArrayList();
+
+   /**
      * Create EventSource.
      *
      * @param join the join
@@ -103,31 +108,36 @@ public class TimeEventSource
      *
      * @param now the time
      */
-    void refreshAt( final long now )
+    synchronized void refreshAt( final long now )
     {
-        final ArrayList toReschedule = new ArrayList();
-        final Iterator iterator = _events.iterator();
-        while( iterator.hasNext() )
+        //_eventsTriggered used so as to avoid creation of new list
+        //every refresh.
+        _eventsTriggered.clear();
+
+        //Rather than using an iterator, access events via get()
+        //as it results in less object allocation
+        final int size = _events.size();
+        for( int i = 0; i < size; i++ )
         {
-            final SchedulingKey key = (SchedulingKey)iterator.next();
+            final SchedulingKey key = (SchedulingKey)_events.get( i );
             if( key.getNextTime() <= now )
             {
                 key.updateNextTime( now );
-                iterator.remove();
-                if( -1 != key.getNextTime() )
-                {
-                    toReschedule.add( key );
-                }
+                _eventsTriggered.add( key );
                 getJoin().addEvent( new TimeEvent( key ) );
             }
         }
 
-        final int count = toReschedule.size();
+        final int count = _eventsTriggered.size();
         for( int i = 0; i < count; i++ )
         {
             final SchedulingKey key =
-                (SchedulingKey)toReschedule.get( i );
-            schedule( key );
+                (SchedulingKey)_eventsTriggered.get( i );
+            _events.remove( key );
+            if( -1 != key.getNextTime() )
+            {
+                schedule( key );
+            }
         }
     }
 }
