@@ -1,5 +1,7 @@
 package org.realityforge.connection;
 
+
+
 /**
  * @mx.component
  */
@@ -211,9 +213,40 @@ public abstract class AbstractConnector
       return _connectionFailureReason;
    }
 
+   /**
+    * Code so that connector will actually establish connection.
+    * @mx.operation
+    */
    public void connect()
    {
+      final long now = System.currentTimeMillis();
 
+      synchronized ( getSyncLock() )
+      {
+         if( isConnected() )
+         {
+            disconnect();
+         }
+
+         while ( !isConnected() && isActive() )
+         {
+            //TODO: Starting connnection event - is that ok? else return
+            try
+            {
+               _lastConnectionTime = now;
+               doConnect();
+               _connectionAttempts = 0;
+               _connectionFailureReason = null;
+               //TODO: Connnection started event
+            }
+            catch ( final Throwable t )
+            {
+               _connectionAttempts++;
+               _connectionFailureReason = t.toString();
+               //TODO: Connnection start error event - continue connecting or return?
+            }
+         }
+      }
    }
 
    public void disconnect()
@@ -250,4 +283,12 @@ public abstract class AbstractConnector
    {
       return this;
    }
+
+   /**
+    * Method to implement to actually start connection.
+    *
+    * @throws Exception if unable to connect
+    */
+   protected abstract void doConnect()
+      throws Exception;
 }
