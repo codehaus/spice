@@ -50,6 +50,27 @@
             </properties>
         </dependency>
         <dependency>
+            <id>jalopy</id>
+            <version>1.0b10</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+        <dependency>
+            <id>antlr</id>
+            <version>2.7.2</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+        <dependency>
+            <id>jdom</id>
+            <version>1.0b8</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+        <dependency>
             <id>commons-beanutils</id>
             <version>1.6.1</version>
             <properties>
@@ -94,6 +115,13 @@
         <dependency>
             <id>log4j</id>
             <version>1.2.8</version>
+            <properties>
+                <war.bundle>true</war.bundle>
+            </properties>
+        </dependency>
+        <dependency>
+            <id>oro</id>
+            <version>2.0.7</version>
             <properties>
                 <war.bundle>true</war.bundle>
             </properties>

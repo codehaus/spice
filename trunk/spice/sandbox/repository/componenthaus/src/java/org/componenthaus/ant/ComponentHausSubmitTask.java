@@ -159,15 +159,12 @@ public class ComponentHausSubmitTask extends Task {
     }
 
     private String format(String text) {
-        text = TextUtils.replace("\\s*/\\**\\s*","",text); // Opening javadoc quote
-        text = TextUtils.replace("\\s*\\*+\\s*","",text); // Opening javadoc quote
-        text = TextUtils.replace("\\s*\\**/\\s*","",text); //closing javadoc
         text = TextUtils.replace("<p>","",text);
         text = TextUtils.replace("<P>","",text);
         text = TextUtils.replace("</P>","",text);
         text = TextUtils.replace("</p>","",text);
-        text = TextUtils.replace("\n","",text);
-        return TextUtils.fmt(text);
+        //return TextUtils.fmt(text);
+        return text;
     }
 
     /**

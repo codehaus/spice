@@ -5,6 +5,8 @@
 
     <bean id="searchService" class="org.componenthaus.search.LuceneSearchService"/>
 
+    <bean id="codeFormatter" class="org.componenthaus.util.source.JalopyCodeFormatter"/>
+
     <bean id="addComponentMonitor" class="org.componenthaus.search.AddComponentMonitor">
         <property name="searchService">
             <ref bean="searchService"/>
@@ -64,6 +66,9 @@
         </property>
         <property name="serviceImplementationFactory">
             <ref bean="serviceImplementationFactory"/>
+        </property>
+        <property name="codeFormatter">
+            <ref bean="codeFormatter"/>
         </property>
         <property name="successView">
             <value>welcomeView</value>

@@ -39,7 +39,7 @@ public class FileManagerImpl implements FileManager {
         final byte[] buff = new byte[chunk];
         int bytesRead = -1;
         while (-1 != (bytesRead = in.read(buff, 0, buff.length))) {
-            to.write(new String(buff));
+            to.write(new String(buff,0,bytesRead));
         }
         in.close();
     }
