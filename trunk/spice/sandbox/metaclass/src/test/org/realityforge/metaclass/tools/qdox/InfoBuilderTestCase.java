@@ -26,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-08-24 04:52:28 $
+ * @version $Revision: 1.13 $ $Date: 2003-09-28 06:08:30 $
  */
 public class InfoBuilderTestCase
     extends TestCase
@@ -35,6 +35,24 @@ public class InfoBuilderTestCase
         throws Exception
     {
         final String value = "key1";
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final Properties parameters = parser.parseValueIntoParameters( value );
+        assertNull( "parameters", parameters );
+    }
+
+    public void testParseValueIntoParametersWithKeyStartingWithNonIdentifier()
+        throws Exception
+    {
+        final String value = "*key1=\"a\"";
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final Properties parameters = parser.parseValueIntoParameters( value );
+        assertNull( "parameters", parameters );
+    }
+
+    public void testParseValueIntoParametersWithValueNotStartingWithTalkies()
+        throws Exception
+    {
+        final String value = "key1=a";
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final Properties parameters = parser.parseValueIntoParameters( value );
         assertNull( "parameters", parameters );
@@ -260,6 +278,24 @@ public class InfoBuilderTestCase
         assertEquals( "modifiers", Modifier.TRANSIENT, modifiers );
     }
 
+    public void testParseModifier_final()
+        throws Exception
+    {
+        final String[] qualifiers = new String[]{"final"};
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final int modifiers = parser.parseModifiers( qualifiers );
+        assertEquals( "modifiers", Modifier.FINAL, modifiers );
+    }
+
+    public void testParseModifier_abstract()
+        throws Exception
+    {
+        final String[] qualifiers = new String[]{"abstract"};
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final int modifiers = parser.parseModifiers( qualifiers );
+        assertEquals( "modifiers", Modifier.ABSTRACT, modifiers );
+    }
+
     public void testParseModifier_volatile()
         throws Exception
     {
@@ -276,6 +312,22 @@ public class InfoBuilderTestCase
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final int modifiers = parser.parseModifiers( qualifiers );
         assertEquals( "modifiers", Modifier.VOLATILE | Modifier.PUBLIC, modifiers );
+    }
+
+    public void testParseUnknownModifier()
+        throws Exception
+    {
+        final String[] qualifiers = new String[]{"unknown"};
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        try
+        {
+            parser.parseModifiers( qualifiers );
+        }
+        catch( IllegalArgumentException iae )
+        {
+            return;
+        }
+        fail( "Expected to fail parsing unknown modifier" );
     }
 
     public void testBuildAttributeWithNullQDoxValue()
@@ -352,6 +404,29 @@ public class InfoBuilderTestCase
         javaField.setName( name );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final FieldDescriptor field = parser.buildField( javaField, new DefaultQDoxAttributeInterceptor() );
+        assertNotNull( "field", field );
+        assertEquals( "field.name", name, field.getName() );
+        assertEquals( "field.type", type, field.getType() );
+        assertEquals( "field.modifiers", Modifier.PUBLIC, field.getModifiers() );
+        assertEquals( "field.attributes.length", 0, field.getAttributes().length );
+    }
+
+    public void testBuildFields()
+        throws Exception
+    {
+        final String name = "myField";
+        final String type = "int";
+        final JavaField javaField = new JavaField();
+        javaField.setType( new Type( type ) );
+        javaField.setTags( new ArrayList() );
+        javaField.setModifiers( new String[]{"public"} );
+        javaField.setName( name );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final FieldDescriptor[] fields =
+            parser.buildFields( new JavaField[]{javaField},
+                                new DefaultQDoxAttributeInterceptor() );
+        assertEquals( "fields.length", 1, fields.length );
+        final FieldDescriptor field = fields[ 0 ];
         assertNotNull( "field", field );
         assertEquals( "field.name", name, field.getName() );
         assertEquals( "field.type", type, field.getType() );
@@ -441,6 +516,22 @@ public class InfoBuilderTestCase
         assertEquals( "parameter.type", type, parameter.getType() );
     }
 
+    public void testBuildParameters()
+        throws Exception
+    {
+        final String name = "myField";
+        final String type = "int";
+        final JavaParameter javaParameter = new JavaParameter( new Type( type ), name );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final ParameterDescriptor[] parameters =
+            parser.buildParameters( new JavaParameter[]{javaParameter} );
+        assertEquals( "parameters.length", 1, parameters.length );
+        final ParameterDescriptor parameter = parameters[ 0 ];
+        assertNotNull( "parameter", parameter );
+        assertEquals( "parameter.name", name, parameter.getName() );
+        assertEquals( "parameter.type", type, parameter.getType() );
+    }
+
     public void testBuildMethod()
         throws Exception
     {
@@ -456,6 +547,55 @@ public class InfoBuilderTestCase
         javaMethod.setTags( new ArrayList() );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final MethodDescriptor method = parser.buildMethod( javaMethod, new DefaultQDoxAttributeInterceptor() );
+        assertNotNull( "method", method );
+        assertEquals( "method.name", name, method.getName() );
+        assertEquals( "method.type", type, method.getReturnType() );
+        assertEquals( "method.modifiers", Modifier.PUBLIC, method.getModifiers() );
+        assertEquals( "method.parameters.length", 0, method.getParameters().length );
+        assertEquals( "field.attributes.length", 0, method.getAttributes().length );
+    }
+
+    public void testBuildMethodWithNullReturn()
+        throws Exception
+    {
+        final String name = "myField";
+        final JavaMethod javaMethod = new JavaMethod();
+        javaMethod.setName( name );
+        javaMethod.setReturns( null );
+        javaMethod.setConstructor( false );
+        javaMethod.setExceptions( new Type[ 0 ] );
+        javaMethod.setParameters( new JavaParameter[ 0 ] );
+        javaMethod.setModifiers( new String[]{"public"} );
+        javaMethod.setTags( new ArrayList() );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final MethodDescriptor method = parser.buildMethod( javaMethod, new DefaultQDoxAttributeInterceptor() );
+        assertNotNull( "method", method );
+        assertEquals( "method.name", name, method.getName() );
+        assertEquals( "method.type", "", method.getReturnType() );
+        assertEquals( "method.modifiers", Modifier.PUBLIC, method.getModifiers() );
+        assertEquals( "method.parameters.length", 0, method.getParameters().length );
+        assertEquals( "field.attributes.length", 0, method.getAttributes().length );
+    }
+
+    public void testBuildMethods()
+        throws Exception
+    {
+        final String name = "myField";
+        final String type = "int";
+        final JavaMethod javaMethod = new JavaMethod();
+        javaMethod.setName( name );
+        javaMethod.setReturns( new Type( type ) );
+        javaMethod.setConstructor( false );
+        javaMethod.setExceptions( new Type[ 0 ] );
+        javaMethod.setParameters( new JavaParameter[ 0 ] );
+        javaMethod.setModifiers( new String[]{"public"} );
+        javaMethod.setTags( new ArrayList() );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final MethodDescriptor[] methods =
+            parser.buildMethods( new JavaMethod[]{javaMethod},
+                                 new DefaultQDoxAttributeInterceptor() );
+        assertEquals( "methods.length", 1, methods.length );
+        final MethodDescriptor method = methods[ 0 ];
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", type, method.getReturnType() );
@@ -546,6 +686,27 @@ public class InfoBuilderTestCase
     }
 
     public void testBuildClass()
+        throws Exception
+    {
+        final String name = "MyClass";
+        final JavaClass javaClass = new JavaClass();
+        javaClass.setParent( new MockPackage() );
+        javaClass.setName( name );
+        javaClass.setImplementz( new Type[ 0 ] );
+        javaClass.setInterface( false );
+        javaClass.setModifiers( new String[]{"public"} );
+        javaClass.setTags( new ArrayList() );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass );
+        assertNotNull( "clazz", clazz );
+        assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
+        assertEquals( "clazz.modifiers", Modifier.PUBLIC, clazz.getModifiers() );
+        assertEquals( "clazz.attributes.length", 0, clazz.getAttributes().length );
+        assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
+        assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
+    }
+
+    public void testBuildClassUsingOwnInterceptors()
         throws Exception
     {
         final String name = "MyClass";
