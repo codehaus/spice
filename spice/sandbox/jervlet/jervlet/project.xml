@@ -23,26 +23,26 @@
       </roles>
     </developer>
   </developers>
-
+    
   <dependencies>
     <dependency>
-      <id>avalon-framework</id>
-      <version>4.1.4</version>
+        <id>avalon-framework</id>
+        <version>4.1.5</version>
     </dependency>
     <dependency>
-      <groupId>avalon</groupId>
-      <artifactId>avalon-phoenix-client</artifactId>
-      <version>20030819</version>
+        <groupId>phoenix</groupId>
+        <artifactId>phoenix-client</artifactId>
+        <version>4.0.4</version>
     </dependency>
     <dependency>
       <groupId>loom</groupId>
       <artifactId>loom-engine</artifactId>
-      <version>1.0-beta1-dev</version>
+      <version>1.0-rc1</version>
     </dependency>
     <dependency>
       <groupId>loom</groupId>
-      <artifactId>maven-sar-plugin</artifactId>
-      <version>1.0-beta1-dev</version>
+      <artifactId>maven-loom-plugin</artifactId>
+      <version>1.0-rc1</version>
       <type>plugin</type>
     </dependency>
     <dependency>
@@ -56,7 +56,7 @@
       <url>http://jakarta.apache.org/commons/logging.html</url>
     </dependency>
   </dependencies>
-  
+
   <build>
     <sourceDirectory>${basedir}/src/java</sourceDirectory>
     <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>

@@ -1,5 +1,5 @@
 <project default="build">
 	<goal name="build" prereqs="clean">
-		<attainGoal name="sar"/>
+		<attainGoal name="loom:sar"/>
 	</goal>
 </project>
