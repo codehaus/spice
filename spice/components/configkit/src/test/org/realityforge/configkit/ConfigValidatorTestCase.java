@@ -21,6 +21,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
@@ -156,7 +157,7 @@ public final class ConfigValidatorTestCase
     {
         try
         {
-            new ConfigValidator( null );
+            new ConfigValidator( null, null );
             fail( "Expected Null pointer due to null schema" );
         }
         catch( final NullPointerException npe )
@@ -327,6 +328,24 @@ public final class ConfigValidatorTestCase
         final ConfigValidator configValidator =
             ConfigValidatorFactory.create( new InputSource( inputStream ) );
         doValidate( configValidator );
+    }
+
+    public void testLoadDTD()
+        throws Exception
+    {
+        final InputStream inputStream = getClass().getClassLoader().getResourceAsStream( TestData.DTD );
+        assertNotNull( "ResourcePresent: " + TestData.DTD, inputStream );
+        final EntityResolver resolver = ResolverFactory.createResolver( createClassLoader() );
+        final InputSource inputSource = new InputSource( inputStream );
+        inputSource.setPublicId( TestData.PUBLIC_ID );
+        inputSource.setSystemId( TestData.SYSTEM_ID );
+        final ConfigValidator validator =
+            ConfigValidatorFactory.create( inputSource, resolver );
+        final ClassLoader classLoader = getClass().getClassLoader();
+
+        final InputStream dataStream = classLoader.getResourceAsStream( TestData.ASSEMBLY_DATA );
+        final ValidationResult result = validator.validate( dataStream );
+        verifyResult( result, true );
     }
 
     public void testLoadViaInputSource()
