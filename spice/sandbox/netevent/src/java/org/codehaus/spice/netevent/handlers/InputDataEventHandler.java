@@ -12,7 +12,7 @@ import org.codehaus.spice.netevent.transport.MultiBufferInputStream;
  * Stuff data into stream and send resultent event.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-20 01:08:30 $
+ * @version $Revision: 1.5 $ $Date: 2004-02-13 04:53:32 $
  */
 public class InputDataEventHandler
     extends AbstractDirectedHandler
@@ -36,6 +36,7 @@ public class InputDataEventHandler
         final ChannelTransport transport = re.getTransport();
         final ByteBuffer buffer = re.getBuffer();
         final MultiBufferInputStream in = transport.getInputStream();
+        transport.setLastRxTime( System.currentTimeMillis() );
         in.addBuffer( buffer );
         getSink().addEvent(
             new InputDataPresentEvent( transport, in.available() ) );
