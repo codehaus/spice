@@ -25,7 +25,7 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 08:55:36 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-04 09:33:58 $
  */
 public class ClassDescriptorCompilerTestCase
     extends TestCase
@@ -60,6 +60,7 @@ public class ClassDescriptorCompilerTestCase
         final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
         final MockMonitor mockMonitor = new MockMonitor();
         task.setMonitor( mockMonitor );
+        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
         task.setMetaClassIO( new MockIO() );
         final ClassDescriptor descriptor =
             new ClassDescriptor( "test",
@@ -176,6 +177,8 @@ public class ClassDescriptorCompilerTestCase
         final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
         task.setDestDir( destDirectory );
         task.addSourceFile( sourceFile );
+        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
+        task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
             destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
@@ -220,6 +223,8 @@ public class ClassDescriptorCompilerTestCase
         final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
         task.setDestDir( destDirectory );
         task.addSourceFile( sourceFile );
+        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
+        task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
             destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
@@ -265,6 +270,8 @@ public class ClassDescriptorCompilerTestCase
         task.setDestDir( destDirectory );
         task.addSourceFile( sourceFile );
         task.addInterceptor( new DefaultQDoxAttributeInterceptor() );
+        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
+        task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
             destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
@@ -311,6 +318,8 @@ public class ClassDescriptorCompilerTestCase
         task.setDestDir( destDirectory );
         task.addSourceFile( sourceFile );
         task.addInterceptor( new DeletingAttributeInterceptor() );
+        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
+        task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
             destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
@@ -358,6 +367,8 @@ public class ClassDescriptorCompilerTestCase
         task.addSourceFile( sourceFile );
         task.addInterceptor( new DeletingAttributeInterceptor() );
         task.addFilter( new DeletingFilter() );
+        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
+        task.setMetaClassIO( new MetaClassIOBinary() );
         task.execute();
         final String destFilename =
             destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
