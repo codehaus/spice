@@ -21,11 +21,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * A Task to generate MetaClass descriptors from source files.
+ * A Task to generate Attributes descriptors from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-05 04:43:34 $
+ * @version $Revision: 1.3 $ $Date: 2003-06-10 01:39:56 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -86,7 +86,7 @@ public class MetaGenerateTask
     public void execute()
     {
         final String message =
-            "Writing MetaClass descriptors as " +
+            "Writing Attributes descriptors as " +
             getOutputDescription() + ".";
         log( message );
 

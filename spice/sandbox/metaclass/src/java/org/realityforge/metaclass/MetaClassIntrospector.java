@@ -8,6 +8,7 @@
 package org.realityforge.metaclass;
 
 import java.io.InputStream;
+import java.io.IOException;
 import java.util.WeakHashMap;
 
 import org.realityforge.metaclass.io.MetaClassIO;
@@ -20,7 +21,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * {@link java.beans.Introspector} class does for Java Beans.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:40:45 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-10 01:39:55 $
  */
 public final class MetaClassIntrospector
 {
@@ -57,10 +58,11 @@ public final class MetaClassIntrospector
      *
      * @param clazz the class to {@link ClassDescriptor} for
      * @return the newly created {@link ClassDescriptor}
-     * @throws Exception if unable to create {@link ClassDescriptor}
+     * @throws InvalidMetaClassException if unable to create {@link ClassDescriptor}
+     * @throws IOException if incorrect version or read/write error
      */
     public static ClassDescriptor getClassInfo( final Class clazz )
-        throws Exception
+        throws InvalidMetaClassException, IOException
     {
         ClassDescriptor info = (ClassDescriptor)c_cache.get( clazz );
         if( null != info )
@@ -83,11 +85,12 @@ public final class MetaClassIntrospector
      * @param className the className to get {@link ClassDescriptor} for
      * @param classLoader the classLoader to use
      * @return the newly created {@link ClassDescriptor}
-     * @throws Exception if unable to create {@link ClassDescriptor}
+     * @throws InvalidMetaClassException if unable to create {@link ClassDescriptor}
+     * @throws IOException if unable to create {@link ClassDescriptor}
      */
     public static ClassDescriptor getClassInfo( final String className,
                                                 final ClassLoader classLoader )
-        throws Exception
+        throws InvalidMetaClassException, IOException
     {
         ClassDescriptor info = (ClassDescriptor)c_cache.get( className );
         if( null != info )
@@ -109,11 +112,12 @@ public final class MetaClassIntrospector
      * @param classname the classname of the class
      * @param classLoader the classLoader to load {@link ClassDescriptor} from
      * @return the newly created {@link ClassDescriptor}
-     * @throws Exception if unable to create {@link ClassDescriptor}
+     * @throws InvalidMetaClassException if unable to create {@link ClassDescriptor}
+     * @throws IOException if incorrect version or read/write error
      */
     private static ClassDescriptor createClassInfo( final String classname,
                                                     final ClassLoader classLoader )
-        throws Exception
+        throws InvalidMetaClassException, IOException
     {
         final String resource = classname.replace( '.', '/' ) + ".mad";
         final InputStream inputStream = classLoader.getResourceAsStream( resource );
@@ -121,7 +125,7 @@ public final class MetaClassIntrospector
         {
             final String message =
                 "Unable to locate metadata for: " + classname;
-            throw new Exception( message );
+            throw new InvalidMetaClassException( message );
         }
 
         return c_metaClassIO.deserialize( inputStream );

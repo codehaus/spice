@@ -7,23 +7,20 @@
  */
 package org.realityforge.metaclass.test;
 
-import java.lang.reflect.Modifier;
-import java.util.Properties;
-import java.util.Vector;
-
 import junit.framework.Test;
-import junit.framework.TestSuite;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 import org.realityforge.metaclass.model.Attribute;
-import org.realityforge.metaclass.model.FieldDescriptor;
+
+import java.util.Properties;
 
 public class AttributeTextAndParameterTestCase
     extends TestCase
 {
-    public AttributeTextAndParameterTestCase( final String name )
+    public AttributeTextAndParameterTestCase()
     {
-        super( name );
+        super( "AttributeTextAndParameters" );
     }
 
     public static Test suite()

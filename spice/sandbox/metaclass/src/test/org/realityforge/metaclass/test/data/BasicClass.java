@@ -58,6 +58,7 @@ public class BasicClass
 
     /**
      * This is a private method.
+     * @stuff 1=2
      */
     private void aPrivateMethod()
     {

@@ -47,9 +47,9 @@ public class BasicFieldTestCase
 
     private FieldDescriptor[] _fieldDescriptors;
 
-    public BasicFieldTestCase( final String name )
+    public BasicFieldTestCase()
     {
-        super( name, CLASS_NAME );
+        super( "BasicField", CLASS_NAME );
     }
 
     public static Test suite()

@@ -16,14 +16,14 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-05 04:43:34 $
+ * @version $Revision: 1.3 $ $Date: 2003-06-10 01:39:56 $
  */
 public class ClassDescriptor
     extends FeatureDescriptor
     implements Serializable
 {
     /**
-     * The current version of MetaClass object.
+     * The current version of Attributes object.
      */
     public static final int VERSION = 100;
 
@@ -100,12 +100,12 @@ public class ClassDescriptor
         for( int i = 0; i < _fields.length; i++ )
         {
             final FieldDescriptor fieldDescriptor = _fields[ i ];
-            result.append( fieldDescriptor + "\n" );
+            result.append( "field: " + fieldDescriptor + "\n" );
         }
         for( int i = 0; i < _methods.length; i++ )
         {
             final MethodDescriptor methodDescriptor = _methods[ i ];
-            result.append( methodDescriptor + "\n" );
+            result.append( "method: " + methodDescriptor + "\n" );
         }
         return result.toString();
     }

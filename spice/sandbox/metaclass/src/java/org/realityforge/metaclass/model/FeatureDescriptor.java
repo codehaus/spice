@@ -20,7 +20,7 @@ import java.util.Arrays;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:40:47 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-10 01:39:56 $
  */
 public abstract class FeatureDescriptor
     implements Serializable
@@ -93,7 +93,8 @@ public abstract class FeatureDescriptor
         for( int i = 0; i < _attributes.length; i++ )
         {
             final Attribute attribute = _attributes[ i ];
-            if( attribute.getName().equals( name ) )
+            final String attributeName = attribute.getName();
+            if( attributeName.equals( name ) )
             {
                 results.add( attribute );
             }

@@ -22,12 +22,12 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
- * This is a utility class that writes out a MetaClass object
+ * This is a utility class that writes out a Attributes object
  * to a stream using binary format outlined in documentation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-05 23:55:20 $
+ * @version $Revision: 1.3 $ $Date: 2003-06-10 01:39:55 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
