@@ -61,7 +61,7 @@ import org.realityforge.xsyslog.metadata.DestinationMetaData;
 import org.realityforge.xsyslog.reader.SyslogConfigReader;
 
 /**
- * TestCase for {@link org.apache.excalibur.loader.reader.ClassLoaderSetReader}.
+ * TestCase for {@link SyslogConfigReader}.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  */
