@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    	<title>MetaSchema</title>
+    	<author email="maurotalevi at users.sf.net">Mauro Talevi</author>
+  </properties>
+
+  <body>
+
+	  <section name="MetaSchema">
+			<p>MetaSchema allows the definition of a schema to validate metadata. 
+			</p>
+			<subsection name="Schema">
+				<p>The schema is defined using the EOL (Exteca Ontology Language) - 
+				see <a href="http://exteca.sf.net">Exteca</a> project for more details.
+				An example schema looks like this:
+				<source><![CDATA[
+<ontology id="metadata-schema" uri="http://metadata/schema" version="1.0"> 
+    <associations>
+        <association id="has-metadata" inverse-id="metadata-of">
+            <description>Association between artefact and metadata</description>
+        </association>
+    </associations>
+    <attributes>
+        <attribute id="param" data-type="String"/>
+		<attribute id="avalon-service"  data-type="java.util.Properties"/>
+    </attributes>
+    <concepts>
+        <concept id="java artefact">
+            <has-subclass concept="class/interface"/>
+            <has-subclass concept="method"/>
+            <has-subclass concept="method parameter"/>
+            <has-subclass concept="field"/>
+            <has-subclass concept="package"/>
+            <has-subclass concept="jar"/>
+        </concept>
+        <concept id="class/interface">
+            <property attribute="param" value="param1 this is a parameter"/>
+            <property attribute="avalon-service" value="type=Foo;context=Boo"/>
+        </concept>
+    </concepts>
+    <contents>
+        <concept-content concept="class/interface">
+           <resources content="Resources">
+                <resource name="assembly" uri="dtd:/org/apache/avalon/phoenix/tools/assembly.dtd"/>
+                <resource name="banner" uri="pgn:/org/apache/avalon/phoenix/tools/phoenix.png"/>
+                <resource name="kernel" uri="comp:/org.apache.avalon.phoenix.components.kernel.DefaultKernel"/>
+            </resources>
+        </concept-content>    
+    </contents>
+</ontology>
+			]]></source>
+				It allows to easily define a domain of knowledge, in this case a schema for 
+				validating artefacts and their attributes.
+				</p>
+			</subsection>
+			<subsection name="Attribute Validator">
+			<p>We have defined an attribute validator interface, which allows the validation
+			of two types of attributes:  by value and by Properties.</p>
+			<source>
+public interface AttributeValidator {
+
+	/**
+	 *   Validates attribute of an artefact  
+	 * 
+	 *   @param artefactName the name of the artefact to which the attribute applies
+	 *   @param name the name of the attribute
+	 *   @param value the String representing the value of the attribute
+	 */
+	void validateAttribute(String artefactName, String name, String value)
+		throws InvalidMetaDataException;
+
+	/**
+	 *   Validates attribute of an artefact
+	 * 
+	 *   @param artefactName the name of the artefact to which the attribute applies
+	 *   @param name the name of the attribute
+	 *   @param values the Properties representing the values of the attribute
+	 */
+	void validateAttribute(String artefactName, String name, Properties values)
+		throws InvalidMetaDataException;
+
+}		
+			</source>
+			</subsection>
+	  </section>
+		
+
+  </body>
+
+</document>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <title>News and Status</title>
+    <author email="maurotalevi@users.sf.net">Mauro Talevi</author>
+  </properties>
+
+  <body>
+
+    <section name="News and Status">
+      <p>
+        This document contains the latest news and status regarding the
+        Spice MetaClass project.  
+      </p>
+
+      <subsection name="Current Status">
+        <p>
+           We are currently working on the first release.
+        </p>
+      </subsection>
+
+    </section>
+
+  </body>
+</document>

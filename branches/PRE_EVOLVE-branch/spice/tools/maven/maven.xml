@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<project
+    xmlns:doc="doc"
+    xmlns:j="jelly:core"
+    xmlns:maven="jelly:maven"
+    xmlns:define="jelly:define"
+    xmlns:util="jelly:util"
+    xmlns:ant="jelly:ant"
+    xmlns:archive="spice:archive"
+    default="jar:jar">
+
+    <j:set var="spice.tool.dir" value="${basedir}/../../tools"/>
+
+    <define:taglib uri="spice:archive">
+        <define:tag name="copy-runtime-deps">
+            <!--
+            |
+            | If a POM descriptor has been specified then use it.
+            |
+           -->
+            <j:if test="${projectDescriptor != null}">
+                <maven:pom var="pom" projectDescriptor="${projectDescriptor}"/>
+            </j:if>
+
+            <j:set var="mavenRepoLocal" value='${context.getVariable("maven.repo.local")}'/>
+
+            <j:forEach var="dep" items="${pom.dependencies}">
+                <j:if test='${dep.getProperty("category") == "runtime" }'>
+                    <j:if test='${dep.getProperty("distributable") != "false" }'>
+                        <j:set var="addDeps" value='true'/>
+                    </j:if>
+                </j:if>
+            </j:forEach>
+
+            <j:if test='${addDeps == "true" }'>
+                <ant:mkdir dir="${todir}"/>
+                <ant:copy todir="${todir}" flatten="true">
+                    <ant:fileset dir="${mavenRepoLocal}">
+                        <j:forEach var="dep" items="${pom.dependencies}">
+                            <j:if test='${dep.getProperty("category") == "runtime" }'>
+                                <j:if test='${dep.getProperty("distributable") != "false" }'>
+                                    <ant:include name="${dep.artifactDirectory}/jars/${dep.artifact}"/>
+                                    <ant:include name="${dep.artifactDirectory}/licenses/${dep.artifactId}.license"/>
+                                </j:if>
+                            </j:if>
+                        </j:forEach>
+                    </ant:fileset>
+                </ant:copy>
+            </j:if>
+        </define:tag>
+    </define:taglib>
+
+    <preGoal name="xdoc:copy-user-resources">
+        <ant:mkdir dir="${basedir}/xdocs/style"/>
+        <ant:copy file="${basedir}/../../tools/site/project.css"
+            todir="${basedir}/xdocs/style"/>
+    </preGoal>
+
+    <goal name="test-deps">
+        <ant:mkdir dir="target"/>
+        <archive:copy-runtime-deps todir="target"/>
+    </goal>
+
+    <preGoal name="site:generate">
+        <ant:mkdir dir="target/docs"/>
+        <ant:copy todir="target/docs">
+            <ant:fileset dir="${basedir}/../../tools/site" filtering="no">
+                <ant:include name="images/*.gif"/>
+            </ant:fileset>
+        </ant:copy>
+    </preGoal>
+
+    <preGoal name="test:test">
+        <ant:copy todir="target/test-classes">
+            <ant:fileset dir="src/test" filtering="no">
+                <ant:include name="**/*"/>
+            </ant:fileset>
+        </ant:copy>
+    </preGoal>
+
+    <preGoal name="xdoc:transform">
+        <attainGoal name="generateNavigation"/>
+        <ant:copy file="${basedir}/../../tools/site/site.jsl" todir="target"/>
+    </preGoal>
+
+    <goal name="generateNavigation">
+        <ant:mkdir dir="target/generated-xdocs"/>
+        <ant:available
+            file="xdocs/navigation.xml"
+            type="file"
+            property="navigationAvailable"/>
+
+        <j:if test="${navigationAvailable != 'true'}">
+            <ant:echo message="Generating Navigation"/>
+            <j:file name="target/navigation.xml" omitXmlDeclaration="true">
+                <naproject name="${pom.name}">
+                    <title>${pom.name}</title>
+                    <body>
+                        <links>
+                            <item name="Spice" href="http://spice.sourceforge.net/"/>
+                        </links>
+                        <menu name="Overview">
+                            <item name="Introduction" href="/index.html"/>
+                            <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
+                        </menu>
+                    </body>
+                </naproject>
+            </j:file>
+            <doc:jslFile
+                input="target/navigation.xml"
+                output="target/generated-xdocs/navigation.xml"
+                stylesheet="${basedir}/../../tools/navigation.jsl"
+                omitXmlDeclaration="true"
+                outputMode="xml"
+                prettyPrint="true"/>
+        </j:if>
+    </goal>
+
+    <preGoal name="checkstyle:check-license-file">
+        <ant:copy file="${basedir}/../../tools/checkstyle/LICENSE-header.txt" todir="target"/>
+    </preGoal>
+
+    <postGoal name="dist:prepare-bin-filesystem">
+        <attainGoal name="generateReadme"/>
+        <ant:copy todir="${maven.dist.bin.assembly.dir}">
+            <ant:fileset dir="../..">
+                <ant:include name="LICENSE.txt"/>
+            </ant:fileset>
+        </ant:copy>
+        <ant:copy todir="${maven.dist.bin.assembly.dir}">
+            <ant:fileset dir=".">
+                <ant:include name="LICENSE.*.txt"/>
+            </ant:fileset>
+        </ant:copy>
+        <ant:copy todir="${maven.dist.bin.assembly.dir}">
+            <ant:fileset dir="target">
+                <ant:include name="README.txt"/>
+            </ant:fileset>
+        </ant:copy>
+        <ant:zip zipfile="${maven.dist.bin.assembly.dir}/src.zip">
+            <ant:fileset dir="src/java"/>
+            <ant:fileset dir="src/test"/>
+        </ant:zip>
+        <ant:mkdir dir="${maven.dist.bin.assembly.dir}/lib"/>
+        <archive:copy-runtime-deps todir="${maven.dist.bin.assembly.dir}/lib"/>
+    </postGoal>
+
+    <goal name="buildDist">
+        <attainGoal name="clean"/>
+        <attainGoal name="dist:build-bin"/>
+    </goal>
+
+    <goal name="deployDist">
+        <attainGoal name="buildDist"/>
+
+        <!-- this doesn't actually work as optional task is not
+        registered. It would be nice if it did but .... -->
+        <ant:ftp server="upload.sourceforge.net"
+            remotedir="/incoming"
+            userid="anonymous"
+            password="${maven.username}@users.sourceforge.net">
+            <fileset dir="target/distributions"/>
+        </ant:ftp>
+    </goal>
+
+    <goal name="generateReadme">
+        <j:file name="target/README.txt" trim="false" omitXmlDeclaration="true">
+            ----------------------------------------------------------------
+            ${pom.name} - ${pom.shortDescription}
+            ----------------------------------------------------------------
+
+            ${pom.description}
+        </j:file>
+    </goal>
+
+</project>
+
+
