@@ -12,12 +12,12 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-06-12 23:08:47 $
+ * @version $Revision: 1.11 $ $Date: 2003-07-21 11:01:08 $
  */
 public class ExceptionUtilTestCase
     extends TestCase
 {
-    private static final String NL = "\n";
+	private static final String NL = System.getProperty( "line.separator" );
 
     private static final String TRACE1_LINE1 = "org.realityforge.salt.lang.MockThrowable: s1";
     private static final String TRACE1_LINE2 = "   at org.realityforge.CallerClass.callerMethod1( CallerClass.java:1 )";
