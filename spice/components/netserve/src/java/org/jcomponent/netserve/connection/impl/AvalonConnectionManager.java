@@ -41,7 +41,7 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-08-31 10:38:40 $
+ * @version $Revision: 1.10 $ $Date: 2003-09-02 04:18:47 $
  * @phoenix.component
  * @phoenix.service type="org.jcomponent.netserve.connection.ConnectionManager"
  */
@@ -74,7 +74,7 @@ public class AvalonConnectionManager
     {
         if( manager.hasService( ThreadPool.ROLE ) )
         {
-            setDefaultThreadPool( (ThreadPool)manager.lookup( ThreadPool.ROLE ) );
+            setDefaultThreadPool( (ThreadPool)manager.lookup( ThreadPool.class.getName() ) );
         }
     }
 
