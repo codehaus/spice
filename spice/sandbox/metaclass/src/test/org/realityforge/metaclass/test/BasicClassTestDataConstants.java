@@ -7,10 +7,9 @@
  */
 package org.realityforge.metaclass.test;
 
+import java.lang.reflect.Modifier;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ParameterDescriptor;
-
-import java.lang.reflect.Modifier;
 
 /**
  * Constants for BasicClass TestCases
@@ -111,7 +110,7 @@ public interface BasicClassTestDataConstants
             Modifier.PROTECTED,
             Modifier.PRIVATE
         };
-    
+
     String[] METHOD_RETURN_TYPES =
         {
             "",

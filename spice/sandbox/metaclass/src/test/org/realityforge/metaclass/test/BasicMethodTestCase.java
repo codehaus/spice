@@ -48,7 +48,7 @@ public class BasicMethodTestCase
         {
             _methodDescriptors = getClassDescriptor().getMethods();
         }
-        catch ( final Exception e )
+        catch( final Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );
@@ -74,7 +74,7 @@ public class BasicMethodTestCase
 
     public void testName()
     {
-        for ( int i = 0; i < _methodDescriptors.length; i++ )
+        for( int i = 0; i < _methodDescriptors.length; i++ )
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
@@ -84,7 +84,7 @@ public class BasicMethodTestCase
 
     public void testModifiers()
     {
-        for ( int i = 0; i < _methodDescriptors.length; i++ )
+        for( int i = 0; i < _methodDescriptors.length; i++ )
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
@@ -94,7 +94,7 @@ public class BasicMethodTestCase
 
     public void testReturnType()
     {
-        for ( int i = 0; i < _methodDescriptors.length; i++ )
+        for( int i = 0; i < _methodDescriptors.length; i++ )
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
@@ -104,7 +104,7 @@ public class BasicMethodTestCase
 
     public void testParameters()
     {
-        for ( int i = 0; i < _methodDescriptors.length; i++ )
+        for( int i = 0; i < _methodDescriptors.length; i++ )
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
@@ -117,13 +117,13 @@ public class BasicMethodTestCase
 
     public void testGetAttributes()
     {
-        for ( int i = 0; i < _methodDescriptors.length; i++ )
+        for( int i = 0; i < _methodDescriptors.length; i++ )
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
 
             final Attribute[] attributes = methodDescriptor.getAttributes();
-            if ( i < METHOD_ATTRIBUTES.length )
+            if( i < METHOD_ATTRIBUTES.length )
             {
                 checkAttributesMatchExpected( METHOD_ATTRIBUTES[ i ], attributes,
                                               "Method: getAttributes" + i );

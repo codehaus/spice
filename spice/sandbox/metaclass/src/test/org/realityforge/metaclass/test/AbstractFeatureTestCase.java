@@ -39,7 +39,7 @@ public abstract class AbstractFeatureTestCase
             final Class clazz = Class.forName( _className );
             _classDescriptor = MetaClassIntrospector.getClassDescriptor( clazz );
         }
-        catch ( final Exception e )
+        catch( final Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );
@@ -81,21 +81,21 @@ public abstract class AbstractFeatureTestCase
                                                  final Attribute[] attributes,
                                                  final String testName )
     {
-        if ( !areContentsEqual( expectedAttributes, attributes ) )
+        if( !areContentsEqual( expectedAttributes, attributes ) )
         {
             final StringBuffer failMessage = new StringBuffer();
             failMessage.append( "Test: " + testName + "\n" );
             failMessage.append( "Attributes are not equal:\n" );
 
             failMessage.append( "Expected:\n" );
-            if ( null == expectedAttributes )
+            if( null == expectedAttributes )
             {
                 failMessage.append( "null\n" );
             }
             else
             {
                 failMessage.append( expectedAttributes.length + " elements\n" );
-                for ( int i = 0; i < expectedAttributes.length; i++ )
+                for( int i = 0; i < expectedAttributes.length; i++ )
                 {
                     final Attribute attribute = expectedAttributes[ i ];
                     failMessage.append( i + " = " + attribute + "\n" );
@@ -103,14 +103,14 @@ public abstract class AbstractFeatureTestCase
             }
 
             failMessage.append( "Actual:\n" );
-            if ( null == attributes )
+            if( null == attributes )
             {
                 failMessage.append( "null\n" );
             }
             else
             {
                 failMessage.append( attributes.length + " elements\n" );
-                for ( int i = 0; i < attributes.length; i++ )
+                for( int i = 0; i < attributes.length; i++ )
                 {
                     final Attribute attribute = attributes[ i ];
                     failMessage.append( i + " = " + attribute + "\n" );
@@ -132,26 +132,26 @@ public abstract class AbstractFeatureTestCase
     protected static boolean areContentsEqual( final Object[] original,
                                                final Object[] other )
     {
-        if ( null == original || null == other )
+        if( null == original || null == other )
         {
             return ( null == original && null == other );
         }
 
         boolean valid = true;
-        if ( null != original && null != other )
+        if( null != original && null != other )
         {
-            if ( original.length != other.length )
+            if( original.length != other.length )
             {
                 valid = false;
             }
             else
             {
-                for ( int i = 0; i < original.length; i++ )
+                for( int i = 0; i < original.length; i++ )
                 {
                     final Object originalElement = original[ i ];
                     final Object otherElement = other[ i ];
-                    if ( !MetaClassTestUtility.areDescriptorsEqual( originalElement,
-                                                                    otherElement ) )
+                    if( !MetaClassTestUtility.areDescriptorsEqual( originalElement,
+                                                                   otherElement ) )
                     {
                         valid = false;
                         break;

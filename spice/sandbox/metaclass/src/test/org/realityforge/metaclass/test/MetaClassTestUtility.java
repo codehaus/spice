@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Properties;
-
 import org.realityforge.metaclass.Attributes;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
@@ -24,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.6 $ $Date: 2003-08-15 06:53:32 $
+ * @version $Revision: 1.7 $ $Date: 2003-08-15 08:39:40 $
  */
 public final class MetaClassTestUtility
 {
@@ -39,27 +38,27 @@ public final class MetaClassTestUtility
     public static boolean areContentsEqual( final Object[] original,
                                             final Object[] other )
     {
-        if ( original.length != other.length )
+        if( original.length != other.length )
         {
             return false;
         }
         boolean result = true;
-        for ( int i = 0; i < original.length &&
+        for( int i = 0; i < original.length &&
             result == true; i++ )
         {
             final Object originalElement = original[ i ];
             final Object otherElement = other[ i ];
 
-            if ( null == originalElement )
+            if( null == originalElement )
             {
-                if ( null != otherElement )
+                if( null != otherElement )
                 {
                     result = false;
                 }
             }
             else
             {
-                if ( !areDescriptorsEqual( originalElement, otherElement ) )
+                if( !areDescriptorsEqual( originalElement, otherElement ) )
                 {
                     result = false;
                 }
@@ -71,33 +70,33 @@ public final class MetaClassTestUtility
     public static boolean areDescriptorsEqual( final Object o, final Object p )
     {
         // if at least one is null they are only equal if both are null
-        if ( null == o || null == p )
+        if( null == o || null == p )
         {
             return ( null == o && null == p );
         }
 
-        if ( o instanceof ClassDescriptor && p instanceof ClassDescriptor )
+        if( o instanceof ClassDescriptor && p instanceof ClassDescriptor )
         {
-            return areClassDescriptorsEqual( (ClassDescriptor) o, (ClassDescriptor) p );
+            return areClassDescriptorsEqual( (ClassDescriptor)o, (ClassDescriptor)p );
         }
-        else if ( o instanceof MethodDescriptor && p instanceof MethodDescriptor )
+        else if( o instanceof MethodDescriptor && p instanceof MethodDescriptor )
         {
-            return areMethodDescriptorsEqual( (MethodDescriptor) o, (MethodDescriptor) p );
+            return areMethodDescriptorsEqual( (MethodDescriptor)o, (MethodDescriptor)p );
         }
-        else if ( o instanceof FieldDescriptor && p instanceof FieldDescriptor )
+        else if( o instanceof FieldDescriptor && p instanceof FieldDescriptor )
         {
-            return areFieldDescriptorsEqual( (FieldDescriptor) o, (FieldDescriptor) p );
+            return areFieldDescriptorsEqual( (FieldDescriptor)o, (FieldDescriptor)p );
         }
-        else if ( o instanceof ParameterDescriptor && p instanceof ParameterDescriptor )
+        else if( o instanceof ParameterDescriptor && p instanceof ParameterDescriptor )
         {
-            return areParameterDescriptorsEqual( (ParameterDescriptor) o, (ParameterDescriptor) p );
+            return areParameterDescriptorsEqual( (ParameterDescriptor)o, (ParameterDescriptor)p );
         }
-        else if ( o instanceof Attribute && p instanceof Attribute )
+        else if( o instanceof Attribute && p instanceof Attribute )
         {
-            return areAttributesEqual( (Attribute) o, (Attribute) p );
+            return areAttributesEqual( (Attribute)o, (Attribute)p );
         }
 
-        if ( o.getClass().getName().equals( p.getClass().getName() ) )
+        if( o.getClass().getName().equals( p.getClass().getName() ) )
         {
             return o.equals( p );
         }
@@ -108,14 +107,14 @@ public final class MetaClassTestUtility
     public static boolean areClassDescriptorsEqual( final ClassDescriptor one,
                                                     final ClassDescriptor two )
     {
-        if ( null == one || null == two )
+        if( null == one || null == two )
         {
             return ( null == one && null == two );
         }
 
         final String name2 = two.getName();
         final String name1 = one.getName();
-        if ( null == name1 || null == name2 )
+        if( null == name1 || null == name2 )
         {
             return ( null == name1 && null == name2 );
         }
@@ -130,21 +129,21 @@ public final class MetaClassTestUtility
     public static boolean areMethodDescriptorsEqual( final MethodDescriptor one,
                                                      final MethodDescriptor two )
     {
-        if ( null == one || null == two )
+        if( null == one || null == two )
         {
             return ( null == one && null == two );
         }
 
         final String name2 = two.getName();
         final String name1 = one.getName();
-        if ( null == name1 || null == name2 )
+        if( null == name1 || null == name2 )
         {
             return ( null == name1 && null == name2 );
         }
 
         final String returnType2 = two.getReturnType();
         final String returnType1 = one.getReturnType();
-        if ( null == returnType1 || null == returnType2 )
+        if( null == returnType1 || null == returnType2 )
         {
             return ( null == returnType1 && null == returnType2 );
         }
@@ -159,21 +158,21 @@ public final class MetaClassTestUtility
     public static boolean areFieldDescriptorsEqual( final FieldDescriptor one,
                                                     final FieldDescriptor two )
     {
-        if ( null == one || null == two )
+        if( null == one || null == two )
         {
             return ( null == one && null == two );
         }
 
         final String name2 = two.getName();
         final String name1 = one.getName();
-        if ( null == name1 || null == name2 )
+        if( null == name1 || null == name2 )
         {
             return ( null == name1 && null == name2 );
         }
 
         final String type2 = two.getType();
         final String type1 = one.getType();
-        if ( null == type1 || null == type2 )
+        if( null == type1 || null == type2 )
         {
             return ( null == type1 && null == type2 );
         }
@@ -187,21 +186,21 @@ public final class MetaClassTestUtility
     public static boolean areParameterDescriptorsEqual( final ParameterDescriptor one,
                                                         final ParameterDescriptor two )
     {
-        if ( null == one || null == two )
+        if( null == one || null == two )
         {
             return ( null == one && null == two );
         }
 
         final String name2 = two.getName();
         final String name1 = one.getName();
-        if ( null == name1 || null == name2 )
+        if( null == name1 || null == name2 )
         {
             return ( null == name1 && null == name2 );
         }
 
         final String type2 = two.getType();
         final String type1 = one.getType();
-        if ( null == type1 || null == type2 )
+        if( null == type1 || null == type2 )
         {
             return ( null == type1 && null == type2 );
         }
@@ -212,7 +211,7 @@ public final class MetaClassTestUtility
 
     public static boolean areAttributesEqual( final Attribute one, final Attribute two )
     {
-        if ( null == one || null == two )
+        if( null == one || null == two )
         {
             return ( null == one && null == two );
         }
@@ -221,41 +220,41 @@ public final class MetaClassTestUtility
 
         final String nameOne = one.getName();
         final String nameTwo = two.getName();
-        if ( null == nameTwo || null == nameOne )
+        if( null == nameTwo || null == nameOne )
         {
-            if ( null != nameTwo || null != nameOne )
+            if( null != nameTwo || null != nameOne )
             {
                 valid = false;
             }
         }
 
-        if ( valid )
+        if( valid )
         {
             final String valueOne = one.getValue();
             final String valueTwo = two.getValue();
-            if ( null == valueTwo || null == valueOne )
+            if( null == valueTwo || null == valueOne )
             {
-                if ( null != valueTwo || null != valueOne )
+                if( null != valueTwo || null != valueOne )
                 {
                     valid = false;
                 }
             }
             else
             {
-                if ( !valueOne.equals( valueTwo ) )
+                if( !valueOne.equals( valueTwo ) )
                 {
                     valid = false;
                 }
             }
         }
 
-        if ( valid )
+        if( valid )
         {
             final Properties parametersOne = one.getParameters();
             final Properties parametersTwo = two.getParameters();
-            if ( null == parametersTwo || null == parametersOne )
+            if( null == parametersTwo || null == parametersOne )
             {
-                if ( null != parametersTwo || null != parametersOne )
+                if( null != parametersTwo || null != parametersOne )
                 {
                     valid = false;
                 }
@@ -264,17 +263,17 @@ public final class MetaClassTestUtility
             {
                 final Enumeration keySetOne = parametersOne.keys();
                 final Enumeration keySetTwo = parametersTwo.keys();
-                while ( keySetOne.hasMoreElements() )
+                while( keySetOne.hasMoreElements() )
                 {
                     final Object oOne = keySetOne.nextElement();
-                    if ( keySetTwo.hasMoreElements() )
+                    if( keySetTwo.hasMoreElements() )
                     {
                         final Object oTwo = keySetTwo.nextElement();
-                        if ( oOne instanceof String )
+                        if( oOne instanceof String )
                         {
-                            final String stringOne = (String) oOne;
-                            final String stringTwo = (String) oTwo;
-                            if ( !stringOne.equals( stringTwo ) )
+                            final String stringOne = (String)oOne;
+                            final String stringTwo = (String)oTwo;
+                            if( !stringOne.equals( stringTwo ) )
                             {
                                 valid = false;
                                 break;
@@ -291,11 +290,11 @@ public final class MetaClassTestUtility
                 final Collection valuesOne = parametersOne.values();
                 final Collection valuesTwo = parametersTwo.values();
                 final Iterator iteratorTwo = valuesTwo.iterator();
-                for ( final Iterator iteratorOne = valuesOne.iterator(); iteratorOne.hasNext(); )
+                for( final Iterator iteratorOne = valuesOne.iterator(); iteratorOne.hasNext(); )
                 {
-                    final String stringOne = (String) iteratorOne.next();
-                    final String stringTwo = (String) iteratorTwo.next();
-                    if ( !stringOne.equals( stringTwo ) )
+                    final String stringOne = (String)iteratorOne.next();
+                    final String stringTwo = (String)iteratorTwo.next();
+                    if( !stringOne.equals( stringTwo ) )
                     {
                         valid = false;
                         break;
@@ -314,7 +313,7 @@ public final class MetaClassTestUtility
         throws NoSuchMethodException
     {
         Attribute[] attributes;
-        if ( methodName.equals( getJustClassName( className ) ) )
+        if( methodName.equals( getJustClassName( className ) ) )
         {
             final Constructor declaredConstructor =
                 aClass.getDeclaredConstructor( parameterTypeClasses );
@@ -336,7 +335,7 @@ public final class MetaClassTestUtility
         throws NoSuchMethodException
     {
         Attribute[] attributes = null;
-        if ( methodName.equals( getJustClassName( aClass.getName() ) ) )
+        if( methodName.equals( getJustClassName( aClass.getName() ) ) )
         {
             final Constructor declaredConstructor =
                 aClass.getDeclaredConstructor( parameterTypeClasses );
@@ -358,7 +357,7 @@ public final class MetaClassTestUtility
         throws NoSuchMethodException
     {
         Attribute attribute = null;
-        if ( methodName.equals( getJustClassName( aClass.getName() ) ) )
+        if( methodName.equals( getJustClassName( aClass.getName() ) ) )
         {
             final Constructor declaredConstructor =
                 aClass.getDeclaredConstructor( parameterTypeClasses );
@@ -373,13 +372,13 @@ public final class MetaClassTestUtility
         return attribute;
     }
 
-   private static String getJustClassName( final String classname )
-   {
-      int lastDot = classname.lastIndexOf( "." );
-      if ( lastDot < classname.length() )
-      {
-         lastDot++;
-      }
-      return classname.substring( lastDot, classname.length() );
-   }
+    private static String getJustClassName( final String classname )
+    {
+        int lastDot = classname.lastIndexOf( "." );
+        if( lastDot < classname.length() )
+        {
+            lastDot++;
+        }
+        return classname.substring( lastDot, classname.length() );
+    }
 }

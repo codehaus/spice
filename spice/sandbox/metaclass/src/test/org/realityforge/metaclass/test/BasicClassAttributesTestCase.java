@@ -46,7 +46,7 @@ public class BasicClassAttributesTestCase
             checkAttributesMatchExpected( CLASS_ATTRIBUTES, attributes,
                                           "getAttributes" );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( e.getMessage() );
         }
@@ -61,7 +61,7 @@ public class BasicClassAttributesTestCase
             checkAttributesMatchExpected( CLASS_ATTRIBUTES_NAMED_TAG_0, attributes,
                                           "getNamedAttributes" );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( e.getMessage() );
         }
@@ -73,13 +73,13 @@ public class BasicClassAttributesTestCase
         {
             final Attribute attribute = Attributes.getAttribute( Class.forName( CLASS_NAME ),
                                                                  CLASS_TAG_0_NAME );
-            if ( !MetaClassTestUtility.areAttributesEqual( CLASS_TAG_0, attribute ) )
+            if( !MetaClassTestUtility.areAttributesEqual( CLASS_TAG_0, attribute ) )
             {
                 fail( "getNamedAttribute: Attributes not equal:\n" +
                       CLASS_TAG_0 + " != " + attribute );
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( e.getMessage() );
         }

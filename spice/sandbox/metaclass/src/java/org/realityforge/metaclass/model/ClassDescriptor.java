@@ -15,7 +15,7 @@ import java.io.Serializable;
  * the classes methods.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-15 06:53:32 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-15 08:35:48 $
  */
 public class ClassDescriptor
     extends FeatureDescriptor
@@ -62,23 +62,23 @@ public class ClassDescriptor
         {
             throw new NullPointerException( "fields" );
         }
-        for ( int i = 0; i < fields.length; i++ )
+        for( int i = 0; i < fields.length; i++ )
         {
-           if( null == fields[ i ] )
-           {
-              throw new NullPointerException( "fields[" + i + "]" );
-           }
+            if( null == fields[ i ] )
+            {
+                throw new NullPointerException( "fields[" + i + "]" );
+            }
         }
         if( null == methods )
         {
             throw new NullPointerException( "methods" );
         }
-        for ( int i = 0; i < methods.length; i++ )
+        for( int i = 0; i < methods.length; i++ )
         {
-           if( null == methods[ i ] )
-           {
-              throw new NullPointerException( "methods[" + i + "]" );
-           }
+            if( null == methods[ i ] )
+            {
+                throw new NullPointerException( "methods[" + i + "]" );
+            }
         }
         _name = classname;
         _fields = fields;

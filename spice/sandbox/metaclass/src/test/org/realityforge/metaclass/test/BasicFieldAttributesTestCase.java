@@ -48,7 +48,7 @@ public class BasicFieldAttributesTestCase
         {
             _fieldDescriptors = getClassDescriptor().getFields();
         }
-        catch ( final Exception e )
+        catch( final Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );
@@ -79,14 +79,14 @@ public class BasicFieldAttributesTestCase
             final Class aClass = Class.forName( CLASS_NAME );
             final Attribute[] attributes =
                 Attributes.getAttributes( aClass.getDeclaredField( FIELD_NAMES[ 1 ] ) );
-            for ( int i = 0; i < FIELD_ATTRIBUTES.length; i++ )
+            for( int i = 0; i < FIELD_ATTRIBUTES.length; i++ )
             {
                 final Attribute[] expectedAttributes = FIELD_ATTRIBUTES[ i ];
                 checkAttributesMatchExpected( expectedAttributes, attributes,
                                               "getAttributes" );
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( e.getMessage() );
         }
@@ -103,7 +103,7 @@ public class BasicFieldAttributesTestCase
             checkAttributesMatchExpected( FIELD_0_ATTRIBUTES_NAMED_TAG_0, attributes,
                                           "getNamedAttributes" );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( e.getMessage() );
         }
@@ -117,14 +117,14 @@ public class BasicFieldAttributesTestCase
             final Attribute attribute =
                 Attributes.getAttribute( aClass.getDeclaredField( FIELD_NAMES[ 0 ] ),
                                          FIELD_0_TAG_0_NAME );
-            if ( !MetaClassTestUtility.areAttributesEqual( FIELD_0_TAG_0,
-                                                           attribute ) )
+            if( !MetaClassTestUtility.areAttributesEqual( FIELD_0_TAG_0,
+                                                          attribute ) )
             {
                 fail( "getNamedValueAttribute: Attributes not equal:\n" +
                       FIELD_0_TAG_0 + " != " + attribute );
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( e.getMessage() );
         }
@@ -138,14 +138,14 @@ public class BasicFieldAttributesTestCase
             final Attribute attribute =
                 Attributes.getAttribute( aClass.getDeclaredField( FIELD_NAMES[ 1 ] ),
                                          FIELD_1_TAG_0_NAME );
-            if ( !MetaClassTestUtility.areAttributesEqual( FIELD_1_TAG_0,
-                                                           attribute ) )
+            if( !MetaClassTestUtility.areAttributesEqual( FIELD_1_TAG_0,
+                                                          attribute ) )
             {
                 fail( "getNamedParametersAttribute: Attributes not equal:\n" +
                       FIELD_1_TAG_0 + " != " + attribute );
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( e.getMessage() );
         }
