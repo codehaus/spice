@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-02 02:15:05 $
+ * @version $Revision: 1.2 $ $Date: 2004-07-11 23:42:28 $
  */
 public class PathMatcherTestCase
     extends TestCase
@@ -279,9 +279,7 @@ public class PathMatcherTestCase
         }
         catch( IllegalArgumentException e )
         {
-            assertEquals( "InvalidArgument ",
-                          INVALID_PATTERN + ":" + INVALID_CAUSE,
-                          e.getMessage() );
+            return;
         }
     }
 
@@ -295,9 +293,7 @@ public class PathMatcherTestCase
         }
         catch( IllegalArgumentException e )
         {
-            assertEquals( "InvalidArgument ",
-                          INVALID_PATTERN + ":" + INVALID_CAUSE,
-                          e.getMessage() );
+            return;
         }
     }
 
