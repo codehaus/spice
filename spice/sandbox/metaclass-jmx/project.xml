@@ -27,12 +27,13 @@
 
     <dependencies>
         <dependency>
-            <id>qdox</id>
+            <groupId>mx4j</groupId>
+            <artifactId>mx4j-jmx</artifactId>
             <version>1.1</version>
         </dependency>
-        <dependency>
-            <id>ant</id>
-            <version>1.5.2</version>
+        <dependency> <!-- for metaclass -->
+            <id>qdox</id>
+            <version>1.1</version>
         </dependency>
     </dependencies>
 </project>
