@@ -10,6 +10,7 @@ package org.codehaus.spice.netevent.transport;
 import java.io.IOException;
 import java.nio.channels.Channel;
 import java.nio.channels.SelectionKey;
+import java.nio.channels.SocketChannel;
 import java.nio.channels.spi.AbstractSelectableChannel;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.event.impl.collections.Buffer;
@@ -20,7 +21,7 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.9 $ $Date: 2004-01-15 05:54:02 $
+ * @version $Revision: 1.10 $ $Date: 2004-01-16 00:24:07 $
  */
 public class ChannelTransport
 {
@@ -117,6 +118,15 @@ public class ChannelTransport
         if( getTransmitBuffer().size() > 0 )
         {
             ops |= SelectionKey.OP_WRITE;
+        }
+        final Channel channel = getChannel();
+        if( channel instanceof SocketChannel )
+        {
+            final SocketChannel sc = (SocketChannel)channel;
+            if( !sc.isConnected() )
+            {
+                ops |= SelectionKey.OP_CONNECT;
+            }
         }
         return ops;
     }
