@@ -5,26 +5,29 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.packet.events;
+package org.realityforge.packet.net;
 
+import java.io.IOException;
 import org.realityforge.packet.transport.TcpTransport;
 
 /**
- * An Event indicating that the otherside of connection has Closed.
+ * An Event indicating a read error.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-17 02:39:00 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:46 $
  */
-public class CloseEvent
-    extends AbstractTransportEvent
+public class ReadErrorEvent
+    extends IOErrorEvent
 {
     /**
-     * Create event for transport.
+     * Create event.
      * 
      * @param transport the transport
+     * @param ioe the error
      */
-    public CloseEvent( final TcpTransport transport )
+    public ReadErrorEvent( final TcpTransport transport,
+                           final IOException ioe )
     {
-        super( transport );
+        super( transport, ioe );
     }
 }

@@ -1,4 +1,4 @@
-package org.realityforge.packet.events.handlers;
+package org.realityforge.packet.net.handlers;
 
 import java.io.OutputStream;
 import java.net.InetAddress;
@@ -15,7 +15,7 @@ import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-17 06:10:23 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:47 $
  */
 public class TestServer
 {

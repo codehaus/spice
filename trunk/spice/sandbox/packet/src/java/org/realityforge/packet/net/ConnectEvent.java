@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.packet.events;
+package org.realityforge.packet.net;
 
 import java.nio.channels.ServerSocketChannel;
 
@@ -13,7 +13,7 @@ import java.nio.channels.ServerSocketChannel;
  * An Event indicating that ServerSocket can accept a connection.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-12-17 04:50:27 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:46 $
  */
 public class ConnectEvent
 {
