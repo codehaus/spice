@@ -43,6 +43,6 @@
 
  This software  consists of voluntary contributions made  by many individuals
  on  behalf of The Spice Group. For more information on The Spice Group, 
- please see <http://spice.sourceforge.net/>.
+ please see <http://spice.codehaus.org/>.
 
 */
