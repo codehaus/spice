@@ -24,7 +24,7 @@ import java.util.Properties;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-11-01 01:08:53 $
+ * @version $Revision: 1.11 $ $Date: 2003-11-01 01:09:49 $
  */
 public class DOMMetaClassDeserializerTestCase
     extends TestCase
@@ -308,6 +308,9 @@ public class DOMMetaClassDeserializerTestCase
         parameters.appendChild( parameter );
         parameter.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myParam" );
         parameter.setAttribute( MetaClassIOXml.TYPE_ATTRIBUTE, "int" );
+
+        final Element attributes = document.createElement( MetaClassIOXml.ATTRIBUTES_ELEMENT );
+        element.appendChild( attributes );
 
         final MethodDescriptor[] methods = deserializer.buildMethods( root );
         assertEquals( "methods.length", 1, methods.length );
