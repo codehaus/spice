@@ -11,25 +11,20 @@
         </ant:path>
 
         <ant:taskdef name="mc_generate"
-            classname="org.realityforge.metaclass.tools.tasks.GenerateClassDescriptorsTask">
-            <ant:classpath refid="metaclass.tasks.path"/>
-        </ant:taskdef>
+            classpathref="metaclass.tasks.path"
+            classname="org.realityforge.metaclass.tools.tasks.GenerateClassDescriptorsTask"/>
         <ant:taskdef name="mc_addToFilterSet"
-            classname="org.realityforge.metaclass.tools.tasks.AddToFilterSetTask">
-            <ant:classpath refid="metaclass.tasks.path"/>
-        </ant:taskdef>
+            classpathref="metaclass.tasks.path"
+            classname="org.realityforge.metaclass.tools.tasks.AddToFilterSetTask"/>
         <ant:taskdef name="mc_addToInterceptorSet"
-            classname="org.realityforge.metaclass.tools.tasks.AddToInterceptorSetTask">
-            <ant:classpath refid="metaclass.tasks.path"/>
-        </ant:taskdef>
+            classpathref="metaclass.tasks.path"
+            classname="org.realityforge.metaclass.tools.tasks.AddToInterceptorSetTask"/>
         <ant:typedef name="mc_interceptorSet"
-            classname="org.realityforge.metaclass.tools.tasks.InterceptorSet">
-            <ant:classpath refid="metaclass.tasks.path"/>
-        </ant:typedef>
+            classpathref="metaclass.tasks.path"
+            classname="org.realityforge.metaclass.tools.tasks.InterceptorSet"/>
         <ant:typedef name="mc_filterSet"
-            classname="org.realityforge.metaclass.tools.tasks.FilterSet">
-            <ant:classpath refid="metaclass.tasks.path"/>
-        </ant:typedef>
+            classpathref="metaclass.tasks.path"
+            classname="org.realityforge.metaclass.tools.tasks.FilterSet"/>
 
         <mc_interceptorSet id="maven.metaclass.interceptors"/>
         <mc_filterSet id="maven.metaclass.filters"/>
