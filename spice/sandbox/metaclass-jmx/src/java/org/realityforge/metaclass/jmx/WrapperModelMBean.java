@@ -22,8 +22,8 @@ import javax.management.JMException;
  * A extension of RequiredModelMBean that propogates MBeanRegistration
  * events to managed object.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-14 01:27:28 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003-11-28 03:13:45 $
  */
 public class WrapperModelMBean
     extends RequiredModelMBean

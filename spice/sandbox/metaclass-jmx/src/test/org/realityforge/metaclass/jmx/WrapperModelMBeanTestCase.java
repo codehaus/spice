@@ -22,8 +22,8 @@ import mx4j.log.Logger;
 
 /**
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-13 13:02:53 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 03:13:45 $
  */
 public class WrapperModelMBeanTestCase
     extends TestCase

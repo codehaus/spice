@@ -16,8 +16,8 @@ import javax.management.modelmbean.ModelMBeanInfo;
  * one topic for the object (with null name) and one for each management
  * interface with specified name.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-17 07:38:50 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 03:13:45 $
  */
 public class TopicDescriptor
 {
