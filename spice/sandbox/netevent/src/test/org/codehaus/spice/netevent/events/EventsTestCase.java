@@ -8,7 +8,7 @@ import org.codehaus.spice.netevent.transport.TcpTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-07 04:24:26 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-07 04:33:00 $
  */
 public class EventsTestCase
     extends TestCase
@@ -125,6 +125,31 @@ public class EventsTestCase
         final String expected =
             "org.codehaus.spice.netevent.events." +
             "ReadErrorEvent[java.io.IOException: X error connected to null]";
+        assertEquals( "event.toString()", expected, event.toString() );
+    }
+
+    public void testGetCountOnWriteEvent()
+        throws Exception
+    {
+        final SocketChannel channel = SocketChannel.open();
+        final TcpTransport transport = new TcpTransport( channel, 1, 1 );
+        final int count = 4;
+        final WriteEvent event = new WriteEvent( transport, count );
+
+        assertEquals( "event.getCount()", count, event.getCount() );
+    }
+
+    public void testToStringOnReadEvent()
+        throws Exception
+    {
+        final SocketChannel channel = SocketChannel.open();
+        final TcpTransport transport = new TcpTransport( channel, 1, 1 );
+        final int count = 4;
+        final ReadEvent event = new ReadEvent( transport, count );
+
+        final String expected =
+            "org.codehaus.spice.netevent.events." +
+            "ReadEvent[4 bytes to null]";
         assertEquals( "event.toString()", expected, event.toString() );
     }
 }
