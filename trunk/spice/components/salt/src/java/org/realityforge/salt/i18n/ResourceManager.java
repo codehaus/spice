@@ -16,7 +16,8 @@ import java.util.HashMap;
  * Manager for resources.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-05-28 13:35:47 $
+ * @author <a href="mailto:colus at apache.org">Eung-ju Park</a>
+ * @version $Revision: 1.8 $ $Date: 2003-05-29 03:27:26 $
  */
 public class ResourceManager
 {
