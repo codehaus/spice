@@ -14,10 +14,25 @@ import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 
+/**
+ * This class is responsible for parsing a JavaClass object
+ * and building a ClassDescriptor to correspond to the JavaClass
+ * object.
+ *
+ * @version $Revision: 1.7 $ $Date: 2003-08-22 04:41:52 $
+ */
 public class QDoxDescriptorParser
 {
-    private final AttributeParser _attributeParser = createAttributeParser();
+    /**
+     * The attribute parser.
+     */
+    private final AttributeParser m_attributeParser = createAttributeParser();
 
+    /**
+     * Create the AttributeParser.
+     *
+     * @return the AttributeParser
+     */
     private AttributeParser createAttributeParser()
     {
         try
@@ -30,6 +45,12 @@ public class QDoxDescriptorParser
         }
     }
 
+    /**
+     * Build a ClassDescriptor for a JavaClass.
+     *
+     * @param javaClass the JavaClass
+     * @return the ClassDescriptor
+     */
     public ClassDescriptor buildClassDescriptor( final JavaClass javaClass )
     {
         final String classname = javaClass.getFullyQualifiedName();
@@ -45,6 +66,12 @@ public class QDoxDescriptorParser
                                     methods );
     }
 
+    /**
+     * Build a set of MethodDescriptor instances for a JavaClass.
+     *
+     * @param javaClass the JavaClass
+     * @return the MethodDescriptors
+     */
     private MethodDescriptor[] buildMethods( final JavaClass javaClass )
     {
         final JavaMethod[] methods = javaClass.getMethods();
@@ -56,6 +83,12 @@ public class QDoxDescriptorParser
         return methodDescriptors;
     }
 
+    /**
+     * Build a MethodDescriptor for a JavaMethod.
+     *
+     * @param method the JavaMethod
+     * @return the MethodDescriptor
+     */
     private MethodDescriptor buildMethod( final JavaMethod method )
     {
         final String name = method.getName();
@@ -82,20 +115,42 @@ public class QDoxDescriptorParser
                                      attributes );
     }
 
+    /**
+     * Build a set of ParameterDescriptor for JavaParameters.
+     *
+     * @param parameters the JavaParameters
+     * @return the ParameterDescriptors
+     */
     private ParameterDescriptor[] buildParameters( final JavaParameter[] parameters )
     {
         final ParameterDescriptor[] descriptors =
             new ParameterDescriptor[ parameters.length ];
         for( int i = 0; i < parameters.length; i++ )
         {
-            final JavaParameter parameter = parameters[ i ];
-            final String name = parameter.getName();
-            final String value = parameter.getType().getValue();
-            descriptors[ i ] = new ParameterDescriptor( name, value );
+            descriptors[ i ] = buildParameter( parameters[ i ] );
         }
         return descriptors;
     }
 
+    /**
+     * Build a ParameterDescriptor for a JavaParameter.
+     *
+     * @param parameter the JavaParameter
+     * @return the ParameterDescriptor
+     */
+    private ParameterDescriptor buildParameter( final JavaParameter parameter )
+    {
+        final String name = parameter.getName();
+        final String value = parameter.getType().getValue();
+        return new ParameterDescriptor( name, value );
+    }
+
+    /**
+     * Build a set of FieldDescriptor instances for a JavaClass.
+     *
+     * @param javaClass the JavaClass
+     * @return the FieldDescriptors
+     */
     private FieldDescriptor[] buildFields( final JavaClass javaClass )
     {
         final JavaField[] fields = javaClass.getFields();
@@ -107,6 +162,12 @@ public class QDoxDescriptorParser
         return fieldDescriptors;
     }
 
+    /**
+     * Build a set of FieldDescriptor instances for a JavaField.
+     *
+     * @param field the JavaField
+     * @return the FieldDescriptor
+     */
     private FieldDescriptor buildField( final JavaField field )
     {
         final String name = field.getName();
@@ -153,7 +214,7 @@ public class QDoxDescriptorParser
         }
 
         final String[] paramSpans =
-            _attributeParser.parseValueIntoParameterSpans( value );
+            m_attributeParser.parseValueIntoParameterSpans( value );
         if( null == paramSpans )
         {
             return new Attribute( name, value );
