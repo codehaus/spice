@@ -91,7 +91,6 @@
                     </sourceModification>
                 </sourceModifications>
         -->
-
     </build>
 
     <reports>
@@ -100,11 +99,11 @@
         <report>maven-javadoc-plugin</report>
         <report>maven-jxr-plugin</report>
         <report>maven-junit-report-plugin</report>
-        <!--<report>maven-linkcheck-plugin</report>-->
+        <report>maven-jcoverage-plugin</report>
         <report>maven-clover-plugin</report>
         <report>maven-license-plugin</report>
     </reports>
-    
+
     <dependencies>
   	  <dependency>
     	 <groupId>commons-jelly</groupId>
