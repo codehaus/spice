@@ -21,7 +21,8 @@
       </p>
       <p>The configurator type may be 
 		<ul>
-			<li>Configurator.LOGKIT for a LogKit XML resource</li>
+			<li>Configurator.LOGKIT_EXCALIBUR for a LogKit Excalibur XML resource</li>
+			<li>Configurator.LOGKIT_SIMPLE for a LogKit Simple XML resource</li>
 			<li>Configurator.LOG4J_DOM for a Log4J XML resource </li>
 			<li>Configurator.LOG4J_PROPERTY for a Log4J property resource</li>
 			<li>Configurator.JDK14 for a JDK 1.4 property resource</li>
@@ -43,13 +44,14 @@ return factory.createLoggerStore( new HashMap() );
 	  The loggerstore.properties file contains the LoggerStore factory implementation class name and the 
 	  path the the configuration resource.  For example:
 	  <source>
-org.realityforge.loggerstore.factory=org.realityforge.loggerstore.LogKitLoggerStoreFactory
+org.realityforge.loggerstore.factory=org.realityforge.loggerstore.ExcaliburLogKitLoggerStoreFactory
 org.realityforge.loggerstore.file=/path/to/logconfig.xml
 	  </source>
 	  </p> 
       <p>The possible factory classes are:
 		<ul>
-			<li>org.realityforge.loggerstore.LogKitLoggerStoreFactory</li>
+			<li>org.realityforge.loggerstore.ExcaliburLogKitLoggerStoreFactory</li>
+			<li>org.realityforge.loggerstore.SimpleLogKitLoggerStoreFactory</li>
 			<li>org.realityforge.loggerstore.DOMLog4JLoggerStoreFactory</li>
 			<li>org.realityforge.loggerstore.PropertyLog4JLoggerStoreFactory</li>
 			<li>org.realityforge.loggerstore.JDK14LoggerStoreFactory</li>
@@ -68,10 +70,11 @@ org.realityforge.loggerstore.file=/path/to/logconfig.xml
 			<li>java.io.InputStream</li>
 	    </ul>
       </p>  
-	  For example for Log4J, configured via DOM:	  
+	  For example for Log4J, configured via a DOM Element:	  
 	  <source>
 final LoggerStoreFactory factory = new DOMLog4JLoggerStoreFactory();
 final Map config = new HashMap();
+final Element element = ... // parsed via some JAXP parser
 config.put("org.w3c.dom.Element", element);
 return factory.createLoggerStore( config );
 	  </source>
