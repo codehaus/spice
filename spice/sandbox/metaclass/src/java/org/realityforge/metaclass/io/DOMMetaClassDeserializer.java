@@ -21,7 +21,7 @@ import org.w3c.dom.NodeList;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-31 23:34:26 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-31 23:42:53 $
  */
 public class DOMMetaClassDeserializer
 {
@@ -315,6 +315,14 @@ public class DOMMetaClassDeserializer
         return actual;
     }
 
+    /**
+     * Return a description of path to specified element.
+     * The path is separate by "/" and starts with root
+     * element descending to specified element.
+     *
+     * @param cause the element
+     * @return the path description
+     */
     String getPathDescription( final Element cause )
     {
         final StringBuffer sb = new StringBuffer();
