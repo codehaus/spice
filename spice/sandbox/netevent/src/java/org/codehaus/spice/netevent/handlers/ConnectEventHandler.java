@@ -12,6 +12,7 @@ import java.nio.channels.Channel;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
+import org.codehaus.spice.netevent.events.AcceptEvent;
 import org.codehaus.spice.netevent.events.ConnectErrorEvent;
 import org.codehaus.spice.netevent.events.ConnectEvent;
 import org.codehaus.spice.netevent.selector.SocketEventSource;
@@ -22,7 +23,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-08 04:03:58 $
  */
 public class ConnectEventHandler
     extends AbstractIOEventHandler
@@ -47,7 +48,7 @@ public class ConnectEventHandler
      */
     public void handleEvent( final Object event )
     {
-        final ConnectEvent ce = (ConnectEvent)event;
+        final AcceptEvent ce = (AcceptEvent)event;
         final Channel channel = ce.getChannel();
         final ChannelTransport transport =
             new ChannelTransport( channel,
@@ -56,6 +57,8 @@ public class ConnectEventHandler
         try
         {
             transport.register( _source );
+            final ConnectEvent error = new ConnectEvent( transport );
+            getSink().addEvent( error );
         }
         catch( final IOException ioe )
         {

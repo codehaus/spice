@@ -7,9 +7,9 @@ import java.util.Map;
 import org.codehaus.spice.event.AbstractEventHandler;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
+import org.codehaus.spice.netevent.events.AcceptEvent;
 import org.codehaus.spice.netevent.events.AcceptPossibleEvent;
 import org.codehaus.spice.netevent.events.ChannelClosedEvent;
-import org.codehaus.spice.netevent.events.ConnectEvent;
 import org.codehaus.spice.netevent.events.IOErrorEvent;
 import org.codehaus.spice.netevent.events.ReadEvent;
 import org.codehaus.spice.netevent.events.ReadPossibleEvent;
@@ -24,7 +24,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-08 04:03:58 $
  */
 class TestSocketEventHandler
     extends AbstractEventHandler
@@ -71,7 +71,7 @@ class TestSocketEventHandler
         {
             _acceptHandler.handleEvent( event );
         }
-        else if( event instanceof ConnectEvent )
+        else if( event instanceof AcceptEvent )
         {
             _connectHandler.handleEvent( event );
         }
