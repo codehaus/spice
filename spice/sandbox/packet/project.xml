@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>Packet</name>
     <id>spice-packet</id>
-    <currentVersion>1.0</currentVersion>
+    <currentVersion>1.1-dev</currentVersion>
 
     <shortDescription>Packet Based Network Layer</shortDescription>
 
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>spice</groupId>
             <artifactId>spice-event</artifactId>
-            <version>1.0-dev</version>
+            <version>1.1-dev</version>
             <properties>
                 <bundle>true</bundle>
             </properties>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>spice</groupId>
             <artifactId>spice-netevent</artifactId>
-            <version>1.0-dev</version>
+            <version>1.1-dev</version>
             <properties>
                 <bundle>true</bundle>
             </properties>
@@ -31,7 +31,7 @@
         <dependency>
             <groupId>spice</groupId>
             <artifactId>spice-timeevent</artifactId>
-            <version>1.0-dev</version>
+            <version>1.1-dev</version>
             <properties>
                 <bundle>true</bundle>
             </properties>
