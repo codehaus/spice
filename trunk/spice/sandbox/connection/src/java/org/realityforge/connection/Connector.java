@@ -1,5 +1,7 @@
 package org.realityforge.connection;
 
+import org.realityforge.connection.policys.AlwaysReconnectPolicy;
+
 /**
  * The Connector is a base class for connectors.
  * Connectors establish a connection to a resource
@@ -13,7 +15,7 @@ public class Connector
    /**
     * The associated reconnection policy for connector.
     */
-   private ReconnectionPolicy _policy;
+   private ReconnectionPolicy _policy = AlwaysReconnectPolicy.POLICY;
 
    /**
     * The associated monitor that receives
