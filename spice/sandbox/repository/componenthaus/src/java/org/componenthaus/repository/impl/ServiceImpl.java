@@ -1,6 +1,7 @@
 package org.componenthaus.repository.impl;
 
 import org.componenthaus.repository.api.Service;
+import org.apache.commons.lang.builder.EqualsBuilder;
 
 import java.util.List;
 import java.util.Iterator;
@@ -28,8 +29,12 @@ class ServiceImpl implements Service {
     }
 
     private static String extractName(String fullyQualifiedName) {
-        final int lastDot = fullyQualifiedName.lastIndexOf(".");
-        return fullyQualifiedName.substring(lastDot + 1);
+        String result = fullyQualifiedName;
+        if ( fullyQualifiedName != null ) {
+            final int lastDot = fullyQualifiedName.lastIndexOf(".");
+            result = fullyQualifiedName.substring(lastDot + 1);
+        }
+        return result;
     }
 
     public String getName() {
@@ -91,5 +96,20 @@ class ServiceImpl implements Service {
 
     public void setFullDescription(String fullDescription) {
         this.fullDescription = fullDescription;
+    }
+
+    public boolean equals(Object o) {
+        if (!(o instanceof ServiceImpl)) {
+            return false;
+        }
+        ServiceImpl rhs = (ServiceImpl) o;
+        return new EqualsBuilder()
+                .append(name, rhs.name)
+                .append(version, rhs.version)
+                .append(fullyQualifiedName, rhs.fullyQualifiedName)
+                .append(authors, rhs.authors)
+                .append(oneLineDescription, rhs.oneLineDescription)
+                .append(fullDescription, rhs.fullDescription)
+                .isEquals();
     }
 }

@@ -16,18 +16,18 @@ public class ComponentMetadataTestCase extends TestCase {
         ComponentMetadata secondOne = new ComponentMetadata();
         assertTrue(componentMetadata.equals(secondOne));
 
-        final InterfaceMetadata emptyInterfaceMetadata = new InterfaceMetadata("","","","");
+        final InterfaceMetadata emptyInterfaceMetadata = new InterfaceMetadata("","","","", false);
         componentMetadata.addInterface(emptyInterfaceMetadata);
         assertFalse(componentMetadata.equals(secondOne));
 
         secondOne.addInterface(emptyInterfaceMetadata);
         assertTrue(componentMetadata.equals(secondOne));
 
-        final InterfaceMetadata interfaceMetadata_a = new InterfaceMetadata("a","","","");
+        final InterfaceMetadata interfaceMetadata_a = new InterfaceMetadata("a","","","", false);
         componentMetadata.addInterface(interfaceMetadata_a);
         assertFalse(componentMetadata.equals(secondOne));
 
-        InterfaceMetadata interfaceMetadata_b = new InterfaceMetadata("b","","","");
+        InterfaceMetadata interfaceMetadata_b = new InterfaceMetadata("b","","","", false);
         secondOne.addInterface(interfaceMetadata_b);
         assertFalse(componentMetadata.equals(secondOne));
 
@@ -44,14 +44,14 @@ public class ComponentMetadataTestCase extends TestCase {
     }
 
     public void testCanSerializeToAndFromXmlWhenContainingOneInterface() {
-        final InterfaceMetadata emptyInterfaceMetadata = new InterfaceMetadata("","","","");
+        final InterfaceMetadata emptyInterfaceMetadata = new InterfaceMetadata("","","","", false);
         componentMetadata.addInterface(emptyInterfaceMetadata);
         assertEquals(componentMetadata,ComponentMetadata.fromXml(componentMetadata.toXml()));
     }
 
     public void testCanSerializeToAndFromXmlWhenContainingTwoInterfaces() {
-        final InterfaceMetadata emptyInterfaceMetadata = new InterfaceMetadata("","","","");
-        final InterfaceMetadata simpleInterfaceMetadata = new InterfaceMetadata("a","b","c","d");
+        final InterfaceMetadata emptyInterfaceMetadata = new InterfaceMetadata("","","","", false);
+        final InterfaceMetadata simpleInterfaceMetadata = new InterfaceMetadata("a","b","c","d", false);
         componentMetadata.addInterface(emptyInterfaceMetadata);
         componentMetadata.addInterface(simpleInterfaceMetadata);
         assertEquals(componentMetadata,ComponentMetadata.fromXml(componentMetadata.toXml()));

@@ -7,12 +7,14 @@ public class InterfaceMetadata {
     private String name;
     private String javadoc;
     private String source;
+    private boolean isClass = false;
 
-    public InterfaceMetadata(String packageName, String name, String javadoc, String source) {
+    public InterfaceMetadata(String packageName, String name, String javadoc, String source, boolean isClass) {
         this.packageName = packageName;
         this.name = name;
         this.javadoc = javadoc;
         this.source = source;
+        this.isClass = isClass;
     }
 
     public String getPackageName() {
@@ -48,6 +50,10 @@ public class InterfaceMetadata {
         return source;
     }
 
+    public boolean isClass() {
+        return isClass;
+    }
+
     public boolean equals(Object o) {
         if (!(o instanceof InterfaceMetadata)) {
             return false;
@@ -58,6 +64,7 @@ public class InterfaceMetadata {
                 .append(name, rhs.name)
                 .append(javadoc, rhs.javadoc)
                 .append(source, rhs.source)
+                .append(isClass, rhs.isClass)
                 .isEquals();
     }
 }

@@ -6,6 +6,7 @@ public class NoSuchJavaSourceFileBuildException extends BuildException {
     private String interfaceName;
 
     public NoSuchJavaSourceFileBuildException(String interfaceName) {
+        super("No java source file with name " + interfaceName);
         this.interfaceName = interfaceName;
     }
 

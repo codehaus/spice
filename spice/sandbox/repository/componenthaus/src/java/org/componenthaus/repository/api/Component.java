@@ -12,7 +12,5 @@ public interface Component extends Service {
     //Do not pull id up into service because a service in an abstract sense does not have an id.  The id is a system level thing.
     String getId();
     void setId(final String id);
-    Collection getImplementations();
-    void addImplementation(ServiceImplementation impl);
     String getServiceInterface();
 }

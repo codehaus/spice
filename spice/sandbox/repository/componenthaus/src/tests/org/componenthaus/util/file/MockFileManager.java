@@ -12,24 +12,10 @@ public class MockFileManager implements FileManager {
         preparedNewFile = mockFile;
     }
 
-    public String basename(String path) {
-        return null;
-    }
-
     public void copy(File from, OutputStream to) throws IOException {
-    }
-
-    public String asString(File f) throws IOException {
-        return null;
-    }
-
-    public File newFile(String fileName) {
-        return preparedNewFile;
     }
 
     public void copy(InputStream inputStream, File target) {
     }
 
-    public void copy(InputStream from, OutputStream to) throws IOException {
-    }
 }

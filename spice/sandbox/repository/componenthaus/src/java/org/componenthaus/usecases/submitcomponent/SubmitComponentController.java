@@ -23,10 +23,10 @@ public class SubmitComponentController extends SimpleFormController {
      */
     public static final String SUBMISSIONS_DIRECTORY_NAME = "submissions";
 
-    private final SubmissionManager submissionManager;
+    private final CarSubmissionManager submissionManager;
 
     public SubmitComponentController(ViewConfiguration viewConfiguration,
-                                     SubmissionManager submissionManager) {
+                                     CarSubmissionManager submissionManager) {
         setCommandClass(Object.class);
         setSuccessView(viewConfiguration.getSuccessView());
         setFormView(viewConfiguration.getFormView());

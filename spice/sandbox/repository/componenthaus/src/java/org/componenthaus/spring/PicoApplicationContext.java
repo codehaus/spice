@@ -4,7 +4,6 @@ import org.componenthaus.prevayler.PrevaylerBean;
 import org.componenthaus.repository.api.ComponentRepository;
 import org.componenthaus.repository.api.RepositoryImpl;
 import org.componenthaus.repository.impl.ComponentFactory;
-import org.componenthaus.repository.impl.ServiceImplementationFactory;
 import org.componenthaus.repository.services.CommandRegistryImpl;
 import org.componenthaus.search.AddComponentMonitor;
 import org.componenthaus.search.LuceneSearchService;
@@ -13,14 +12,18 @@ import org.componenthaus.usecases.downloadcomponent.DownloadComponentController;
 import org.componenthaus.usecases.listcomponents.ListComponentsController;
 import org.componenthaus.usecases.searchcomponents.SearchComponentsController;
 import org.componenthaus.usecases.showcomponent.ShowComponentController;
-import org.componenthaus.usecases.showimplementation.ShowImplementationController;
+import org.componenthaus.usecases.submitcomponent.DefaultCarSubmissionManager;
 import org.componenthaus.usecases.submitcomponent.SubmitComponentController;
-import org.componenthaus.usecases.submitcomponent.DefaultSubmissionManager;
+import org.componenthaus.usecases.submitcomponent.MetadataConverterImpl;
 import org.componenthaus.usecases.welcomeuser.WelcomeUserController;
 import org.componenthaus.util.file.FileManager;
 import org.componenthaus.util.file.FileManagerImpl;
 import org.componenthaus.util.source.CodeFormatter;
 import org.componenthaus.util.source.JalopyCodeFormatter;
+import org.componenthaus.ant.ClassAbbreviatorImpl;
+import org.componenthaus.ant.LineIndenterImpl;
+import org.componenthaus.ant.JavadocFormatterImpl;
+import org.componenthaus.ant.JavadocFormatter;
 import org.prevayler.Prevayler;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -30,6 +33,8 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.view.ResourceBundleViewResolver;
 import org.springframework.web.servlet.view.tiles.TilesConfigurer;
+import org.picocontainer.Parameter;
+import org.picocontainer.defaults.ConstantParameter;
 
 import javax.servlet.ServletContext;
 import java.util.HashMap;
@@ -57,7 +62,6 @@ public class PicoApplicationContext extends AbstractPicoApplicationContext {
 
         addController(WelcomeUserController.class, "/welcome.htm");
         addController(ListComponentsController.class, "/listComponents.action");
-        addController(ShowImplementationController.class, "/showImplementation.action");
         addController(ShowComponentController.class, "/componentDetails.action");
         addController(DownloadComponentController.class, "/downloadComponent.action");
 
@@ -87,12 +91,15 @@ public class PicoApplicationContext extends AbstractPicoApplicationContext {
         //pico.registerComponentImplementation(PrevalentSystem.class, RepositoryImpl.class); //This causes a second instance of repository to exist.  Yuck.
         pico.registerComponentImplementation(FileManager.class, FileManagerImpl.class);
         pico.registerComponentImplementation(ComponentFactory.class);
-        pico.registerComponentImplementation(ServiceImplementationFactory.class);
         pico.registerComponentImplementation(Prevayler.class, PrevaylerBean.class);
-        pico.registerComponentImplementation(DefaultSubmissionManager.class);
-        pico.registerComponentImplementation(DefaultSubmissionManager.NullSubmissionMonitor.class);
+        pico.registerComponentImplementation(DefaultCarSubmissionManager.class);
+        pico.registerComponentImplementation(DefaultCarSubmissionManager.NullSubmissionMonitor.class);
         pico.registerComponentImplementation(CommandRegistryImpl.class);
         pico.registerComponentImplementation(LuceneSearchService.DefaultLuceneObjectFactory.class);
+        pico.registerComponentImplementation(MetadataConverterImpl.class);
+        pico.registerComponentImplementation(ClassAbbreviatorImpl.class);
+        pico.registerComponentImplementation(LineIndenterImpl.class);
+        pico.registerComponentImplementation(JavadocFormatter.class, JavadocFormatterImpl.class, new Parameter[]{new ConstantParameter(new Integer(80))});
 
         addSpringStuff();
         //This must be done last, because it reads things from Pico

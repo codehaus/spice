@@ -7,22 +7,22 @@ public class InterfaceMetadataTestCase extends TestCase {
     private static final String someJavadoc = firstLineOfJavadoc + " This is the second.  This the third.";
 
     public void testEquals() {
-        final InterfaceMetadata intf = new InterfaceMetadata("d","","","");
+        final InterfaceMetadata intf = new InterfaceMetadata("d","","","", false);
         assertFalse(intf.equals(null));
 
-        InterfaceMetadata secondOne = new InterfaceMetadata("d","","","");
+        InterfaceMetadata secondOne = new InterfaceMetadata("d","","","", false);
         assertTrue(intf.equals(secondOne));
 
-        assertFalse(intf.equals(new InterfaceMetadata("a","","","")));
+        assertFalse(intf.equals(new InterfaceMetadata("a","","","", false)));
     }
 
     public void testCanGetShortDescriptionFromFullJavadoc() {
-        final InterfaceMetadata interfaceMetadata = new InterfaceMetadata(null,null,someJavadoc,null);
+        final InterfaceMetadata interfaceMetadata = new InterfaceMetadata(null,null,someJavadoc,null, false);
         assertEquals(firstLineOfJavadoc,interfaceMetadata.getShortDescription());
     }
 
     public void testCanGetShortDescriptionFromSingleLineJavadoc() {
-        final InterfaceMetadata interfaceMetadata = new InterfaceMetadata(null,null,firstLineOfJavadoc,null);
+        final InterfaceMetadata interfaceMetadata = new InterfaceMetadata(null,null,firstLineOfJavadoc,null, false);
         assertEquals(firstLineOfJavadoc,interfaceMetadata.getShortDescription());
     }
 }
