@@ -7,6 +7,11 @@ public class NeverPingPolicy
    implements PingPolicy
 {
    /**
+    * Constant containing instance of never ping policy.
+    */
+   public static final NeverPingPolicy POLICY = new NeverPingPolicy();
+
+   /**
     * @see PingPolicy#checkPingConnection
     */
    public boolean checkPingConnection( Connector connector )
