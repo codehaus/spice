@@ -45,13 +45,13 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-31 02:48:52 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-31 02:49:34 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
 public class AvalonConnectionManager
     extends AbstractConnectionManager
-    implements ConnectionManager, Serviceable, Configurable, Initializable, Disposable, LogEnabled
+    implements ConnectionManager, LogEnabled, Configurable, Serviceable, Initializable, Disposable
 {
     /** The Avalon Logger */
     private Logger m_logger;
