@@ -7,26 +7,37 @@
  */
 package org.codehaus.spice.event.impl.collections;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A unbounded FIFO Buffer implementation. This class is loosely based on the
  * Jakarta-Commons Collections package Buffer implementations.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-16 02:03:12 $
+ * @version $Revision: 1.2 $ $Date: 2004-02-05 03:59:52 $
  */
 public abstract class AbstractFifoBuffer
     implements Buffer
 {
-    /** The underlying object array. */
+    /**
+     * The underlying object array.
+     */
     Object[] m_buffer;
 
-    /** The pointer to first element. */
+    /**
+     * The pointer to first element.
+     */
     int m_head;
 
-    /** The pointer to last element. */
+    /**
+     * The pointer to last element.
+     */
     int m_tail;
 
-    /** Flag indicating whether buffer is wrapped around. */
+    /**
+     * Flag indicating whether buffer is wrapped around.
+     */
     boolean m_isWrappedBuffer;
 
     /**
@@ -136,4 +147,19 @@ public abstract class AbstractFifoBuffer
      * @return true if addition successful
      */
     protected abstract boolean doAdd( Object object );
+
+    /**
+     * @see Buffer#toList()
+     */
+    public List toList()
+    {
+        final int count = size();
+        final ArrayList result = new ArrayList( count );
+        for( int i = 0; i < count; i++ )
+        {
+            final int index = (m_head + i) % m_buffer.length;
+            result.add( m_buffer[ index ] );
+        }
+        return result;
+    }
 }

@@ -8,12 +8,13 @@
 package org.codehaus.spice.event.impl.collections;
 
 import java.nio.BufferUnderflowException;
+import java.util.List;
 
 /**
  * Simple Buffer interface.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-16 02:03:12 $
+ * @version $Revision: 1.2 $ $Date: 2004-02-05 03:59:52 $
  */
 public interface Buffer
 {
@@ -55,4 +56,11 @@ public interface Buffer
      * @return the number of objects that are stored in buffer.
      */
     int size();
+
+    /**
+     * Convert buffer into a list of objects.
+     *
+     * @return the list of objects
+     */
+    List toList();
 }
