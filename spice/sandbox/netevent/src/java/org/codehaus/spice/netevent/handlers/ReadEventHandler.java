@@ -23,7 +23,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Handler for reading data from channel.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-15 05:53:15 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-19 06:25:35 $
  */
 public class ReadEventHandler
     extends AbstractIOEventHandler
@@ -58,6 +58,7 @@ public class ReadEventHandler
         try
         {
             final int count = channel.read( buffer );
+            buffer.flip();
             if( -1 == count )
             {
                 final CloseChannelRequestEvent result =
