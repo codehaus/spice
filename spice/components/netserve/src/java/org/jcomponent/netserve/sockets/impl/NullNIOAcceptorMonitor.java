@@ -15,11 +15,16 @@ import java.io.IOException;
  * A noop monitor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-10 02:44:48 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-10 02:45:26 $
  */
 public class NullNIOAcceptorMonitor
     implements NIOAcceptorMonitor
 {
+    /**
+     * Add constant for instance of Null Monitor.
+     */
+    public static final NullNIOAcceptorMonitor MONITOR = new NullNIOAcceptorMonitor();
+    
     /**
      * @see NIOAcceptorMonitor#acceptorCreated
      */
