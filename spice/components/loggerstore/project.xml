@@ -73,6 +73,11 @@
             </properties>
         </dependency>
         <dependency>
+            <groupId>jcomponent</groupId>
+            <artifactId>jcomponent-alchemist</artifactId>
+            <version>20031025.132828</version>
+        </dependency>
+        <dependency>
             <id>log4j</id>
             <version>1.2.8</version>
         </dependency>
