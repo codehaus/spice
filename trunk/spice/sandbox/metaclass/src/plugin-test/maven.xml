@@ -1,0 +1,38 @@
+<project
+    xmlns:ant="jelly:ant"
+    xmlns:j="jelly:core"
+    xmlns:u="jelly:util"
+    default="main">
+
+    <goal name="test-clean">
+        <attainGoal name="clean"/>
+    </goal>
+
+    <goal name="test-metaclass-init">
+        <attainGoal name="metaclass:init"/>
+    </goal>
+
+    <goal name="test-metaclass-generate" prereqs="test-metaclass-init">
+
+        <ant:mc_interceptorSet id="maven.dna.interceptors">
+            <ant:interceptor
+                name="org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor"/>
+        </ant:mc_interceptorSet>
+
+        <ant:mc_addToInterceptorSet
+            dest="maven.metaclass.interceptors"
+            source="maven.dna.interceptors"/>
+
+        <attainGoal name="metaclass:generate"/>
+
+        <ant:available
+            file="${maven.build.dest}/com/biz/MyClass-meta.binary"
+            type="file"
+            property="descAvailable"/>
+        <j:if test="${descAvailable != 'true'}">
+            <ant:fail message="Failed to generate descriptor"/>
+        </j:if>
+    </goal>
+
+    <goal name="main" prereqs="test-metaclass-generate"/>
+</project>
