@@ -17,7 +17,7 @@ import java.util.HashMap;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:colus at apache.org">Eung-ju Park</a>
- * @version $Revision: 1.10 $ $Date: 2003-06-13 01:37:47 $
+ * @version $Revision: 1.11 $ $Date: 2003-06-13 01:50:31 $
  */
 public class ResourceManager
 {
@@ -106,17 +106,19 @@ public class ResourceManager
      */
     public final static Resources getPackageResources( final Class clazz )
     {
-        String name = clazz.getName();
+        final String name = clazz.getName();
         final int index = name.lastIndexOf(".");
+        String pkgName;
         if( -1 != index )
         {
-            name = name.substring( 0, index );
+            pkgName = name.substring( 0, index ) + "." + POSTFIX;
         }
-        if( !name.equals("") )
+        else
         {
-            name += "." + POSTFIX;
+            pkgName = POSTFIX;
         }
-        return getBaseResources( name, clazz.getClassLoader() );
+
+        return getBaseResources( pkgName, clazz.getClassLoader() );
     }
 
     /**
