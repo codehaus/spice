@@ -8,9 +8,6 @@ import java.nio.channels.Selector;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.jcomponent.netserve.sockets.impl.NIOAcceptorMonitor;
-import org.jcomponent.netserve.sockets.impl.NullNIOAcceptorMonitor;
-
 /**
  * The SelectorManager makes it easy to start a selector
  * in a thread and receive events on selection.
@@ -21,7 +18,7 @@ public class SelectorManager
    /**
     * The monitor that receives notifications of Connection events
     */
-   private NIOAcceptorMonitor m_monitor = NullNIOAcceptorMonitor.MONITOR;
+   private SelectorMonitor m_monitor = NullSelectorMonitor.MONITOR;
 
    /**
     * The handler for selector events.
@@ -44,12 +41,11 @@ public class SelectorManager
    private int m_timeout = 500;
 
    /**
-    * Set the NIOAcceptorMonitor that receives events when changes occur.
+    * Set the SelectorMonitor that receives events when changes occur.
     *
-    * @param monitor the NIOAcceptorMonitor that receives events when
-    *        changes occur.
+    * @param monitor the SelectorMonitor.
     */
-   public void setMonitor( final NIOAcceptorMonitor monitor )
+   public void setMonitor( final SelectorMonitor monitor )
    {
       if ( null == monitor )
       {
@@ -305,7 +301,7 @@ public class SelectorManager
     *
     * @return the monitor associated with reactor.
     */
-   protected NIOAcceptorMonitor getMonitor()
+   protected SelectorMonitor getMonitor()
    {
       return m_monitor;
    }
