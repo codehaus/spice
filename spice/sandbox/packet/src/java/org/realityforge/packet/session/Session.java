@@ -13,7 +13,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-01-14 03:03:57 $
+ * @version $Revision: 1.7 $ $Date: 2004-01-15 06:15:27 $
  */
 public class Session
 {
@@ -101,7 +101,7 @@ public class Session
 
     /**
      * Return the sequence of the last packet processed.
-     *
+     * 
      * @return the sequence of the last packet processed.
      */
     public short getLastPacketProcessed()
@@ -111,7 +111,7 @@ public class Session
 
     /**
      * Set the sequence of the last packet processed.
-     *
+     * 
      * @param lastPacketProcessed the sequence of the last packet processed.
      */
     public void setLastPacketProcessed( final short lastPacketProcessed )
@@ -228,6 +228,10 @@ public class Session
         {
             setStatus( Session.STATUS_CONNECTED );
             _transport.setUserData( this );
+        }
+        else
+        {
+            setStatus( Session.STATUS_LOST );
         }
     }
 }
