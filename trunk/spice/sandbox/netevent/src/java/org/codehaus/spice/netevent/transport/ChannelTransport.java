@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.nio.channels.Channel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.spi.AbstractSelectableChannel;
+import java.util.HashMap;
+import java.util.Map;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.event.impl.collections.Buffer;
 import org.codehaus.spice.netevent.buffers.BufferManager;
@@ -20,7 +22,7 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-12 04:12:19 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-13 00:33:57 $
  */
 public class ChannelTransport
 {
@@ -39,8 +41,8 @@ public class ChannelTransport
     /** The key used to register channel in selector. */
     private SelectionKey m_key;
 
-    /** The associated user data. */
-    private Object m_userData;
+    /** List of attributes associated with session. */
+    private final Map _attributes = new HashMap();
 
     /**
      * Create transport.
@@ -81,23 +83,36 @@ public class ChannelTransport
     }
 
     /**
-     * Return the user data associated with transport.
+     * Return the attribute with specified key or null if no such attribute.
      * 
-     * @return the user data associated with transport.
+     * @param key the attributes key
+     * @return the attribute with specified key or null if no such attribute.
      */
-    public Object getUserData()
+    public Object getAttribute( final String key )
     {
-        return m_userData;
+        return _attributes.get( key );
     }
 
     /**
-     * Set the user data associated with transport.
+     * Set attribute with specified key to specified value.
      * 
-     * @param userData the user data associated with transport.
+     * @param key the key
+     * @param value the value
      */
-    public void setUserData( final Object userData )
+    public void setAttribute( final String key,
+                              final Object value )
     {
-        m_userData = userData;
+        _attributes.put( key, value );
+    }
+
+    /**
+     * Remove attribute with specified key.
+     * 
+     * @param key the key
+     */
+    public void removeAttribute( final String key )
+    {
+        _attributes.remove( key );
     }
 
     /**
