@@ -12,7 +12,7 @@
 
     <targets>
         <file id="default">
-            <filename>logkit.log</filename>
+            <filename>logs/logkit.log</filename>
             <append>false</append>
             <format type="extended">%{message}\n</format>
         </file>

@@ -7,7 +7,11 @@
  */
 package org.realityforge.loggerstore;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,9 +33,25 @@ import org.xml.sax.InputSource;
 public class LoggerStoreTestCase
     extends TestCase
 {
+    private File m_logsDir;
+    private static final String MESSAGE = "Testing Logger";
+
     public LoggerStoreTestCase( final String name )
     {
         super( name );
+    }
+
+    protected void setUp() throws Exception
+    {
+        m_logsDir = new File( "logs/" );
+        m_logsDir.mkdirs();
+/*
+        final File[] files = m_logsDir.listFiles();
+        for( int i = 0; i < files.length; i++ )
+        {
+            files[ i ].delete();
+        }
+*/
     }
 
     public void testJDK14Configuration()
@@ -39,7 +59,7 @@ public class LoggerStoreTestCase
     {
         final LoggerStore store =
             new Jdk14LoggerStore( getResource( "logging.properties" ) );
-        runLoggerTest( "JDK14", store );
+        runLoggerTest( "jdk14", store );
     }
 
     public void testLogKitConfiguration()
@@ -48,7 +68,7 @@ public class LoggerStoreTestCase
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
             new LogKitLoggerStore( builder.build( getResource( "logkit.xml" ) ) );
-        runLoggerTest( "LogKit", store );
+        runLoggerTest( "logkit", store );
     }
 
     public void testLog4JElementConfiguration()
@@ -57,7 +77,7 @@ public class LoggerStoreTestCase
         final LoggerStore store =
             new Log4JLoggerStore( buildElement( getResource( "log4j.xml" ),
                                                 new org.apache.log4j.xml.Log4jEntityResolver(), null ) );
-        runLoggerTest( "Log4jElement", store );
+        runLoggerTest( "log4j-xml", store );
     }
 
     public void testLog4JInputStreamConfiguration()
@@ -65,7 +85,7 @@ public class LoggerStoreTestCase
     {
         final LoggerStore store =
             new Log4JLoggerStore( getResource( "log4j.xml" ) );
-        runLoggerTest( "Log4jInputStream", store );
+        runLoggerTest( "log4j-xml", store );
     }
 
     public void testLog4JPropertiesConfiguration()
@@ -75,7 +95,7 @@ public class LoggerStoreTestCase
         properties.load( getResource( "log4j.properties" ) );
         final LoggerStore store =
             new Log4JLoggerStore( properties );
-        runLoggerTest( "Log4jProperties", store );
+        runLoggerTest( "log4j-properties", store );
     }
 
     protected final InputStream getResource( final String name )
@@ -83,13 +103,35 @@ public class LoggerStoreTestCase
         return getClass().getResourceAsStream( name );
     }
 
-    protected void runLoggerTest( final String prefix,
+    protected void runLoggerTest( final String filename,
                                   final LoggerStore store )
         throws Exception
     {
-        final Logger logger = store.getLogger();
-        assertNotNull( "rootLogger", logger );
-        logger.info( "Testing Logger" );
+        BufferedReader reader = null;
+        try
+        {
+            final Logger logger = store.getLogger();
+            assertNotNull( "rootLogger for " + filename, logger );
+            logger.info( MESSAGE );
+
+            final File logFile = new File( m_logsDir, filename + ".log" );
+            assertTrue( "Checking LogFile Exists: " + filename, logFile.exists() );
+
+            reader = new BufferedReader( new InputStreamReader( new FileInputStream( logFile ) ) );
+            final String line = reader.readLine();
+            assertEquals( "First line Contents for logger" + filename,
+                          MESSAGE, line );
+            assertNull( "Second Line Contents for logger" + filename,
+                        reader.readLine() );
+        }
+        finally
+        {
+            store.close();
+            if( null != reader )
+            {
+                reader.close();
+            }
+        }
     }
 
     /**
