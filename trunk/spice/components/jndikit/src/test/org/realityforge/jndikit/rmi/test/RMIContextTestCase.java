@@ -13,6 +13,12 @@ import org.realityforge.jndikit.rmi.RMIInitialContextFactory;
 import org.realityforge.jndikit.rmi.server.Main;
 import org.realityforge.jndikit.test.AbstractContextTestCase;
 
+/**
+ * Unit test for RMI context
+ *
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.5 $
+ */
 public class RMIContextTestCase
     extends AbstractContextTestCase
 {

@@ -12,7 +12,13 @@ import javax.naming.Context;
 import org.realityforge.jndikit.memory.MemoryInitialContextFactory;
 import org.realityforge.jndikit.test.AbstractContextTestCase;
 
-public class MemoryContextTestCase
+/**
+ * Unit test for Memory context
+ *
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.7 $
+ */
+ public class MemoryContextTestCase
     extends AbstractContextTestCase
 {
     /**
