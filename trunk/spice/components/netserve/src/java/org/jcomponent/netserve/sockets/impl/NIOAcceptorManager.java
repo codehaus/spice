@@ -25,7 +25,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-10-10 02:30:04 $
+ * @version $Revision: 1.11 $ $Date: 2003-10-10 02:47:23 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -35,7 +35,7 @@ public class NIOAcceptorManager
     /**
      * The monitor that receives notifications of Connection events
      */
-    private AcceptorMonitor m_monitor = NullAcceptorMonitor.MONITOR;
+    private NIOAcceptorMonitor m_monitor = NullNIOAcceptorMonitor.MONITOR;
 
     /**
      * The map of name->NIOAcceptorEntry.
@@ -63,12 +63,12 @@ public class NIOAcceptorManager
     private int m_timeout = 500;
 
     /**
-     * Set the AcceptorMonitor that receives events when changes occur.
+     * Set the NIOAcceptorMonitor that receives events when changes occur.
      *
-     * @param monitor the AcceptorMonitor that receives events when
+     * @param monitor the NIOAcceptorMonitor that receives events when
      *        changes occur.
      */
-    public void setMonitor( final AcceptorMonitor monitor )
+    public void setMonitor( final NIOAcceptorMonitor monitor )
     {
         m_monitor = monitor;
     }
@@ -116,7 +116,7 @@ public class NIOAcceptorManager
      */
     public void shutdownSelector()
     {
-        //TODO: NOte that we are shutting down server
+        m_monitor.selectorShutdown();
         synchronized( this )
         {
             m_running = false;
@@ -130,7 +130,7 @@ public class NIOAcceptorManager
                 }
                 catch( final IOException ioe )
                 {
-                    //TODO: notify monitor
+                    m_monitor.errorClosingSelector( ioe );
                 }
             }
         }
@@ -195,6 +195,15 @@ public class NIOAcceptorManager
         {
             throw new NullPointerException( "handler" );
         }
+        final ServerSocketChannel channel = socket.getChannel();
+        if( null == channel )
+        {
+            final String message =
+                "Socket needs to be created using " +
+                "ServerSocketChannel.open for NIO " +
+                "acceptor manager";
+            throw new IllegalArgumentException( message );
+        }
 
         synchronized( m_acceptors )
         {
@@ -205,7 +214,6 @@ public class NIOAcceptorManager
                 throw new IllegalArgumentException( message );
             }
 
-            final ServerSocketChannel channel = socket.getChannel();
             channel.configureBlocking( false );
             final SelectionKey key =
                 channel.register( m_selector, SelectionKey.OP_ACCEPT );
@@ -216,6 +224,7 @@ public class NIOAcceptorManager
                 new NIOAcceptorEntry( acceptor, key );
             m_acceptors.put( name, entry );
             m_socket2Entry.put( socket, entry );
+            m_monitor.acceptorCreated( name, socket );
         }
     }
 
@@ -247,6 +256,7 @@ public class NIOAcceptorManager
         }
         m_socket2Entry.remove( entry.getConfig().getServerSocket() );
         entry.getKey().cancel();
+        m_monitor.acceptorClosing( name );
     }
 
     /**
@@ -291,7 +301,7 @@ public class NIOAcceptorManager
                 handleChannel( channel );
             }
         }
-        //TODO: Note that we have exited receive loop
+        m_monitor.exitingSelectorLoop();
         synchronized( this )
         {
             m_selector = null;
@@ -309,9 +319,9 @@ public class NIOAcceptorManager
     {
         try
         {
-            //TODO: NOte that we are entering select
+            m_monitor.enteringSelect();
             final int count = m_selector.select( m_timeout );
-            //TODO: Note we are done with select
+            m_monitor.selectCompleted( count );
             if( 0 != count )
             {
                 return true;
@@ -331,8 +341,9 @@ public class NIOAcceptorManager
      */
     void handleChannel( final ServerSocketChannel channel )
     {
+        final ServerSocket serverSocket = channel.socket();
         final NIOAcceptorEntry entry =
-            (NIOAcceptorEntry)m_socket2Entry.get( channel.socket() );
+            (NIOAcceptorEntry)m_socket2Entry.get( serverSocket );
         if( null == entry )
         {
             //The acceptor must have been disconnected
@@ -341,16 +352,16 @@ public class NIOAcceptorManager
             return;
         }
 
+        final String name = entry.getConfig().getName();
         final SocketConnectionHandler handler = entry.getConfig().getHandler();
         try
         {
             final Socket socket = channel.accept().socket();
-            //TODO: Note we are handling connection
+            m_monitor.handlingConnection( name, serverSocket, socket );
             handler.handleConnection( socket );
         }
         catch( final IOException ioe )
         {
-            final String name = entry.getConfig().getName();
             m_monitor.errorAcceptingConnection( name, ioe );
         }
     }
