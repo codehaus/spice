@@ -66,7 +66,7 @@ public class DNAInstrumentManagerTestCase extends TestCase {
             dnaManager.configure( createDNAConfiguration() );
             fail( "Expected ConfigurationException" );
         } catch ( ConfigurationException e ) {
-            assertEquals( "NPE message", "Not Configurable", e.getMessage() );
+            assertEquals( "ConfigurationException message", "Not Configurable", e.getMessage() );
         }
     }
     
