@@ -13,10 +13,10 @@ import org.apache.tools.ant.BuildException;
 /**
  * An ant task to add one plugin set to another.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 10:00:38 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-27 08:16:50 $
  */
-abstract class AddToPluginSetTask
+public abstract class AddToPluginSetTask
     extends Task
 {
     /**
@@ -27,12 +27,12 @@ abstract class AddToPluginSetTask
     /**
      * The PluginSet that will be added to.
      */
-    private String m_id;
+    private String m_dest;
 
     /**
      * The PluginSet that will be added.
      */
-    private String m_refid;
+    private String m_source;
 
     /**
      * Create task.
@@ -45,23 +45,23 @@ abstract class AddToPluginSetTask
     }
 
     /**
-     * Set the id for PluginSet to add to.
+     * Set the dest for PluginSet to add to.
      *
-     * @param id the id for PluginSet to add to.
+     * @param dest the dest for PluginSet to add to.
      */
-    public void setId( final String id )
+    public void setDest( final String dest )
     {
-        m_id = id;
+        m_dest = dest;
     }
 
     /**
      * Set the id of PluginSet that will be added.
      *
-     * @param refid the id of PluginSet that will be added.
+     * @param source the id of PluginSet that will be added.
      */
-    public void setRefid( final String refid )
+    public void setSource( final String source )
     {
-        m_refid = refid;
+        m_source = source;
     }
 
     /**
@@ -73,26 +73,25 @@ abstract class AddToPluginSetTask
         throws BuildException
     {
         validate();
-        final Object idObject = getProject().getReference( m_id );
-        final Object refidObject = getProject().getReference( m_refid );
-
-        if( !m_type.isInstance( idObject ) )
+        final Object destObject = getProject().getReference( m_dest );
+        final Object sourceObject = getProject().getReference( m_source );
+        if( !m_type.isInstance( destObject ) )
         {
             final String message =
-                "Object referenced by id is not a " +
+                "Object referenced by dest is not a " +
                 m_type.getName();
             throw new BuildException( message );
         }
-        if( !m_type.isInstance( refidObject ) )
+        if( !m_type.isInstance( sourceObject ) )
         {
             final String message =
-                "Object referenced by refid is not a " +
+                "Object referenced by source is not a " +
                 m_type.getName();
             throw new BuildException( message );
         }
 
-        final PluginSet base = (PluginSet)idObject;
-        final PluginSet other = (PluginSet)refidObject;
+        final PluginSet base = (PluginSet)destObject;
+        final PluginSet other = (PluginSet)sourceObject;
         base.addPluginSet( other );
     }
 
@@ -101,13 +100,13 @@ abstract class AddToPluginSetTask
      */
     void validate()
     {
-        if( null == m_id )
+        if( null == m_dest )
         {
-            throw new BuildException( "id not specified" );
+            throw new BuildException( "dest not specified" );
         }
-        if( null == m_refid )
+        if( null == m_source )
         {
-            throw new BuildException( "refid not specified" );
+            throw new BuildException( "source not specified" );
         }
     }
 }
