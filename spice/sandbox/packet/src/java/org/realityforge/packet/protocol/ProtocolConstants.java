@@ -11,10 +11,19 @@ package org.realityforge.packet.protocol;
  * Set of constants used in network protocol.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-11-12 00:42:16 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-12 00:43:59 $
  */
 public interface ProtocolConstants
 {
+    /**
+     * Byte array containing magic number sent at
+     * start of stream.
+     */
+    byte[] MAGIC = new byte[]
+    {
+        'm', 'a', 'g', 'i', 'c', '0', '1'
+    };
+
     /**
      * Message ID to indicate connection occured.
      * SessionID (short) and SessionAuth (short) fields follow.
