@@ -7,17 +7,17 @@
  */
 package org.jcomponent.netserve.connection.impl;
 
+import java.io.IOException;
+import java.net.ProtocolException;
+import java.net.Socket;
+import java.util.Random;
 import org.jcomponent.netserve.connection.ConnectionHandler;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
-import java.net.Socket;
-import java.net.ProtocolException;
-import java.io.IOException;
-import java.util.Random;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 02:27:03 $
  */
 class RandmoizingHandler
     implements ConnectionHandlerManager, ConnectionHandler

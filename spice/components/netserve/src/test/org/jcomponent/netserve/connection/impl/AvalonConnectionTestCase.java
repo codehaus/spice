@@ -14,9 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-
 import junit.framework.TestCase;
-
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.container.ContainerUtil;
@@ -31,10 +29,10 @@ import org.realityforge.configkit.ValidateException;
 import org.xml.sax.ErrorHandler;
 
 /**
- * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
+ * TestCase for {@link org.jcomponent.netserve.connection.ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-29 19:12:58 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 02:27:03 $
  */
 public class AvalonConnectionTestCase
     extends TestCase
@@ -80,11 +78,12 @@ public class AvalonConnectionTestCase
         super( name );
     }
 
-    public void setUp(){
+    public void setUp()
+    {
         m_monitor = new AvalonConnectionMonitor();
-        ContainerUtil.enableLogging( m_monitor, new ConsoleLogger() ) ;        
+        ContainerUtil.enableLogging( m_monitor, new ConsoleLogger() );
     }
-    
+
     public void testSchemaValidation()
         throws Exception
     {
@@ -642,7 +641,6 @@ public class AvalonConnectionTestCase
         }
         catch( InterruptedException e )
         {
-
         }
         try
         {
