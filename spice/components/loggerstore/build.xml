@@ -43,10 +43,9 @@
     <target name="test" description="o Run the test cases" depends="build">
         <mkdir dir="${target.reports}"/>
         <property name="target.basedir" location="."/>
-        <echo message="target.basedir=${target.basedir}"/>
-        <junit dir="./" printSummary="yes" fork="true"
+        <junit dir="${target.classes}" printSummary="yes" fork="true"
             haltonfailure="true" haltonerror="true">
-            <sysproperty key="basedir" value="${target.basedir}"/>
+            <sysproperty key="basedir" value="${target.classes}"/>
             <sysproperty key="gump" value="true"/>
             <formatter usefile="true" type="plain"/>
             <formatter usefile="false" type="plain"/>
