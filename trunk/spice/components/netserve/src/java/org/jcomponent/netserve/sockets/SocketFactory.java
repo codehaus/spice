@@ -18,13 +18,10 @@ import java.net.Socket;
  * However clients just care that they return sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-02 04:14:29 $
  */
 public interface SocketFactory
 {
-    /** The role string for service */
-    String ROLE = SocketFactory.class.getName();
-
     /**
      * Create a socket that connects to specified remote address.
      *

@@ -20,12 +20,10 @@ package org.realityforge.xinvoke;
  * {@link org.realityforge.xinvoke.spi.ProxyManager}).</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:47:00 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-02 04:17:27 $
  */
 public interface Interceptor
 {
-    String ROLE = Interceptor.class.getName();
-
     /**
      * Process a particular invocation.
      * The method must NEVER throw an exception and any exceptions should

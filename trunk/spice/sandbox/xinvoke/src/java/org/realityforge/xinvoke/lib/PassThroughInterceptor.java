@@ -18,7 +18,7 @@ import org.realityforge.xinvoke.Invocation;
  * through invocation to next interceptor.
  *
  * @author <a href="mailto:peter at www.stocksoftware.com.au">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:47:00 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-02 04:17:27 $
  */
 public class PassThroughInterceptor
     implements Interceptor, Serviceable
@@ -33,7 +33,7 @@ public class PassThroughInterceptor
     public void service( final ServiceManager manager )
         throws ServiceException
     {
-        m_next = (Interceptor)manager.lookup( Interceptor.ROLE );
+        m_next = (Interceptor)manager.lookup( Interceptor.class.getName() );
     }
 
     /**

@@ -39,7 +39,7 @@ import org.realityforge.xinvoke.spi.InterceptorManager;
  * <interceptors>
  *
  * @author <a href="mailto:peter at www.stocksoftware.com.au">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:47:01 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-02 04:17:28 $
  */
 public final class SimpleInterceptorManager
     extends AbstractLogEnabled
@@ -194,7 +194,7 @@ public final class SimpleInterceptorManager
         ContainerUtil.enableLogging( interceptor, getLogger() );
         ContainerUtil.configure( interceptor, configuration );
         final DefaultServiceManager sm = new DefaultServiceManager();
-        sm.put( Interceptor.ROLE, previous );
+        sm.put( Interceptor.class.getName(), previous );
         sm.makeReadOnly();
         ContainerUtil.service( interceptor, sm );
         ContainerUtil.initialize( interceptor );
