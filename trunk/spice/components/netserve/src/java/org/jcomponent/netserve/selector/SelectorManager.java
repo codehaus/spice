@@ -86,10 +86,7 @@ public class SelectorManager
       throws IOException
    {
       getMonitor().selectorStartup();
-      synchronized ( getSelectorLock() )
-      {
-         setSelector( Selector.open() );
-      }
+      setSelector( Selector.open() );
       startThread();
    }
 
@@ -202,6 +199,7 @@ public class SelectorManager
          throw new NullPointerException( "channel" );
       }
       channel.configureBlocking( false );
+      m_selector.wakeup();
       return channel.register( getSelector(), ops );
    }
 
@@ -222,6 +220,7 @@ public class SelectorManager
          if ( !performSelect() ||
             !isRunning() )
          {
+            Thread.yield();
             continue;
          }
          final Set keys = getSelector().selectedKeys();
@@ -237,12 +236,10 @@ public class SelectorManager
             getHandler().handleSelectorEvent( key );
          }
       }
+
       getMonitor().exitingSelectorLoop();
-      synchronized ( getSelectorLock() )
-      {
-         setSelector( null );
-         notifyAll();
-      }
+      setSelector( null );
+      System.out.println( "SelectorManager.run ended" );
    }
 
    /**
@@ -287,7 +284,11 @@ public class SelectorManager
     */
    protected void setSelector( final Selector selector )
    {
-      m_selector = selector;
+      synchronized ( getSelectorLock() )
+      {
+         m_selector = selector;
+         notifyAll();
+      }
    }
 
    /**
