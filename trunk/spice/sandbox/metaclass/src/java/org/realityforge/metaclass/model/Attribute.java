@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.9 $ $Date: 2003-08-22 04:30:15 $
+ * @version $Revision: 1.10 $ $Date: 2003-10-03 13:39:49 $
  */
 public final class Attribute
     implements Serializable
@@ -151,6 +151,7 @@ public final class Attribute
     /**
      * Return the parameter for specified key.
      *
+     * @param key the parameters key
      * @return the parameter for specified key.
      */
     public String getParameter( final String key )
@@ -168,6 +169,8 @@ public final class Attribute
     /**
      * Return the parameter for specified key, or defaultValue if unspecified.
      *
+     * @param key the parameters key
+     * @param defaultValue the default value if parameter unspecified
      * @return the parameter for specified key, or defaultValue if unspecified.
      */
     public String getParameter( final String key,

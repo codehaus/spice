@@ -31,7 +31,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.1 $ $Date: 2003-09-07 10:21:54 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-03 13:38:14 $
  */
 public class GenerateClassDescriptorsTask
     extends AbstractQdoxTask
@@ -172,7 +172,8 @@ public class GenerateClassDescriptorsTask
                                 "filter" );
             instances.add( object );
         }
-        final JavaClassFilter[] filters = (JavaClassFilter[])instances.toArray( new JavaClassFilter[ instances.size() ] );
+        final JavaClassFilter[] filters = (JavaClassFilter[])instances.
+            toArray( new JavaClassFilter[ instances.size() ] );
         return new MulticastJavaClassFilter( filters );
     }
 
@@ -195,7 +196,8 @@ public class GenerateClassDescriptorsTask
                                 "interceptor" );
             instances.add( object );
         }
-        return (QDoxAttributeInterceptor[])instances.toArray( new QDoxAttributeInterceptor[ instances.size() ] );
+        return (QDoxAttributeInterceptor[])instances.
+            toArray( new QDoxAttributeInterceptor[ instances.size() ] );
     }
 
     /**
@@ -276,6 +278,9 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Build class descriptors from input JavaCLass objects.
+     *
+     * @param classes the list containing JavaClass objects.
+     * @return a list containing created ClassDescriptor objects.
      */
     private List buildClassDescriptors( final List classes )
     {
@@ -294,6 +299,7 @@ public class GenerateClassDescriptorsTask
     /**
      * Output the specified ClassDescriptors.
      *
+     * @param classes the list containing ClassDescriptor objects.
      * @throws IOException If there is a problem writing output
      */
     private void writeClassDescriptors( final List classes )
@@ -310,6 +316,8 @@ public class GenerateClassDescriptorsTask
     /**
      * Return the set of classes that will actually be serialized
      * and have not been filtered out.
+     *
+     * @return list of classes to serialize
      */
     private List collectClassesToSerialize()
     {
@@ -413,6 +421,7 @@ public class GenerateClassDescriptorsTask
             }
             catch( IOException e )
             {
+                //Ignored
             }
         }
     }
