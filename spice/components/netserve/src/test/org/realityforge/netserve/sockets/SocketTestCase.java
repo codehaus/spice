@@ -21,8 +21,8 @@ import org.realityforge.netserve.sockets.impl.DefaultSocketFactory;
 /**
  * TestCase for {@link SocketFactory} and {@link ServerSocketFactory}.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-23 03:15:59 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 03:16:19 $
  */
 public class SocketTestCase
     extends TestCase
