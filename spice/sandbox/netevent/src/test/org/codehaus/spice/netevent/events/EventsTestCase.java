@@ -5,13 +5,14 @@ import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import junit.framework.TestCase;
+import org.codehaus.spice.event.impl.NullEventSink;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
 import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2004-01-12 02:32:41 $
+ * @version $Revision: 1.9 $ $Date: 2004-01-12 04:12:19 $
  */
 public class EventsTestCase
     extends TestCase
@@ -20,7 +21,8 @@ public class EventsTestCase
     {
         return new ChannelTransport( channel,
                                      new UnboundedFifoBuffer( 1 ),
-                                     new DefaultBufferManager() );
+                                     new DefaultBufferManager(),
+                                     new NullEventSink() );
     }
 
     public void testNull_channel_PassedIntoCtor()
