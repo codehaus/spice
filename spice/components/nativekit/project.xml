@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>Native Toolkit</name>
     <id>nativekit</id>
-    <groupId>components</groupId>
+    <gumpRepositoryId>components</gumpRepositoryId>
 
     <shortDescription>A toolkit for executing Native executables</shortDescription>
     <description>
