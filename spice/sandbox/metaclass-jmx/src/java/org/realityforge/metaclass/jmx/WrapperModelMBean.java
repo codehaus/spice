@@ -62,9 +62,12 @@ public class WrapperModelMBean
         final ObjectName objectName = super.preRegister( server, name );
         if( m_resource instanceof MBeanRegistration )
         {
-            ( (MBeanRegistration)m_resource ).preRegister( server, name );
+            return ( (MBeanRegistration)m_resource ).preRegister( server, name );
         }
-        return objectName;
+        else
+        {
+            return objectName;
+        }
     }
 
     /**
