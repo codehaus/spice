@@ -12,6 +12,7 @@ import java.util.WeakHashMap;
 import org.realityforge.metaclass.io.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassAccessor;
 import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.model.PackageDescriptor;
 
 /**
  * This class is responsible for loading and caching the {@link ClassDescriptor}
@@ -19,7 +20,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * {@link java.beans.Introspector} class does for Java Beans.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-15 08:40:00 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-18 07:18:23 $
  */
 public final class MetaClassIntrospector
 {
@@ -98,6 +99,57 @@ public final class MetaClassIntrospector
             sm.checkPermission( SET_ACCESSOR_PERMISSION );
         }
         c_accessor = accessor;
+    }
+
+    /**
+     * Return a {@link PackageDescriptor} for package that specified class is in.
+     *
+     * @param clazz the class that package derived from
+     * @return the newly created {@link PackageDescriptor}
+     * @throws MetaClassException if unable to create {@link PackageDescriptor}
+     */
+    public static PackageDescriptor getPackageDescriptor( final Class clazz )
+        throws MetaClassException
+    {
+        final String name = clazz.getName();
+        final int index = name.lastIndexOf( ".");
+        final String packageName;
+        if( -1 == index )
+        {
+            packageName = "";
+        }
+        else
+        {
+            packageName = name.substring( index + 1 );
+        }
+        return getPackageDescriptor(packageName, clazz.getClassLoader() );
+    }
+
+
+    /**
+     * Return a {@link PackageDescriptor} for specified package.
+     *
+     * @param packageName the name of the package
+     * @param classLoader the classLoader to use
+     * @return the newly created {@link PackageDescriptor}
+     * @throws MetaClassException if unable to create {@link PackageDescriptor}
+     */
+    public static PackageDescriptor getPackageDescriptor( final String packageName,
+                                                          final ClassLoader classLoader )
+        throws MetaClassException
+    {
+        final Map cache = getClassLoaderCache( classLoader );
+        PackageDescriptor info = (PackageDescriptor)cache.get( packageName );
+        if( null != info )
+        {
+            return info;
+        }
+        else
+        {
+            info = c_accessor.getPackageDescriptor( packageName, classLoader );
+            cache.put( packageName, info );
+            return info;
+        }
     }
 
     /**

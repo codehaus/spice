@@ -18,13 +18,13 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-15 08:35:48 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-18 07:18:22 $
  */
 public abstract class FeatureDescriptor
     implements Serializable
 {
     /**
-     * The arbitrary set of Attributes associated with Component.
+     * The arbitrary set of Attributes associated with feature.
      */
     private final Attribute[] _attributes;
 

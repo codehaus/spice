@@ -19,6 +19,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
+import org.realityforge.metaclass.model.PackageDescriptor;
 
 /**
  * This is a utility class that writes out a Attributes object
@@ -26,7 +27,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.7 $ $Date: 2003-08-16 01:37:15 $
+ * @version $Revision: 1.8 $ $Date: 2003-08-18 07:18:22 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -37,13 +38,64 @@ public class MetaClassIOBinary
     private static final int VERSION = 100;
 
     /**
+     * Read a PackageDescriptor from an input stream.
+     *
+     * @param input the input stream
+     * @return the PackageDescriptor
+     * @throws IOException if unable ot read class descriptor
+     */
+    public PackageDescriptor deserializePackage( InputStream input )
+        throws IOException
+    {
+        final DataInputStream data = new DataInputStream( input );
+
+        final int version = data.readInt();
+        if( VERSION != version )
+        {
+            final String message =
+                "Version mismatch." +
+                " Expected: " + VERSION +
+                " Actual: " + version;
+            throw new IOException( message );
+        }
+        final String name = data.readUTF();
+        final Attribute[] attributes = readAttributes( data );
+
+        return new PackageDescriptor( name, attributes );
+    }
+
+    /**
+     * Write a PackageDescriptor to an output stream.
+     *
+     * @param output the stream to write class descriptor out to
+     * @param info the PackageDescriptor to write out
+     * @throws IOException if unable ot write class descriptor
+     */
+    public void serializePackage( final OutputStream output,
+                                  final PackageDescriptor info )
+      throws IOException
+    {
+        final DataOutputStream data = new DataOutputStream( output );
+        try
+        {
+            data.writeInt( VERSION );
+            data.writeUTF( info.getName() );
+            writeAttributes( data, info.getAttributes() );
+        }
+       finally
+        {
+           data.flush();
+        }
+    }
+
+    /**
      * Read a ClassDescriptor from an input stream.
      *
      * @param input the input stream
      * @return the ClassDescriptor
      * @throws IOException if unable ot read class descriptor
      */
-    public ClassDescriptor deserialize( final InputStream input )
+    public ClassDescriptor deserializeClass( final InputStream input )
         throws IOException
     {
         final DataInputStream data = new DataInputStream( input );
@@ -108,7 +160,7 @@ public class MetaClassIOBinary
      * @param info the ClassDescriptor to write out
      * @throws IOException if unable ot write class descriptor
      */
-    public void serialize( final OutputStream output, final ClassDescriptor info )
+    public void serializeClass( final OutputStream output, final ClassDescriptor info )
         throws IOException
     {
         final DataOutputStream data = new DataOutputStream( output );
