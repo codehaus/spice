@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.codehaus.spice.event.EventHandler;
@@ -22,7 +21,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.13 $ $Date: 2004-02-11 03:52:56 $
+ * @version $Revision: 1.14 $ $Date: 2004-02-11 05:52:22 $
  */
 public class TestServer
 {
@@ -57,10 +56,11 @@ public class TestServer
         thread.start();
         thread.setPriority( Thread.NORM_PRIORITY - 1 );
 
+        final InetSocketAddress address =
+            new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
         for( int i = 0; i < SESSIONS.length; i++ )
         {
-            SESSIONS[ i ] = new Session();
-            SESSIONS[ i ].setUserData( new SessionData( SESSIONS[ i ] ) );
+            SESSIONS[ i ] = new Session( address );
         }
 
         boolean started = false;
@@ -69,7 +69,6 @@ public class TestServer
             for( int i = 0; i < SESSIONS.length; i++ )
             {
                 final Session session = SESSIONS[ i ];
-                final SessionData sd = (SessionData)session.getUserData();
                 final int status = session.getStatus();
                 if( Session.STATUS_LOST == status ||
                     Session.STATUS_CONNECT_FAILED == status ||
@@ -92,10 +91,9 @@ public class TestServer
                         }
                     }
 
-                    if( sd.getConnectionCount() == session.getConnections() &&
-                        !session.isConnecting() )
+                    if( !session.isConnecting() )
                     {
-                        if( sd.getConnectionCount() > 0 )
+                        if( session.getConnections() > 0 )
                         {
                             final String message =
                                 "Re-establish " + session.getSessionID();
@@ -107,8 +105,7 @@ public class TestServer
                                 "Establish conenction to Server.";
                             System.out.println( message );
                         }
-                        session.setConnecting( true );
-                        makeClientConnection( session );
+                        session.startConnection( c_clientSocketSouce );
                     }
                 }
             }
@@ -129,22 +126,6 @@ public class TestServer
             {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private static void makeClientConnection( final Session session )
-        throws IOException
-    {
-        final SocketChannel channel = SocketChannel.open();
-        synchronized( c_clientSocketSouce )
-        {
-            c_clientSocketSouce.registerChannel( channel,
-                                                 SelectionKey.OP_CONNECT,
-                                                 session );
-            final InetSocketAddress address =
-                new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
-            channel.socket().setSoLinger( true, 2 );
-            channel.connect( address );
         }
     }
 
@@ -184,26 +165,15 @@ public class TestServer
 
         final EventHandler handler3 =
             new EchoHandler( "TEST SV",
-                             new TestEventHandler( source3,
-                                                   queue1,
+                             new TestEventHandler( queue1,
                                                    BUFFER_MANAGER,
                                                    "TEST SV" ) );
 
         final EventPump pump1 = new EventPump( source1, handler1 );
-        pump1.setBatchSize( Integer.MAX_VALUE );
-
         final EventPump pump2 = new EventPump( queue2, handler2 );
-        pump2.setBatchSize( Integer.MAX_VALUE );
-
         final EventPump pump3 = new EventPump( queue3, handler3 );
-        pump3.setBatchSize( Integer.MAX_VALUE );
-
         final EventPump pump4 = new EventPump( source2, handler2 );
-        pump4.setBatchSize( Integer.MAX_VALUE );
-
         final EventPump pump5 = new EventPump( source3, handler3 );
-        pump5.setBatchSize( Integer.MAX_VALUE );
-
         final ServerSocketChannel channel = ServerSocketChannel.open();
         source1.registerChannel( channel,
                                  SelectionKey.OP_ACCEPT,
@@ -249,25 +219,15 @@ public class TestServer
 
         final EventHandler handler3 =
             new EchoHandler( "TEST CL",
-                             new TestEventHandler( source3,
-                                                   queue1,
+                             new TestEventHandler( queue1,
                                                    BUFFER_MANAGER,
                                                    "TEST CL" ) );
 
         final EventPump pump1 = new EventPump( source1, handler1 );
-        pump1.setBatchSize( Integer.MAX_VALUE );
-
         final EventPump pump2 = new EventPump( queue2, handler2 );
-        pump2.setBatchSize( Integer.MAX_VALUE );
-
         final EventPump pump3 = new EventPump( queue3, handler3 );
-        pump3.setBatchSize( Integer.MAX_VALUE );
-
         final EventPump pump4 = new EventPump( source2, handler2 );
-        pump4.setBatchSize( Integer.MAX_VALUE );
-
         final EventPump pump5 = new EventPump( source3, handler3 );
-        pump5.setBatchSize( Integer.MAX_VALUE );
 
         c_clientSocketSouce = source1;
 
