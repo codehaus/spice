@@ -8,6 +8,7 @@ elements because project is one of jellys top level tags.
 <jsl:stylesheet
     select="$doc"
     xmlns:jsl="jelly:jsl"
+    xmlns="jelly:jsl"
     trim="false">
 
     <!-- naproject to project -->
