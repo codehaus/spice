@@ -11,6 +11,7 @@ import java.io.InputStream;
 
 import javax.swing.Action;
 
+import org.jcomponent.swingactions.metadata.ActionGroupsMetaData;
 import org.jcomponent.swingactions.metadata.ActionMetaData;
 import org.jcomponent.swingactions.metadata.ActionSetMetaData;
 import org.jcomponent.swingactions.reader.ConfigReader;
@@ -39,22 +40,31 @@ public class XMLActionManager
         }
         final ConfigReader reader = new ConfigReader();
         reader.parse( resource );
-        configure( reader );
+        configureActions( reader.getActionSet() );
+        configureGroups( reader.getActionGroups() );
     }
 
     /**
-     * Configures ActionManager using the ConfigReader contents
-     * @param reader the ConfigReader
+     * Configures ActionManager with the given Action set
+     * @param actionSet the ActionSetMetaData
      */
-    private void configure( final ConfigReader reader )
+    private void configureActions( final ActionSetMetaData actionSet )
     {
-        final ActionSetMetaData actionSet = reader.getActionSetMetaData();      
         final ActionMetaData[] actions = actionSet.getActions();
         for ( int i = 0; i < actions.length; i++ )
         {
             final Action action = new ActionAdapter( actions[ i ], this );  
             addAction( actions[ i ].getValue( ActionMetaData.ID ), action );
         }
+    }
+
+    /**
+     * Configures ActionManager with the given Action groups
+     * @param actionGroups the ActionGroupsMetaData
+     */
+    private void configureGroups( final ActionGroupsMetaData actionGroups )
+    {
+        //TODO construct JFactory with actionGroups
     }
 }
 

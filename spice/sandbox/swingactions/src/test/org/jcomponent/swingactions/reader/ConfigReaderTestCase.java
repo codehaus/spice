@@ -14,6 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.jcomponent.swingactions.metadata.ActionGroupsMetaData;
 import org.jcomponent.swingactions.metadata.ActionSetMetaData;
 
 /**
@@ -58,7 +59,7 @@ public class ConfigReaderTestCase extends TestCase {
             fail("Exception in parsing:  " + t);
         }
     
-        final ActionSetMetaData actionSet = reader.getActionSetMetaData();
+        final ActionSetMetaData actionSet = reader.getActionSet();
         assertNotNull( "Read actions configurations", actionSet );
         assertEquals( "Found 2 actions", actionSet.getActions().length, 2 );
         assertEquals( "Action 1", actionSet.getAction( "action-1" ).toString(),
@@ -83,17 +84,18 @@ public class ConfigReaderTestCase extends TestCase {
             fail("Exception in parsing:  " + t);
         }
     
-        final String[] groupIds = reader.getActionGroupIds();
+        final ActionGroupsMetaData actionGroups = reader.getActionGroups();
+        final String[] groupIds = actionGroups.getGroupIds();
         assertNotNull( "Read actions configurations", groupIds );
         assertEquals( "Found 2 groups", groupIds.length, 2 );
-        final ActionSetMetaData group1 = reader.getActionGroupMetaData( "group-1" );
+        final ActionSetMetaData group1 = actionGroups.getActionSet( "group-1" );
         assertEquals( "Found 2 group actions ", group1.getActions().length, 2 );
-        final ActionSetMetaData group2 = reader.getActionGroupMetaData( "group-2" );
-        assertEquals( "Found 3 group actions ", group2.getActions().length, 3 );
         String groupAction11 = "[GroupActionMetaData groupId=group-1, id=action-1, groupOrder=1, name=Name of Action 1, shortDescription=null, longDescription=null, smallIcon=null, largeIcon=null, actionCommandKey=null, acceleratorKey=null, mnemonicKey=null]";
         assertEquals( "GroupAction 11", group1.getAction( "action-1" ).toString(), groupAction11 );
         String groupAction12 = "[GroupActionMetaData groupId=group-1, id=action-2, groupOrder=2, name=null, shortDescription=null, longDescription=null, smallIcon=/path/to/group/icon/action2-small.gif, largeIcon=null, actionCommandKey=null, acceleratorKey=null, mnemonicKey=null]";
         assertEquals( "GroupAction 12", group1.getAction( "action-2" ).toString(), groupAction12 );
+        final ActionSetMetaData group2 = actionGroups.getActionSet( "group-2" );
+        assertEquals( "Found 3 group actions ", group2.getActions().length, 3 );
         String groupAction23 = "[GroupActionMetaData groupId=group-2, id=action-3, groupOrder=2, name=null, shortDescription=Action 3 Short Desc in group-2, longDescription=null, smallIcon=null, largeIcon=null, actionCommandKey=null, acceleratorKey=null, mnemonicKey=null]";
         assertEquals( "GroupAction 23", group2.getAction( "action-3" ).toString(), groupAction23 );
         String groupAction24 = "[GroupActionMetaData groupId=group-2, id=action-4, groupOrder=1, name=null, shortDescription=null, longDescription=null, smallIcon=null, largeIcon=null, actionCommandKey=null, acceleratorKey=null, mnemonicKey='M']";
