@@ -135,6 +135,33 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
+<!--
+    <project name="spice-loggerstore">
+        <package>org.realityforge.loggerstore</package>
+
+        <ant basedir="components/loggerstore">
+            <property name="final.name" value="spice-loggerstore-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="jakarta-log4j" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="avalon" runtime="true"/>
+        <depend project="avalon-logkit" runtime="true"/>
+        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="excalibur-logger" runtime="true"/>
+
+        <work nested="components/loggerstore/target/classes"/>
+        <work nested="components/loggerstore/target/test-classes"/>
+
+        <home nested="components/loggerstore"/>
+        <jar name="target/spice-netserve-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+    </project>
+-->
+    
     <project name="spice-netserve">
         <package>org.realityforge.netserve</package>
 
