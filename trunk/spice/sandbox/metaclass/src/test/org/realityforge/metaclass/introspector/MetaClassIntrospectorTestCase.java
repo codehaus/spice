@@ -17,7 +17,7 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-22 09:19:41 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-28 13:26:54 $
  */
 public class MetaClassIntrospectorTestCase
     extends TestCase
@@ -32,6 +32,7 @@ public class MetaClassIntrospectorTestCase
     {
         final ClassDescriptor original =
             new ClassDescriptor( MetaClassIntrospectorTestCase.class.getName(),
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -49,6 +50,7 @@ public class MetaClassIntrospectorTestCase
     {
         final ClassDescriptor original =
             new ClassDescriptor( MetaClassIntrospectorTestCase.class.getName(),
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -99,6 +101,7 @@ public class MetaClassIntrospectorTestCase
     {
         final ClassDescriptor original =
             new ClassDescriptor( MetaClassIntrospectorTestCase.class.getName(),
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );

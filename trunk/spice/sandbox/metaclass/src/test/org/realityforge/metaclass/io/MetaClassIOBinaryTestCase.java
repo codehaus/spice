@@ -23,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.18 $ $Date: 2003-10-22 09:19:41 $
+ * @version $Revision: 1.19 $ $Date: 2003-10-28 13:26:54 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -505,6 +505,7 @@ public class MetaClassIOBinaryTestCase
                                   Attribute.EMPTY_SET );
         final ClassDescriptor descriptor =
             new ClassDescriptor( "com.biz.MyClass",
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{field},
                                  new MethodDescriptor[]{method} );
