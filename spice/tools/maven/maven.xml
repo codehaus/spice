@@ -23,26 +23,37 @@
             </j:if>
 
             <j:set var="mavenRepoLocal" value='${context.getVariable("maven.repo.local")}'/>
-            <ant:mkdir dir="${todir}"/>
-            <ant:copy todir="${todir}" flatten="true">
-                <ant:fileset dir="${mavenRepoLocal}">
-                    <j:forEach var="dep" items="${pom.dependencies}">
-                        <j:if test='${dep.getProperty("category") == "runtime" }'>
-                            <j:if test='${dep.getProperty("distributable") != "false" }'>
-                                <ant:include name="${dep.artifactDirectory}/jars/${dep.artifact}"/>
-                                <ant:include name="${dep.artifactDirectory}/licenses/${dep.artifactId}.license"/>
+
+            <j:forEach var="dep" items="${pom.dependencies}">
+                <j:if test='${dep.getProperty("category") == "runtime" }'>
+                    <j:if test='${dep.getProperty("distributable") != "false" }'>
+                        <j:set var="addDeps" value='true'/>
+                    </j:if>
+                </j:if>
+            </j:forEach>
+
+            <j:if test='${addDeps == "true" }'>
+                <ant:mkdir dir="${todir}"/>
+                <ant:copy todir="${todir}" flatten="true">
+                    <ant:fileset dir="${mavenRepoLocal}">
+                        <j:forEach var="dep" items="${pom.dependencies}">
+                            <j:if test='${dep.getProperty("category") == "runtime" }'>
+                                <j:if test='${dep.getProperty("distributable") != "false" }'>
+                                    <ant:include name="${dep.artifactDirectory}/jars/${dep.artifact}"/>
+                                    <ant:include name="${dep.artifactDirectory}/licenses/${dep.artifactId}.license"/>
+                                </j:if>
                             </j:if>
-                        </j:if>
-                    </j:forEach>
-                </ant:fileset>
-            </ant:copy>
+                        </j:forEach>
+                    </ant:fileset>
+                </ant:copy>
+            </j:if>
         </define:tag>
     </define:taglib>
 
     <preGoal name="xdoc:copy-user-resources">
         <ant:mkdir dir="${basedir}/xdocs/style"/>
         <ant:copy file="${basedir}/../../tools/site/project.css"
-                  todir="${basedir}/xdocs/style"/>
+            todir="${basedir}/xdocs/style"/>
     </preGoal>
 
     <goal name="test-deps">
