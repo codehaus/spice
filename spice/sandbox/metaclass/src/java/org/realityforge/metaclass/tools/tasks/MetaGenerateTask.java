@@ -25,7 +25,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.9 $ $Date: 2003-08-23 23:44:10 $
+ * @version $Revision: 1.10 $ $Date: 2003-08-24 01:15:53 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -154,7 +154,7 @@ public class MetaGenerateTask
             final String message = "DestDir not specified";
             throw new BuildException( message );
         }
-        if( !m_destDir.isDirectory() )
+        if( m_destDir.exists() && !m_destDir.isDirectory() )
         {
             final String message =
                 "DestDir (" + m_destDir + ") is not a directory.";
