@@ -14,16 +14,30 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * Instances of this interface are used to convert between different types.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-03-25 02:51:26 $
+ * @version $Revision: 1.4 $ $Date: 2003-04-04 11:27:21 $
  */
 public abstract class AbstractConverter
     implements Converter
 {
+    /**
+     * i18n resources accessor.
+     */
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractConverter.class );
 
+    /**
+     * The source type that converter can convert from.
+     */
     private final Class m_source;
+
+    /**
+     * The destination type that converter can convert to.
+     */
     private final Class m_destination;
+
+    /**
+     * The default value that is returned if can perform conversion.
+     */
     private final Object m_defaultValue;
 
     /**
