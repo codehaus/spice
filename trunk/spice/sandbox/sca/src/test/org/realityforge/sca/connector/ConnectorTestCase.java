@@ -485,7 +485,6 @@ public class ConnectorTestCase
       final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
 
       final Mock monitorMock = new Mock( ConnectorMonitor.class );
-      monitorMock.expect( "attemptingValidation", C.NO_ARGS );
       final ConnectorMonitor monitor = (ConnectorMonitor) monitorMock.proxy();
 
       final Mock policyMock = new Mock( ReconnectionPolicy.class );
@@ -635,9 +634,15 @@ public class ConnectorTestCase
       policyMock.expectAndReturn( "nextPingCheck", C.NO_ARGS, new Long( 52 ) );
       final PingPolicy policy = (PingPolicy) policyMock.proxy();
 
+      final Mock connMock = new Mock( ConnectorConnection.class );
+      connMock.expect( "doValidateConnection", C.NO_ARGS );
+      final ConnectorConnection conn = (ConnectorConnection)connMock.proxy();
+
       connector.setMonitor( monitor );
       connector.setPingPolicy( policy );
-      connector.setActive( false );
+      connector.setConnection( conn );
+      connector.setActive( true );
+      connector.setConnected( true );
 
       final long result = connector.checkPing();
       assertEquals( "result", 52, result );
@@ -646,6 +651,7 @@ public class ConnectorTestCase
 
       policyMock.verify();
       monitorMock.verify();
+      connMock.verify();
    }
 
    public void testCheckPingThatNoPings()
