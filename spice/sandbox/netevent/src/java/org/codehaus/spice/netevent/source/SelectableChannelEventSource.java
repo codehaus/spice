@@ -1,4 +1,4 @@
-package org.codehaus.spice.netevent.selector;
+package org.codehaus.spice.netevent.source;
 
 import java.io.IOException;
 import java.nio.channels.SelectableChannel;
@@ -19,13 +19,13 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * An event source that generates events based from SelectableChannels.
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-22 02:40:33 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-22 02:43:36 $
  */
 public class SelectableChannelEventSource
     extends AbstractEventSource
 {
     /**
-     * The selector used to schedule events.
+     * The source used to schedule events.
      */
     private Selector _selector;
 
@@ -43,13 +43,13 @@ public class SelectableChannelEventSource
     }
 
     /**
-     * Register channel with selector.
+     * Register channel with source.
      *
      * @param channel the channel
      * @param ops the operations interested in
      * @param userData the associated userdata (if any)
      * @return the SelectionKey
-     * @throws IOException if unable to register with selector
+     * @throws IOException if unable to register with source
      */
     public synchronized SelectionKey
         registerChannel( final SelectableChannel channel,

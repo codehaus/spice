@@ -16,7 +16,7 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.ConnectErrorEvent;
 import org.codehaus.spice.netevent.events.ConnectEvent;
 import org.codehaus.spice.netevent.events.ConnectPossibleEvent;
-import org.codehaus.spice.netevent.selector.SelectableChannelEventSource;
+import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
@@ -24,7 +24,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-22 02:40:33 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-22 02:43:36 $
  */
 public class ClientConnectEventHandler
     extends AbstractIOEventHandler
