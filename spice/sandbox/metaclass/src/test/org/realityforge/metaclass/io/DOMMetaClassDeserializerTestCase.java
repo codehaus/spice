@@ -18,12 +18,13 @@ import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
+import org.realityforge.metaclass.model.ClassDescriptor;
 import java.util.Properties;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-11-01 00:55:00 $
+ * @version $Revision: 1.9 $ $Date: 2003-11-01 01:02:55 $
  */
 public class DOMMetaClassDeserializerTestCase
     extends TestCase
@@ -313,6 +314,33 @@ public class DOMMetaClassDeserializerTestCase
         assertEquals( "methods[0].name", "myMethod", methods[ 0 ].getName() );
         assertEquals( "methods[0].returnType", "int", methods[ 0 ].getReturnType() );
         assertEquals( "methods[0].parameters.length", 1, methods[ 0 ].getParameters().length );
+    }
+
+    public void testBuildClass()
+        throws Exception
+    {
+        final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+        final Document document = createDocument();
+        final Element root = document.createElement( MetaClassIOXml.CLASS_ELEMENT );
+        document.appendChild( root );
+        root.setAttribute( MetaClassIOXml.TYPE_ATTRIBUTE, "MyClass" );
+
+        final Comment comment1 =
+            document.createComment( "This comment brought to you by Comments-R-Us" );
+        root.appendChild( comment1 );
+
+        final Element methods = document.createElement( MetaClassIOXml.METHODS_ELEMENT );
+        root.appendChild( methods );
+        final Element fields = document.createElement( MetaClassIOXml.FIELDS_ELEMENT );
+        root.appendChild( fields );
+        final Element attributes = document.createElement( MetaClassIOXml.ATTRIBUTES_ELEMENT );
+        root.appendChild( attributes );
+
+        final ClassDescriptor clazz = deserializer.buildClassDescriptor( document );
+        assertEquals( "clazz.length", "MyClass", clazz.getName() );
+        assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
+        assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
+        assertEquals( "clazz.attributes.length", 0, clazz.getAttributes().length );
     }
 
     private Document createDocument()
