@@ -7,17 +7,14 @@
  */
 package org.codehaus.spice.salt.io;
 
-import org.apache.oro.text.regex.MalformedPatternException;
-import org.apache.oro.text.regex.Pattern;
-import org.apache.oro.text.regex.Perl5Compiler;
-import org.apache.oro.text.regex.Perl5Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Utility class for scanning a filesystem and matching a particular set of
  * include and exclude patterns ala ant.
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-02 02:15:04 $
+ * @version $Revision: 1.2 $ $Date: 2004-07-11 23:42:28 $
  */
 public class PathMatcher
 {
@@ -29,9 +26,6 @@ public class PathMatcher
      * includes.
      */
     private final Pattern[] m_excludes;
-
-    /** The object that is capable of performing the matching. */
-    private final Perl5Matcher m_matcher = new Perl5Matcher();
 
     /** The character that separates elements in VPaths. */
     private final char m_separator;
@@ -130,7 +124,7 @@ public class PathMatcher
     {
         for( int i = 0; i < patterns.length; i++ )
         {
-            if( m_matcher.matches( vPath, patterns[ i ] ) )
+            if( patterns[ i ].matcher( vPath ).matches() )
             {
                 return true;
             }
@@ -146,20 +140,11 @@ public class PathMatcher
      */
     private Pattern[] toPatterns( final String[] strs )
     {
-        final Perl5Compiler compiler = new Perl5Compiler();
         final Pattern[] patterns = new Pattern[ strs.length ];
         for( int i = 0; i < patterns.length; i++ )
         {
             final String perlPatternStr = toPerlPatternStr( strs[ i ] );
-            try
-            {
-                patterns[ i ] = compiler.compile( perlPatternStr );
-            }
-            catch( final MalformedPatternException mpe )
-            {
-                final String message = strs[ i ] + ":" + mpe.toString();
-                throw new IllegalArgumentException( message );
-            }
+            patterns[ i ] = Pattern.compile( perlPatternStr );
         }
         return patterns;
     }

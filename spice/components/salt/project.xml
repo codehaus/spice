@@ -30,7 +30,6 @@
         <developer>
             <name>Peter Donald</name>
             <id>donaldp</id>
-
             <roles>
                 <role>Developer</role>
             </roles>
@@ -40,12 +39,5 @@
             <email>mirceatoma@airpost.net</email>
         </developer>
     </developers>
-
-    <dependencies>
-        <dependency>
-            <id>oro</id>
-            <version>2.0.7</version>
-        </dependency>
-    </dependencies>
 
 </project>
