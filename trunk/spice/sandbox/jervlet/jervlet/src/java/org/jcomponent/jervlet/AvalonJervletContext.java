@@ -49,16 +49,75 @@
 */
 package org.jcomponent.jervlet;
 
-
+import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.container.ContainerUtil;
 
 /**
  * Holder class for objects to be used when creating servlets under Jervlet
  *
- * @author Paul Hammant
+ * If a servlet is LogEnabled then the logger is set on the servlet.
+ * If a servlet is Servicable then the serviceManager is set on the servlet.
+ * If a servlet is Contextualizable then the context is set on the servlet
+ * @author Ben Hogan
  */
-public interface JervletContext
+public class AvalonJervletContext implements JervletContext
 {
-    Object instantiate(Class servletClass) throws InstantiationException, IllegalAccessException;
+    private ServiceManager m_serviceManager;
+    private Logger m_logger;
+    private Context m_context;
 
+    public AvalonJervletContext( Context context, ServiceManager serviceManager, Logger logger )
+    {
+        m_context = context;
+        m_serviceManager = serviceManager;
+        m_logger = logger;
+    }
+
+    public ServiceManager getServiceManager()
+    {
+        return m_serviceManager;
+    }
+
+    public Logger getLogger()
+    {
+        return m_logger;
+    }
+
+    public Context getContext()
+    {
+        return m_context;
+    }
+
+    public Object instantiate(Class servletClass) throws InstantiationException, IllegalAccessException {
+            final Logger logger = getLogger();
+            Object instance = servletClass.newInstance();
+
+            try
+            {
+                ContainerUtil.enableLogging( instance, logger );
+                ContainerUtil.contextualize( instance, getContext() );
+
+                final ServiceManager manager = getServiceManager();
+                if( null != manager )
+                {
+                    ContainerUtil.service( instance, manager );
+                }
+
+                ContainerUtil.initialize( instance );
+            }
+            catch( Exception e )
+            {
+                final String msg = "Exception during lifecycle processing for servlet "
+                    + servletClass.getName() + ":" + e.getMessage();
+
+                logger.error( msg, e );
+
+                throw new InstantiationException( msg );
+            }
+
+            return instance;
+    }
 }
 

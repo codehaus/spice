@@ -49,16 +49,29 @@
 */
 package org.jcomponent.jervlet;
 
-
+import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.defaults.DefaultPicoContainer;
 
 /**
  * Holder class for objects to be used when creating servlets under Jervlet
  *
  * @author Paul Hammant
  */
-public interface JervletContext
+public class PicoJervletContext implements JervletContext
 {
-    Object instantiate(Class servletClass) throws InstantiationException, IllegalAccessException;
+    private final MutablePicoContainer parentContainer;
+
+    public PicoJervletContext( MutablePicoContainer mutablePicoContainer )
+    {
+        this.parentContainer = mutablePicoContainer;
+    }
+
+    public Object instantiate(Class servletClass) throws InstantiationException, IllegalAccessException {
+        MutablePicoContainer picoContainer = new DefaultPicoContainer();
+        picoContainer.addParent(parentContainer);
+        picoContainer.registerComponentImplementation(servletClass);
+        return picoContainer.getComponentInstance(servletClass);
+    }
 
 }
 
