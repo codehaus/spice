@@ -21,7 +21,7 @@ import java.util.Random;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-10-23 03:44:28 $
+ * @version $Revision: 1.13 $ $Date: 2003-10-23 05:12:49 $
  */
 public class NIOAcceptorManagerTestCase
    extends AbstractAcceptorManagerTestCase
@@ -44,7 +44,7 @@ public class NIOAcceptorManagerTestCase
    {
       m_manager = new NIOAcceptorManager();
       final ServerSocketChannel channel = ServerSocketChannel.open();
-      m_manager.handleChannel( new MockSelectionKey( channel ) );
+      m_manager.handleSelectorEvent( new MockSelectionKey( channel ) );
    }
 
    public void testStartupAndShutdown()
@@ -53,7 +53,7 @@ public class NIOAcceptorManagerTestCase
       m_manager = new NIOAcceptorManager();
       m_manager.setMonitor( new NullNIOAcceptorMonitor() );
       assertEquals( "isRunning() pre startup", false, m_manager.isRunning() );
-      m_manager.startupSelector();
+      m_manager.startup();
       assertEquals( "isRunning() post startup", true, m_manager.isRunning() );
       m_manager.shutdown();
       assertEquals( "isRunning() post shutdown", false, m_manager.isRunning() );
@@ -73,7 +73,7 @@ public class NIOAcceptorManagerTestCase
       throws Exception
    {
       m_manager = new NIOAcceptorManager();
-      m_manager.startupSelector();
+      m_manager.startup();
       final String name = "name";
       assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
       final ServerSocketChannel channel = ServerSocketChannel.open();
@@ -104,7 +104,7 @@ public class NIOAcceptorManagerTestCase
       throws Exception
    {
       m_manager = new NIOAcceptorManager();
-      m_manager.startupSelector();
+      m_manager.startup();
       final String name = "name";
       assertEquals( "isConnected pre connect", false, m_manager.isConnected( name ) );
       final ServerSocketChannel channel = ServerSocketChannel.open();
@@ -148,7 +148,7 @@ public class NIOAcceptorManagerTestCase
       throws Exception
    {
       m_manager = new NIOAcceptorManager();
-      m_manager.startupSelector();
+      m_manager.startup();
       final RecordingNIOAcceptorMonitor monitor = new RecordingNIOAcceptorMonitor();
       m_manager.setMonitor( monitor );
       m_manager.setTimeout( 500 );
@@ -214,7 +214,7 @@ public class NIOAcceptorManagerTestCase
       throws Exception
    {
       m_manager = new NIOAcceptorManager();
-      m_manager.startupSelector();
+      m_manager.startup();
       return m_manager;
    }
 
