@@ -26,7 +26,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-23 08:12:20 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 08:13:19 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -83,14 +83,7 @@ public class ConnectionTestCase
         }
         finally
         {
-            try
-            {
-                serverSocket.close();
-            }
-            catch( IOException ioe )
-            {
-
-            }
+            shutdown( serverSocket );
         }
     }
 
@@ -117,14 +110,7 @@ public class ConnectionTestCase
         }
         finally
         {
-            try
-            {
-                serverSocket.close();
-            }
-            catch( IOException ioe )
-            {
-
-            }
+            shutdown( serverSocket );
         }
     }
 
@@ -151,14 +137,7 @@ public class ConnectionTestCase
         }
         finally
         {
-            try
-            {
-                serverSocket.close();
-            }
-            catch( IOException ioe )
-            {
-
-            }
+            shutdown( serverSocket );
         }
     }
 
@@ -185,14 +164,18 @@ public class ConnectionTestCase
         }
         finally
         {
-            try
-            {
-                serverSocket.close();
-            }
-            catch( IOException ioe )
-            {
+            shutdown( serverSocket );
+        }
+    }
 
-            }
+    private void shutdown( final ServerSocket serverSocket )
+    {
+        try
+        {
+            serverSocket.close();
+        }
+        catch( IOException ioe )
+        {
         }
     }
 
