@@ -68,13 +68,7 @@ import java.io.Writer;
  * (or three if the destination stream is also buffered) is pointless, and the unnecessary buffer
  * management hurts performance slightly (about 3%, according to some simple experiments).</p>
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003-05-27 13:07:18 $
- * @since 4.0
- */
-
-/*
+ *
  * Behold, intrepid explorers; a map of this class:
  *
  *       Method      Input               Output          Dependency
@@ -103,8 +97,10 @@ import java.io.Writer;
  * using native Java copy methods. As there are method variants to specify buffer size and encoding,
  * each row may correspond to up to 4 methods.
  *
+ * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:jefft@apache.org">Jeff Turner</a>
+ * @version $Revision: 1.2 $ $Date: 2003-05-28 12:20:14 $
  */
-
 public final class IOUtil
 {
     /**

@@ -16,8 +16,7 @@ import java.io.OutputStream;
  * Utility code for dealing with different endian systems.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003-05-27 13:07:18 $
- * @since 4.0
+ * @version CVS $Revision: 1.2 $ $Date: 2003-05-28 12:20:13 $
  */
 public final class EndianUtil
 {
