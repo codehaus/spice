@@ -20,7 +20,7 @@
         <dependency>
             <groupId>spice</groupId>
             <artifactId>spice-event</artifactId>
-            <version>20031216.045456</version>
+            <version>1.0-dev</version>
         </dependency>
         <dependency>
             <groupId>jmock</groupId>
