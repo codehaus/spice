@@ -1,6 +1,7 @@
 package org.componenthaus.usecases.showcomponent;
 
 import org.componenthaus.repository.api.ComponentRepository;
+import org.componenthaus.repository.api.Component;
 import org.prevayler.Prevayler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -19,6 +20,8 @@ public class ShowComponentController extends AbstractController {
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         final ComponentRepository repository = (ComponentRepository) prevayler.system();
-        return new ModelAndView("showComponentView","component",repository.getComponent(request.getParameter("id")));
+        final Component component = repository.getComponent(request.getParameter("id"));
+        System.out.println("Displaying component details with full desc " + component.getFullDescription());
+        return new ModelAndView("showComponentView","component",component);
     }
 }
