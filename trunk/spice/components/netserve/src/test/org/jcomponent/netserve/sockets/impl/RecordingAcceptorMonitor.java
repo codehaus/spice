@@ -13,7 +13,7 @@ import java.net.ServerSocket;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-09 02:35:43 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-09 03:54:18 $
  */
 class RecordingAcceptorMonitor
     extends NullAcceptorMonitor
@@ -25,16 +25,19 @@ class RecordingAcceptorMonitor
     public void serverSocketListening( String name, ServerSocket serverSocket )
     {
         m_listenCount++;
+        super.serverSocketListening( name, serverSocket );
     }
 
     public void errorAcceptingConnection( String name, IOException ioe )
     {
         m_errorAcceptingConnection = ioe;
+        super.errorAcceptingConnection( name, ioe );
     }
 
     public void errorClosingServerSocket( String name, IOException ioe )
     {
         m_errorClosingServerSocket = ioe;
+        super.errorClosingServerSocket( name, ioe );
     }
 
     IOException getErrorClosingServerSocket()
