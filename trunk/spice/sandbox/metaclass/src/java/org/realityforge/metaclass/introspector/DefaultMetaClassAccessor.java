@@ -7,7 +7,6 @@
  */
 package org.realityforge.metaclass.introspector;
 
-import java.io.IOException;
 import java.io.InputStream;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
@@ -36,7 +35,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * </ul>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-28 07:01:01 $
+ * @version $Revision: 1.6 $ $Date: 2003-11-01 01:14:56 $
  */
 public class DefaultMetaClassAccessor
     implements MetaClassAccessor
@@ -83,11 +82,11 @@ public class DefaultMetaClassAccessor
         {
             return c_metaClassIO.deserializeClass( inputStream );
         }
-        catch( final IOException ioe )
+        catch( final Exception e )
         {
             final String message =
                 "Unable to load Attributes for " + classname;
-            throw new MetaClassException( message, ioe );
+            throw new MetaClassException( message, e );
         }
     }
 }
