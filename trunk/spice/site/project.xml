@@ -18,7 +18,7 @@
 	<groupId>spice</groupId>
     <package>org.codehaus.spice.${pom.artifactId.substring(6)}</package>
     <url>http://spice.codehaus.org/</url>
-    <siteAddress>spice.codehaus.org</siteAddress>
+    <siteAddress>codehaus.org</siteAddress>
     <siteDirectory>/www/spice.codehaus.org/</siteDirectory>
     <distributionSite>codehaus.org</distributionSite>
     <distributionDirectory>/www/dist.codehaus.org</distributionDirectory>
