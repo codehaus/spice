@@ -11,10 +11,13 @@ package org.realityforge.threadpool;
  * This class is the public frontend for the thread pool code.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-03-01 03:08:15 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 04:12:06 $
  */
 public interface ThreadPool
 {
+    /** Role string for service interface */
+    String ROLE = ThreadPool.class.getName();
+
     /**
      * Run work in separate thread.
      * Return a valid ThreadControl to control work thread.
