@@ -30,7 +30,7 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.25 $ $Date: 2003-11-20 09:23:19 $
+ * @version $Revision: 1.26 $ $Date: 2003-11-28 11:08:18 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -146,7 +146,7 @@ public class MetaGenerateTaskTestCase
         element.setName( "noExist" );
         final FileSet set = new FileSet();
         set.setProject( project );
-        element.addClasspath( set );
+        element.createClasspath().addFileset( set );
         try
         {
             task.createInstance( element, JavaClassFilter.class, "filter" );
