@@ -30,6 +30,16 @@
                     </a>.
                 </p>
             </subsection>
+            <subsection name="Converter">
+                <p>
+                    The Converter component has been moved as it was not under
+                    active development nor was it utilized. The source and
+                    binary is still accessible via a website at
+                    <a href="http://www.realityforge.org/java/converter/">
+                        http://www.realityforge.org/java/converter/
+                    </a>.
+                </p>
+            </subsection>
             <subsection name="Extension">
                 <p>
                     The Extension component was migrated to the
