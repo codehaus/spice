@@ -6,6 +6,7 @@
  * with this distribution in the LICENSE.txt file.
  */
 package org.jcomponent.alchemist.impl;
+
 import org.jcontainer.dna.Logger;
 
 /**
@@ -21,7 +22,7 @@ import org.jcontainer.dna.Logger;
  *   <li>error ==&gt; error</li>
  * </ul>
  *
- * @version $Revision: 1.1 $ $Date: 2003-10-25 13:31:44 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-11 03:33:28 $
  */
 public class DNALogger
     implements Logger
