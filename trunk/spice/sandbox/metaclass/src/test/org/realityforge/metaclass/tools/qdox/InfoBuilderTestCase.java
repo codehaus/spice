@@ -26,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-08-22 06:26:44 $
+ * @version $Revision: 1.9 $ $Date: 2003-08-24 04:27:02 $
  */
 public class InfoBuilderTestCase
     extends TestCase
@@ -351,7 +351,7 @@ public class InfoBuilderTestCase
         javaField.setModifiers( new String[]{"public"} );
         javaField.setName( name );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final FieldDescriptor field = parser.buildField( javaField );
+        final FieldDescriptor field = parser.buildField( javaField, new DefaultQDoxAttributeInterceptor() );
         assertNotNull( "field", field );
         assertEquals( "field.name", name, field.getName() );
         assertEquals( "field.type", type, field.getType() );
@@ -386,7 +386,7 @@ public class InfoBuilderTestCase
         javaMethod.setModifiers( new String[]{"public"} );
         javaMethod.setTags( new ArrayList() );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final MethodDescriptor method = parser.buildMethod( javaMethod );
+        final MethodDescriptor method = parser.buildMethod( javaMethod, new DefaultQDoxAttributeInterceptor() );
         assertNotNull( "method", method );
         assertEquals( "method.name", name, method.getName() );
         assertEquals( "method.type", type, method.getReturnType() );
@@ -406,7 +406,7 @@ public class InfoBuilderTestCase
         javaClass.setModifiers( new String[]{"public"} );
         javaClass.setTags( new ArrayList() );
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass );
+        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new DefaultQDoxAttributeInterceptor() );
         assertNotNull( "clazz", clazz );
         assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
         assertEquals( "clazz.modifiers", Modifier.PUBLIC, clazz.getModifiers() );
