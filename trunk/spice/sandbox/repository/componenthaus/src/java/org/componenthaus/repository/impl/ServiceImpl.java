@@ -4,6 +4,7 @@ import org.componenthaus.repository.api.Service;
 
 import java.util.List;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 class ServiceImpl implements Service {
     private String name = null;
@@ -12,6 +13,10 @@ class ServiceImpl implements Service {
     private List authors = null;
     private String oneLineDescription = null;
     private String fullDescription = null;
+
+    public ServiceImpl() {
+        authors = new ArrayList();
+    }
 
     ServiceImpl(String fullyQualifiedName,String version,List authors,String oneLineDescription,String fullDescription) {
         this.fullyQualifiedName = fullyQualifiedName;

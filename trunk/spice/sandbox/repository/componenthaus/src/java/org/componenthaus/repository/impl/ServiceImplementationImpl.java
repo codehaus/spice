@@ -12,6 +12,11 @@ public class ServiceImplementationImpl extends ServiceImpl implements ServiceImp
     private String id = null;
     private final Collection plugs;
 
+    public ServiceImplementationImpl() {
+        super();
+        plugs = new ArrayList();
+    }
+
     public ServiceImplementationImpl(String fullyQualifiedName, String version, List authors, String oneLineDescription, String fullDescription) {
         super(fullyQualifiedName, version, authors, oneLineDescription, fullDescription);
         plugs = new ArrayList();

@@ -13,6 +13,10 @@ public class ComponentImpl extends ServiceImpl implements Component, Serializabl
     private String serviceInterface = null;
     private final Collection implementations;
 
+    public ComponentImpl() {
+        implementations = new ArrayList();
+    }
+
     public ComponentImpl(String fullyQualifiedName, String version, List authors, String oneLineDescription, String fullDescription,String serviceInterface) {
         super(fullyQualifiedName,version,authors,oneLineDescription,fullDescription);
         this.serviceInterface = serviceInterface;

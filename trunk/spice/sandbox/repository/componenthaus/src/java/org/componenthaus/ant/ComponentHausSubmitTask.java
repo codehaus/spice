@@ -14,6 +14,7 @@ import org.componenthaus.ant.metadata.ComponentDefinition;
 import org.componenthaus.ant.metadata.ComponentImplementation;
 import org.componenthaus.ant.metadata.ComponentMetadata;
 import org.componenthaus.ant.metadata.Resource;
+import org.componenthaus.util.text.TextUtils;
 import org.xml.sax.SAXException;
 
 import java.beans.IntrospectionException;
@@ -138,14 +139,27 @@ public class ComponentHausSubmitTask extends Task {
     }
 
     private ComponentImplementation createComponentImplementation(JavaClass aClass, JavaDocBuilder builder) {
+        final String fullDesc = format(assertFullDescription(aClass));
         return new ComponentImplementation(aClass.getFullyQualifiedName(),
                 assertTagValyeByName(aClass, "version"),
                 assertTagValuesByName(aClass, "author"),
                 assertOneLineDescription(aClass),
-                assertFullDescription(aClass),
+                fullDesc,
                 getServiceDependencies(aClass, builder),
                 getResourceDependencies(aClass)
         );
+    }
+
+    private String format(String text) {
+        text = TextUtils.replace("\\s*/\\**\\s*","",text); // Opening javadoc quote
+        text = TextUtils.replace("\\s*\\*+\\s*","",text); // Opening javadoc quote
+        text = TextUtils.replace("\\s*\\**/\\s*","",text); //closing javadoc
+        text = TextUtils.replace("<p>","",text);
+        text = TextUtils.replace("<P>","",text);
+        text = TextUtils.replace("</P>","",text);
+        text = TextUtils.replace("</p>","",text);
+        text = TextUtils.replace("\n","",text);
+        return TextUtils.fmt(text);
     }
 
     /**
@@ -196,8 +210,8 @@ public class ComponentHausSubmitTask extends Task {
                 assertTagValyeByName(intf, "version"),
                 assertTagValuesByName(intf, "author"),
                 assertOneLineDescription(intf),
-                assertFullDescription(intf),
-                intf.toString());
+                format(assertFullDescription(intf)),
+                format(intf.toString()));
     }
 
     private String assertFullDescription(final JavaClass intf) {

@@ -48,7 +48,7 @@
   </tr>
   <tr>
     <td bgcolor="#666666" class="style4"><strong>Interface</strong></td>
-    <td colspan="4" class="style4"><span class="style3"><pre><c:out value="${component.serviceInterface}"/></pre></span></td>
+    <td colspan="4" class="style4"><span class="style3"><c:out value="${component.serviceInterface}"/></span></td>
   </tr>
 </table>
 
