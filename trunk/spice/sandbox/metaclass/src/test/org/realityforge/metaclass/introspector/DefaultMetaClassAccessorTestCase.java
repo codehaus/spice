@@ -14,7 +14,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 00:47:49 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-22 09:19:41 $
  */
 public class DefaultMetaClassAccessorTestCase
     extends TestCase
@@ -26,10 +26,9 @@ public class DefaultMetaClassAccessorTestCase
         final String location = "com/biz/MyClass-meta.binary";
         final byte[] data = new byte[]
         {
-            0, 0, 0, 1, //version
+            0, 0, 0, 2, //version
             0, 15, //length of classname
             'c', 'o', 'm', '.', 'b', 'i', 'z', '.', 'M', 'y', 'C', 'l', 'a', 's', 's',
-            0, 0, 0, 0, //modifers
             0, 0, 0, 0, //attribute count
             0, 0, 0, 0, //field count
             0, 0, 0, 0 //method count
@@ -39,8 +38,6 @@ public class DefaultMetaClassAccessorTestCase
         final DefaultMetaClassAccessor accessor = new DefaultMetaClassAccessor();
         final ClassDescriptor clazz = accessor.getClassDescriptor( name, classLoader );
         assertEquals( "class.name", name, clazz.getName() );
-        assertEquals( "class.modifiers",
-                      0, clazz.getModifiers() );
         assertEquals( "class.attributes.length",
                       0, clazz.getAttributes().length );
         assertEquals( "class.methods.length",

@@ -22,7 +22,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-10-04 00:47:48 $
+ * @version $Revision: 1.14 $ $Date: 2003-10-22 09:19:41 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -144,7 +144,6 @@ public class AttributesTestCase
 
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -185,7 +184,6 @@ public class AttributesTestCase
 
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -217,7 +215,6 @@ public class AttributesTestCase
 
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -239,11 +236,9 @@ public class AttributesTestCase
         final FieldDescriptor fieldDescriptor =
             new FieldDescriptor( field.getName(),
                                  field.getType().getName(),
-                                 field.getModifiers(),
                                  attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{fieldDescriptor},
                                  MethodDescriptor.EMPTY_SET );
@@ -285,11 +280,9 @@ public class AttributesTestCase
         final FieldDescriptor fieldDescriptor =
             new FieldDescriptor( field.getName(),
                                  field.getType().getName(),
-                                 field.getModifiers(),
                                  attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{fieldDescriptor},
                                  MethodDescriptor.EMPTY_SET );
@@ -323,11 +316,9 @@ public class AttributesTestCase
         final FieldDescriptor fieldDescriptor =
             new FieldDescriptor( field.getName(),
                                  field.getType().getName(),
-                                 field.getModifiers(),
                                  attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{fieldDescriptor},
                                  MethodDescriptor.EMPTY_SET );
@@ -364,12 +355,10 @@ public class AttributesTestCase
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( method.getName(),
                                   method.getReturnType().getName(),
-                                  method.getModifiers(),
                                   parameters,
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
@@ -409,12 +398,10 @@ public class AttributesTestCase
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( method.getName(),
                                   method.getReturnType().getName(),
-                                  method.getModifiers(),
                                   parameters,
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
@@ -454,12 +441,10 @@ public class AttributesTestCase
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( method.getName(),
                                   method.getReturnType().getName(),
-                                  method.getModifiers(),
                                   parameters,
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
@@ -476,11 +461,9 @@ public class AttributesTestCase
         final FieldDescriptor fieldDescriptor =
             new FieldDescriptor( "ignoreMe",
                                   "java.lang.String",
-                                  0,
-                                  Attribute.EMPTY_SET );
+                                 Attribute.EMPTY_SET );
                 final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{fieldDescriptor},
                                  MethodDescriptor.EMPTY_SET );
@@ -505,12 +488,10 @@ public class AttributesTestCase
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( "ignoreMe",
                                   "",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
@@ -535,12 +516,10 @@ public class AttributesTestCase
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( "ignoreMe",
                                   "",
-                                  0,
                                   ParameterDescriptor.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
@@ -587,12 +566,10 @@ public class AttributesTestCase
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( getConstructorName( constructor ),
                                   "",
-                                  constructor.getModifiers(),
                                   parameters,
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
@@ -636,12 +613,10 @@ public class AttributesTestCase
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( getConstructorName( constructor ),
                                   "",
-                                  constructor.getModifiers(),
                                   parameters,
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
@@ -683,12 +658,10 @@ public class AttributesTestCase
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( getConstructorName( constructor ),
                                   "",
-                                  constructor.getModifiers(),
                                   parameters,
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
@@ -727,12 +700,10 @@ public class AttributesTestCase
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( getConstructorName( constructor ),
                                   "",
-                                  constructor.getModifiers(),
                                   parameters,
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
@@ -759,12 +730,10 @@ public class AttributesTestCase
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( method.getName(),
                                   "",
-                                  method.getModifiers(),
                                   parameters,
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
@@ -784,12 +753,10 @@ public class AttributesTestCase
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( constructor.getName(),
                                   "",
-                                  constructor.getModifiers(),
                                   ParameterDescriptor.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
