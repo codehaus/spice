@@ -7,9 +7,7 @@
  */
 package org.jcomponent.threadpool.impl;
 
-import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
-import org.jcomponent.threadpool.ThreadPool;
 import org.jcomponent.threadpool.ThreadPoolMonitor;
 
 /**
@@ -17,11 +15,10 @@ import org.jcomponent.threadpool.ThreadPoolMonitor;
  * Pico component system.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-29 07:31:19 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-29 07:42:04 $
  */
 public class PicoCommonsThreadPool
    extends CommonsThreadPool
-   implements ThreadPool, PoolableObjectFactory
 {
    public static class Default
       extends PicoCommonsThreadPool
