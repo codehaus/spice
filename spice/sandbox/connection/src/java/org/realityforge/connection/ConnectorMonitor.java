@@ -6,4 +6,11 @@ package org.realityforge.connection;
  */
 public interface ConnectorMonitor
 {
+   boolean attemptingConnection();
+
+   void connectionEstablished();
+
+   void errorConnecting( Throwable t );
+
+   void errorDisconnecting( Throwable t );
 }
