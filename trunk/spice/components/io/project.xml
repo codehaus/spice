@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
+    <name>IO Utils</name>
+    <id>spice-io</id>
+    <gumpRepositoryId>components</gumpRepositoryId>
+
+    <shortDescription>IO Utils</shortDescription>
+
+    <description>
+        IO is a toolkit that provides several utility methods to
+        manipulate files, input streams, work with little endian
+        systems etc.
+    </description>
+
+    <developers>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <email>peter@apache.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+</project>
