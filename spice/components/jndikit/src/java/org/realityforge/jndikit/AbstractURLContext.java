@@ -22,7 +22,7 @@ import javax.naming.spi.ResolveResult;
  * provide a particular type of Context.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractURLContext
     extends AbstractContext
@@ -220,7 +220,7 @@ public abstract class AbstractURLContext
             throw new InvalidNameException( "Unable to locate URLContext will empty name" );
         }
 
-        final String nameString = name.toString();
+        final String nameString = name.get(0).toString();
         int index = nameString.indexOf( ':' );
 
         if( -1 == index )
