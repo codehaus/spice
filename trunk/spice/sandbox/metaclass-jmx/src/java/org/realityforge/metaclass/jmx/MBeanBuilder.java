@@ -72,6 +72,25 @@ public class MBeanBuilder
         return helper.toModelMBeanInfo();
     }
 
+    /**
+     * Return the description of class as specified in "description"
+     * parameter of mx.component attribute.
+     *
+     * @param type the type
+     * @return the description of "" if not specified
+     */
+    String getTypeDescription( final Class type )
+    {
+        final Attribute desc =
+            Attributes.getAttribute( type, MX_COMPONENT_CONSTANT );
+        String description = EMPTY_STRING;
+        if( null != desc )
+        {
+            description = desc.getParameter( DESCRIPTION_KEY_CONSTANT, EMPTY_STRING );
+        }
+        return description;
+    }
+
     private void extractConstructors( final Constructor[] constructors,
                                       final ModelInfoCreationHelper helper )
     {
@@ -109,25 +128,6 @@ public class MBeanBuilder
         info.setDescriptor( descriptor );
 
         return info;
-    }
-
-    /**
-     * Return the description of class as specified in "description"
-     * parameter of mx.component attribute.
-     *
-     * @param type the type
-     * @return the description of "" if not specified
-     */
-    String getTypeDescription( final Class type )
-    {
-        final Attribute desc =
-            Attributes.getAttribute( type, MX_COMPONENT_CONSTANT );
-        String description = EMPTY_STRING;
-        if( null != desc )
-        {
-            description = desc.getParameter( DESCRIPTION_KEY_CONSTANT, EMPTY_STRING );
-        }
-        return description;
     }
 
     /**
