@@ -19,9 +19,9 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-08 07:06:37 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-08 08:26:49 $
  * @dna.component
- * @dna.service type="ConnectionManager"
+ * @dna.service type="SocketAcceptorManager"
  */
 public class DefaultAcceptorManager
     implements SocketAcceptorManager
