@@ -1,6 +1,7 @@
 package org.realityforge.connection;
 
 import junit.framework.TestCase;
+import org.realityforge.connection.policys.LimitingReconnectPolicy;
 
 public class ConnectorTestCase
    extends TestCase
@@ -21,6 +22,15 @@ public class ConnectorTestCase
       fail( "Expected to fail due to NPE" );
    }
 
+   public void testSetPolicy()
+      throws Exception
+   {
+      final Connector connector = new Connector();
+      final LimitingReconnectPolicy policy = new LimitingReconnectPolicy( 1, 1 );
+      connector.setPolicy( policy );
+      assertEquals( "policy", policy, connector.getPolicy() );
+   }
+
    public void testSetNullMonitor()
       throws Exception
    {
@@ -35,6 +45,15 @@ public class ConnectorTestCase
          return;
       }
       fail( "Expected to fail due to NPE" );
+   }
+
+   public void testSetMonitor()
+      throws Exception
+   {
+      final Connector connector = new Connector();
+      final NullMonitor monitor = new NullMonitor();
+      connector.setMonitor( monitor );
+      assertEquals( "monitor", monitor, connector.getMonitor() );
    }
 
    public void testSetNullConnection()
