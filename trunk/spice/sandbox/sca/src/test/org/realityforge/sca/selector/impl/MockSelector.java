@@ -30,7 +30,8 @@ class MockSelector
         return null;
     }
 
-    public int selectNow() throws IOException
+    public int selectNow()
+        throws IOException
     {
         return 0;
     }
@@ -41,7 +42,8 @@ class MockSelector
         return 0;
     }
 
-    public int select() throws IOException
+    public int select()
+        throws IOException
     {
         return 0;
     }
@@ -51,7 +53,8 @@ class MockSelector
         return null;
     }
 
-    public void close() throws IOException
+    public void close()
+        throws IOException
     {
         EXCEPTION.fillInStackTrace();
         throw EXCEPTION;

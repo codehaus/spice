@@ -16,9 +16,7 @@ import java.nio.channels.SelectionKey;
 public class NullSelectorMonitor
     implements SelectorMonitor
 {
-    /**
-     * Constant containing instance of NullSelectorMonitor.
-     */
+    /** Constant containing instance of NullSelectorMonitor. */
     public static final NullSelectorMonitor MONITOR = new NullSelectorMonitor();
 
     /**

@@ -1,7 +1,6 @@
 package org.realityforge.sca.selector.impl;
 
 import junit.framework.TestCase;
-import org.realityforge.sca.selector.impl.NullSelectorMonitor;
 
 public class NullSelectorMonitorTestCase
     extends TestCase

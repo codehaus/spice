@@ -3,18 +3,18 @@ package org.realityforge.sca.connector;
 import junit.framework.TestCase;
 
 public class NeverPingPolicyTestCase
-   extends TestCase
+    extends TestCase
 {
-   public void testNeverPingPolicy()
-      throws Exception
-   {
-      final NeverPingPolicy policy = NeverPingPolicy.POLICY;
-      final long lastPingTime = System.currentTimeMillis();
-      assertEquals( "nextPingCheck",
-                    Long.MAX_VALUE,
-                    policy.nextPingCheck() );
-      assertEquals( "checkPingConnection",
-                    false,
-                    policy.checkPingConnection() );
-   }
+    public void testNeverPingPolicy()
+        throws Exception
+    {
+        final NeverPingPolicy policy = NeverPingPolicy.POLICY;
+        final long lastPingTime = System.currentTimeMillis();
+        assertEquals( "nextPingCheck",
+                      Long.MAX_VALUE,
+                      policy.nextPingCheck() );
+        assertEquals( "checkPingConnection",
+                      false,
+                      policy.checkPingConnection() );
+    }
 }

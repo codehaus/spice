@@ -11,15 +11,12 @@ import java.nio.channels.SelectionKey;
 import org.realityforge.sca.selector.SelectorEventHandler;
 
 /**
- * Basic implementation of
- * SelectorEventHandler that does nothing.
+ * Basic implementation of SelectorEventHandler that does nothing.
  */
 public class NullSelectorEventHandler
     implements SelectorEventHandler
 {
-    /**
-     * Constant containing instance of NullSelectorEventHandler.
-     */
+    /** Constant containing instance of NullSelectorEventHandler. */
     public static final NullSelectorEventHandler HANDLER = new NullSelectorEventHandler();
 
     /**
