@@ -7,13 +7,15 @@
  */
 package org.realityforge.packet.session;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2004-01-15 06:15:27 $
+ * @version $Revision: 1.8 $ $Date: 2004-01-16 06:48:00 $
  */
 public class Session
 {
@@ -42,6 +44,9 @@ public class Session
     /** List of attributes associated with session. */
     private final PacketQueue _messageQueue = new PacketQueue();
 
+    /** List of attributes associated with session. */
+    private final List _incoming = new ArrayList();
+
     /** A unique id for this particula session. */
     private long _sessionID;
 
@@ -60,8 +65,11 @@ public class Session
     /** Flag indicating whether this is the serverside or clientside session. */
     private boolean _client;
 
-    /** The sequence of the last packet processed. */
+    /** The sequence of the last packet received. */
     private short _lastPacketProcessed;
+
+    /** The sequence of the last packet transmitted. */
+    private short _lastPacketTransmitted;
 
     /**
      * Create Serverside session with specified ID.
@@ -80,7 +88,7 @@ public class Session
      */
     public Session()
     {
-        this( -1, (short)0, false );
+        this( -1, (short)0, true );
     }
 
     /**
@@ -97,6 +105,21 @@ public class Session
         _sessionID = sessionID;
         _authID = authID;
         _client = client;
+    }
+
+    public List getIncoming()
+    {
+        return _incoming;
+    }
+
+    public short getLastPacketTransmitted()
+    {
+        return _lastPacketTransmitted;
+    }
+
+    public void setLastPacketTransmitted( final short lastPacketTransmitted )
+    {
+        _lastPacketTransmitted = lastPacketTransmitted;
     }
 
     /**

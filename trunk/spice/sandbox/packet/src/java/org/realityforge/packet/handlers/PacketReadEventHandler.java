@@ -12,19 +12,28 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-14 03:03:57 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-16 06:48:00 $
  */
 public class PacketReadEventHandler
     extends AbstractDirectedHandler
 {
+    /** The destination of all events destined for next layer. */
+    private final EventSink _target;
+
     /**
      * Create handler.
      * 
      * @param sink the destination
      */
-    public PacketReadEventHandler( final EventSink sink )
+    public PacketReadEventHandler( final EventSink sink,
+                                   final EventSink target )
     {
         super( sink );
+        if( null == target )
+        {
+            throw new NullPointerException( "target" );
+        }
+        _target = target;
     }
 
     /**
@@ -48,7 +57,7 @@ public class PacketReadEventHandler
             candidate = queue.pop();
             final DataPacketReadyEvent response =
                 new DataPacketReadyEvent( session, packet );
-            getSink().addEvent( response );
+            _target.addEvent( response );
             processed++;
             session.setLastPacketProcessed( processed );
         }
