@@ -53,12 +53,12 @@
         <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-api</artifactId>
-            <version>1.0dev</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-impl</artifactId>
-            <version>1.0dev</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <id>commons-pool</id>
