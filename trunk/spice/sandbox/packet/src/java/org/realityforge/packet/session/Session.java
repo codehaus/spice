@@ -7,15 +7,13 @@
  */
 package org.realityforge.packet.session;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.9 $ $Date: 2004-01-20 06:05:04 $
+ * @version $Revision: 1.10 $ $Date: 2004-01-21 04:19:45 $
  */
 public class Session
 {
@@ -32,44 +30,70 @@ public class Session
      */
     public static final int STATUS_CONNECTED = 1;
 
-    /** Status indicating the Client has acknowledged that they are connected. */
+    /**
+     * Status indicating the Client has acknowledged that they are connected.
+     */
     public static final int STATUS_ESTABLISHED = 2;
 
-    /** Status indicating transport is no longer active. */
+    /**
+     * Status indicating transport is no longer active.
+     */
     public static final int STATUS_LOST = 3;
 
-    /** Status indicating client is no longer connected. */
+    /**
+     * Status indicating client is no longer connected.
+     */
     public static final int STATUS_DISCONNECTED = 4;
 
-    /** List of attributes associated with session. */
+    /**
+     * List of attributes associated with session.
+     */
     private final PacketQueue _messageQueue = new PacketQueue();
 
-    /** List of attributes associated with session. */
-    private final List _incoming = new ArrayList();
-
-    /** A unique id for this particula session. */
+    /**
+     * A unique id for this particula session.
+     */
     private long _sessionID;
 
-    /** Authentication ID. */
+    /**
+     * Authentication ID.
+     */
     private short _authID;
 
-    /** Time at which session status last changed. */
+    /**
+     * Time at which session status last changed.
+     */
     private long _timeOfLastStatusChange;
 
-    /** Status of session. Must be one of the STATUS_* constants. */
+    /**
+     * Status of session. Must be one of the STATUS_* constants.
+     */
     private int _status = STATUS_NOT_CONNECTED;
 
-    /** The associated transport. */
+    /**
+     * The associated transport.
+     */
     private ChannelTransport _transport;
 
-    /** Flag indicating whether this is the serverside or clientside session. */
+    /**
+     * Flag indicating whether this is the serverside or clientside session.
+     */
     private boolean _client;
 
-    /** The sequence of the last packet received. */
+    /**
+     * The sequence of the last packet received.
+     */
     private short _lastPacketProcessed;
 
-    /** The sequence of the last packet transmitted. */
+    /**
+     * The sequence of the last packet transmitted.
+     */
     private short _lastPacketTransmitted;
+
+    /**
+     * The userdata associated with the session.
+     */
+    private Object _userData;
 
     /**
      * Create Serverside session with specified ID.
@@ -105,11 +129,6 @@ public class Session
         _sessionID = sessionID;
         _authID = authID;
         _client = client;
-    }
-
-    public List getIncoming()
-    {
-        return _incoming;
     }
 
     public short getLastPacketTransmitted()
@@ -257,5 +276,15 @@ public class Session
         {
             setStatus( Session.STATUS_LOST );
         }
+    }
+
+    public Object getUserData()
+    {
+        return _userData;
+    }
+
+    public void setUserData( final Object userData )
+    {
+        _userData = userData;
     }
 }
