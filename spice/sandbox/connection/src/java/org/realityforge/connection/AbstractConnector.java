@@ -214,7 +214,7 @@ public abstract class AbstractConnector
    }
 
    /**
-    * Code so that connector will actually establish connection.
+    * Method to make connector establish connection.
     *
     * @mx.operation
     */
@@ -250,6 +250,11 @@ public abstract class AbstractConnector
       }
    }
 
+   /**
+    * Method to disconect Connector.
+    *
+    * @mx.operation
+    */
    public void disconnect()
    {
 
