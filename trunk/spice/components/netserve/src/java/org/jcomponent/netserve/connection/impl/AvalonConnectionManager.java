@@ -21,7 +21,7 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.jcomponent.threadpool.ThreadPool;
 
 /**
- * An implementation of ConnectionManager which honours the 
+ * An implementation of ConnectionManager which honours the
  * Avalon framework interfaces.
  *
  * <p>A sample configuration for the component is below. Note that on some OS/JVM
@@ -41,7 +41,7 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-08-31 10:38:29 $
+ * @version $Revision: 1.9 $ $Date: 2003-08-31 10:38:40 $
  * @phoenix.component
  * @phoenix.service type="org.jcomponent.netserve.connection.ConnectionManager"
  */
@@ -84,7 +84,7 @@ public class AvalonConnectionManager
      * @param configuration the configuration
      * @throws ConfigurationException if error reading configuration
      * @phoenix.configuration type="http://relaxng.org/ns/structure/1.0"
-     *    location="DefaultConnectionManager-schema.xml"
+     *    location="ConnectionManager-schema.xml"
      */
     public void configure( final Configuration configuration )
         throws ConfigurationException
