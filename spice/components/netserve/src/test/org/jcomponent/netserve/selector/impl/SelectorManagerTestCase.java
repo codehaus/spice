@@ -12,12 +12,6 @@ import java.util.Random;
 import com.mockobjects.dynamic.C;
 import com.mockobjects.dynamic.Mock;
 import junit.framework.TestCase;
-import org.jcomponent.netserve.selector.impl.NullSelectorEventHandler;
-import org.jcomponent.netserve.selector.impl.NullSelectorMonitor;
-import org.jcomponent.netserve.selector.impl.DefaultSelectorManager;
-import org.jcomponent.netserve.selector.impl.SelectorMonitor;
-import org.jcomponent.netserve.selector.impl.HelloSelectorEventHandler;
-import org.jcomponent.netserve.selector.impl.MockSelector;
 
 public class SelectorManagerTestCase
    extends TestCase
@@ -42,31 +36,6 @@ public class SelectorManagerTestCase
       catch ( final NullPointerException npe )
       {
          assertEquals( "npe.getMessage()", "monitor", npe.getMessage() );
-         return;
-      }
-      fail( "expected to fail with npe" );
-   }
-
-   public void testSetHandlerUsingNonNull()
-      throws Exception
-   {
-      final DefaultSelectorManager manager = new DefaultSelectorManager();
-      final NullSelectorEventHandler handler = new NullSelectorEventHandler();
-      manager.setHandler( handler );
-      assertEquals( "handler", handler, manager.getHandler() );
-   }
-
-   public void testSetHandlerUsingNull()
-      throws Exception
-   {
-      final DefaultSelectorManager manager = new DefaultSelectorManager();
-      try
-      {
-         manager.setHandler( null );
-      }
-      catch ( final NullPointerException npe )
-      {
-         assertEquals( "npe.getMessage()", "handler", npe.getMessage() );
          return;
       }
       fail( "expected to fail with npe" );
@@ -173,7 +142,6 @@ public class SelectorManagerTestCase
       manager.setTimeout( 5000 );
       manager.setMonitor( monitor );
 
-      manager.setHandler( new HelloSelectorEventHandler() );
       assertEquals( "isRunning pre start", false, manager.isRunning() );
       assertNullSelector( manager );
       manager.startup();
