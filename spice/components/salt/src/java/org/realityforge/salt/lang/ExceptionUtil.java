@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * This class makes it easy to manipulate data stored in exceptions.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-07-16 04:46:36 $
+ * @version $Revision: 1.11 $ $Date: 2003-10-18 07:14:20 $
  */
 public final class ExceptionUtil
 {
@@ -157,6 +157,35 @@ public final class ExceptionUtil
         for( int i = 0; i < lines.length; i++ )
         {
             if( lines[ i ].startsWith( SEPARATOR ) )
+            {
+                final String[] result = new String[ i ];
+                System.arraycopy( lines, 0, result, 0, i );
+                return result;
+            }
+        }
+        return lines;
+    }
+
+    /**
+     * Captures the stack trace associated with this exception.
+     * The stack trace terminates at any line containing the contents
+     * of "stopLine".
+     *
+     * @param throwable a <code>Throwable</code>
+     * @param stopLine the stopLine
+     * @return an array of Strings describing stack frames.
+     */
+    public static String[] captureStackTrace( final Throwable throwable,
+                                              final String stopLine )
+    {
+        final StringWriter sw = new StringWriter();
+        throwable.printStackTrace( new PrintWriter( sw, true ) );
+        final String[] lines = splitLines( sw.toString() );
+        for( int i = 0; i < lines.length; i++ )
+        {
+            final String line = lines[ i ];
+            if( line.startsWith( SEPARATOR ) ||
+                -1 != line.indexOf( stopLine ) )
             {
                 final String[] result = new String[ i ];
                 System.arraycopy( lines, 0, result, 0, i );
