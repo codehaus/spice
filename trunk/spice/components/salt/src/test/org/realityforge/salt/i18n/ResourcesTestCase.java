@@ -11,12 +11,13 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-06-13 00:41:04 $
+ * @version $Revision: 1.12 $ $Date: 2003-06-13 00:48:09 $
  */
 public class ResourcesTestCase
     extends TestCase
@@ -376,14 +377,9 @@ public class ResourcesTestCase
             new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
                            Locale.getDefault(),
                            MockResourceBundle.class.getClassLoader() );
-        try
-        {
-            resources.getString( "noExist" );
-            fail( "Expected to be unable to locate resource 'noExist'" );
-        }
-        catch( MissingResourceException e )
-        {
-        }
+        final String string = resources.getString( "noExist" );
+        assertTrue( "Non existent resource starts with 'Unknown resource'",
+                    string.startsWith( "Unknown resource" ) );
     }
 
     public void testGetBadType()
@@ -401,6 +397,77 @@ public class ResourcesTestCase
         }
         catch( MissingResourceException e )
         {
+        }
+    }
+
+    public void testAlternateConstructor()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez", "a message in a bottle" );
+        assertEquals( "a message in a bottle", resources.getString( "rez" ) );
+    }
+
+    public void testAccessingCachedBundle()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           MockResourceBundle.class.getClassLoader() );
+        final ResourceBundle bundle1 = resources.getBundle();
+        assertNotNull( "getBundle v1", bundle1 );
+        final ResourceBundle bundle2 = resources.getBundle();
+        assertNotNull( "getBundle v2", bundle2 );
+        assertEquals( "v1 == v2", bundle1, bundle2 );
+    }
+
+    public void testPassingNullBasenameIntoCtor()
+        throws Exception
+    {
+        try
+        {
+            new Resources( null,
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+            fail( "Expected to fail due to passing null into ctor" );
+        }
+        catch( NullPointerException npe )
+        {
+            assertEquals( "Null value", "baseName", npe.getMessage() );
+        }
+    }
+
+    public void testPassingNullLocaleIntoCtor()
+        throws Exception
+    {
+        try
+        {
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           null,
+                           MockResourceBundle.class.getClassLoader() );
+            fail( "Expected to fail due to passing null into ctor" );
+        }
+        catch( NullPointerException npe )
+        {
+            assertEquals( "Null value", "locale", npe.getMessage() );
+        }
+    }
+
+    public void testPassingNullClassLoaderIntoCtor()
+        throws Exception
+    {
+        try
+        {
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           null );
+            fail( "Expected to fail due to passing null into ctor" );
+        }
+        catch( NullPointerException npe )
+        {
+            assertEquals( "Null value", "classLoader", npe.getMessage() );
         }
     }
 }
