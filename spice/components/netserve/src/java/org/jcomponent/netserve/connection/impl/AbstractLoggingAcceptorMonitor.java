@@ -1,4 +1,4 @@
-package org.jcomponent.netserve.sockets.impl;
+package org.jcomponent.netserve.connection.impl;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -12,7 +12,7 @@ public abstract class AbstractLoggingAcceptorMonitor
    implements AcceptorMonitor
 {
    /**
-    * @see AcceptorMonitor#acceptorCreated
+    * @see org.jcomponent.netserve.connection.impl.AcceptorMonitor#acceptorCreated
     */
    public void acceptorCreated( final String name,
                                 final ServerSocket serverSocket )
@@ -25,7 +25,7 @@ public abstract class AbstractLoggingAcceptorMonitor
    }
 
    /**
-    * @see AcceptorMonitor#acceptorClosing
+    * @see org.jcomponent.netserve.connection.impl.AcceptorMonitor#acceptorClosing
     */
    public void acceptorClosing( final String name,
                                 final ServerSocket serverSocket )
@@ -35,7 +35,7 @@ public abstract class AbstractLoggingAcceptorMonitor
    }
 
    /**
-    * @see AcceptorMonitor#serverSocketListening
+    * @see org.jcomponent.netserve.connection.impl.AcceptorMonitor#serverSocketListening
     */
    public void serverSocketListening( final String name,
                                       final ServerSocket serverSocket )
@@ -49,7 +49,7 @@ public abstract class AbstractLoggingAcceptorMonitor
    }
 
    /**
-    * @see AcceptorMonitor#errorAcceptingConnection
+    * @see org.jcomponent.netserve.connection.impl.AcceptorMonitor#errorAcceptingConnection
     */
    public void errorAcceptingConnection( final String name,
                                          final IOException ioe )
@@ -58,7 +58,7 @@ public abstract class AbstractLoggingAcceptorMonitor
    }
 
    /**
-    * @see AcceptorMonitor#errorClosingServerSocket
+    * @see org.jcomponent.netserve.connection.impl.AcceptorMonitor#errorClosingServerSocket
     */
    public void errorClosingServerSocket( final String name,
                                          final IOException ioe )

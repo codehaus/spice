@@ -1,4 +1,7 @@
-package org.jcomponent.netserve.sockets.impl;
+package org.jcomponent.netserve.connection.impl;
+
+import org.jcomponent.netserve.connection.impl.AcceptorMonitor;
+import org.jcomponent.netserve.connection.impl.DefaultAcceptorManager;
 
 /**
  * A Pico compliant implementation of AcceptorManager.

@@ -1,9 +1,10 @@
-package org.jcomponent.netserve.sockets.impl;
+package org.jcomponent.netserve.connection.impl;
 
 import org.jcontainer.dna.Configuration;
 import org.jcontainer.dna.ConfigurationException;
 import org.jcontainer.dna.Active;
 import org.jcontainer.dna.Configurable;
+import org.jcomponent.netserve.connection.impl.DefaultAcceptorManager;
 
 /**
  * A DNA compliant implementation of AcceptorManager.
@@ -18,10 +19,10 @@ import org.jcontainer.dna.Configurable;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-27 05:11:32 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-27 05:26:55 $
  * @dna.component
- * @dna.service type="org.jcomponent.netserve.sockets.SocketAcceptorManager"
- * @see DefaultAcceptorManager
+ * @dna.service type="org.jcomponent.netserve.connection.SocketAcceptorManager"
+ * @see org.jcomponent.netserve.connection.impl.DefaultAcceptorManager
  */
 public class DNAAcceptorManager
    extends DefaultAcceptorManager
