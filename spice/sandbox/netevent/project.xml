@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>Net Event Toolkit</name>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice NetEvent</name>
     <id>spice-netevent</id>
     <currentVersion>1.1-dev</currentVersion>
     <package>org.codehaus.spice.netevent</package>

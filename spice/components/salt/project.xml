@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>Salt Utility Library</name>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice Salt</name>
     <id>spice-salt</id>
     <currentVersion>1.1-dev</currentVersion>
     <package>org.codehaus.spice.salt</package>

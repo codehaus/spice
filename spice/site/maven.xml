@@ -4,18 +4,17 @@
     xmlns:doc="doc"
     xmlns:j="jelly:core"
     xmlns:maven="jelly:maven"
-    xmlns:util="jelly:util"
     xmlns:repository="spice:repository">
 
-    <define:taglib uri="spice:repository">
+    <define:taglib uri="spice:repository">	    
         <define:tag name="generateSummary">
 	        <ant:fileScanner var="components">
     	        <ant:fileset dir="${basedir}/../${type}">
       				<ant:include name="*/project.xml"/>
        			</ant:fileset>
        		</ant:fileScanner>
-       		<ant:mkdir dir="target/generated-xdocs"/>
-	        <j:file name="target/generated-xdocs/${type}.xml" prettyPrint="true">
+       		<ant:mkdir dir="${basedir}/target/generated-xdocs"/>
+	        <j:file name="${basedir}/target/generated-xdocs/${type}.xml" prettyPrint="true">
 				<document>
 				    <properties>
     				<title>${name}</title>
@@ -37,14 +36,26 @@
     </define:taglib>
 
     <preGoal name="xdoc:copy-user-resources">
-        <ant:copy file="${basedir}/../tools/site/project.css"
-                  todir="target/docs/style"/>
+        <ant:copy file="${basedir}/src/style/project.css"
+                  todir="${basedir}/target/docs/style"/>
+        <ant:copy file="${basedir}/src/style/site.jsl" 
+        		 todir="${basedir}/target"/>
     </preGoal>
 
     <preGoal name="xdoc:transform">
         <repository:generateSummary type="components" name="Components"/>
         <repository:generateSummary type="sandbox" name="Sandbox"/>
-        <ant:copy file="${basedir}/../tools/site/site.jsl" todir="target"/>
     </preGoal>
-
+	
+	<!-- 
+		NB:  site:deploy does not seem to work properly 
+			 hence the goals are attained explicitly
+	-->
+    <goal name="deploy">
+        <attainGoal name="clean"/>
+        <attainGoal name="site:run-reports"/>
+        <attainGoal name="xdoc"/>
+        <attainGoal name="site:sshdeploy"/>
+    </goal>
+    
 </project>

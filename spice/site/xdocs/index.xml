@@ -30,31 +30,27 @@
             <subsection name="JContainer DNA">
                 <p>
                     <a href="http://dna.jcontainer.org">JContainer DNA</a> is
-                    another framework supporting type-1 IoC.
+                    a framework supporting IoC.
                 </p>
             </subsection>
             <subsection name="JContainer Loom">
                 <p>
-                    The <a href="http://loom.jcontainer.org">JContainer Loom</a>
+                    <a href="http://loom.jcontainer.org">JContainer Loom</a>
                     is a container designed and implemented on top of the
-                    DNA and Avalon Frameworks.
+                    DNA framework, which also supports applications 
+                    written in the <a href="http://avalon.apache.org">Avalon</a> framework.
                 </p>
             </subsection>
             <subsection name="PicoContainer">
                 <p>
                     <a href="http://picocontainer.org">Pico Container</a>
                     supports IoC in a more agile and embeddable way, without
-                    the need to import any external interface or class
-                    (sometimes called type-3).
-                </p>
-                <p>
-                    The components which are Pico-compatible will display the
-                    logo <img src="http://www.picocontainer.org/images/pico-compatible.png" alt="Pico-compatible"/>.
+                    the need to import any external interface or class.
                 </p>
             </subsection>
             <subsection name="Codehaus Plexus">
                 <p>
-                    <a href="http://plexus.codehaus.org">Plexus</a> is is a
+                    <a href="http://plexus.codehaus.org">Plexus</a> is a
                     container designed and implemented on top of the
                     DNA and Avalon Frameworks.
                 </p>

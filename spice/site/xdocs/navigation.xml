@@ -11,7 +11,7 @@
         </links>
 
         <search/>
-        <menu name="Overview">
+        <menu name="Spice">
     		<item name="Home" href="/index.html"/>
             <item name="Download" href="/download.html"/>
         </menu>

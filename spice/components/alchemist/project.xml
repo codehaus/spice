@@ -1,19 +1,18 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>Alchemist</name>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice Alchemist</name>
     <id>spice-alchemist</id>    
-    <gumpRepositoryId>components</gumpRepositoryId>
     <package>org.codehaus.spice.alchemist</package>
     <currentVersion>1.1-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
     <shortDescription>
-    	Utility component for transforming objects of different COP frameworks.
+    	Alchemist is a utility component for transforming objects of different COP frameworks.
     </shortDescription>
 
     <description>
-		A utility component for transforming objects of different COP frameworks,
+		Alchemist is a utility component for transforming objects of different COP frameworks,
 		usually performing equivalent or similar roles.
 		Eg it provides transformation methods between the DNA and Avalon frameworks.
     </description>

@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>ConfigKit</name>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice ConfigKit</name>
     <id>spice-configkit</id>
     <currentVersion>1.3-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
     <package>org.codehaus.spice.configkit</package>
 
-    <shortDescription>Toolkit used to validate configuration against Schemas.</shortDescription>
+    <shortDescription>ConfigKit is toolkit to validate configuration against Schemas.</shortDescription>
 
     <description>
-        This toolkit aims to provide a simple facade to validate xml based
+        ConfigKit aims to provide a simple facade to validate xml based
         configuration files. It caches and manages the Schemas and is capable
         of scanning ClassLoaders for potential schema definitions.
     </description>

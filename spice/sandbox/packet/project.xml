@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>Packet</name>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice Packet</name>
     <id>spice-packet</id>
     <currentVersion>1.1-dev</currentVersion>
 

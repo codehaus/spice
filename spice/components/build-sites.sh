@@ -3,9 +3,9 @@
 # this script is in the public domain
 
 # update these projects
-PROJECTS="configkit salt jndikit ../sandbox/metaclass threadpool"
+PROJECTS="alchemist configkit jndikit loggerstore netserve salt threadpool"
 MULTI_PROCESS="no"
-ANT_COMMAND="maven site:generate site:deploy"
+ANT_COMMAND="maven site:run-reports xdoc site:sshdeploy"
 
 for module in ${PROJECTS}
 do

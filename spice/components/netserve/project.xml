@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>Netserve</name>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice Netserve</name>
     <id>spice-netserve</id>
     <package>org.codehaus.spice.netserve</package>
     <currentVersion>1.0-b1</currentVersion>
     <inceptionYear>1999</inceptionYear>
 
-    <shortDescription>Components useful for creating a Network Server.</shortDescription>
+    <shortDescription>Netserve is set of utility components for creating a Network Server.</shortDescription>
 
     <description>
-        Components useful for creating a Network Server. This includes an abstraction
+        Netserve is set of utility components for creating a Network Server. This includes an abstraction
         for creating sockets, an implementation of the Acceptor/Connector pattern from
         ACE for both stream based and packet based connections, etc.
     </description>
@@ -67,7 +67,7 @@
         <dependency> <!-- for unit testing the schema validation -->
             <groupId>spice</groupId>
             <artifactId>spice-configkit</artifactId>
-            <version>1.1.2</version>
+            <version>1.2</version>
         </dependency>
         <dependency><!-- for spice-configkit -->
             <id>isorelax</id>
