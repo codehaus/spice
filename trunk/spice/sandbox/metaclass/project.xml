@@ -44,5 +44,10 @@
             <id>ant</id>
             <version>1.5.2</version>
         </dependency>
+        <dependency>
+            <groupId>mockobjects</groupId>
+            <artifactId>mockobjects-core</artifactId>
+            <version>0.09</version>
+        </dependency>
     </dependencies>
 </project>
