@@ -19,7 +19,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.8 $ $Date: 2003-10-09 04:08:10 $
+ * @version $Revision: 1.9 $ $Date: 2003-10-09 04:09:28 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -141,7 +141,7 @@ public class DefaultAcceptorManager
      * @param name the name
      * @return true if acceptor with specified name exists.
      */
-    public synchronized boolean isConnected( final String name )
+    public boolean isConnected( final String name )
     {
         return m_acceptors.containsKey( name );
     }
@@ -152,7 +152,7 @@ public class DefaultAcceptorManager
      * @param name the name of connection
      * @throws IllegalArgumentException if no connection with specified name
      */
-    public synchronized void disconnect( final String name )
+    public void disconnect( final String name )
     {
         final ConnectionAcceptor acceptor =
             (ConnectionAcceptor)m_acceptors.remove( name );
