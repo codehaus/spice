@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.jcomponent.alchemist.impl;
+package org.codehaus.spice.alchemist.impl;
 
 import org.apache.avalon.framework.logger.Logger;
 
@@ -22,7 +22,7 @@ import org.apache.avalon.framework.logger.Logger;
  *   <li>fatalError ==&gt; error</li>
  * </ul>
  *
- * @version $Revision: 1.2 $ $Date: 2003-11-11 03:33:12 $
+ * @version $Revision: 1.1 $ $Date: 2003-11-20 11:01:20 $
  */
 public class AvalonLogger
     implements Logger
