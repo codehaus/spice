@@ -21,18 +21,19 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.16 $ $Date: 2004-02-18 02:33:38 $
+ * @version $Revision: 1.17 $ $Date: 2004-02-23 04:06:24 $
  */
 public class TestServer
 {
-   public static final long START_TIME = System.currentTimeMillis();
    private static boolean c_done;
 
-   private static SelectableChannelEventSource c_clientSocketSouce;
    private static final DefaultBufferManager BUFFER_MANAGER = new DefaultBufferManager();
    public static final DefaultSessionManager SESSION_MANAGER = new DefaultSessionManager();
-   private static final int SESSION_COUNT = 53;
+   private static final int SESSION_COUNT = 50; //153;
    private static final Session[] SESSIONS = new Session[ SESSION_COUNT ];
+   static final int TX_SIZE_FACTOR = 1024 * 2;
+   static final int MESSAGE_COUNT = 5;
+   private static DefaultEventQueue c_sessionQueue;
 
    public static void main( final String[] args )
       throws Exception
@@ -60,7 +61,7 @@ public class TestServer
          new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
       for( int i = 0; i < SESSIONS.length; i++ )
       {
-         SESSIONS[ i ] = new Session( address );
+         SESSIONS[ i ] = new Session( address, c_sessionQueue );
       }
 
       boolean started = false;
@@ -69,26 +70,23 @@ public class TestServer
          for( int i = 0; i < SESSIONS.length; i++ )
          {
             final Session session = SESSIONS[ i ];
-            if( Session.STATUS_NOT_CONNECTED == session.getStatus() )
+            final long change = session.getLastCommTime() + 1000;
+            if( Session.STATUS_NOT_CONNECTED == session.getStatus() &&
+                change < System.currentTimeMillis() &&
+                !session.isConnecting() )
             {
-               final long change =
-                  session.getTimeOfLastStatusChange() + 1000;
-               if( change < System.currentTimeMillis() &&
-                   !session.isConnecting() )
+               session.startConnection();
+               if( session.getConnections() > 0 )
                {
-                  if( session.getConnections() > 0 )
-                  {
-                     final String message =
-                        "Re-establish " + session.getSessionID();
-                     System.out.println( message );
-                  }
-                  else
-                  {
-                     final String message =
-                        "Establish conenction to Server.";
-                     System.out.println( message );
-                  }
-                  session.startConnection( c_clientSocketSouce );
+                  final String message =
+                     "Re-establish SessionID=" + session.getSessionID();
+                  System.out.println( message );
+               }
+               else
+               {
+                  final String message =
+                     "Establish conenction to Server.";
+                  System.out.println( message );
                }
             }
          }
@@ -141,6 +139,7 @@ public class TestServer
       final EventHandler handler2 =
          new EchoHandler( "PACK SV",
                           new PacketIOEventHandler( source2,
+                                                    source1,
                                                     queue2,
                                                     queue3,
                                                     BUFFER_MANAGER,
@@ -171,8 +170,7 @@ public class TestServer
    {
       final DefaultEventQueue queue1 =
          new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
-      final DefaultEventQueue queue2 =
-         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+      c_sessionQueue = new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
       final DefaultEventQueue queue3 =
          new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
       final DefaultEventQueue queue4 =
@@ -189,13 +187,14 @@ public class TestServer
          new EchoHandler( "CHAN CL",
                           new ChannelEventHandler( source1,
                                                    queue1,
-                                                   queue2,
+                                                   c_sessionQueue,
                                                    BUFFER_MANAGER ) );
 
       final EventHandler handler2 =
          new EchoHandler( "PACK CL",
                           new PacketIOEventHandler( source2,
-                                                    queue2,
+                                                    source1,
+                                                    c_sessionQueue,
                                                     queue3,
                                                     BUFFER_MANAGER,
                                                     new DefaultSessionManager() ) );
@@ -207,12 +206,10 @@ public class TestServer
                                                 "TEST CL" ) );
 
       final EventPump pump1 = new EventPump( source1, handler1 );
-      final EventPump pump2 = new EventPump( queue2, handler2 );
+      final EventPump pump2 = new EventPump( c_sessionQueue, handler2 );
       final EventPump pump3 = new EventPump( queue3, handler3 );
       final EventPump pump4 = new EventPump( source2, handler2 );
       final EventPump pump5 = new EventPump( source3, handler3 );
-
-      c_clientSocketSouce = source1;
 
       return new EventPump[]{pump1, pump2, pump3, pump4, pump5};
    }

@@ -7,16 +7,13 @@
  */
 package org.realityforge.packet.session;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.SocketChannel;
 import org.codehaus.spice.event.EventSink;
-import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 import org.codehaus.spice.timeevent.source.SchedulingKey;
 import org.realityforge.packet.Packet;
+import org.realityforge.packet.events.ConnectRequestEvent;
 import org.realityforge.packet.events.PacketWriteRequestEvent;
 import org.realityforge.packet.events.PingRequestEvent;
 import org.realityforge.packet.events.SessionDisconnectRequestEvent;
@@ -25,7 +22,7 @@ import org.realityforge.packet.events.SessionDisconnectRequestEvent;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.28 $ $Date: 2004-02-18 02:33:38 $
+ * @version $Revision: 1.29 $ $Date: 2004-02-23 04:06:23 $
  */
 public class Session
 {
@@ -50,7 +47,7 @@ public class Session
    /**
     * Status indicating client is no longer connected.
     */
-   public static final int STATUS_DISCONNECTED = 4;
+   public static final int STATUS_DISCONNECTED = 3;
 
    private final PacketQueue _txQueue = new PacketQueue();
 
@@ -167,6 +164,8 @@ public class Session
     * The address that socket connected to.
     */
    private final InetSocketAddress _address;
+   private long _lastTxTime;
+   private long _lastRxTime;
 
    /**
     * Create Serverside session with specified ID.
@@ -183,9 +182,11 @@ public class Session
    /**
     * Create clientside session.
     */
-   public Session( final InetSocketAddress address )
+   public Session( final InetSocketAddress address,
+                   final EventSink sink )
    {
       this( -1, (short)0, true, address );
+      setSink( sink );
    }
 
    /**
@@ -231,21 +232,27 @@ public class Session
       _lastPingTime = lastPingTime;
    }
 
+   public long getLastCommTime()
+   {
+      if( null != _transport )
+      {
+         return Math.max( _transport.getLastRxTime(),
+                          _transport.getLastTxTime() );
+      }
+      else
+      {
+         return Math.max( _lastRxTime, _lastTxTime );
+      }
+   }
+
    public long getLastPingTime()
    {
       return _lastPingTime;
    }
 
-   public synchronized void
-      startConnection( final SelectableChannelEventSource css )
-      throws IOException
+   public void startConnection()
    {
-      final SocketChannel channel = SocketChannel.open();
-      css.registerChannel( channel,
-                           SelectionKey.OP_CONNECT,
-                           this );
-      channel.socket().setSoLinger( true, 2 );
-      channel.connect( getAddress() );
+      addEvent( new ConnectRequestEvent( this ) );
       setConnecting( true );
    }
 
@@ -279,7 +286,10 @@ public class Session
 
    public void requestShutdown()
    {
-      addEvent( new SessionDisconnectRequestEvent( this ) );
+      if( !isInShutdown() )
+      {
+         addEvent( new SessionDisconnectRequestEvent( this ) );
+      }
    }
 
    public void ping()
@@ -516,7 +526,7 @@ public class Session
 
    public boolean sendPacket( final ByteBuffer buffer )
    {
-      if( isPendingDisconnect() || isDisconnectRequested() )
+      if( isInShutdown() )
       {
          return false;
       }
@@ -533,6 +543,11 @@ public class Session
       }
    }
 
+   public boolean isInShutdown()
+   {
+      return isPendingDisconnect() || isDisconnectRequested();
+   }
+
    public ChannelTransport getTransport()
    {
       return _transport;
@@ -545,6 +560,9 @@ public class Session
          _transport.setUserData( null );
          _transport.getInputStream().close();
          _transport.getOutputStream().close();
+
+         _lastTxTime = _transport.getLastTxTime();
+         _lastRxTime = _transport.getLastRxTime();
       }
       _needsToSendAck = true;
       _transport = transport;
@@ -556,6 +574,10 @@ public class Session
       }
       else
       {
+         if( isConnecting() )
+         {
+            setConnecting( false );
+         }
          if( Session.STATUS_DISCONNECTED != _status )
          {
             setStatus( Session.STATUS_NOT_CONNECTED );
@@ -585,6 +607,7 @@ public class Session
 
    public void setConnecting( final boolean connecting )
    {
+      System.out.println( "setConnecting(" + connecting + ") on " + this );
       _connecting = connecting;
       synchronized( this )
       {
@@ -600,6 +623,7 @@ public class Session
              ", TransportID=" + transportID +
              ", UserData=" + getUserData() +
              ", IsClient=" + isClient() +
+             ", Status=" + getStatus() +
              "]";
    }
 }
