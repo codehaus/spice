@@ -284,7 +284,7 @@ public class MBeanBuilder
      * @param method the method
      * @return the infos
      */
-    private MBeanParameterInfo[] parseParameterInfos( final Method method )
+    MBeanParameterInfo[] parseParameterInfos( final Method method )
     {
         try
         {
