@@ -158,16 +158,8 @@
     </goal>
 
     <goal name="deployDist">
-        <attainGoal name="buildDist"/>
-
-        <!-- this doesn't actually work as optional task is not
-        registered. It would be nice if it did but .... -->
-        <ant:ftp server="upload.sourceforge.net"
-            remotedir="/incoming"
-            userid="anonymous"
-            password="${maven.username}@users.sourceforge.net">
-            <fileset dir="target/distributions"/>
-        </ant:ftp>
+        <attainGoal name="clean"/>
+        <attainGoal name="dist:deploy-bin"/>
     </goal>
 
     <goal name="generateReadme">
@@ -178,6 +170,13 @@
 
             ${pom.description}
         </j:file>
+    </goal>
+
+    <goal name="deploy">
+        <attainGoal name="clean"/>
+        <attainGoal name="jar:deploy"/>
+        <attainGoal name="site:deploy"/>
+        <attainGoal name="dist:deploy-bin"/>
     </goal>
 
 </project>
