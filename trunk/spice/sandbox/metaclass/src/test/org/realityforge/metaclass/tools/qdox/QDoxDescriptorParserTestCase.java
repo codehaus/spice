@@ -26,9 +26,9 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-09-28 06:08:30 $
+ * @version $Revision: 1.1 $ $Date: 2003-09-28 06:16:45 $
  */
-public class InfoBuilderTestCase
+public class QDoxDescriptorParserTestCase
     extends TestCase
 {
     public void testParseValueIntoParametersWithSimpleString()
