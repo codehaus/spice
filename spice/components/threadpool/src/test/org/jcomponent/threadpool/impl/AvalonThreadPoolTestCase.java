@@ -24,14 +24,14 @@ import java.io.InputStream;
  *  An basic test case for the ThreadPools.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-29 07:23:55 $
+ * @version $Revision: 1.1 $ $Date: 2003-08-29 10:04:42 $
  */
-public class ThreadPoolTestCase
+public class AvalonThreadPoolTestCase
     extends TestCase
 {
     private int m_debug;
 
-    public ThreadPoolTestCase( final String name )
+    public AvalonThreadPoolTestCase( final String name )
     {
         super( name );
     }
