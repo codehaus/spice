@@ -25,7 +25,7 @@ import org.jcomponent.netserve.sockets.SocketAcceptorManager;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.13 $ $Date: 2003-10-24 07:59:43 $
+ * @version $Revision: 1.14 $ $Date: 2003-10-24 09:47:30 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -49,6 +49,13 @@ public class DefaultAcceptorManager
     private int m_soTimeout = 1000;
 
     /**
+     * Set to the number of milliseconds that we will wait
+     * for a connection to shutdown gracefully. Defaults to 0
+     * which indicates indefinite wait.
+     */
+    private int m_shutdownTimeout;
+
+    /**
      * Set the AcceptorMonitor that receives events when changes occur.
      *
      * @param monitor the AcceptorMonitor that receives events when
@@ -68,6 +75,17 @@ public class DefaultAcceptorManager
     public void setSoTimeout( final int soTimeout )
     {
         m_soTimeout = soTimeout;
+    }
+
+    /**
+     * Set timeout for shutting down handlers.
+     * The timeout defaults to 0 which means wait indefinetly.
+     *
+     * @param shutdownTimeout the timeout
+     */
+    public void setShutdownTimeout( int shutdownTimeout )
+    {
+        m_shutdownTimeout = shutdownTimeout;
     }
 
     /**
@@ -139,6 +157,10 @@ public class DefaultAcceptorManager
         final Thread thread =
             new Thread( acceptor, "Acceptor[" + name + "]" );
         thread.start();
+        while( !acceptor.hasStarted() )
+        {
+            Thread.sleep( 5 );
+        }
     }
 
     /**
@@ -168,6 +190,6 @@ public class DefaultAcceptorManager
             throw new IllegalArgumentException( message );
         }
 
-        acceptor.close();
+        acceptor.close( m_shutdownTimeout );
     }
 }

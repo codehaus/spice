@@ -15,7 +15,7 @@ import java.net.Socket;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-09 05:57:36 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-24 09:47:30 $
  */
 class ConnectionAcceptor
     implements Runnable
@@ -29,6 +29,10 @@ class ConnectionAcceptor
      * The AcceptorMonitor for event notification.
      */
     private final AcceptorMonitor m_monitor;
+
+    private boolean m_started;
+
+    private boolean m_active;
 
     /**
      * The thread in which the main accept loop is running.
@@ -61,18 +65,33 @@ class ConnectionAcceptor
     }
 
     /**
+     * Return true if acceptor has started.
+     *
+     * @return true if acceptor has started.
+     */
+    synchronized boolean hasStarted()
+    {
+        return m_started;
+    }
+
+    /**
      * Shutdown the acceptor.
      */
-    void close()
+    void close( final long timeout )
     {
         synchronized( this )
         {
-            if( null != m_thread )
+            m_active = false;
+            m_monitor.acceptorClosing( m_config.getName(),
+                                       m_config.getServerSocket() );
+            m_thread.interrupt();
+            try
             {
-                m_monitor.acceptorClosing( m_config.getName(),
-                                           m_config.getServerSocket() );
-                m_thread.interrupt();
-                m_thread = null;
+                wait( timeout );
+            }
+            catch( InterruptedException e )
+            {
+                //ignore
             }
         }
     }
@@ -85,6 +104,8 @@ class ConnectionAcceptor
         //Setup thread to indicate that we are currently running
         synchronized( this )
         {
+            m_started = true;
+            m_active = true;
             m_thread = Thread.currentThread();
         }
         while( isRunning() )
@@ -121,12 +142,17 @@ class ConnectionAcceptor
         }
 
         shutdownServerSocket();
+        synchronized( this )
+        {
+            m_thread = null;
+            notifyAll();
+        }
     }
 
     /**
      * Utility method to shutdown serverSocket.
      */
-    synchronized void shutdownServerSocket()
+    void shutdownServerSocket()
     {
         try
         {
@@ -145,6 +171,6 @@ class ConnectionAcceptor
      */
     synchronized boolean isRunning()
     {
-        return null != m_thread;
+        return m_active;
     }
 }
