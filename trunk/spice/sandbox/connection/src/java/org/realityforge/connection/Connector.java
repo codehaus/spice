@@ -439,6 +439,10 @@ public class Connector
     */
    protected ConnectorConnection getConnection()
    {
+      if ( null == _connection )
+      {
+         throw new NullPointerException( "connection" );
+      }
       return _connection;
    }
 }
