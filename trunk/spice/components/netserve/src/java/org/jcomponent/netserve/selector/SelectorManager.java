@@ -123,13 +123,12 @@ public class SelectorManager
       getMonitor().selectorShutdown();
       synchronized ( getSelectorLock() )
       {
-         final Selector selector = getSelector();
-         if ( null != selector )
+         if ( null != m_selector )
          {
             try
             {
-               selector.wakeup();
-               selector.close();
+               m_selector.wakeup();
+               m_selector.close();
             }
             catch ( final IOException ioe )
             {
