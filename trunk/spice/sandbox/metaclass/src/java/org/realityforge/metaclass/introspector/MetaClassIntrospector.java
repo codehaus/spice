@@ -15,7 +15,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * {@link java.beans.Introspector} class does for Java Beans.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-28 07:01:01 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-28 08:07:33 $
  */
 public final class MetaClassIntrospector
 {
@@ -38,6 +38,14 @@ public final class MetaClassIntrospector
      * classloader.
      */
     private static final CachingMetaClassAccessor c_cachingAccessor = new CachingMetaClassAccessor();
+
+   /**
+    * Wrapper Accessor that is passed to the above accessor
+    * to retrieve ClassDescriptors. Ensures that no Accessor
+    * can get a direct reference to the CachingMetaClassAccessor
+    * and thus subvert descriptor loading process.
+    */
+   private static final WrapperMetaClassAccessor c_wrapperAccessor = new WrapperMetaClassAccessor( c_cachingAccessor );
 
     /**
      * Flush all of the Introspector's internal caches.  This method is
@@ -100,6 +108,6 @@ public final class MetaClassIntrospector
                                                       final ClassLoader classLoader )
         throws MetaClassException
     {
-        return c_cachingAccessor.getClassDescriptor( classname, classLoader, null );
+        return c_cachingAccessor.getClassDescriptor( classname, classLoader, c_wrapperAccessor );
     }
 }
