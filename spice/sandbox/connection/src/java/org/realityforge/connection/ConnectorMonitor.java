@@ -35,4 +35,18 @@ public interface ConnectorMonitor
     * @param t the error
     */
    void errorDisconnecting( Throwable t );
+
+   /**
+    * Notify monito that attempting to
+    * validate connection.
+    */
+   void attemptingValidation();
+
+   /**
+    * Notify monitor that there was an error
+    * validating connection.
+    *
+    * @param t the error
+    */
+   boolean errorValidatingConnection( Throwable t );
 }

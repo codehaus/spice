@@ -312,6 +312,43 @@ public abstract class AbstractConnector
    }
 
    /**
+    * Attempt to verify Connector is connected.
+    * If not connected then the connector will attempt
+    * to establish a connection.
+    *
+    * @return true if connected
+    */
+   public boolean validateConnection()
+   {
+      synchronized ( getSyncLock() )
+      {
+         _monitor.attemptingValidation();
+         if ( !verifyConnected() )
+         {
+            return false;
+         }
+         else
+         {
+            try
+            {
+               doValidateConnection();
+            }
+            catch ( final Throwable t )
+            {
+               final boolean reconnect =
+                  _monitor.errorValidatingConnection( t );
+               disconnect();
+               if ( reconnect )
+               {
+                  connect();
+               }
+            }
+            return isConnected();
+         }
+      }
+   }
+
+   /**
     * Return the object that will be used to
     * synchronization connection/disconnection.
     *
@@ -337,5 +374,16 @@ public abstract class AbstractConnector
     * @throws Exception if unable to connect
     */
    protected abstract void doDisconnect()
+      throws Exception;
+
+   /**
+    * Subclasses implement this method to validate
+    * the connection. The validation should involve
+    * explicitly testing that that the connection
+    * is valid.
+    *
+    * @throws Exception if unable to validate connection
+    */
+   protected abstract void doValidateConnection()
       throws Exception;
 }
