@@ -18,9 +18,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.logger.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.EntityResolver;
@@ -56,7 +56,15 @@ public class LoggerStoreTestCase
     {
         final LoggerStore store =
             new ConsoleLoggerStore( ConsoleLogger.LEVEL_DEBUG );
-        runLoggerTest( "jdk14", store );
+        runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_DEBUG );
+    }
+
+    public void testConsoleLoggerStoreNoDebug()
+        throws Exception
+    {
+        final LoggerStore store =
+            new ConsoleLoggerStore( ConsoleLogger.LEVEL_DEBUG );
+        runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_DISABLED );
     }
 
     public void testJDK14Configuration()
@@ -64,7 +72,15 @@ public class LoggerStoreTestCase
     {
         final LoggerStore store =
             new Jdk14LoggerStore( getResource( "logging.properties" ) );
-        runLoggerTest( "jdk14", store );
+        runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_DEBUG );
+    }
+
+    public void testJDK14ConfigurationNoDebug()
+        throws Exception
+    {
+        final LoggerStore store =
+            new Jdk14LoggerStore( getResource( "logging.properties" ) );
+        runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_DISABLED );
     }
 
     public void testLogKitConfiguration()
@@ -73,7 +89,16 @@ public class LoggerStoreTestCase
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
             new LogKitLoggerStore( builder.build( getResource( "logkit.xml" ) ) );
-        runLoggerTest( "logkit", store );
+        runLoggerTest( "logkit", store, ConsoleLogger.LEVEL_DEBUG );
+    }
+
+    public void testLogKitConfigurationNoDebug()
+        throws Exception
+    {
+        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        final LoggerStore store =
+            new LogKitLoggerStore( builder.build( getResource( "logkit.xml" ) ) );
+        runLoggerTest( "logkit", store, ConsoleLogger.LEVEL_DISABLED );
     }
 
     public void testLog4JElementConfiguration()
@@ -82,7 +107,16 @@ public class LoggerStoreTestCase
         final LoggerStore store =
             new Log4JLoggerStore( buildElement( getResource( "log4j.xml" ),
                                                 new org.apache.log4j.xml.Log4jEntityResolver(), null ) );
-        runLoggerTest( "log4j-xml", store );
+        runLoggerTest( "log4j-xml", store, ConsoleLogger.LEVEL_DEBUG );
+    }
+
+    public void testLog4JElementConfigurationNoDebug()
+        throws Exception
+    {
+        final LoggerStore store =
+            new Log4JLoggerStore( buildElement( getResource( "log4j.xml" ),
+                                                new org.apache.log4j.xml.Log4jEntityResolver(), null ) );
+        runLoggerTest( "log4j-xml", store, ConsoleLogger.LEVEL_DISABLED );
     }
 
     public void testLog4JInputStreamConfiguration()
@@ -90,7 +124,15 @@ public class LoggerStoreTestCase
     {
         final LoggerStore store =
             new Log4JLoggerStore( getResource( "log4j.xml" ) );
-        runLoggerTest( "log4j-xml", store );
+        runLoggerTest( "log4j-xml", store, ConsoleLogger.LEVEL_DEBUG );
+    }
+
+    public void testLog4JInputStreamConfigurationNoDebug()
+        throws Exception
+    {
+        final LoggerStore store =
+            new Log4JLoggerStore( getResource( "log4j.xml" ) );
+        runLoggerTest( "log4j-xml", store, ConsoleLogger.LEVEL_DISABLED );
     }
 
     public void testLog4JPropertiesConfiguration()
@@ -100,7 +142,17 @@ public class LoggerStoreTestCase
         properties.load( getResource( "log4j.properties" ) );
         final LoggerStore store =
             new Log4JLoggerStore( properties );
-        runLoggerTest( "log4j-properties", store );
+        runLoggerTest( "log4j-properties", store, ConsoleLogger.LEVEL_DEBUG );
+    }
+
+    public void testLog4JPropertiesConfigurationNoDebug()
+        throws Exception
+    {
+        final Properties properties = new Properties();
+        properties.load( getResource( "log4j.properties" ) );
+        final LoggerStore store =
+            new Log4JLoggerStore( properties );
+        runLoggerTest( "log4j-properties", store, ConsoleLogger.LEVEL_DISABLED );
     }
 
     protected final InputStream getResource( final String name )
@@ -109,22 +161,11 @@ public class LoggerStoreTestCase
     }
 
     protected void runLoggerTest( final String filename,
-                                  final LoggerStore store )
+                                  final LoggerStore store,
+                                  final int level )
         throws Exception
     {
-        ContainerUtil.enableLogging( store,
-                                     new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
-        performLoggerTest( store, filename );
-
-        ContainerUtil.enableLogging( store,
-                                     new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
-        performLoggerTest( store, filename );
-    }
-
-    private void performLoggerTest( final LoggerStore store,
-                                    final String filename )
-        throws Exception
-    {
+        ContainerUtil.enableLogging( store, new ConsoleLogger( level ) );
         BufferedReader reader = null;
         try
         {
