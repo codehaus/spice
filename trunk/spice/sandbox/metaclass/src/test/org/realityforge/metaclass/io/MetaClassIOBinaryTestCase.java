@@ -20,11 +20,12 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
+import org.realityforge.metaclass.model.PackageDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-08-22 03:34:30 $
+ * @version $Revision: 1.14 $ $Date: 2003-08-22 03:42:17 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -527,6 +528,48 @@ public class MetaClassIOBinaryTestCase
             return;
         }
         fail( "Expected to fail reading descriptor as it has the wrong version" );
+    }
+
+    public void testBinaryIOReadPackage()
+        throws Exception
+    {
+        final String name = "name";
+        final int attributeCount = 0;
+        final byte[] bytes = new byte[]
+        {
+            0, 0, 0, 1, //version
+            0, 4, //length of package name
+            'n', 'a', 'm', 'e',
+            0, 0, 0, 0 //attribute count
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
+        final PackageDescriptor pkg = io.deserializePackage( in );
+        assertEquals( "pakache.name", name, pkg.getName() );
+        assertEquals( "pakache.attributes.length",
+                      attributeCount, pkg.getAttributes().length );
+    }
+
+    public void testBinaryIOWritePackage()
+        throws Exception
+    {
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final DataOutputStream data = new DataOutputStream( out );
+        final String name = "name";
+        final PackageDescriptor info = new PackageDescriptor( name, Attribute.EMPTY_SET );
+        io.serializePackage( data, info );
+        data.flush();
+        final byte[] bytes = out.toByteArray();
+        assertEquals( "length", 14, bytes.length );
+        int offset = 0;
+        assertEquals( "bytes[0-4] = 0", MetaClassIOBinary.VERSION, readInteger( bytes, offset ) );
+        offset += 4;
+        assertEquals( "bytes[" + offset + "] = " + name, name, readString( bytes, offset ) );
+        offset += STRING_HEADER_SIZE + name.length();
+        assertEquals( "bytes[0-4] = 0",
+                      Attribute.EMPTY_SET.length, readInteger( bytes, offset ) );
+        offset += 4;
     }
 
     private int readShort( final byte[] data, final int offset )
