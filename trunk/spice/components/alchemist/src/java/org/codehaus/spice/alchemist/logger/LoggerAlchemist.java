@@ -7,13 +7,14 @@
  */
 package org.codehaus.spice.alchemist.logger;
 
+import org.codehaus.dna.LogEnabled;
 import org.codehaus.dna.Logger;
 
 /**
  * Utility class containing methods to transform Logger objects.
  *
  * @author Mauro Talevi
- * @version $Revision: 1.2 $ $Date: 2004-06-17 22:27:22 $
+ * @version $Revision: 1.3 $ $Date: 2004-06-20 12:48:45 $
  */
 public class LoggerAlchemist
 {
@@ -55,6 +56,21 @@ public class LoggerAlchemist
     }
     
     /**
+     * Determines if an object is DNA LogEnabled
+     * 
+     * @param object the Object to check
+     * @return A boolean <code>true</code> if the object is an instance of
+     * 		   {@link LogEnabled}
+     */
+    public static boolean isDNALogEnabled( final Object object ){
+        if ( object instanceof LogEnabled )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Casts an object to Avalon LogEnabled if possible.
      * 
      * @param object the Object to cast
@@ -71,4 +87,20 @@ public class LoggerAlchemist
         throw new IllegalArgumentException( message );
     }
 
+    /**
+     * Casts an object to DNA LogEnabled if possible.
+     * 
+     * @param object the Object to cast
+     * @return A {@link LogEnabled}
+     * @throws IllegalArgumentException if not DNA LogEnabled.
+     */
+    public static LogEnabled toDNALogEnabled( final Object object ){
+        if ( isDNALogEnabled( object ) )
+        {
+            return (LogEnabled)object; 
+        }
+        final String message = ( object != null ? object.getClass().getName() : "Object" )
+        					 	+ " is not DNA LogEnabled";
+        throw new IllegalArgumentException( message );
+    }
 }

@@ -7,6 +7,7 @@
  */
 package org.codehaus.spice.alchemist.configuration;
 
+import org.codehaus.dna.Configurable;
 import org.codehaus.dna.Configuration;
 import org.codehaus.dna.impl.DefaultConfiguration;
 
@@ -14,7 +15,7 @@ import org.codehaus.dna.impl.DefaultConfiguration;
  * Utility class containing methods to transform Configuration objects.
  *
  * @author Mauro Talevi
- * @version $Revision: 1.3 $ $Date: 2004-06-19 17:51:35 $
+ * @version $Revision: 1.4 $ $Date: 2004-06-20 12:48:45 $
  */
 public class ConfigurationAlchemist
 {
@@ -62,6 +63,21 @@ public class ConfigurationAlchemist
     }
     
     /**
+     * Determines if an object is DNA Configurable
+     * 
+     * @param object the Object to check
+     * @return A boolean <code>true</code> if the object is an instance of
+     * 		   {@link Configurable}
+     */
+    public static boolean isDNAConfigurable( final Object object ){
+        if ( object instanceof Configurable )
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
      * Casts an object to Avalon Configurable if possible.
      * 
      * @param object the Object to cast
@@ -75,6 +91,23 @@ public class ConfigurationAlchemist
         }
         final String message = ( object != null ? object.getClass().getName() : "Object" )
         						+ " is not Avalon Configurable";
+        throw new IllegalArgumentException( message );
+    }
+
+    /**
+     * Casts an object to DNA Configurable if possible.
+     * 
+     * @param object the Object to cast
+     * @return A {@link Configurable}
+     * @throws IllegalArgumentException if not DNA Configurable.
+     */
+    public static Configurable toDNAConfigurable( final Object object ){
+        if ( isDNAConfigurable( object ) )
+        {
+            return (Configurable)object; 
+        }
+        final String message = ( object != null ? object.getClass().getName() : "Object" )
+        						+ " is not DNA Configurable";
         throw new IllegalArgumentException( message );
     }
 }
