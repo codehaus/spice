@@ -19,8 +19,8 @@ import org.realityforge.cli.CLUtil;
 /**
  * Demonstrates Basic example of command line utilities.
  *
- * @author <a href="jeff@socialchange.net.au">Jeff Turner</a>
- * @author <a href="peter@apache.org">Peter Donald</a>
+ * @author Jeff Turner
+ * @author Peter Donald
  */
 public class BasicCLI
 {

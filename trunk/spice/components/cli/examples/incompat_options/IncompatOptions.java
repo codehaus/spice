@@ -18,7 +18,7 @@ import org.realityforge.cli.CLUtil;
  * In this demo the quiet and verbose options are incompatible with
  * each other.
  *
- * @author <a href="peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class IncompatOptions
 {
