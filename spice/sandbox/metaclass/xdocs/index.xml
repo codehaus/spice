@@ -20,6 +20,24 @@
                 loaded at runtime to provide metadata about the program elements.
             </p>
         </section>
+        <section name="Getting Started">
+            <p>
+                To get started using MetaClass the developer should first look at the
+                <a href="model.html">Attribute Model</a> description to see what type
+                of metadata is stored by MetaClass. The developer then needs to markup
+                classes and <a href="precompile.html">pre-compile</a> the attribute
+                metadata before they can access the metadata at
+                <a href="runtime.html">runtime</a>.
+            </p>
+            <p>
+                After the developer has mastered the common uses-cases of MetaClass they
+                can move on to more advanced usages such as
+                <a href="interception.html">filtering and augmenting</a> metadata
+                during the pre-compilation stage, loading the metadata from
+                <a href="accessor.html">alternative sources</a> and
+                <a href="integration.html">integrating</a> MetaClass into a java container.
+            </p>
+        </section>
     </body>
 
 </document>
