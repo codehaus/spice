@@ -1,8 +1,6 @@
 package org.componenthaus.usecases.showcomponent;
 
 import org.componenthaus.repository.api.ComponentRepository;
-import org.componenthaus.repository.api.Component;
-import org.prevayler.Prevayler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -12,15 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ShowComponentController extends AbstractController {
-    private Prevayler prevayler = null;
+    private final ComponentRepository repository;
 
-    public void setPrevayler(Prevayler prevayler) {
-        this.prevayler = prevayler;
+    public ShowComponentController(ComponentRepository repository) {
+        this.repository = repository;
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final ComponentRepository repository = (ComponentRepository) prevayler.system();
-        final Component component = repository.getComponent(request.getParameter("id"));
-        return new ModelAndView("showComponentView","component",component);
+        return new ModelAndView("showComponentView","component",repository.getComponent(request.getParameter("id")));
     }
 }

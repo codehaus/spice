@@ -4,6 +4,7 @@ import org.prevayler.PrevalentSystem;
 import org.prevayler.Prevayler;
 import org.prevayler.Command;
 import org.prevayler.implementation.SnapshotPrevayler;
+import org.componenthaus.repository.api.ComponentRepository;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -11,8 +12,8 @@ import java.io.Serializable;
 public class PrevaylerBean implements Prevayler {
     private Prevayler delegate = null;
 
-    public void setPrevaylentSystem(PrevalentSystem ps ) throws IOException, ClassNotFoundException {
-        delegate = new SnapshotPrevayler(ps);
+    public PrevaylerBean(final ComponentRepository repo) throws ClassNotFoundException, IOException {
+        delegate = new SnapshotPrevayler((PrevalentSystem) repo);
     }
 
     public PrevalentSystem system() {

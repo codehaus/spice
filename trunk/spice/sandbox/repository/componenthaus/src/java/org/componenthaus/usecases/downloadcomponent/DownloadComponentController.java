@@ -2,7 +2,6 @@ package org.componenthaus.usecases.downloadcomponent;
 
 import org.componenthaus.repository.api.ComponentRepository;
 import org.componenthaus.util.file.FileManager;
-import org.prevayler.Prevayler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -15,19 +14,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class DownloadComponentController extends AbstractController {
-    private Prevayler prevayler = null;
-    private FileManager fileManager = null;
+    private final FileManager fileManager;
+    private final ComponentRepository repository;
 
-    public void setPrevayler(Prevayler prevayler) {
-        this.prevayler = prevayler;
-    }
-
-    public void setFileManager(FileManager fileManager) {
+    public DownloadComponentController(FileManager fileManager, ComponentRepository repository) {
         this.fileManager = fileManager;
+        this.repository = repository;
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final ComponentRepository repository = (ComponentRepository) prevayler.system();
         final OutputStream out = new BufferedOutputStream(response.getOutputStream());
         final File f = repository.getDownloadable(request.getParameter("id"));
 

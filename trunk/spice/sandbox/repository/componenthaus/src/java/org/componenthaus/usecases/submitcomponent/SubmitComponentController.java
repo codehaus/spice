@@ -5,21 +5,18 @@ import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.componenthaus.ant.metadata.ComponentDefinition;
-import org.componenthaus.ant.metadata.ComponentMetadata;
 import org.componenthaus.ant.metadata.ComponentImplementation;
+import org.componenthaus.ant.metadata.ComponentMetadata;
+import org.componenthaus.repository.api.Component;
+import org.componenthaus.repository.api.ServiceImplementation;
 import org.componenthaus.repository.impl.ComponentFactory;
 import org.componenthaus.repository.impl.ServiceImplementationFactory;
 import org.componenthaus.repository.services.RegisterDownloadableComponentCommand;
 import org.componenthaus.repository.services.SubmitComponentCommand;
-import org.componenthaus.repository.api.Component;
-import org.componenthaus.repository.api.ServiceImplementation;
-import org.componenthaus.util.source.CodeFormatter;
 import org.prevayler.Prevayler;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContextException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,17 +34,22 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class SubmitComponentController extends SimpleFormController implements InitializingBean {
+public class SubmitComponentController extends SimpleFormController {
     private ServletException bootstrapException = null;
-    private Prevayler prevayler;
-    private ComponentFactory componentFactory;
-    private ServiceImplementationFactory serviceImplementationFactory;
-    private CodeFormatter codeFormatter;
-    private final ViewConfiguration viewConfiguration;
+    private final Prevayler prevayler;
+    private final ComponentFactory componentFactory;
+    private final ServiceImplementationFactory serviceImplementationFactory;
 
-    public SubmitComponentController(final ViewConfiguration viewConfiguration) {
-        this.viewConfiguration = viewConfiguration;
+    public SubmitComponentController(final ViewConfiguration viewConfiguration,
+                                     final Prevayler prevayler,
+                                     final ComponentFactory componentFactory,
+                                     final ServiceImplementationFactory serviceImplementationFactory) {
+        setFormView(viewConfiguration.getFormView());
+        setSuccessView(viewConfiguration.getSuccessView());
         setCommandClass(Object.class);
+        this.prevayler = prevayler;
+        this.componentFactory = componentFactory;
+        this.serviceImplementationFactory = serviceImplementationFactory;
         File submissionsDir = new File("submissions");
         if (submissionsDir.exists() && !submissionsDir.isDirectory()) {
             bootstrapException = new ServletException(submissionsDir.getAbsolutePath() + " exists but is not a directory.  Please remove so a directory with this name can be created");
@@ -59,49 +61,14 @@ public class SubmitComponentController extends SimpleFormController implements I
         }
     }
 
-    public void setPrevayler(Prevayler prevayler) {
-        this.prevayler = prevayler;
-    }
-
-    public void setComponentFactory(ComponentFactory componentFactory) {
-        this.componentFactory = componentFactory;
-    }
-
-    public void setServiceImplementationFactory(ServiceImplementationFactory serviceImplementationFactory) {
-        this.serviceImplementationFactory = serviceImplementationFactory;
-    }
-
-    public void setCodeFormatter(final CodeFormatter codeFormatter) {
-        this.codeFormatter = codeFormatter;
-    }
-
-    public void afterPropertiesSet() throws Exception {
-        assertSet("prevayler",prevayler);
-        assertSet("componentFactory",componentFactory);
-        assertSet("serviceImplementationFactory",serviceImplementationFactory);
-        assertSet("codeFormatter",codeFormatter);
-    }
-
-    private void assertSet(String name, Object property) {
-        if ( property == null ) {
-            throw new ApplicationContextException("Must set property '" + name + "' on " + getClass());
-        }
-    }
-
-
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object o, BindException e) throws ServletException, IOException {
         if (bootstrapException != null) {
             throw bootstrapException;
         }
-        final DiskFileUpload upload = new DiskFileUpload();
-        List items = null;
-        try {
-            items = upload.parseRequest(request);
-        } catch (FileUploadException e1) {
-            throw new ServletException("Exception during file upload", e1);
-        }
+        final List items = getUploadedItems(request);
         for (Iterator i = items.iterator(); i.hasNext();) {
             final FileItem item = (FileItem) i.next();
+            logger.debug("Working on file item " + item.getName());
             if (item.getFieldName().equalsIgnoreCase("submission")) {
                 try {
                     handleSubmission(item);
@@ -113,6 +80,17 @@ public class SubmitComponentController extends SimpleFormController implements I
         }
         response.setContentType("text/html");
         return new ModelAndView("welcomeView");
+    }
+
+    private List getUploadedItems(HttpServletRequest request) throws ServletException {
+        final DiskFileUpload upload = new DiskFileUpload();
+        List items = null;
+        try {
+            items = upload.parseRequest(request);
+        } catch (FileUploadException e1) {
+            throw new ServletException("Exception during file upload", e1);
+        }
+        return items;
     }
 
     private void handleSubmission(final FileItem submission) throws Exception {
@@ -176,6 +154,7 @@ public class SubmitComponentController extends SimpleFormController implements I
         final byte[] bytes = getJarEntryBytes(jarFile, entry);
 
         final String metadata = new String(bytes);
+        logger.debug("Got metadata " + metadata);
         final StringReader xmlReader = new StringReader(metadata);
         final BeanReader beanReader = new BeanReader();
         beanReader.getXMLIntrospector().setAttributesForPrimitives(false);

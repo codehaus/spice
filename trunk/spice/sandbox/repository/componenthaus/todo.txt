@@ -1,4 +1,3 @@
- * aspico integration, so we can have type 3 IoC.  Forget aspico - make a pico-style spring beanfactory.
  * test cases, before we get out of control
  * take version number from maven pom
  * take dependency jars from maven pom
@@ -19,6 +18,12 @@
  * Disable multiple submissions of the same component.
 
 Done
+
+October 16th
+ * aspico integration, so we can have type 3 IoC.  Forget aspico - make a pico-style spring beanfactory.
+
+October 15th
+ * Pico plugin done.  Controllers and beans need to be ported to type 3 still.
 
 October 5th
  * fix search engine indexing problem - last component only indexed

@@ -20,6 +20,7 @@ import org.componenthaus.util.file.FileManagerImpl;
 import org.componenthaus.util.source.CodeFormatter;
 import org.componenthaus.util.source.JalopyCodeFormatter;
 import org.prevayler.Prevayler;
+import org.prevayler.PrevalentSystem;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextException;
@@ -33,8 +34,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 //TODO Return real views instead of view names, coming from a properties file.
-
-Need to change all the controllers and beans to accept depednecies in constructors, remove all the set methods and all the s=usages of InitializingBean
 
 public class PicoApplicationContext extends AbstractPicoApplicationContext {
     private static final String VIEW_FILE = "views";
@@ -83,14 +82,11 @@ public class PicoApplicationContext extends AbstractPicoApplicationContext {
         pico.registerComponentImplementation(CodeFormatter.class, JalopyCodeFormatter.class);
         pico.registerComponentImplementation(ComponentRepository.Monitor.class, AddComponentMonitor.class); //Will need multiples here soon
         pico.registerComponentImplementation(ComponentRepository.class, RepositoryImpl.class);
+        //pico.registerComponentImplementation(PrevalentSystem.class, RepositoryImpl.class); //This causes a second instance of repository to exist.  Yuck.
         pico.registerComponentImplementation(FileManager.class, FileManagerImpl.class);
         pico.registerComponentImplementation(ComponentFactory.class);
         pico.registerComponentImplementation(ServiceImplementationFactory.class);
         pico.registerComponentImplementation(Prevayler.class, PrevaylerBean.class);
-
-
-
-
 
         addSpringStuff();
         //This must be done last, because it reads things from Pico
