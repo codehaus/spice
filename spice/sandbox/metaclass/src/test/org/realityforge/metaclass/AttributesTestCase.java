@@ -19,7 +19,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-08-23 05:22:37 $
+ * @version $Revision: 1.7 $ $Date: 2003-09-01 04:37:57 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -267,11 +267,17 @@ public class AttributesTestCase
         final Attribute attribute2 = new Attribute( name );
         final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
         final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
+        final Class[] types = method.getParameterTypes();
+        final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
+        for ( int i = 0; i < types.length; i++ )
+        {
+           parameters[i] = new ParameterDescriptor( "", types[ i ].getName() );
+        }
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( method.getName(),
                                   method.getReturnType().getName(),
                                   method.getModifiers(),
-                                  ParameterDescriptor.EMPTY_SET,
+                                  parameters,
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
@@ -295,11 +301,18 @@ public class AttributesTestCase
         final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
 
         final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
+        final Class[] types = method.getParameterTypes();
+        final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
+        for ( int i = 0; i < types.length; i++ )
+        {
+           parameters[i] = new ParameterDescriptor( "", types[ i ].getName() );
+        }
+
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( method.getName(),
                                   method.getReturnType().getName(),
                                   method.getModifiers(),
-                                  ParameterDescriptor.EMPTY_SET,
+                                  parameters,
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
@@ -323,11 +336,17 @@ public class AttributesTestCase
         final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
 
         final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
+        final Class[] types = method.getParameterTypes();
+        final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
+        for ( int i = 0; i < types.length; i++ )
+        {
+           parameters[i] = new ParameterDescriptor( "", types[ i ].getName() );
+        }
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( method.getName(),
                                   method.getReturnType().getName(),
                                   method.getModifiers(),
-                                  ParameterDescriptor.EMPTY_SET,
+                                  parameters,
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
