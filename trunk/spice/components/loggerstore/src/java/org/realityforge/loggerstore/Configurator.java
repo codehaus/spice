@@ -11,18 +11,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.FactoryConfigurationError;
-
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationUtil;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
 
 /**
  * Configurator is a collection of utility methods to create and configure
@@ -54,7 +42,7 @@ public class Configurator
     private Configurator()
     {
     }
-    
+
     /**
      * Create and configure a {@link LoggerStore} from a specified
      * configuration file.
@@ -151,91 +139,10 @@ public class Configurator
      */
     private static Map buildConfigurationMap( final String configurationType,
                                               final InputStream resource )
-        throws Exception
     {
-        Map map = new HashMap();
+        final Map map = new HashMap();
         map.put( LoggerStoreFactory.CONFIGURATION, resource );
         map.put( LoggerStoreFactory.CONFIGURATION_TYPE, configurationType );
         return map;
     }
-
-    /**
-     *  Builds a Configuration object from a resource
-     *
-     *  @param resource the InputStream of the configuration resource
-     */
-    public static Configuration buildConfiguration( final InputStream resource )
-        throws Exception
-    {
-        DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-        return builder.build( resource );
-    }
-
-    /**
-     *  Builds an Element from a resource
-     *  @param resource the InputStream of the configuration resource
-     */
-    public static Element buildElement ( final InputStream resource )
-        throws Exception 
-    {
-        return buildElement( resource, null, null );
-    }
-    
-    /**
-     *  Builds an Element from a resource
-     *  @param resource the InputStream of the configuration resource
-     *  @param resolver the EntityResolver required by the DocumentBuilder - 
-     *                  or <code>null</code> if none required 
-     *  @param systemId the String encoding the systemId required by the InputSource -
-     *                  or <code>null</code> if none required 
-     */
-    public static Element buildElement ( final InputStream resource, 
-                                         final EntityResolver resolver,
-                                         final String systemId )
-        throws Exception
-    {
-        DocumentBuilderFactory dbf = null;
-        try 
-        {
-            dbf = DocumentBuilderFactory.newInstance();
-        } catch ( FactoryConfigurationError e )
-        {
-            final String message = "Failed to create a DocumentBuilderFactory";
-            throw new Exception( message, e );
-        }
-        
-        try 
-        {
-            dbf.setValidating(true);
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            if ( resolver != null ) 
-            {
-                db.setEntityResolver( resolver );
-            }
-            InputSource source = new InputSource( resource );
-            if ( systemId != null )
-            {
-                source.setSystemId( systemId );
-            }
-            Document doc = db.parse( source );
-            return doc.getDocumentElement();
-        } catch ( Exception  e )
-        {  
-            final String message = "Failed to parse Document";
-            throw new Exception( message, e );
-        }
-    }
-
-    /**
-     *  Builds a Properties object from a resource
-     *  @param resource the InputStream of the configuration resource
-     */
-    public static Properties buildProperties( final InputStream resource )
-        throws Exception
-    {
-        final Properties properties = new Properties();
-        properties.load( resource );
-        return properties;
-    }
-
 }
