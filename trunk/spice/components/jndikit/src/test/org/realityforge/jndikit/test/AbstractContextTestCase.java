@@ -18,7 +18,7 @@ import junit.framework.TestCase;
  * Unit testing for JNDI system
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractContextTestCase
     extends TestCase
@@ -32,7 +32,8 @@ public abstract class AbstractContextTestCase
     protected static final Object O7 = "iO7";
     protected static final Object O8 = "iO8";
 
-    protected Context m_context;
+    private Context m_context;
+    private Context m_root;
 
     public AbstractContextTestCase( String name )
     {
@@ -44,6 +45,10 @@ public abstract class AbstractContextTestCase
         if( null != m_context )
         {
             m_context.close();
+        }
+        if( null != m_root )
+        {
+            m_root.close();
         }
     }
 
@@ -528,5 +533,15 @@ public abstract class AbstractContextTestCase
         catch( final NamingException ne )
         {
         }
+    }
+
+    protected void setRoot( Context root )
+    {
+        m_root = root;
+    }
+
+    protected void setContext( Context context )
+    {
+        m_context = context;
     }
 }
