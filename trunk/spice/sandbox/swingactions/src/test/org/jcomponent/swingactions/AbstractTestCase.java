@@ -12,14 +12,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.FactoryConfigurationError;
 import junit.framework.TestCase;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
 
 /**
  * AbstactTestCase
@@ -29,9 +22,9 @@ import org.xml.sax.InputSource;
 public class AbstractTestCase
     extends TestCase
 {
-    protected static final String MESSAGE = "Testing Logger";
-    protected static final String MESSAGE2 = "This occurs in sub-category";
-
+    protected static final String MESSAGE = "Testing Action";
+    protected static final String MESSAGE2 = "Testing Action 2";
+    
     private File actionsDir;
 
     public AbstractTestCase( final String name )
@@ -50,53 +43,6 @@ public class AbstractTestCase
         return getClass().getResourceAsStream( name );
     }
 
-    /**
-     *  Builds an Element from a resource
-     *  @param resource the InputStream of the configuration resource
-     *  @param resolver the EntityResolver required by the DocumentBuilder -
-     *                  or <code>null</code> if none required
-     *  @param systemId the String encoding the systemId required by the InputSource -
-     *                  or <code>null</code> if none required
-     */
-    protected static Element buildElement( final InputStream resource,
-                                           final EntityResolver resolver,
-                                           final String systemId )
-        throws Exception
-    {
-        DocumentBuilderFactory dbf = null;
-        try
-        {
-            dbf = DocumentBuilderFactory.newInstance();
-        }
-        catch( FactoryConfigurationError e )
-        {
-            final String message = "Failed to create a DocumentBuilderFactory";
-            throw new Exception( message, e );
-        }
-
-        try
-        {
-            dbf.setValidating( true );
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            if( resolver != null )
-            {
-                db.setEntityResolver( resolver );
-            }
-            InputSource source = new InputSource( resource );
-            if( systemId != null )
-            {
-                source.setSystemId( systemId );
-            }
-            Document doc = db.parse( source );
-            return doc.getDocumentElement();
-        }
-        catch( Exception e )
-        {
-            final String message = "Failed to parse Document";
-            throw new Exception( message, e );
-        }
-    }
-
     protected void runInvalidInputData( final ActionManagerFactory factory )
     {
         try
@@ -111,7 +57,6 @@ public class AbstractTestCase
 
     protected void runStreamBasedFactoryTest( final String inputFile,
                                               final ActionManagerFactory factory,
-                                              final int level,
                                               final String outputFile,
                                               final HashMap inputData )
         throws Exception
@@ -125,14 +70,12 @@ public class AbstractTestCase
                     url.toExternalForm() );
         config.putAll( inputData );
         runFactoryTest( factory,
-                        level,
                         config,
                         outputFile );
         final HashMap config2 = new HashMap();
         config2.put( URL.class.getName(), url );
         config2.putAll( inputData );
         runFactoryTest( factory,
-                        level,
                         config2,
                         outputFile );
         final String filename = url.toExternalForm().substring( 5 );
@@ -140,14 +83,12 @@ public class AbstractTestCase
         config3.put( ActionManagerFactory.FILE_LOCATION, filename );
         config3.putAll( inputData );
         runFactoryTest( factory,
-                        level,
                         config3,
                         outputFile );
         final HashMap config4 = new HashMap();
         config4.put( File.class.getName(), new File( filename ) );
         config4.putAll( inputData );
         runFactoryTest( factory,
-                        level,
                         config4,
                         outputFile );
         final HashMap config5 = new HashMap();
@@ -155,13 +96,16 @@ public class AbstractTestCase
                      new FileInputStream( filename ) );
         config5.putAll( inputData );
         runFactoryTest( factory,
-                        level,
                         config5,
                         outputFile );
     }
 
-    protected void runFactoryTest( final ActionManagerFactory factory, final int level, final HashMap config, final String filename ) throws Exception
+    protected void runFactoryTest( final ActionManagerFactory factory, final HashMap config, final String filename ) throws Exception
     {
         final ActionManager manager = factory.createActionManager( config );
+    }
+
+    protected void runManagerTest( final ActionManager manager )
+    {
     }
 }
