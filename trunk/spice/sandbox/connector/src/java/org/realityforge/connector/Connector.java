@@ -155,6 +155,23 @@ public class Connector
    }
 
    /**
+    * Method called to failure to communicate.
+    *
+    * @param t the error
+    */
+   public void commErrorOccured( final Throwable t )
+   {
+      if ( _policy.disconnectOnError( t ) )
+      {
+         disconnect();
+         if ( _policy.reconnectOnDisconnect() )
+         {
+            connect();
+         }
+      }
+   }
+
+   /**
     * Return the time at which last transmission occured.
     *
     * @return the time at which last transmission occured.
@@ -362,6 +379,17 @@ public class Connector
          }
          return isConnected();
       }
+   }
+
+   /**
+    * Attempt to ping connection.
+    * By default just calls {@link #validateConnection}.
+    *
+    * @return true if connected and ping successful.
+    */
+   public boolean ping()
+   {
+      return validateConnection();
    }
 
    /**
