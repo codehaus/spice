@@ -5,9 +5,8 @@
     <groupId>jcomponent</groupId>
     <id>jcomponent-loggerstore</id>
     <gumpRepositoryId>components</gumpRepositoryId>
-    <package>org.jcomponent.${pom.artifactId.substring(11)}</package>
-    <siteDirectory>/home/groups/s/sp/spice/htdocs/${pom.artifactId.substring(11)}</siteDirectory>
-    <distributionDirectory>/home/groups/s/sp/spice/htdocs/maven/${groupId}</distributionDirectory>
+    <package>org.jcomponent.loggerstore</package>
+    <siteDirectory>/home/groups/s/sp/spice/htdocs/loggerstore</siteDirectory>
     <currentVersion>1.0-b2-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
 

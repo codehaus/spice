@@ -5,7 +5,8 @@
     <groupId>jcomponent</groupId>
     <id>jcomponent-threadpool</id>
     <gumpRepositoryId>components</gumpRepositoryId>
-    <package>org.jcomponent.${pom.artifactId.substring(11)}</package>
+    <package>org.jcomponent.threadpool</package>
+    <siteDirectory>/home/groups/s/sp/spice/htdocs/threadpool</siteDirectory>
     <currentVersion>1.0</currentVersion>
 
     <shortDescription>ThreadPool component</shortDescription>
