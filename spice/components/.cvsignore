@@ -1,8 +1,0 @@
-build.properties
-*.log
-*.el
-*.ipr
-*.iws
-
-.classpath
-.project
