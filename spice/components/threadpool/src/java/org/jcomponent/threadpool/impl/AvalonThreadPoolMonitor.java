@@ -13,7 +13,7 @@ import org.jcomponent.threadpool.ThreadPoolMonitor;
 /**
  * @author Mauro n Paul
  */
-public class AvalonThreadPoolMonitor
+class AvalonThreadPoolMonitor
    extends AbstractLogEnabled
    implements ThreadPoolMonitor
 {
