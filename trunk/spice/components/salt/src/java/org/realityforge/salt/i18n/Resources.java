@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  * and other common resources from a ResourceBundle.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-06-12 23:28:09 $
+ * @version $Revision: 1.5 $ $Date: 2003-06-12 23:28:32 $
 */
 public class Resources
 {
@@ -701,7 +701,7 @@ public class Resources
      * @return the ResourceBundle
      * @throws MissingResourceException if an error occurs
      */
-    public final ResourceBundle getBundle()
+    public synchronized final ResourceBundle getBundle()
         throws MissingResourceException
     {
         if( null == m_bundle )
