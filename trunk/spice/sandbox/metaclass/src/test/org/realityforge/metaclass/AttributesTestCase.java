@@ -17,7 +17,7 @@ import java.lang.reflect.Field;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-23 05:19:46 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-23 05:19:56 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -238,7 +238,7 @@ public class AttributesTestCase
         final Attribute attribute2 = new Attribute( "bleh" );
         final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
 
-                final Field field = AttributesTestCase.class.getDeclaredFields()[ 0 ];
+        final Field field = AttributesTestCase.class.getDeclaredFields()[ 0 ];
         final FieldDescriptor fieldDescriptor =
             new FieldDescriptor( field.getName(),
                                  field.getType().getName(),
