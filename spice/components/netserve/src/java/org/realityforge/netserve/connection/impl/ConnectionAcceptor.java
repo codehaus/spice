@@ -21,7 +21,7 @@ import org.realityforge.threadpool.ThreadPool;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-04-23 03:57:20 $
+ * @version $Revision: 1.7 $ $Date: 2003-04-23 03:59:02 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
@@ -88,6 +88,12 @@ class ConnectionAcceptor
         m_threadPool = threadPool;
     }
 
+    /**
+     * Shutdown the acceptor and any active handlers.
+     * Wait specified waittime for handlers to gracefully shutdown.
+     *
+     * @param waitTime the time to wait for graceful shutdown
+     */
     void close( final int waitTime )
     {
         if( getLogger().isInfoEnabled() )
@@ -146,6 +152,48 @@ class ConnectionAcceptor
     }
 
     /**
+     * Dispose of a ConnectionRunner.
+     * This should only be called by the ConnectionRunner unless
+     * the ConnectionRunner will not shutdown in which case this may be called to
+     * tear down the connection.
+     *
+     * @param runner the ConnectionRunner
+     */
+    void disposeRunner( final ConnectionRunner runner )
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = "Disposing runner " + runner + ".";
+            getLogger().debug( message );
+        }
+        if( !m_runners.contains( runner ) )
+        {
+            final String message = "Attempting to dispose runner " +
+                runner + " that has already been disposed.";
+            getLogger().warn( message );
+            return;
+        }
+        m_runners.remove( runner );
+        m_handlerManager.releaseHandler( runner.getHandler() );
+        final Socket socket = runner.getSocket();
+        if( !socket.isClosed() )
+        {
+            try
+            {
+                socket.close();
+            }
+            catch( final IOException ioe )
+            {
+                if( getLogger().isInfoEnabled() )
+                {
+                    final String message = "Error closing socket " + socket + ".";
+                    getLogger().info( message, ioe );
+                }
+            }
+        }
+    }
+
+    /**
      * Start a connection on specified socket.
      *
      * @param socket the socket
@@ -185,48 +233,6 @@ class ConnectionAcceptor
         {
             final Thread thread = new Thread( runner, name );
             thread.start();
-        }
-    }
-
-    /**
-     * Dispose of a ConnectionRunner.
-     * This should only be called by the ConnectionRunner unless
-     * the ConnectionRunner will not shutdown in which case this may be called to
-     * tear down the connection.
-     *
-     * @param runner the ConnectionRunner
-     */
-    void disposeRunner( final ConnectionRunner runner )
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = "Disposing runner " + runner + ".";
-            getLogger().debug( message );
-        }
-        if( !m_runners.contains( runner ) )
-        {
-            final String message = "Attempting to dispose runner " +
-                runner + " that has already been disposed.";
-            getLogger().warn( message );
-            return;
-        }
-        m_runners.remove( runner );
-        m_handlerManager.releaseHandler( runner.getHandler() );
-        final Socket socket = runner.getSocket();
-        if( !socket.isClosed() )
-        {
-            try
-            {
-                socket.close();
-            }
-            catch( final IOException ioe )
-            {
-                if( getLogger().isInfoEnabled() )
-                {
-                    final String message = "Error closing socket " + socket + ".";
-                    getLogger().info( message, ioe );
-                }
-            }
         }
     }
 
