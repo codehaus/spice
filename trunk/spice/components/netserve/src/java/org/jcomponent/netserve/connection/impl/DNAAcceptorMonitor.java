@@ -1,6 +1,7 @@
-package org.jcomponent.netserve.sockets.impl;
+package org.jcomponent.netserve.connection.impl;
 
 import org.jcontainer.dna.Logger;
+import org.jcomponent.netserve.connection.impl.AbstractLoggingAcceptorMonitor;
 
 /**
  * AcceptorMonitor that writes out messages to DNA Logger.
@@ -28,7 +29,7 @@ public class DNAAcceptorMonitor
    }
 
    /**
-    * @see AbstractLoggingAcceptorMonitor#isDebugEnabled
+    * @see org.jcomponent.netserve.connection.impl.AbstractLoggingAcceptorMonitor#isDebugEnabled
     */
    protected boolean isDebugEnabled()
    {
@@ -36,7 +37,7 @@ public class DNAAcceptorMonitor
    }
 
    /**
-    * @see AbstractLoggingAcceptorMonitor#debug
+    * @see org.jcomponent.netserve.connection.impl.AbstractLoggingAcceptorMonitor#debug
     */
    protected void debug( final String message )
    {
@@ -44,7 +45,7 @@ public class DNAAcceptorMonitor
    }
 
    /**
-    * @see AbstractLoggingAcceptorMonitor#info
+    * @see org.jcomponent.netserve.connection.impl.AbstractLoggingAcceptorMonitor#info
     */
    protected void info( final String message )
    {
@@ -52,7 +53,7 @@ public class DNAAcceptorMonitor
    }
 
    /**
-    * @see AbstractLoggingAcceptorMonitor#warn
+    * @see org.jcomponent.netserve.connection.impl.AbstractLoggingAcceptorMonitor#warn
     */
    protected void warn( final String message,
                         final Exception e )
