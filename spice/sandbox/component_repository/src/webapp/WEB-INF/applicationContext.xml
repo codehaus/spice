@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <bean id="repository" class="jcontainer.Repository"/>
+
+    <bean id="factory" class="jcontainer.impl.JContainerFactory"/>
+
+    <bean id="prevayler" class="jcontainer.PrevaylerBean">
+        <property name="prevaylentSystem"><ref bean="repository"/></property>
+    </bean>
+</beans>

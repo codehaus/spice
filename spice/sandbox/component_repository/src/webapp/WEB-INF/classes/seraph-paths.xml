@@ -1,0 +1,9 @@
+<security-paths>
+    <!-- You can configure any number of path elements -->
+    <path name="admin">
+        <url-pattern>/welcome.htm</url-pattern>
+        <!-- You can set multiple roles per path -->
+        <role-name>myapp-administrators, myapp-owners</role-name>
+    </path>
+</security-paths>
+
