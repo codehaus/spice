@@ -7,11 +7,13 @@
     <currentVersion>0.5</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
-    <shortDescription>Component for storing an Avalon Logger hierarchy.</shortDescription>
+    <shortDescription>Component for storing a set of Avalon Loggers.</shortDescription>
 
     <description>
-        Component for storing an Avalon Logger hierarchy, abstracting the underlying logger
-        implementation, ie Avalon LogKit, Log4J or JDK14 Logger 
+        Component for storing an Avalon Logger hierarchy, abstracting
+        the underlying logger implementation and configuration mechanims.
+        ie Avalon LogKit, Log4J or JDK14 Loggers are possible implementations
+        managed by this toolkit.
     </description>
 
     <dependencies>
@@ -21,20 +23,16 @@
             <version>4.1.4</version>
         </dependency>
         <dependency>
-            <groupId>avalon</groupId>
-            <artifactId>avalon-logkit</artifactId>
+            <id>logkit</id>
             <!-- uses snapshot until util.Closeable is released -->
-            <!--version>1.2</version-->
-            <jar>logkit.jar</jar>
+            <version>1.2dev</version>
         </dependency>
         <dependency>
-            <groupId>excalibur</groupId>
-            <artifactId>excalibur-i18n</artifactId>
+            <id>excalibur-i18n</id>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>excalibur</groupId>
-            <artifactId>excalibur-logger</artifactId>
+            <id>excalibur-logger</id>
             <version>1.0</version>
         </dependency>
         <dependency>
