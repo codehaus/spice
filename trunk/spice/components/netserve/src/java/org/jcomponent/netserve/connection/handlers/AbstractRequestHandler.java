@@ -17,7 +17,7 @@ import org.jcomponent.netserve.connection.RequestHandler;
  * Abstract base class for request handlers.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-27 05:34:57 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-28 06:28:54 $
  */
 public abstract class AbstractRequestHandler
     implements RequestHandler
@@ -173,9 +173,16 @@ public abstract class AbstractRequestHandler
      */
     protected String getThreadName( final Socket socket )
     {
-        return "RequestHandler for " +
-            socket.getInetAddress().getHostAddress() + ":" +
-            socket.getPort();
+        if( socket.isConnected() )
+        {
+            return "RequestHandler for " +
+                socket.getInetAddress().getHostAddress() + ":" +
+                socket.getPort();
+        }
+        else
+        {
+            return "RequestHandler for " + socket;
+        }
     }
 
     /**
