@@ -44,7 +44,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * ClassDescriptor for class) then either an empty array
  * or a null will be returned depending on the method.</p>
  *
- * @version $Revision: 1.5 $ $Date: 2003-09-01 04:40:46 $
+ * @version $Revision: 1.6 $ $Date: 2003-09-01 06:33:45 $
  */
 public class Attributes
 {
@@ -417,20 +417,26 @@ public class Attributes
     public static MethodDescriptor getConstructor( final Constructor constructor )
         throws MetaClassException
     {
+        String name = constructor.getName();
+        final int index = name.lastIndexOf( "." );
+        if( -1 != index )
+        {
+            name = name.substring( index + 1 );
+        }
         final MethodDescriptor[] methods =
             getClassInfo( constructor.getDeclaringClass() ).getMethods();
         for( int i = 0; i < methods.length; i++ )
         {
             final MethodDescriptor candidate = methods[ i ];
-            if( candidate.getName().equals( constructor.getName() ) &&
+            if( candidate.getName().equals( name ) &&
                candidate.getParameters().length == constructor.getParameterTypes().length )
             {
                 final ParameterDescriptor[] parameters = candidate.getParameters();
                 for ( int j = 0; j < parameters.length; j++ )
                 {
-                    final ParameterDescriptor parameter = parameters[ j ];
-                    final Class type = constructor.getParameterTypes()[j];
-                    if( !type.getName().equals(parameter.getType()))
+                    final String parameter = parameters[ j ].getType();
+                    final String type = constructor.getParameterTypes()[ j ].getName();
+                    if( !type.equals( parameter ) )
                     {
                         continue;
                     }
