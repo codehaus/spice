@@ -16,7 +16,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * Caching MetaClassAccessor implementation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-28 07:01:01 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-28 08:07:32 $
  */
 public class CachingMetaClassAccessor
    implements MetaClassAccessor
@@ -25,14 +25,6 @@ public class CachingMetaClassAccessor
     * Class used to access the MetaData.
     */
    private MetaClassAccessor m_accessor = new DefaultMetaClassAccessor();
-
-   /**
-    * Wrapper Accessor that is passed to the above accessor
-    * to retrieve ClassDescriptors. Ensures that no Accessor
-    * can get a direct reference to the CachingMetaClassAccessor
-    * and thus subvert descriptor loading process.
-    */
-   private final WrapperMetaClassAccessor m_wrapperAccessor = new WrapperMetaClassAccessor( this );
 
    /**
     * The cache in which info objects are stored.
@@ -92,7 +84,7 @@ public class CachingMetaClassAccessor
          descriptor =
             m_accessor.getClassDescriptor( classname,
                                            classLoader,
-                                           m_wrapperAccessor );
+                                           accessor );
          cache.put( classname, descriptor );
          return descriptor;
       }
