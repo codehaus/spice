@@ -27,7 +27,7 @@ import org.realityforge.metaclass.model.PackageDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.9 $ $Date: 2003-08-18 14:11:28 $
+ * @version $Revision: 1.10 $ $Date: 2003-08-22 03:00:39 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -214,15 +214,28 @@ public class MetaClassIOBinary
         final int count = data.readInt();
         for( int i = 0; i < count; i++ )
         {
-            final String name = data.readUTF();
-            final String type = data.readUTF();
-            final ParameterDescriptor parameter =
-                new ParameterDescriptor( name, type );
-            parameters.add( parameter );
+            parameters.add( readParameter( data ) );
         }
         final ParameterDescriptor[] parameterDescriptorArray =
             new ParameterDescriptor[ parameters.size() ];
         return (ParameterDescriptor[])parameters.toArray( parameterDescriptorArray );
+    }
+
+    /**
+     * Read in a method parameter.
+     *
+     * @param data the input
+     * @return the method parameter
+     * @throws IOException if unable to read parameter
+     */
+    ParameterDescriptor readParameter( final DataInputStream data )
+        throws IOException
+    {
+        final String name = data.readUTF();
+        final String type = data.readUTF();
+        final ParameterDescriptor parameter =
+            new ParameterDescriptor( name, type );
+        return parameter;
     }
 
     /**
