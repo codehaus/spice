@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>Salt Utility Library</name>
     <id>spice-salt</id>
-    <currentVersion>1.1-dev</currentVersion>
+    <currentVersion>1.0</currentVersion>
     <package>org.codehaus.spice.salt</package>
     <inceptionYear>1999</inceptionYear>
 
@@ -16,6 +16,15 @@
         classes that make i18n easier, and utility classes to work
         with language level features such as Exceptions and Enumerations.
     </description>
+
+    <versions>
+        <version>
+            <id>1.0</id>
+            <name>1.0</name>
+            <tag>SALT_1_0-tag</tag>
+        </version>
+    </versions>
+
 
     <developers>
         <developer>
