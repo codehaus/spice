@@ -18,7 +18,7 @@ import org.jcomponent.threadpool.ThreadControl;
  * This class extends the Thread class to add recyclable functionalities.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 18:03:03 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-01 00:27:13 $
  */
 public class WorkerThread
     extends Thread
@@ -90,30 +90,31 @@ public class WorkerThread
 
             debug( "running." );
 
+            Throwable throwable = null;
             try
             {
                 preExecute();
                 m_work.execute();
-                m_threadControl.finish( null );
             }
             catch( final ThreadDeath threadDeath )
             {
                 debug( "thread has died." );
-                m_threadControl.finish( threadDeath );
+                throwable = threadDeath;
                 // This is to let the thread death propagate to the runtime
                 // enviroment to let it know it must kill this worker
                 throw threadDeath;
             }
-            catch( final Throwable throwable )
+            catch( final Throwable t )
             {
                 // Error thrown while working.
-                debug( "error caught: " + throwable );
-                m_threadControl.finish( throwable );
+                debug( "error caught: " + t );
+                throwable = t;
             }
             finally
             {
                 debug( "done." );
                 m_work = null;
+                m_threadControl.finish( throwable );
                 m_threadControl = null;
                 postExecute();
             }
@@ -123,7 +124,7 @@ public class WorkerThread
                 //should this be just notify or notifyAll ???
                 //It seems to resource intensive option to use notify()
                 //notifyAll();
-                notify();
+                notifyAll();
             }
 
             // recycle ourselves
@@ -175,18 +176,19 @@ public class WorkerThread
         synchronized( this )
         {
             final long start = System.currentTimeMillis();
-            while( null == m_work )
+            while( null != m_work )
             {
                 final long now = System.currentTimeMillis();
                 final long diff = now - start;
-                if( diff > maxWait )
+                if( diff >= maxWait )
                 {
                     return;
                 }
                 try
                 {
-                    debug( "waiting." );
-                    wait( maxWait - diff );
+                    final long timeout = maxWait - diff;
+                    debug( "waiting timeout=" + timeout + "." );
+                    wait( timeout );
                     debug( "notified." );
                 }
                 catch( final InterruptedException ie )
