@@ -22,7 +22,7 @@ import org.codehaus.spice.timeevent.source.SchedulingKey;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-03-22 01:17:50 $
+ * @version $Revision: 1.2 $ $Date: 2004-03-26 02:23:02 $
  */
 public class Session
 {
@@ -552,7 +552,7 @@ public class Session
         return _transport;
     }
 
-    public void setTransport( final ChannelTransport transport )
+    public synchronized void setTransport( final ChannelTransport transport )
     {
         if( null != _transport )
         {

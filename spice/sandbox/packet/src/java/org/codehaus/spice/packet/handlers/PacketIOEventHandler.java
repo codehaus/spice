@@ -42,7 +42,7 @@ import org.codehaus.spice.timeevent.triggers.PeriodicTimeTrigger;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-03-22 01:17:50 $
+ * @version $Revision: 1.2 $ $Date: 2004-03-26 02:23:02 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -58,7 +58,7 @@ public class PacketIOEventHandler
      * The maximum amount of time that session can be idle without an attempt to
      * send write.
      */
-    private static final int MAX_IDLE_TIME = 1500; //50 * 1000;
+    private static final int MAX_IDLE_TIME = 20 * 1000; //50 * 1000;
 
     /**
      * The number of milliseconds before the session will timeout.
@@ -336,11 +336,11 @@ public class PacketIOEventHandler
         {
             sendDisconnectRequest( session.getTransport() );
         }
-        final PeriodicTimeTrigger trigger = new PeriodicTimeTrigger(
-            MAX_IDLE_TIME, MAX_IDLE_TIME );
+        final PeriodicTimeTrigger trigger =
+           new PeriodicTimeTrigger( MAX_IDLE_TIME, MAX_IDLE_TIME );
         final TimerEntry timer = new TimerEntry( "PINGER", session );
-        final SchedulingKey key = _timeEventSource.addTrigger( trigger,
-                                                               timer );
+        final SchedulingKey key =
+           _timeEventSource.addTrigger( trigger, timer );
         session.setTimeoutKey( key );
         session.setConnecting( false );
         _target.addEvent( new SessionActiveEvent( session ) );
@@ -430,12 +430,26 @@ public class PacketIOEventHandler
     private void handleConnectFailed( final ConnectErrorEvent ce )
     {
         final ChannelTransport transport = ce.getTransport();
-        final Session session = (Session) transport.getUserData();
-        if( null != session )
+       final Session session;
+       try
+       {
+          session = (Session) transport.getUserData();
+       if( null != session )
         {
             session.setTransport( null );
             setupInactivityTimout( session );
         }
+          }
+       catch( final ClassCastException e )
+       {
+          final Object object = transport.getUserData();
+          if( null != object )
+          {
+             System.out.println( "object.getClass() = " + object.getClass() );
+          }
+          e.printStackTrace();
+
+       }
     }
 
     private void setupInactivityTimout( final Session session )

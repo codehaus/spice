@@ -1,251 +1,152 @@
 package org.codehaus.spice.packet;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
-import java.util.ArrayList;
-import java.util.Arrays;
-import org.codehaus.spice.event.EventHandler;
-import org.codehaus.spice.event.EventSource;
-import org.codehaus.spice.event.impl.BlockingEventSource;
-import org.codehaus.spice.event.impl.DefaultEventQueue;
 import org.codehaus.spice.event.impl.EventPump;
-import org.codehaus.spice.event.impl.collections.BoundedFifoBuffer;
-import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
-import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
-import org.codehaus.spice.netevent.handlers.ChannelEventHandler;
-import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
-import org.codehaus.spice.packet.handlers.PacketIOEventHandler;
-import org.codehaus.spice.packet.session.DefaultSessionManager;
 import org.codehaus.spice.packet.session.Session;
-import org.codehaus.spice.timeevent.source.TimeEventSource;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-03-22 01:17:51 $
+ * @version $Revision: 1.2 $ $Date: 2004-03-26 02:23:01 $
  */
 public class TestServer
 {
-    private static boolean c_done;
+   private static boolean c_done;
 
-    private static final DefaultBufferManager BUFFER_MANAGER = new DefaultBufferManager();
-    public static final DefaultSessionManager SESSION_MANAGER = new DefaultSessionManager();
-    private static final int SESSION_COUNT = 50; //153;
-    private static final Session[] SESSIONS = new Session[ SESSION_COUNT ];
-    static final int TX_SIZE_FACTOR = 1024 * 2;
-    static final int MESSAGE_COUNT = 5;
-    private static DefaultEventQueue c_sessionQueue;
+   private static final int SESSION_COUNT = 5; //153;
+   static final int TX_SIZE_FACTOR = 1024 * 2;
+   static final int MESSAGE_COUNT = 5;
 
-    public static void main( final String[] args ) throws Exception
-    {
-        final EventPump[] serverSidePumps = createServerSidePumps();
-        final EventPump[] clientSidePumps = createClientSidePumps();
-        final ArrayList pumpList = new ArrayList();
-        pumpList.addAll( Arrays.asList( serverSidePumps ) );
-        pumpList.addAll( Arrays.asList( clientSidePumps ) );
-        final EventPump[] pumps = (EventPump[]) pumpList.toArray(
-            new EventPump[ pumpList.size() ] );
+   public static void main( final String[] args )
+      throws Exception
+   {
+      final NetRuntime serverRuntime = NetRuntime.createRuntime( "SV" );
+      final NetRuntime clientRuntime = NetRuntime.createRuntime( "CL" );
 
-        startPumps( pumps );
+      final ServerSocketChannel channel = ServerSocketChannel.open();
+      serverRuntime.getSource().
+         registerChannel( channel, SelectionKey.OP_ACCEPT, null );
+      channel.socket().bind( new InetSocketAddress( 1980 ) );
 
-        final InetSocketAddress address = new InetSocketAddress(
-            InetAddress.getLocalHost(), 1980 );
-        for( int i = 0; i < SESSIONS.length; i++ )
-        {
-            SESSIONS[ i ] = new Session( address, c_sessionQueue );
-        }
+      startPumps( serverRuntime.getPumps() );
+      startPumps( clientRuntime.getPumps() );
 
-        boolean started = false;
-        while( !c_done )
-        {
-            for( int i = 0; i < SESSIONS.length; i++ )
+      final InetSocketAddress address =
+         new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
+
+      final Session[] sessions = initSessions( address, clientRuntime );
+
+      boolean started = false;
+      while( !c_done )
+      {
+         for( int i = 0; i < sessions.length; i++ )
+         {
+            final Session session = sessions[ i ];
+            final long change = session.getLastCommTime() + 1000;
+            if( Session.STATUS_NOT_CONNECTED == session.getStatus() &&
+                change < System.currentTimeMillis() &&
+                !session.isConnecting() )
             {
-                final Session session = SESSIONS[ i ];
-                final long change = session.getLastCommTime() + 1000;
-                if( Session.STATUS_NOT_CONNECTED == session.getStatus() &&
-                    change < System.currentTimeMillis() &&
-                    !session.isConnecting() )
-                {
-                    session.startConnection();
-                    if( session.getConnections() > 0 )
-                    {
-                        final String message = "Re-establish SessionID=" +
-                                               session.getSessionID();
-                        System.out.println( message );
-                    }
-                    else
-                    {
-                        final String message = "Establish conenction to Server.";
-                        System.out.println( message );
-                    }
-                }
+               session.startConnection();
+
+               final String sessionDesc =
+                  "  [" +
+                  serverRuntime.getSessionManager().getSessionCount() + ":" +
+                  clientRuntime.getSessionManager().getSessionCount() + "]";
+
+               if( session.getConnections() > 0 &&
+                   -1 != session.getSessionID() )
+               {
+                  final String message = "Re-establish SessionID=" +
+                                         session.getSessionID() +
+                                         sessionDesc;
+                  System.out.println( message );
+               }
+               else
+               {
+                  final String message =
+                     "Establish conenction to Server." + sessionDesc;
+                  System.out.println( message );
+               }
             }
+         }
 
-            if( SESSION_MANAGER.getSessionCount() > 0 )
-            {
-                started = true;
-            }
-            if( started && 0 == SESSION_MANAGER.getSessionCount() )
-            {
-                c_done = true;
-            }
-            try
-            {
-                Thread.sleep( 5 );
-            }
-            catch( InterruptedException e )
-            {
-                e.printStackTrace();
-            }
-        }
-    }
+         if( serverRuntime.getSessionManager().getSessionCount() > 0 )
+         {
+            started = true;
+         }
+         if( started &&
+             0 == serverRuntime.getSessionManager().getSessionCount() &&
+             0 == clientRuntime.getSessionManager().getSessionCount() )
+         {
+            c_done = true;
+         }
+         try
+         {
+            Thread.sleep( 5 );
+         }
+         catch( InterruptedException e )
+         {
+            e.printStackTrace();
+         }
+      }
+   }
 
-    private static void startPumps( final EventPump[] pumps )
-    {
-        /*
-        final Runnable runnable = new Runnable()
-        {
-           public void run()
-           {
-              doPump( pumps );
-           }
-        };
-        startThread( runnable );
-        */
-        for( int i = 0; i < pumps.length; i++ )
-        {
-            final EventPump pump = pumps[ i ];
-            startThread( pump );
-        }
-    }
+   private static Session[] initSessions( final InetSocketAddress address,
+                                          final NetRuntime clientRuntime )
+   {
+      final Session[] sessions = new Session[ SESSION_COUNT ];
+      for( int i = 0; i < sessions.length; i++ )
+      {
+         sessions[ i ] = new Session( address,
+                                      clientRuntime.getSessionSink() );
+      }
+      return sessions;
+   }
 
-    private static void startThread( final EventPump pump )
-    {
-        final Runnable runnable = new Runnable()
-        {
-            public void run()
-            {
-                try
-                {
-                    doPump( pump );
-                }
-                catch( final Throwable e )
-                {
-                    e.printStackTrace();
-                }
-            }
-        };
-        final Thread thread = new Thread( runnable );
-        thread.setName( pump.getName() );
-        thread.start();
+   private static void startPumps( final EventPump[] pumps )
+   {
+      for( int i = 0; i < pumps.length; i++ )
+      {
+         final EventPump pump = pumps[ i ];
+         startThread( pump );
+      }
+   }
 
-        thread.setPriority( Thread.NORM_PRIORITY - 1 );
-    }
+   private static void startThread( final EventPump pump )
+   {
+      final Runnable runnable = new Runnable()
+      {
+         public void run()
+         {
+            doPump( pump );
+         }
+      };
+      final Thread thread = new Thread( runnable );
+      thread.setName( pump.getName() );
+      thread.start();
 
-    private static EventPump[] createServerSidePumps() throws IOException
-    {
-        final DefaultEventQueue queue1 = new DefaultEventQueue(
-            new BoundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue2 = new DefaultEventQueue(
-            new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue3 = new DefaultEventQueue(
-            new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue4 = new DefaultEventQueue(
-            new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue5 = new DefaultEventQueue(
-            new UnboundedFifoBuffer( 15 ) );
+      thread.setPriority( Thread.NORM_PRIORITY - 1 );
+   }
 
-        final SelectableChannelEventSource source1 = new SelectableChannelEventSource(
-            queue1 );
-        source1.setSelectTimeout( 0 );
-        final TimeEventSource source2 = new TimeEventSource( queue4 );
-        final TimeEventSource source3 = new TimeEventSource( queue5 );
-
-        final EventHandler handler1 = new EchoHandler( "CHAN SV", new ChannelEventHandler(
-            source1, queue1, queue2, BUFFER_MANAGER ) );
-
-        final EventHandler handler2 = new EchoHandler( "PACK SV", new PacketIOEventHandler(
-            source2,
-            source1,
-            queue2,
-            queue3,
-            BUFFER_MANAGER,
-            SESSION_MANAGER ) );
-
-        final EventHandler handler3 = new EchoHandler( "TEST SV", new TestEventHandler(
-            queue1, BUFFER_MANAGER, "TEST SV" ) );
-
-        final EventPump pump1 = newPump( "CHAN SV", source1, handler1 );
-        final EventPump pump2 = newPump( "PACK SV", queue2, handler2 );
-        final EventPump pump3 = newPump( "TEST SV", queue3, handler3 );
-        final EventPump pump4 = newPump( "PACK TIME SV", source2, handler2 );
-        final EventPump pump5 = newPump( "TEST TIME SV", source3, handler3 );
-        final ServerSocketChannel channel = ServerSocketChannel.open();
-        source1.registerChannel( channel, SelectionKey.OP_ACCEPT, null );
-        channel.socket().bind( new InetSocketAddress( 1980 ) );
-
-        return new EventPump[]{pump1, pump2, pump3, pump4, pump5};
-    }
-
-    private static EventPump newPump( final String name,
-                                      final EventSource source,
-                                      final EventHandler handler )
-    {
-        return new EventPump( name,
-                              new BlockingEventSource( source ),
-                              handler );
-    }
-
-    private static EventPump[] createClientSidePumps() throws IOException
-    {
-        final DefaultEventQueue queue1 = new DefaultEventQueue(
-            new BoundedFifoBuffer( 15 ) );
-        c_sessionQueue =
-        new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue3 = new DefaultEventQueue(
-            new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue4 = new DefaultEventQueue(
-            new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue5 = new DefaultEventQueue(
-            new UnboundedFifoBuffer( 15 ) );
-
-        final SelectableChannelEventSource source1 = new SelectableChannelEventSource(
-            queue1 );
-        source1.setSelectTimeout( 0 );
-        final TimeEventSource source2 = new TimeEventSource( queue4 );
-        final TimeEventSource source3 = new TimeEventSource( queue5 );
-
-        final EventHandler handler1 = new EchoHandler( "CHAN CL", new ChannelEventHandler(
-            source1, queue1, c_sessionQueue, BUFFER_MANAGER ) );
-
-        final EventHandler handler2 = new EchoHandler( "PACK CL",
-                                                       new PacketIOEventHandler(
-                                                           source2,
-                                                           source1,
-                                                           c_sessionQueue,
-                                                           queue3,
-                                                           BUFFER_MANAGER,
-                                                           new DefaultSessionManager() ) );
-
-        final EventHandler handler3 = new EchoHandler( "TEST CL", new TestEventHandler(
-            queue1, BUFFER_MANAGER, "TEST CL" ) );
-
-        final EventPump pump1 = newPump( "CHAN CL", source1, handler1 );
-        final EventPump pump2 = newPump( "PACK CL", c_sessionQueue, handler2 );
-        final EventPump pump3 = newPump( "TEST CL", queue3, handler3 );
-        final EventPump pump4 = newPump( "PACK TIME CL", source2, handler2 );
-        final EventPump pump5 = newPump( "TEST TIME CL", source3, handler3 );
-
-        return new EventPump[]{pump1, pump2, pump3, pump4, pump5};
-    }
-
-    private static void doPump( final EventPump pump )
-    {
-        while( !c_done )
-        {
+   private static void doPump( final EventPump pump )
+   {
+      try
+      {
+         System.out.println( "Entering Thread " +
+                             Thread.currentThread().getName() );
+         while( !c_done )
+         {
             pump.refresh();
-        }
-    }
+         }
+         System.out.println( "Exiting Thread " +
+                             Thread.currentThread().getName() );
+      }
+      catch( final Throwable e )
+      {
+         e.printStackTrace();
+      }
+   }
 }

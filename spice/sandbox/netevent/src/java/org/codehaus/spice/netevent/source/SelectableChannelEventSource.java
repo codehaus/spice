@@ -19,7 +19,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * An event source that generates events based from SelectableChannels.
  *
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2004-03-21 23:32:36 $
+ * @version $Revision: 1.8 $ $Date: 2004-03-26 02:23:02 $
  */
 public class SelectableChannelEventSource
     extends AbstractEventSource
@@ -100,8 +100,11 @@ public class SelectableChannelEventSource
      * @see AbstractEventSource#refresh()
      */
     protected void refresh()
-    {
-        System.out.println("Refresh chan .... in " + Thread.currentThread().getName() );
+    {                                           
+        System.out.println("Refresh chan .... " +
+                           "in " + Thread.currentThread().getName() +
+                           " _selectTimeout=" + _selectTimeout +
+                           " _selector.keys().size()=" + _selector.keys().size() );
 
         final Selector selector;
         synchronized( this )

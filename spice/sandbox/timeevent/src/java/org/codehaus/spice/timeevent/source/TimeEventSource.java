@@ -9,7 +9,7 @@ import org.codehaus.spice.timeevent.triggers.TimeTrigger;
  * An EventSource that generates events relating to the passage of time.
  *
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-03-21 23:32:36 $
+ * @version $Revision: 1.5 $ $Date: 2004-03-26 02:23:02 $
  */
 public class TimeEventSource
     extends AbstractEventSource
@@ -57,6 +57,7 @@ public class TimeEventSource
         {
             m_queue.insert( key );
         }
+        notifyAll();
     }
 
     /**
@@ -78,12 +79,19 @@ public class TimeEventSource
     {
         if( m_queue.isEmpty() )
         {
-            return;
+           try
+           {
+              wait( 0 );
+           }
+           catch( final InterruptedException ie )
+           {
+           }
+           return;
         }
         else
         {
             SchedulingKey key = (SchedulingKey)m_queue.peek();
-            long diff = key.getNextTime() - now;
+            final long diff = key.getNextTime() - now;
             if( diff > 0 )
             {
                 try
