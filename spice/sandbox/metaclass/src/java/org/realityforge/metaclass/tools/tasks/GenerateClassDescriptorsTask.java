@@ -31,7 +31,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
  * A Task to generate Attributes descriptors from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-04 09:25:28 $
+ * @version $Revision: 1.8 $ $Date: 2003-10-04 10:12:24 $
  */
 public class GenerateClassDescriptorsTask
     extends Task
@@ -153,6 +153,7 @@ public class GenerateClassDescriptorsTask
         setupFilters();
         setupInterceptors();
         m_compiler.setDestDir( m_destDir );
+        m_compiler.setMonitor( this );
 
         setupTarget();
 
