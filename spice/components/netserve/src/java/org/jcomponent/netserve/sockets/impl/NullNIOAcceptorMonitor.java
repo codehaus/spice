@@ -15,7 +15,7 @@ import java.io.IOException;
  * A noop monitor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-10 02:45:26 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-10 04:06:12 $
  */
 public class NullNIOAcceptorMonitor
     implements NIOAcceptorMonitor
@@ -24,7 +24,7 @@ public class NullNIOAcceptorMonitor
      * Add constant for instance of Null Monitor.
      */
     public static final NullNIOAcceptorMonitor MONITOR = new NullNIOAcceptorMonitor();
-    
+
     /**
      * @see NIOAcceptorMonitor#acceptorCreated
      */
