@@ -13,11 +13,26 @@ import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-09 07:09:48 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-09 07:35:24 $
  */
 public abstract class AbstractAcceptorManagerTestCase
     extends TestCase
 {
+        public void testDisconnectNonExistent()
+        throws Exception
+    {
+        final SocketAcceptorManager manager = createAcceptorManager();
+        try
+        {
+            manager.disconnect( "NonExistent" );
+        }
+        catch( IllegalArgumentException iae )
+        {
+            return;
+        }
+        fail( "Expected to fail to disconnect non existent acceptor" );
+    }
+
     public void testConnectWithNullName()
         throws Exception
     {
