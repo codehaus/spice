@@ -3,6 +3,8 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>MetaClass</name>
     <id>spice-metaclass</id>
+    <!-- when version is updated then update version in the plugin-test
+       project descriptor -->
     <currentVersion>1.0-rc3-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
