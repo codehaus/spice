@@ -4,7 +4,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-20 01:08:30 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-20 03:20:08 $
  */
 public abstract class DataPresentEvent
     extends AbstractTransportEvent
@@ -24,6 +24,6 @@ public abstract class DataPresentEvent
      */
     protected String getEventDescription()
     {
-        return "Count: " + _count + " " + super.getEventDescription();
+        return "count=" + _count + " " + super.getEventDescription();
     }
 }
