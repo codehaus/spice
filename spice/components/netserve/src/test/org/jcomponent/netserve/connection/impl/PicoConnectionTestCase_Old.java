@@ -15,50 +15,50 @@ import org.jcomponent.threadpool.ThreadPool;
  * TestCase for {@link PicoConnectionManager}.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-14 04:12:18 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-23 03:19:14 $
  */
 public class PicoConnectionTestCase_Old
-    extends AbstractConnectionTestCase
+   extends AbstractConnectionTestCase
 {
-    protected void setUp() throws Exception
-    {
-        setMonitor( createConnectionMonitor() );
-    }
+   protected void setUp() throws Exception
+   {
+      setMonitor( createConnectionMonitor() );
+   }
 
-    protected ConnectionManager createConnectionManager( boolean addThreadPool,
-                                                         final SocketAcceptorManager socketManager,
-                                                         final boolean forceShutdown,
-                                                         final int shutdownTimeout )
-        throws Exception
-    {
+   protected ConnectionManager createConnectionManager( boolean addThreadPool,
+                                                        final SocketAcceptorManager socketManager,
+                                                        final boolean forceShutdown,
+                                                        final int shutdownTimeout )
+      throws Exception
+   {
 
-        ThreadPool threadPool = null;
-        if( addThreadPool )
-        {
-            threadPool = new TestThreadPool();
-        }
-        final ConnectionManager cm =
-            new PicoConnectionManager.WithMonitorAndConfig( createConnectionMonitor(),
-                                                            threadPool,
-                                                            socketManager,
-                                                            forceShutdown,
-                                                            shutdownTimeout );
-        return cm;
-    }
+      ThreadPool threadPool = null;
+      if ( addThreadPool )
+      {
+         threadPool = new TestThreadPool();
+      }
+      final ConnectionManager cm =
+         new PicoConnectionManager( createConnectionMonitor(),
+                                    threadPool,
+                                    socketManager,
+                                    forceShutdown,
+                                    shutdownTimeout );
+      return cm;
+   }
 
-    protected ConnectionMonitor createConnectionMonitor()
-    {
-        return new NullConnectionMonitor();
-    }
+   protected ConnectionMonitor createConnectionMonitor()
+   {
+      return new NullConnectionMonitor();
+   }
 
-    protected ConnectionMonitor createConnectionMonitorNoLogging()
-    {
-        return new NullConnectionMonitor();
-    }
+   protected ConnectionMonitor createConnectionMonitorNoLogging()
+   {
+      return new NullConnectionMonitor();
+   }
 
-    protected void disposeConnectionManager( final ConnectionManager cm )
-    {
-        final PicoConnectionManager pico = (PicoConnectionManager)cm;
-        pico.dispose();
-    }
+   protected void disposeConnectionManager( final ConnectionManager cm )
+   {
+      final PicoConnectionManager pico = (PicoConnectionManager) cm;
+      pico.dispose();
+   }
 }
