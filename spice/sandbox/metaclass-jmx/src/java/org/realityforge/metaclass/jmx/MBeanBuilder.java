@@ -134,8 +134,15 @@ public class MBeanBuilder
         return description;
     }
 
-    private void extractAttributes( final PropertyDescriptor[] propertys,
-                                    final ModelInfoCreationHelper helper )
+    /**
+     * Extract a set of attribute info objects from specified propertys
+     * and add to specified hepler.
+     *
+     * @param propertys the peroptys
+     * @param helper the helper
+     */
+    void extractAttributes( final PropertyDescriptor[] propertys,
+                            final ModelInfoCreationHelper helper )
     {
         for( int i = 0; i < propertys.length; i++ )
         {
