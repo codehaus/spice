@@ -13,7 +13,7 @@ import java.util.Arrays;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-06-12 22:26:44 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-12 22:30:25 $
  */
 public class ExceptionUtilTestCase
     extends TestCase
@@ -30,8 +30,8 @@ public class ExceptionUtilTestCase
     private static final String TRACE1_LINE8 = "   at org.realityforge.CallerClass.callerMethod7( CallerClass.java:7 )";
     private static final String TRACE1_LINE9 = "   at org.realityforge.CallerClass.callerMethod8( CallerClass.java:8 )";
     private static final String TRACE1 =
-        TRACE1_LINE1 + NL + TRACE1_LINE2 + NL + TRACE1_LINE3 + NL + TRACE1_LINE4 +
-        TRACE1_LINE5 + NL + TRACE1_LINE6 + NL + TRACE1_LINE7 + NL + TRACE1_LINE8 +
+        TRACE1_LINE1 + NL + TRACE1_LINE2 + NL + TRACE1_LINE3 + NL + TRACE1_LINE4 + NL +
+        TRACE1_LINE5 + NL + TRACE1_LINE6 + NL + TRACE1_LINE7 + NL + TRACE1_LINE8 + NL +
         TRACE1_LINE9;
 
     private static final String TRACE2_LINE1 = "org.realityforge.salt.lang.MockThrowable: s2";
@@ -44,8 +44,8 @@ public class ExceptionUtilTestCase
     private static final String TRACE2_LINE8 = "   at org.realityforge.CallerClass2.callerMethod7( CallerClass2.java:7 )";
     private static final String TRACE2_LINE9 = "   at org.realityforge.CallerClass2.callerMethod8( CallerClass2.java:8 )";
     private static final String TRACE2 =
-        TRACE2_LINE1 + NL + TRACE2_LINE2 + NL + TRACE2_LINE3 + NL + TRACE2_LINE4 +
-        TRACE2_LINE5 + NL + TRACE2_LINE6 + NL + TRACE2_LINE7 + NL + TRACE2_LINE8 +
+        TRACE2_LINE1 + NL + TRACE2_LINE2 + NL + TRACE2_LINE3 + NL + TRACE2_LINE4 + NL +
+        TRACE2_LINE5 + NL + TRACE2_LINE6 + NL + TRACE2_LINE7 + NL + TRACE2_LINE8 + NL +
         TRACE2_LINE9;
 
     private static final String TRACE3_LINE1 = "org.realityforge.salt.lang.MockThrowable: s2";
@@ -58,8 +58,8 @@ public class ExceptionUtilTestCase
     private static final String TRACE3_LINE8 = "   at org.realityforge.CallerClass3.callerMethod7( CallerClass3.java:7 )";
     private static final String TRACE3_LINE9 = "   at org.realityforge.CallerClass3.callerMethod8( CallerClass3.java:8 )";
     private static final String TRACE3 =
-        TRACE3_LINE1 + NL + TRACE3_LINE2 + NL + TRACE3_LINE3 + NL + TRACE3_LINE4 +
-        TRACE3_LINE5 + NL + TRACE3_LINE6 + NL + TRACE3_LINE7 + NL + TRACE3_LINE8 +
+        TRACE3_LINE1 + NL + TRACE3_LINE2 + NL + TRACE3_LINE3 + NL + TRACE3_LINE4 + NL +
+        TRACE3_LINE5 + NL + TRACE3_LINE6 + NL + TRACE3_LINE7 + NL + TRACE3_LINE8 + NL + 
         TRACE3_LINE9;
 
     public ExceptionUtilTestCase( final String name )
