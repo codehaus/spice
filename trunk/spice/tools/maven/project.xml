@@ -16,11 +16,11 @@
 	<groupId>spice</groupId>
     <package>org.realityforge.${pom.artifactId.substring(6)}</package>
     <url>http://spice.sourceforge.net/${pom.artifactId.substring(6)}</url>
+    <siteDirectory>/home/groups/s/sp/spice/htdocs/${pom.artifactId.substring(6)}</siteDirectory>
+    <distributionDirectory>/home/groups/s/sp/spice/htdocs/maven/${groupId}</distributionDirectory>
     <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=67448</issueTrackingUrl>
 
     <siteAddress>spice.sourceforge.net</siteAddress>
-    <siteDirectory>/home/groups/s/sp/spice/htdocs/${pom.artifactId.substring(6)}</siteDirectory>
-    <distributionDirectory>/home/groups/s/sp/spice/htdocs/downloads/${pom.artifactId.substring(6)}</distributionDirectory>
     <distributionSite>spice.sourceforge.net</distributionSite>
 
     <repository>
