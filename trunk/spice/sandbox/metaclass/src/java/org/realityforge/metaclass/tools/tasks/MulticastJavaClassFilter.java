@@ -13,7 +13,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * Multicast filter for passing a JavaClass through multiple filters.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-31 08:09:49 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-03 13:35:13 $
  */
 class MulticastJavaClassFilter
     implements JavaClassFilter
@@ -51,16 +51,17 @@ class MulticastJavaClassFilter
      * @param javaClass the JavaClass
      * @return javaClass or null
      */
-    public JavaClass filterClass( JavaClass javaClass )
+    public JavaClass filterClass( final JavaClass javaClass )
     {
+        JavaClass result = javaClass;
         for( int i = 0; i < m_filters.length; i++ )
         {
-            javaClass = m_filters[ i ].filterClass( javaClass );
-            if( null == javaClass )
+            result = m_filters[ i ].filterClass( result );
+            if( null == result )
             {
                 return null;
             }
         }
-        return javaClass;
+        return result;
     }
 }
