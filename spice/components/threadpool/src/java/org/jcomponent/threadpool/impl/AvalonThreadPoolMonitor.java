@@ -10,7 +10,7 @@ package org.jcomponent.threadpool.impl;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
- * Avalon logging implementation of ThreadPoolMonitor.
+ * Implementation of ThreadPoolMonitor which logs event with Avalon logger.
  * 
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:paul_hammant at yahoo.com">Paul Hammant</a>
@@ -32,15 +32,6 @@ class AvalonThreadPoolMonitor
                            ",isDaemon=" + daemon + ") with " +
                            "max-threads=" + maxActive + " and " +
                            "max-idle=" + maxIdle );
-      }
-   }
-
-   public void unexpectedError( final String message,
-                                    final Throwable t )
-   {
-      if ( getLogger().isWarnEnabled() )
-      {
-         getLogger().warn( "Unexpected Error (" + message + ")", t );
       }
    }
 
@@ -73,6 +64,15 @@ class AvalonThreadPoolMonitor
       if ( getLogger().isInfoEnabled() )
       {
          getLogger().info( "Thread Disposing - " + thread.getName() );
+      }
+   }
+
+   public void unexpectedError( final String message,
+                                    final Throwable t )
+   {
+      if ( getLogger().isWarnEnabled() )
+      {
+         getLogger().warn( "Unexpected Error (" + message + ")", t );
       }
    }
 }
