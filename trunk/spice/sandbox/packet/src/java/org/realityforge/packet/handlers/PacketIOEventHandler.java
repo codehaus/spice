@@ -30,7 +30,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-15 06:18:23 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-16 04:10:48 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -42,7 +42,7 @@ public class PacketIOEventHandler
     private final SessionManager _sessionManager;
 
     /** The destination of all events destined for next layer. */
-    private EventSink _target;
+    private final EventSink _target;
 
     /**
      * Create handler with specified destination sink.
