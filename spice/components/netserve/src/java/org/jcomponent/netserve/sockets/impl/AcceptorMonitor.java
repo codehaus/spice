@@ -13,11 +13,13 @@ import java.io.IOException;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-08 05:02:02 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-08 05:11:40 $
  */
 public interface AcceptorMonitor
 {
-    void acceptorClosed( String name, ServerSocket serverSocket );
+    void acceptorCreated( String name, ServerSocket serverSocket );
+
+    void acceptorClosing( String name, ServerSocket serverSocket );
 
     void serverSocketListening( String name, ServerSocket serverSocket );
 
