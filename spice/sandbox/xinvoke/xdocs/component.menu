@@ -1,8 +1,0 @@
-
-    <menu name="Component">
-      <item name="Home"           href="/index.html"/>
-      <item name="Links" href="/links.html"/>
-      <item name="Users Guide">
-            <item name="Selectors" href="/selectors.html"/>
-      </item>
-    </menu>
