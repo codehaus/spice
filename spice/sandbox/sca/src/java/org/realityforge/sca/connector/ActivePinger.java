@@ -47,7 +47,7 @@ public class ActivePinger
     */
    public synchronized void deactivate()
    {
-      Thread thread = _thread;
+      final Thread thread = _thread;
       _thread = null;
       while ( !_ended )
       {
