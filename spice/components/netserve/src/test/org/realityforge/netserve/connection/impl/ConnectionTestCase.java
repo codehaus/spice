@@ -27,7 +27,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-04-23 09:23:03 $
+ * @version $Revision: 1.7 $ $Date: 2003-04-23 09:24:32 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -87,6 +87,7 @@ public class ConnectionTestCase
             }
         };
         start( runnable );
+        Thread.sleep( 200 );
         final Socket socket = new Socket( HOST, PORT );
 
         try
