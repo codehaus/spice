@@ -11,7 +11,7 @@ package org.realityforge.packet.handlers;
  * Set of constants used in network protocol.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-14 03:03:57 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-15 00:58:26 $
  */
 public class Protocol
 {
@@ -30,14 +30,11 @@ public class Protocol
                                               SIZEOF_LONG /* session */ +
                                               SIZEOF_SHORT /* auth */;
 
-    public static final int SIZEOF_MSG_HEADER = SIZEOF_BYTE /* code */ +
-                                                SIZEOF_SHORT /* message length */;
-
     /**
      * Message ID to indicate connection occured. SessionID (short) and
      * SessionAuth (short) fields follow.
      */
-    public static final byte S2C_CONNECTED = 0;
+    public static final byte S2C_CONNECT = 0;
 
     /** Message indicating regular data being transmitted. */
     public static final byte C2S_ESTABLISHED = 1;
