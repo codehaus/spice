@@ -5,7 +5,7 @@ import org.jcomponent.threadpool.ThreadPoolMonitor;
 /**
  * @author Mauro n Paul
  */
-public class NullThreadPoolMonitor
+class NullThreadPoolMonitor
    implements ThreadPoolMonitor
 {
    public void newThreadPool( final String name,
