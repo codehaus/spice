@@ -96,7 +96,15 @@ public class ActivePinger
          }
          try
          {
-            Thread.sleep( then );
+             final long diff = then - System.currentTimeMillis();
+             if( diff > 0 )
+             {
+                 Thread.sleep( diff );
+             }
+             else
+             {
+                 Thread.sleep( 1000 );
+             }
          }
          catch ( final InterruptedException ie )
          {
