@@ -32,9 +32,9 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * description of valid attributes.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.33 $ $Date: 2003-10-15 02:09:04 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-15 02:10:19 $
  */
-public class MBeanBuilder
+public class MBeanInfoBuilder
 {
     /**
      * Constant for class annotation tag.

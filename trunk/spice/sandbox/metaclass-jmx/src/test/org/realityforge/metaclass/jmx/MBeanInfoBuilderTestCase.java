@@ -27,15 +27,15 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.19 $ $Date: 2003-10-15 02:09:07 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-15 02:10:19 $
  */
-public class MBeanBuilderTestCase
+public class MBeanInfoBuilderTestCase
     extends TestCase
 {
     public void testParseImpactInfo()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final int impact = builder.parseImpact( "INFO" );
         assertEquals( ModelMBeanOperationInfo.INFO, impact );
     }
@@ -43,7 +43,7 @@ public class MBeanBuilderTestCase
     public void testParseImpactAction()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final int impact = builder.parseImpact( "ACTION" );
         assertEquals( ModelMBeanOperationInfo.ACTION, impact );
     }
@@ -51,7 +51,7 @@ public class MBeanBuilderTestCase
     public void testParseImpactActionInfo()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final int impact = builder.parseImpact( "ACTION_INFO" );
         assertEquals( ModelMBeanOperationInfo.ACTION_INFO, impact );
     }
@@ -59,7 +59,7 @@ public class MBeanBuilderTestCase
     public void testParseImpactUnknown()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final int impact = builder.parseImpact( "UNKNOWN" );
         assertEquals( ModelMBeanOperationInfo.UNKNOWN, impact );
     }
@@ -67,7 +67,7 @@ public class MBeanBuilderTestCase
     public void testParseParameterDescriptionWithoutAnyParameters()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final String name = "myParam";
         final Attribute[] attributes = new Attribute[ 0 ];
         final String description =
@@ -78,7 +78,7 @@ public class MBeanBuilderTestCase
     public void testParseParameterDescriptionWithNonMatchingParameter()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final String name = "myParam";
         final Properties parameters = new Properties();
         parameters.setProperty( "name", "myOtherParam" );
@@ -93,7 +93,7 @@ public class MBeanBuilderTestCase
     public void testParseParameterDescriptionWithMatchingParameter()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final String name = "myParam";
         final Properties parameters = new Properties();
         parameters.setProperty( "name", name );
@@ -108,7 +108,7 @@ public class MBeanBuilderTestCase
     public void testBuildParametersViaReflection()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Class[] types = new Class[]{Integer.TYPE, String.class};
         final MBeanParameterInfo[] infos =
             builder.buildParametersViaReflection( types );
@@ -124,7 +124,7 @@ public class MBeanBuilderTestCase
     public void testBuildParametersFromMetaData()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final String name = "param1";
         final Properties parameters = new Properties();
         parameters.setProperty( "name", name );
@@ -149,8 +149,8 @@ public class MBeanBuilderTestCase
     public void testParseParameterInfosViaMetaData()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
-        final Class c = MBeanBuilderTestCase.class;
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
+        final Class c = MBeanInfoBuilderTestCase.class;
         final Method m = c.getMethod( "testBuildParametersFromMetaData",
                                       new Class[ 0 ] );
 
@@ -177,8 +177,8 @@ public class MBeanBuilderTestCase
     public void testParseParameterInfosViaReflection()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
-        final Class c = MBeanBuilderTestCase.class;
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
+        final Class c = MBeanInfoBuilderTestCase.class;
         final Method m = c.getMethods()[ 0 ];
         MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
@@ -190,12 +190,12 @@ public class MBeanBuilderTestCase
     public void testParseParameterInfosViaMetaDataForConstructor()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
-        final Class c = MBeanBuilderTestCase.class;
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
+        final Class c = MBeanInfoBuilderTestCase.class;
         final Constructor m = c.getConstructors()[ 0 ];
 
         final MethodDescriptor md =
-            new MethodDescriptor( "MBeanBuilderTestCase",
+            new MethodDescriptor( "MBeanInfoBuilderTestCase",
                                   "",
                                   0,
                                   ParameterDescriptor.EMPTY_SET,
@@ -217,8 +217,8 @@ public class MBeanBuilderTestCase
     public void testParseParameterInfosViaReflectionForConstructor()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
-        final Class c = MBeanBuilderTestCase.class;
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
+        final Class c = MBeanInfoBuilderTestCase.class;
         final Constructor m = c.getConstructors()[ 0 ];
         MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
@@ -230,8 +230,8 @@ public class MBeanBuilderTestCase
     public void testExtractOperationInfoFromNonOperation()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
-        final Class c = MBeanBuilderTestCase.class;
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
+        final Class c = MBeanInfoBuilderTestCase.class;
         final Method method = c.getMethods()[ 0 ];
         final java.beans.MethodDescriptor descriptor =
             new java.beans.MethodDescriptor( method );
@@ -246,8 +246,8 @@ public class MBeanBuilderTestCase
     public void testExtractOperationInfoFromOperation()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
-        final Class c = MBeanBuilderTestCase.class;
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
+        final Class c = MBeanInfoBuilderTestCase.class;
         final Method method =
             c.getMethod( "testExtractOperationInfoFromNonOperation",
                          new Class[ 0 ] );
@@ -290,8 +290,8 @@ public class MBeanBuilderTestCase
     public void testExtractOperations()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
-        final Class c = MBeanBuilderTestCase.class;
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
+        final Class c = MBeanInfoBuilderTestCase.class;
         final Method method =
             c.getMethod( "testExtractOperationInfoFromNonOperation",
                          new Class[ 0 ] );
@@ -333,7 +333,7 @@ public class MBeanBuilderTestCase
     public void testExtractAttributeInfoFromNonAttribute()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final PropertyDescriptor descriptor =
             new PropertyDescriptor( "value", TestBean.class );
         MetaClassIntrospector.clearCompleteCache();
@@ -347,7 +347,7 @@ public class MBeanBuilderTestCase
     public void testExtractAttributeInfoFromAttributeWhereReaderSpecifiesDescription()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final PropertyDescriptor descriptor =
             new PropertyDescriptor( "value", TestBean.class );
 
@@ -394,7 +394,7 @@ public class MBeanBuilderTestCase
     public void testExtractAttributeInfoFromAttributeWhereWriterSpecifiesDescription()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final PropertyDescriptor descriptor =
             new PropertyDescriptor( "value", TestBean.class );
 
@@ -441,7 +441,7 @@ public class MBeanBuilderTestCase
     public void testExtractAttributeInfoFromAttributeWhereNoOneSpecifiesDescription()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final PropertyDescriptor descriptor =
             new PropertyDescriptor( "value", TestBean.class );
 
@@ -484,7 +484,7 @@ public class MBeanBuilderTestCase
     public void testExtractAttributeInfoFromAttributeWhereReaderNotAnnotated()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final PropertyDescriptor descriptor =
             new PropertyDescriptor( "value", TestBean.class );
 
@@ -527,7 +527,7 @@ public class MBeanBuilderTestCase
     public void testExtractAttributeInfoFromAttributeWhereWriterNotAnnotated()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final PropertyDescriptor descriptor =
             new PropertyDescriptor( "value", TestBean.class );
 
@@ -570,7 +570,7 @@ public class MBeanBuilderTestCase
     public void testExtractAttributeInfoFromAttributeWhereNeitherAnnotated()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final PropertyDescriptor descriptor =
             new PropertyDescriptor( "value", TestBean.class );
 
@@ -604,7 +604,7 @@ public class MBeanBuilderTestCase
     public void testExtractAttributeInfoFromNoWriterProperty()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Method readerMethod =
             TestBean.class.getMethod( "getValue", new Class[ 0 ] );
         final PropertyDescriptor descriptor =
@@ -643,7 +643,7 @@ public class MBeanBuilderTestCase
     public void testExtractAttributeInfoFromNoReaderProperty()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Method writerMethod =
             TestBean.class.getMethod( "setValue", new Class[]{Integer.TYPE} );
         final PropertyDescriptor descriptor =
@@ -682,7 +682,7 @@ public class MBeanBuilderTestCase
     public void testExtractAttributes()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final PropertyDescriptor descriptor1 =
             new PropertyDescriptor( "value", TestBean.class );
         final PropertyDescriptor descriptor2 =
@@ -715,7 +715,7 @@ public class MBeanBuilderTestCase
     public void testGetTypeDescriptionWhenDescriptionSpecified()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Properties parameters = new Properties();
         parameters.setProperty( "description", "Blah!" );
         final Attribute[] attributes =
@@ -738,7 +738,7 @@ public class MBeanBuilderTestCase
     public void testGetTypeDescriptionWhenDescriptionNotSpecified()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
                                  0,
@@ -757,7 +757,7 @@ public class MBeanBuilderTestCase
     public void testExtractCtorInfoFromNonManaged()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Class c = TestBean.class;
         final Constructor constructor = c.getConstructors()[ 0 ];
         MetaClassIntrospector.clearCompleteCache();
@@ -771,7 +771,7 @@ public class MBeanBuilderTestCase
     public void testExtractCtorInfoFromManaged()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Class c = TestBean.class;
         final Constructor constructor = c.getConstructors()[ 0 ];
 
@@ -807,7 +807,7 @@ public class MBeanBuilderTestCase
     public void testExtractCtorInfoFromManagedInDefaultPackage()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Class c = Class.forName( "DefaultPackageClass" );
         final Constructor constructor = c.getConstructors()[ 0 ];
 
@@ -843,7 +843,7 @@ public class MBeanBuilderTestCase
     public void testExtractConstructors()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Class c = TestBean.class;
         final Constructor constructor1 = c.getConstructors()[ 0 ];
         final Constructor constructor2 = c.getConstructors()[ 1 ];
@@ -877,7 +877,7 @@ public class MBeanBuilderTestCase
     public void testBuildMBeanInfo()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Class c = TestBean.class;
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( c.getName(),
@@ -896,7 +896,7 @@ public class MBeanBuilderTestCase
     public void testBuildMBeanInfosOnNonManaged()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
 
@@ -907,7 +907,7 @@ public class MBeanBuilderTestCase
     public void testBuildMBeanInfosWithService()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Properties parameters = new Properties();
         parameters.setProperty( "type", TestMxInterface.class.getName() );
         final Attribute[] attributes =
@@ -930,7 +930,7 @@ public class MBeanBuilderTestCase
     public void testBuildMBeanInfosWithMalformedService()
         throws Exception
     {
-        final MBeanBuilder builder = new MBeanBuilder();
+        final MBeanInfoBuilder builder = new MBeanInfoBuilder();
         final Attribute[] attributes =
             new Attribute[]{new Attribute( "mx.component" ),
                             new Attribute( "mx.interface", new Properties() )};
