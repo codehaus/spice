@@ -21,21 +21,29 @@ import org.realityforge.sca.selector.SelectorManager;
  * events on selection.
  * 
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2003-12-16 04:26:35 $
+ * @version $Revision: 1.9 $ $Date: 2004-01-22 02:49:10 $
  */
 public class DefaultSelectorManager
     implements SelectorManager, Runnable
 {
-    /** The monitor that receives notifications of Connection events */
+    /**
+     * The monitor that receives notifications of Connection events
+     */
     private SelectorMonitor m_monitor = NullSelectorMonitor.MONITOR;
 
-    /** Selector used to monitor for accepts. */
+    /**
+     * Selector used to monitor for accepts.
+     */
     private Selector m_selector;
 
-    /** Flag indicating whether manager is running. */
+    /**
+     * Flag indicating whether manager is running.
+     */
     private boolean m_active;
 
-    /** Timeout on selector. */
+    /**
+     * Timeout on selector.
+     */
     private int m_timeout = 500;
 
     /**
@@ -54,7 +62,7 @@ public class DefaultSelectorManager
 
     /**
      * Set the timeout on the selector.
-     * 
+     *
      * @param timeout the timeout.
      */
     public void setTimeout( final int timeout )
@@ -64,7 +72,7 @@ public class DefaultSelectorManager
 
     /**
      * Initialize the selector to monitor accept attempts.
-     * 
+     *
      * @throws IOException if unable to initialize selector
      */
     public void startup()
@@ -154,7 +162,7 @@ public class DefaultSelectorManager
 
     /**
      * Return true if the selector is manager is running.
-     * 
+     *
      * @return true if the selector is manager is running.
      */
     public boolean isRunning()
@@ -274,7 +282,7 @@ public class DefaultSelectorManager
 
     /**
      * Return the lock used to synchronize access to selector.
-     * 
+     *
      * @return the lock used to synchronize access to selector.
      */
     protected Object getSelectorLock()
@@ -284,7 +292,7 @@ public class DefaultSelectorManager
 
     /**
      * Set the selector associated with reactor.
-     * 
+     *
      * @param selector the selector associated with reactor.
      */
     public void setSelector( final Selector selector )
@@ -298,7 +306,7 @@ public class DefaultSelectorManager
 
     /**
      * Return the selector associated with reactor.
-     * 
+     *
      * @return the selector associated with reactor.
      */
     protected Selector getSelector()
