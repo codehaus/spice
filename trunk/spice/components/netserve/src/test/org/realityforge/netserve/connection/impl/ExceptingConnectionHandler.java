@@ -15,9 +15,9 @@ import java.io.IOException;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-23 09:34:12 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 11:30:38 $
  */
-public class ExceptingConnectionHandler implements ConnectionHandler
+class ExceptingConnectionHandler implements ConnectionHandler
 {
     public void handleConnection( Socket connection )
         throws IOException, ProtocolException
