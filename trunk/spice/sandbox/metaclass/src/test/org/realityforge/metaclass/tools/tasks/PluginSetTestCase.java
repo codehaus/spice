@@ -14,7 +14,7 @@ import org.apache.tools.ant.types.Reference;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-11-28 11:14:55 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-29 00:27:42 $
  */
 public class PluginSetTestCase
     extends TestCase
@@ -27,6 +27,7 @@ public class PluginSetTestCase
         try
         {
             set.addFilter( element );
+            set.toPlugins();
         }
         catch( BuildException e )
         {
@@ -125,4 +126,20 @@ public class PluginSetTestCase
         }
         fail( "Expected build exception due to too many attributes" );
     }
+
+    public void testNullTypePassedToCtor()
+        throws Exception
+    {
+        try
+        {
+            new MalformedPluginSet();
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.getMessage()", "type", npe.getMessage() );
+            return;
+        }
+        fail( "Expected to fail due to null Type passed into Ctor" );
+    }
+
 }

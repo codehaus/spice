@@ -29,7 +29,7 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.27 $ $Date: 2003-11-28 11:14:55 $
+ * @version $Revision: 1.28 $ $Date: 2003-11-29 00:27:42 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -155,38 +155,6 @@ public class MetaGenerateTaskTestCase
             return;
         }
         fail( "Expected to fail to create badly named filter." );
-    }
-
-    public void testNullFilterName()
-        throws Exception
-    {
-        final MockMetaGenerateTask task = new MockMetaGenerateTask();
-        try
-        {
-            task.addFilter( new PluginElement() );
-        }
-        catch( final BuildException e )
-        {
-            assertEquals( "Filter must have a name", e.getMessage() );
-            return;
-        }
-        fail( "Expected execute to fail as filter has no name." );
-    }
-
-    public void testNullInterceptorName()
-        throws Exception
-    {
-        final MockMetaGenerateTask task = new MockMetaGenerateTask();
-        try
-        {
-            task.addInterceptor( new PluginElement() );
-        }
-        catch( final BuildException e )
-        {
-            assertEquals( "Interceptor must have a name", e.getMessage() );
-            return;
-        }
-        fail( "Expected execute to fail as Interceptor must have a name." );
     }
 
     public void testNullDestDir()
