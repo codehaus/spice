@@ -86,6 +86,7 @@ public class SelectorManager
    public void startup()
       throws IOException
    {
+      getMonitor().selectorStartup();
       synchronized ( getSelectorLock() )
       {
          setSelector( Selector.open() );
@@ -120,11 +121,11 @@ public class SelectorManager
     */
    protected void shutdownSelector()
    {
-      getMonitor().selectorShutdown();
       synchronized ( getSelectorLock() )
       {
          if ( null != m_selector )
          {
+            getMonitor().selectorShutdown();
             try
             {
                m_selector.wakeup();
