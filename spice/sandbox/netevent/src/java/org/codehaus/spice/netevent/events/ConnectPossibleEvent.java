@@ -10,12 +10,12 @@ package org.codehaus.spice.netevent.events;
 import java.nio.channels.Channel;
 
 /**
- * An Event indicating that ServerSocket can accept a connection.
+ * Event indicating that it is possible to read from the socket.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-16 00:17:04 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-16 00:17:04 $
  */
-public class AcceptPossibleEvent
+public class ConnectPossibleEvent
     extends ChannelEvent
 {
     /**
@@ -23,8 +23,8 @@ public class AcceptPossibleEvent
      * 
      * @param channel the channel.
      */
-    public AcceptPossibleEvent( final Channel channel,
-                                final Object userData )
+    public ConnectPossibleEvent( final Channel channel,
+                                 final Object userData )
     {
         super( channel, userData );
     }

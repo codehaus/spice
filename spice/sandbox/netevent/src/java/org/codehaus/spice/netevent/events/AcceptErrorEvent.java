@@ -14,10 +14,10 @@ import java.nio.channels.ServerSocketChannel;
  * An Event indicating that ServerSocket failed to accept a socket.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-08 03:41:13 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-16 00:17:04 $
  */
 public class AcceptErrorEvent
-    extends ServerSocketEvent
+    extends ChannelEvent
 {
     /** the exception. */
     private final IOException m_ioe;
@@ -28,9 +28,10 @@ public class AcceptErrorEvent
      * @param channel the channel.
      */
     public AcceptErrorEvent( final ServerSocketChannel channel,
+                             final Object userData,
                              final IOException ioe )
     {
-        super( channel );
+        super( channel, userData );
         if( null == ioe )
         {
             throw new NullPointerException( "ioe" );
