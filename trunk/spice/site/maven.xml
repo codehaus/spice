@@ -22,24 +22,25 @@
             <naproject name="Spice" href="spice.sourceforge.net">
                 <title>Spice</title>
                 <body>
-                    <menu name="Overview">
-                        <item name="Spice Project" href="/index.html"/>
-                        <item name="Status" href="/status.html"/>
-                        <item name="TODO" href="/todo.html"/>
-                    </menu>
-
-                    <menu name="Components">
-                        <ant:fileScanner var="components">
-                            <fileset dir="${basedir}/../components">
-                                <include name="*/project.xml"/>
-                            </fileset>
-                        </ant:fileScanner>
-                        <j:forEach items="${components.iterator()}" var="component">
-                            <maven:pom projectDescriptor="${component}" var="cPOM"/>
-                            <item name="${cPOM.name}"
-                                href="/${component.parentFile.name}/index.html"/>
-                        </j:forEach>
-                    </menu>
+   	               <links>
+    	              <item name="Home" href="http://spice.sourceforge.net/"/>
+                   </links>
+                   <menu name="Overview">
+	                    <item name="Home" href="/index.html"/>
+                        <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
+	                    <item name="Components" href="/index.html" collapse="true">
+    	                    <ant:fileScanner var="components">
+       		                    <fileset dir="${basedir}/../components">
+           		                    <include name="*/project.xml"/>
+               		            </fileset>
+                   		    </ant:fileScanner>
+                       		<j:forEach items="${components.iterator()}" var="component">
+                           		<maven:pom projectDescriptor="${component}" var="cPOM"/>
+                           		<item name="${cPOM.name}"
+                               		href="/${component.parentFile.name}/index.html"/>
+                       		</j:forEach>
+                   		</item>
+    	            </menu>
                 </body>
             </naproject>
         </j:file>
