@@ -9,7 +9,7 @@ package org.realityforge.netserve.connection.impl;
 
 import java.net.ServerSocket;
 import java.net.SocketException;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import org.apache.avalon.framework.activity.Disposable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
@@ -28,7 +28,7 @@ import org.realityforge.threadpool.ThreadPool;
  * to ConnectionHandler instances to handle the connection.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-23 04:18:24 $
+ * @version $Revision: 1.3 $ $Date: 2003-04-23 04:21:32 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
@@ -36,7 +36,7 @@ public class DefaultConnectionManager
     extends AbstractLogEnabled
     implements ConnectionManager, Serviceable, Disposable
 {
-    private final Map m_connections = new HashMap();
+    private final Map m_connections = new Hashtable();
     private ThreadPool m_threadpool;
 
     /**
@@ -130,11 +130,11 @@ public class DefaultConnectionManager
         throws Exception
     {
         final ConnectionAcceptor acceptor = (ConnectionAcceptor)m_connections.remove( name );
-        if( null == acceptor )
-        {
-            final String message = "No connection with name " + name;
-            throw new IllegalArgumentException( message );
-        }
+            if( null == acceptor )
+            {
+                final String message = "No connection with name " + name;
+                throw new IllegalArgumentException( message );
+            }
 
         if( !tearDown )
         {
@@ -166,18 +166,22 @@ public class DefaultConnectionManager
             throw new NullPointerException( "handlerManager" );
         }
 
-        if( null != m_connections.get( name ) )
-        {
-            final String message =
-                "Connection already exists with name " + name;
-            throw new IllegalArgumentException( message );
-        }
-
         socket.setSoTimeout( 500 );
 
         final ConnectionAcceptor runner = new ConnectionAcceptor( name, socket, handlerManager, threadPool );
         setupLogger( runner );
-        m_connections.put( name, runner );
+
+        synchronized( m_connections )
+        {
+            if( null != m_connections.get( name ) )
+            {
+                final String message =
+                    "Connection already exists with name " + name;
+                throw new IllegalArgumentException( message );
+            }
+
+            m_connections.put( name, runner );
+        }
 
         if( null != threadPool )
         {
