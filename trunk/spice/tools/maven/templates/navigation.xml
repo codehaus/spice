@@ -13,7 +13,8 @@
       <item name="Downloads"  href="http://sourceforge.net/project/showfiles.php?group_id=67448" />
     </menu>
 
-	#include( "components.menu" )
+	#parse( "component.menu" )
+	#parse( "components.menu" )
 
   </body>
 </project>

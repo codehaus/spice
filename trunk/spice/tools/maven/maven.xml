@@ -86,7 +86,30 @@
     <goal name="generateNavigation">
 
         <ant:echo message="Generating Navigation"/>
-        <j:file name="${basedir}/../../tools/maven/templates/components.menu" 
+        <ant:copy todir="target">
+            <ant:fileset dir="${basedir}/../../tools/maven" filtering="no">
+                <ant:include name="templates/*"/>
+            </ant:fileset>
+        </ant:copy>
+        <ant:copy todir="target/templates">
+            <ant:fileset dir="${basedir}/xdocs" filtering="no">
+                <ant:include name="*.menu"/>
+            </ant:fileset>
+        </ant:copy>
+        <!-- This component's menu -->
+        <ant:available
+            file="target/templates/component.menu"
+            type="file"
+            property="componentMenuAvailable"/>
+
+        <j:if test="${componentMenuAvailable != 'true'}">
+	        <j:file name="target/templates/component.menu" 
+    	    		omitXmlDeclaration="true" 
+        			prettyPrint="true"/>
+		</j:if>
+		
+		<!-- All components' menu -->
+        <j:file name="target/templates/components.menu" 
         		omitXmlDeclaration="true" 
         		prettyPrint="true">
             <menu name="Components">
@@ -145,7 +168,7 @@
         <ant:mkdir dir="target/generated-xdocs"/>
         <velocity:merge 
           name="target/generated-xdocs/navigation.xml"
-          basedir="${basedir}/../../tools/maven/templates"
+          basedir="target/templates"
           template="navigation.xml"/>
 
     </goal>
