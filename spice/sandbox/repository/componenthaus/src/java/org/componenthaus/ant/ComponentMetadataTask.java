@@ -16,8 +16,10 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Iterator;
 
 //TODO Accept multiple interface names
+
 public class ComponentMetadataTask extends Task {
     static final String metadataFilename = "metadata.xml";
 
@@ -29,7 +31,7 @@ public class ComponentMetadataTask extends Task {
         interfaceNames = new ArrayList();
     }
 
-    public ComponentMetadataTask(String []interfaceNames, String sourceDirectory, String targetdirectory) {
+    public ComponentMetadataTask(String[] interfaceNames, String sourceDirectory, String targetdirectory) {
         this();
         this.interfaceNames = Arrays.asList(interfaceNames);
         this.sourceDirectory = sourceDirectory;
@@ -37,7 +39,7 @@ public class ComponentMetadataTask extends Task {
     }
 
     public ComponentMetadataTask(String interfacename, String sourceDirectory, String targetdirectory) {
-        this(new String[]{interfacename},sourceDirectory,targetdirectory);
+        this(new String[]{interfacename}, sourceDirectory, targetdirectory);
     }
 
     public InterfaceSpec createInterface() {
@@ -58,26 +60,26 @@ public class ComponentMetadataTask extends Task {
     }
 
     private void assertParametersAreOk() {
-        if ( interfaceNames.size() == 0 || interfaceNames.get(0) == null) {
+        if (interfaceNames.size() == 0 || interfaceNames.get(0) == null) {
             throw new NoInterfacesSpecifiedBuildException();
         }
-        assertNotNull(sourceDirectory,"sourceDirectory");
-        assertNotNull(targetDirectory,"targetDirectory");
+        assertNotNull(sourceDirectory, "sourceDirectory");
+        assertNotNull(targetDirectory, "targetDirectory");
         assertDirectoryIsOk(new File(sourceDirectory), sourceDirectory);
         assertDirectoryIsOk(new File(targetDirectory), targetDirectory);
     }
 
     private void assertNotNull(String property, String propertyName) {
-        if ( property == null ) {
+        if (property == null) {
             throw new ParameterNotSpecifiedBuildException(propertyName);
         }
     }
 
     private void assertDirectoryIsOk(File dir, String directoryName) {
-        if ( !dir.exists()) {
+        if (!dir.exists()) {
             throw new DirectoryDoesNotExistBuildException(directoryName);
         }
-        if ( ! dir.isDirectory()) {
+        if (!dir.isDirectory()) {
             throw new NotADirectoryBuildException(directoryName);
         }
     }
@@ -85,39 +87,16 @@ public class ComponentMetadataTask extends Task {
     private void doExecute() {
         JavaDocBuilder builder = new JavaDocBuilder();
         builder.addSourceTree(new File(sourceDirectory));
-        final String interfaceName = interfaceNames.size() > 0 ? (String) interfaceNames.iterator().next() : null;  //Just for now, until I deal properly with many interfaces
-        final JavaClass interfaceAsClass = builder.getClassByName(interfaceName);
-        if ( interfaceAsClass == null ) {
-            throw new NoSuchJavaSourceFileBuildException(interfaceName);
-        }
-        final String javadoc = interfaceAsClass.getComment();
-        if ( javadoc == null || "".equals(javadoc)) {
-            throw new NoJavadocBuildException(interfaceName);
-        }
-        if ( ! interfaceAsClass.isInterface() ) {
-            throw new NotAnInterfaceBuildException(interfaceName);
-        }
+        final ComponentMetadata componentMetadata = new ComponentMetadata();
+        addMetadataForInterfaces(builder, componentMetadata);
 
-        File metadataFile = new File(targetDirectory,metadataFilename);
+        File metadataFile = new File(targetDirectory, metadataFilename);
         try {
             metadataFile.createNewFile();
         } catch (IOException e) {
             throw new IOBuildException(e);
         }
 
-        String source = null;
-        try {
-            source = loadFile(new File(sourceDirectory,asDirectory(interfaceName) + ".java"));
-        } catch (IOException e) {
-            throw new IOBuildException(e);
-        }
-        InterfaceMetadata interfaceMetadata = new InterfaceMetadata(
-                interfaceAsClass.getPackage(),
-                interfaceAsClass.getName(),
-                interfaceAsClass.getComment(),
-                source);
-        ComponentMetadata componentMetadata = new ComponentMetadata();
-        componentMetadata.addInterface(interfaceMetadata);
         try {
             FileWriter writer = new FileWriter(metadataFile);
             writer.write(componentMetadata.toXml());
@@ -127,15 +106,50 @@ public class ComponentMetadataTask extends Task {
         }
     }
 
+    private void addMetadataForInterfaces(JavaDocBuilder builder, final ComponentMetadata componentMetadata) {
+        for (Iterator i = interfaceNames.iterator(); i.hasNext();) {
+            final String interfaceName = (String) i.next();
+            InterfaceMetadata interfaceMetadata = getInterfaceMetadata(builder, interfaceName);
+            componentMetadata.addInterface(interfaceMetadata);
+        }
+    }
+
+    private InterfaceMetadata getInterfaceMetadata(JavaDocBuilder builder, final String interfaceName) {
+        final JavaClass interfaceAsClass = builder.getClassByName(interfaceName);
+        if (interfaceAsClass == null) {
+            throw new NoSuchJavaSourceFileBuildException(interfaceName);
+        }
+        final String javadoc = interfaceAsClass.getComment();
+        if (javadoc == null || "".equals(javadoc)) {
+            throw new NoJavadocBuildException(interfaceName);
+        }
+        if (!interfaceAsClass.isPublic()) {
+            throw new NotAPublicInterfaceBuildException(interfaceName);
+        }
+
+        String source = null;
+        try {
+            source = loadFile(new File(sourceDirectory, asDirectory(interfaceName) + ".java"));
+        } catch (IOException e) {
+            throw new IOBuildException(e);
+        }
+        InterfaceMetadata interfaceMetadata = new InterfaceMetadata(
+                interfaceAsClass.getPackage(),
+                interfaceAsClass.getName(),
+                interfaceAsClass.getComment(),
+                source);
+        return interfaceMetadata;
+    }
+
     private String asDirectory(String javaPackageName) {
-        return javaPackageName.replaceAll("\\.","/"); //File.separator does not work here for some reason
+        return javaPackageName.replaceAll("\\.", "/"); //File.separator does not work here for some reason
     }
 
     private String loadFile(File file) throws IOException {
         StringWriter writer = new StringWriter();
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = reader.readLine();
-        while ( line != null ) {
+        while (line != null) {
             writer.write(line + "\n");
             line = reader.readLine();
         }

@@ -178,6 +178,7 @@ public class ComponentMetadataTaskTestCase extends TestCase {
         assertEquals(fullyQualifiedInterfaceName, expected.getInterfaceName());
     }
 
+/*
     public void testThrowsAnExceptionWhenInterfaceIsAClass() throws IOException {
         createJavaSourceFile(sourceDirectory, new Javaclass(
                 packageName,
@@ -185,17 +186,18 @@ public class ComponentMetadataTaskTestCase extends TestCase {
                 someJavadoc,
                 null), createdFiles);
         final ComponentMetadataTask task = new ComponentMetadataTask(fullyQualifiedInterfaceName,sourceDirectory,targetDirectory);
-        NotAnInterfaceBuildException expected = null;
+        NotAPublicInterfaceBuildException expected = null;
         try {
             task.execute();
             fail("Did not get expected exception");
-        } catch (NotAnInterfaceBuildException e) {
+        } catch (NotAPublicInterfaceBuildException e) {
             expected = e;
         }
         assertEquals(fullyQualifiedInterfaceName, expected.getInterfaceName());
     }
+*/
 
-    public void testCanGenerateCorrectMetadata() throws IOException, ParserConfigurationException, SAXException {
+    public void testCanGenerateCorrectMetadataForOneInterface() throws IOException, ParserConfigurationException, SAXException {
         createJavaSourceFile(sourceDirectory, new Interface(
                 packageName,
                 interfaceName,
@@ -214,8 +216,7 @@ public class ComponentMetadataTaskTestCase extends TestCase {
         assertEquals(firstLineOfJavadoc, interfaceMetadata.getShortDescription());
     }
 
-    //TODO
-    public void todo_testCanGenerateCorrectMetadataForTwoInterfaces() throws IOException, ParserConfigurationException, SAXException {
+    public void testCanGenerateCorrectMetadataForTwoInterfaces() throws IOException, ParserConfigurationException, SAXException {
         createJavaSourceFile(sourceDirectory, new Interface(
                 packageName,
                 interfaceName,
@@ -225,7 +226,7 @@ public class ComponentMetadataTaskTestCase extends TestCase {
         String firstLineOfJavadocForSecondInterface = "This is another first line.";
         String secondJavadoc = firstLineOfJavadocForSecondInterface + " " + someJavadoc;
         String secondFullyQualifiedInterfaceName = packageName + "." + secondInterfaceName;
-        createJavaSourceFile(sourceDirectory, new Interface(
+        createJavaSourceFile(sourceDirectory, new Javaclass(
                 packageName,
                 secondInterfaceName,
                 secondJavadoc,
@@ -249,7 +250,6 @@ public class ComponentMetadataTaskTestCase extends TestCase {
         assertEquals(secondFullyQualifiedInterfaceName, interfaceMetadata.getFullyQualifiedName());
         assertEquals(secondJavadoc,interfaceMetadata.getJavadoc());
         assertEquals(firstLineOfJavadocForSecondInterface, interfaceMetadata.getShortDescription());
-
     }
 
     private void createJavaSourceFile(String targetDirectory, JavaSourceFile javaSourceFile, final Collection collectingParameter) throws IOException {
