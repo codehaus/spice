@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.7 $ $Date: 2003-08-15 08:35:34 $
+ * @version $Revision: 1.8 $ $Date: 2003-08-15 08:44:15 $
  */
 public final class Attribute
     implements Serializable
@@ -43,17 +43,17 @@ public final class Attribute
     /**
      * The name of the Attribute.
      */
-    private final String _name;
+    private final String m_name;
 
     /**
      * The value of the Attribute.
      */
-    private final String _value;
+    private final String m_value;
 
     /**
      * The arbitrary set of parameters associated with the Attribute.
      */
-    private final Properties _parameters;
+    private final Properties m_parameters;
 
     /**
      * Create a Attribute with specified name.
@@ -107,9 +107,9 @@ public final class Attribute
             throw new NullPointerException( "name" );
         }
 
-        _name = name;
-        _value = value;
-        _parameters = parameters;
+        m_name = name;
+        m_value = value;
+        m_parameters = parameters;
     }
 
     /**
@@ -119,7 +119,7 @@ public final class Attribute
      */
     public String getName()
     {
-        return _name;
+        return m_name;
     }
 
     /**
@@ -128,16 +128,24 @@ public final class Attribute
      */
     public String getValue()
     {
-        return _value;
+        return m_value;
     }
 
     /**
-     * Return the parameters of the Attribute.
-     * @return the parameters of the Attribute.
+     * Return the number of parameters in attribute.
+     *
+     * @return the number of parameters in attribute.
      */
-    public Properties getParameters()
+    public int getParameterCount()
     {
-        return _parameters;
+        if( null == m_parameters )
+        {
+            return 0;
+        }
+        else
+        {
+        return m_parameters.size();
+        }
     }
 
     /**
@@ -147,13 +155,13 @@ public final class Attribute
      */
     public String getParameter( final String key )
     {
-        if( null == _parameters )
+        if( null == m_parameters )
         {
             return null;
         }
         else
         {
-            return _parameters.getProperty( key );
+            return m_parameters.getProperty( key );
         }
     }
 
@@ -165,13 +173,13 @@ public final class Attribute
     public String getParameter( final String key,
                                 final String defaultValue )
     {
-        if( null == _parameters )
+        if( null == m_parameters )
         {
             return defaultValue;
         }
         else
         {
-            return _parameters.getProperty( key, defaultValue );
+            return m_parameters.getProperty( key, defaultValue );
         }
     }
 
@@ -182,13 +190,13 @@ public final class Attribute
      */
     public String[] getParameterNames()
     {
-        if( null == _parameters )
+        if( null == m_parameters )
         {
             return EMPTY_NAMES_SET;
         }
         else
         {
-            final Set set = _parameters.keySet();
+            final Set set = m_parameters.keySet();
             return (String[])set.toArray( EMPTY_NAMES_SET );
         }
     }
