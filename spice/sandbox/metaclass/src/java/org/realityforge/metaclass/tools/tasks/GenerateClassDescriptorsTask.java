@@ -34,7 +34,7 @@ import org.realityforge.metaclass.tools.qdox.NonNamespaceAttributeRemovingInterc
  * A Task to generate Attributes descriptors from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2003-10-29 08:30:43 $
+ * @version $Revision: 1.15 $ $Date: 2003-11-18 23:06:22 $
  */
 public class GenerateClassDescriptorsTask
     extends Task
@@ -59,6 +59,12 @@ public class GenerateClassDescriptorsTask
      * Variable that indicates the output type. See above constants.
      */
     private int m_format = BINARY_TYPE;
+
+    /**
+     * Flag indicating whether the compacter
+     * should methods with no attributes.
+     */
+    private boolean m_keepEmptyMethods = false;
 
     /**
      * Variable that indicates whether non-namespaced tags
@@ -160,6 +166,16 @@ public class GenerateClassDescriptorsTask
     }
 
     /**
+     * Set flag indicating whether Compacter should keep empty methods.
+     *
+     * @param keepEmptyMethods  the flag
+     */
+    public void setKeepEmptyMethods( final boolean keepEmptyMethods )
+    {
+        m_keepEmptyMethods = keepEmptyMethods;
+    }
+
+    /**
      * Set the flag whether non-namespaced tags are filtered out.
      *
      * @param namespaceTagsOnly true to filter out non-namespaced tags
@@ -185,6 +201,7 @@ public class GenerateClassDescriptorsTask
 
         m_compiler.setDestDir( m_destDir );
         m_compiler.setMonitor( this );
+        m_compiler.setKeepEmptyMethods( m_keepEmptyMethods );
 
         setupTarget();
 
@@ -385,10 +402,7 @@ public class GenerateClassDescriptorsTask
     }
 
     /**
-     * Output debug message indicating how many source
-     * files loaded.
-     *
-     * @param classes the classes
+     * * @see CompilerMonitor#javaClassObjectsLoaded
      */
     public void javaClassObjectsLoaded( final Collection classes )
     {
@@ -397,14 +411,28 @@ public class GenerateClassDescriptorsTask
     }
 
     /**
-     * Output info message indicating how many source
-     * files will be compiled.
-     *
-     * @param classes the classes
+     * * @see CompilerMonitor#postFilterJavaClassList
      */
     public void postFilterJavaClassList( final Collection classes )
     {
         log( "MetaClass Attributes Compiler building " + classes.size() +
+             " " + getOutputDescription() + " descriptors.",
+             Project.MSG_DEBUG );
+    }
+
+    /**
+     * @see CompilerMonitor#postBuildDescriptorsList
+     */
+    public void postBuildDescriptorsList( Collection descriptors )
+    {
+    }
+
+    /**
+     * @see CompilerMonitor#postCompactDescriptorsList
+     */
+    public void postCompactDescriptorsList( final Collection descriptors )
+    {
+        log( "MetaClass Attributes Compiler writing " + descriptors.size() +
              " " + getOutputDescription() + " descriptors.",
              Project.MSG_INFO );
     }
