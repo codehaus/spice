@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project>
-    <extend>../tools/maven/project.xml</extend>
+    <extend>../../tools/maven/project.xml</extend>
     <name>MetaSchema</name>
     <id>metaschema</id>
 
