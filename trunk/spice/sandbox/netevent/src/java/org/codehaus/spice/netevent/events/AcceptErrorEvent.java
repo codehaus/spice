@@ -14,7 +14,7 @@ import java.nio.channels.Channel;
  * An Event indicating that ServerSocket failed to accept a socket.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-19 04:35:09 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-19 04:36:15 $
  */
 public class AcceptErrorEvent
     extends ChannelEvent
@@ -47,5 +47,13 @@ public class AcceptErrorEvent
     public IOException getIoe()
     {
         return m_ioe;
+    }
+
+    /**
+     * @see ChannelEvent#getEventDescription()
+     */
+    protected String getEventDescription()
+    {
+        return getIoe() + " error connected to " + super.getEventDescription();
     }
 }
