@@ -20,7 +20,7 @@ import java.util.Properties;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
-public class InitialActionManagerFactory
+public class InitialActionManagerFactory implements ActionManagerFactory
 {
     /**
      * The CONFIGURABLE_FACTORY key.  Used to define the classname of the
