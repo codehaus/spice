@@ -10,12 +10,20 @@ package org.realityforge.metaclass.tools.tasks;
 /**
  * An Ant type representing a set of Filter definitions.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 06:42:49 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-27 08:15:29 $
  */
 public class FilterSet
     extends PluginSet
 {
+    /**
+     * Create a Filter set.
+     */
+    public FilterSet()
+    {
+        super( "Filter" );
+    }
+
     /**
      * Add an Filter definition that will create Filter to process metadata.
      *
@@ -23,7 +31,7 @@ public class FilterSet
      */
     public void addFilter( final PluginElement element )
     {
-        addPlugin( "Filter", element );
+        addPlugin( element );
     }
 
     /**
