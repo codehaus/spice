@@ -8,18 +8,36 @@
 package org.jcomponent.netserve.connection.impl;
 
 import org.jcontainer.dna.AbstractLogEnabled;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.io.IOException;
 
 /**
  * Implementation of ConnectionMonitor which logs event with the DNA logger.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-09-21 12:43:13 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-10-08 07:40:45 $
  */
 class DNAConnectionMonitor
     extends AbstractLogEnabled
     implements ConnectionMonitor
 {
-    public void acceptorClosed( final String name )
+    public void acceptorCreated( final String name,
+                                 final ServerSocket serverSocket )
+    {
+        if( getLogger().isInfoEnabled() )
+        {
+            final String message =
+                "Creating Acceptor " + name + " on " +
+                serverSocket.getInetAddress().getHostAddress() + ":" +
+                serverSocket.getLocalPort() + ".";
+            getLogger().info( message );
+        }
+    }
+
+    public void acceptorClosing( final String name,
+                                 final ServerSocket serverSocket )
     {
         if( getLogger().isInfoEnabled() )
         {
@@ -28,93 +46,8 @@ class DNAConnectionMonitor
         }
     }
 
-    public void acceptorCreated( final ConnectionAcceptor acceptor )
-    {
-        if( getLogger().isInfoEnabled() )
-        {
-            final String message = "Creating Acceptor " + acceptor + ".";
-            getLogger().info( message );
-        }
-    }
-
-    public void acceptorDisconnected( final ConnectionAcceptor acceptor,
-                                      boolean tearDown )
-    {
-        if( getLogger().isInfoEnabled() )
-        {
-            final String message =
-                "Disconnecting Acceptor " + acceptor + ". tearDown=" + tearDown;
-            getLogger().info( message );
-        }
-    }
-
-    public void acceptorStopping( final String name )
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = "Stopping Acceptor " + name + ".";
-            getLogger().debug( message );
-        }
-    }
-
-    public void connectionEnding( final String name, final String hostAddress )
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message =
-                "Ending connection '" + name + "' on " + hostAddress + ".";
-            getLogger().debug( message );
-        }
-    }
-
-    public void connectionStarting( final String name, final String hostAddress )
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message =
-                "Starting connection '" + name + "' on " + hostAddress + ".";
-            getLogger().debug( message );
-        }
-    }
-
-    public void runnerAlreadyDisposed( final ConnectionRunner runner )
-    {
-        if( getLogger().isWarnEnabled() )
-        {
-            final String message = "Attempting to dispose runner " +
-                runner + " that has already been disposed.";
-            getLogger().warn( message );
-        }
-    }
-
-    public void runnerCreating( final String name )
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = "Creating ConnectionRunner " + name + ".";
-            getLogger().debug( message );
-        }
-    }
-
-    public void runnerDisposing( final ConnectionRunner runner )
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = "Disposing runner " + runner + ".";
-            getLogger().debug( message );
-        }
-    }
-
-    public void serverSocketClosing( final String name )
-    {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = "Closing ServerSocket " + name + ".";
-            getLogger().debug( message );
-        }
-    }
-
-    public void serverSocketListening( final String name )
+    public void serverSocketListening( final String name,
+                                       final ServerSocket serverSocket )
     {
         if( getLogger().isDebugEnabled() )
         {
@@ -124,12 +57,106 @@ class DNAConnectionMonitor
         }
     }
 
-    public void unexpectedError( final String message,
-                                 final Throwable t )
+    public void errorAcceptingConnection( final String name,
+                                          final IOException ioe )
     {
         if( getLogger().isWarnEnabled() )
         {
-            getLogger().warn( "Unexpected Error (" + message + ")", t );
+            getLogger().warn( "Error Accepting connection on " + name, ioe );
+        }
+    }
+
+    public void errorClosingServerSocket( final String name,
+                                          final IOException ioe )
+    {
+        if( getLogger().isWarnEnabled() )
+        {
+            getLogger().warn( "Error Closing Server Socket " + name, ioe );
+        }
+    }
+
+    public void acceptorDisconnecting( final String name,
+                                       final boolean tearDown )
+    {
+        if( getLogger().isInfoEnabled() )
+        {
+            final String message =
+                "Disconnecting Acceptor " + name + ". tearDown=" + tearDown;
+            getLogger().info( message );
+        }
+    }
+
+    public void connectionEnding( final String name, final Socket socket )
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message =
+                "Ending connection '" + name + "' on " +
+                socket.getInetAddress().getHostAddress() + ".";
+            getLogger().debug( message );
+        }
+    }
+
+    public void connectionStarting( final String name, final Socket socket )
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message =
+                "Starting connection '" + name + "' on " +
+                socket.getInetAddress().getHostAddress() + ".";
+            getLogger().debug( message );
+        }
+    }
+
+    public void errorHandlerAlreadyDisposed( final String name,
+                                             final Socket socket )
+    {
+        if( getLogger().isWarnEnabled() )
+        {
+            final String message = "Attempting to dispose runner " +
+                name + " that has already been disposed.";
+            getLogger().warn( message );
+        }
+    }
+
+    public void disposingHandler( final String name,
+                                 final Socket socket )
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String message = "Disposing handler " + name + ".";
+            getLogger().debug( message );
+        }
+    }
+
+    public void errorClosingSocket( final String name,
+                                    final Socket socket,
+                                    final Exception e )
+    {
+        if( getLogger().isWarnEnabled() )
+        {
+            getLogger().warn( "Error closing socket " + socket +
+                              " for " + name, e );
+        }
+    }
+
+    public void errorAquiringHandler( final String name,
+                                      final Exception e )
+    {
+        if( getLogger().isWarnEnabled() )
+        {
+            getLogger().warn( "Error Aquiring SocketHandler for " + name, e );
+        }
+    }
+
+    public void errorHandlingConnection( final String name,
+                                         final Socket socket,
+                                         final Exception e )
+    {
+        if( getLogger().isWarnEnabled() )
+        {
+            getLogger().warn( "Error Handling connection for " + name +
+                              " on " + socket, e );
         }
     }
 }
