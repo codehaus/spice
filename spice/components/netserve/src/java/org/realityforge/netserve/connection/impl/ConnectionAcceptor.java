@@ -22,7 +22,7 @@ import org.realityforge.threadpool.ThreadPool;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-04-23 04:11:04 $
+ * @version $Revision: 1.11 $ $Date: 2003-04-23 04:47:13 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
@@ -102,8 +102,10 @@ class ConnectionAcceptor
      * Wait specified waittime for handlers to gracefully shutdown.
      *
      * @param waitTime the time to wait for graceful shutdown
+     * @param forceShutdown true if when we timeout we should forcefully
+     *                      shutdown connection
      */
-    void close( final int waitTime )
+    void close( final int waitTime, final boolean forceShutdown )
     {
         if( getLogger().isInfoEnabled() )
         {
@@ -122,7 +124,7 @@ class ConnectionAcceptor
                 (ConnectionRunner[])m_runners.toArray( new ConnectionRunner[ m_runners.size() ] );
             for( int i = 0; i < runners.length; i++ )
             {
-                runners[ i ].close( waitTime );
+                runners[ i ].close( waitTime, forceShutdown );
             }
         }
     }
