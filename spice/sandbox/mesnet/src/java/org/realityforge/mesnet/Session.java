@@ -2,7 +2,7 @@ package org.realityforge.mesnet;
 
 /**
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-11-10 05:54:18 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-24 04:01:03 $
  */
 public interface Session
 {
@@ -23,6 +23,4 @@ public interface Session
     Object getProperty( String key );
 
     void setProperty( String key, Object value );
-
-    DataChannel getDataChannel();
 }
