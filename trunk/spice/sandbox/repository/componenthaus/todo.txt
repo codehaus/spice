@@ -19,6 +19,10 @@
 
 Done
 
+October 26th
+ * TDD'ed re-write of the submission stuff
+ * XStream replaces Betwixt
+
 October 16th
  * aspico integration, so we can have type 3 IoC.  Forget aspico - make a pico-style spring beanfactory.
 

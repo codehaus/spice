@@ -9,6 +9,8 @@ import java.io.IOException;
  */
 public interface SubmissionManager {
     String METADATA_FILE_JAR_ENTRY_NAME = "metadata.xml";
+    String DISTRIBUTION_DIRECTORY_JAR_ENTRY_NAME = "dist/";
+    String JAR_REPOSITORY_DIRECTORY = "repository";
 
     public void submit(File jarFile) throws Exception;
 }

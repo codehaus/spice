@@ -3,6 +3,7 @@ package org.componenthaus.util.file;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class MockFileManager implements FileManager {
     private File preparedNewFile = null;
@@ -24,5 +25,11 @@ public class MockFileManager implements FileManager {
 
     public File newFile(String fileName) {
         return preparedNewFile;
+    }
+
+    public void copy(InputStream inputStream, File target) {
+    }
+
+    public void copy(InputStream from, OutputStream to) throws IOException {
     }
 }

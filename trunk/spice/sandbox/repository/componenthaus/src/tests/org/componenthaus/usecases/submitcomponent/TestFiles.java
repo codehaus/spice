@@ -6,6 +6,7 @@ import java.net.URL;
 public class TestFiles {
     public static final String emptyFilename = "empty.jar";
     public static final String validComponentSubmissionFilename = "validComponentSubmission.jar";
+    public static final String justMetadataFilename = "justMetadata.jar";
 
     public static File emptyFile() {
         return new File(getFilePath(emptyFilename));
@@ -21,5 +22,9 @@ public class TestFiles {
 
     public static File validComponentSubmission() {
         return new File(getFilePath(validComponentSubmissionFilename));
+    }
+
+    public static File justMetadataFile() {
+        return new File(getFilePath(justMetadataFilename));
     }
 }

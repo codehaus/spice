@@ -90,6 +90,7 @@ public class PicoApplicationContext extends AbstractPicoApplicationContext {
         pico.registerComponentImplementation(ServiceImplementationFactory.class);
         pico.registerComponentImplementation(Prevayler.class, PrevaylerBean.class);
         pico.registerComponentImplementation(DefaultSubmissionManager.class);
+        pico.registerComponentImplementation(DefaultSubmissionManager.NullSubmissionMonitor.class);
         pico.registerComponentImplementation(CommandRegistryImpl.class);
 
         addSpringStuff();
