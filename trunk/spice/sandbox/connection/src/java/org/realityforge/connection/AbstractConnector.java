@@ -11,6 +11,11 @@ package org.realityforge.connection;
 public abstract class AbstractConnector
 {
    /**
+    * The associated reconnection policy for connector.
+    */
+   private ReconnectionPolicy _policy;
+
+   /**
     * The associated monitor that receives
     * events about connector.
     */
@@ -69,7 +74,21 @@ public abstract class AbstractConnector
    /**
     * The reason the last conenction attempt failed.
     */
-   private String _connectionFailureReason;
+   private String _connectionError;
+
+   /**
+    * Specify the reconnection policy that connector will use.
+    *
+    * @param policy the policy
+    */
+   public void setConnection( final ReconnectionPolicy policy )
+   {
+      if ( null == policy )
+      {
+         throw new NullPointerException( "policy" );
+      }
+      _policy = policy;
+   }
 
    /**
     * Specify the connection that connector will manage.
@@ -246,13 +265,15 @@ public abstract class AbstractConnector
    }
 
    /**
-    * Return the reason the last conenction attempt failed.
+    * Return the last connection error.
+    * The error could be caused either by connection
+    * failure or failure during operation.
     *
-    * @return the reason the last conenction attempt failed.
+    * @return the last connection error
     */
-   public String getConnectionFailureReason()
+   public String getConnectionError()
    {
-      return _connectionFailureReason;
+      return _connectionError;
    }
 
    /**
@@ -273,22 +294,24 @@ public abstract class AbstractConnector
 
          while ( !isConnected() && isActive() )
          {
-            if ( !_monitor.attemptingConnection() )
+            if ( !_policy.attemptConnection( _connectionAttempts ) )
             {
+               _monitor.skippingConnectionAttempt();
                return;
             }
+            _monitor.attemptingConnection();
             try
             {
                _lastConnectionTime = now;
                _connection.connect();
                _connectionAttempts = 0;
-               _connectionFailureReason = null;
+               _connectionError = null;
                _monitor.connectionEstablished();
             }
             catch ( final Throwable t )
             {
                _connectionAttempts++;
-               _connectionFailureReason = t.toString();
+               _connectionError = t.toString();
                _monitor.errorConnecting( t );
             }
          }
@@ -362,10 +385,10 @@ public abstract class AbstractConnector
             }
             catch ( final Throwable t )
             {
-               final boolean reconnect =
-                  _monitor.errorValidatingConnection( t );
+               _connectionError = t.toString();
+               _monitor.errorValidatingConnection( t );
                disconnect();
-               if ( reconnect )
+               if ( _policy.reconnectOnDisconnect() )
                {
                   connect();
                }

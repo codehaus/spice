@@ -8,12 +8,8 @@ public interface ConnectorMonitor
 {
    /**
     * Notify that connection attempt about to start.
-    * The ability to "veto" the event is given
-    * by returning false.
-    *
-    * @return true to continue to attempt connection
     */
-   boolean attemptingConnection();
+   void attemptingConnection();
 
    /**
     * Notify monitor that connection has been established.
@@ -46,11 +42,13 @@ public interface ConnectorMonitor
     * Notify monitor that there was an error
     * validating connection. After this method
     * is called the connection will be disconnected.
-    * If the user returns true a conenction will
-    * attempt to be re-established.
-    *
-    * @param t the error
-    * @return true if reconnection should be imediately attempted
     */
-   boolean errorValidatingConnection( Throwable t );
+   void errorValidatingConnection( Throwable t );
+
+   /**
+    * Notify that the policy has indicated that
+    * a connection attempt should not be made at
+    * this point in time.
+    */
+   void skippingConnectionAttempt();
 }
