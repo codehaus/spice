@@ -11,6 +11,11 @@ package org.realityforge.connector;
 public class Connector
 {
    /**
+    * The associated ping policy for connector.
+    */
+   private PingPolicy _pingPolicy = NeverPingPolicy.POLICY;
+
+   /**
     * The associated reconnection policy for connector.
     */
    private ReconnectionPolicy _reconnectPolicy = AlwaysReconnectPolicy.POLICY;
@@ -80,6 +85,20 @@ public class Connector
     * The time at which last ping occured.
     */
    private long _pingTime;
+
+   /**
+    * Specify the ping policy that connector will use.
+    *
+    * @param pingPolicy the policy
+    */
+   public void setPingPolicy( final PingPolicy pingPolicy )
+   {
+      if ( null == pingPolicy )
+      {
+         throw new NullPointerException( "pingPolicy" );
+      }
+      _pingPolicy = pingPolicy;
+   }
 
    /**
     * Specify the reconnection policy that connector will use.
