@@ -14,6 +14,13 @@ import javax.naming.Name;
 import javax.naming.NameParser;
 import javax.naming.NamingException;
 
+/**
+ * A simple cas sensitive name parser that reads left
+ * to right with '/' as separator.
+ *
+ * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-02-12 11:00:06 $
+ */ 
 public class DefaultNameParser
     implements Serializable, NameParser
 {
