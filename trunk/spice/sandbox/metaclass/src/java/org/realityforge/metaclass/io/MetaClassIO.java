@@ -15,8 +15,8 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * This is the interface used to read and write
  * descriptors into Input and Output streams.
  *
- * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.6 $ $Date: 2003-11-01 01:21:04 $
+ * @author Doug Hagan
+ * @version $Revision: 1.7 $ $Date: 2003-12-08 23:30:10 $
  */
 public interface MetaClassIO
 {

@@ -23,8 +23,8 @@ import java.io.Serializable;
  * about method.</p>
  *
  * @author Peter Donald
- * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.9 $ $Date: 2003-11-27 08:09:53 $
+ * @author Doug Hagan
+ * @version $Revision: 1.10 $ $Date: 2003-12-08 23:30:10 $
  */
 public final class FieldDescriptor
     extends FeatureDescriptor
