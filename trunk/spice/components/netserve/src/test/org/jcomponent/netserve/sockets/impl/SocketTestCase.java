@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.jcomponent.netserve.sockets;
+package org.jcomponent.netserve.sockets.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,12 +17,14 @@ import java.net.UnknownHostException;
 import junit.framework.TestCase;
 import org.jcomponent.netserve.sockets.impl.DefaultServerSocketFactory;
 import org.jcomponent.netserve.sockets.impl.DefaultSocketFactory;
+import org.jcomponent.netserve.sockets.SocketFactory;
+import org.jcomponent.netserve.sockets.ServerSocketFactory;
 
 /**
- * TestCase for {@link SocketFactory} and {@link ServerSocketFactory}.
+ * TestCase for {@link org.jcomponent.netserve.sockets.SocketFactory} and {@link org.jcomponent.netserve.sockets.ServerSocketFactory}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-31 02:27:09 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-08 01:34:56 $
  */
 public class SocketTestCase
     extends TestCase
