@@ -5,12 +5,12 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.packet.events.handlers;
+package org.realityforge.packet.net.handlers;
 
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
 import org.codehaus.spice.event.EventSink;
-import org.realityforge.packet.events.ConnectEvent;
+import org.realityforge.packet.net.ConnectEvent;
 import org.realityforge.sca.selector.SelectorEventHandler;
 
 /**
@@ -18,7 +18,7 @@ import org.realityforge.sca.selector.SelectorEventHandler;
  * EventSink.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-17 05:08:44 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:46 $
  */
 public class ServerSocketSelectorEventHandler
     implements SelectorEventHandler

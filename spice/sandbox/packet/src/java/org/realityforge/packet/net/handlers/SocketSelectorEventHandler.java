@@ -5,20 +5,20 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.packet.events.handlers;
+package org.realityforge.packet.net.handlers;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import org.codehaus.spice.event.EventSink;
-import org.realityforge.packet.events.BufferOverflowEvent;
-import org.realityforge.packet.events.BufferUnderflowEvent;
-import org.realityforge.packet.events.CloseEvent;
-import org.realityforge.packet.events.ReadErrorEvent;
-import org.realityforge.packet.events.ReadEvent;
-import org.realityforge.packet.events.WriteErrorEvent;
-import org.realityforge.packet.events.WriteEvent;
+import org.realityforge.packet.net.BufferOverflowEvent;
+import org.realityforge.packet.net.BufferUnderflowEvent;
+import org.realityforge.packet.net.CloseEvent;
+import org.realityforge.packet.net.ReadErrorEvent;
+import org.realityforge.packet.net.ReadEvent;
+import org.realityforge.packet.net.WriteErrorEvent;
+import org.realityforge.packet.net.WriteEvent;
 import org.realityforge.packet.transport.CircularBuffer;
 import org.realityforge.packet.transport.TcpTransport;
 import org.realityforge.sca.selector.SelectorEventHandler;
@@ -28,7 +28,7 @@ import org.realityforge.sca.selector.SelectorEventHandler;
  * corresponding events to pass onto an EventSink.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-17 05:43:13 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:46 $
  */
 public class SocketSelectorEventHandler
     implements SelectorEventHandler

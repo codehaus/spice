@@ -5,45 +5,43 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.packet.events;
+package org.realityforge.packet.net;
 
-import java.io.IOException;
 import java.net.SocketAddress;
 import org.realityforge.packet.transport.TcpTransport;
 
 /**
- * Abstract event for IO errors.
+ * Event indicating IO occured.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-12-17 02:24:03 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:46 $
  */
-public abstract class IOErrorEvent
+public abstract class IOEvent
     extends AbstractTransportEvent
 {
-    /** The Error. */
-    private final IOException _ioe;
+    /** The number of bytes transferred. */
+    private final int _count;
 
     /**
-     * Create event for transport with error.
+     * Create event.
      * 
      * @param transport the transport
-     * @param ioe the error
+     * @param count the byte count
      */
-    public IOErrorEvent( final TcpTransport transport,
-                         final IOException ioe )
+    public IOEvent( final TcpTransport transport, final int count )
     {
         super( transport );
-        _ioe = ioe;
+        _count = count;
     }
 
     /**
-     * Return the error.
+     * Return the number of bytes transferred.
      * 
-     * @return the error.
+     * @return the number of bytes transferred.
      */
-    public IOException getIoe()
+    public int getCount()
     {
-        return _ioe;
+        return _count;
     }
 
     /**
@@ -53,7 +51,7 @@ public abstract class IOErrorEvent
     {
         final SocketAddress address =
             getTransport().getChannel().socket().getRemoteSocketAddress();
-        return getClass().getName() + "[" + getIoe() +
-               " error connected to " + address + "]";
+        return getClass().getName() + "[" + getCount() +
+               " bytes to " + address + "]";
     }
 }

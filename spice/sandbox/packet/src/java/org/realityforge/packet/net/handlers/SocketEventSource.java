@@ -1,11 +1,11 @@
-package org.realityforge.packet.events.handlers;
+package org.realityforge.packet.net.handlers;
 
 import org.codehaus.spice.event.EventSource;
 import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-17 06:10:23 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:46 $
  */
 public class SocketEventSource
     implements EventSource

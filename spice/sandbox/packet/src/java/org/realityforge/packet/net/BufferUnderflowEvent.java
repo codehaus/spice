@@ -5,17 +5,17 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.packet.events;
+package org.realityforge.packet.net;
 
 import org.realityforge.packet.transport.TcpTransport;
 
 /**
- * An Event indicating that there was a buffer overflow.
+ * An Event indicating an underflow.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-17 00:20:44 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:46 $
  */
-public class BufferOverflowEvent
+public class BufferUnderflowEvent
     extends AbstractTransportEvent
 {
     /**
@@ -23,7 +23,7 @@ public class BufferOverflowEvent
      * 
      * @param transport the transport
      */
-    public BufferOverflowEvent( final TcpTransport transport )
+    public BufferUnderflowEvent( final TcpTransport transport )
     {
         super( transport );
     }

@@ -1,13 +1,13 @@
-package org.realityforge.packet.events.handlers;
+package org.realityforge.packet.net.handlers;
 
 import java.util.HashMap;
 import java.util.Map;
 import org.codehaus.spice.event.AbstractEventHandler;
 import org.codehaus.spice.event.EventHandler;
-import org.realityforge.packet.events.CloseEvent;
-import org.realityforge.packet.events.ConnectEvent;
-import org.realityforge.packet.events.IOErrorEvent;
-import org.realityforge.packet.events.ReadEvent;
+import org.realityforge.packet.net.CloseEvent;
+import org.realityforge.packet.net.ConnectEvent;
+import org.realityforge.packet.net.IOErrorEvent;
+import org.realityforge.packet.net.ReadEvent;
 import org.realityforge.packet.transport.CircularBuffer;
 import org.realityforge.packet.transport.TcpTransport;
 import org.realityforge.sca.selector.SelectorEventHandler;
@@ -15,7 +15,7 @@ import org.realityforge.sca.selector.SelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-17 06:10:23 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:47 $
  */
 class SocketEventHandler
     extends AbstractEventHandler
