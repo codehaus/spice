@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * This class makes it easy to manipulate data stored in exceptions.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-06-12 22:52:09 $
+ * @version $Revision: 1.6 $ $Date: 2003-06-12 23:03:28 $
  */
 public final class ExceptionUtil
 {
@@ -74,7 +74,7 @@ public final class ExceptionUtil
      * @param depth number of stack trace frames to show
      * @return the stack trace as a <code>String</code>
      */
-    public static String printStackTrace( final Throwable throwable, final int depth )
+    private static String printStackTrace( final Throwable throwable, final int depth )
     {
         int actualDepth = depth;
         final String[] lines = captureStackTrace( throwable );
