@@ -2,7 +2,7 @@ package org.codehaus.spice.event.impl;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-16 02:03:12 $
+ * @version $Revision: 1.2 $ $Date: 2004-05-12 07:22:48 $
  */
 class LockChecker
     implements Runnable
@@ -40,6 +40,13 @@ class LockChecker
 
     boolean isUnlocked()
     {
+        try
+        {
+            Thread.sleep( 1 );
+        }
+        catch( InterruptedException e )
+        {
+        }
         return _unlocked;
     }
 }
