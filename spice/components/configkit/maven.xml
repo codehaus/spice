@@ -8,6 +8,7 @@
         <mkdir dir="target/test-classes"/>
         <jar jarfile="target/test-classes/aTestCatalog.jar" basedir="src/test">
             <include name="**/relax-schema.xml"/>
+            <include name="**/*.dtd"/>
             <zipfileset dir="src/test/org/realityforge/configkit/test" prefix="META-INF/">
                 <include name="empty.txt"/>
             </zipfileset>
