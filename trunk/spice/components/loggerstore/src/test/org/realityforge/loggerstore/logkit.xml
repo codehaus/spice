@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<logkit xmlns:logkit="http://avalon.apache.org/logkit/">
+    <factories>
+        <factory type="file" class="org.apache.avalon.excalibur.logger.factory.FileTargetFactory"/>
+    </factories>
+
+    <categories>
+        <category name="" log-level="DEBUG">
+            <log-target id-ref="default"/>
+        </category>
+    </categories>
+
+    <targets>
+        <file id="default">
+            <filename>logkit.log</filename>
+            <append>true</append>
+            <format type="extended">
+                %6.6{priority} %8.8{time:HH:mm:ss} [%{category}] : %{message}\n%{throwable}
+            </format>
+        </file>
+    </targets>
+</logkit>
