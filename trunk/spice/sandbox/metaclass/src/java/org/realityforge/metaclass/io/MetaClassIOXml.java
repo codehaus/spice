@@ -7,7 +7,6 @@
  */
 package org.realityforge.metaclass.io;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
@@ -20,14 +19,13 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 /**
  * This is a utility class that writes out the ClassDescriptor
  * to a stream using the xml format outlined in documentation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-11-01 00:04:53 $
+ * @version $Revision: 1.9 $ $Date: 2003-11-01 01:21:04 $
  */
 public class MetaClassIOXml
     implements MetaClassIO
@@ -111,20 +109,13 @@ public class MetaClassIOXml
      * @see MetaClassIO#deserializeClass
      */
     public ClassDescriptor deserializeClass( final InputStream input )
-        throws IOException
+        throws Exception
     {
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        try
-        {
             final DocumentBuilder builder = factory.newDocumentBuilder();
             final Document document = builder.parse( input );
             final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
             return deserializer.buildClassDescriptor( document );
-        }
-        catch( final Exception e )
-        {
-            throw new IOException( e.getMessage() );
-        }
     }
 
     /**
@@ -132,20 +123,12 @@ public class MetaClassIOXml
      */
     public void serializeClass( final OutputStream output,
                                 final ClassDescriptor descriptor )
-        throws IOException
+        throws Exception
     {
         final StreamResult result = new StreamResult( output );
         final SAXTransformerFactory factory =
             (SAXTransformerFactory)TransformerFactory.newInstance();
-        final TransformerHandler handler;
-        try
-        {
-            handler = factory.newTransformerHandler();
-        }
-        catch( final Exception e )
-        {
-            throw new IOException( e.toString() );
-        }
+        final TransformerHandler handler = factory.newTransformerHandler();
 
         final Properties format = new Properties();
         format.put( OutputKeys.METHOD, "xml" );
@@ -157,10 +140,6 @@ public class MetaClassIOXml
         try
         {
             serializer.serialize( handler, descriptor );
-        }
-        catch( final SAXException se )
-        {
-            throw new IOException( se.getMessage() );
         }
         finally
         {
