@@ -95,6 +95,25 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
+    <project name="spice-extension">
+        <package>org.realityforge.extension</package>
+
+        <ant basedir="components/extension">
+            <property name="final.name" value="spice-extension-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <work nested="components/extension/target/classes"/>
+        <work nested="components/extension/target/test-classes"/>
+
+        <home nested="components/cli"/>
+        <jar name="target/spice-cli-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+    </project>
+
     <project name="spice-jndikit">
         <package>org.realityforge.jndikit</package>
 
@@ -293,31 +312,5 @@
         <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
             to="spice-devel@lists.sourceforge.net"/>
     </project>
-
-    <!--
-        <project name="spice-xsyslog">
-            <package>org.realityforge.xsyslog</package>
-
-            <ant basedir="components/xsyslog">
-                <property name="final.name" value="spice-xsyslog-@@DATE@@"/>
-            </ant>
-
-            <depend project="jakarta-ant" inherit="runtime"/>
-            <depend project="junit"/>
-            <depend project="xml-xerces"/>
-            <depend project="avalon"/>
-            <depend project="dist-avalon-logkit"/>
-            <depend project="jakarta-oro"/>
-            <depend project="spice-configkit" inherit="runtime"/>
-
-            <work nested="components/xinvoke/target/classes"/>
-            <work nested="components/xinvoke/target/test-classes"/>
-
-            <home nested="components/xinvoke"/>
-            <jar name="target/spice-xinvoke-@@DATE@@.jar"/>
-            <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
-                to="spice-devel@lists.sourceforge.net"/>
-        </project>
-     -->
 
 </module>
