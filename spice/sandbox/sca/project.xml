@@ -21,7 +21,7 @@
         <dependency> <!-- to generate metadata -->
             <groupId>metaclass</groupId>
             <artifactId>maven-metaclass-plugin</artifactId>
-            <version>1.1-rc4-dev</version>
+            <version>1.1</version>
             <type>plugin</type>
         </dependency>
     </dependencies>
@@ -30,7 +30,6 @@
         <developer>
             <name>Peter Donald</name>
             <id>donaldp</id>
-
             <roles>
                 <role>Developer</role>
             </roles>
