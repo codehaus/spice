@@ -14,6 +14,11 @@
             to do this in a simpler, more Java-centric manner than the
             original product.
             </p>
+            <p>
+            All Spice jars are held in the 
+            <a href="http://spice.sf.net/maven">http://spice.sf.net/maven</a> 
+            repository for Maven usage.
+            </p>
         </section>
         <section name="Examples">
             <p>

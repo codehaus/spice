@@ -13,6 +13,11 @@
 	        classes that make i18n easier, and utility classes to work
 	        with language level features such as Exceptions and Enumerations.
          </p>
+         <p>
+                All Spice jars are held in the 
+                <a href="http://spice.sf.net/maven">http://spice.sf.net/maven</a> 
+                repository for Maven usage.
+          </p>         
       </section>
    </body>
 </document>
