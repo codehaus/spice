@@ -223,7 +223,7 @@ public class SelectorManager
             iterator.remove();
             // The key indexes into the selector so you
             // can retrieve the socket that's ready for I/O
-            m_handler.handleSelectorEvent( key );
+            getHandler().handleSelectorEvent( key );
          }
       }
       getMonitor().exitingSelectorLoop();
@@ -297,13 +297,23 @@ public class SelectorManager
    }
 
    /**
-    * Return the monitor associated with reactor.
+    * Return the monitor associated with manager.
     *
-    * @return the monitor associated with reactor.
+    * @return the monitor associated with manager.
     */
    protected SelectorMonitor getMonitor()
    {
       return m_monitor;
+   }
+
+   /**
+    * Return the handler associated with manager.
+    *
+    * @return the handler associated with manager.
+    */
+   SelectorEventHandler getHandler()
+   {
+      return m_handler;
    }
 
    /**
