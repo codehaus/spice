@@ -15,6 +15,39 @@
         ACE for both stream based and packet based connections, etc.
     </description>
 
+    <dependencies>
+        <dependency>
+            <id>avalon-framework</id>
+            <version>4.0</version>
+        </dependency>
+        <dependency>
+            <id>spice-threadpool</id>
+            <version>1.0</version>
+        </dependency>
+        <dependency> <!-- for unit testing the schema validation -->
+            <id>spice-configkit</id>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency><!-- for spice-configkit -->
+            <id>isorelax</id>
+            <version>20020414</version>
+        </dependency>
+        <dependency><!-- for spice-configkit -->
+            <id>msv</id>
+            <version>20020414</version>
+        </dependency>
+        <dependency><!-- for spice-configkit -->
+            <id>xsdlib</id>
+            <version>20020414</version>
+        </dependency>
+        <dependency><!-- for spice-configkit -->
+            <id>relaxngDatatype</id>
+            <version>20020414</version>
+        </dependency>
+    </dependencies>
+
+
+
     <developers>
         <developer>
             <name>Peter Donald</name>
