@@ -301,8 +301,8 @@ public class MBeanBuilder
      * @param parameters the parameters
      * @return the parameter infos
      */
-    private MBeanParameterInfo[] buildParametersFromMetaData( final Attribute[] attributes,
-                                                              final ParameterDescriptor[] parameters )
+    MBeanParameterInfo[] buildParametersFromMetaData( final Attribute[] attributes,
+                                                      final ParameterDescriptor[] parameters )
     {
         final MBeanParameterInfo[] infos = new MBeanParameterInfo[ parameters.length ];
         for( int i = 0; i < infos.length; i++ )
