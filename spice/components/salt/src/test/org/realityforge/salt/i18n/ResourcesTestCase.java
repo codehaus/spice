@@ -13,7 +13,7 @@ import java.util.Locale;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-06-13 00:11:25 $
+ * @version $Revision: 1.4 $ $Date: 2003-06-13 00:12:03 $
  */
 public class ResourcesTestCase
     extends TestCase
@@ -182,8 +182,8 @@ public class ResourcesTestCase
             new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
                            Locale.getDefault(),
                            MockResourceBundle.class.getClassLoader() );
-        MockResourceBundle.addResource( "rez", "0" );
-        assertEquals( "GetChar", 0, resources.getChar( "rez" ) );
+        MockResourceBundle.addResource( "rez", "a" );
+        assertEquals( "GetChar", 'a', resources.getChar( "rez" ) );
     }
 
     public void testGetCharWithDefault()
