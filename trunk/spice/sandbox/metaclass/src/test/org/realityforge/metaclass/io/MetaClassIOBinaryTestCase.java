@@ -23,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-08-22 03:19:49 $
+ * @version $Revision: 1.11 $ $Date: 2003-08-22 03:25:33 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -285,6 +285,63 @@ public class MetaClassIOBinaryTestCase
         final DataInputStream data = new DataInputStream( in );
         final ParameterDescriptor[] parameters = io.readParameters( data );
         assertEquals( "parameters.length", 0, parameters.length );
+    }
+
+    public void testBinaryIOReadFields()
+        throws Exception
+    {
+        final String name = "name";
+        final String type = "type";
+        final int modifiers = 0;
+        final int attributeCount = 0;
+        final byte[] bytes = new byte[]
+        {
+            0, 0, 0, 1, //length
+            0, 4, //length of name
+            'n', 'a', 'm', 'e',
+            0, 4, //length of type
+            't', 'y', 'p', 'e',
+            0, 0, 0, 0, //modifiers
+            0, 0, 0, 0 //attribute count
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
+        final DataInputStream data = new DataInputStream( in );
+        final FieldDescriptor[] fields = io.readFields( data );
+        assertEquals( "fields.length", 1, fields.length );
+        assertEquals( "fields[0].name", name, fields[ 0 ].getName() );
+        assertEquals( "fields[0].type", type, fields[ 0 ].getType() );
+        assertEquals( "fields[0].modifiers", modifiers, fields[ 0 ].getModifiers() );
+        assertEquals( "fields[0].attributes.length",
+                      attributeCount, fields[ 0 ].getAttributes().length );
+    }
+
+    public void testBinaryIOWriteFields()
+        throws Exception
+    {
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final DataOutputStream data = new DataOutputStream( out );
+        final String name = "name";
+        final String type = "aType";
+        final int modifiers = 0;
+        final FieldDescriptor descriptor = new FieldDescriptor( name, type, modifiers, Attribute.EMPTY_SET );
+        io.writeFields( data, new FieldDescriptor[]{descriptor} );
+        data.flush();
+        final byte[] bytes = out.toByteArray();
+        assertEquals( "length", 25, bytes.length );
+        int offset = 0;
+        assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
+        offset = 4;
+        assertEquals( "bytes[" + offset + "] = " + name, name, readString( bytes, offset ) );
+        offset += STRING_HEADER_SIZE + name.length();
+        assertEquals( "bytes[" + offset + "] = " + type, type, readString( bytes, offset ) );
+        offset += STRING_HEADER_SIZE + type.length();
+        assertEquals( "bytes[" + offset + "] = " + modifiers, modifiers, readInteger( bytes, offset ) );
+        offset += 4;
+        assertEquals( "bytes[" + offset + "] = " + Attribute.EMPTY_SET.length,
+                      Attribute.EMPTY_SET.length, readInteger( bytes, offset ) );
+        offset += 4;
     }
 
     public void testBinaryIOWriteZeroFields()
