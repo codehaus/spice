@@ -4,6 +4,8 @@
     <name>Salt Utility Library</name>
     <id>spice-salt</id>
     <gumpRepositoryId>components</gumpRepositoryId>
+    <currentVersion>0.8</currentVersion>
+    <inceptionYear>1999</inceptionYear>
 
     <shortDescription>Salt Utility Library</shortDescription>
 
