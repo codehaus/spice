@@ -7,8 +7,13 @@
  */
 package org.realityforge.packet.session;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.SocketChannel;
 import org.codehaus.spice.event.EventSink;
+import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 import org.codehaus.spice.timeevent.source.SchedulingKey;
 import org.realityforge.packet.Packet;
@@ -19,7 +24,7 @@ import org.realityforge.packet.events.SessionDisconnectRequestEvent;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.24 $ $Date: 2004-02-11 03:52:56 $
+ * @version $Revision: 1.25 $ $Date: 2004-02-11 05:52:22 $
  */
 public class Session
 {
@@ -158,6 +163,11 @@ public class Session
     private boolean _connecting;
 
     /**
+     * The address that socket connected to.
+     */
+    private final InetSocketAddress _address;
+
+    /**
      * Create Serverside session with specified ID.
      * 
      * @param sessionID the session ID
@@ -166,15 +176,15 @@ public class Session
     public Session( final long sessionID,
                     final short authID )
     {
-        this( sessionID, authID, false );
+        this( sessionID, authID, false, null );
     }
 
     /**
      * Create clientside session.
      */
-    public Session()
+    public Session( final InetSocketAddress address )
     {
-        this( -1, (short)0, true );
+        this( -1, (short)0, true, address );
     }
 
     /**
@@ -186,11 +196,13 @@ public class Session
      */
     protected Session( final long sessionID,
                        final short authID,
-                       final boolean client )
+                       final boolean client,
+                       final InetSocketAddress address )
     {
         _sessionID = sessionID;
         _authID = authID;
         _client = client;
+        _address = address;
     }
 
     public synchronized void close()
@@ -213,11 +225,29 @@ public class Session
         }
     }
 
+    public synchronized void
+        startConnection( final SelectableChannelEventSource css )
+        throws IOException
+    {
+        final SocketChannel channel = SocketChannel.open();
+        css.registerChannel( channel,
+                             SelectionKey.OP_CONNECT,
+                             this );
+        channel.socket().setSoLinger( true, 2 );
+        channel.connect( getAddress() );
+        setConnecting( true );
+    }
+
     public void requestShutdown()
     {
         final SessionDisconnectRequestEvent sdr =
             new SessionDisconnectRequestEvent( this );
         addEvent( sdr );
+    }
+
+    public InetSocketAddress getAddress()
+    {
+        return _address;
     }
 
     private void addEvent( final Object event )

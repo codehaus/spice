@@ -36,7 +36,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.23 $ $Date: 2004-02-11 03:52:56 $
+ * @version $Revision: 1.24 $ $Date: 2004-02-11 05:52:22 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -334,8 +334,6 @@ public class PacketIOEventHandler
     {
         final ChannelTransport transport = ce.getTransport();
         final Session session = (Session)transport.getUserData();
-
-        transport.close();
         if( null != session )
         {
             session.setConnecting( false );
