@@ -23,7 +23,6 @@ import org.xml.sax.InputSource;
 public final class ResolverFactoryTestCase
     extends TestCase
 {
-    private static final String CATALOG_JAR = "aTestCatalog.jar";
     private static final String PARSER_KEY = "javax.xml.parsers.SAXParserFactory";
 
     public ResolverFactoryTestCase( final String name )
@@ -119,8 +118,8 @@ public final class ResolverFactoryTestCase
 
     private ClassLoader createClassLoader()
     {
-        final URL url = getClass().getClassLoader().getResource( CATALOG_JAR );
-        assertNotNull( "ResourcePresent: " + CATALOG_JAR, url );
+        final URL url = getClass().getClassLoader().getResource( TestData.CATALOG_JAR );
+        assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR, url );
         return new URLClassLoader( new URL[]{url} );
     }
 }
