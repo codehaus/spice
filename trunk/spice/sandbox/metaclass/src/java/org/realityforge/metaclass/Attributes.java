@@ -44,7 +44,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * ClassDescriptor for class) then either an empty array
  * or a null will be returned depending on the method.</p>
  *
- * @version $Revision: 1.7 $ $Date: 2003-09-28 05:01:46 $
+ * @version $Revision: 1.8 $ $Date: 2003-09-28 05:43:38 $
  */
 public class Attributes
 {
@@ -383,25 +383,32 @@ public class Attributes
     public static MethodDescriptor getMethod( final Method method )
         throws MetaClassException
     {
+        final Class[] parameterTypes = method.getParameterTypes();
+
         final MethodDescriptor[] methods =
             getClassInfo( method.getDeclaringClass() ).getMethods();
         for( int i = 0; i < methods.length; i++ )
         {
             final MethodDescriptor candidate = methods[ i ];
+            final ParameterDescriptor[] parameters = candidate.getParameters();
             if( candidate.getName().equals( method.getName() ) &&
-                candidate.getParameters().length == method.getParameterTypes().length )
+                parameters.length == parameterTypes.length )
             {
-                final ParameterDescriptor[] parameters = candidate.getParameters();
+                boolean match = true;
                 for( int j = 0; j < parameters.length; j++ )
                 {
                     final ParameterDescriptor parameter = parameters[ j ];
-                    final Class type = method.getParameterTypes()[ j ];
+                    final Class type = parameterTypes[ j ];
                     if( !type.getName().equals( parameter.getType() ) )
                     {
-                        continue;
+                        match = false;
+                        break;
                     }
                 }
-                return candidate;
+                if( match )
+                {
+                    return candidate;
+                }
             }
         }
         throw new MetaClassException( "No MethodDescriptor matching " + method );
@@ -423,25 +430,31 @@ public class Attributes
         {
             name = name.substring( index + 1 );
         }
+        final Class[] parameterTypes = constructor.getParameterTypes();
         final MethodDescriptor[] methods =
             getClassInfo( constructor.getDeclaringClass() ).getMethods();
         for( int i = 0; i < methods.length; i++ )
         {
             final MethodDescriptor candidate = methods[ i ];
+            final ParameterDescriptor[] parameters = candidate.getParameters();
             if( candidate.getName().equals( name ) &&
-                candidate.getParameters().length == constructor.getParameterTypes().length )
+                parameters.length == parameterTypes.length )
             {
-                final ParameterDescriptor[] parameters = candidate.getParameters();
+                boolean match = true;
                 for( int j = 0; j < parameters.length; j++ )
                 {
                     final String parameter = parameters[ j ].getType();
-                    final String type = constructor.getParameterTypes()[ j ].getName();
+                    final String type = parameterTypes[ j ].getName();
                     if( !type.equals( parameter ) )
                     {
-                        continue;
+                        match = false;
+                        break;
                     }
                 }
-                return candidate;
+                if( match )
+                {
+                    return candidate;
+                }
             }
         }
         throw new MetaClassException( "No MethodDescriptor matching " + constructor );
