@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * This class makes it easy to manipulate data stored in exceptions.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-10-18 07:15:44 $
+ * @version $Revision: 1.13 $ $Date: 2003-10-18 07:30:02 $
  */
 public final class ExceptionUtil
 {
@@ -40,6 +40,13 @@ public final class ExceptionUtil
      * Constant for method parameter types used to lookup to get cause of exception.
      */
     private static final Class[] GET_CAUSE_PARAMTYPES = new Class[ 0 ];
+
+    /**
+     * Constant for separator string printed out during pretty
+     * exception printing.
+     */
+    private static final String PRETTY_DOT_LINE =
+        "---------------------------------------------------------" + LINE_SEPARATOR;
 
     /**
      * Generate string for specified exception and the cause of
@@ -102,6 +109,53 @@ public final class ExceptionUtil
 
             return sb.toString();
         }
+    }
+
+    /**
+     * Pretty print the stack trace. This involves printing out the
+     * message from each exception in chain and then printing the
+     * stack trace of the root cause up untile the stop line.
+     *
+     * @param throwable the exception
+     * @param stopLine the stop line
+     * @return
+     */
+    public static String prettyPrintStackTrace( final Throwable throwable,
+                                                final String stopLine )
+    {
+        final StringBuffer sb = new StringBuffer();
+        sb.append( PRETTY_DOT_LINE );
+        sb.append( "--- Message ---" );
+        sb.append( LINE_SEPARATOR );
+        sb.append( throwable.getMessage() );
+        sb.append( LINE_SEPARATOR );
+        sb.append( "--- Stack Trace ---" );
+        sb.append( LINE_SEPARATOR );
+
+        boolean outputTrace = false;
+        final Throwable root = getRootCause( throwable );
+        Throwable element = getCause( throwable );
+        while( root != element )
+        {
+            sb.append( "--- Rethrown From ---" );
+            sb.append( LINE_SEPARATOR );
+            sb.append( element.toString() );
+            sb.append( LINE_SEPARATOR );
+            element = getCause( element );
+            outputTrace = true;
+        }
+        if( outputTrace )
+        {
+            sb.append( PRETTY_DOT_LINE );
+        }
+        final String[] stackTrace = captureStackTrace( root, stopLine );
+        for( int i = 0; i < stackTrace.length; i++ )
+        {
+            sb.append( stackTrace[ i ] );
+            sb.append( LINE_SEPARATOR );
+        }
+        sb.append( PRETTY_DOT_LINE );
+        return sb.toString();
     }
 
     /**
@@ -185,7 +239,7 @@ public final class ExceptionUtil
         {
             final String line = lines[ i ];
             final boolean stopLineReached =
-                0 != i && -1 != line.indexOf( stopLine );
+                0 != i && null != stopLine && -1 != line.indexOf( stopLine );
             if( line.startsWith( SEPARATOR ) || stopLineReached )
             {
                 final String[] result = new String[ i ];
