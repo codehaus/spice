@@ -13,27 +13,39 @@ import org.codehaus.spice.netevent.events.OutputDataPresentEvent;
  * An output stream that will send chunks of data via transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-20 05:46:32 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-21 04:20:55 $
  */
 public class TransportOutputStream
     extends OutputStream
 {
-    /** The bufferManager used to get buffers to store data in. */
+    /**
+     * The bufferManager used to get buffers to store data in.
+     */
     private final BufferManager _bufferManager;
 
-    /** The underlying transport that this stream is linked to. */
+    /**
+     * The underlying transport that this stream is linked to.
+     */
     private final ChannelTransport _transport;
 
-    /** The sink ythat write requests are sent to. */
+    /**
+     * The sink ythat write requests are sent to.
+     */
     private final EventSink _sink;
 
-    /** The size of buffer requested. */
+    /**
+     * The size of buffer requested.
+     */
     private final int _bufferSize;
 
-    /** The current byte buffer that is written to. May be null. */
+    /**
+     * The current byte buffer that is written to. May be null.
+     */
     private ByteBuffer _buffer;
 
-    /** The flag indicating whether stream is closed. */
+    /**
+     * The flag indicating whether stream is closed.
+     */
     private boolean _closed;
 
     /**
@@ -135,5 +147,15 @@ public class TransportOutputStream
             _closed = true;
             _sink.addEvent( new CloseChannelRequestEvent( _transport ) );
         }
+    }
+
+    /**
+     * Return true if stream is closed.
+     *
+     * @return true if stream is closed.
+     */
+    public boolean isClosed()
+    {
+        return _closed;
     }
 }
