@@ -19,26 +19,24 @@ import org.codehaus.spice.loggerstore.LoggerStore;
 import org.codehaus.spice.loggerstore.stores.LogKitLoggerStore;
 
 /**
- * LogKitLoggerStoreFactory is an implementation of LoggerStoreFactory
- * for the LogKit Logger.
+ * LogKitLoggerStoreFactory is an implementation of LoggerStoreFactory for the
+ * LogKit Logger.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-19 18:22:44 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:01 $
  */
 public class LogKitLoggerStoreFactory
     extends AbstractLoggerStoreFactory
 {
     /**
      * The LOGGER_MANAGER key.  Used to define the classname of the
-     * LoggerManager to use in creating a LogKitLoggerStore when not specified in the
-     * configuration map.
+     * LoggerManager to use in creating a LogKitLoggerStore when not specified
+     * in the configuration map.
      */
     public static final String LOGGER_MANAGER = "org.codehaus.spice.loggerstore.logkit.loggermanager";
 
-    /**
-     * The default LoggerManager class name
-     */
+    /** The default LoggerManager class name */
     private static final String DEFAULT_LOGGER_MANAGER = LogKitLoggerManager.class.getName();
 
     /**
@@ -78,14 +76,20 @@ public class LogKitLoggerStoreFactory
             (Configuration)config.get( Configuration.class.getName() );
         if( null != configuration )
         {
-            return new LogKitLoggerStore( loggerManager, logger, context, configuration );
+            return new LogKitLoggerStore( loggerManager,
+                                          logger,
+                                          context,
+                                          configuration );
         }
 
         final InputStream resource = getInputStream( config );
         if( null != resource )
         {
             final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-            return new LogKitLoggerStore( loggerManager, logger, context, builder.build( resource ) );
+            return new LogKitLoggerStore( loggerManager,
+                                          logger,
+                                          context,
+                                          builder.build( resource ) );
         }
 
         return missingConfiguration();
@@ -93,15 +97,16 @@ public class LogKitLoggerStoreFactory
 
     /**
      * Retrieve the classloader from data map. If no classloader is specified
-     * then use ContextClassLoader. If ContextClassLoader not specified then
-     * use ClassLoader that loaded this class.
+     * then use ContextClassLoader. If ContextClassLoader not specified then use
+     * ClassLoader that loaded this class.
      *
      * @param data the configuration data
      * @return a ClassLoader
      */
     protected ClassLoader getClassLoader( final Map data )
     {
-        ClassLoader loader = (ClassLoader)data.get( ClassLoader.class.getName() );
+        ClassLoader loader = (ClassLoader)data.get(
+            ClassLoader.class.getName() );
         if( null == loader )
         {
             loader = Thread.currentThread().getContextClassLoader();

@@ -17,33 +17,33 @@ import org.codehaus.spice.loggerstore.LoggerStore;
 import org.codehaus.spice.loggerstore.LoggerStoreFactory;
 
 /**
- * This is the initial LoggerStoreFactory tyhat the user accesses
- * to create their LoggerStore when the type is configurable.
+ * This is the initial LoggerStoreFactory tyhat the user accesses to create
+ * their LoggerStore when the type is configurable.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-19 18:22:44 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:01 $
  */
 public class InitialLoggerStoreFactory
     implements LoggerStoreFactory
 {
     /**
-     * The INITIAL_FACTORY key.  Used to define the classname of the
-     * initial LoggerStoreFactory. If not specified will attempt to use
-     * the ConsoleLoggerStoreFactory.
+     * The INITIAL_FACTORY key.  Used to define the classname of the initial
+     * LoggerStoreFactory. If not specified will attempt to use the
+     * ConsoleLoggerStoreFactory.
      */
     public static final String INITIAL_FACTORY = "org.codehaus.spice.loggerstore.factory";
 
     /**
-     * The name of properties file loaded from ClassLoader. This property
-     * file will be used to load default configuration settings if user failed
-     * to specify them.
+     * The name of properties file loaded from ClassLoader. This property file
+     * will be used to load default configuration settings if user failed to
+     * specify them.
      */
     public static final String DEFAULT_PROPERTIES = "META-INF/spice/loggerstore.properties";
 
     /**
-     * Create LoggerStore by first determining the correct LoggerStoreFactory
-     * to use and then delegating to that factory. See Class Javadocs for the
+     * Create LoggerStore by first determining the correct LoggerStoreFactory to
+     * use and then delegating to that factory. See Class Javadocs for the
      * process of locating LoggerStore.
      *
      * @param config the input configuration
@@ -69,15 +69,16 @@ public class InitialLoggerStoreFactory
 
     /**
      * Retrieve the classloader from data map. If no classloader is specified
-     * then use ContextClassLoader. If ContextClassLoader not specified then
-     * use ClassLoader that loaded this class.
+     * then use ContextClassLoader. If ContextClassLoader not specified then use
+     * ClassLoader that loaded this class.
      *
      * @param data the configuration data
      * @return a ClassLoader
      */
     private ClassLoader getClassLoader( final Map data )
     {
-        ClassLoader loader = (ClassLoader)data.get( ClassLoader.class.getName() );
+        ClassLoader loader = (ClassLoader)data.get(
+            ClassLoader.class.getName() );
         if( null == loader )
         {
             loader = Thread.currentThread().getContextClassLoader();

@@ -10,31 +10,30 @@ package org.codehaus.spice.loggerstore;
 import java.util.Map;
 
 /**
- * <p>LoggerStoreFactory is a factory interface for LoggerStore instances.
- * There is a factory implementation for each specific logger implementation
- * (LogKit, Log4J, JDK14).
+ * <p>LoggerStoreFactory is a factory interface for LoggerStore instances. There
+ * is a factory implementation for each specific logger implementation (LogKit,
+ * Log4J, JDK14).
  *
- * <p>The factory also acts a configurator,
- * handling the specific way in which a logger is configured.
- * The LoggerStore is configured via a map of parameters passed in the
- * create method.  LoggerStoreFactory defines the keys used to retrieve
- * the elements of the map.</p>
+ * <p>The factory also acts a configurator, handling the specific way in which a
+ * logger is configured. The LoggerStore is configured via a map of parameters
+ * passed in the create method.  LoggerStoreFactory defines the keys used to
+ * retrieve the elements of the map.</p>
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-19 18:22:44 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:01 $
  */
 public interface LoggerStoreFactory
 {
     /**
-     * The URL key.  Used to define the URL where the configuration
-     * for LoggerStore can be found.
+     * The URL key.  Used to define the URL where the configuration for
+     * LoggerStore can be found.
      */
     String URL_LOCATION = "org.codehaus.spice.loggerstore.url";
 
     /**
-     * The URL key.  Used to define the URL where the configuration
-     * for LoggerStore can be found.
+     * The URL key.  Used to define the URL where the configuration for
+     * LoggerStore can be found.
      */
     String FILE_LOCATION = "org.codehaus.spice.loggerstore.file";
 

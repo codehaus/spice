@@ -11,9 +11,8 @@ import org.codehaus.spice.loggerstore.stores.AbstractLoggerStore;
 import org.jcontainer.dna.Logger;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-19 18:22:43 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:02 $
  */
 class MalformedLoggerStore
     extends AbstractLoggerStore

@@ -18,45 +18,36 @@ import org.codehaus.spice.loggerstore.factories.SimpleLogKitLoggerStoreFactory;
 
 /**
  * Configurator is a collection of utility methods to create and configure
- * LoggerStore objects of different types using configuration resources.
- * LogKit, Log4J and JDK14 Loggers are supported.
- * In the case of Log4J, both DOM and Property configuration types are supported.
+ * LoggerStore objects of different types using configuration resources. LogKit,
+ * Log4J and JDK14 Loggers are supported. In the case of Log4J, both DOM and
+ * Property configuration types are supported.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
 public class Configurator
 {
-    /**
-     * Constant used to define Log4J type with DOMConfigurator
-     */
+    /** Constant used to define Log4J type with DOMConfigurator */
     public static final String LOG4J_DOM = "log4j-dom";
 
-    /**
-     * Constant used to define Log4J type with PropertyConfigurator
-     */
+    /** Constant used to define Log4J type with PropertyConfigurator */
     public static final String LOG4J_PROPERTY = "log4j-property";
 
-    /**
-     * Constant used to define LogKit type with Excalibur configuration
-     */
+    /** Constant used to define LogKit type with Excalibur configuration */
     public static final String LOGKIT_EXCALIBUR = "logkit-excalibur";
 
-    /**
-     * Constant used to define LogKit type with Simple configuration
-     */
+    /** Constant used to define LogKit type with Simple configuration */
     public static final String LOGKIT_SIMPLE = "logkit-simple";
 
-    /**
-     * Constant used to define JDK14 type
-     */
+    /** Constant used to define JDK14 type */
     public static final String JDK14 = "jdk14";
 
     /**
-     * Create and configure a {@link LoggerStore} from a specified
-     * configuration resource.
+     * Create and configure a {@link LoggerStore} from a specified configuration
+     * resource.
      *
      * @param configuratorType the type of the configurator
-     * @param resource the String encoding the path of the configuration resource
+     * @param resource the String encoding the path of the configuration
+     * resource
      * @return the configured LoggerStore
      * @throws Exception if unable to create the LoggerStore
      */
@@ -66,14 +57,15 @@ public class Configurator
     {
         final InitialLoggerStoreFactory factory = new InitialLoggerStoreFactory();
         final HashMap data = new HashMap();
-        data.put( InitialLoggerStoreFactory.INITIAL_FACTORY, getFactoryClassName( configuratorType ) );
+        data.put( InitialLoggerStoreFactory.INITIAL_FACTORY,
+                  getFactoryClassName( configuratorType ) );
         data.put( LoggerStoreFactory.FILE_LOCATION, resource );
         return factory.createLoggerStore( data );
     }
 
     /**
-     * Create and configure a {@link LoggerStore} from a specified
-     * configuration resource.
+     * Create and configure a {@link LoggerStore} from a specified configuration
+     * resource.
      *
      * @param configuratorType the type of the configurator
      * @param resource the InputStream of the configuration resource
@@ -86,14 +78,15 @@ public class Configurator
     {
         final InitialLoggerStoreFactory factory = new InitialLoggerStoreFactory();
         final HashMap data = new HashMap();
-        data.put( InitialLoggerStoreFactory.INITIAL_FACTORY, getFactoryClassName( configuratorType ) );
+        data.put( InitialLoggerStoreFactory.INITIAL_FACTORY,
+                  getFactoryClassName( configuratorType ) );
         data.put( InputStream.class.getName(), resource );
         return factory.createLoggerStore( data );
     }
 
     /**
-     * Get the Factory class name of the LoggerStoreFactory that corresponds
-     * to specified type of Logger.
+     * Get the Factory class name of the LoggerStoreFactory that corresponds to
+     * specified type of Logger.
      *
      * @param type the type of Configurator
      */

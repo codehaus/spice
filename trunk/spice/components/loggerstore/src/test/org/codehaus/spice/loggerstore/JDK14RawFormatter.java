@@ -13,8 +13,8 @@ import java.util.logging.LogRecord;
 /**
  * Class that extends base formatter to provide raw text output.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-19 18:22:43 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:02 $
  */
 public class JDK14RawFormatter
     extends Formatter

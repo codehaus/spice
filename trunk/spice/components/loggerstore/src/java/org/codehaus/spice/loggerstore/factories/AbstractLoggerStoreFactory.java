@@ -20,18 +20,18 @@ import org.jcontainer.dna.AbstractLogEnabled;
  * The abstract class that makes it easy to create LoggerStoreFactory
  * implementations.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-19 18:22:44 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:01 $
  */
 public abstract class AbstractLoggerStoreFactory
     extends AbstractLogEnabled
     implements LoggerStoreFactory
 {
     /**
-     * Creates a LoggerStore from a given set of configuration parameters.
-     * The configuration map contains entrys specific to the
-     * concrete implementation.
+     * Creates a LoggerStore from a given set of configuration parameters. The
+     * configuration map contains entrys specific to the concrete
+     * implementation.
      *
      * @param config the parameter map to configuration of the store
      * @return the LoggerStore
@@ -49,8 +49,7 @@ public abstract class AbstractLoggerStoreFactory
         throws Exception;
 
     /**
-     * Utility method to throw exception indicating input data
-     * was invalid.
+     * Utility method to throw exception indicating input data was invalid.
      *
      * @return never returns
      * @throws Exception indicating input data was invalid
@@ -62,21 +61,17 @@ public abstract class AbstractLoggerStoreFactory
     }
 
     /**
-     * A utility method to retrieve a InputStream from input map.
-     * It will systematically go through the following steps to
-     * attempt to locate the InputStream stopping at success.
+     * A utility method to retrieve a InputStream from input map. It will
+     * systematically go through the following steps to attempt to locate the
+     * InputStream stopping at success.
      *
-     * <ul>
-     *   <li>Lookup LoggerStoreFactory.URL_LOCATION for
-     *       string defining URL location of input configuration.</li>
-     *   <li>Lookup java.net.URL for URL object defining URL location
-     *       of input configuration.</li>
-     *   <li>Lookup LoggerStoreFactory.FILE_LOCATION for
-     *       string defining File location of input configuration.</li>
-     *   <li>Lookup java.io.File for File object defining File location
-     *       of input configuration.</li>
-     *   <li>Lookup java.io.InputStream for InputStream object.</li>
-     * </ul>
+     * <ul> <li>Lookup LoggerStoreFactory.URL_LOCATION for string defining URL
+     * location of input configuration.</li> <li>Lookup java.net.URL for URL
+     * object defining URL location of input configuration.</li> <li>Lookup
+     * LoggerStoreFactory.FILE_LOCATION for string defining File location of
+     * input configuration.</li> <li>Lookup java.io.File for File object
+     * defining File location of input configuration.</li> <li>Lookup
+     * java.io.InputStream for InputStream object.</li> </ul>
      *
      * @param config the input map
      * @return the InputStream or null if no stream present

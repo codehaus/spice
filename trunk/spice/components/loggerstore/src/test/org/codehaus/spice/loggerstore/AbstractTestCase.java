@@ -14,17 +14,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
-
 import junit.framework.TestCase;
-
-import org.jcontainer.dna.Logger;
-import org.jcontainer.dna.impl.ContainerUtil;
-import org.jcontainer.dna.impl.ConsoleLogger;
 import org.codehaus.spice.loggerstore.stores.Jdk14LoggerStore;
+import org.jcontainer.dna.Logger;
+import org.jcontainer.dna.impl.ConsoleLogger;
+import org.jcontainer.dna.impl.ContainerUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.EntityResolver;
@@ -34,7 +31,7 @@ import org.xml.sax.InputSource;
  * AbstactLoggerStoreTestCase
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class AbstractTestCase
     extends TestCase
@@ -49,12 +46,12 @@ public class AbstractTestCase
         super( name );
     }
 
-    protected void setUp() throws Exception
+    protected void setUp()
+        throws Exception
     {
         m_logsDir = new File( "logs/" );
         m_logsDir.mkdirs();
     }
-
 
     protected final InputStream getResource( final String name )
     {
@@ -71,7 +68,7 @@ public class AbstractTestCase
     }
 
     protected void runLoggerTest( final String filename,
-                                final LoggerStore store )
+                                  final LoggerStore store )
         throws Exception
     {
         BufferedReader reader = null;
@@ -96,13 +93,18 @@ public class AbstractTestCase
             }
             catch( final NullPointerException npe )
             {
-                assertEquals( "NullPointer message", "name", npe.getMessage() );
+                assertEquals( "NullPointer message",
+                              "name",
+                              npe.getMessage() );
             }
 
             final File logFile = new File( m_logsDir, filename + ".log" );
-            assertTrue( "Checking LogFile Exists: " + filename, logFile.exists() );
+            assertTrue( "Checking LogFile Exists: " + filename,
+                        logFile.exists() );
 
-            reader = new BufferedReader( new InputStreamReader( new FileInputStream( logFile ) ) );
+            reader =
+            new BufferedReader(
+                new InputStreamReader( new FileInputStream( logFile ) ) );
             assertEquals( "First line Contents for logger" + filename,
                           MESSAGE, reader.readLine() );
             assertEquals( "Second line Contents for logger" + filename,
@@ -117,12 +119,17 @@ public class AbstractTestCase
                 final Logger nejney = store.getLogger( "nejney" );
                 nejney.info( MESSAGE );
 
-                final File logFile2 = new File( m_logsDir, filename + "2.log" );
-                reader = new BufferedReader( new InputStreamReader( new FileInputStream( logFile2 ) ) );
-                assertEquals( "First line Contents for nejney logger" + filename,
-                              MESSAGE, reader.readLine() );
-                assertNull( "Second Line Contents for nejney logger" + filename,
-                            reader.readLine() );
+                final File logFile2 = new File( m_logsDir,
+                                                filename + "2.log" );
+                reader =
+                new BufferedReader(
+                    new InputStreamReader( new FileInputStream( logFile2 ) ) );
+                assertEquals(
+                    "First line Contents for nejney logger" + filename,
+                    MESSAGE, reader.readLine() );
+                assertNull(
+                    "Second Line Contents for nejney logger" + filename,
+                    reader.readLine() );
                 reader.close();
                 logFile2.delete();
             }
@@ -138,16 +145,17 @@ public class AbstractTestCase
     }
 
     /**
-     *  Builds an Element from a resource
-     *  @param resource the InputStream of the configuration resource
-     *  @param resolver the EntityResolver required by the DocumentBuilder -
-     *                  or <code>null</code> if none required
-     *  @param systemId the String encoding the systemId required by the InputSource -
-     *                  or <code>null</code> if none required
+     * Builds an Element from a resource
+     *
+     * @param resource the InputStream of the configuration resource
+     * @param resolver the EntityResolver required by the DocumentBuilder - or
+     * <code>null</code> if none required
+     * @param systemId the String encoding the systemId required by the
+     * InputSource - or <code>null</code> if none required
      */
     protected static Element buildElement( final InputStream resource,
-                                         final EntityResolver resolver,
-                                         final String systemId )
+                                           final EntityResolver resolver,
+                                           final String systemId )
         throws Exception
     {
         DocumentBuilderFactory dbf = null;
@@ -184,7 +192,9 @@ public class AbstractTestCase
         }
     }
 
-    protected void performConsoleTest( final LoggerStore store, final int level ) throws Exception
+    protected void performConsoleTest( final LoggerStore store,
+                                       final int level )
+        throws Exception
     {
         ContainerUtil.enableLogging( store, new ConsoleLogger( level ) );
         final Logger logger = store.getLogger();
@@ -209,10 +219,10 @@ public class AbstractTestCase
     }
 
     protected void runStreamBasedFactoryTest( final String inputFile,
-                                            final LoggerStoreFactory factory,
-                                            final int level,
-                                            final String outputFile,
-                                            final HashMap inputData )
+                                              final LoggerStoreFactory factory,
+                                              final int level,
+                                              final String outputFile,
+                                              final HashMap inputData )
         throws Exception
     {
         //URL Should in file: format
@@ -259,7 +269,11 @@ public class AbstractTestCase
                         outputFile );
     }
 
-    protected void runFactoryTest( final LoggerStoreFactory factory, final int level, final HashMap config, final String filename ) throws Exception
+    protected void runFactoryTest( final LoggerStoreFactory factory,
+                                   final int level,
+                                   final HashMap config,
+                                   final String filename )
+        throws Exception
     {
         ContainerUtil.enableLogging( factory, new ConsoleLogger( level ) );
         final LoggerStore store = factory.createLoggerStore( config );

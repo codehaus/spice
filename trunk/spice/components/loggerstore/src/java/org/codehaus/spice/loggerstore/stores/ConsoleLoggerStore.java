@@ -20,7 +20,8 @@ public class ConsoleLoggerStore
     extends AbstractLoggerStore
 {
     /**
-     * Creates a <code>ConsoleLoggerStore</code> using the specified Logger level.
+     * Creates a <code>ConsoleLoggerStore</code> using the specified Logger
+     * level.
      *
      * @param level the debug level of ConsoleLoggerStore
      * @throws Exception if fails to create or configure Logger
@@ -32,7 +33,7 @@ public class ConsoleLoggerStore
     }
 
     /**
-     *  Creates new ConsoleLogger for the given category.
+     * Creates new ConsoleLogger for the given category.
      */
     protected Logger createLogger( final String name )
     {
@@ -40,7 +41,7 @@ public class ConsoleLoggerStore
     }
 
     /**
-     *  Closes the LoggerStore and shuts down the logger hierarchy.
+     * Closes the LoggerStore and shuts down the logger hierarchy.
      */
     public void close()
     {

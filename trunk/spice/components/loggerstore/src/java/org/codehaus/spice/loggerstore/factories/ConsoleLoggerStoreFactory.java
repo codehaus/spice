@@ -15,8 +15,8 @@ import org.jcontainer.dna.impl.ConsoleLogger;
 /**
  * This is a basic factory for ConsoleLoggerStore.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-19 18:22:44 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:01 $
  */
 public class ConsoleLoggerStoreFactory
     extends AbstractLoggerStoreFactory

@@ -43,6 +43,7 @@ public abstract class AbstractLoggerStore
 
     /**
      * Retrieves the root Logger from the store.
+     *
      * @return the Logger
      * @throws Exception if unable to retrieve Logger
      */
@@ -82,7 +83,8 @@ public abstract class AbstractLoggerStore
         {
             if( m_logger != null && m_logger.isDebugEnabled() )
             {
-                final String message = "Logger named '" + name +
+                final String message = "Logger named '" +
+                    name +
                     "' not defined in configuration. New Logger " +
                     "created and returned.";
                 m_logger.debug( message );
@@ -95,9 +97,8 @@ public abstract class AbstractLoggerStore
     }
 
     /**
-     *  Creates new Logger for the given category.
-     *  This is logger-implementation specific and will be implemented in
-     *  concrete subclasses.
+     * Creates new Logger for the given category. This is logger-implementation
+     * specific and will be implemented in concrete subclasses.
      */
     protected abstract Logger createLogger( String name );
 
@@ -120,10 +121,10 @@ public abstract class AbstractLoggerStore
     }
 
     /**
-     *  Retrieve Logger from store map.
+     * Retrieve Logger from store map.
      *
-     *  @param name the name of the Logger
-     *  @return the Logger instance or <code>null</code> if not found in map.
+     * @param name the name of the Logger
+     * @return the Logger instance or <code>null</code> if not found in map.
      */
     private Logger retrieveLogger( final String name )
     {

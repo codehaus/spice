@@ -10,15 +10,15 @@ package org.codehaus.spice.loggerstore;
 import org.jcontainer.dna.Logger;
 
 /**
- * <p>LoggerStore represents the logging hierarchy for a Logger,
- * as defined by its configuration.</p>
- * <p>The LoggerStore has an associated LoggerStoreFactory which also
- * acts as a configurator for the Logger.</p>
+ * <p>LoggerStore represents the logging hierarchy for a Logger, as defined by
+ * its configuration.</p> <p>The LoggerStore has an associated
+ * LoggerStoreFactory which also acts as a configurator for the Logger.</p>
  * <p>Whenever an application has finished using the LoggerStore it will call
- * the close() method indicating that the logger hierarchy should also be shutdown. </p>
+ * the close() method indicating that the logger hierarchy should also be
+ * shutdown. </p>
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public interface LoggerStore
 {
@@ -42,7 +42,7 @@ public interface LoggerStore
         throws Exception;
 
     /**
-     *  Closes the LoggerStore and shuts down the logger hierarchy.
+     * Closes the LoggerStore and shuts down the logger hierarchy.
      */
     void close();
 }

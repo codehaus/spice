@@ -17,8 +17,8 @@ import org.apache.avalon.framework.logger.NullLogger;
 import org.codehaus.spice.alchemist.LoggerAlchemist;
 
 /**
- * <p>LogKitLoggerStore extends AbstractLoggerStore to provide the implementation
- * specific to the LogKit logger. </p>
+ * <p>LogKitLoggerStore extends AbstractLoggerStore to provide the
+ * implementation specific to the LogKit logger. </p>
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
@@ -63,22 +63,25 @@ public class LogKitLoggerStore
         }
         else
         {
-            ContainerUtil.contextualize( m_loggerManager, new DefaultContext() );
+            ContainerUtil.contextualize( m_loggerManager,
+                                         new DefaultContext() );
         }
         ContainerUtil.configure( m_loggerManager, configuration );
-        setRootLogger( LoggerAlchemist.toDNALogger( m_loggerManager.getDefaultLogger() ) );
+        setRootLogger(
+            LoggerAlchemist.toDNALogger( m_loggerManager.getDefaultLogger() ) );
     }
 
     /**
-     *  Creates new LogKitLogger for the given category.
+     * Creates new LogKitLogger for the given category.
      */
     protected org.jcontainer.dna.Logger createLogger( final String name )
     {
-        return LoggerAlchemist.toDNALogger( m_loggerManager.getLoggerForCategory( name ) );
+        return LoggerAlchemist.toDNALogger(
+            m_loggerManager.getLoggerForCategory( name ) );
     }
 
     /**
-     *  Closes the LoggerStore and shuts down the logger hierarchy.
+     * Closes the LoggerStore and shuts down the logger hierarchy.
      */
     public void close()
     {
