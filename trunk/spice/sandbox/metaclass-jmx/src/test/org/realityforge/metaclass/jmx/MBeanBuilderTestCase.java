@@ -23,7 +23,7 @@ import java.lang.reflect.Constructor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-13 23:59:41 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-14 00:18:28 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -163,6 +163,7 @@ public class MBeanBuilderTestCase
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{md} );
         final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( accessor );
 
         final MBeanParameterInfo[] infos = builder.parseParameterInfos( m );
@@ -174,8 +175,8 @@ public class MBeanBuilderTestCase
     {
         final MBeanBuilder builder = new MBeanBuilder();
         final Class c = MBeanBuilderTestCase.class;
-        final Method m = c.getMethod( "testParseParameterInfosViaReflection",
-                                      new Class[ 0 ] );
+        final Method m = c.getMethods()[ 0 ];
+        MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
 
         final MBeanParameterInfo[] infos = builder.parseParameterInfos( m );
@@ -202,6 +203,7 @@ public class MBeanBuilderTestCase
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{md} );
         final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( accessor );
 
         final MBeanParameterInfo[] infos = builder.parseParameterInfos( m );
@@ -214,9 +216,72 @@ public class MBeanBuilderTestCase
         final MBeanBuilder builder = new MBeanBuilder();
         final Class c = MBeanBuilderTestCase.class;
         final Constructor m = c.getConstructors()[ 0 ];
+        MetaClassIntrospector.clearCompleteCache();
         MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
 
         final MBeanParameterInfo[] infos = builder.parseParameterInfos( m );
         assertEquals( "infos.length", 0, infos.length );
+    }
+
+    public void testExtractOperationFromNonOperation()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Class c = MBeanBuilderTestCase.class;
+        final Method method = c.getMethods()[ 0 ];
+        final java.beans.MethodDescriptor descriptor =
+            new java.beans.MethodDescriptor( method );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+
+        final ModelMBeanOperationInfo operation =
+            builder.extractOperation( descriptor );
+        assertNull( "operation", operation );
+    }
+
+    public void testExtractOperationFromOperation()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Class c = MBeanBuilderTestCase.class;
+        final Method method =
+            c.getMethod( "testExtractOperationFromNonOperation",
+                         new Class[ 0 ] );
+        final java.beans.MethodDescriptor descriptor =
+            new java.beans.MethodDescriptor( method );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+
+        final Properties parameters = new Properties();
+        parameters.setProperty( "description", "Magical Mystery Tour!" );
+        parameters.setProperty( "impact", "INFO" );
+        final Attribute[] attributes =
+            new Attribute[]{new Attribute( "mx.operation", parameters )};
+        final MethodDescriptor md =
+            new MethodDescriptor( method.getName(),
+                                  method.getReturnType().getName(),
+                                  method.getModifiers(),
+                                  ParameterDescriptor.EMPTY_SET,
+                                  attributes );
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( c.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{md} );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final ModelMBeanOperationInfo operation =
+            builder.extractOperation( descriptor );
+        assertNotNull( "operation", operation );
+        assertEquals( "name", method.getName(), operation.getName() );
+        assertEquals( "impact", ModelMBeanOperationInfo.INFO, operation.getImpact() );
+        assertEquals( "description", "Magical Mystery Tour!", operation.getDescription() );
+        assertEquals( "returnType", method.getReturnType().getName(),
+                      operation.getReturnType() );
+        assertEquals( "currencyTimeLimit", new Integer( 0 ),
+                      operation.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
     }
 }

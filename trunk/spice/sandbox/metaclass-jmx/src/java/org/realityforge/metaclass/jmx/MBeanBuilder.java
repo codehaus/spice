@@ -218,8 +218,14 @@ public class MBeanBuilder
         return info;
     }
 
-    private void extractOperations( final MethodDescriptor[] methods,
-                                    final ModelInfoCreationHelper helper )
+    /**
+     * Extract a list of operations for specified method descriptors.
+     *
+     * @param methods the method descriptors
+     * @param helper the helper to add operations to
+     */
+    void extractOperations( final MethodDescriptor[] methods,
+                            final ModelInfoCreationHelper helper )
     {
         for( int i = 0; i < methods.length; i++ )
         {
