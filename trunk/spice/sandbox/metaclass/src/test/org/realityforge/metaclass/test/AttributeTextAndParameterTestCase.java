@@ -10,7 +10,6 @@ package org.realityforge.metaclass.test;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import junit.textui.TestRunner;
 
 public class AttributeTextAndParameterTestCase
     extends TestCase
@@ -23,14 +22,6 @@ public class AttributeTextAndParameterTestCase
     public static Test suite()
     {
         return new TestSuite( AttributeTextAndParameterTestCase.class );
-    }
-
-    /**
-     * Runs the test case.
-     */
-    public static void main( String args[] )
-    {
-        TestRunner.run( suite() );
     }
 
     public void testCreateAttributeWithTextAndParameters()

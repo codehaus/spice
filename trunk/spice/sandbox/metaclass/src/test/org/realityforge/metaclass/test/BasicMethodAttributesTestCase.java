@@ -10,7 +10,6 @@ package org.realityforge.metaclass.test;
 import java.util.ArrayList;
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import junit.textui.TestRunner;
 import org.realityforge.metaclass.Attributes;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.MethodDescriptor;
@@ -30,14 +29,6 @@ public class BasicMethodAttributesTestCase
     public static Test suite()
     {
         return new TestSuite( BasicMethodAttributesTestCase.class );
-    }
-
-    /**
-     * Runs the test case.
-     */
-    public static void main( String args[] )
-    {
-        TestRunner.run( suite() );
     }
 
     /**
