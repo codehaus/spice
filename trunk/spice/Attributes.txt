@@ -1,4 +1,4 @@
-    $Id: Attributes.txt,v 1.2 2002-11-27 07:40:29 donaldp Exp $
+    $Id: Attributes.txt,v 1.3 2002-11-27 11:12:00 donaldp Exp $
 
                  Metadata for Avalon Framework
 
@@ -39,4 +39,21 @@ containers will have the ability to load metadata from any supported source
 though some may choose to not support some formats due to the cost of 
 implementing support (ie J2ME may not need the overhead of an XML parser so may 
 do away with XML source support).
+
+There must also be mechanisms in place to support inheritance or non-inheritance
+of metadata. Some metadata is inheritable and some isn't. The inheritability is a
+characteristeric of the metadata and must be treated as such. Optionally we may 
+support blending of metadata based on primary key of different elements (see 
+XDoclet for further examples) however this may not necessarily be worth the effort.
+
+Metadata must also be able to be validated against som sort schema. However as the 
+metadata is extensible it must take into account that unknown elements may not be 
+validated but all known elements hsould be able to be validated.
+
+As the metadata must be extensible, there must be a way to classify whether features
+described by metadata elements must be understood or are only optionally understood.
+For example a persistent object that has persistence related metadata must be hosted
+in a container that supports persistence. However a component that has metadata 
+suggesting security constraints can still run if the container does not understand
+(or comply with) the security metadata.
 
