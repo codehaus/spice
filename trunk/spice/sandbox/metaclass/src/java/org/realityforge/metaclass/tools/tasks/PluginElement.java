@@ -7,39 +7,36 @@
  */
 package org.realityforge.metaclass.tools.tasks;
 
-import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.ProjectComponent;
 import org.apache.tools.ant.types.Path;
 
 /**
  * An element used by ant to configure an interceptor.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-31 08:18:15 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-27 08:14:26 $
  */
 public class PluginElement
+    extends ProjectComponent
 {
-    /**
-     * The fileset to use
-     */
+    /** The fileset to use */
     private Path m_path;
 
-    /**
-     * The classname of the interceptor.
-     */
+    /** The classname of the interceptor. */
     private String m_name;
 
     /**
      * Add the classpath that interceptor loaded from.
      *
-     * @param set the classpath that interceptor loaded from.
+     * @return the classpath that interceptor loaded from.
      */
-    public void addClasspath( final FileSet set )
+    public Path createClasspath()
     {
         if( null == m_path )
         {
-            m_path = new Path( set.getProject() );
+            m_path = new Path( getProject() );
         }
-        m_path.addFileset( set );
+        return m_path;
     }
 
     /**
