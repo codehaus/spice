@@ -21,7 +21,8 @@ import java.util.ResourceBundle;
  * and other common resources from a ResourceBundle.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- */
+ * @version $Revision: 1.2 $ $Date: 2003-05-28 12:21:59 $
+*/
 public class Resources
 {
     /**
@@ -88,11 +89,11 @@ public class Resources
     {
         if( null == baseName )
         {
-            throw new NullPointerException( "baseName property is null" );
+            throw new NullPointerException( "baseName" );
         }
         if( null == locale )
         {
-            throw new NullPointerException( "locale property is null" );
+            throw new NullPointerException( "locale" );
         }
 
         m_baseName = baseName;
