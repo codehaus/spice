@@ -16,15 +16,19 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.xml.sax.SAXException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * This is a utility class that writes out the ClassDescriptor
  * to a stream using the xml format outlined in documentation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-28 08:15:02 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-29 10:28:02 $
  */
 public class MetaClassIOXml
     implements MetaClassIO
@@ -40,7 +44,19 @@ public class MetaClassIOXml
     public ClassDescriptor deserializeClass( final InputStream input )
         throws IOException
     {
-        throw new IOException( "Not supported yet!" );
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        try
+        {
+            final DocumentBuilder builder = factory.newDocumentBuilder();
+            final Document document = builder.parse( input );
+            final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+            final Element element = document.getDocumentElement();
+            return deserializer.buildClassDescriptor( element );
+        }
+        catch( final Exception e )
+        {
+            throw new IOException( e.getMessage() );
+        }
     }
 
     /**
