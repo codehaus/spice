@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2003-06-13 01:05:50 $
+ * @version $Revision: 1.15 $ $Date: 2003-06-13 01:20:00 $
  */
 public class ResourcesTestCase
     extends TestCase
@@ -63,6 +63,17 @@ public class ResourcesTestCase
         assertEquals( 0, resources.getByte( "rez" ) );
     }
 
+    public void testGetBadlyFormattedByte()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez", "f" );
+        assertEquals( 2, resources.getByte( "rez", (byte)2 ) );
+    }
+
     public void testGetByteWithDefault()
         throws Exception
     {
@@ -82,6 +93,17 @@ public class ResourcesTestCase
                            MockResourceBundle.class.getClassLoader() );
         MockResourceBundle.addResource( "rez", "0" );
         assertEquals( 0, resources.getInteger( "rez" ) );
+    }
+
+    public void testGetBadlyFormattedInteger()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez", "f" );
+        assertEquals( 0, resources.getInteger( "rez", 0 ) );
     }
 
     public void testGetIntegerWithDefault()
@@ -105,6 +127,17 @@ public class ResourcesTestCase
         assertEquals( 0.0f, resources.getFloat( "rez" ), 0.0 );
     }
 
+    public void testGetBadlyFormattedFloat()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez", "f" );
+        assertEquals( 0.0f, resources.getFloat( "rez", 0.0f ), 0.0 );
+    }
+
     public void testGetFloatWithDefault()
         throws Exception
     {
@@ -124,6 +157,17 @@ public class ResourcesTestCase
                            MockResourceBundle.class.getClassLoader() );
         MockResourceBundle.addResource( "rez", "0" );
         assertEquals( 0, resources.getDouble( "rez" ), 0.0 );
+    }
+
+    public void testGetBadlyFormattedDouble()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez", "f" );
+        assertEquals( 0, resources.getDouble( "rez", 0.0 ), 0.0 );
     }
 
     public void testGetDoubleWithDefault()
@@ -147,6 +191,17 @@ public class ResourcesTestCase
         assertEquals( 0, resources.getLong( "rez" ) );
     }
 
+    public void testGetBadlyFormattedLong()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez", "f" );
+        assertEquals( 0, resources.getLong( "rez", 0 ) );
+    }
+
     public void testGetLongWithDefault()
         throws Exception
     {
@@ -168,6 +223,17 @@ public class ResourcesTestCase
         assertEquals( 0, resources.getShort( "rez" ) );
     }
 
+    public void testGetBadlyFormattedShort()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez", "f" );
+        assertEquals( 0, resources.getShort( "rez", (short)0 ) );
+    }
+
     public void testGetShortWithDefault()
         throws Exception
     {
@@ -187,6 +253,17 @@ public class ResourcesTestCase
                            MockResourceBundle.class.getClassLoader() );
         MockResourceBundle.addResource( "rez", "a" );
         assertEquals( 'a', resources.getChar( "rez" ) );
+    }
+
+    public void testGetBadlyFormattedChar()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez", "qwerqweq" );
+        assertEquals( 'a', resources.getChar( "rez", 'a' ) );
     }
 
     public void testGetCharWithDefault()
@@ -212,6 +289,18 @@ public class ResourcesTestCase
         MockResourceBundle.addResource( "rez", current );
         final Date expected = format.parse( current );
         assertEquals( expected, resources.getDate( "rez" ) );
+    }
+
+    public void testGetBadlyFormattedDate()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez", "ss" );
+        final Date expected = new Date();
+        assertEquals( expected, resources.getDate( "rez", expected ) );
     }
 
     public void testGetDateWithDefault()
@@ -241,6 +330,18 @@ public class ResourcesTestCase
         assertEquals( expected, resources.getTime( "rez" ) );
     }
 
+    public void testGetBadlyFormattedTime()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        final Date date = new Date();
+        MockResourceBundle.addResource( "rez", "ss" );
+        assertEquals( date, resources.getTime( "rez", date ) );
+    }
+
     public void testGetTimeWithDefault()
         throws Exception
     {
@@ -266,6 +367,18 @@ public class ResourcesTestCase
         final Date expected = format.parse( current );
         MockResourceBundle.addResource( "rez", current );
         assertEquals( expected, resources.getDateTime( "rez" ) );
+    }
+
+    public void testGetBadlyFormattedDateTime()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        final Date date = new Date();
+        MockResourceBundle.addResource( "rez", "ss" );
+        assertEquals( date, resources.getDateTime( "rez", date ) );
     }
 
     public void testGetDateTimeWithDefault()
