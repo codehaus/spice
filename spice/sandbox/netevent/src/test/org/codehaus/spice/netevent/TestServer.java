@@ -17,7 +17,7 @@ import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2004-01-22 02:43:36 $
+ * @version $Revision: 1.11 $ $Date: 2004-01-23 05:42:52 $
  */
 public class TestServer
 {
@@ -68,14 +68,14 @@ public class TestServer
         final DefaultEventQueue queue2 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
-        final SelectableChannelEventSource source1 = new SelectableChannelEventSource(
-            queue1 );
+        final SelectableChannelEventSource source1 =
+            new SelectableChannelEventSource( queue1 );
 
         final ServerSocketChannel channel = ServerSocketChannel.open();
-        channel.socket().bind( new InetSocketAddress( 1980 ) );
         source1.registerChannel( channel,
                                  SelectionKey.OP_ACCEPT,
                                  null );
+        channel.socket().bind( new InetSocketAddress( 1980 ) );
 
         final DefaultBufferManager bufferManager =
             new DefaultBufferManager();
