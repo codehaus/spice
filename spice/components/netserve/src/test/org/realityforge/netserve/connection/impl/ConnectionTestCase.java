@@ -13,6 +13,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.realityforge.configkit.ConfigValidator;
@@ -26,7 +27,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-04-23 09:41:55 $
+ * @version $Revision: 1.12 $ $Date: 2003-04-23 09:47:11 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -211,9 +212,22 @@ public class ConnectionTestCase
             acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
             start( acceptor );
 
+            final ArrayList list = new ArrayList();
             for( int i = 0; i < 1000; i++ )
             {
-                runClientConnect();
+                final Thread thread = runClientConnect();
+                list.add( thread);
+            }
+            final Thread[] threads = (Thread[])list.toArray( new Thread[ list.size() ] );
+            for( int i = 0; i < threads.length; i++ )
+            {
+                try
+                {
+                    threads[ i ].join();
+                }
+                catch( InterruptedException e )
+                {
+                }
             }
             acceptor.close( 0, false );
         }
@@ -247,7 +261,7 @@ public class ConnectionTestCase
         }
     }
 
-    private void runClientConnect()
+    private Thread runClientConnect()
     {
         final Runnable runnable = new Runnable()
         {
@@ -256,19 +270,22 @@ public class ConnectionTestCase
                 doClientConnect();
             }
         };
-        start( runnable );
+        final Thread thread = new Thread( runnable );
+        thread.start();
+        return thread;
     }
 
     private void doClientConnect()
     {
         try
         {
+            Thread.sleep( 50 );
             final Socket socket = new Socket( HOST, PORT );
             socket.close();
         }
-        catch( IOException ioe )
+        catch( final Exception e )
         {
-            ioe.printStackTrace();
+            e.printStackTrace();
         }
     }
 
