@@ -20,7 +20,7 @@ import java.util.Random;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-10-10 04:03:12 $
+ * @version $Revision: 1.9 $ $Date: 2003-10-10 04:05:40 $
  */
 public class NIOAcceptorManagerTestCase
     extends AbstractAcceptorManagerTestCase
@@ -177,10 +177,9 @@ public class NIOAcceptorManagerTestCase
             outputStream.flush();
             clientSocket.close();
 
-
             try
             {
-                Thread.sleep( 50 );
+                Thread.sleep( 250 );
             }
             catch( InterruptedException e )
             {
