@@ -1,6 +1,6 @@
 package org.realityforge.connection;
 
-public abstract class AbstractConnectionMaintainer
+public abstract class AbstractConnector
 {
    /**
     * A flag indicating whether the connection
