@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>Metaclass</title>
+</head>
+
+<body>
+
+<h1>MetaClass</h1>
+<p>MetaClass provides runtime access to attributes specified in javadoc format.</p>
+
+<p>There are two steps involved: pre-runtime generation and runtime retrieval.</p>
+
+<h2>Generation</h2>
+<p>Generation is done with ant (refer run.xml).  There exists an ant task called MetaGenerateTask
+that must be <verbatim><taskdef></verbatim>ed into your xml file, which is then run over .class
+files to produce .mad (metaclass data) files.  It can be run in paired or non-paired mode.</p>
+
+<p>In paired mode the .mad files are created in the same directory as the .class files.  This is
+the default mode.</p>
+
+<p>In non-paired mode all .mad files are created in the specified directory and named with
+dot-delimited full package structure.  This is enabled by passing dest="${specified-directory}" to
+the metagenerate task.</p>
+
+<h2>Retrieval</h2>
+<p>Not yet documented.</p>
+
+</body>
+</html>

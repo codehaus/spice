@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<project>
+    <extend>../tools/maven/project.xml</extend>
+    <name>Converter</name>
+    <id>converter</id>
+    <currentVersion>0.9.1</currentVersion>
+
+    <shortDescription>Convert objects of one type to another type</shortDescription>
+
+    <description>
+        The Converter project is a toolkit to help in converting objects of one
+        type to another type. Conversion failure may result in default values or
+        exceptions. Conversion also accepts an object "context" parameter which the
+        application can pass to the converters so that the conversion process can
+        convert in a specific context. For example converting String to File objects
+        may take a File "context" object that is the base directory relative to which
+        the String points.
+    </description>
+
+    <developers>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <email>peter@apache.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <id>excalibur-i18n</id>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <nagEmailAddress>spice-devel@lists.sourceforge.net</nagEmailAddress>
+        <sourceDirectory>src/java</sourceDirectory>
+        <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+
+        <unitTest>
+            <includes>
+                <include>**/*TestCase*</include>
+            </includes>
+            <excludes>
+                <exclude>**/Abstract*</exclude>
+            </excludes>
+        </unitTest>
+    </build>
+</project>

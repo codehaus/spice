@@ -1,0 +1,137 @@
+<module name="spice-lib">
+
+    <url href="http://spice.sourceforge.net"/>
+    <description>
+      A repository of reusable components for Java Containers.
+    </description>
+
+    <cvs repository="sourceforge" host-prefix="cvs.spice"
+        module="spice-lib" dir="spice"/>
+
+    <project name="spice-converter">
+        <package>org.realityforge.converter</package>
+
+        <ant basedir="converter">
+            <property name="final.name" value="converter-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="excalibur-i18n" />
+        <work nested="converter/target/classes"/>
+
+        <home nested="converter"/>
+        <jar name="target/converter-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+        <nag>
+            <regexp pattern="/^$/" from="peter@realityforge.org"
+                to="spice-devel@lists.sourceforge.net"
+                subject="PRE-REQ FAILED for spice-converter"/>
+        </nag>
+    </project>
+
+    <project name="spice-jndikit">
+        <package>org.realityforge.jndikit</package>
+
+        <ant basedir="jndikit">
+            <property name="final.name" value="jndikit-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <work nested="jndikit/target/classes"/>
+
+        <home nested="jndikit"/>
+        <jar name="target/jndikit-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+        <nag>
+            <regexp pattern="/^$/" from="peter@realityforge.org"
+                to="spice-devel@lists.sourceforge.net"
+                subject="PRE-REQ FAILED for spice-jndikit"/>
+        </nag>
+    </project>
+
+    <project name="spice-metaclass">
+        <package>org.realityforge.metaclass</package>
+
+        <ant basedir="metaclass">
+            <property name="final.name" value="metaclass-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="spice-qdox"/>
+        <depend project="xml-xerces"/>
+        <work nested="metaclass/target/classes"/>
+
+        <home nested="metaclass"/>
+        <jar name="target/metaclass-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+        <nag>
+            <regexp pattern="/^$/" from="peter@realityforge.org"
+                to="spice-devel@lists.sourceforge.net"
+                subject="PRE-REQ FAILED for spice-metaclass"/>
+        </nag>
+    </project>
+
+    <project name="spice-nativekit">
+        <package>org.realityforge.nativekit</package>
+
+        <ant basedir="nativekit">
+            <property name="final.name" value="nativekit-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="excalibur-i18n"/>
+        <depend project="jakarta-avalon"/>
+        <work nested="nativekit/target/classes"/>
+
+        <home nested="nativekit"/>
+        <jar name="target/nativekit-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+        <nag>
+            <regexp pattern="/^$/" from="peter@realityforge.org"
+                to="spice-devel@lists.sourceforge.net"
+                subject="PRE-REQ FAILED for spice-nativekit"/>
+        </nag>
+    </project>
+
+    <!-- Ugly hackity project as qdox is not gumpified -->
+    <project name="spice-qdox">
+        <jar name="tools/lib/qdox-1.0.jar"/>
+    </project>
+
+    <project name="spice-xinvoke">
+        <package>org.realityforge.xinvoke</package>
+
+        <ant basedir="xinvoke">
+            <property name="final.name" value="xinvoke-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <depend project="jakarta-avalon"/>
+        <depend project="jakarta-oro"/>
+        <work nested="xinvoke/target/classes"/>
+
+        <home nested="xinvoke"/>
+        <jar name="target/xinvoke-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+        <nag>
+            <regexp pattern="/^$/" from="peter@realityforge.org"
+                to="spice-devel@lists.sourceforge.net"
+                subject="PRE-REQ FAILED for spice-xinvoke"/>
+        </nag>
+    </project>
+
+</module>

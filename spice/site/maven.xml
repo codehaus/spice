@@ -1,0 +1,51 @@
+<project default="site:generate"
+    xmlns:j="jelly:core"
+    xmlns:ant="jelly:ant">
+
+    <preGoal name="xdoc:transform">
+        <attainGoal name="generateNavigation"/>
+    </preGoal>
+
+    <goal name="generateNavigation">
+        <j:file name="target/navigation.xml" prettyPrint="true">
+            <naproject name="Spice" href="spice.sf.net">
+                <title>Spice</title>
+                <body>
+                    <menu name="Overview">
+                        <item name="Spice Project"  href="/index.html"/>
+                        <item name="Status" 		href="/status.html"/>
+                        <item name="TODO"   		href="/todo.html"/>
+                    </menu>
+
+                    <menu name="Components">
+                        <ant:fileScanner var="components">
+                            <fileset dir="${basedir}/../">
+                                <include name="*/project.xml"/>
+                                <exclude name="site/project.xml"/>
+                                <exclude name="metaschema/project.xml"/>
+                            </fileset>
+                        </ant:fileScanner>
+                        <j:forEach items="${components.iterator()}" var="component">
+                            <!--<maven:pom projectDescriptor="${component}" var="cPOM"/>-->
+                            <item name="${component.parentFile.name}"
+                                href="/${component.parentFile.name}/index.html"/>
+                        </j:forEach>
+                    </menu>
+                </body>
+            </naproject>
+        </j:file>
+
+        <style
+            in="target/navigation.xml"
+            out="xdocs/navigation.xml"
+            style="../tools/navigation.xsl"/>
+
+    </goal>
+
+    <postGoal name="site:deploy">
+        <exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${pom.siteAddress} -l ${maven.username} 'cd ${maven.homepage};chmod -R g+u . *'"/>
+        </exec>
+    </postGoal>
+
+</project>

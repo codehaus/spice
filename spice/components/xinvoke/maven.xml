@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<project
+    xmlns:j="jelly:core"
+    xmlns:ant="jelly:ant">
+
+    <preGoal name="site:generate">
+        <attainGoal name="clover"/>
+        <mkdir dir="${maven.docs.dest}"/>
+        <copy todir="${maven.docs.dest}">
+            <fileset dir="${basedir}/../tools/site" filtering="no">
+                <include name="images/*.gif"/>
+            </fileset>
+        </copy>
+    </preGoal>
+
+    <postGoal name="site:deploy">
+        <exec dir="." executable="${maven.ssh.executable}">
+            <arg line="${pom.siteAddress} -l ${maven.username} 'cd ${maven.homepage};chmod -R g+u . *'"/>
+        </exec>
+    </postGoal>
+
+    <postGoal name="dist:prepare-bin-filesystem">
+        <attainGoal name="generateReadme"/>
+        <copy todir="${maven.dist.bin.assembly.dir}">
+            <fileset dir="..">
+                <include name="LICENSE.txt"/>
+            </fileset>
+        </copy>
+        <copy todir="${maven.dist.bin.assembly.dir}">
+            <fileset dir="target">
+                <include name="README.txt"/>
+            </fileset>
+        </copy>
+        <zip zipfile="${maven.dist.bin.assembly.dir}/src.zip">
+            <fileset dir="src/java"/>
+            <fileset dir="src/test"/>
+        </zip>
+    </postGoal>
+
+    <goal name="buildDist">
+        <attainGoal name="clean"/>
+        <attainGoal name="dist:build-bin"/>
+    </goal>
+
+    <goal name="deployDist">
+        <attainGoal name="buildDist"/>
+
+        <!-- this doesn't actually work as optional task is not
+             registered. It would be nice if it did but .... -->
+        <ant:ftp server="upload.sourceforge.net"
+            remotedir="/incoming"
+            userid="anonymous"
+            password="${maven.username}@users.sourceforge.net">
+            <fileset dir="target/distributions"/>
+        </ant:ftp>
+    </goal>
+
+    <goal name="generateReadme">
+        <j:file name="target/README.txt" trim="false" omitXmlDeclaration="true">
+        ----------------------------------------------------------------
+        ${pom.name} - ${pom.shortDescription}
+        ----------------------------------------------------------------
+
+        ${pom.description}
+        </j:file>
+    </goal>
+
+</project>

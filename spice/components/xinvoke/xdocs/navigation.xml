@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <title>XInvoke</title>
+    <body>
+        <links>
+            <item name="Spice" href="http://spice.sourceforge.org/"/>
+        </links>
+        <menu name="Overview">
+            <item name="Introduction" href="/index.html"/>
+            <item name="Links" href="/links.html"/>
+        </menu>
+        <menu name="Users Guide">
+            <item name="Selectors" href="/selectors.html"/>
+        </menu>
+    </body>
+</project>
