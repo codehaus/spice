@@ -3,7 +3,7 @@
 # this script is in the public domain
 
 # update these projects
-PROJECTS="classman cli configkit converter io jndikit metaclass metaschema nativekit threadpool xinvoke"
+PROJECTS="classman cli configkit converter io jndikit ../sandbox/metaclass ../sandbox/metaschema ../sandbox/nativekit threadpool ../sandbox/xinvoke"
 MULTI_PROCESS="no"
 ANT_COMMAND="maven site:generate site:deploy"
 
