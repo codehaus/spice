@@ -7,37 +7,34 @@
  */
 package org.realityforge.loggerstore;
 
+import org.apache.avalon.excalibur.logger.DefaultLogTargetFactoryManager;
+import org.apache.avalon.excalibur.logger.DefaultLogTargetManager;
+import org.apache.avalon.excalibur.logger.LogTargetFactoryManageable;
+import org.apache.avalon.excalibur.logger.LogTargetFactoryManager;
+import org.apache.avalon.excalibur.logger.LogTargetManager;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.log.Hierarchy;
-import org.apache.log.Logger;
 import org.apache.log.LogTarget;
+import org.apache.log.Logger;
 import org.apache.log.Priority;
 import org.apache.log.util.Closeable;
 import org.apache.log.util.LogKitAvalonLogger;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.context.DefaultContext;
-
-import org.apache.avalon.excalibur.logger.DefaultLogTargetManager;
-import org.apache.avalon.excalibur.logger.DefaultLogTargetFactoryManager;
-import org.apache.avalon.excalibur.logger.LogTargetManager;
-import org.apache.avalon.excalibur.logger.LogTargetFactoryManager;
-import org.apache.avalon.excalibur.logger.LogTargetFactoryManageable;
-
 /**
- * HierarchyUtil is a utility class that allows the configuration 
+ * HierarchyUtil is a utility class that allows the configuration
  * of a <code>Hierarchy</code> and the closure of its LogTargets.
  * Class is package-private and is used by LogKitLoggerStore.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
-class HierarchyUtil 
+class HierarchyUtil
 {
-
     /**
      *  Private constructor to prevent instantiation of utility class
      */
-    private HierarchyUtil ()
+    private HierarchyUtil()
     {
     }
 
@@ -52,17 +49,17 @@ class HierarchyUtil
         throws Exception
     {
         final Configuration factories = configuration.getChild( "factories" );
-        final LogTargetFactoryManager targetFactoryManager = 
+        final LogTargetFactoryManager targetFactoryManager =
             createTargetFactoryManager( factories );
 
         final Configuration targets = configuration.getChild( "targets" );
-        final LogTargetManager targetManager = 
+        final LogTargetManager targetManager =
             createTargetManager( targets, targetFactoryManager );
 
         final Configuration categories = configuration.getChild( "categories" );
         configureLoggers( hierarchy,
                           targetManager,
-                          null, 
+                          null,
                           categories.getChildren( "category" ),
                           categories.getAttributeAsBoolean( "additive", false ) );
     }
@@ -76,25 +73,25 @@ class HierarchyUtil
     {
         closeLogTargets( hierarchy.getRootLogger() );
     }
-    
+
     /**
      * Creates a LogTargetFactoryManager
      *
      * @param configuration  The configuration object.
-     * @throws ConfigurationException if the configuration is malformed
+     * @throws Exception if the configuration is malformed
      */
-    private static final LogTargetFactoryManager createTargetFactoryManager( 
-            final Configuration configuration )
+    private static final LogTargetFactoryManager
+        createTargetFactoryManager( final Configuration configuration )
         throws Exception
     {
         final DefaultLogTargetFactoryManager targetFactoryManager = new DefaultLogTargetFactoryManager();
 
         final Hierarchy hierarchy = new Hierarchy();
-        
-        ContainerUtil.enableLogging ( targetFactoryManager, new LogKitAvalonLogger( hierarchy.getRootLogger() ) );
 
-        ContainerUtil.contextualize ( targetFactoryManager, new DefaultContext() );
-        
+        ContainerUtil.enableLogging( targetFactoryManager, new LogKitAvalonLogger( hierarchy.getRootLogger() ) );
+
+        ContainerUtil.contextualize( targetFactoryManager, new DefaultContext() );
+
         ContainerUtil.configure( targetFactoryManager, configuration );
 
         return targetFactoryManager;
@@ -107,16 +104,16 @@ class HierarchyUtil
      * @param targetFactoryManager the LogTargetFactoryManager
      * @throws Exception LogTargetManager cannot be created
      */
-    private static final LogTargetManager createTargetManager ( 
-            final Configuration configuration,
-            final LogTargetFactoryManager targetFactoryManager )
+    private static final LogTargetManager createTargetManager(
+        final Configuration configuration,
+        final LogTargetFactoryManager targetFactoryManager )
         throws Exception
     {
         final DefaultLogTargetManager targetManager = new DefaultLogTargetManager();
 
         final Hierarchy hierarchy = new Hierarchy();
-        
-        ContainerUtil.enableLogging ( targetManager, new LogKitAvalonLogger( hierarchy.getRootLogger() ) );
+
+        ContainerUtil.enableLogging( targetManager, new LogKitAvalonLogger( hierarchy.getRootLogger() ) );
 
         if( targetManager instanceof LogTargetFactoryManageable )
         {
@@ -132,7 +129,7 @@ class HierarchyUtil
      * Configure Loggers for a given Hierarchy.
      * Recursives configures Loggers for all the sub categories.
      *
-     * @param hiearchy the Hierarchy of Loggers
+     * @param hierarchy the Hierarchy of Loggers
      * @param targetManager the LogTargetManager
      * @param categories The array of configuration objects for the logger categories.
      * @param parentCategory the parentCategory or <code>null</code> if none.
@@ -150,8 +147,8 @@ class HierarchyUtil
         {
             final String name = categories[ i ].getAttribute( "name" );
             final String loglevel = categories[ i ].getAttribute( "log-level" ).toUpperCase();
-            final boolean additive = categories[i].getAttributeAsBoolean( "additive",
-                                                                          defaultAdditive );
+            final boolean additive = categories[ i ].getAttributeAsBoolean( "additive",
+                                                                            defaultAdditive );
 
             final Configuration[] targets = categories[ i ].getChildren( "log-target" );
             final LogTarget[] logTargets = new LogTarget[ targets.length ];
@@ -166,7 +163,7 @@ class HierarchyUtil
                 hierarchy.setDefaultPriority( Priority.getPriorityForName( loglevel ) );
                 hierarchy.setDefaultLogTargets( logTargets );
             }
-            
+
             final String category = getFullCategoryName( parentCategory, name );
             final org.apache.log.Logger logger = hierarchy.getLoggerFor( category );
 
@@ -183,7 +180,7 @@ class HierarchyUtil
     }
 
     /**
-     * Closes all the LogTargets of a given logger. 
+     * Closes all the LogTargets of a given logger.
      * Recursives closes the LogTargets of all the children loggers.
      *
      * @param logger the Logger
@@ -191,20 +188,21 @@ class HierarchyUtil
     private static final void closeLogTargets( final Logger logger )
     {
         final LogTarget[] targets = logger.getLogTargets();
-        for( int i = 0;  i < targets.length; i++ )
+        for( int i = 0; i < targets.length; i++ )
         {
-            if ( targets[i] instanceof Closeable ) 
+            if( targets[ i ] instanceof Closeable )
             {
-                ((Closeable) targets[i]).close();
+                ( (Closeable)targets[ i ] ).close();
             }
         }
-                
-        final Logger[] children = logger.getChildren( );
-        for ( int i = 0; i < children.length; i++ )
+
+        final Logger[] children = logger.getChildren();
+        for( int i = 0; i < children.length; i++ )
         {
-            closeLogTargets( children[i] );
+            closeLogTargets( children[ i ] );
         }
     }
+
     /**
      * Generates a full category from the category parent and child.
      *

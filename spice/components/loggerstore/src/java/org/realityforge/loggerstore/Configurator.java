@@ -7,61 +7,55 @@
  */
 package org.realityforge.loggerstore;
 
-import java.io.InputStream;
 import java.io.FileInputStream;
-import java.util.Map;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationUtil;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.context.Context;
-import org.apache.avalon.framework.context.DefaultContext;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.Logger;
 import org.w3c.dom.Element;
+
 /**
  * Configurator is a collection of utility methods to create and configure
  * LoggerStore objects of different types using configuration resources.
- * LogKit, Log4J and JDK14 Loggers are supported  
+ * LogKit, Log4J and JDK14 Loggers are supported
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
 public class Configurator
 {
-
-    
     /**
-     * Create and configure a {@link LoggerStore} from a specified 
+     * Create and configure a {@link LoggerStore} from a specified
      * configuration file.
      *
-     * @param loggerType the type of the Logger to use. 
-     * @param configurationType the type of the configuration 
+     * @param loggerType the type of the Logger to use.
+     * @param configurationType the type of the configuration
      * @param resource the String encoding the path of the configuration resource
-     * @return the configured LoggerStore  
+     * @return the configured LoggerStore
      * @throws Exception if unable to create the LoggerStore
      */
-    public static LoggerStore createLoggerStore( final String loggerType, 
+    public static LoggerStore createLoggerStore( final String loggerType,
                                                  final String configurationType,
                                                  final String resource )
         throws Exception
     {
-        return createLoggerStore( loggerType, configurationType, 
+        return createLoggerStore( loggerType, configurationType,
                                   new FileInputStream( resource ) );
     }
-    
+
     /**
-     * Create and configure a {@link LoggerStore} from a specified 
+     * Create and configure a {@link LoggerStore} from a specified
      * configuration resource.
      *
-     * @param loggerType the type of the Logger to use. 
-     * @param configurationType the type of the configuration 
+     * @param loggerType the type of the Logger to use.
+     * @param configurationType the type of the configuration
      * @param resource the InputStream of the configuration resource
-     * @return the configured LoggerStore  
+     * @return the configured LoggerStore
      * @throws Exception if unable to create the LoggerStore
      */
-    public static LoggerStore createLoggerStore( final String loggerType, 
+    public static LoggerStore createLoggerStore( final String loggerType,
                                                  final String configurationType,
                                                  final InputStream resource )
         throws Exception
@@ -74,7 +68,7 @@ public class Configurator
     /**
      * Create a {@link LoggerStoreFactory} for specified loggerType.
      *
-     * @param loggerType the type of the Logger to use. 
+     * @param type the type of the Logger to use.
      * @return the created {@link LoggerStoreFactory}
      */
     public static LoggerStoreFactory createLoggerStoreFactory( final String type )
@@ -88,12 +82,12 @@ public class Configurator
         }
         catch( final Exception e )
         {
-            final String message = "Failed to created LoggerStoreFactory for " + type;
+            final String message =
+                "Failed to created LoggerStoreFactory for " + type;
             throw new IllegalArgumentException( message );
         }
     }
 
-     
     /**
      *  Parses XML InputStream to build a Configuration object
      *  @param resource the path of the configuration resource
@@ -103,7 +97,7 @@ public class Configurator
     {
         return buildConfiguration( new FileInputStream( resource ) );
     }
-    
+
     /**
      *  Parses XML InputStream to build a Configuration object
      *  @param resource the InputStream of the configuration resource
@@ -114,7 +108,7 @@ public class Configurator
         DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         return builder.build( resource );
     }
-    
+
     /**
      *  Parses XML InputStream to build an Element object
      *  @param resource the path of the configuration resource
@@ -124,7 +118,7 @@ public class Configurator
     {
         return buildElement( new FileInputStream( resource ) );
     }
-    
+
     /**
      *  Parses XML InputStream to build an Element object
      *  @param resource the InputStream of the configuration resource
@@ -134,7 +128,7 @@ public class Configurator
     {
         return ConfigurationUtil.toElement( buildConfiguration( resource ) );
     }
-    
+
     /**
      *  Parses Properties InputStream to build a Properties object
      *  @param resource the path of the configuration resource
@@ -142,9 +136,9 @@ public class Configurator
     public static Properties buildProperties( final String resource )
         throws Exception
     {
-        return buildProperties(  new FileInputStream( resource ) );
+        return buildProperties( new FileInputStream( resource ) );
     }
-    
+
     /**
      *  Parses Properties InputStream to build a Properties object
      *  @param resource the InputStream of the configuration resource
@@ -183,10 +177,10 @@ public class Configurator
             throw new IllegalArgumentException( message );
         }
     }
-    
+
     /**
      *  Builds a configuration Map for factory
-     *  @param configurationType the type of the configuration 
+     *  @param configurationType the type of the configuration
      *  @param resource the InputStream of the configuration resource
      */
     static Map buildConfigurationMap( final String configurationType,
@@ -198,5 +192,4 @@ public class Configurator
         map.put( LoggerStoreFactory.CONFIGURATION_TYPE, configurationType );
         return map;
     }
-
 }

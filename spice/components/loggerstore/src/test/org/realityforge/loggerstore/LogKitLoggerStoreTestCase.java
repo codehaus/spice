@@ -7,12 +7,7 @@
  */
 package org.realityforge.loggerstore;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import junit.framework.TestCase;
-
 import org.apache.avalon.framework.logger.Logger;
 
 /**
@@ -20,24 +15,19 @@ import org.apache.avalon.framework.logger.Logger;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
-public class LogKitLoggerStoreTestCase extends TestCase
+public class LogKitLoggerStoreTestCase
+    extends TestCase
 {
-
-    
-    public LogKitLoggerStoreTestCase(final String name)
+    public LogKitLoggerStoreTestCase( final String name )
     {
         super( name );
     }
 
-    protected void setUp() throws Exception
-    {
-    }
-   
     public void testConfiguration()
         throws Exception
     {
         LoggerStore store = new LogKitLoggerStore(
-                                    getClass().getResourceAsStream( "logkit.xml" ) );
+            getClass().getResourceAsStream( "logkit.xml" ) );
         assertNotNull( "rootLogger", store.getLogger() );
         runLoggerTest( store.getLogger() );
     }
@@ -46,5 +36,4 @@ public class LogKitLoggerStoreTestCase extends TestCase
     {
         logger.info( "Testing logkit Logger" );
     }
-
 }
