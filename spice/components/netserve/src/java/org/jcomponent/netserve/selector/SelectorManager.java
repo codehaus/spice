@@ -1,12 +1,12 @@
 package org.jcomponent.netserve.selector;
 
 import java.io.IOException;
-import java.nio.channels.Selector;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.SelectableChannel;
 import java.nio.channels.ClosedChannelException;
-import java.util.Set;
+import java.nio.channels.SelectableChannel;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.jcomponent.netserve.sockets.impl.NIOAcceptorMonitor;
 import org.jcomponent.netserve.sockets.impl.NullNIOAcceptorMonitor;
@@ -87,7 +87,7 @@ public class SelectorManager
     *
     * @throws IOException if unable to initialize selector
     */
-   public void startupSelector()
+   public void startup()
       throws IOException
    {
       synchronized ( getSelectorLock() )
@@ -95,6 +95,15 @@ public class SelectorManager
          setSelector( Selector.open() );
       }
       startThread();
+   }
+
+   /**
+    * Method to shutdown the SelectorManager.
+    */
+   public void shutdown()
+   {
+      setInactive();
+      shutdownSelector();
    }
 
    /**
@@ -113,7 +122,7 @@ public class SelectorManager
    /**
     * Shutdown the selector and any associated acceptors.
     */
-   public void shutdownSelector()
+   protected void shutdownSelector()
    {
       getMonitor().selectorShutdown();
       synchronized ( getSelectorLock() )
@@ -155,7 +164,7 @@ public class SelectorManager
     * called after this method to make sure all
     * resources are deallocated.
     */
-   public void setInactive()
+   protected void setInactive()
    {
       setRunning( false );
    }
@@ -185,6 +194,10 @@ public class SelectorManager
                                         final int ops )
       throws ClosedChannelException
    {
+      if ( null == channel )
+      {
+         throw new NullPointerException( "channel" );
+      }
       return channel.register( getSelector(), ops );
    }
 
