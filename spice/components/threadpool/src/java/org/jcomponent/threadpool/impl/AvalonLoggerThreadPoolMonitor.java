@@ -15,7 +15,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:paul_hammant at yahoo.com">Paul Hammant</a>
  */
-class AvalonThreadPoolMonitor
+class AvalonLoggerThreadPoolMonitor
    extends AbstractLogEnabled
    implements ThreadPoolMonitor
 {

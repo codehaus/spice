@@ -22,7 +22,7 @@ import org.apache.commons.pool.impl.GenericObjectPool;
  * Avalon-compatible systems.
  * 
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-09-02 08:07:29 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-12 11:18:31 $
  * @phoenix.service type="ThreadPool"
  */
 public class AvalonCommonsThreadPool
@@ -91,7 +91,7 @@ public class AvalonCommonsThreadPool
     public void initialize()
         throws Exception
     {
-        final AvalonThreadPoolMonitor monitor = new AvalonThreadPoolMonitor();
+        final AvalonLoggerThreadPoolMonitor monitor = new AvalonLoggerThreadPoolMonitor();
         ContainerUtil.enableLogging( monitor, m_logger );
         setMonitor( monitor );
         setup();
