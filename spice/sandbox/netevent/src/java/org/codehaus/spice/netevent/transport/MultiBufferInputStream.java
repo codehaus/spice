@@ -16,7 +16,7 @@ import org.codehaus.spice.netevent.events.CloseChannelRequestEvent;
  * specified in the constructor.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-13 03:13:01 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-15 05:55:19 $
  */
 public class MultiBufferInputStream
     extends InputStream
@@ -112,11 +112,13 @@ public class MultiBufferInputStream
      * @see InputStream#close()
      */
     public synchronized void close()
-        throws IOException
     {
-        setClosedState();
-        _sink.addEvent( new CloseChannelRequestEvent( _transport ) );
-        setClosePending();
+        if( !_closed )
+        {
+            setClosedState();
+            _sink.addEvent( new CloseChannelRequestEvent( _transport ) );
+            setClosePending();
+        }
     }
 
     /**
