@@ -16,7 +16,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
-
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.xml.sax.SAXException;
 
@@ -25,7 +24,7 @@ import org.xml.sax.SAXException;
  * to a stream using the xml format outlined in documentation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-28 05:20:52 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-28 08:11:53 $
  */
 public class MetaClassIOXml
    implements MetaClassIO
