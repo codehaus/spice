@@ -25,7 +25,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-09 06:46:42 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-09 06:48:19 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -56,6 +56,17 @@ public class NIOAcceptorManager
      * Flag indicating whether manager is running.
      */
     private boolean m_running;
+
+    /**
+     * Set the AcceptorMonitor that receives events when changes occur.
+     *
+     * @param monitor the AcceptorMonitor that receives events when
+     *        changes occur.
+     */
+    public void setMonitor( final AcceptorMonitor monitor )
+    {
+        m_monitor = monitor;
+    }
 
     /**
      * Initialize the selector to monitor accept attempts.
