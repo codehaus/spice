@@ -163,6 +163,16 @@ public class QDoxDescriptorParser
         }
     }
 
+    /**
+     * Extract a Modifier bit-fields from an array of qualifiers.
+     * The qualifiers are strings such as "public", "private",
+     * "abstract", "final" etc and these are translated into their
+     * equivelents constants in {@link Modifier}. These constants
+     * are then |'ed together and returned.
+     *
+     * @param qualifiers the qualifier strings
+     * @return the modifier bit array
+     */
     private int parseModifiers( final String[] qualifiers )
     {
         int modifiers = 0;
