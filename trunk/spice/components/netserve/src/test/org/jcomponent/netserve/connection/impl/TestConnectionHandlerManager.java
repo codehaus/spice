@@ -9,7 +9,6 @@ package org.jcomponent.netserve.connection.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.jcomponent.netserve.connection.ConnectionHandler;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 
@@ -17,7 +16,7 @@ import org.jcomponent.netserve.connection.ConnectionHandlerManager;
  * test connectionahndler factory.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-31 09:33:55 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-24 08:07:20 $
  */
 class TestConnectionHandlerManager
     implements ConnectionHandlerManager

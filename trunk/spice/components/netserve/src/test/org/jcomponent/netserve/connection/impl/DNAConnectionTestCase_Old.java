@@ -7,20 +7,20 @@
  */
 package org.jcomponent.netserve.connection.impl;
 
-import org.jcontainer.dna.impl.DefaultConfiguration;
-import org.jcontainer.dna.impl.ContainerUtil;
-import org.jcontainer.dna.impl.ConsoleLogger;
-import org.jcontainer.dna.impl.DefaultResourceLocator;
 import org.jcomponent.netserve.connection.ConnectionManager;
 import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 import org.jcomponent.threadpool.ThreadPool;
+import org.jcontainer.dna.impl.ConsoleLogger;
+import org.jcontainer.dna.impl.ContainerUtil;
+import org.jcontainer.dna.impl.DefaultConfiguration;
+import org.jcontainer.dna.impl.DefaultResourceLocator;
 
 /**
  * TestCase for {@link DNAConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-14 04:12:18 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-24 08:07:20 $
  */
 public class DNAConnectionTestCase_Old
     extends AbstractConnectionTestCase

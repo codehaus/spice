@@ -20,7 +20,7 @@ import org.jcomponent.threadpool.ThreadPool;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-14 04:12:18 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-24 08:07:20 $
  */
 public class AvalonConnectionTestCase_Old
     extends AbstractConnectionTestCase
@@ -72,10 +72,11 @@ public class AvalonConnectionTestCase_Old
         ContainerUtil.enableLogging( monitor, new ConsoleLogger() );
         return monitor;
     }
+
     protected ConnectionMonitor createConnectionMonitorNoLogging()
     {
         final AvalonConnectionMonitor monitor = new AvalonConnectionMonitor();
-        ContainerUtil.enableLogging( monitor, new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED) );
+        ContainerUtil.enableLogging( monitor, new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
         return monitor;
     }
 

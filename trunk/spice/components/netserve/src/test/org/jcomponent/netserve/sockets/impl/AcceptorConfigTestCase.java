@@ -8,13 +8,12 @@
 package org.jcomponent.netserve.sockets.impl;
 
 import java.net.ServerSocket;
-
 import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-24 04:22:42 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-24 08:07:21 $
  */
 public class AcceptorConfigTestCase
     extends TestCase

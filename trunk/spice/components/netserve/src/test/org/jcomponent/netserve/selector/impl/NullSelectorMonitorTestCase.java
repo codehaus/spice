@@ -1,22 +1,21 @@
 package org.jcomponent.netserve.selector.impl;
 
 import junit.framework.TestCase;
-import org.jcomponent.netserve.selector.impl.NullSelectorMonitor;
 
 public class NullSelectorMonitorTestCase
-   extends TestCase
+    extends TestCase
 {
-   public void testNullSelectorEventHandler()
-      throws Exception
-   {
-      final NullSelectorMonitor monitor = new NullSelectorMonitor();
-      monitor.enteringSelect();
-      monitor.enteringSelectorLoop();
-      monitor.errorClosingSelector( null );
-      monitor.exitingSelectorLoop();
-      monitor.handlingSelectEvent( null );
-      monitor.selectorStartup();
-      monitor.selectorShutdown();
-      monitor.selectCompleted( 2 );
-   }
+    public void testNullSelectorEventHandler()
+        throws Exception
+    {
+        final NullSelectorMonitor monitor = new NullSelectorMonitor();
+        monitor.enteringSelect();
+        monitor.enteringSelectorLoop();
+        monitor.errorClosingSelector( null );
+        monitor.exitingSelectorLoop();
+        monitor.handlingSelectEvent( null );
+        monitor.selectorStartup();
+        monitor.selectorShutdown();
+        monitor.selectCompleted( 2 );
+    }
 }
