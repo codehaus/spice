@@ -12,16 +12,13 @@ package org.realityforge.threadpool;
  * some work. In many respects it is similar to Runnable except that it
  * also allows an application to throw a non-Runtime Exception.
  *
- * <p>The work done may be short lived (ie a simple task) or it could
- * be a long running.</p>
- *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-03-01 03:08:15 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-04 11:44:06 $
  */
 public interface Executable
 {
     /**
-     * Execute the action associated with this component.
+     * Execute the action.
      *
      * @throws Exception if an error occurs
      */
