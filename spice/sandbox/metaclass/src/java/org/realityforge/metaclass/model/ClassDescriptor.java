@@ -15,7 +15,7 @@ import java.io.Serializable;
  * the classes methods.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-10-28 11:02:02 $
+ * @version $Revision: 1.9 $ $Date: 2003-10-28 11:27:19 $
  */
 public class ClassDescriptor
     extends FeatureDescriptor
@@ -41,20 +41,20 @@ public class ClassDescriptor
      * The descriptor usually represents a corrresponding
      * java class but this is not always the case.
      *
-     * @param classname the name of class
+     * @param name the name of class
      * @param attributes the top level attribute metadata
      * @param fields the field descriptors for class
      * @param methods the method descriptors for class
      */
-    public ClassDescriptor( final String classname,
+    public ClassDescriptor( final String name,
                             final Attribute[] attributes,
                             final FieldDescriptor[] fields,
                             final MethodDescriptor[] methods )
     {
         super( attributes, attributes );
-        if( null == classname )
+        if( null == name )
         {
-            throw new NullPointerException( "classname" );
+            throw new NullPointerException( "name" );
         }
         if( null == fields )
         {
@@ -78,7 +78,7 @@ public class ClassDescriptor
                 throw new NullPointerException( "methods[" + i + "]" );
             }
         }
-        m_name = classname;
+        m_name = name;
         m_fields = fields;
         m_methods = methods;
     }
