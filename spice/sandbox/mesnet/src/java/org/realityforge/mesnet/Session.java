@@ -1,13 +1,13 @@
 package org.realityforge.mesnet;
 
-import java.util.LinkedList;
 import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
 import java.nio.channels.SelectionKey;
+import java.nio.channels.SocketChannel;
+import java.util.LinkedList;
 
 /**
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-05 04:08:36 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-05 23:15:28 $
  */
 public class Session
 {
