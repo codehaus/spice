@@ -7,29 +7,36 @@
  */
 package org.codehaus.spice.event.impl;
 
-import org.codehaus.spice.event.EventSink;
-import org.codehaus.spice.event.EventSource;
+import org.codehaus.spice.event.EventJoin;
 import org.codehaus.spice.event.impl.collections.Buffer;
 
 /**
  * An event queue that acts as a Source and Sink of events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-16 02:03:12 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-22 02:23:29 $
  */
 public class DefaultEventQueue
-    implements EventSource, EventSink
+    implements EventJoin
 {
-    /** An empty array of objects. */
+    /**
+     * An empty array of objects.
+     */
     private static final Object[] EMPTY_OBJECT_SET = new Object[ 0 ];
 
-    /** Lock for the sink aspect of queue. */
+    /**
+     * Lock for the sink aspect of queue.
+     */
     private final Object m_sinkLock = new Object();
 
-    /** Lock for the source aspect of queue. */
+    /**
+     * Lock for the source aspect of queue.
+     */
     private final Object m_sourceLock = new Object();
 
-    /** The underlying buffer used to store events. */
+    /**
+     * The underlying buffer used to store events.
+     */
     private final Buffer m_buffer;
 
     /**
@@ -47,7 +54,7 @@ public class DefaultEventQueue
     }
 
     /**
-     * @see EventSource#getEvent()
+     * @see EventJoin#getEvent()
      */
     public Object getEvent()
     {
@@ -70,7 +77,7 @@ public class DefaultEventQueue
     }
 
     /**
-     * @see EventSource#getEvents(int)
+     * @see EventJoin#getEvents(int)
      */
     public Object[] getEvents( final int count )
     {
@@ -98,7 +105,7 @@ public class DefaultEventQueue
     }
 
     /**
-     * @see EventSink#addEvent(Object)
+     * @see EventJoin#addEvent(Object)
      */
     public boolean addEvent( final Object event )
     {
@@ -115,7 +122,7 @@ public class DefaultEventQueue
     }
 
     /**
-     * @see EventSink#addEvents(Object[])
+     * @see EventJoin#addEvents(Object[])
      */
     public boolean addEvents( final Object[] events )
     {
@@ -132,7 +139,7 @@ public class DefaultEventQueue
     }
 
     /**
-     * @see EventSink#getSinkLock()
+     * @see EventJoin#getSinkLock()
      */
     public Object getSinkLock()
     {
@@ -140,7 +147,7 @@ public class DefaultEventQueue
     }
 
     /**
-     * @see EventSource#getSourceLock()
+     * @see EventJoin#getSourceLock()
      */
     public Object getSourceLock()
     {
