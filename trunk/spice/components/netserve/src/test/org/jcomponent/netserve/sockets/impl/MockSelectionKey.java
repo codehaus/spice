@@ -14,14 +14,21 @@ import java.nio.channels.Selector;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-09 06:45:48 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-23 03:44:28 $
  */
 class MockSelectionKey
     extends SelectionKey
 {
+    private final SelectableChannel m_channel;
+
+    MockSelectionKey( final SelectableChannel channel )
+    {
+       m_channel = channel;
+    }
+
     public SelectableChannel channel()
     {
-        return null;
+        return m_channel;
     }
 
     public Selector selector()
