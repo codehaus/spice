@@ -17,7 +17,7 @@ import org.apache.oro.text.regex.Perl5Matcher;
  * particular set of include and exclude patterns ala ant.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-05-27 13:07:18 $
+ * @version $Revision: 1.2 $ $Date: 2003-05-28 14:16:53 $
  */
 public class PathMatcher
 {
@@ -38,6 +38,11 @@ public class PathMatcher
     private final Perl5Matcher m_matcher = new Perl5Matcher();
 
     /**
+     * The character that separates elements in VPaths.
+     */
+    private final char m_separator;
+
+    /**
      * Construct a matcher from ant style includes/excludes.
      *
      * @param includes the set of includes
@@ -45,6 +50,20 @@ public class PathMatcher
      */
     public PathMatcher( final String[] includes,
                         final String[] excludes )
+    {
+        this( includes, excludes, '/' );
+    }
+
+    /**
+     * Construct a matcher from ant style includes/excludes.
+     *
+     * @param includes the set of includes
+     * @param excludes the set of excludes
+     * @param separator the separator used to mark end of elements
+     */
+    public PathMatcher( final String[] includes,
+                        final String[] excludes,
+                        final char separator )
     {
         if( null == includes )
         {
@@ -55,6 +74,7 @@ public class PathMatcher
             throw new NullPointerException( "excludes" );
         }
 
+        m_separator = separator;
         m_includes = toPatterns( includes );
         m_excludes = toPatterns( excludes );
     }
@@ -164,7 +184,7 @@ public class PathMatcher
         for( int i = 0; i < size; i++ )
         {
             final char ch = str.charAt( i );
-            if( '.' == ch || '/' == ch || '\\' == ch )
+            if( '.' == ch || m_separator == ch || '\\' == ch )
             {
                 sb.append( '\\' );
                 sb.append( ch );
@@ -173,20 +193,31 @@ public class PathMatcher
             {
                 if( ( i + 2 ) < size &&
                     '*' == str.charAt( i + 1 ) &&
-                    '/' == str.charAt( i + 2 ) )
+                    m_separator == str.charAt( i + 2 ) )
                 {
-                    sb.append( "([^/]*/)*" );
+                    sb.append( "([^\\" );
+                    sb.append( m_separator );
+                    sb.append( "]*\\"  );
+                    sb.append( m_separator );
+                    sb.append( ")*" );
                     i += 2;
                 }
                 else if( ( i + 2 ) == size &&
                     '*' == str.charAt( i + 1 ) )
                 {
-                    sb.append( "([^/]*/)*" );
+
+                    sb.append( "([^\\" );
+                    sb.append( m_separator );
+                    sb.append( "]*\\" );
+                    sb.append( m_separator );
+                    sb.append( ")*" );
                     i += 1;
                 }
                 else
                 {
-                    sb.append( "[^/]+" );
+                    sb.append( "[^\\" );
+                    sb.append( m_separator );
+                    sb.append( "]+" );
                 }
             }
             else
