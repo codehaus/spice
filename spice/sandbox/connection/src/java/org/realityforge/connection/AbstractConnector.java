@@ -18,6 +18,11 @@ public abstract class AbstractConnector
    private ConnectorMonitor _monitor;
 
    /**
+    * The underlying connection.
+    */
+   private ConnectorConnection _connection;
+
+   /**
     * A flag indicating whether the connection
     * is "active".
     */
@@ -68,12 +73,30 @@ public abstract class AbstractConnector
    private String _connectionFailureReason;
 
    /**
+    * Specify the connection that connector will manage.
+    *
+    * @param connection the connection
+    */
+   public void setConnection( final ConnectorConnection connection )
+   {
+      if ( null == connection )
+      {
+         throw new NullPointerException( "connection" );
+      }
+      _connection = connection;
+   }
+
+   /**
     * Specify the monitor to receive events from connector.
     *
     * @param monitor the monitor
     */
-   public void setMonitor( ConnectorMonitor monitor )
+   public void setMonitor( final ConnectorMonitor monitor )
    {
+      if ( null == monitor )
+      {
+         throw new NullPointerException( "monitor" );
+      }
       _monitor = monitor;
    }
 
@@ -258,7 +281,7 @@ public abstract class AbstractConnector
             try
             {
                _lastConnectionTime = now;
-               doConnect();
+               _connection.connect();
                _connectionAttempts = 0;
                _connectionFailureReason = null;
                _monitor.connectionEstablished();
@@ -287,7 +310,7 @@ public abstract class AbstractConnector
             _connected = false;
             try
             {
-               doDisconnect();
+               _connection.disconnect();
             }
             catch ( final Throwable t )
             {
@@ -336,7 +359,7 @@ public abstract class AbstractConnector
          {
             try
             {
-               doValidateConnection();
+               _connection.validateConnection();
             }
             catch ( final Throwable t )
             {
@@ -363,32 +386,4 @@ public abstract class AbstractConnector
    {
       return this;
    }
-
-   /**
-    * Subclasses implement this method to establish the connection.
-    *
-    * @throws Exception if unable to connect
-    */
-   protected abstract void doConnect()
-      throws Exception;
-
-   /**
-    * Subclasses implement this method to disconnect
-    * the connection.
-    *
-    * @throws Exception if unable to connect
-    */
-   protected abstract void doDisconnect()
-      throws Exception;
-
-   /**
-    * Subclasses implement this method to validate
-    * the connection. The validation should involve
-    * explicitly testing that that the connection
-    * is valid.
-    *
-    * @throws Exception if unable to validate connection
-    */
-   protected abstract void doValidateConnection()
-      throws Exception;
 }
