@@ -27,7 +27,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * and building a ClassDescriptor to correspond to the JavaClass
  * object.
  *
- * @version $Revision: 1.14 $ $Date: 2003-09-28 06:08:10 $
+ * @version $Revision: 1.15 $ $Date: 2003-10-03 13:44:25 $
  */
 public class QDoxDescriptorParser
 {
@@ -501,6 +501,7 @@ public class QDoxDescriptorParser
                     break;
 
                 case PARSE_END:
+                default:
                     if( Character.isWhitespace( ch ) )
                     {
                         state = PARSE_KEY_START;
