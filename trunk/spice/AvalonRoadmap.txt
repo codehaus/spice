@@ -1,0 +1,23 @@
+$Id: AvalonRoadmap.txt,v 1.1 2002-11-26 04:30:39 donaldp Exp $
+                     Roadmap for development of 
+                        Avalon Framework
+
+In this document I attempt to outline a future direction for Avalon.
+There is little doubt that there are issues that need to be addressed
+within Avalon. 
+
+Many solutions have been proposed and many discussions have been initiated. 
+At this stage it has mainly been pie in the sky talks that while idealistic 
+lack practical aspects that make them viable paths of evolution.
+
+One thing I really want to avoid is repeating the same mistakes that we have 
+committed in the past. In particular all this talk about a single container
+makes me somewhat nervous. It has been tried before in the past and IMHO the
+issues have not become sufficiently clear that we are certain to avoid the 
+problems of the past. Essentially it comes down to how do we provide the 
+flexability that is required by all interested parties without making the 
+container overly complex, buggy and painful to maintain. For a better 
+explanation of the issues you may want to read an interview with Martin 
+Fowler [1]  who recently discussed some similar issues.
+
+[1] Martin Fowler, Complexity/Flexability Interview - http://www.artima.com/intv/flexplex.html
