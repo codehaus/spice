@@ -262,6 +262,7 @@
         <depend project="commons-pool" runtime="true"/>
         <depend project="commons-collections" runtime="true"/>
         <depend project="spice-configkit" inherit="runtime"/>
+        <depend project="dna-api" runtime="true"/>
         <work nested="components/threadpool/target/classes"/>
         <work nested="components/threadpool/target/test-classes"/>
 
