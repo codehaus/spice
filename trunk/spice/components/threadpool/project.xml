@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>ThreadPool</name>
     <id>threadpool</id>
-    <groupId>components</groupId>
+    <gumpRepositoryId>components</gumpRepositoryId>
 
     <shortDescription>ThreadPool component</shortDescription>
 
