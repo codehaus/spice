@@ -101,6 +101,8 @@
         <report>maven-junit-report-plugin</report>
         <report>maven-clover-plugin</report>
         <report>maven-license-plugin</report>
+        <report>maven-faq-plugin</report>
+        <report>maven-simian-plugin</report>
     </reports>
 
     <dependencies>
