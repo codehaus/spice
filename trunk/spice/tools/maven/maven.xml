@@ -5,6 +5,17 @@
     xmlns:ant="jelly:ant"
     default="java:jar">
 
+<!--
+    <goal name="copyProperties">
+        <j:set var="_props" value="${pom.resolvedProperties()}"/>
+        <j:forEach items="${_props.keySet().iterator()}" var="_key">
+            <j:set var="_val">${_props.get(_key)}</j:set>
+            <echo message="Setting ${_key} to ${_val}"/>
+            <j:set var="${_key}" value="${_val}"/>
+        </j:forEach>
+    </goal>
+-->
+
     <preGoal name="site:generate">
         <mkdir dir="${maven.docs.dest}"/>
         <copy todir="${maven.docs.dest}">
@@ -41,7 +52,7 @@
             </j:file>
             <doc:jslFile
                 input="target/navigation.xml"
-                output="target/navigation2.xml"
+                output="xdocs/navigation.xml"
                 stylesheet="../../tools/navigation.jsl"
                 omitXmlDeclaration="true"
                 outputMode="xml"
