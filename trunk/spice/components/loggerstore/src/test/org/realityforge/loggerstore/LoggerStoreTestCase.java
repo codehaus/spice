@@ -135,8 +135,9 @@ public class LoggerStoreTestCase
         try
         {
             final LoggerManager loggerManager = new Log4JLoggerManager();
+            final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
             final LoggerStore store =
-                new LogKitLoggerStore( loggerManager, null, null, null);
+                new LogKitLoggerStore( loggerManager, null, null, builder.build( getResource( "log4j.xml" ) ) );
             fail( "Expected to get an exception as LoggerManager is invalid." );
         }
         catch( final Exception e )
