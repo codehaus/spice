@@ -7,41 +7,48 @@
  */
 package org.realityforge.packet.session;
 
+import java.util.Collection;
+
 /**
  * Responsible for managing sessions for messaging framework.
  *
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-02-03 04:08:04 $
+ * @version $Revision: 1.4 $ $Date: 2004-02-13 04:41:51 $
  */
 public interface SessionManager
 {
-    /**
-     * Find the session with the specified id.
-     *
-     * @param id the session ID
-     * @return the4 session or null if no such session
-     */
-    Session findSession( long id );
+   /**
+    * Find the session with the specified id.
+    *
+    * @param id the session ID
+    * @return the4 session or null if no such session
+    */
+   Session findSession( long id );
 
-    /**
-     * return the number of sessions.
-     *
-     * @return the number of sessions
-     */
-    int getSessionCount();
+   /**
+    * return the number of sessions.
+    *
+    * @return the number of sessions
+    */
+   int getSessionCount();
 
-    /**
-     * Create a new session.
-     *
-     * @return the new session
-     */
-    Session newSession();
+   /**
+    * Create a new session.
+    *
+    * @return the new session
+    */
+   Session newSession();
 
-    /**
-     * Delete specified session. If session is not managed by this manager then
-     * no action is taken.
-     *
-     * @param session the session
-     */
-    void deleteSession( Session session );
+   /**
+    * Delete specified session. If session is not managed by this manager then
+    * no action is taken.
+    *
+    * @param session the session
+    */
+   void deleteSession( Session session );
+
+   /**
+    * @return a read only set of sessions managed
+    */
+   Collection getSessions();
 }
