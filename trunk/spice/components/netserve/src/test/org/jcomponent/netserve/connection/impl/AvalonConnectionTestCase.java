@@ -14,28 +14,29 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+
 import junit.framework.TestCase;
+
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
+import org.jcomponent.netserve.connection.ConnectionManager;
+import org.jcomponent.threadpool.ThreadPool;
 import org.realityforge.configkit.ConfigValidator;
 import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ValidateException;
-import org.jcomponent.netserve.connection.ConnectionHandlerManager;
-import org.jcomponent.netserve.connection.ConnectionManager;
-import org.jcomponent.threadpool.ThreadPool;
 import org.xml.sax.ErrorHandler;
 
 /**
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-07-13 18:03:53 $
+ * @version $Revision: 1.1 $ $Date: 2003-08-29 19:12:58 $
  */
-public class ConnectionTestCase
+public class AvalonConnectionTestCase
     extends TestCase
 {
     private static final int PORT = 1977;
@@ -72,11 +73,18 @@ public class ConnectionTestCase
      */
     private static final int PRECREATE_DELAY = Integer.parseInt( System.getProperty( "netserve.precreate.delay", "100" ) );
 
-    public ConnectionTestCase( final String name )
+    ConnectionMonitor m_monitor;
+
+    public AvalonConnectionTestCase( final String name )
     {
         super( name );
     }
 
+    public void setUp(){
+        m_monitor = new AvalonConnectionMonitor();
+        ContainerUtil.enableLogging( m_monitor, new ConsoleLogger() ) ;        
+    }
+    
     public void testSchemaValidation()
         throws Exception
     {
@@ -100,7 +108,7 @@ public class ConnectionTestCase
     public void testDoNothingDCM()
         throws Exception
     {
-        final DefaultConnectionManager cm =
+        final AvalonConnectionManager cm =
             createCM( true, 50, true, 200 );
         try
         {
@@ -201,9 +209,9 @@ public class ConnectionTestCase
         cm.disconnect( "q", true );
     }
 
-    private DefaultConnectionManager createCM( boolean addThreadPool, final int soTimeoutVal, final boolean forceShutdown, final int shutdownTimeout ) throws ServiceException, ConfigurationException
+    private AvalonConnectionManager createCM( boolean addThreadPool, final int soTimeoutVal, final boolean forceShutdown, final int shutdownTimeout ) throws ServiceException, ConfigurationException
     {
-        final DefaultConnectionManager cm = new DefaultConnectionManager();
+        final AvalonConnectionManager cm = new AvalonConnectionManager();
         cm.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
         //cm.enableLogging( new ConsoleLogger() );
 
@@ -240,8 +248,8 @@ public class ConnectionTestCase
             new ConnectionAcceptor( name,
                                     serverSocket,
                                     handlerManager,
+                                    m_monitor,
                                     null );
-        acceptor.enableLogging( new ConsoleLogger() );
         Socket socket = null;
         try
         {
@@ -260,7 +268,8 @@ public class ConnectionTestCase
                 new ConnectionRunner( null,
                                       socket,
                                       handlerManager,
-                                      acceptor );
+                                      acceptor,
+                                      m_monitor );
                 fail( "Expected a NPE" );
             }
             catch( NullPointerException e )
@@ -272,7 +281,8 @@ public class ConnectionTestCase
                 new ConnectionRunner( name,
                                       socket,
                                       handlerManager,
-                                      null );
+                                      null,
+                                      m_monitor );
                 fail( "Expected a NPE" );
             }
             catch( NullPointerException e )
@@ -285,7 +295,8 @@ public class ConnectionTestCase
                 new ConnectionRunner( name,
                                       null,
                                       handlerManager,
-                                      acceptor );
+                                      acceptor,
+                                      m_monitor );
                 fail( "Expected a NPE" );
             }
             catch( NullPointerException e )
@@ -298,7 +309,8 @@ public class ConnectionTestCase
                 new ConnectionRunner( name,
                                       socket,
                                       null,
-                                      acceptor );
+                                      acceptor,
+                                      m_monitor );
                 fail( "Expected a NPE" );
             }
             catch( NullPointerException e )
@@ -311,6 +323,7 @@ public class ConnectionTestCase
                 new ConnectionAcceptor( null,
                                         serverSocket,
                                         handlerManager,
+                                        m_monitor,
                                         null );
                 fail( "Expected a NPE" );
             }
@@ -324,6 +337,7 @@ public class ConnectionTestCase
                 new ConnectionAcceptor( name,
                                         null,
                                         handlerManager,
+                                        m_monitor,
                                         null );
                 fail( "Expected a NPE" );
             }
@@ -336,6 +350,7 @@ public class ConnectionTestCase
                 new ConnectionAcceptor( name,
                                         serverSocket,
                                         null,
+                                        m_monitor,
                                         null );
                 fail( "Expected a NPE" );
             }
@@ -383,8 +398,8 @@ public class ConnectionTestCase
                 new ConnectionAcceptor( "test-" + getName() + "-",
                                         serverSocket,
                                         new RandmoizingHandler(),
+                                        m_monitor,
                                         null );
-            acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
             start( acceptor );
 
             final ArrayList list = new ArrayList();
@@ -424,8 +439,8 @@ public class ConnectionTestCase
                 new ConnectionAcceptor( "test-" + getName() + "-",
                                         serverSocket,
                                         chm,
+                                        m_monitor,
                                         null );
-            acceptor.enableLogging( new ConsoleLogger() );
             startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 0, false );
@@ -474,8 +489,8 @@ public class ConnectionTestCase
                 new ConnectionAcceptor( "test-" + getName() + "-",
                                         serverSocket,
                                         chm,
+                                        m_monitor,
                                         new TestThreadPool() );
-            acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
             startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 0, false );
@@ -505,8 +520,8 @@ public class ConnectionTestCase
                 new ConnectionAcceptor( "test-" + getName() + "-",
                                         serverSocket,
                                         chm,
+                                        m_monitor,
                                         new TestThreadPool() );
-            acceptor.enableLogging( new ConsoleLogger() );
             startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 5, true );
@@ -527,8 +542,8 @@ public class ConnectionTestCase
                 new ConnectionAcceptor( "test-" + getName() + "-",
                                         serverSocket,
                                         new ExceptingHandlerManager(),
+                                        m_monitor,
                                         null );
-            acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
             startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 5, true );
@@ -551,8 +566,8 @@ public class ConnectionTestCase
                 new ConnectionAcceptor( "test-" + getName() + "-",
                                         serverSocket,
                                         chm,
+                                        m_monitor,
                                         null );
-            acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
             startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 5, true );
@@ -571,12 +586,14 @@ public class ConnectionTestCase
         {
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
             chm.addHandler( new DelayingConnectionHandler( 200 ) );
+            final ConnectionMonitor monitor = new AvalonConnectionMonitor();
+            ContainerUtil.enableLogging( monitor, new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
             final ConnectionAcceptor acceptor =
                 new ConnectionAcceptor( "test-" + getName() + "-",
                                         serverSocket,
                                         chm,
+                                        monitor,
                                         null );
-            acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
             startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 5, true );
@@ -594,12 +611,14 @@ public class ConnectionTestCase
         try
         {
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
+            final ConnectionMonitor monitor = new AvalonConnectionMonitor();
+            ContainerUtil.enableLogging( monitor, new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
             final ConnectionAcceptor acceptor =
                 new ConnectionAcceptor( "test-" + getName() + "-",
                                         serverSocket,
                                         chm,
+                                        monitor,
                                         null );
-            acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
             startAndWait( acceptor );
             doClientConnect();
             acceptor.close( 5, true );

@@ -8,17 +8,15 @@
 package org.jcomponent.netserve.connection.impl;
 
 import java.net.Socket;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.jcomponent.netserve.connection.ConnectionHandler;
 
 /**
  * This class is responsible for handling a single connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-29 19:12:58 $
  */
 class ConnectionRunner
-    extends AbstractLogEnabled
     implements Runnable
 {
     /**
@@ -44,6 +42,11 @@ class ConnectionRunner
     private final ConnectionAcceptor m_acceptor;
 
     /**
+     * The ConnectionMonitor for event notification.
+     */
+    private final ConnectionMonitor m_monitor;
+
+    /**
      * The thread that this runner is operating in. Will be set to null
      * when runner is done.
      */
@@ -65,7 +68,8 @@ class ConnectionRunner
     ConnectionRunner( final String name,
                       final Socket socket,
                       final ConnectionHandler handler,
-                      final ConnectionAcceptor acceptor )
+                      final ConnectionAcceptor acceptor,
+                      final ConnectionMonitor monitor )
     {
         if( null == name )
         {
@@ -83,10 +87,15 @@ class ConnectionRunner
         {
             throw new NullPointerException( "acceptor" );
         }
+        if( null == monitor )
+        {
+            throw new NullPointerException( "monitor" );
+        }
         m_name = name;
         m_socket = socket;
         m_acceptor = acceptor;
         m_handler = handler;
+        m_monitor = monitor;
     }
 
     /**
@@ -144,7 +153,7 @@ class ConnectionRunner
         {
             final String message =
                 "Error handling connection '" + m_name + "' due to: " + e;
-            getLogger().warn( message, e );
+            m_monitor.unexpectedError( message, e );
         }
         finally
         {
@@ -164,14 +173,17 @@ class ConnectionRunner
      */
     private void debugBanner( final boolean starting )
     {
-        if( getLogger().isDebugEnabled() )
+
+        if ( starting )
         {
-            final String prefix = ( starting ) ? "Starting" : "Ending";
-            final String message =
-                prefix + " connection '" + m_name + "' on " +
-                m_socket.getInetAddress().getHostAddress();
-            getLogger().debug( message );
+            m_monitor.connectionStarting( m_name, 
+                                          m_socket.getInetAddress().getHostAddress() );
+        } else 
+        {
+            m_monitor.connectionEnding( m_name,
+                                        m_socket.getInetAddress().getHostAddress() );
         }
+            
     }
 
     /**

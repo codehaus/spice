@@ -13,7 +13,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+
 import org.jcomponent.netserve.connection.ConnectionHandler;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 import org.jcomponent.threadpool.ThreadPool;
@@ -22,10 +22,9 @@ import org.jcomponent.threadpool.ThreadPool;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-07-13 18:03:53 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-29 19:12:58 $
  */
 class ConnectionAcceptor
-    extends AbstractLogEnabled
     implements Runnable
 {
     /**
@@ -42,6 +41,11 @@ class ConnectionAcceptor
      * The ConnectionHandlerManager that we create ConnectionHandlers from.
      */
     private final ConnectionHandlerManager m_handlerManager;
+
+    /**
+     * The ConnectionMonitor for event notification.
+     */
+    private final ConnectionMonitor m_monitor;
 
     /**
      * The thread pool we use to create threads to handle connections.
@@ -82,6 +86,7 @@ class ConnectionAcceptor
     ConnectionAcceptor( final String name,
                         final ServerSocket serverSocket,
                         final ConnectionHandlerManager handlerManager,
+                        final ConnectionMonitor monitor,
                         final ThreadPool threadPool )
     {
         if( null == name )
@@ -96,9 +101,14 @@ class ConnectionAcceptor
         {
             throw new NullPointerException( "handlerManager" );
         }
+        if( null == monitor )
+        {
+            throw new NullPointerException( "monitor" );
+        }
         m_name = name;
         m_serverSocket = serverSocket;
         m_handlerManager = handlerManager;
+        m_monitor = monitor;
         m_threadPool = threadPool;
     }
 
@@ -112,11 +122,7 @@ class ConnectionAcceptor
      */
     void close( final int waitTime, final boolean forceShutdown )
     {
-        if( getLogger().isInfoEnabled() )
-        {
-            final String message = "Closing Acceptor " + m_name + ".";
-            getLogger().info( message );
-        }
+        m_monitor.acceptorClosed( m_name );
 
         final ConnectionRunner[] runners;
         synchronized( this )
@@ -143,12 +149,7 @@ class ConnectionAcceptor
         }
         while( isRunning() )
         {
-            if( getLogger().isDebugEnabled() )
-            {
-                final String message =
-                    "About to call accept() on ServerSocket '" + m_name + "'.";
-                getLogger().debug( message );
-            }
+            m_monitor.serverSocketListening( m_name );
             try
             {
                 final Socket socket = m_serverSocket.accept();
@@ -169,7 +170,7 @@ class ConnectionAcceptor
             {
                 final String message =
                     "Exception accepting connection due to: " + ioe;
-                getLogger().error( message, ioe );
+                m_monitor.unexpectedError( message, ioe );
             }
         }
 
@@ -187,11 +188,7 @@ class ConnectionAcceptor
      */
     private synchronized void shutdownServerSocket()
     {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = "Closing ServerSocket " + m_name + ".";
-            getLogger().debug( message );
-        }
+        m_monitor.serverSocketClosing( m_name );
         m_done = true;
         try
         {
@@ -201,7 +198,7 @@ class ConnectionAcceptor
         {
             final String message =
                 "Error closing ServerSocket on " + m_name + " due to: " + ioe;
-            getLogger().error( message, ioe );
+            m_monitor.unexpectedError( message, ioe );
         }
     }
 
@@ -225,18 +222,12 @@ class ConnectionAcceptor
      */
     void disposeRunner( final ConnectionRunner runner )
     {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = "Disposing runner " + runner + ".";
-            getLogger().debug( message );
-        }
+        m_monitor.runnerDisposing( runner );
         synchronized( this )
         {
             if( !m_runners.remove( runner ) )
             {
-                final String message = "Attempting to dispose runner " +
-                    runner + " that has already been disposed.";
-                getLogger().warn( message );
+                m_monitor.runnerAlreadyDisposed( runner );
                 return;
             }
         }
@@ -260,11 +251,8 @@ class ConnectionAcceptor
             }
             catch( final IOException ioe )
             {
-                if( getLogger().isInfoEnabled() )
-                {
-                    final String message = "Error closing socket " + socket + ".";
-                    getLogger().info( message, ioe );
-                }
+                final String message = "Error closing socket " + socket + ".";
+                m_monitor.unexpectedError( message, ioe );
             }
         }
     }
@@ -292,24 +280,19 @@ class ConnectionAcceptor
             }
             final String message =
                 "Unable to create ConnectionHandler due to: " + e;
-            getLogger().error( message, e );
+            m_monitor.unexpectedError( message, e);
             return;
         }
 
         final String name = m_name + m_id;
         m_id++;
 
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = "Creating ConnectionRunner " + name + ".";
-            getLogger().debug( message );
-        }
-        final ConnectionRunner runner = new ConnectionRunner( name, socket, handler, this );
+        m_monitor.runnerCreating( name );
+        final ConnectionRunner runner = new ConnectionRunner( name, socket, handler, this, m_monitor );
         synchronized( this )
         {
             m_runners.add( runner );
         }
-        setupLogger( runner );
         if( null != m_threadPool )
         {
             m_threadPool.execute( runner );
@@ -331,12 +314,7 @@ class ConnectionAcceptor
     private synchronized void stopRunning( final int waitTime,
                                            final boolean forceShutdown )
     {
-        if( getLogger().isDebugEnabled() )
-        {
-            final String message = "Stopping Acceptor " + m_name + ".";
-            getLogger().debug( message );
-        }
-
+        m_monitor.acceptorStopping( m_name );
         m_done = true;
         final Thread thread = m_thread;
         m_thread = null;
