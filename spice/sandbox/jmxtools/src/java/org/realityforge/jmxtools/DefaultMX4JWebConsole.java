@@ -154,7 +154,6 @@ public class DefaultMX4JWebConsole
    {
       _processorName = new ObjectName( "Http:name=XSLTProcessor" );
       _mBeanServer.createMBean( "mx4j.adaptor.http.XSLTProcessor", _processorName, null );
-      _mBeanServer.setAttribute( _processorName, new Attribute( "UseCache", new Boolean( false ) ) );
       _mBeanServer.setAttribute( _httpName, new Attribute( "ProcessorName", _processorName ) );
    }
 
