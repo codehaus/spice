@@ -14,11 +14,14 @@ import org.realityforge.converter.ConverterFactory;
  * A ConverterFactory that creates converter instances using reflection.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003-03-25 02:51:26 $
+ * @version $Revision: 1.4 $ $Date: 2003-04-04 11:29:26 $
  */
 public class SimpleConverterFactory
     implements ConverterFactory
 {
+    /**
+     * The class from which to instantiate converters.
+     */
     private Class m_converterClass;
 
     public SimpleConverterFactory( final Class converterClass )
