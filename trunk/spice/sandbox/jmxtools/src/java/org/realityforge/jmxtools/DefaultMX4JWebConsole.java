@@ -122,6 +122,7 @@ public class DefaultMX4JWebConsole
    private void setupHttpAdaptor()
       throws Exception
    {
+      getLogger().info( "Starting Http Adaptor on " + _address + ":" + _port );
       _httpName = new ObjectName( "Http:name=HttpAdaptor" );
       _mBeanServer.createMBean( "mx4j.adaptor.http.HttpAdaptor",
                                 _httpName,
