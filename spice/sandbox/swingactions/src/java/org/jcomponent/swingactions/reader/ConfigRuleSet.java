@@ -47,26 +47,26 @@ public class ConfigRuleSet extends RuleSetBase {
              "org.jcomponent.swingactions.metadata.ActionMetaData");
 
         digester.addRule
-            ("swingactions/action-set/action-group",
+            ("swingactions/action-groups/group",
              new SetGroupIdRule());
              
         digester.addFactoryCreate
-            ("swingactions/action-set/action-group/action",
+            ("swingactions/action-groups/group/group-action",
              new GroupActionFactory());
         digester.addSetProperties
-            ("swingactions/action-set/action-group/action");
+            ("swingactions/action-groups/group/group-action");
         digester.addSetNext
-            ("swingactions/action-set/action-group/action",
+            ("swingactions/action-groups/group/group-action",
              "addGroupActionMetaData",
              "org.jcomponent.swingactions.metadata.GroupActionMetaData");
 
         digester.addFactoryCreate
-            ("swingactions/action-set/action-group/separator",
+            ("swingactions/action-groups/group/separator",
              new SeparatorActionFactory());
         digester.addSetProperties
-            ("swingactions/action-set/action-group/separator");
+            ("swingactions/action-groups/group/separator");
         digester.addSetNext
-            ("swingactions/action-set/action-group/separator",
+            ("swingactions/action-groups/group/separator",
              "addSeparatorActionMetaData",
              "org.jcomponent.swingactions.metadata.SeparatorActionMetaData");
 
