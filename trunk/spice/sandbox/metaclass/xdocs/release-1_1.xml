@@ -92,6 +92,9 @@
                     The runtime will attempt to load XML descriptors if binary
                     descriptors are not present.
                 </li>
+                <li>
+                    Documented the ant task.
+                </li>
             </ul>
         </section>
     </body>

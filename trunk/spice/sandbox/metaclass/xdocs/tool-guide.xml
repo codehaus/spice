@@ -16,6 +16,7 @@
                 <li><a href="precompile.html">Pre-Compilation</a></li>
                 <li><a href="filtering.html">Pre-Compilation Filtering</a></li>
                 <li><a href="interception.html">Pre-Compilation Interception</a></li>
+                <li><a href="task.html">Ant Task Reference</a></li>
             </ul>
         </section>
     </body>
