@@ -23,14 +23,17 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  * This is a utility class that writes out a Attributes object to a stream using
  * binary format outlined in documentation.
- * 
+ *
  * @author Peter Donald
  * @author Doug Hagan
- * @version $Revision: 1.23 $ $Date: 2003-12-08 23:30:10 $
+ * @version $Revision: 1.24 $ $Date: 2003-12-10 22:41:23 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
 {
+    /** Constant with instance of MetaClassIO. */
+    public static final MetaClassIOBinary IO = new MetaClassIOBinary();
+
     /** The current version of Attributes object. */
     static final int VERSION = 2;
 
@@ -80,7 +83,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out a set of fields.
-     * 
+     *
      * @param data the output stream
      * @param fields the fields
      * @throws IOException if unable to write fields
@@ -99,7 +102,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out a field.
-     * 
+     *
      * @param data the output stream
      * @param field the field
      * @throws IOException if unable to write field
@@ -115,7 +118,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out a set of methods.
-     * 
+     *
      * @param data the output stream
      * @param methods the methods
      * @throws IOException if unable to write methods
@@ -134,7 +137,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out a method.
-     * 
+     *
      * @param data the output stream
      * @param method the method
      * @throws IOException if unable to write method
@@ -151,7 +154,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a set of methods.
-     * 
+     *
      * @param data the input
      * @return the methods
      * @throws IOException if unable to read methods
@@ -176,7 +179,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a method.
-     * 
+     *
      * @param data the input
      * @return the method
      * @throws IOException if unable to read method
@@ -198,7 +201,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a set of fields.
-     * 
+     *
      * @param data the input
      * @return the fields
      * @throws IOException if unable to read fields
@@ -223,7 +226,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a field.
-     * 
+     *
      * @param data the input
      * @return the field
      * @throws IOException if unable to read field
@@ -239,7 +242,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a set of method parameters.
-     * 
+     *
      * @param data the input
      * @return the method parameters
      * @throws IOException if unable to read parameters
@@ -264,7 +267,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a method parameter.
-     * 
+     *
      * @param data the input
      * @return the method parameter
      * @throws IOException if unable to read parameter
@@ -279,7 +282,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out a set of method parameters.
-     * 
+     *
      * @param data the output stream
      * @param parameters the method parameters
      * @throws IOException if unable to write parameters
@@ -298,7 +301,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out a method parameter.
-     * 
+     *
      * @param data the output stream
      * @param parameter the method parameter
      * @throws IOException if unable to write parameter
@@ -313,7 +316,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a set of attributes.
-     * 
+     *
      * @param data the input stream
      * @return the attributes
      * @throws IOException if unable to read attributes
@@ -361,7 +364,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a set of attribute parameters.
-     * 
+     *
      * @param data the input
      * @return the parameters
      * @throws IOException if unable to read attribute parameters
@@ -384,7 +387,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out the specified attributes.
-     * 
+     *
      * @param data the output
      * @param attributes the attributes
      * @throws IOException if unable to write attributes
@@ -415,7 +418,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out the parameters of an attribute.
-     * 
+     *
      * @param data the output
      * @param attribute the attribute
      * @throws IOException if unable to write attribute parameters
@@ -445,7 +448,7 @@ public class MetaClassIOBinary
     /**
      * Read version header of descriptor to make sure it is something we can
      * handle and if not throw an exception.
-     * 
+     *
      * @param data the input stream
      * @throws IOException if unable to handle version
      */
@@ -457,7 +460,8 @@ public class MetaClassIOBinary
         {
             final String message =
                 "Version mismatch." +
-                " Expected: " + VERSION +
+                " Expected: " +
+                VERSION +
                 " Actual: " + version;
             throw new IOException( message );
         }

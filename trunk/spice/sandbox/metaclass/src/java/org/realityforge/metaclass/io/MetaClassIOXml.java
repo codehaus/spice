@@ -21,88 +21,61 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 import org.w3c.dom.Document;
 
 /**
- * This is a utility class that writes out the ClassDescriptor
- * to a stream using the xml format outlined in documentation.
+ * This is a utility class that writes out the ClassDescriptor to a stream using
+ * the xml format outlined in documentation.
  *
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2003-11-27 08:09:53 $
+ * @version $Revision: 1.11 $ $Date: 2003-12-10 22:42:04 $
  */
 public class MetaClassIOXml
     implements MetaClassIO
 {
-    /**
-     * The current version of ClassDescriptor XML format.
-     */
+    /** Constant with instance of MetaClassIO. */
+    public static final MetaClassIOXml IO = new MetaClassIOXml();
+
+    /** The current version of ClassDescriptor XML format. */
     static final String VERSION = "1.0";
 
-    /**
-     * Constant for name of class element.
-     */
+    /** Constant for name of class element. */
     static final String CLASS_ELEMENT = "class";
 
-    /**
-     * Constant for name of fields element.
-     */
+    /** Constant for name of fields element. */
     static final String FIELDS_ELEMENT = "fields";
 
-    /**
-     * Constant for name of field element.
-     */
+    /** Constant for name of field element. */
     static final String FIELD_ELEMENT = "field";
 
-    /**
-     * Constant for name of methods element.
-     */
+    /** Constant for name of methods element. */
     static final String METHODS_ELEMENT = "methods";
 
-    /**
-     * Constant for name of method element.
-     */
+    /** Constant for name of method element. */
     static final String METHOD_ELEMENT = "method";
 
-    /**
-     * Constant for name of method parameters group element.
-     */
+    /** Constant for name of method parameters group element. */
     static final String PARAMETERS_ELEMENT = "parameters";
 
-    /**
-     * Constant for name of method parameters element.
-     */
+    /** Constant for name of method parameters element. */
     static final String PARAMETER_ELEMENT = "parameter";
 
-    /**
-     * Constant for name of attributes element.
-     */
+    /** Constant for name of attributes element. */
     static final String ATTRIBUTES_ELEMENT = "attributes";
 
-    /**
-     * Constant for name of attribute element.
-     */
+    /** Constant for name of attribute element. */
     static final String ATTRIBUTE_ELEMENT = "attribute";
 
-    /**
-     * Constant for name of attribute parameter element.
-     */
+    /** Constant for name of attribute parameter element. */
     static final String PARAM_ELEMENT = "param";
 
-    /**
-     * Constant for name of name attribute.
-     */
+    /** Constant for name of name attribute. */
     static final String NAME_ATTRIBUTE = "name";
 
-    /**
-     * Constant for name of type attribute.
-     */
+    /** Constant for name of type attribute. */
     static final String TYPE_ATTRIBUTE = "type";
 
-    /**
-     * Constant for name of value attribute.
-     */
+    /** Constant for name of value attribute. */
     static final String VALUE_ATTRIBUTE = "value";
 
-    /**
-     * Constant for name of version attribute.
-     */
+    /** Constant for name of version attribute. */
     static final String VERSION_ATTRIBUTE = "version";
 
     /**
@@ -112,10 +85,10 @@ public class MetaClassIOXml
         throws Exception
     {
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            final DocumentBuilder builder = factory.newDocumentBuilder();
-            final Document document = builder.parse( input );
-            final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
-            return deserializer.buildClassDescriptor( document );
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        final Document document = builder.parse( input );
+        final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+        return deserializer.buildClassDescriptor( document );
     }
 
     /**
