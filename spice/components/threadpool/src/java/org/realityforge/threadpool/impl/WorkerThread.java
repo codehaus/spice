@@ -18,7 +18,7 @@ import org.realityforge.threadpool.ThreadControl;
  * This class extends the Thread class to add recyclable functionalities.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-03-01 03:08:15 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-04 13:37:55 $
  */
 public class WorkerThread
     extends Thread
@@ -65,7 +65,7 @@ public class WorkerThread
         {
             throw new NullPointerException( "pool" );
         }
-
+        setName( name );
         m_name = name;
         m_work = null;
         m_alive = true;
@@ -77,7 +77,7 @@ public class WorkerThread
     /**
      * The main execution loop.
      */
-    public final synchronized void run()
+    public final void run()
     {
         debug( "starting." );
 
@@ -118,10 +118,13 @@ public class WorkerThread
                 postExecute();
             }
 
-            //should this be just notify or notifyAll ???
-            //It seems to resource intensive option to use notify()
-            //notifyAll();
-            notify();
+            synchronized( this )
+            {
+                //should this be just notify or notifyAll ???
+                //It seems to resource intensive option to use notify()
+                //notifyAll();
+                notify();
+            }
 
             // recycle ourselves
             recycleThread();
@@ -135,7 +138,7 @@ public class WorkerThread
     {
         if( m_alive )
         {
-            m_pool.releaseWorker( this );
+            m_pool.threadCompleted( this );
         }
     }
 
@@ -164,11 +167,33 @@ public class WorkerThread
      * does not change the state of the worker (that must be destroyed in other
      * ways).
      */
-    public void dispose()
+    void dispose( final int maxWait )
     {
         debug( "destroying." );
         m_alive = false;
-        waitUntilCondition( false );
+        interrupt();
+        synchronized( this )
+        {
+            final long start = System.currentTimeMillis();
+            while( null == m_work )
+            {
+                final long now = System.currentTimeMillis();
+                final long diff = now - start;
+                if( diff > maxWait )
+                {
+                    return;
+                }
+                try
+                {
+                    debug( "waiting." );
+                    wait( maxWait - diff );
+                    debug( "notified." );
+                }
+                catch( final InterruptedException ie )
+                {
+                }
+            }
+        }
     }
 
     /**
@@ -191,11 +216,13 @@ public class WorkerThread
      * execute and <i>notifies</i> its thread to do it. Wait
      * until the executable has finished before returning.
      */
+/*
     protected synchronized void executeAndWait( final Executable work )
     {
         execute( work );
         waitUntilCondition( false );
     }
+*/
 
     /**
      * Wait until the worker either has work or doesn't have work.
@@ -227,10 +254,6 @@ public class WorkerThread
      */
     protected void debug( final String message )
     {
-        if( false )
-        {
-            final String output = getName() + ": " + message;
-            System.out.println( output );
-        }
+        //System.out.println( getName() + "::" + message );
     }
 }
