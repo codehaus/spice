@@ -16,24 +16,56 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.service.DefaultServiceManager;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.realityforge.configkit.ConfigValidator;
 import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ValidateException;
 import org.realityforge.netserve.connection.ConnectionHandlerManager;
 import org.realityforge.netserve.connection.ConnectionManager;
+import org.realityforge.threadpool.ThreadPool;
 import org.xml.sax.ErrorHandler;
 
 /**
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-04-23 10:00:20 $
+ * @version $Revision: 1.14 $ $Date: 2003-04-23 11:10:49 $
  */
 public class ConnectionTestCase
     extends TestCase
 {
     private static final int PORT = 1977;
     private static final InetAddress HOST = getLocalHost();
+
+    private static final int TEST_COUNT = 16;
+
+    private static final boolean[] ADD_TP = new boolean[]
+    {
+        false, true, false, true, false, true, false, true,
+        false, true, false, true, false, true, false, true
+    };
+
+    private static final int[] SO_TIMEOUT = new int[]
+    {
+        50, 50, 0, 0, 50, 50, 0, 0,
+        50, 50, 0, 0, 50, 50, 0, 0
+    };
+
+    private static final boolean[] FORCE_SHUTDOWN = new boolean[]
+    {
+        true, true, true, true, false, false, false, false,
+        true, true, true, true, false, false, false, false
+    };
+
+    private static final int[] SHUTDOWN_TIMEOUT = new int[]
+    {
+        200, 200, 200, 200, 200, 200, 200, 200,
+        0, 0, 0, 0, 0, 0, 0, 0
+    };
 
     public ConnectionTestCase( final String name )
     {
@@ -58,7 +90,126 @@ public class ConnectionTestCase
         {
             fail( "Unexpected validation failure: " + e );
         }
-        final ConnectionManager cm = null;
+    }
+
+    public void testDoNothingDCM()
+        throws Exception
+    {
+        final DefaultConnectionManager cm =
+            createCM( true, 50, true, 200 );
+        try
+        {
+            //do nothing
+        }
+        finally
+        {
+            cm.dispose();
+        }
+    }
+
+    public void testDCM()
+        throws Exception
+    {
+        for( int i = 0; i < TEST_COUNT; i++ )
+        {
+            doCMTests( i );
+        }
+    }
+
+    private void doCMTests( int i ) throws Exception, ConfigurationException
+    {
+        final ConnectionManager cm = createCM( ADD_TP[ i ],
+                                               SO_TIMEOUT[ i ],
+                                               FORCE_SHUTDOWN[ i ],
+                                               SHUTDOWN_TIMEOUT[ i ] );
+        try
+        {
+            runCMTests( cm );
+        }
+        finally
+        {
+            ContainerUtil.dispose( cm );
+        }
+    }
+
+    private void runCMTests( final ConnectionManager cm ) throws Exception
+    {
+        final RandmoizingHandler handler = new RandmoizingHandler();
+        cm.connect( "a", new ServerSocket( PORT, 5, HOST ), handler );
+        cm.disconnect( "a", false );
+        cm.connect( "a", new ServerSocket( PORT, 5, HOST ), handler );
+        cm.disconnect( "a", true );
+        cm.connect( "a", new ServerSocket( PORT, 5, HOST ), handler );
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        cm.disconnect( "a", true );
+        cm.connect( "a", new ServerSocket( PORT, 5, HOST ), handler, null );
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        cm.disconnect( "a", true );
+        cm.connect( "a", new ServerSocket( PORT, 5, HOST ), handler, new TestThreadPool() );
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        cm.disconnect( "a", true );
+        cm.connect( "a", new ServerSocket( PORT, 5, HOST ), handler );
+        runClientConnect();
+        runClientConnect();
+        runClientConnect();
+        runClientConnect();
+        cm.disconnect( "a", true );
+        try
+        {
+            cm.disconnect( "a", true );
+            fail( "Was able to disconnect non-connections" );
+        }
+        catch( Exception e )
+        {
+        }
+        cm.connect( "p", new ServerSocket( PORT, 5, HOST ), handler );
+        //cm.connect( "q", new ServerSocket( PORT + 33, 5, HOST ), handler );
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        doClientConnect();
+        cm.disconnect( "p", false );
+        //cm.disconnect( "q", true );
+    }
+
+    private DefaultConnectionManager createCM( boolean addThreadPool, final int soTimeoutVal, final boolean forceShutdown, final int shutdownTimeout ) throws ServiceException, ConfigurationException
+    {
+        final DefaultConnectionManager cm = new DefaultConnectionManager();
+        cm.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
+
+        final DefaultServiceManager manager = new DefaultServiceManager();
+        if( addThreadPool )
+        {
+            manager.put( ThreadPool.ROLE, new TestThreadPool() );
+        }
+        cm.service( manager );
+
+        final DefaultConfiguration config = new DefaultConfiguration( "root", "" );
+        final DefaultConfiguration soTimeoutConfig = new DefaultConfiguration( "soTimeout", "" );
+        soTimeoutConfig.setValue( String.valueOf( soTimeoutVal ) );
+        config.addChild( soTimeoutConfig );
+        final DefaultConfiguration forceShutdownConfig =
+            new DefaultConfiguration( "forceShutdown", "" );
+        forceShutdownConfig.setValue( String.valueOf( forceShutdown ) );
+        config.addChild( forceShutdownConfig );
+        final DefaultConfiguration shutdownTimeoutConfig =
+            new DefaultConfiguration( "shutdownTimeout", "" );
+        shutdownTimeoutConfig.setValue( String.valueOf( shutdownTimeout ) );
+        config.addChild( shutdownTimeoutConfig );
+        cm.configure( config );
+        return cm;
     }
 
     public void testNullInCtor()
@@ -454,9 +605,14 @@ public class ConnectionTestCase
     {
         try
         {
+            if( serverSocket.isBound() )
+            {
+                serverSocket.setSoTimeout( 1 );
+            }
             serverSocket.close();
+            Thread.sleep( 50 );
         }
-        catch( IOException ioe )
+        catch( final Exception e )
         {
         }
     }
