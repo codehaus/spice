@@ -12,7 +12,7 @@ import org.realityforge.threadpool.ThreadPool;
 
 /**
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-23 01:45:04 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 01:49:28 $
  */
 public interface ConnectionManager
 {
@@ -24,9 +24,22 @@ public interface ConnectionManager
                   ThreadPool threadPool )
         throws Exception;
 
+    /**
+     * Start managing a connection. Once a connection is managed by
+     * this service it will accept connections from ServerSocket and pass
+     * the connections to the ConnectionHandlers.
+     *
+     * @param name the name of connection. This serves as a key
+     * @param socket the ServerSocket from which connections are accepted
+     * @param handlerManager the manager from which to aquire handlers and
+     *                       release them afterwards
+     * @throws Exception if unable to initiate connection management. This could
+     *                   be due to the key already being used for another connection
+     *                   the serversocket being closed, the handlerManager being null etc.
+     */
     void connect( String name,
                   ServerSocket socket,
-                  ConnectionHandlerManager handlerFactory )
+                  ConnectionHandlerManager handlerManager )
         throws Exception;
 
     /**
