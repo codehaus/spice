@@ -185,7 +185,7 @@ public class ConnectorTestCase
       connector.connect();
       final long now = System.currentTimeMillis();
 
-      assertEqualTime( "getPingTime", now, connector.getPingTime() );
+      assertEqualTime( "getPingTime", now, connector.getLastPingTime() );
 
       assertEquals( "getLastRxMessage", null, connector.getLastRxMessage() );
       assertEquals( "getLastTxMessage", null, connector.getLastTxMessage() );
@@ -217,7 +217,7 @@ public class ConnectorTestCase
       connector.connect();
       final long now = System.currentTimeMillis();
 
-      assertEqualTime( "getPingTime", now, connector.getPingTime() );
+      assertEqualTime( "getPingTime", now, connector.getLastPingTime() );
       assertEqualTime( "getLastConnectionTime", now, connector.getLastConnectionTime() );
       assertEquals( "getLastRxMessage", null, connector.getLastRxMessage() );
       assertEquals( "getLastTxMessage", null, connector.getLastTxMessage() );
@@ -526,7 +526,7 @@ public class ConnectorTestCase
       connector.ping();
 
       final long now = System.currentTimeMillis();
-      assertEqualTime( "getPingTime", now, connector.getPingTime() );
+      assertEqualTime( "getPingTime", now, connector.getLastPingTime() );
       assertEquals( "isConnected", true, connector.isConnected() );
 
       connectorMock.verify();
@@ -618,6 +618,58 @@ public class ConnectorTestCase
 
       policyMock.verify();
       connectorMock.verify();
+   }
+
+   public void testCheckPingThatPings()
+      throws Exception
+   {
+      final Connector connector = new Connector();
+
+      final Mock monitorMock = new Mock( ConnectorMonitor.class );
+      monitorMock.expect( "attemptingValidation", C.NO_ARGS );
+      final ConnectorMonitor monitor = (ConnectorMonitor) monitorMock.proxy();
+
+      final Mock policyMock = new Mock( PingPolicy.class );
+      policyMock.expectAndReturn( "checkPingConnection", C.args( C.eq( connector ) ), true );
+      policyMock.expectAndReturn( "nextPingCheck", C.args( C.eq( connector.getLastPingTime() ) ), new Long( 52 ) );
+      final PingPolicy policy = (PingPolicy) policyMock.proxy();
+
+      connector.setMonitor( monitor );
+      connector.setPingPolicy( policy );
+      connector.setActive( false );
+
+      final long result = connector.checkPing();
+      assertEquals( "result", 52, result );
+      final long now = System.currentTimeMillis();
+      assertEqualTime( "getLastPingTime", now, connector.getLastPingTime() );
+
+      policyMock.verify();
+      monitorMock.verify();
+   }
+
+   public void testCheckPingThatNoPings()
+      throws Exception
+   {
+      final Connector connector = new Connector();
+
+      final Mock monitorMock = new Mock( ConnectorMonitor.class );
+      final ConnectorMonitor monitor = (ConnectorMonitor) monitorMock.proxy();
+
+      final Mock policyMock = new Mock( PingPolicy.class );
+      policyMock.expectAndReturn( "checkPingConnection", C.args( C.eq( connector ) ), false );
+      policyMock.expectAndReturn( "nextPingCheck", C.args( C.eq( connector.getLastPingTime() ) ), new Long( 52 ) );
+      final PingPolicy policy = (PingPolicy) policyMock.proxy();
+
+      connector.setMonitor( monitor );
+      connector.setPingPolicy( policy );
+      connector.setActive( false );
+
+      final long result = connector.checkPing();
+      assertEquals( "result", 52, result );
+      assertEqualTime( "getLastPingTime", 0, connector.getLastPingTime() );
+
+      policyMock.verify();
+      monitorMock.verify();
    }
 
    private void assertEqualTime( final String description, final long expected, final long actual )
