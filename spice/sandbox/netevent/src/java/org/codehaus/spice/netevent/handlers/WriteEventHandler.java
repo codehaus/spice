@@ -13,6 +13,7 @@ import java.nio.channels.WritableByteChannel;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.event.impl.collections.Buffer;
+import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.WriteErrorEvent;
 import org.codehaus.spice.netevent.events.WritePossibleEvent;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
@@ -21,7 +22,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Handler for writing data to channel.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-09 00:51:43 $
  */
 public class WriteEventHandler
     extends AbstractIOEventHandler
@@ -30,10 +31,12 @@ public class WriteEventHandler
      * Create handler with specified destination sink.
      * 
      * @param sink the destination
+     * @param bufferManager the bufferManager
      */
-    public WriteEventHandler( final EventSink sink )
+    public WriteEventHandler( final EventSink sink,
+                              final BufferManager bufferManager )
     {
-        super( sink );
+        super( sink, bufferManager );
     }
 
     /**
@@ -45,6 +48,10 @@ public class WriteEventHandler
         final ChannelTransport transport = we.getTransport();
         final WritableByteChannel channel =
             (WritableByteChannel)transport.getChannel();
+        if( !channel.isOpen() )
+        {
+            return;
+        }
 
         final Buffer transmitBuffer = transport.getTransmitBuffer();
         final ByteBuffer buffer = (ByteBuffer)transmitBuffer.peek();
@@ -56,7 +63,8 @@ public class WriteEventHandler
             if( remaining == count )
             {
                 transmitBuffer.pop();
-                releaseBuffer( buffer );
+                transport.reregister();
+                getBufferManager().releaseBuffer( buffer );
             }
         }
         catch( final IOException ioe )
