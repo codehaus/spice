@@ -7,7 +7,6 @@
  */
 package org.realityforge.metaclass.io;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import org.realityforge.metaclass.model.ClassDescriptor;
@@ -17,7 +16,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * descriptors into Input and Output streams.
  *
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.5 $ $Date: 2003-09-28 03:53:00 $
+ * @version $Revision: 1.6 $ $Date: 2003-11-01 01:21:04 $
  */
 public interface MetaClassIO
 {
@@ -26,18 +25,18 @@ public interface MetaClassIO
      *
      * @param input the input stream
      * @return the ClassDescriptor
-     * @throws IOException if unable ot read class descriptor
+     * @throws Exception if unable ot read class descriptor
      */
     ClassDescriptor deserializeClass( InputStream input )
-        throws IOException;
+        throws Exception;
 
     /**
      * Write a ClassDescriptor to an output stream.
      *
      * @param output the stream to write class descriptor out to
      * @param info the ClassDescriptor to write out
-     * @throws IOException if unable ot write class descriptor
+     * @throws Exception if unable ot write class descriptor
      */
     void serializeClass( OutputStream output, ClassDescriptor info )
-        throws IOException;
+        throws Exception;
 }
