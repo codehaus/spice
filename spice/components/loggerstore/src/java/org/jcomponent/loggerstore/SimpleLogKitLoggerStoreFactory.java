@@ -5,20 +5,19 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.loggerstore;
+package org.jcomponent.loggerstore;
 
 import java.util.Map;
-
-import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
+import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
 
 /**
- * ExcaliburLogKitLoggerStoreFactory specialises the LogKitLoggerStoreFactory
- * to use the Excalibur LogKitLoggerManager.
+ * SimpleLogKitLoggerStoreFactory specialises the LogKitLoggerStoreFactory
+ * to use the SimpleLogKitManager.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
-public class ExcaliburLogKitLoggerStoreFactory
+public class SimpleLogKitLoggerStoreFactory
     extends LogKitLoggerStoreFactory
 {
     /**
@@ -31,8 +30,8 @@ public class ExcaliburLogKitLoggerStoreFactory
     protected LoggerStore doCreateLoggerStore( final Map config )
         throws Exception
     {
-        final LoggerManager loggerManager = new LogKitLoggerManager();
+        final LoggerManager loggerManager = new SimpleLogKitManager();
         config.put( LoggerManager.class.getName(), loggerManager );
-        return super.doCreateLoggerStore( config );            
+        return super.doCreateLoggerStore( config );
     }
 }

@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.loggerstore;
+package org.jcomponent.loggerstore;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -20,7 +20,7 @@ import java.util.Properties;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.7 $ $Date: 2003-06-02 20:09:15 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 11:51:41 $
  */
 public class InitialLoggerStoreFactory
     implements LoggerStoreFactory
@@ -30,7 +30,7 @@ public class InitialLoggerStoreFactory
      * initial LoggerStoreFactory. If not specified will attempt to use
      * the ConsoleLoggerStoreFactory.
      */
-    public static final String INITIAL_FACTORY = "org.realityforge.loggerstore.factory";
+    public static final String INITIAL_FACTORY = "org.jcomponent.loggerstore.factory";
 
     /**
      * The name of properties file loaded from ClassLoader. This property
