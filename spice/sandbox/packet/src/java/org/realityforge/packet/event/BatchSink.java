@@ -11,16 +11,16 @@ package org.realityforge.packet.event;
  * A Sink represents the destination for events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-11-28 05:00:38 $
+ * @version $Revision: 1.1 $ $Date: 2003-11-28 05:00:38 $
  */
-public interface Sink
+public interface BatchSink
 {
     /**
-     * Attempt to add an event to the sink. Return false if unable to add
-     * event.
+     * Attempt to add a set of events to the sink. If unable to add one event to
+     * sink then do not add any event and return false.
      * 
-     * @param event the event
-     * @return false if unable to add event.
+     * @param events the events
+     * @return false if unable to add events.
      */
-    boolean addEvent( Object event );
+    boolean addEvents( Object[] events );
 }

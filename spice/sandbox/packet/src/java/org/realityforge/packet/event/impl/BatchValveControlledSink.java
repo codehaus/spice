@@ -7,24 +7,24 @@
  */
 package org.realityforge.packet.event.impl;
 
-import org.realityforge.packet.event.EventValve;
-import org.realityforge.packet.event.Sink;
+import org.realityforge.packet.event.BatchEventValve;
+import org.realityforge.packet.event.BatchSink;
 
 /**
  * The ValveControlledSink passes events onto a destination sink unless they are
  * filtered out by a valve.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-11-28 05:00:38 $
+ * @version $Revision: 1.1 $ $Date: 2003-11-28 05:00:38 $
  */
-public class ValveControlledSink
-    implements Sink
+public class BatchValveControlledSink
+    implements BatchSink
 {
     /** The destination sink. */
-    private final Sink _sink;
+    private final BatchSink _sink;
 
     /** The valve that controls whether event passed onto sink. */
-    private final EventValve _valve;
+    private final BatchEventValve _valve;
 
     /**
      * Create valved sink terminating on specified sink with specified valve.
@@ -32,8 +32,8 @@ public class ValveControlledSink
      * @param sink the sink
      * @param valve the valve
      */
-    public ValveControlledSink( final Sink sink,
-                                final EventValve valve )
+    public BatchValveControlledSink( final BatchSink sink,
+                                final BatchEventValve valve )
     {
         if( null == sink )
         {
@@ -48,17 +48,17 @@ public class ValveControlledSink
     }
 
     /**
-     * @see Sink#addEvent(Object)
+     * @see BatchSink#addEvents(Object[])
      */
-    public boolean addEvent( final Object event )
+    public boolean addEvents( final Object[] events )
     {
-        if( !_valve.acceptEvent( event ) )
+        if( !_valve.acceptEvents( events ) )
         {
             return false;
         }
         else
         {
-            return _sink.addEvent( event );
+            return _sink.addEvents( events );
         }
     }
 }

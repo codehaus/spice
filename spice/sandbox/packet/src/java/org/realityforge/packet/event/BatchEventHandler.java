@@ -8,19 +8,17 @@
 package org.realityforge.packet.event;
 
 /**
- * A Sink represents the destination for events.
+ * The event handler is responsible for processing events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-11-28 05:00:38 $
+ * @version $Revision: 1.1 $ $Date: 2003-11-28 05:00:38 $
  */
-public interface Sink
+public interface BatchEventHandler
 {
     /**
-     * Attempt to add an event to the sink. Return false if unable to add
-     * event.
+     * Handle a set of events.
      * 
-     * @param event the event
-     * @return false if unable to add event.
+     * @param events the events
      */
-    boolean addEvent( Object event );
+    void handleEvents( Object[] events );
 }
