@@ -4,7 +4,7 @@
     <name>Spice Alchemist</name>
     <id>spice-alchemist</id>    
     <package>org.codehaus.spice.alchemist</package>
-    <currentVersion>1.2-dev</currentVersion>
+    <currentVersion>1.2-rc1</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
     <shortDescription>
@@ -18,6 +18,11 @@
     </description>
 
     <versions>
+        <version>
+            <id>1.2-rc1</id>
+            <name>1.2-rc1</name>
+            <tag>ALCHEMIST_1_2_RC1-tag</tag>
+        </version>
         <version>
             <id>1.1</id>
             <name>1.1</name>
@@ -44,16 +49,6 @@
          <dependency>
             <groupId>excalibur-instrument</groupId>
             <artifactId>excalibur-instrument</artifactId>
-             <version>1.2</version>
-         </dependency>
-         <dependency>
-            <groupId>excalibur-instrument</groupId>
-            <artifactId>excalibur-instrument-impl</artifactId>
-            <version>1.2</version>
-         </dependency>
-         <dependency>
-            <groupId>excalibur-instrument</groupId>
-            <artifactId>excalibur-instrument-spi</artifactId>
             <version>1.2</version>
          </dependency>
         <dependency> <!-- for unit test -->
@@ -61,12 +56,24 @@
             <artifactId>dna-impl</artifactId>
             <version>1.1</version>
         </dependency>
+         <dependency> <!-- for unit test -->
+            <groupId>excalibur-instrument</groupId>
+            <artifactId>excalibur-instrument-impl</artifactId>
+            <version>1.2</version>
+         </dependency>
     </dependencies>
 
     <developers>
         <developer>
             <name>Mauro Talevi</name>
             <id>mauro</id>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
             <roles>
                 <role>Developer</role>
             </roles>
