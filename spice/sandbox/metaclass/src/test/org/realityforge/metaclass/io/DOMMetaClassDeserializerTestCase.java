@@ -12,11 +12,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import junit.framework.TestCase;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import java.util.Properties;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-31 23:58:34 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-01 00:09:09 $
  */
 public class DOMMetaClassDeserializerTestCase
     extends TestCase
@@ -102,6 +103,20 @@ public class DOMMetaClassDeserializerTestCase
             return;
         }
         fail( "Expected exception as missing attribute" );
+    }
+
+    public void testBuildParam()
+        throws Exception
+    {
+        final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+        final Document document = createDocument();
+        final Element element = document.createElement( MetaClassIOXml.PARAM_ELEMENT );
+        element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myKey" );
+        element.setAttribute( MetaClassIOXml.VALUE_ATTRIBUTE, "myValue" );
+        final Properties parameters = new Properties();
+        deserializer.buildParam( element, parameters );
+        assertEquals( "parameters.size()", 1, parameters.size() );
+        assertEquals( "parameters['myKey']", "myValue", parameters.getProperty( "myKey") );
     }
 
     private Document createDocument()
