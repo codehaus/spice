@@ -13,19 +13,18 @@ import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.jcomponent.threadpool.Executable;
 import org.jcomponent.threadpool.ThreadPool;
-import org.jcomponent.threadpool.impl.CommonsThreadPool;
-import org.jcomponent.threadpool.impl.ThreadPoolEntry;
-import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ConfigValidator;
+import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ValidateException;
 import org.xml.sax.ErrorHandler;
+
 import java.io.InputStream;
 
 /**
  *  An basic test case for the ThreadPools.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 18:03:03 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-27 19:10:42 $
  */
 public class ThreadPoolTestCase
     extends TestCase

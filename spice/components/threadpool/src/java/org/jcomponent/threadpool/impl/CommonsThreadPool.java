@@ -34,7 +34,7 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 18:03:03 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-27 19:10:42 $
  * @phoenix.service type="ThreadPool"
  */
 public class CommonsThreadPool
