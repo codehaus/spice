@@ -23,7 +23,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-24 02:11:08 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-25 06:12:41 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -67,6 +67,12 @@ public class MetaGenerateTaskTestCase
     public void testDestDirNoExistAndNoCreate()
         throws Exception
     {
+        if( -1 != System.getProperty( "os.name" ).indexOf( "Windows" ) )
+        {
+            //Read-Only directorys still allow java to write
+            //to them under windows
+            return;
+        }
         final MockMetaGenerateTask task = new MockMetaGenerateTask();
         final File baseDirectory = getBaseDirectory();
         final File secondBaseDir = new File( baseDirectory, "subDir1" );
