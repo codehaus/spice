@@ -206,12 +206,12 @@ public final class EnumSet
             if( matcher.contains( name, pattern ) )
             {
                 final MatchResult match = matcher.getMatch();
-                final int count = match.groups();
-                String key = name;
-                if( 0 != count )
+                if( 1 != match.groups() )
                 {
-                    key = match.group( 1 );
+                    final String message = "Pattern must have one group";
+                    throw new IllegalArgumentException( message );
                 }
+                final String key = match.group( 1 );
                 set.add( key, value );
             }
         }
