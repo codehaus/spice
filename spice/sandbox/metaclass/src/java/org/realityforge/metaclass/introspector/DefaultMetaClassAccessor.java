@@ -7,6 +7,7 @@
  */
 package org.realityforge.metaclass.introspector;
 
+import java.io.File;
 import java.io.InputStream;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.io.MetaClassIOASM;
@@ -30,7 +31,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * </ul>
  * 
  * @author Peter Donald
- * @version $Revision: 1.11 $ $Date: 2004-01-16 00:41:56 $
+ * @version $Revision: 1.12 $ $Date: 2004-01-16 00:55:41 $
  */
 public class DefaultMetaClassAccessor
     implements MetaClassAccessor
@@ -94,7 +95,9 @@ public class DefaultMetaClassAccessor
                                                  final ClassLoader classLoader )
         throws MetaClassException
     {
-        final String resourceName = io.getResourceName( classname );
+        final String resourceName =
+            io.getResourceName( classname ).
+            replace( File.separatorChar, '/' );
         final InputStream inputStream =
             classLoader.getResourceAsStream( resourceName );
         if( null == inputStream )
