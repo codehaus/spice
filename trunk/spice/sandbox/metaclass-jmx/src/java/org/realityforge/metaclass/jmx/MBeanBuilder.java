@@ -139,7 +139,7 @@ public class MBeanBuilder
         }
 
         final ModelMBeanConstructorInfo info =
-            new ModelMBeanConstructorInfo( constructor.getName(),
+            new ModelMBeanConstructorInfo( name,
                                            description,
                                            infos );
         //MX4J caches operation results on MBeans, this disables cache
