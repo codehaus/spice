@@ -122,7 +122,8 @@ public class LoggerStoreTestCase
     }
 
     private void performLoggerTest( final LoggerStore store,
-                                    final String filename ) throws Exception
+                                    final String filename )
+        throws Exception
     {
         BufferedReader reader = null;
         try
