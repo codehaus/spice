@@ -21,7 +21,7 @@ import junit.framework.TestCase;
  * Unit testing for JNDI system
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractContextTestCase
     extends TestCase
@@ -40,6 +40,14 @@ public abstract class AbstractContextTestCase
     public AbstractContextTestCase( String name )
     {
         super( name );
+    }
+
+    protected void tearDown() throws Exception
+    {
+        if( null != m_context )
+        {
+            m_context.close();
+        }
     }
 
     public void testBindToDirectContext()
