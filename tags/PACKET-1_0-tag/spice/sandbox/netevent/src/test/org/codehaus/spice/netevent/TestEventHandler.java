@@ -1,0 +1,129 @@
+package org.codehaus.spice.netevent;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.nio.channels.SocketChannel;
+import java.util.Random;
+import org.codehaus.spice.event.AbstractEventHandler;
+import org.codehaus.spice.event.EventHandler;
+import org.codehaus.spice.netevent.events.ChannelClosedEvent;
+import org.codehaus.spice.netevent.events.ConnectEvent;
+import org.codehaus.spice.netevent.events.InputDataPresentEvent;
+import org.codehaus.spice.netevent.transport.ChannelTransport;
+import org.codehaus.spice.netevent.transport.MultiBufferInputStream;
+
+/**
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2004-01-23 04:26:21 $
+ */
+class TestEventHandler
+    extends AbstractEventHandler
+{
+    private static final byte[] DATA = new byte[]{'B', 'E', 'E', 'R', ' '};
+
+    private static final Random RANDOM = new Random();
+
+    private final String _header;
+    private final long _transmitCount;
+    private final long _receiveCount;
+    private final boolean _closeOnReceive;
+
+    public TestEventHandler( final String header,
+                             final long transmitCount,
+                             final long receiveCount,
+                             final boolean closeOnReceive )
+    {
+        _header = header;
+        _transmitCount = transmitCount;
+        _receiveCount = receiveCount;
+        _closeOnReceive = closeOnReceive;
+    }
+
+    /**
+     * @see EventHandler#handleEvent(Object)
+     */
+    public void handleEvent( final Object event )
+    {
+        if( event instanceof InputDataPresentEvent )
+        {
+            final InputDataPresentEvent e = (InputDataPresentEvent)event;
+            final ChannelTransport transport = e.getTransport();
+            final int available = transport.getInputStream().available();
+            if( available == _receiveCount && _closeOnReceive )
+            {
+                transport.getOutputStream().close();
+            }
+        }
+        else if( event instanceof ChannelClosedEvent )
+        {
+            final ChannelClosedEvent ce = (ChannelClosedEvent)event;
+            final ChannelTransport transport = ce.getTransport();
+            receiveData( transport );
+        }
+        else if( event instanceof ConnectEvent )
+        {
+            final ConnectEvent ce = (ConnectEvent)event;
+            final ChannelTransport transport = ce.getTransport();
+            transmitData( transport );
+        }
+    }
+
+    private void receiveData( final ChannelTransport transport )
+    {
+        final MultiBufferInputStream in = transport.getInputStream();
+        final int available = in.available();
+
+        final int count = Math.min( 15, available );
+        final StringBuffer sb = new StringBuffer();
+        try
+        {
+            for( int i = 0; i < count; i++ )
+            {
+                sb.append( (char)in.read() );
+            }
+        }
+        catch( IOException e )
+        {
+            e.printStackTrace();
+        }
+
+        output( transport, "Received " + available + " Sample: " + sb );
+    }
+
+    private void transmitData( final ChannelTransport transport )
+    {
+        final SocketChannel channel = (SocketChannel)transport.getChannel();
+        final Socket socket = channel.socket();
+        final String conn =
+            socket.getLocalPort() + "<->" + socket.getPort();
+        transport.setUserData( conn );
+        final OutputStream outputStream = transport.getOutputStream();
+        try
+        {
+            long transmitCount = _transmitCount;
+            if( -1 == transmitCount )
+            {
+                transmitCount = Math.abs( RANDOM.nextInt() % 16 * 1024 );
+            }
+            for( int i = 0; i < transmitCount; i++ )
+            {
+                final byte ch = DATA[ i % DATA.length ];
+                outputStream.write( ch );
+            }
+            outputStream.flush();
+            output( transport, "Transmitting " + transmitCount );
+        }
+        catch( final IOException ioe )
+        {
+            ioe.printStackTrace();
+        }
+    }
+
+    private void output( final ChannelTransport transport, final String text )
+    {
+        final String message =
+            _header + " (" + transport.getUserData() + "): " + text;
+        System.out.println( message );
+    }
+}

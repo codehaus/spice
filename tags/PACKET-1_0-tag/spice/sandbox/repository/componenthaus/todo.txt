@@ -1,0 +1,59 @@
+ * take version number from maven pom.  No, not the maven pom.  Let the user worry about how to get the version id to the Ant task.
+ * take dependency jars from maven pom. No, not the maven pom.  Let the user worry about how to get the author names to the Ant task.
+ * Federation
+ * Live XPath query/reporting of component model
+ * Acceptable UI - gulp!
+ * Console on the top of each page, displaying result of last significant action (use monitor and tiles) (similar to cvs console in IDEA).
+ * Add Submit date to component
+ * Access control (for write actions)
+ * Users and user management
+ * Rework the component details page.  Yes, link to impls, but display what a user has to do to use the impl
+ * JMX integration into the heart of the app
+ * Investigate Beanshell integration, for debugging problems while live
+ * Fix search query - its only using the first word
+ * Restarted prevayler is not loading objects correctly - all the string fields are "gone".
+ * Disable multiple submissions of the same component.
+ * Structured API Search (Find me all methods taking a java.io.File and returning a java.lang.String, and importing java.sql classes)
+ * Consider providing a means of displaying test cases that use a particular service method.  Excellent way to convey purpose and usage of the service method.
+ * Include coverage report in component metadata
+ * Offline tool to submit CAR files.
+ * Have all Exception constructors call super(...)
+ * Determine required jars from imports in the component itself (and its impl).  This is because one jar might contain two or more components.  Dependencies traditionally are at the jar to jar level.  But if you use only one component in a jar, you might not need all the dependencies the jar needs. Resolve transitive dependencies in this way also.  Expose as web service (so federated componenthauses can come to the central one to have dependencies resolved).
+ * Better to make methods (services) the unit of indexing, searching and presentation?  Or stick with classes?
+ * Write a test case to enable ClassAbbreviater to deal with constructors
+ * Display service interface fully collapsed, like in IDEA, with clickable buttons to show javadoc.
+
+Done
+
+November 9th
+ * If the component is a class, show only its methods, to better convey the service offering.  Rolling this out was hampered by bugs in Qdox (27 and 28). So will retest when bugs are fixed.
+ * When QDox bugs 27 and 28 are fixed, test if submission of Plexus FileUtils works.
+
+November 5th
+ * Stop including plug-interfaces in the repository as public interfaces.  Allow the submitter decide whats public.
+ * Support multiple components in a single source tree (same jar I guess).
+ * Allow the service interface to be a class (was limiting to interfaces up to this point, but thats too limiting)
+ * Made the presentation a little better looking.  Well, consistent anyway.
+
+November 2nd
+ * More test cases for search stuff
+
+October 26th
+ * TDD'ed re-write of the submission stuff
+ * XStream replaces Betwixt
+
+October 16th
+ * aspico integration, so we can have type 3 IoC.  Forget aspico - make a pico-style spring beanfactory.
+
+October 15th
+ * Pico plugin done.  Controllers and beans need to be ported to type 3 still.
+
+October 5th
+ * fix search engine indexing problem - last component only indexed
+ * remove System.out.printlns
+ * better search results page
+ * Fix pagination links in the search results page.
+
+October 4th
+ * Menubar on each page - tiles integration
+ * CSS style sheets

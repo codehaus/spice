@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles.TilesConfigurer">
+	    <property name="definitions">
+		    <list>
+		 	   <value>/WEB-INF/defs/definitions.xml</value>
+		    </list>
+	    </property>
+	</bean>
+
+    <bean id="searchService" class="org.componenthaus.search.LuceneSearchService"/>
+
+    <bean id="codeFormatter" class="org.componenthaus.util.source.JalopyCodeFormatter"/>
+
+    <bean id="addComponentMonitor" class="org.componenthaus.search.AddComponentMonitor">
+        <property name="searchService">
+            <ref bean="searchService"/>
+        </property>
+    </bean>
+
+    <bean id="repository" class="org.componenthaus.repository.api.RepositoryImpl">
+        <property name="monitor">
+            <ref bean="addComponentMonitor"/>
+        </property>
+    </bean>
+
+    <bean id="fileManager" class="org.componenthaus.util.file.FileManagerImpl"/>
+
+    <bean id="componentFactory" class="org.componenthaus.repository.impl.ComponentFactory"/>
+
+    <bean id="serviceImplementationFactory" class="org.componenthaus.repository.impl.ServiceImplementationFactory"/>
+
+    <bean id="prevayler" class="org.componenthaus.prevayler.PrevaylerBean">
+        <property name="prevaylentSystem">
+            <ref bean="repository"/>
+        </property>
+    </bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+        <property name="basename">
+            <value>views</value>
+        </property>
+    </bean>
+
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/welcome.htm">welcomeController</prop>
+                <prop key="/submitComponent.action">submitComponentController</prop>
+                <prop key="/listComponents.action">listComponentsController</prop>
+                <prop key="/componentDetails.action">showComponentController</prop>
+                <prop key="/downloadComponent.action">downloadComponentController</prop>
+                <prop key="/showImplementation.action">showImplementationController</prop>
+                <prop key="/searchComponents.action">searchComponentsController</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="welcomeController" class="org.componenthaus.usecases.welcomeuser.WelcomeUserController">
+    </bean>
+
+    <bean id="submitComponentController" class="org.componenthaus.usecases.submitcomponent.SubmitComponentController">
+        <property name="formView">
+            <value>submitComponentView</value>
+        </property>
+        <property name="prevayler">
+            <ref bean="prevayler"/>
+        </property>
+        <property name="componentFactory">
+            <ref bean="componentFactory"/>
+        </property>
+        <property name="serviceImplementationFactory">
+            <ref bean="serviceImplementationFactory"/>
+        </property>
+        <property name="codeFormatter">
+            <ref bean="codeFormatter"/>
+        </property>
+        <property name="successView">
+            <value>welcomeView</value>
+        </property>
+    </bean>
+
+    <bean id="listComponentsController" class="org.componenthaus.usecases.listcomponents.ListComponentsController">
+        <property name="prevayler">
+            <ref bean="prevayler"/>
+        </property>
+    </bean>
+
+    <bean id="showImplementationController" class="org.componenthaus.usecases.showimplementation.ShowImplementationController">
+        <property name="prevayler">
+            <ref bean="prevayler"/>
+        </property>
+    </bean>
+
+    <bean id="searchComponentsController" class="org.componenthaus.usecases.searchcomponents.SearchComponentsController">
+        <property name="formView">
+            <value>searchCriteriaView</value>
+        </property>
+        <property name="searchService">
+            <ref bean="searchService"/>
+        </property>
+        <property name="repository">
+            <ref bean="repository"/>
+        </property>
+    </bean>
+
+    <bean id="showComponentController" class="org.componenthaus.usecases.showcomponent.ShowComponentController">
+        <property name="prevayler">
+            <ref bean="prevayler"/>
+        </property>
+    </bean>
+
+    <bean id="downloadComponentController" class="org.componenthaus.usecases.downloadcomponent.DownloadComponentController">
+        <property name="prevayler">
+            <ref bean="prevayler"/>
+        </property>
+        <property name="fileManager">
+            <ref bean="fileManager"/>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,18 @@
+<!--
+
+   This is the DTD defining the MX Config 1.0
+   descriptor (XML) file format/syntax.
+
+-->
+
+<!--
+port         the port the http adaptor binds to
+bindAddress  the address the http adaptor binds to
+-->
+<!ELEMENT root (port,bindAddress,users)>
+  <!ELEMENT port (#PCDATA)>
+  <!ELEMENT bindAddress (#PCDATA)>
+  <!ELEMENT users (user)*>
+    <!ELEMENT user (name,password)>
+      <!ELEMENT name (#PCDATA)>
+      <!ELEMENT password (#PCDATA)>

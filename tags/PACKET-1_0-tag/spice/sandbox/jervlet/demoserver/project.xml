@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  <pomVersion>3</pomVersion>
+  <extend>${basedir}/../base-project.xml</extend>
+  
+  <id>jervlet-demoserver</id>
+  <name>Jervlet Demonstration Server</name>
+  <currentVersion>0.7-dev</currentVersion>
+  
+  <inceptionYear>2003</inceptionYear>
+  <shortDescription>Demonstration project for building a deployable SAR using Jervlet.</shortDescription>
+
+  <developers>
+    <developer>
+      <name>Ryan Hoegg</name>
+      <id>rhoegg</id>
+      <email>rhoegg@isisnetworks.net</email>
+      <organization>ISIS Networks</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <dependencies>
+    <dependency>
+      <id>jervlet</id>
+      <version>0.7-dev</version>
+      <properties>
+        <sar.bundle>true</sar.bundle>
+      </properties>
+    </dependency>
+    <dependency>
+      <groupId>jervlet</groupId>
+      <artifactId>jervlet-jetty</artifactId>
+      <version>0.7-dev</version>
+      <properties>
+        <sar.bundle>true</sar.bundle>
+      </properties>
+    </dependency>
+	<dependency>
+	  <id>jetty</id>
+	  <version>4.2.12</version>
+      <properties>
+        <sar.bundle>true</sar.bundle>
+      </properties>
+	</dependency>
+	<dependency>
+	  <id>servletapi</id>
+	  <version>2.3</version>
+	  <properties>
+	    <sar.bundle>true</sar.bundle>
+	  </properties>
+	</dependency>
+	<dependency>
+	  <groupId>tomcat</groupId>
+	  <artifactId>jasper-runtime</artifactId>
+	  <version>4.0.4</version>
+	  <properties>
+	    <sar.bundle>true</sar.bundle>
+	  </properties>
+	</dependency>
+	<dependency>
+	  <groupId>tomcat</groupId>
+	  <artifactId>jasper-compiler</artifactId>
+	  <version>4.0.4</version>
+	  <properties>
+	    <sar.bundle>true</sar.bundle>
+	  </properties>
+	</dependency>
+    <dependency>
+      <groupId>loom</groupId>
+      <artifactId>maven-sar-plugin</artifactId>
+      <version>1.0-beta1-dev</version>
+      <type>plugin</type>
+    </dependency>
+  </dependencies>
+
+</project>
+

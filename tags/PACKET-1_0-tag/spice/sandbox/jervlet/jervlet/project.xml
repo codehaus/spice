@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  <pomVersion>3</pomVersion>
+
+  <extend>${basedir}/../base-project.xml</extend>
+  
+  <id>jervlet</id>
+  <name>Jervlet</name>
+  <currentVersion>0.7-dev</currentVersion>
+  
+  <inceptionYear>2003</inceptionYear>
+  <package>org.jcomponent.jervlet</package>
+
+  <developers>
+    <developer>
+      <name>Ryan Hoegg</name>
+      <id>rhoegg</id>
+      <email>rhoegg@isisnetworks.net</email>
+      <organization>ISIS Networks</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <dependencies>
+    <dependency>
+      <id>avalon-framework</id>
+      <version>4.1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon</groupId>
+      <artifactId>avalon-phoenix-client</artifactId>
+      <version>20030819</version>
+    </dependency>
+    <dependency>
+      <groupId>loom</groupId>
+      <artifactId>loom-engine</artifactId>
+      <version>1.0-beta1-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>loom</groupId>
+      <artifactId>maven-sar-plugin</artifactId>
+      <version>1.0-beta1-dev</version>
+      <type>plugin</type>
+    </dependency>
+    <dependency>
+      <id>picocontainer</id>
+      <version>1.0-SNAPSHOT</version>
+      <url>http://www.picocontainer.org/</url>
+    </dependency>    
+    <dependency>
+      <id>commons-logging</id>
+      <version>1.0.3</version>
+      <url>http://jakarta.apache.org/commons/logging.html</url>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/conf/schema</directory>
+        <targetPath>org/jcomponent/jervlet/blocks/deployer</targetPath>
+        <includes>
+          <include>JervletDeployer-schema.xml</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+</project>
+

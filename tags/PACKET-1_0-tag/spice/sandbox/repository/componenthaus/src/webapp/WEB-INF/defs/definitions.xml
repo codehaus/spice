@@ -1,0 +1,56 @@
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration//EN"
+       "http://jakarta.apache.org/struts/dtds/tiles-config.dtd">
+
+<tiles-definitions>
+
+    <!-- =======================================================  -->
+    <!-- Master definitions                                       -->
+    <!-- =======================================================  -->
+
+    <!-- Page layout used as root for all pages. -->
+    <definition name="rootLayout" path="/WEB-INF/jsp/layout/rootLayout.jsp">
+        <put name="titleString" value="ComponentHaus"/>
+        <put name="header" value="/WEB-INF/jsp/tiles/header.jsp"/>
+        <put name="content" value="CHANGE-ME"/>
+    </definition>
+
+    <!-- =======================================================  -->
+    <!-- Page definitions                                         -->
+    <!-- =======================================================  -->
+
+    <definition name="welcome" extends="rootLayout">
+        <put name="content" value="/WEB-INF/jsp/welcome.jsp"/>
+    </definition>
+
+    <definition name="submitcomponent" extends="rootLayout">
+        <put name="content" value="/WEB-INF/jsp/usecases/submitcomponent/submitComponent.jsp"/>
+    </definition>
+
+    <definition name="listComponents" extends="rootLayout">
+        <put name="content" value="/WEB-INF/jsp/usecases/listcomponents/listComponents.jsp"/>
+    </definition>
+
+    <definition name="showComponent" extends="rootLayout">
+        <put name="content" value="/WEB-INF/jsp/usecases/showcomponent/showComponent.jsp"/>
+    </definition>
+
+    <definition name="showImplementation" extends="rootLayout">
+        <put name="content" value="/WEB-INF/jsp/usecases/showimplementation/showImplementation.jsp"/>
+    </definition>
+
+    <definition name="searchResults" extends="rootLayout">
+        <put name="content" value="searchResultsTile" type="definition"/>
+    </definition>
+
+    <definition name="searchResultsTile" path="/WEB-INF/jsp/usecases/searchcomponents/resultLayout.jsp">
+        <put name="searchForm" value="/WEB-INF/jsp/usecases/searchcomponents/searchCriteria.jsp"/>
+        <put name="pagination" value="/WEB-INF/jsp/usecases/searchcomponents/paging.jsp"/>
+        <put name="results" value="/WEB-INF/jsp/usecases/searchcomponents/searchResults.jsp"/>
+    </definition>
+
+    <definition name="searchCriteria" extends="rootLayout">
+        <put name="content" value="/WEB-INF/jsp/usecases/searchcomponents/searchCriteria.jsp"/>
+    </definition>
+
+</tiles-definitions>
