@@ -23,10 +23,10 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-08 04:03:58 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-09 00:51:43 $
  */
 public class ConnectEventHandler
-    extends AbstractIOEventHandler
+    extends AbstractDirectedHandler
 {
     /** Handler to pass events on to. */
     private final SocketEventSource _source;
@@ -50,9 +50,13 @@ public class ConnectEventHandler
     {
         final AcceptEvent ce = (AcceptEvent)event;
         final Channel channel = ce.getChannel();
+        if( !channel.isOpen() )
+        {
+            return;
+        }
+
         final ChannelTransport transport =
             new ChannelTransport( channel,
-                                  new UnboundedFifoBuffer( 4 ),
                                   new UnboundedFifoBuffer( 4 ) );
         try
         {

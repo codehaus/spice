@@ -18,7 +18,7 @@ import org.codehaus.spice.netevent.events.AcceptPossibleEvent;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-08 04:03:58 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-09 00:51:43 $
  */
 public class AcceptEventHandler
     extends AbstractDirectedHandler
@@ -35,6 +35,10 @@ public class AcceptEventHandler
     {
         final AcceptPossibleEvent ce = (AcceptPossibleEvent)event;
         final ServerSocketChannel ssChannel = ce.getChannel();
+        if( !ssChannel.isOpen() )
+        {
+            return;
+        }
 
         try
         {

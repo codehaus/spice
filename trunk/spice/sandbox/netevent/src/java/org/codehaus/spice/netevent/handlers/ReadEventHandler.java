@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
+import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.ChannelClosedEvent;
 import org.codehaus.spice.netevent.events.ReadErrorEvent;
 import org.codehaus.spice.netevent.events.ReadEvent;
@@ -22,7 +23,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Handler for reading data from channel.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-09 00:51:43 $
  */
 public class ReadEventHandler
     extends AbstractIOEventHandler
@@ -31,10 +32,12 @@ public class ReadEventHandler
      * Create handler with specified destination sink.
      * 
      * @param sink the destination
+     * @param bufferManager the bufferManager
      */
-    public ReadEventHandler( final EventSink sink )
+    public ReadEventHandler( final EventSink sink,
+                             final BufferManager bufferManager )
     {
-        super( sink );
+        super( sink, bufferManager );
     }
 
     /**
@@ -46,6 +49,10 @@ public class ReadEventHandler
         final ChannelTransport transport = ce.getTransport();
         final ReadableByteChannel channel =
             (ReadableByteChannel)transport.getChannel();
+        if( !channel.isOpen() )
+        {
+            return;
+        }
 
         final ByteBuffer buffer = aquireBuffer( ce );
         try
@@ -56,18 +63,16 @@ public class ReadEventHandler
                 final ChannelClosedEvent result =
                     new ChannelClosedEvent( transport );
                 getSink().addEvent( result );
-                releaseBuffer( buffer );
+                getBufferManager().releaseBuffer( buffer );
             }
             else if( 0 == count )
             {
-                releaseBuffer( buffer );
+                getBufferManager().releaseBuffer( buffer );
             }
             else
             {
                 final ReadEvent result =
-                    new ReadEvent( transport,
-                                   buffer );
-                transport.getReceiveBuffer().add( buffer );
+                    new ReadEvent( transport, buffer );
                 getSink().addEvent( result );
             }
         }
@@ -79,5 +84,4 @@ public class ReadEventHandler
             getSink().addEvent( error );
         }
     }
-
 }
