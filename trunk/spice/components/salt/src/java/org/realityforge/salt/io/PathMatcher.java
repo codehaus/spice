@@ -17,7 +17,7 @@ import org.apache.oro.text.regex.Perl5Matcher;
  * particular set of include and exclude patterns ala ant.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:57 $
+ * @version $Revision: 1.4 $ $Date: 2003-09-12 21:42:28 $
  */
 public class PathMatcher
 {
@@ -164,7 +164,8 @@ public class PathMatcher
             }
             catch( final MalformedPatternException mpe )
             {
-                throw new IllegalArgumentException( mpe.toString() );
+                final String message = strs[i] + ":" + mpe.toString();
+                throw new IllegalArgumentException( message );
             }
         }
         return patterns;
