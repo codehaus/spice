@@ -8,6 +8,7 @@
 package org.codehaus.spice.netevent.handlers;
 
 import java.io.IOException;
+import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
@@ -23,7 +24,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2004-02-11 02:56:00 $
+ * @version $Revision: 1.11 $ $Date: 2004-02-11 04:00:34 $
  */
 public class ClientConnectEventHandler
     extends AbstractIOEventHandler
@@ -69,8 +70,9 @@ public class ClientConnectEventHandler
                                   getBufferManager(),
                                   getSink() );
         transport.setUserData( ce.getUserData() );
-        transport.setKey( ce.getKey() );
-        ce.getKey().attach( transport );
+        final SelectionKey key = ce.getKey();
+        transport.setKey( key );
+        key.attach( transport );
         try
         {
             channel.finishConnect();
