@@ -11,20 +11,20 @@ import java.io.InputStream;
 
 import org.w3c.dom.Element;
 
-/** 
- *  XMLActionManager is an implementation of <code>ActionManager</code> which 
- *  supports configuration via XML.
- *  
+/**
+ * XMLActionManager is an implementation of <code>ActionManager</code> which
+ * supports configuration via XML.
+ *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
-public class XMLActionManager extends AbstractActionManager
+public class XMLActionManager
+   extends AbstractActionManager
 {
+   public XMLActionManager( final Element element )
+   {
+   }
 
-    public XMLActionManager( final Element element ){
-        
-    }
-
-    public XMLActionManager( final InputStream resource ){
-        
-    }
+   public XMLActionManager( final InputStream resource )
+   {
+   }
 }

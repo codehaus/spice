@@ -18,31 +18,29 @@ import org.w3c.dom.Element;
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
 public class XMLActionManagerFactory
-    extends AbstractActionManagerFactory
+   extends AbstractActionManagerFactory
 {
- 
-    /**
-     * Creates a ActionManager from a given set of configuration parameters.
-     * 
-     * @param config the Map of parameters for the configuration of the store
-     * @return the ActionManager
-     * @throws Exception if unable to create the ActionManager
-     */
-    protected ActionManager doCreateActionManager( final Map config )
-        throws Exception
-    {
-        final Element element = (Element)config.get( Element.class.getName() );
-        if( null != element )
-        {
-            return new XMLActionManager( element );
-        }
- 
-        final InputStream resource = getInputStream( config );
-        if( null != resource )
-        {
-            return new XMLActionManager( resource );
-        }
-        return missingConfiguration();
-    }
+   /**
+    * Creates a ActionManager from a given set of configuration parameters.
+    *
+    * @param config the Map of parameters for the configuration of the store
+    * @return the ActionManager
+    * @throws Exception if unable to create the ActionManager
+    */
+   protected ActionManager doCreateActionManager( final Map config )
+      throws Exception
+   {
+      final Element element = (Element) config.get( Element.class.getName() );
+      if ( null != element )
+      {
+         return new XMLActionManager( element );
+      }
 
+      final InputStream resource = getInputStream( config );
+      if ( null != resource )
+      {
+         return new XMLActionManager( resource );
+      }
+      return missingConfiguration();
+   }
 }
