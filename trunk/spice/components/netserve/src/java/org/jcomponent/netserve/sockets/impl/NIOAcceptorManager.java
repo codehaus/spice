@@ -23,7 +23,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.17 $ $Date: 2003-10-23 03:44:28 $
+ * @version $Revision: 1.18 $ $Date: 2003-10-23 04:24:30 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -32,7 +32,7 @@ public class NIOAcceptorManager
    implements SocketAcceptorManager
 {
    /**
-    * The map of name->NIOAcceptorEntry.
+    * The map of name->SelectorKey.
     */
    private final Map m_acceptors = new Hashtable();
 
@@ -106,11 +106,10 @@ public class NIOAcceptorManager
          final SelectionKey key =
             registerChannel( channel, SelectionKey.OP_ACCEPT );
 
-         final AcceptorConfig acceptor =
+         final AcceptorConfig config =
             new AcceptorConfig( name, socket, handler );
-         final NIOAcceptorEntry entry =
-            new NIOAcceptorEntry( acceptor, key );
-         m_acceptors.put( name, entry );
+         key.attach( config );
+         m_acceptors.put( name, key );
          getMonitor().acceptorCreated( name, socket );
       }
    }
@@ -128,14 +127,14 @@ public class NIOAcceptorManager
     */
    public void disconnect( final String name )
    {
-      final NIOAcceptorEntry entry =
-         (NIOAcceptorEntry) m_acceptors.remove( name );
-      if ( null == entry )
+      final SelectionKey key =
+         (SelectionKey) m_acceptors.remove( name );
+      if ( null == key )
       {
          final String message = "No connection with name " + name;
          throw new IllegalArgumentException( message );
       }
-      entry.getKey().cancel();
+      key.cancel();
       getMonitor().acceptorClosing( name );
    }
 
@@ -147,9 +146,9 @@ public class NIOAcceptorManager
       final ServerSocketChannel channel =
          (ServerSocketChannel) key.channel();
       final ServerSocket serverSocket = channel.socket();
-      final NIOAcceptorEntry entry =
-         (NIOAcceptorEntry) key.attachment();
-      if ( null == entry )
+      final AcceptorConfig config =
+         (AcceptorConfig) key.attachment();
+      if ( null == config )
       {
          //The acceptor must have been disconnected
          //so we just ignore this and assume it wont happen
@@ -157,8 +156,8 @@ public class NIOAcceptorManager
          return;
       }
 
-      final String name = entry.getConfig().getName();
-      final SocketConnectionHandler handler = entry.getConfig().getHandler();
+      final String name = config.getName();
+      final SocketConnectionHandler handler = config.getHandler();
       try
       {
          final Socket socket = channel.accept().socket();
