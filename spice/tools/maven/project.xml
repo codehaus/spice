@@ -14,7 +14,7 @@
     <package>org.realityforge.${pom.artifactId.substring(6)}</package>
     <url>http://spice.codehaus.org/</url>
     <siteAddress>codehaus.org</siteAddress>
-    <siteDirectory>/www/spice.codehaus.org/</siteDirectory>
+    <siteDirectory>/www/spice.codehaus.org/${pom.artifactId.substring(6)}/</siteDirectory>
     <distributionSite>codehaus.org</distributionSite>
     <distributionDirectory>/www/dist.codehaus.org</distributionDirectory>
     <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10140</issueTrackingUrl>
