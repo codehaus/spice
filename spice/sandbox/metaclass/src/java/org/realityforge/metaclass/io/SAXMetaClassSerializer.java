@@ -22,7 +22,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * to a SAX2 compliant ContentHandler.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-28 02:20:48 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-28 04:15:24 $
  */
 public class SAXMetaClassSerializer
 {
@@ -301,7 +301,7 @@ public class SAXMetaClassSerializer
       start( handler, ATTRIBUTE_ELEMENT, atts );
 
       text( handler, attribute.getValue() );
-      serializeAttributeParameters( handler, attribute );
+      serializeAttributeParams( handler, attribute );
 
       end( handler, ATTRIBUTE_ELEMENT );
    }
@@ -313,8 +313,8 @@ public class SAXMetaClassSerializer
     * @param attribute the attribute
     * @throws SAXException if error during serilization
     */
-   void serializeAttributeParameters( final ContentHandler handler,
-                                      final Attribute attribute )
+   void serializeAttributeParams( final ContentHandler handler,
+                                  final Attribute attribute )
       throws SAXException
    {
       final String[] names = attribute.getParameterNames();
