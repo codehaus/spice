@@ -10,9 +10,8 @@ package org.realityforge.metaclass.model;
 import junit.framework.TestCase;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 11:18:41 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 11:14:54 $
  */
 public class FeatureDescriptorTestCase
     extends TestCase
@@ -30,14 +29,16 @@ public class FeatureDescriptorTestCase
     public void testFeatureDescriptorWithInheritedAttribute()
         throws Exception
     {
-        final Attribute[] declaredAttributes = new Attribute[]{new Attribute( "moo" )};
+        final Attribute[] declaredAttributes = new Attribute[]{
+            new Attribute( "moo" )};
         final Attribute[] attributes = new Attribute[]
         {
             new Attribute( "baz" ),
             declaredAttributes[ 0 ],
             new Attribute( "bar" )
         };
-        final MockFeature feature = new MockFeature( declaredAttributes, attributes );
+        final MockFeature feature = new MockFeature( declaredAttributes,
+                                                     attributes );
         assertEquals( "declared.length + 2 == actual.length",
                       feature.getDeclaredAttributes().length + 2,
                       feature.getAttributes().length );
@@ -52,10 +53,13 @@ public class FeatureDescriptorTestCase
         }
         catch( final NullPointerException npe )
         {
-            assertEquals( "npe.getMessage()", "declaredAttributes", npe.getMessage() );
+            assertEquals( "npe.getMessage()",
+                          "declaredAttributes",
+                          npe.getMessage() );
             return;
         }
-        fail( "Expected to fail due to null DeclaredAttributes passed into Ctor" );
+        fail(
+            "Expected to fail due to null DeclaredAttributes passed into Ctor" );
     }
 
     public void testNullInDeclaredAttributesPassedToCtor()
@@ -67,10 +71,13 @@ public class FeatureDescriptorTestCase
         }
         catch( final NullPointerException npe )
         {
-            assertEquals( "npe.getMessage()", "declaredAttributes[0]", npe.getMessage() );
+            assertEquals( "npe.getMessage()",
+                          "declaredAttributes[0]",
+                          npe.getMessage() );
             return;
         }
-        fail( "Expected to fail due to null in DeclaredAttributes passed into Ctor" );
+        fail(
+            "Expected to fail due to null in DeclaredAttributes passed into Ctor" );
     }
 
     public void testNullAttributesPassedToCtor()
@@ -97,7 +104,9 @@ public class FeatureDescriptorTestCase
         }
         catch( final NullPointerException npe )
         {
-            assertEquals( "npe.getMessage()", "attributes[0]", npe.getMessage() );
+            assertEquals( "npe.getMessage()",
+                          "attributes[0]",
+                          npe.getMessage() );
             return;
         }
         fail( "Expected to fail due to null in Attributes passed into Ctor" );
@@ -116,9 +125,12 @@ public class FeatureDescriptorTestCase
         }
         catch( final IllegalArgumentException iae )
         {
-            assertEquals( "iae.getMessage()", "declaredAttribute[0] not an attribute", iae.getMessage() );
+            assertEquals( "iae.getMessage()",
+                          "declaredAttribute[0] not an attribute",
+                          iae.getMessage() );
             return;
         }
-        fail( "Expected to fail due to DeclaredAttributes not an attribute passed into Ctor" );
+        fail(
+            "Expected to fail due to DeclaredAttributes not an attribute passed into Ctor" );
     }
 }

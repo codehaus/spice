@@ -20,16 +20,13 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.18 $ $Date: 2003-10-28 13:40:53 $
+ * @author Peter Donald
+ * @version $Revision: 1.19 $ $Date: 2003-11-28 11:14:54 $
  */
 public class AttributesTestCase
     extends TestCase
 {
-    /**
-     * Leave this fied in as it is used in unit tests.
-     */
+    /** Leave this fied in as it is used in unit tests. */
     protected int m_testField = 1;
 
     /**
@@ -353,7 +350,8 @@ public class AttributesTestCase
         final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
         for( int i = 0; i < types.length; i++ )
         {
-            parameters[ i ] = new ParameterDescriptor( "", types[ i ].getName() );
+            parameters[ i ] =
+            new ParameterDescriptor( "", types[ i ].getName() );
         }
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( method.getName(),
@@ -396,7 +394,8 @@ public class AttributesTestCase
         final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
         for( int i = 0; i < types.length; i++ )
         {
-            parameters[ i ] = new ParameterDescriptor( "", types[ i ].getName() );
+            parameters[ i ] =
+            new ParameterDescriptor( "", types[ i ].getName() );
         }
 
         final MethodDescriptor methodDescriptor =
@@ -440,7 +439,8 @@ public class AttributesTestCase
         final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
         for( int i = 0; i < types.length; i++ )
         {
-            parameters[ i ] = new ParameterDescriptor( "", types[ i ].getName() );
+            parameters[ i ] =
+            new ParameterDescriptor( "", types[ i ].getName() );
         }
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( method.getName(),
@@ -566,7 +566,8 @@ public class AttributesTestCase
         final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
         for( int i = 0; i < types.length; i++ )
         {
-            parameters[ i ] = new ParameterDescriptor( "", types[ i ].getName() );
+            parameters[ i ] =
+            new ParameterDescriptor( "", types[ i ].getName() );
         }
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( getConstructorName( constructor ),
@@ -612,7 +613,8 @@ public class AttributesTestCase
         final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
         for( int i = 0; i < types.length; i++ )
         {
-            parameters[ i ] = new ParameterDescriptor( "", types[ i ].getName() );
+            parameters[ i ] =
+            new ParameterDescriptor( "", types[ i ].getName() );
         }
 
         final MethodDescriptor methodDescriptor =
@@ -658,7 +660,8 @@ public class AttributesTestCase
         final ParameterDescriptor[] parameters = new ParameterDescriptor[ types.length ];
         for( int i = 0; i < types.length; i++ )
         {
-            parameters[ i ] = new ParameterDescriptor( "", types[ i ].getName() );
+            parameters[ i ] =
+            new ParameterDescriptor( "", types[ i ].getName() );
         }
         final MethodDescriptor methodDescriptor =
             new MethodDescriptor( getConstructorName( constructor ),

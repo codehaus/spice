@@ -12,9 +12,8 @@ import com.thoughtworks.qdox.model.JavaSource;
 import junit.framework.TestCase;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-17 14:30:14 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 11:14:54 $
  */
 public class MulticastJavaClassFilterTestCase
     extends TestCase

@@ -7,18 +7,17 @@
  */
 package org.realityforge.metaclass.model;
 
-import junit.framework.TestCase;
 import java.util.Properties;
+import junit.framework.TestCase;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 11:00:17 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 11:14:54 $
  */
 public class AttributeTestCase
     extends TestCase
 {
-        public void testAttributeOnlyWithName()
+    public void testAttributeOnlyWithName()
     {
         final Attribute attribute = new Attribute( "dna.service" );
         assertEquals( "attribute.getName() == dna.service",

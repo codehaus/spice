@@ -10,9 +10,8 @@ package org.realityforge.metaclass.model;
 import junit.framework.TestCase;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-28 13:26:55 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 11:14:54 $
  */
 public class ClassDescriptorTestCase
     extends TestCase

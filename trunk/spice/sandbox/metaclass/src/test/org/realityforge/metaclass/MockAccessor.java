@@ -12,9 +12,8 @@ import org.realityforge.metaclass.introspector.MetaClassException;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-28 07:01:02 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003-11-28 11:14:54 $
  */
 public class MockAccessor
     implements MetaClassAccessor
@@ -33,7 +32,8 @@ public class MockAccessor
         throws MetaClassException
     {
         m_accessCount++;
-        if( null != m_classDescriptor && classname.equals( m_classDescriptor.getName() ) )
+        if( null != m_classDescriptor &&
+            classname.equals( m_classDescriptor.getName() ) )
         {
             return m_classDescriptor;
         }

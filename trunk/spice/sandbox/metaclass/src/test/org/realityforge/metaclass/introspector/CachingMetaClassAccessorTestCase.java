@@ -14,9 +14,8 @@ import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-28 13:26:54 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2003-11-28 11:14:54 $
  */
 public class CachingMetaClassAccessorTestCase
     extends TestCase
@@ -27,14 +26,17 @@ public class CachingMetaClassAccessorTestCase
         final CachingMetaClassAccessor accessor = new CachingMetaClassAccessor();
         try
         {
-            accessor.getClassDescriptor( null, getClass().getClassLoader(), accessor );
+            accessor.getClassDescriptor( null,
+                                         getClass().getClassLoader(),
+                                         accessor );
         }
         catch( final NullPointerException npe )
         {
             assertEquals( "npe.getMessage()", "classname", npe.getMessage() );
             return;
         }
-        fail( "Expected to fail due to null Classname passed into GetClassDescriptor" );
+        fail(
+            "Expected to fail due to null Classname passed into GetClassDescriptor" );
     }
 
     public void testNullClassLoaderPassedToGetClassDescriptor()
@@ -47,10 +49,13 @@ public class CachingMetaClassAccessorTestCase
         }
         catch( final NullPointerException npe )
         {
-            assertEquals( "npe.getMessage()", "classLoader", npe.getMessage() );
+            assertEquals( "npe.getMessage()",
+                          "classLoader",
+                          npe.getMessage() );
             return;
         }
-        fail( "Expected to fail due to null ClassLoader passed into GetClassDescriptor" );
+        fail(
+            "Expected to fail due to null ClassLoader passed into GetClassDescriptor" );
     }
 
     public void testGetNonExistent()
@@ -59,7 +64,9 @@ public class CachingMetaClassAccessorTestCase
         final CachingMetaClassAccessor accessor = new CachingMetaClassAccessor();
         try
         {
-            accessor.getClassDescriptor( "NoExist", getClass().getClassLoader(), null );
+            accessor.getClassDescriptor( "NoExist",
+                                         getClass().getClassLoader(),
+                                         null );
         }
         catch( final MetaClassException mce )
         {
@@ -83,7 +90,9 @@ public class CachingMetaClassAccessorTestCase
                                  MethodDescriptor.EMPTY_SET );
         final ClassLoader classLoader = getClass().getClassLoader();
         accessor.registerDescriptor( descriptor, classLoader );
-        final ClassDescriptor result = accessor.getClassDescriptor( "MyClass", classLoader, null );
+        final ClassDescriptor result = accessor.getClassDescriptor( "MyClass",
+                                                                    classLoader,
+                                                                    null );
         assertEquals( "descriptor", descriptor, result );
     }
 
@@ -99,7 +108,9 @@ public class CachingMetaClassAccessorTestCase
                                  MethodDescriptor.EMPTY_SET );
         final ClassLoader classLoader = getClass().getClassLoader();
         accessor.registerDescriptor( descriptor, classLoader );
-        final ClassDescriptor result = accessor.getClassDescriptor( "MyClass", classLoader, null );
+        final ClassDescriptor result = accessor.getClassDescriptor( "MyClass",
+                                                                    classLoader,
+                                                                    null );
         assertEquals( "descriptor", descriptor, result );
 
         try
@@ -155,7 +166,8 @@ public class CachingMetaClassAccessorTestCase
             assertEquals( "npe.getMessage()", "descriptor", npe.getMessage() );
             return;
         }
-        fail( "Expected to fail due to null Descriptor passed into RegisterDescriptor" );
+        fail(
+            "Expected to fail due to null Descriptor passed into RegisterDescriptor" );
     }
 
     public void testNullClassLoaderPassedToRegisterDescriptor()
@@ -174,9 +186,12 @@ public class CachingMetaClassAccessorTestCase
         }
         catch( final NullPointerException npe )
         {
-            assertEquals( "npe.getMessage()", "classLoader", npe.getMessage() );
+            assertEquals( "npe.getMessage()",
+                          "classLoader",
+                          npe.getMessage() );
             return;
         }
-        fail( "Expected to fail due to null classLoader passed into RegisterDescriptor" );
+        fail(
+            "Expected to fail due to null classLoader passed into RegisterDescriptor" );
     }
 }

@@ -12,9 +12,8 @@ import org.realityforge.metaclass.io.MockClassLoader;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-11-01 01:31:57 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003-11-28 11:14:54 $
  */
 public class DefaultMetaClassAccessorTestCase
     extends TestCase
@@ -36,7 +35,9 @@ public class DefaultMetaClassAccessorTestCase
         final MockClassLoader classLoader = new MockClassLoader();
         classLoader.bindResource( location, data );
         final DefaultMetaClassAccessor accessor = new DefaultMetaClassAccessor();
-        final ClassDescriptor clazz = accessor.getClassDescriptor( name, classLoader, null );
+        final ClassDescriptor clazz = accessor.getClassDescriptor( name,
+                                                                   classLoader,
+                                                                   null );
         assertEquals( "class.name", name, clazz.getName() );
         assertEquals( "class.attributes.length",
                       0, clazz.getAttributes().length );
@@ -57,7 +58,9 @@ public class DefaultMetaClassAccessorTestCase
         final MockClassLoader classLoader = new MockClassLoader();
         classLoader.bindResource( location, data );
         final DefaultMetaClassAccessor accessor = new DefaultMetaClassAccessor();
-        final ClassDescriptor clazz = accessor.getClassDescriptor( name, classLoader, null );
+        final ClassDescriptor clazz = accessor.getClassDescriptor( name,
+                                                                   classLoader,
+                                                                   null );
         assertEquals( "class.name", name, clazz.getName() );
         assertEquals( "class.attributes.length",
                       0, clazz.getAttributes().length );
@@ -81,7 +84,8 @@ public class DefaultMetaClassAccessorTestCase
         {
             return;
         }
-        fail( "Expected to be unable to find attributes for non existent class" );
+        fail(
+            "Expected to be unable to find attributes for non existent class" );
     }
 
     public void testBadAttributesForClass()

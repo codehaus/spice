@@ -8,9 +8,8 @@
 package org.realityforge.metaclass.model;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 11:02:16 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 11:14:54 $
  */
 public class MockFeature
     extends FeatureDescriptor

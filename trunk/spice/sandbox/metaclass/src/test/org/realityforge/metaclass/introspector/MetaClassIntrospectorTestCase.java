@@ -15,9 +15,8 @@ import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-28 13:26:54 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003-11-28 11:14:54 $
  */
 public class MetaClassIntrospectorTestCase
     extends TestCase
@@ -41,7 +40,8 @@ public class MetaClassIntrospectorTestCase
         MetaClassIntrospector.clearCompleteCache();
 
         final ClassDescriptor retrieved =
-            MetaClassIntrospector.getClassDescriptor( MetaClassIntrospectorTestCase.class );
+            MetaClassIntrospector.getClassDescriptor(
+                MetaClassIntrospectorTestCase.class );
         assertEquals( "original == retrieved", original, retrieved );
     }
 
@@ -73,13 +73,15 @@ public class MetaClassIntrospectorTestCase
 
         try
         {
-            MetaClassIntrospector.getClassDescriptor( MetaClassIntrospectorTestCase.class );
+            MetaClassIntrospector.getClassDescriptor(
+                MetaClassIntrospectorTestCase.class );
         }
         catch( MetaClassException e )
         {
             return;
         }
-        fail( "Expected to cause exception due to access of non existent resource" );
+        fail(
+            "Expected to cause exception due to access of non existent resource" );
     }
 
     public void testSetNullAccessor()
@@ -110,14 +112,20 @@ public class MetaClassIntrospectorTestCase
         MetaClassIntrospector.clearCompleteCache();
 
         final ClassDescriptor retrieved =
-            MetaClassIntrospector.getClassDescriptor( MetaClassIntrospectorTestCase.class );
+            MetaClassIntrospector.getClassDescriptor(
+                MetaClassIntrospectorTestCase.class );
         assertEquals( "original == retrieved", original, retrieved );
-        assertEquals( "accessor.getAccessCount()", 1, accessor.getAccessCount() );
+        assertEquals( "accessor.getAccessCount()",
+                      1,
+                      accessor.getAccessCount() );
 
         final ClassDescriptor retrieved2 =
-            MetaClassIntrospector.getClassDescriptor( MetaClassIntrospectorTestCase.class );
+            MetaClassIntrospector.getClassDescriptor(
+                MetaClassIntrospectorTestCase.class );
         assertEquals( "original == retrieved2", original, retrieved2 );
-        assertEquals( "accessor.getAccessCount()", 1, accessor.getAccessCount() );
+        assertEquals( "accessor.getAccessCount()",
+                      1,
+                      accessor.getAccessCount() );
     }
 
     public void testSetAccessorUnderSecurityManager()

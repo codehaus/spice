@@ -10,9 +10,8 @@ package org.realityforge.metaclass.model;
 import junit.framework.TestCase;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-28 13:40:54 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 11:14:54 $
  */
 public class MethodDescriptorTestCase
     extends TestCase
@@ -87,7 +86,9 @@ public class MethodDescriptorTestCase
         }
         catch( final NullPointerException npe )
         {
-            assertEquals( "npe.getMessage()", "parameters[0]", npe.getMessage() );
+            assertEquals( "npe.getMessage()",
+                          "parameters[0]",
+                          npe.getMessage() );
             return;
         }
         fail( "Expected to fail due to null parameters[0] passed into Ctor" );

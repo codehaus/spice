@@ -8,16 +8,15 @@
 package org.realityforge.metaclass.tools.packer;
 
 import junit.framework.TestCase;
-import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
-import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-18 23:06:22 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 11:14:55 $
  */
 public class ClassDescriptorPackerTestCase
     extends TestCase
@@ -99,7 +98,8 @@ public class ClassDescriptorPackerTestCase
                                   ParameterDescriptor.EMPTY_SET,
                                   Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
-        final MethodDescriptor[] methods = new MethodDescriptor[]{method1, method2};
+        final MethodDescriptor[] methods = new MethodDescriptor[]{method1,
+                                                                  method2};
 
         final MethodDescriptor[] result = packer.packMethods( methods );
         assertEquals( "result.length", 1, result.length );
@@ -122,7 +122,8 @@ public class ClassDescriptorPackerTestCase
                                   ParameterDescriptor.EMPTY_SET,
                                   Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
-        final MethodDescriptor[] methods = new MethodDescriptor[]{method1, method2};
+        final MethodDescriptor[] methods = new MethodDescriptor[]{method1,
+                                                                  method2};
 
         final MethodDescriptor[] result = packer.packMethods( methods );
         assertEquals( "result.length", 2, result.length );
@@ -150,7 +151,7 @@ public class ClassDescriptorPackerTestCase
         final ClassDescriptor descriptor =
             new ClassDescriptor( "x",
                                  Attribute.EMPTY_SET,
-                                 new Attribute[]{new Attribute("blah")},
+                                 new Attribute[]{new Attribute( "blah" )},
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
         final ClassDescriptorPacker packer = new ClassDescriptorPacker( true );
