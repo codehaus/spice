@@ -17,6 +17,9 @@ import java.util.Map;
 public class SeparatorActionMetaData extends ActionMetaData
 {
 
+    /** The bound value of the separator for the action id */
+    public static final String SEPARATOR = "separator";
+
     /** The key used for storing the id the group of the action */
     public static final String GROUP_ID = "groupId";
     

@@ -131,6 +131,7 @@ final class SeparatorActionFactory extends AbstractObjectCreationFactory {
 
         final ConfigReader reader = (ConfigReader)digester.peek();
         final Map map = new HashMap();
+        map.put( SeparatorActionMetaData.ID, SeparatorActionMetaData.SEPARATOR );
         map.put( SeparatorActionMetaData.GROUP_ID, reader.getCurrentGroupId() );
         return new SeparatorActionMetaData( map );
     }
