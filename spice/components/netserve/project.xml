@@ -53,7 +53,7 @@
         <dependency>
             <groupId>spice</groupId>
             <artifactId>spice-threadpool</artifactId>
-            <version>1.1-dev</version>
+            <version>1.1-b1</version>
             <properties>
                 <category>runtime</category>
             </properties>
