@@ -9,6 +9,8 @@ package org.realityforge.configkit;
 
 import junit.framework.TestCase;
 import java.util.HashMap;
+import java.util.Properties;
+import java.io.InputStream;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -116,6 +118,24 @@ public final class PropertyExpanderTestCase
         assertEquals( "root/#content", "MyApp", text1.getData() );
         assertEquals( "root/child/@attr2", "MyApp", child.getAttribute( "attr2" ) );
         assertEquals( "root/child/#content", "MyApp", text2.getData() );
+    }
+
+    public void testPropertiesExpansion()
+        throws Exception
+    {
+        final HashMap data = new HashMap();
+        data.put( "app.name", "MyApp" );
+
+        final Properties input = new Properties();
+        final InputStream inputStream = getClass().getResourceAsStream( "test/test.properties" );
+        assertNotNull( "Input data", inputStream );
+        input.load(inputStream );
+
+        final Properties output =
+            m_emptyExpander.expandValues( input, data );
+
+        assertEquals( "${app.name}.description=Foo", "Foo", output.getProperty( "MyApp.description" ) );
+        assertEquals( "location=${app.name}", "MyApp", output.getProperty( "location" ) );
     }
 }
 

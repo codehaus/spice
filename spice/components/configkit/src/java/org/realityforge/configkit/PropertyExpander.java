@@ -7,13 +7,15 @@
  */
 package org.realityforge.configkit;
 
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-import org.w3c.dom.NamedNodeMap;
 
 /**
  * This is a utility class designed for expanding propertys in
@@ -22,7 +24,7 @@ import org.w3c.dom.NamedNodeMap;
  * inner name replaced with property value from map.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-04 11:09:15 $
+ * @version $Revision: 1.2 $ $Date: 2003-05-26 12:37:57 $
  */
 public final class PropertyExpander
 {
@@ -67,6 +69,29 @@ public final class PropertyExpander
     public PropertyExpander( final int onUndefined )
     {
         m_onUndefined = onUndefined;
+    }
+
+    /**
+     * Expand all propertys in the input Properties object.
+     *
+     * @param input the Properties object to resolve
+     * @param data the data that holds property values
+     * @exception Exception if an error occurs
+     */
+    public Properties expandValues( final Properties input, final Map data )
+        throws Exception
+    {
+        final Properties result = new Properties();
+        final Iterator iterator = input.keySet().iterator();
+        while( iterator.hasNext() )
+        {
+            final String key = (String)iterator.next();
+            final String value = input.getProperty( key );
+            final String newKey = expandValues( key, data );
+            final String newValue = expandValues( value, data );
+            result.setProperty( newKey, newValue );
+        }
+        return result;
     }
 
     /**
