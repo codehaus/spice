@@ -8,14 +8,15 @@
 package org.realityforge.salt.i18n;
 
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.HashMap;
 
 /**
  * Manager for resources.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-05-28 12:41:00 $
+ * @version $Revision: 1.7 $ $Date: 2003-05-28 13:35:47 $
  */
 public class ResourceManager
 {
@@ -32,9 +33,10 @@ public class ResourceManager
         new RuntimePermission( "i18n.clearCompleteCache" );
 
     /**
-     * Map of names onto Resources.
+     * Map of ClassLoaders onto Secondary Map. Secondary map will
+     * map basename to a Resources object.
      */
-    private final static Map c_resources = new HashMap();
+    private final static Map c_resources = new WeakHashMap();
 
     /**
      * Clear the cache of all resources currently loaded into the
@@ -70,11 +72,11 @@ public class ResourceManager
     public final static Resources getBaseResources( final String basename,
                                                     final ClassLoader classLoader )
     {
-        Resources resources = getCachedResource( basename );
+        Resources resources = getCachedResource( basename, classLoader );
         if( null == resources )
         {
             resources = new Resources( basename, classLoader );
-            putCachedResource( basename, resources );
+            putCachedResource( basename, classLoader, resources );
         }
 
         return resources;
@@ -103,8 +105,17 @@ public class ResourceManager
      */
     public final static Resources getPackageResources( final Class clazz )
     {
-        final String resource = clazz.getPackage().getName() + POSTFIX;
-        return getBaseResources( resource, clazz.getClassLoader() );
+        String name = clazz.getName();
+        final int index = name.lastIndexOf(".");
+        if( -1 != index )
+        {
+            name = name.substring( 0, index );
+        }
+        if( !name.equals("") )
+        {
+            name += POSTFIX;
+        }
+        return getBaseResources( name, clazz.getClassLoader() );
     }
 
     /**
@@ -128,9 +139,16 @@ public class ResourceManager
      * @param resources the resources object
      */
     private synchronized static final void putCachedResource( final String baseName,
+                                                              final ClassLoader classLoader,
                                                               final Resources resources )
     {
-        c_resources.put( baseName, new WeakReference( resources ) );
+        Map map = (Map)c_resources.get( classLoader );
+        if( null == map )
+        {
+            map = new HashMap();
+            c_resources.put( classLoader, map );
+        }
+        map.put( baseName, new WeakReference( resources ) );
     }
 
     /**
@@ -139,10 +157,16 @@ public class ResourceManager
      * @param baseName the resource key
      * @return resources the resources object
      */
-    private synchronized static final Resources getCachedResource( final String baseName )
+    private synchronized static final Resources getCachedResource( final String baseName,
+                                                                   final ClassLoader classLoader )
     {
+        Map map = (Map)c_resources.get( classLoader );
+        if( null == map )
+        {
+            return null;
+        }
         final WeakReference weakReference =
-            (WeakReference)c_resources.get( baseName );
+            (WeakReference)map.get( baseName );
         if( null == weakReference )
         {
             return null;
