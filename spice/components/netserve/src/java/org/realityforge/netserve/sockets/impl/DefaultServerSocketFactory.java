@@ -15,8 +15,8 @@ import org.realityforge.netserve.sockets.ServerSocketFactory;
 /**
  * Factory implementation for vanilla TCP sockets.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-23 01:32:18 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 01:33:30 $
  * @phoenix.component
  * @phoenix.service type="ServerSocketFactory"
  */
