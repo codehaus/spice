@@ -18,14 +18,6 @@ public class BasicMethodAttributesTestCase
 {
     private MethodDescriptor[] _methodDescriptors;
 
-    public BasicMethodAttributesTestCase()
-    {
-        super( "BasicMethodAttributes" );
-    }
-
-    /**
-     * Set up before test.
-     */
     protected void setUp()
     {
         super.setUp();
@@ -40,18 +32,12 @@ public class BasicMethodAttributesTestCase
         }
     }
 
-    /**
-     * Clean up after test.
-     */
     protected void tearDown()
     {
         super.tearDown();
         _methodDescriptors = null;
     }
 
-    /**
-     * This test must be run first.
-     */
     public void testNotNull()
     {
         assertNotNull( _methodDescriptors );

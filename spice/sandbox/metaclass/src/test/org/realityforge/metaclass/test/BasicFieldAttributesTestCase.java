@@ -16,14 +16,6 @@ public class BasicFieldAttributesTestCase
 {
     private FieldDescriptor[] _fieldDescriptors;
 
-    public BasicFieldAttributesTestCase()
-    {
-        super( "BasicFieldAttributes" );
-    }
-
-    /**
-     * Set up before test.
-     */
     protected void setUp()
     {
         super.setUp();
@@ -38,9 +30,6 @@ public class BasicFieldAttributesTestCase
         }
     }
 
-    /**
-     * Clean up after test.
-     */
     protected void tearDown()
     {
         super.tearDown();

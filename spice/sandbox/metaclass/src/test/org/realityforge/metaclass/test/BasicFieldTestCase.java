@@ -15,14 +15,6 @@ public class BasicFieldTestCase
 {
     private FieldDescriptor[] _fieldDescriptors;
 
-    public BasicFieldTestCase()
-    {
-        super( "BasicField" );
-    }
-
-    /**
-     * Set up before test.
-     */
     protected void setUp()
     {
         super.setUp();
@@ -37,18 +29,12 @@ public class BasicFieldTestCase
         }
     }
 
-    /**
-     * Clean up after test.
-     */
     protected void tearDown()
     {
         super.tearDown();
         _fieldDescriptors = null;
     }
 
-    /**
-     * This test must be run first.
-     */
     public void testNotNull()
     {
         assertNotNull( _fieldDescriptors );
