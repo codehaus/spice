@@ -5,14 +5,14 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.packet.transport;
+package org.realityforge.packet.net.transport;
 
 import java.nio.ByteBuffer;
 import junit.framework.TestCase;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-12-09 00:59:43 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-07 02:40:44 $
  */
 public class CircularBufferTestCase
     extends TestCase

@@ -10,13 +10,13 @@ package org.realityforge.packet.net.handlers;
 import org.codehaus.spice.event.AbstractEventHandler;
 import org.codehaus.spice.event.EventHandler;
 import org.realityforge.packet.net.AbstractTransportEvent;
-import org.realityforge.packet.transport.TcpTransport;
+import org.realityforge.packet.net.transport.TcpTransport;
 
 /**
  * Simple handler that closes underlying transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:46 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-07 02:40:44 $
  */
 public class CloseEventHandler
     extends AbstractEventHandler
