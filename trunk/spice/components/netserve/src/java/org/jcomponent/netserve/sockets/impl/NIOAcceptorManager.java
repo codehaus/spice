@@ -25,7 +25,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-09 06:48:19 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-09 07:36:07 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -277,7 +277,7 @@ public class NIOAcceptorManager
      *
      * @param channel the channel
      */
-    private void handleChannel( final ServerSocketChannel channel )
+    void handleChannel( final ServerSocketChannel channel )
     {
         final NIOAcceptorEntry entry =
             (NIOAcceptorEntry)m_socket2Entry.get( channel.socket() );
