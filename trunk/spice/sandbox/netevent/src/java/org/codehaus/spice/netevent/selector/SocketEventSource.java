@@ -7,9 +7,8 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.util.Iterator;
 import java.util.Set;
-import org.codehaus.spice.event.EventSink;
-import org.codehaus.spice.event.EventSource;
-import org.codehaus.spice.event.impl.DefaultEventQueue;
+import org.codehaus.spice.event.EventJoin;
+import org.codehaus.spice.event.impl.AbstractEventSource;
 import org.codehaus.spice.netevent.events.AcceptPossibleEvent;
 import org.codehaus.spice.netevent.events.ConnectPossibleEvent;
 import org.codehaus.spice.netevent.events.ReadPossibleEvent;
@@ -17,65 +16,84 @@ import org.codehaus.spice.netevent.events.WritePossibleEvent;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
+ * An event source that generates events based from SelectableChannels.
+ *
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-21 23:44:58 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-22 02:38:24 $
  */
 public class SocketEventSource
-    implements EventSource
+    extends AbstractEventSource
 {
-    private final EventSource _source;
-    private EventSink _sink;
+    /**
+     * The selector used to schedule events.
+     */
     private Selector _selector;
 
-    public SocketEventSource( final DefaultEventQueue queue )
+    /**
+     * Create source.
+     *
+     * @param join the join
+     * @throws IOException if error creating source.
+     */
+    public SocketEventSource( final EventJoin join )
         throws IOException
     {
-        _source = queue;
-        _sink = queue;
+        super( join );
         open();
     }
 
-    public Object getEvent()
-    {
-        refresh();
-        return _source.getEvent();
-    }
-
-    public Object[] getEvents( final int count )
-    {
-        refresh();
-        return _source.getEvents( count );
-    }
-
-    public Object getSourceLock()
-    {
-        return _source.getSourceLock();
-    }
-
-    public SelectionKey registerChannel( final SelectableChannel channel,
-                                         final int ops,
-                                         final Object userData )
+    /**
+     * Register channel with selector.
+     *
+     * @param channel the channel
+     * @param ops the operations interested in
+     * @param userData the associated userdata (if any)
+     * @return the SelectionKey
+     * @throws IOException if unable to register with selector
+     */
+    public synchronized SelectionKey
+        registerChannel( final SelectableChannel channel,
+                         final int ops,
+                         final Object userData )
         throws IOException
     {
+        if( null == _selector )
+        {
+            throw new IOException( "_selector == null" );
+        }
         channel.configureBlocking( false );
         return channel.register( _selector, ops, userData );
     }
 
-    public void open()
+    /**
+     * @see AbstractEventSource#open()
+     */
+    public synchronized void open()
         throws IOException
     {
         _selector = Selector.open();
     }
 
-    public void close()
+    /**
+     * @see AbstractEventSource#close()
+     */
+    public synchronized void close()
         throws IOException
     {
         _selector.wakeup();
         _selector.close();
+        _selector = null;
     }
 
-    void refresh()
+    /**
+     * @see AbstractEventSource#refresh()
+     */
+    protected synchronized void refresh()
     {
+        if( null == _selector )
+        {
+            return;
+        }
         try
         {
             _selector.selectNow();
@@ -96,6 +114,11 @@ public class SocketEventSource
         }
     }
 
+    /**
+     * Handle event on specified SelectionKey.
+     *
+     * @param key the SelectionKey.
+     */
     private void handleSelectorEvent( final SelectionKey key )
     {
         final Object userData = key.attachment();
@@ -106,27 +129,27 @@ public class SocketEventSource
                 (ServerSocketChannel)key.channel();
             final AcceptPossibleEvent event =
                 new AcceptPossibleEvent( channel, userData );
-            _sink.addEvent( event );
+            getJoin().addEvent( event );
         }
         if( key.isWritable() )
         {
             final ChannelTransport transport = (ChannelTransport)userData;
             final WritePossibleEvent event =
                 new WritePossibleEvent( transport );
-            _sink.addEvent( event );
+            getJoin().addEvent( event );
         }
         if( key.isReadable() )
         {
             final ChannelTransport transport = (ChannelTransport)userData;
             final ReadPossibleEvent event =
                 new ReadPossibleEvent( transport );
-            _sink.addEvent( event );
+            getJoin().addEvent( event );
         }
         if( key.isConnectable() )
         {
             final ConnectPossibleEvent event =
                 new ConnectPossibleEvent( key.channel(), userData );
-            _sink.addEvent( event );
+            getJoin().addEvent( event );
         }
     }
 }
