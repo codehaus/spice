@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<config>
+	<jervlet-deployer>
+		<Context docBase="/" path="."/>
+	</jervlet-deployer>
+	<jervlet-jetty-logger/>
+	<jervlet-jetty/>
+</config>

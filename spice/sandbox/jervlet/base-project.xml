@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  <pomVersion>3</pomVersion>
+
+  <groupId>jervlet</groupId>
+  
+  <organization>
+    <name>The Spice Group</name>
+    <url>http://sourceforge.net/projects/spice</url>
+    <logo>http://sourceforge.net/sflogo.php?group_id=67448&amp;type=5</logo>
+  </organization>
+  
+  <url>http://www.jcomponent.org</url>
+
+  <siteDirectory>/home/groups/s/sp/spice/htdocs/jervlet</siteDirectory>
+  <distributionDirectory>/home/groups/s/sp/spice/htdocs/maven</distributionDirectory>
+  <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10140</issueTrackingUrl>
+
+  <siteAddress>spice.sourceforge.net</siteAddress>
+  <distributionSite>spice.sourceforge.net</distributionSite>
+
+  <repository>
+    <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/spice:sandbox/jervlet}</connection>
+    <url>http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/spice/spice/sandbox</url>
+  </repository>
+
+  <licenses>
+    <license
+      name="The Spice Software License, Version 1.1"
+      url="${pom.distributionSite}/LICENSE.txt"
+      distribution="repo"/>
+  </licenses>
+
+  <mailingLists>
+    <mailingList>
+      <name>Spice Developers List</name>
+      <subscribe>spice-devel-request@lists.sourceforge.net</subscribe>
+      <unsubscribe>spice-devel-request@lists.sourceforge.net</unsubscribe>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=spice-devel</archive>
+    </mailingList>
+  </mailingLists>
+  
+  <build><nagEmailAddress>spice-devel@lists.sourceforge.net</nagEmailAddress></build>
+  
+</project>
+

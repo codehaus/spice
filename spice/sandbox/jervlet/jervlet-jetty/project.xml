@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  <pomVersion>3</pomVersion>
+
+  <extend>${basedir}/../base-project.xml</extend>
+  
+  <id>jervlet-jetty</id>
+  <name>Jervlet Jetty Component</name>
+  <currentVersion>0.7-dev</currentVersion>
+  
+  <inceptionYear>2003</inceptionYear>
+  <package>org.jcomponent.jervlet.blocks.jetty</package>
+  
+  <developers>
+   <developer>
+      <name>Ryan Hoegg</name>
+      <id>rhoegg</id>
+      <email>rhoegg@isisnetworks.net</email>
+      <organization>ISIS Networks</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <dependencies>
+	<dependency>
+	  <groupId>jervlet</groupId>
+	  <artifactId>jervlet</artifactId>
+	  <version>0.7-dev</version>
+	</dependency>
+	<dependency>
+	  <id>jetty</id>
+	  <version>4.2.12</version>
+	</dependency>
+    <dependency>
+      <id>avalon-framework</id>
+      <version>4.1.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>loom</groupId>
+      <artifactId>maven-sar-plugin</artifactId>
+      <version>1.0-beta1-dev</version>
+      <type>plugin</type>
+    </dependency>
+    <dependency>
+      <groupId>loom</groupId>
+      <artifactId>loom-tools</artifactId>
+      <version>1.0-beta1-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>loom</groupId>
+      <artifactId>loom-info</artifactId>
+      <version>1.0-beta1-dev</version>
+    </dependency>
+    <dependency>
+      <groupId>spice</groupId>
+      <artifactId>spice-metaclass</artifactId>
+      <version>20031005.002435</version>
+    </dependency>
+    <dependency>
+      <groupId>dna</groupId>
+      <artifactId>dna-tools</artifactId>
+      <version>20031016.083103</version>
+    </dependency>
+    <dependency>
+      <id>qdox</id>
+      <version>1.1</version>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <sourceDirectory>${basedir}/src/java</sourceDirectory>
+    <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/conf/schema</directory>
+        <targetPath>org/jcomponent/jervlet/blocks/jetty</targetPath>
+        <includes>
+          <include>JettyJervlet-schema.xml</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+</project>
+
