@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * This class makes it easy to manipulate data stored in exceptions.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-06-12 23:11:16 $
+ * @version $Revision: 1.8 $ $Date: 2003-06-12 23:12:14 $
  */
 public final class ExceptionUtil
 {
@@ -44,7 +44,7 @@ public final class ExceptionUtil
     /**
      * Generate string for specified exception and the cause of
      * this exception (if any).
-     * 
+     *
      * @param throwable a <code>Throwable</code>
      * @return the stack trace as a <code>String</code>
      */
@@ -65,37 +65,6 @@ public final class ExceptionUtil
                                           final boolean printCause )
     {
         return printStackTrace( throwable, 0, printCause );
-    }
-
-    /**
-     * Serialize the specified <code>Throwable</code> to a string.
-     * Restrict the number of frames printed out to the specified depth.
-     * If the depth specified is <code>0</code> then all the frames are
-     * converted into a string.
-     *
-     * @param throwable a <code>Throwable</code>
-     * @param depth number of stack trace frames to show
-     * @return the stack trace as a <code>String</code>
-     */
-    private static String printStackTrace( final Throwable throwable, final int depth )
-    {
-        int actualDepth = depth;
-        final String[] lines = captureStackTrace( throwable );
-
-        if( 0 == actualDepth || actualDepth > lines.length )
-        {
-            actualDepth = lines.length;
-        }
-
-        final StringBuffer sb = new StringBuffer();
-
-        for( int i = 0; i < actualDepth; i++ )
-        {
-            sb.append( lines[ i ] );
-            sb.append( LINE_SEPARATOR );
-        }
-
-        return sb.toString();
     }
 
     /**
@@ -214,5 +183,36 @@ public final class ExceptionUtil
         }
 
         return result;
+    }
+
+    /**
+     * Serialize the specified <code>Throwable</code> to a string.
+     * Restrict the number of frames printed out to the specified depth.
+     * If the depth specified is <code>0</code> then all the frames are
+     * converted into a string.
+     *
+     * @param throwable a <code>Throwable</code>
+     * @param depth number of stack trace frames to show
+     * @return the stack trace as a <code>String</code>
+     */
+    private static String printStackTrace( final Throwable throwable, final int depth )
+    {
+        int actualDepth = depth;
+        final String[] lines = captureStackTrace( throwable );
+
+        if( 0 == actualDepth || actualDepth > lines.length )
+        {
+            actualDepth = lines.length;
+        }
+
+        final StringBuffer sb = new StringBuffer();
+
+        for( int i = 0; i < actualDepth; i++ )
+        {
+            sb.append( lines[ i ] );
+            sb.append( LINE_SEPARATOR );
+        }
+
+        return sb.toString();
     }
 }
