@@ -2,8 +2,9 @@
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>MetaClass</name>
-    <id>metaclass</id>
+    <id>spice-metaclass</id>
     <gumpRepositoryId>components</gumpRepositoryId>
+    <inceptionYear>2003</inceptionYear>
 
     <shortDescription>Provides runtime access to attributes</shortDescription>
 

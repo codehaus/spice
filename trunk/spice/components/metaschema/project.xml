@@ -2,8 +2,9 @@
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>MetaSchema</name>
-    <id>metaschema</id>
+    <id>spice-metaschema</id>
     <gumpRepositoryId>components</gumpRepositoryId>
+    <inceptionYear>2003</inceptionYear>
 
     <shortDescription>
     	Provides a validation schema for MetaClass
@@ -39,7 +40,7 @@
             <version>1.0-b1</version>
         </dependency>
         <dependency>
-            <id>metaclass</id>
+            <id>spice-metaclass</id>
             <version>1.0</version>
         </dependency>
         <dependency>
