@@ -4,7 +4,7 @@
     <name>Spice Alchemist</name>
     <id>spice-alchemist</id>    
     <package>org.codehaus.spice.alchemist</package>
-    <currentVersion>1.1</currentVersion>
+    <currentVersion>1.2-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
     <shortDescription>
@@ -41,6 +41,16 @@
             <artifactId>dna-api</artifactId>
             <version>1.1</version>
         </dependency>
+         <dependency>
+            <groupId>excalibur-instrument</groupId>
+            <artifactId>excalibur-instrument</artifactId>
+             <version>1.2</version>
+         </dependency>
+         <dependency>
+            <groupId>excalibur-instrument</groupId>
+            <artifactId>excalibur-instrument-impl</artifactId>
+            <version>1.2</version>
+         </dependency>
         <dependency> <!-- for unit test -->
             <groupId>dna</groupId>
             <artifactId>dna-impl</artifactId>

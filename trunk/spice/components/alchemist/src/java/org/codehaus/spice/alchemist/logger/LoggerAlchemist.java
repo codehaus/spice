@@ -5,17 +5,15 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.codehaus.spice.alchemist;
+package org.codehaus.spice.alchemist.logger;
 
-import org.codehaus.spice.alchemist.impl.AvalonLogger;
-import org.codehaus.spice.alchemist.impl.DNALogger;
 import org.codehaus.dna.Logger;
 
 /**
  * Utility class containing methods to transform Logger objects.
  *
  * @author Mauro Talevi
- * @version $Revision: 1.1 $ $Date: 2004-04-24 11:23:32 $
+ * @version $Revision: 1.1 $ $Date: 2004-06-13 13:35:14 $
  */
 public class LoggerAlchemist
 {
