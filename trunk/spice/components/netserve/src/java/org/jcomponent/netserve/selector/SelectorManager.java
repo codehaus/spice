@@ -136,7 +136,7 @@ public class SelectorManager
             }
          }
       }
-      while ( null != getSelector() )
+      while ( null != m_selector )
       {
          synchronized ( getSelectorLock() )
          {
