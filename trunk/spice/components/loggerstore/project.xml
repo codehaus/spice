@@ -23,7 +23,14 @@
         <dependency>
             <groupId>avalon</groupId>
             <artifactId>avalon-logkit</artifactId>
-            <version>1.2</version>
+            <!-- uses snapshot until util.Closeable is released -->
+            <!--version>1.2</version-->
+            <jar>logkit.jar</jar>
+        </dependency>
+        <dependency>
+            <groupId>excalibur</groupId>
+            <artifactId>excalibur-i18n</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>excalibur</groupId>
@@ -32,7 +39,7 @@
         </dependency>
         <dependency>
             <id>log4j</id>
-            <version>1.2.7</version>
+            <version>1.2.8</version>
         </dependency>
         <dependency>
           <id>xml-apis</id>
