@@ -9,16 +9,20 @@ package org.realityforge.packet.session;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * A basic in memory SessionManager implementation.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-17 04:25:54 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-13 07:00:02 $
  */
 public class DefaultSessionManager
     implements SessionManager
 {
+    /** generator for authentication IDs. */
+    private final Random _generator = new Random();
+
     /** Map of sessionIDs to sessions. */
     private final Map _sessions = new HashMap();
 
@@ -41,7 +45,9 @@ public class DefaultSessionManager
      */
     public synchronized Session newSession()
     {
-        final Session session = new Session( _lastSessionID++ );
+        final Session session =
+            new Session( _lastSessionID++,
+                         (short)_generator.nextInt() );
         _sessions.put( new Long( session.getSessionID() ),
                        session );
         return session;
