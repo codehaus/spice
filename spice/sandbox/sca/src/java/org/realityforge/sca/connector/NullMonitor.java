@@ -1,4 +1,4 @@
-package org.realityforge.connector;
+package org.realityforge.sca.connector;
 
 /**
  * A null monitor that consumes all messages.

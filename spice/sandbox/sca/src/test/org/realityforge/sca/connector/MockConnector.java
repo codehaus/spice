@@ -1,4 +1,4 @@
-package org.realityforge.connector;
+package org.realityforge.sca.connector;
 
 class MockConnector
    extends Connector

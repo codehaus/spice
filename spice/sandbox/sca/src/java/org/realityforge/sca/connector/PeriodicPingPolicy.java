@@ -1,4 +1,4 @@
-package org.realityforge.connector;
+package org.realityforge.sca.connector;
 
 /**
  * Ping policy that pings on specified period.

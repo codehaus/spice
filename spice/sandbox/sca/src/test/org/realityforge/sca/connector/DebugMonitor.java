@@ -1,4 +1,4 @@
-package org.realityforge.connector;
+package org.realityforge.sca.connector;
 
 /**
  * A debug monitor that prints all messages to standard out.

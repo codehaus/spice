@@ -1,4 +1,4 @@
-package org.realityforge.connector;
+package org.realityforge.sca.connector;
 
 import com.mockobjects.dynamic.C;
 import com.mockobjects.dynamic.Mock;

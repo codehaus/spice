@@ -1,4 +1,4 @@
-package org.realityforge.connector;
+package org.realityforge.sca.connector;
 
 /**
  * A simple Runnable that checks ping for connector
