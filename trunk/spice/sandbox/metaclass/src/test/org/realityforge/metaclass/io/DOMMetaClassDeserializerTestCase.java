@@ -24,7 +24,7 @@ import java.util.Properties;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-11-01 01:14:01 $
+ * @version $Revision: 1.13 $ $Date: 2003-11-01 01:23:01 $
  */
 public class DOMMetaClassDeserializerTestCase
     extends TestCase
@@ -243,12 +243,14 @@ public class DOMMetaClassDeserializerTestCase
         final Document document = createDocument();
         final Element root = document.createElement( MetaClassIOXml.FIELDS_ELEMENT );
         final Comment comment1 =
-            document.createComment( "This comment2 brought to you by Comments-R-Us" );
+            document.createComment( "This comment3 brought to you by Comments-R-Us" );
         root.appendChild( comment1 );
         final Element element = document.createElement( MetaClassIOXml.FIELD_ELEMENT );
         root.appendChild( element );
         element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myField" );
         element.setAttribute( MetaClassIOXml.TYPE_ATTRIBUTE, "int" );
+        final Comment comment2 = document.createComment( "Random COmment" );
+        element.appendChild( comment2 );
 
         final Element attributes = document.createElement( MetaClassIOXml.ATTRIBUTES_ELEMENT );
         element.appendChild( attributes );
@@ -257,8 +259,8 @@ public class DOMMetaClassDeserializerTestCase
         final Comment comment = document.createComment( "Random COmment" );
         attributes.appendChild( comment );
         attribute.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myAttribute" );
-        final Comment comment2 = document.createComment( "Random COmment" );
-        attribute.appendChild( comment2 );
+        final Comment comment3 = document.createComment( "Random COmment" );
+        attribute.appendChild( comment3 );
 
         final FieldDescriptor[] fields = deserializer.buildFields( root );
         assertEquals( "fields.length", 1, fields.length );
