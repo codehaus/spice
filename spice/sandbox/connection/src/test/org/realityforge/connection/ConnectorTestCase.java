@@ -439,4 +439,34 @@ public class ConnectorTestCase
       connectorMock.verify();
       monitorMock.verify();
    }
+
+
+   public void testValidateConnectionOnNonVerified()
+      throws Exception
+   {
+      final Mock connectorMock = new Mock( ConnectorConnection.class );
+      final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
+
+      final Mock monitorMock = new Mock( ConnectorMonitor.class );
+      monitorMock.expect( "attemptingValidation", C.NO_ARGS );
+      final ConnectorMonitor monitor = (ConnectorMonitor) monitorMock.proxy();
+
+      final Mock policyMock = new Mock( ReconnectionPolicy.class );
+      final ReconnectionPolicy policy = (ReconnectionPolicy) policyMock.proxy();
+
+      final Connector connector = new Connector();
+      connector.setConnection( connection );
+      connector.setMonitor( monitor );
+      connector.setPolicy( policy );
+
+      connector.setActive( false );
+      final boolean result = connector.validateConnection();
+
+      assertEquals( "result", false, result );
+      assertEquals( "isConnected", false, connector.isConnected() );
+
+      connectorMock.verify();
+      monitorMock.verify();
+      policyMock.verify();
+   }
 }
