@@ -294,6 +294,13 @@ public class MBeanBuilder
         }
     }
 
+    /**
+     * Build a set of parameter info objects via specified metadata.
+     *
+     * @param attributes the attributes
+     * @param parameters the parameters
+     * @return the parameter infos
+     */
     private MBeanParameterInfo[] buildParametersFromMetaData( final Attribute[] attributes,
                                                               final ParameterDescriptor[] parameters )
     {
