@@ -314,6 +314,7 @@ public class ConnectorTestCase
       final Mock connectorMock = new Mock( ConnectorConnection.class );
       final Exception exception = new Exception();
       connectorMock.expectAndThrow( "doConnect", C.NO_ARGS, exception );
+      connectorMock.expect( "doDisconnect", C.NO_ARGS );
 
       final Mock monitorMock = new Mock( ConnectorMonitor.class );
       monitorMock.expect( "attemptingConnection", C.NO_ARGS );

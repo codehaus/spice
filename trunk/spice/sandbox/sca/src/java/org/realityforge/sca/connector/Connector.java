@@ -350,6 +350,7 @@ public class Connector
                     _connectionAttempts++;
                     _connectionError = t.toString();
                     getMonitor().errorConnecting( t );
+                    performDisconnect();
                 }
             }
         }
@@ -368,15 +369,23 @@ public class Connector
             {
                 getMonitor().attemptingDisconnection();
                 setConnected( false );
-                try
-                {
-                    getConnection().doDisconnect();
-                }
-                catch( final Throwable t )
-                {
-                    getMonitor().errorDisconnecting( t );
-                }
+                performDisconnect();
             }
+        }
+    }
+
+    /**
+     * Actually perform the disconnection.
+     */
+    private void performDisconnect()
+    {
+        try
+        {
+            getConnection().doDisconnect();
+        }
+        catch( final Throwable t )
+        {
+            getMonitor().errorDisconnecting( t );
         }
     }
 
