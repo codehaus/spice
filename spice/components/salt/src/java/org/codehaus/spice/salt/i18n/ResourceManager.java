@@ -16,8 +16,8 @@ import java.util.WeakHashMap;
  * Manager for resources.
  *
  * @author Peter Donald
- * @author <a href="mailto:colus at apache.org">Eung-ju Park</a>
- * @version $Revision: 1.1 $ $Date: 2003-12-02 02:15:04 $
+ * @author Eung-ju Park
+ * @version $Revision: 1.2 $ $Date: 2004-07-11 23:52:32 $
  */
 public class ResourceManager
 {
@@ -27,8 +27,8 @@ public class ResourceManager
     private static final String POSTFIX = "Resources";
 
     /** Permission needed to clear complete cache. */
-    private static final RuntimePermission CLEAR_CACHE_PERMISSION =
-        new RuntimePermission( "i18n.clearCompleteCache" );
+    private static final RuntimePermission CLEAR_CACHE_PERMISSION = new RuntimePermission(
+        "i18n.clearCompleteCache" );
 
     /**
      * Map of ClassLoaders onto Secondary Map. Secondary map will map basename
@@ -136,12 +136,11 @@ public class ResourceManager
      * @param baseName the resource key
      * @param resources the resources object
      */
-    private synchronized static final void putCachedResource(
-        final String baseName,
-        final ClassLoader classLoader,
-        final Resources resources )
+    private synchronized static final void putCachedResource( final String baseName,
+                                                              final ClassLoader classLoader,
+                                                              final Resources resources )
     {
-        Map map = (Map)c_resources.get( classLoader );
+        Map map = (Map) c_resources.get( classLoader );
         if( null == map )
         {
             map = new HashMap();
@@ -156,24 +155,22 @@ public class ResourceManager
      * @param baseName the resource key
      * @return resources the resources object
      */
-    private synchronized static final Resources getCachedResource(
-        final String baseName,
-        final ClassLoader classLoader )
+    private synchronized static final Resources getCachedResource( final String baseName,
+                                                                   final ClassLoader classLoader )
     {
-        Map map = (Map)c_resources.get( classLoader );
+        Map map = (Map) c_resources.get( classLoader );
         if( null == map )
         {
             return null;
         }
-        final WeakReference weakReference =
-            (WeakReference)map.get( baseName );
+        final WeakReference weakReference = (WeakReference) map.get( baseName );
         if( null == weakReference )
         {
             return null;
         }
         else
         {
-            return (Resources)weakReference.get();
+            return (Resources) weakReference.get();
         }
     }
 }
