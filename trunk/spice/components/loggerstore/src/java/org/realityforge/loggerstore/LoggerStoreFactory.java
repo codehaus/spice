@@ -22,7 +22,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-05-24 22:29:40 $
+ * @version $Revision: 1.5 $ $Date: 2003-05-24 22:29:57 $
  */
 public interface LoggerStoreFactory
 {
@@ -37,13 +37,6 @@ public interface LoggerStoreFactory
      * for LoggerStore can be found.
      */
     String FILE_LOCATION = LoggerStoreFactory.class.getName() + ".file";
-
-    /**
-     * The CONFIGURATION key.  Used to denote the configuration object
-     * required by the LoggerStore.  Each LoggerStore accepts different
-     * configuration objects.
-     */
-    String CONFIGURATION = "configuration";
 
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
