@@ -16,9 +16,9 @@ import org.jcomponent.netserve.sockets.ServerSocketFactory;
  * Factory implementation for vanilla TCP sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:14 $
- * @phoenix.component
- * @phoenix.service type="ServerSocketFactory"
+ * @version $Revision: 1.2 $ $Date: 2003-10-08 01:36:11 $
+ * @dna.component
+ * @dna.service type="ServerSocketFactory"
  */
 public class DefaultServerSocketFactory
     implements ServerSocketFactory

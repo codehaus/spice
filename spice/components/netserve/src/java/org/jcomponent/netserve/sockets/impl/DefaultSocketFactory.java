@@ -16,9 +16,9 @@ import org.jcomponent.netserve.sockets.SocketFactory;
  * A SocketFactory that creates vanilla sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:14 $
- * @phoenix.component
- * @phoenix.service type="SocketFactory"
+ * @version $Revision: 1.2 $ $Date: 2003-10-08 01:36:11 $
+ * @dna.component
+ * @dna.service type="SocketFactory"
  */
 public class DefaultSocketFactory
     implements SocketFactory
