@@ -7,8 +7,6 @@
  */
 package org.realityforge.metaclass.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 import org.realityforge.metaclass.model.Attribute;
 
 public class EmptyClassTestCase
@@ -18,11 +16,6 @@ public class EmptyClassTestCase
     public EmptyClassTestCase()
     {
         super( "EmptyClass", CLASS_NAME );
-    }
-
-    public static Test suite()
-    {
-        return new TestSuite( EmptyClassTestCase.class );
     }
 
     public void testGetName()

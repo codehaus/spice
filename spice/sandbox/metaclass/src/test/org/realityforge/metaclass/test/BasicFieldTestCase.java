@@ -7,8 +7,6 @@
  */
 package org.realityforge.metaclass.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.FieldDescriptor;
 
@@ -21,11 +19,6 @@ public class BasicFieldTestCase
     public BasicFieldTestCase()
     {
         super( "BasicField", CLASS_NAME );
-    }
-
-    public static Test suite()
-    {
-        return new TestSuite( BasicFieldTestCase.class );
     }
 
     /**
