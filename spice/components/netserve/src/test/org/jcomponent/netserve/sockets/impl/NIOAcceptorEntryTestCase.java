@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-09 06:10:37 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-23 03:44:28 $
  */
 public class NIOAcceptorEntryTestCase
     extends TestCase
@@ -22,7 +22,7 @@ public class NIOAcceptorEntryTestCase
         throws Exception
     {
         final AcceptorConfig config = createConfig();
-        final MockSelectionKey key = new MockSelectionKey();
+        final MockSelectionKey key = new MockSelectionKey( null );
         final NIOAcceptorEntry entry = new NIOAcceptorEntry( config, key );
         assertEquals( "config", config, entry.getConfig() );
         assertEquals( "key", key, entry.getKey() );
@@ -33,7 +33,7 @@ public class NIOAcceptorEntryTestCase
     {
         try
         {
-            new NIOAcceptorEntry( null, new MockSelectionKey() );
+            new NIOAcceptorEntry( null, new MockSelectionKey( null ) );
         }
         catch( final NullPointerException npe )
         {

@@ -23,7 +23,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2003-10-23 03:29:02 $
+ * @version $Revision: 1.17 $ $Date: 2003-10-23 03:44:28 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -35,11 +35,6 @@ public class NIOAcceptorManager
     * The map of name->NIOAcceptorEntry.
     */
    private final Map m_acceptors = new Hashtable();
-
-   /**
-    * The map of socket->NIOAcceptorEntry.
-    */
-   private final Map m_socket2Entry = new Hashtable();
 
    /**
     * Shutdown the selector and any associated acceptors.
@@ -116,7 +111,6 @@ public class NIOAcceptorManager
          final NIOAcceptorEntry entry =
             new NIOAcceptorEntry( acceptor, key );
          m_acceptors.put( name, entry );
-         m_socket2Entry.put( socket, entry );
          getMonitor().acceptorCreated( name, socket );
       }
    }
@@ -141,7 +135,6 @@ public class NIOAcceptorManager
          final String message = "No connection with name " + name;
          throw new IllegalArgumentException( message );
       }
-      m_socket2Entry.remove( entry.getConfig().getServerSocket() );
       entry.getKey().cancel();
       getMonitor().acceptorClosing( name );
    }
@@ -151,19 +144,11 @@ public class NIOAcceptorManager
     */
    protected void handleChannel( final SelectionKey key )
    {
-      handleChannel( (ServerSocketChannel) key.channel() );
-   }
-
-   /**
-    * Handle a connection attempt on specific channel.
-    *
-    * @param channel the channel
-    */
-   void handleChannel( final ServerSocketChannel channel )
-   {
+      final ServerSocketChannel channel =
+         (ServerSocketChannel) key.channel();
       final ServerSocket serverSocket = channel.socket();
       final NIOAcceptorEntry entry =
-         (NIOAcceptorEntry) m_socket2Entry.get( serverSocket );
+         (NIOAcceptorEntry) key.attachment();
       if ( null == entry )
       {
          //The acceptor must have been disconnected

@@ -169,9 +169,7 @@ public abstract class AbstractNIOReactor
             iterator.remove();
             // The key indexes into the selector so you
             // can retrieve the socket that's ready for I/O
-
-            final SelectableChannel channel = key.channel();
-            handleChannel( channel );
+            handleChannel( key );
          }
       }
       m_monitor.exitingSelectorLoop();

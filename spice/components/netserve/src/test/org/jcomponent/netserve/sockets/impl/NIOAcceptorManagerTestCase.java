@@ -21,7 +21,7 @@ import java.util.Random;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-10-23 03:23:24 $
+ * @version $Revision: 1.12 $ $Date: 2003-10-23 03:44:28 $
  */
 public class NIOAcceptorManagerTestCase
    extends AbstractAcceptorManagerTestCase
@@ -44,7 +44,7 @@ public class NIOAcceptorManagerTestCase
    {
       m_manager = new NIOAcceptorManager();
       final ServerSocketChannel channel = ServerSocketChannel.open();
-      m_manager.handleChannel( channel );
+      m_manager.handleChannel( new MockSelectionKey( channel ) );
    }
 
    public void testStartupAndShutdown()
