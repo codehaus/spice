@@ -7,16 +7,16 @@
  */
 package org.realityforge.packet.protocol;
 
-import com.mockobjects.dynamic.C;
-import com.mockobjects.dynamic.Mock;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 import junit.framework.TestCase;
+import org.jmock.Mock;
+import org.jmock.C;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-12-05 06:57:12 $
+ * @version $Revision: 1.4 $ $Date: 2003-12-09 01:54:07 $
  */
 public class ProtocolWriterTestCase
     extends TestCase
