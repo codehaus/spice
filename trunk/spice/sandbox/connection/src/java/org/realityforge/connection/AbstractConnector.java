@@ -215,6 +215,7 @@ public abstract class AbstractConnector
 
    /**
     * Code so that connector will actually establish connection.
+    *
     * @mx.operation
     */
    public void connect()
