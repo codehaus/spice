@@ -10,10 +10,10 @@ package org.realityforge.metaclass.tools.tasks;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-23 13:24:49 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-07 10:21:54 $
  */
 class MockMetaGenerateTask
-    extends MetaGenerateTask
+    extends GenerateClassDescriptorsTask
 {
     public void log( final String message )
     {
