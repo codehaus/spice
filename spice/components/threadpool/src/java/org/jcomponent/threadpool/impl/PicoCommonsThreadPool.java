@@ -11,10 +11,10 @@ import org.apache.commons.pool.impl.GenericObjectPool;
 
 /**
  * The PicoCommonsThreadPool wraps the CommonsThreadPool for
- * Pico component system.
+ * Pico-compatible systems.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-08-31 00:36:30 $
+ * @version $Revision: 1.7 $ $Date: 2003-09-02 08:07:29 $
  */
 public class PicoCommonsThreadPool
     extends CommonsThreadPool
