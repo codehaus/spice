@@ -28,7 +28,8 @@ public class TransactionalMessageRouterTestCase extends TestCase
 
         m_transactionalMessageRouter
             = new TransactionalMessageRouter( threadManager,
-                                              (TransactionManager)transactionManager.proxy() );
+                                              (TransactionManager)transactionManager.proxy(),
+                                              new StdoutDestinationMonitor() );
     }
 
     public void testUnregisterUnknownDestination() throws Exception

@@ -34,9 +34,11 @@ public class TransactionalMessageRouter implements DestinationRegistrar, Dispatc
 
     private final ThreadManager m_threadManager;
     private final TransactionManager m_transactionManager;
+    private final DestinationMonitor m_monitor;
 
     public TransactionalMessageRouter( final ThreadManager threadManager,
-                                       final TransactionManager transactionManager )
+                                       final TransactionManager transactionManager,
+                                       final DestinationMonitor monitor )
     {
         if( null == threadManager )
         {
@@ -46,9 +48,14 @@ public class TransactionalMessageRouter implements DestinationRegistrar, Dispatc
         {
             throw new NullPointerException( "transactionManager" );
         }
+        else if( null == monitor )
+        {
+            throw new NullPointerException( "monitor" );
+        }
 
         m_threadManager = threadManager;
         m_transactionManager = transactionManager;
+        m_monitor = monitor;
     }
 
     public void register( final Destination destination ) throws DuplicateRegistrationException
@@ -65,7 +72,7 @@ public class TransactionalMessageRouter implements DestinationRegistrar, Dispatc
 
     private void addDestination( final Destination destination )
     {
-        final DestinationEventPipeline pipeline = new DestinationEventPipeline( destination );
+        final DestinationEventPipeline pipeline = new DestinationEventPipeline( destination, m_monitor );
 
         m_threadManager.register( pipeline );
         m_registrations.put( destination.getAddress(), pipeline );
