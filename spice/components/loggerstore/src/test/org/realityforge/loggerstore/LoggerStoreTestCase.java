@@ -33,8 +33,10 @@ import org.xml.sax.InputSource;
 public class LoggerStoreTestCase
     extends TestCase
 {
-    private File m_logsDir;
     private static final String MESSAGE = "Testing Logger";
+    private static final String MESSAGE2 = "This occurs in sub-category";
+
+    private File m_logsDir;
 
     public LoggerStoreTestCase( final String name )
     {
@@ -113,15 +115,17 @@ public class LoggerStoreTestCase
             final Logger logger = store.getLogger();
             assertNotNull( "rootLogger for " + filename, logger );
             logger.info( MESSAGE );
+            logger.getChildLogger( "no-exist" ).info( MESSAGE2 );
 
             final File logFile = new File( m_logsDir, filename + ".log" );
             assertTrue( "Checking LogFile Exists: " + filename, logFile.exists() );
 
             reader = new BufferedReader( new InputStreamReader( new FileInputStream( logFile ) ) );
-            final String line = reader.readLine();
             assertEquals( "First line Contents for logger" + filename,
-                          MESSAGE, line );
-            assertNull( "Second Line Contents for logger" + filename,
+                          MESSAGE, reader.readLine() );
+            assertEquals( "Second line Contents for logger" + filename,
+                          MESSAGE2, reader.readLine() );
+            assertNull( "Third Line Contents for logger" + filename,
                         reader.readLine() );
         }
         finally
