@@ -15,7 +15,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * The default no-op implementation of compiler monitor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-16 06:53:12 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-18 23:06:21 $
  */
 public class DefaultCompilerMonitor
     implements CompilerMonitor
@@ -52,7 +52,22 @@ public class DefaultCompilerMonitor
     /**
      * @see CompilerMonitor#errorGeneratingDescriptor
      */
-    public void errorGeneratingDescriptor( String classname, Throwable t )
+    public void errorGeneratingDescriptor( final String classname,
+                                           final Throwable t )
+    {
+    }
+
+    /**
+     * @see CompilerMonitor#postBuildDescriptorsList
+     */
+    public void postBuildDescriptorsList( final Collection descriptors )
+    {
+    }
+
+    /**
+     * @see CompilerMonitor#postCompactDescriptorsList
+     */
+    public void postCompactDescriptorsList( final Collection descriptors )
     {
     }
 }

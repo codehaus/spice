@@ -30,7 +30,7 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.23 $ $Date: 2003-10-29 10:31:02 $
+ * @version $Revision: 1.24 $ $Date: 2003-11-18 23:06:22 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -310,6 +310,7 @@ public class MetaGenerateTaskTestCase
         final FormatEnum format = new FormatEnum();
         format.setValue( "binary" );
         task.setFormat( format );
+        task.setKeepEmptyMethods( false );
         task.setDestDir( destDirectory );
         task.addFileset( fileSet );
         task.execute();
@@ -327,7 +328,6 @@ public class MetaGenerateTaskTestCase
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
         assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
     }
-
 
     public void testSingleSourceFileAsXML()
         throws Exception
@@ -380,6 +380,47 @@ public class MetaGenerateTaskTestCase
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
         assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+    }
+
+    public void testSingleSourceFileCompactedAway()
+        throws Exception
+    {
+        final String source =
+            "package com.biz;\n" +
+            "\n" +
+            "/**\n" +
+            " */\n" +
+            "public class MyClass\n" +
+            "{\n" +
+            "}\n";
+
+        final File sourceDirectory = generateDirectory();
+        final File destDirectory = generateDirectory();
+        final FileSet fileSet = new FileSet();
+        fileSet.setDir( sourceDirectory );
+        fileSet.setIncludes( "**/*.java" );
+
+        final String sourceFilename =
+            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+        final File sourceFile = new File( sourceFilename );
+        sourceFile.getParentFile().mkdirs();
+        final FileOutputStream output = new FileOutputStream( sourceFile );
+        output.write( source.getBytes() );
+        output.close();
+
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final Project project = new Project();
+        project.setBaseDir( getBaseDirectory() );
+        task.setProject( project );
+        task.setNamespaceTagsOnly( false );
+        task.setDestDir( destDirectory );
+        task.addFileset( fileSet );
+        task.execute();
+        final String destFilename =
+            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.XML_EXT;
+        final File destFile = new File( destFilename );
+
+        assertTrue( "!destFile.exists()", !destFile.exists() );
     }
 
     public void testSingleSourceFileInWrongDirectory()

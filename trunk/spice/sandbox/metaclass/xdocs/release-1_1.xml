@@ -95,6 +95,14 @@
                 <li>
                     Documented the ant task.
                 </li>
+                <li>
+                    Added in compacting of ClassDescriptors prior to
+                    serializing the descriptor. If a field has no attributes
+                    then it is not serialized. If a method has no attributes
+                    and keepEmptyMethods=false then it is not serialized. If
+                    a class has no methods or fields to serialize and has no
+                    attributes then it is not serialized.
+                </li>
             </ul>
         </section>
     </body>

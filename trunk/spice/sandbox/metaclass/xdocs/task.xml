@@ -39,6 +39,15 @@
                     <td>Optional</td>
                     <td>true</td>
                 </tr>
+                <tr>
+                    <td>keepEmptyMethods</td>
+                    <td>
+                        A flag indicating whether method descriptors for
+                        methods with no attributes are kept.
+                    </td>
+                    <td>Optional</td>
+                    <td>false</td>
+                </tr>
             </table>
             <p>
                 The task also accepts child elements;

@@ -28,13 +28,14 @@ import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
 import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
+import org.realityforge.metaclass.tools.packer.ClassDescriptorPacker;
 
 /**
  * A bean that can create MetaClass descriptors by processing
  * Java Source files with qdox.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-11-05 23:15:36 $
+ * @version $Revision: 1.13 $ $Date: 2003-11-18 23:06:21 $
  */
 public class ClassDescriptorCompiler
 {
@@ -42,6 +43,12 @@ public class ClassDescriptorCompiler
      * The utility class used to generate MetaClass object.
      */
     private static final QDoxDescriptorParser c_infoBuilder = new QDoxDescriptorParser();
+
+    /**
+     * Flag indicating whether the compacter
+     * should methods with no attributes.
+     */
+    private boolean m_keepEmptyMethods;
 
     /**
      * Destination directory
@@ -77,6 +84,16 @@ public class ClassDescriptorCompiler
      * The filters used to filter source files.
      */
     private final List m_filters = new ArrayList();
+
+    /**
+     * Set flag indicating whether Compacter should keep empty methods.
+     *
+     * @param keepEmptyMethods  the flag
+     */
+    public void setKeepEmptyMethods( final boolean keepEmptyMethods )
+    {
+        m_keepEmptyMethods = keepEmptyMethods;
+    }
 
     /**
      * Set the monitor to receive messages about compiler operation.
@@ -216,7 +233,12 @@ public class ClassDescriptorCompiler
         m_monitor.postFilterJavaClassList( classes );
 
         final Collection descriptors = buildClassDescriptors( filteredClasses );
-        writeClassDescriptors( descriptors );
+        m_monitor.postBuildDescriptorsList( descriptors );
+
+        final Set output = compactClassDescriptors( descriptors );
+        m_monitor.postCompactDescriptorsList( descriptors );
+
+        writeClassDescriptors( output );
     }
 
     /**
@@ -331,6 +353,32 @@ public class ClassDescriptorCompiler
                 continue;
             }
             classes.add( javaClass );
+        }
+        return classes;
+    }
+
+
+    /**
+     * Return the set of ClassDescriptors after cmpaction.
+     *
+     * @param input the list of input ClassDescriptors to compact
+     * @return list of ClassDescriptors to serialize
+     */
+    private Set compactClassDescriptors( final Collection input )
+    {
+        final ClassDescriptorPacker packer =
+            new ClassDescriptorPacker( m_keepEmptyMethods );
+        final Set classes = new HashSet();
+        final Iterator iterator = input.iterator();
+        while( iterator.hasNext() )
+        {
+            final ClassDescriptor candidate = (ClassDescriptor)iterator.next();
+            final ClassDescriptor descriptor = packer.pack( candidate );
+            if( null == descriptor )
+            {
+                continue;
+            }
+            classes.add( descriptor );
         }
         return classes;
     }
