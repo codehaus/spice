@@ -14,16 +14,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.service.DefaultServiceManager;
-import org.apache.avalon.framework.service.ServiceException;
 import org.jcomponent.netserve.connection.ConnectionManager;
 import org.jcomponent.threadpool.ThreadPool;
 import org.realityforge.configkit.ConfigValidator;
@@ -35,7 +34,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link org.jcomponent.netserve.connection.ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-31 03:00:16 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-31 03:04:34 $
  */
 public class AvalonConnectionTestCase
     extends TestCase
@@ -124,15 +123,14 @@ public class AvalonConnectionTestCase
     public void testDoNothingDCM()
         throws Exception
     {
-        final AvalonConnectionManager cm =
-            createCM( true, 50, true, 200 );
+        final ConnectionManager cm = createCM( true, 50, true, 200 );
         try
         {
             //do nothing
         }
         finally
         {
-            cm.dispose();
+            ContainerUtil.dispose( cm );
         }
     }
 
@@ -225,18 +223,15 @@ public class AvalonConnectionTestCase
         cm.disconnect( "q", true );
     }
 
-    private AvalonConnectionManager createCM( boolean addThreadPool, final int soTimeoutVal, final boolean forceShutdown, final int shutdownTimeout ) throws ServiceException, ConfigurationException
+    private ConnectionManager createCM( boolean addThreadPool, final int soTimeoutVal, final boolean forceShutdown, final int shutdownTimeout ) throws Exception, ConfigurationException
     {
-        final AvalonConnectionManager cm = new AvalonConnectionManager();
-        cm.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
-        //cm.enableLogging( new ConsoleLogger() );
+        final ConsoleLogger logger = new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED );
 
         final DefaultServiceManager manager = new DefaultServiceManager();
         if( addThreadPool )
         {
             manager.put( ThreadPool.ROLE, new TestThreadPool() );
         }
-        cm.service( manager );
 
         final DefaultConfiguration config = new DefaultConfiguration( "root", "" );
         final DefaultConfiguration soTimeoutConfig = new DefaultConfiguration( "soTimeout", "" );
@@ -250,7 +245,12 @@ public class AvalonConnectionTestCase
             new DefaultConfiguration( "shutdownTimeout", "" );
         shutdownTimeoutConfig.setValue( String.valueOf( shutdownTimeout ) );
         config.addChild( shutdownTimeoutConfig );
-        cm.configure( config );
+
+        final ConnectionManager cm = new AvalonConnectionManager();
+        ContainerUtil.enableLogging( cm, logger );
+        ContainerUtil.service( cm, manager );
+        ContainerUtil.configure( cm, config );
+        ContainerUtil.initialize( cm );
         return cm;
     }
 
