@@ -14,7 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.jcomponent.swingactions.metadata.ActionMetaData;
+import org.jcomponent.swingactions.metadata.ActionSetMetaData;
 
 /**
  * Unit tests ConfigReader
@@ -58,17 +58,15 @@ public class ConfigReaderTestCase extends TestCase {
             fail("Exception in parsing:  " + t);
         }
     
-        final ActionMetaData[] actions = reader.getActionMetaData();
-        assertNotNull( "Read actions configurations", actions );
-        assertEquals( "Found 2 actions", 2, actions.length );
-        assertEquals( "Action 1", "[ActionMetaData id=action-1, name=Action 1]", 
-                      actions[0].toString() );
-        assertEquals( "Action 2", "[ActionMetaData id=action-2, name=Action 2]", 
-                      actions[1].toString() );
+        final ActionSetMetaData actionSet = reader.getActionSetMetaData();
+        assertNotNull( "Read actions configurations", actionSet );
+        assertEquals( "Found 2 actions", actionSet.getActions().length, 2 );
+        assertEquals( "Action 1", actionSet.getAction( "action-1" ).toString(),
+                      "[ActionMetaData id=action-1, name=Action 1, shortDescription=Action 1 Short Desc, longDescription=Action 1 Long Desc, smallIcon=/path/to/icon/action1-small.gif, largeIcon=/path/to/icon/action1-large.gif, actionCommandKey=, acceleratorKey=CTRL-1, mnemonicKey='1']" );
+        assertEquals( "Action 2", actionSet.getAction( "action-2" ).toString(),
+                      "[ActionMetaData id=action-2, name=Action 2, shortDescription=Action 2 Short Desc, longDescription=Action 2 Long Desc, smallIcon=/path/to/icon/action2-small.gif, largeIcon=/path/to/icon/action2-large.gif, actionCommandKey=, acceleratorKey=CTRL-2, mnemonicKey='2']" );
 
 
     }
-
-
 
 }
