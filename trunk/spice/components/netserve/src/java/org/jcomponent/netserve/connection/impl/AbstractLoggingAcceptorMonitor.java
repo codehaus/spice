@@ -49,7 +49,7 @@ public abstract class AbstractLoggingAcceptorMonitor
    }
 
    /**
-    * @see org.jcomponent.netserve.connection.impl.AcceptorMonitor#errorAcceptingConnection
+    * @see AcceptorMonitor#errorAcceptingConnection
     */
    public void errorAcceptingConnection( final String name,
                                          final IOException ioe )
@@ -58,7 +58,7 @@ public abstract class AbstractLoggingAcceptorMonitor
    }
 
    /**
-    * @see org.jcomponent.netserve.connection.impl.AcceptorMonitor#errorClosingServerSocket
+    * @see AcceptorMonitor#errorClosingServerSocket
     */
    public void errorClosingServerSocket( final String name,
                                          final IOException ioe )

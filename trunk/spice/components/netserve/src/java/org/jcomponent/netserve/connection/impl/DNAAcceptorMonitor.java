@@ -29,7 +29,7 @@ public class DNAAcceptorMonitor
    }
 
    /**
-    * @see org.jcomponent.netserve.connection.impl.AbstractLoggingAcceptorMonitor#isDebugEnabled
+    * @see AbstractLoggingAcceptorMonitor#isDebugEnabled
     */
    protected boolean isDebugEnabled()
    {
@@ -37,7 +37,7 @@ public class DNAAcceptorMonitor
    }
 
    /**
-    * @see org.jcomponent.netserve.connection.impl.AbstractLoggingAcceptorMonitor#debug
+    * @see AbstractLoggingAcceptorMonitor#debug
     */
    protected void debug( final String message )
    {
@@ -45,7 +45,7 @@ public class DNAAcceptorMonitor
    }
 
    /**
-    * @see org.jcomponent.netserve.connection.impl.AbstractLoggingAcceptorMonitor#info
+    * @see AbstractLoggingAcceptorMonitor#info
     */
    protected void info( final String message )
    {
@@ -53,7 +53,7 @@ public class DNAAcceptorMonitor
    }
 
    /**
-    * @see org.jcomponent.netserve.connection.impl.AbstractLoggingAcceptorMonitor#warn
+    * @see AbstractLoggingAcceptorMonitor#warn
     */
    protected void warn( final String message,
                         final Exception e )
