@@ -19,7 +19,7 @@ import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-12 05:06:12 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-15 05:56:35 $
  */
 public class TestServer
 {
@@ -121,7 +121,7 @@ public class TestServer
 
     private static void doPump( final EventPump[] pumps )
     {
-        for( int i = 0; i < 200; i++ )
+        for( int i = 0; i < 1000; i++ )
         {
             for( int j = 0; j < pumps.length; j++ )
             {
