@@ -18,7 +18,7 @@ public class BasicClassTestCase
 {
     public BasicClassTestCase()
     {
-        super( "BasicClass", CLASS_NAME );
+        super( "BasicClass" );
     }
 
     public void testGetName()

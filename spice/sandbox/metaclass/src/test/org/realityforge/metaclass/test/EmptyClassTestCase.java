@@ -15,7 +15,7 @@ public class EmptyClassTestCase
 {
     public EmptyClassTestCase()
     {
-        super( "EmptyClass", CLASS_NAME );
+        super( "EmptyClass" );
     }
 
     public void testGetName()

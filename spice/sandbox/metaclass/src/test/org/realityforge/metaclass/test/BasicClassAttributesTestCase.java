@@ -19,7 +19,7 @@ public class BasicClassAttributesTestCase
 {
     public BasicClassAttributesTestCase()
     {
-        super( "BasicClassAttributes", CLASS_NAME );
+        super( "BasicClassAttributes" );
     }
 
     public void testGetAttributes()

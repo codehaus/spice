@@ -19,7 +19,7 @@ public class BasicMethodTestCase
 
     public BasicMethodTestCase()
     {
-        super( "BasicMethod", CLASS_NAME );
+        super( "BasicMethod" );
     }
 
     /**

@@ -19,14 +19,15 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  */
 public abstract class AbstractFeatureTestCase
     extends TestCase
+    implements EmptyClassTestDataConstants
 {
     private String _className;
     private ClassDescriptor _classDescriptor;
 
-    public AbstractFeatureTestCase( final String name, final String className )
+    public AbstractFeatureTestCase( final String name )
     {
         super( name );
-        _className = className;
+        _className = CLASS_NAME;
     }
 
     /**

@@ -18,7 +18,7 @@ public class BasicClassLoaderTestCase
 {
     public BasicClassLoaderTestCase()
     {
-        super( "BasicClassLoader", CLASS_NAME );
+        super( "BasicClassLoader" );
     }
 
     public void testGetName()

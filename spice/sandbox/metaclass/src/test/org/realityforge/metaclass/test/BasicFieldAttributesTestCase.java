@@ -19,7 +19,7 @@ public class BasicFieldAttributesTestCase
 
     public BasicFieldAttributesTestCase()
     {
-        super( "BasicFieldAttributes", CLASS_NAME );
+        super( "BasicFieldAttributes" );
     }
 
     /**
