@@ -7,29 +7,24 @@
  */
 package org.codehaus.spice.netevent.events;
 
-import java.nio.channels.Channel;
-import java.nio.channels.SelectionKey;
+import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * Event indicating that it is possible to read from the socket.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 07:06:13 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:13 $
  */
 public class WritePossibleEvent
-    extends ChannelEvent
+    extends AbstractTransportEvent
 {
     /**
      * Create Event.
      * 
-     * @param channel the associated channel.
-     * @param key the SelectionKey if any
-     * @param userData the userData if any
+     * @param transport the transport
      */
-    public WritePossibleEvent( final Channel channel,
-                               final SelectionKey key,
-                               final Object userData )
+    public WritePossibleEvent( final ChannelTransport transport )
     {
-        super( channel, key, userData );
+        super( transport );
     }
 }

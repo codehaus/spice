@@ -10,13 +10,13 @@ package org.codehaus.spice.netevent.handlers;
 import org.codehaus.spice.event.AbstractEventHandler;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.netevent.events.AbstractTransportEvent;
-import org.codehaus.spice.netevent.transport.TcpTransport;
+import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * Simple handler that closes underlying transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 05:06:31 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:14 $
  */
 public class CloseEventHandler
     extends AbstractEventHandler
@@ -27,7 +27,7 @@ public class CloseEventHandler
     public void handleEvent( final Object event )
     {
         final AbstractTransportEvent ce = (AbstractTransportEvent)event;
-        final TcpTransport transport = ce.getTransport();
+        final ChannelTransport transport = ce.getTransport();
         transport.close();
     }
 }

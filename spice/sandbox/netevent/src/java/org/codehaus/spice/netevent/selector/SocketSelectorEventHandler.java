@@ -7,20 +7,13 @@
  */
 package org.codehaus.spice.netevent.selector;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.ServerSocketChannel;
 import org.codehaus.spice.event.EventSink;
-import org.codehaus.spice.netevent.events.BufferOverflowEvent;
-import org.codehaus.spice.netevent.events.BufferUnderflowEvent;
-import org.codehaus.spice.netevent.events.CloseEvent;
-import org.codehaus.spice.netevent.events.ReadErrorEvent;
-import org.codehaus.spice.netevent.events.ReadEvent;
-import org.codehaus.spice.netevent.events.WriteErrorEvent;
-import org.codehaus.spice.netevent.events.WriteEvent;
-import org.codehaus.spice.netevent.transport.CircularBuffer;
-import org.codehaus.spice.netevent.transport.TcpTransport;
+import org.codehaus.spice.netevent.events.AcceptPossibleEvent;
+import org.codehaus.spice.netevent.events.ReadPossibleEvent;
+import org.codehaus.spice.netevent.events.WritePossibleEvent;
+import org.codehaus.spice.netevent.transport.ChannelTransport;
 import org.realityforge.sca.selector.SelectorEventHandler;
 
 /**
@@ -28,7 +21,7 @@ import org.realityforge.sca.selector.SelectorEventHandler;
  * corresponding events to pass onto an EventSink.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 06:26:17 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:14 $
  */
 public class SocketSelectorEventHandler
     implements SelectorEventHandler
@@ -55,101 +48,26 @@ public class SocketSelectorEventHandler
     public void handleSelectorEvent( final SelectionKey key,
                                      final Object userData )
     {
-        final TcpTransport transport = (TcpTransport)userData;
-
+        if( key.isAcceptable() )
+        {
+            final ServerSocketChannel channel =
+                (ServerSocketChannel)key.channel();
+            final AcceptPossibleEvent event = new AcceptPossibleEvent( channel );
+            _sink.addEvent( event );
+        }
         if( key.isWritable() )
         {
-            handleWriteEvent( transport );
-        }
-        if( key.isValid() && key.isReadable() )
-        {
-            handleReadEvent( transport );
-        }
-
-        transport.getKey().interestOps( transport.getSelectOps() );
-    }
-
-    /**
-     * Perform a write for specified transport.
-     * 
-     * @param transport the transport
-     */
-    void handleWriteEvent( final TcpTransport transport )
-    {
-        final CircularBuffer buffer = transport.getTransmitBuffer();
-        if( 0 >= buffer.getAvailable() )
-        {
-            final BufferUnderflowEvent event =
-                new BufferUnderflowEvent( transport );
+            final ChannelTransport transport = (ChannelTransport)userData;
+            final WritePossibleEvent event =
+                new WritePossibleEvent( transport );
             _sink.addEvent( event );
         }
-        else
+        if( key.isReadable() )
         {
-            final ByteBuffer[] byteBuffers = buffer.asReadBuffers();
-            try
-            {
-                final SocketChannel channel = transport.getChannel();
-                final int count = (int)channel.write( byteBuffers );
-                if( -1 != count )
-                {
-                    buffer.readBytes( count );
-                    final WriteEvent event = new WriteEvent( transport, count );
-                    _sink.addEvent( event );
-                }
-                else
-                {
-                    final CloseEvent event = new CloseEvent( transport );
-                    _sink.addEvent( event );
-                }
-            }
-            catch( final IOException ioe )
-            {
-                final WriteErrorEvent event =
-                    new WriteErrorEvent( transport, ioe );
-                _sink.addEvent( event );
-            }
-        }
-    }
-
-    /**
-     * Perform a read for specified transport.
-     * 
-     * @param transport the transport
-     */
-    void handleReadEvent( final TcpTransport transport )
-    {
-        final CircularBuffer buffer = transport.getReceiveBuffer();
-        if( 0 >= buffer.getSpace() )
-        {
-            final BufferOverflowEvent event =
-                new BufferOverflowEvent( transport );
+            final ChannelTransport transport = (ChannelTransport)userData;
+            final ReadPossibleEvent event =
+                new ReadPossibleEvent( transport );
             _sink.addEvent( event );
-        }
-        else
-        {
-            final ByteBuffer[] byteBuffers = buffer.asWriteBuffers();
-            try
-            {
-                final SocketChannel channel = transport.getChannel();
-                final int count = (int)channel.read( byteBuffers );
-                if( -1 != count )
-                {
-                    buffer.writeBytes( count );
-                    final ReadEvent event = new ReadEvent( transport, count );
-                    _sink.addEvent( event );
-                }
-                else
-                {
-                    final CloseEvent event = new CloseEvent( transport );
-                    _sink.addEvent( event );
-                }
-            }
-            catch( final IOException ioe )
-            {
-                final ReadErrorEvent event =
-                    new ReadErrorEvent( transport, ioe );
-                _sink.addEvent( event );
-            }
         }
     }
 }

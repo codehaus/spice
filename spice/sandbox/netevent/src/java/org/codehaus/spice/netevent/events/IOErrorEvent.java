@@ -8,14 +8,13 @@
 package org.codehaus.spice.netevent.events;
 
 import java.io.IOException;
-import java.net.SocketAddress;
-import org.codehaus.spice.netevent.transport.TcpTransport;
+import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * Abstract event for IO errors.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-07 04:27:12 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-08 03:41:13 $
  */
 public abstract class IOErrorEvent
     extends AbstractTransportEvent
@@ -29,7 +28,7 @@ public abstract class IOErrorEvent
      * @param transport the transport
      * @param ioe the error
      */
-    public IOErrorEvent( final TcpTransport transport,
+    public IOErrorEvent( final ChannelTransport transport,
                          final IOException ioe )
     {
         super( transport );
@@ -51,13 +50,10 @@ public abstract class IOErrorEvent
     }
 
     /**
-     * @see Object#toString()
+     * @see AbstractTransportEvent#getEventDescription()
      */
-    public String toString()
+    protected String getEventDescription()
     {
-        final SocketAddress address =
-            getTransport().getChannel().socket().getRemoteSocketAddress();
-        return getClass().getName() + "[" + getIoe() +
-               " error connected to " + address + "]";
+        return getIoe() + " error connected to " + super.getEventDescription();
     }
 }

@@ -13,10 +13,12 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import junit.framework.TestCase;
+import org.codehaus.spice.event.impl.collections.Buffer;
+import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 03:25:09 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:14 $
  */
 public class TcpTransportTestCase
     extends TestCase
@@ -38,24 +40,24 @@ public class TcpTransportTestCase
     public void testCreate()
         throws Exception
     {
-        final TcpTransport transport =
-            new TcpTransport( m_channel, 20, 30 );
+        final UnboundedFifoBuffer rx = new UnboundedFifoBuffer( 1 );
+        final UnboundedFifoBuffer tx = new UnboundedFifoBuffer( 1 );
+        final ChannelTransport transport =
+            new ChannelTransport( m_channel, rx, tx );
         assertEquals( "channel", m_channel, transport.getChannel() );
         assertEquals( "key", null, transport.getKey() );
-        assertEquals( "readBuffer.size",
-                      20,
-                      transport.getReceiveBuffer().getCapacity() );
-        assertEquals( "writeBuffer.size",
-                      30,
-                      transport.getTransmitBuffer().getCapacity() );
+        assertEquals( "getReceiveBuffer", rx, transport.getReceiveBuffer() );
+        assertEquals( "getTransmitBuffer", tx, transport.getTransmitBuffer() );
     }
 
     public void testNullChannelPassedToCtor()
         throws Exception
     {
+        final UnboundedFifoBuffer rx = new UnboundedFifoBuffer( 1 );
+        final UnboundedFifoBuffer tx = new UnboundedFifoBuffer( 1 );
         try
         {
-            new TcpTransport( null, 20, 20 );
+            new ChannelTransport( null, rx, tx );
         }
         catch( final NullPointerException npe )
         {
@@ -63,6 +65,42 @@ public class TcpTransportTestCase
             return;
         }
         fail( "Expected to fail due to null Channel passed into Ctor" );
+    }
+
+    public void testNullReceiveBufferPassedToCtor()
+        throws Exception
+    {
+        final SocketChannel channel = SocketChannel.open();
+        final UnboundedFifoBuffer tx = new UnboundedFifoBuffer( 1 );
+        try
+        {
+            new ChannelTransport( channel, null, tx );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.getMessage()", "receiveBuffer",
+                          npe.getMessage() );
+            return;
+        }
+        fail( "Expected to fail due to null receiveBuffer passed into Ctor" );
+    }
+
+    public void testNullTransmitBufferPassedToCtor()
+        throws Exception
+    {
+        final SocketChannel channel = SocketChannel.open();
+        final UnboundedFifoBuffer rx = new UnboundedFifoBuffer( 1 );
+        try
+        {
+            new ChannelTransport( channel, rx, null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.getMessage()", "transmitBuffer",
+                          npe.getMessage() );
+            return;
+        }
+        fail( "Expected to fail due to null transmitBuffer passed into Ctor" );
     }
 
     public void testCloseTransportWithOpenChannel()
@@ -77,8 +115,10 @@ public class TcpTransportTestCase
             ssc.socket().bind( socketAddress );
             m_channel.configureBlocking( false );
             m_channel.connect( socketAddress );
-            final TcpTransport transport =
-                new TcpTransport( m_channel, 20, 30 );
+            final ChannelTransport transport =
+                new ChannelTransport( m_channel,
+                                      new UnboundedFifoBuffer( 1 ),
+                                      new UnboundedFifoBuffer( 1 ) );
             assertEquals( "channel.isOpen()", true, m_channel.isOpen() );
             transport.close();
             assertEquals( "key", null, transport.getKey() );
@@ -93,8 +133,10 @@ public class TcpTransportTestCase
     public void testCloseTransportWithNonOpenChannel()
         throws Exception
     {
-        final TcpTransport transport =
-            new TcpTransport( m_channel, 20, 30 );
+        final ChannelTransport transport =
+            new ChannelTransport( m_channel,
+                                  new UnboundedFifoBuffer( 1 ),
+                                  new UnboundedFifoBuffer( 1 ) );
         m_channel.close();
         assertEquals( "channel.isOpen()", false, m_channel.isOpen() );
         transport.close();
@@ -105,53 +147,24 @@ public class TcpTransportTestCase
     public void testGetSelectOpsOnWriteable()
         throws Exception
     {
-        final TcpTransport transport =
-            new TcpTransport( m_channel, 20, 30 );
-        final CircularBuffer writeBuffer = transport.getTransmitBuffer();
-        final CircularBuffer readBuffer = transport.getReceiveBuffer();
-        writeBuffer.writeBytes( writeBuffer.getCapacity() );
-        readBuffer.writeBytes( readBuffer.getCapacity() );
+        final ChannelTransport transport =
+            new ChannelTransport( m_channel, new UnboundedFifoBuffer( 1 ),
+                                  new UnboundedFifoBuffer( 1 ) );
+        final Buffer writeBuffer = transport.getTransmitBuffer();
+        writeBuffer.add( new Object() );
         assertEquals( "SelectOps",
-                      SelectionKey.OP_WRITE,
+                      SelectionKey.OP_WRITE | SelectionKey.OP_READ,
                       transport.getSelectOps() );
     }
 
     public void testGetSelectOpsOnReadable()
         throws Exception
     {
-        final TcpTransport transport =
-            new TcpTransport( m_channel, 20, 30 );
+        final ChannelTransport transport =
+            new ChannelTransport( m_channel, new UnboundedFifoBuffer( 1 ),
+                                  new UnboundedFifoBuffer( 1 ) );
         assertEquals( "SelectOps",
                       SelectionKey.OP_READ,
                       transport.getSelectOps() );
-    }
-
-    public void testGetSelectOpsWithBothOps()
-        throws Exception
-    {
-        final TcpTransport transport =
-            new TcpTransport( m_channel, 20, 30 );
-        final CircularBuffer readBuffer = transport.getReceiveBuffer();
-        final CircularBuffer writeBuffer = transport.getTransmitBuffer();
-        readBuffer.writeBytes( 5 );
-        writeBuffer.writeBytes( 5 );
-        final int operations =
-            SelectionKey.OP_READ | SelectionKey.OP_WRITE;
-        assertEquals( "SelectOps", operations, transport.getSelectOps() );
-    }
-
-    public void testGetSelectOpsWithNoOps()
-        throws Exception
-    {
-        final TcpTransport transport =
-            new TcpTransport( m_channel, 20, 30 );
-        final CircularBuffer readBuffer = transport.getReceiveBuffer();
-        readBuffer.writeBytes( readBuffer.getCapacity() );
-        System.out.println( "getSpace() = " + readBuffer.getSpace() );
-        System.out.println( "getCapacity() = " + readBuffer.getCapacity() );
-        System.out.println( "getAvailable() = " + readBuffer.getAvailable() );
-        System.out.println(
-            "isWrappedBuffer() = " + readBuffer.isWrappedBuffer() );
-        assertEquals( "SelectOps", 0, transport.getSelectOps() );
     }
 }

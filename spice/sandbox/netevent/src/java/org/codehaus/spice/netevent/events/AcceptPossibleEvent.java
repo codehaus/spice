@@ -7,24 +7,24 @@
  */
 package org.codehaus.spice.netevent.events;
 
-import org.codehaus.spice.netevent.transport.ChannelTransport;
+import java.nio.channels.ServerSocketChannel;
 
 /**
- * An Event indicating a write.
+ * An Event indicating that ServerSocket can accept a connection.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:13 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-08 03:41:13 $
  */
-public class WriteEvent
-    extends AbstractTransportEvent
+public class AcceptPossibleEvent
+    extends ServerSocketEvent
 {
     /**
      * Create event.
      * 
-     * @param transport the transport
+     * @param channel the channel.
      */
-    public WriteEvent( final ChannelTransport transport )
+    public AcceptPossibleEvent( final ServerSocketChannel channel )
     {
-        super( transport );
+        super( channel );
     }
 }

@@ -11,14 +11,12 @@ import java.util.Random;
 import org.codehaus.spice.event.impl.DefaultEventQueue;
 import org.codehaus.spice.event.impl.EventPump;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
-import org.codehaus.spice.netevent.selector.ServerSocketSelectorEventHandler;
 import org.codehaus.spice.netevent.selector.SocketEventSource;
-import org.codehaus.spice.netevent.selector.SocketSelectorEventHandler;
 import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 06:26:17 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:14 $
  */
 public class TestServer
 {
@@ -34,24 +32,18 @@ public class TestServer
         selectorManager.setSelector( Selector.open() );
         final DefaultEventQueue queue =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
-        final SocketSelectorEventHandler sHandler =
-            new SocketSelectorEventHandler( queue );
-        final ServerSocketSelectorEventHandler ssHandler =
-            new ServerSocketSelectorEventHandler( queue );
 
         final SocketEventSource source =
             new SocketEventSource( selectorManager, queue );
 
         final ServerSocketChannel channel = ServerSocketChannel.open();
-        final InetSocketAddress address = new InetSocketAddress( 1980 );
-        channel.socket().bind( address );
-        selectorManager.registerChannel( channel,
-                                         SelectionKey.OP_ACCEPT,
-                                         ssHandler,
-                                         null );
+        channel.socket().bind( new InetSocketAddress( 1980 ) );
+        source.registerChannel( channel,
+                                SelectionKey.OP_ACCEPT,
+                                null );
 
-        final SocketEventHandler handler =
-            new SocketEventHandler( selectorManager, sHandler );
+        final TestSocketEventHandler handler =
+            new TestSocketEventHandler( source, queue );
 
         final EventPump pump1 = new EventPump( source, handler );
         pump1.setBatchSize( 10 );

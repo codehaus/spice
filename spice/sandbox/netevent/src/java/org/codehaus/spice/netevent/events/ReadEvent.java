@@ -7,25 +7,56 @@
  */
 package org.codehaus.spice.netevent.events;
 
-import org.codehaus.spice.netevent.transport.TcpTransport;
+import java.nio.ByteBuffer;
+import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * Event indicating events were read.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 04:28:07 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:13 $
  */
 public class ReadEvent
-    extends IOEvent
+    extends AbstractTransportEvent
 {
+    /** The Buffer. */
+    private final ByteBuffer m_buffer;
+
     /**
      * Create event.
      * 
      * @param transport the transport
-     * @param count the number of bytes read
+     * @param buffer the ByteBuffer
      */
-    public ReadEvent( final TcpTransport transport, final int count )
+    public ReadEvent( final ChannelTransport transport,
+                      final ByteBuffer buffer )
     {
-        super( transport, count );
+        super( transport );
+        if( null == buffer )
+        {
+            throw new NullPointerException( "buffer" );
+        }
+        m_buffer = buffer;
+    }
+
+    /**
+     * Return the ByteBuffer.
+     * 
+     * @return the ByteBuffer.
+     */
+    public ByteBuffer getBuffer()
+    {
+        return m_buffer;
+    }
+
+    /**
+     * @see AbstractTransportEvent#getEventDescription()
+     */
+    protected String getEventDescription()
+    {
+        return
+            getBuffer().remaining() +
+            " bytes to " +
+            super.getEventDescription();
     }
 }
