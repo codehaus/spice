@@ -1,11 +1,4 @@
-<%@ include file="/WEB-INF/jsp/includes.jsp" %>
-
-<H2>Welcome</H2>
-<A href="<c:url value="/submitComponent.action"/>">Submit a component</A></br>
-<A href="<c:url value="/listComponents.action"/>">List all components</A></br>
-<A href="<c:url value="/searchComponents.action"/>">Search components</A></br>
-
-<pre>
-
-This is the main page.  There are too many things to do here to list.
-</pre>
+<span class="description_text">
+Lets keep this interface lean, understated and efficient.  Click on one of the links at the top.  The links on the right are placeholders
+only.
+</span>

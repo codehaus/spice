@@ -50,4 +50,8 @@ public class FileManagerImpl implements FileManager {
         return writer.toString();
     }
 
+    public File newFile(String fileName) {
+        return new File(fileName);
+    }
+
 }

@@ -1,5 +1,5 @@
 <project name="sqlexecutor" default="car">
-    <taskdef name="mkcar" classname="org.componenthaus.ant.ComponentHausSubmitTask"/>
+    <taskdef name="mkcar" classname="org.componenthaus.ant.SubmitComponentTask"/>
 
     <target name="init">
         <mkdir dir="build"/>
