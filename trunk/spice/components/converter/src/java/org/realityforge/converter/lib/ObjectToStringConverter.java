@@ -12,10 +12,11 @@ import org.realityforge.converter.AbstractConverter;
 import org.realityforge.converter.ConverterException;
 
 /**
- * String to BigDecimal converter.
+ * Object to String converter.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-05-24 23:51:22 $
+ * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @version $Revision: 1.5 $ $Date: 2003-05-24 23:52:36 $
  */
 public class ObjectToStringConverter
     extends AbstractConverter
@@ -41,7 +42,7 @@ public class ObjectToStringConverter
     }
 
     /**
-     * Converts a String to a Object.
+     * Converts a Object to a String.
      *
      * @param object the original object to convert
      * @param context the context in which to convert object (unused)
@@ -51,14 +52,7 @@ public class ObjectToStringConverter
     public Object convert( final Object object, final Object context )
         throws ConverterException
     {
-        try
-        {
-            return new BigDecimal( object.toString() );
-        }
-        catch( final NumberFormatException nfe )
-        {
-            return noConvert( object, nfe );
-        }
+        return String.valueOf( object );
     }
 }
 
