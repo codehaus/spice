@@ -8,7 +8,7 @@ import org.realityforge.packet.event.EventValve;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-09 01:52:34 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-09 03:11:47 $
  */
 public class ValveControlledSinkTestCase
     extends TestCase
@@ -71,11 +71,11 @@ public class ValveControlledSinkTestCase
 
         final Mock mockSink = new Mock( EventSink.class );
         final Object lock = new Object();
-        mockSink.expectAndReturn( "getSyncLock", lock );
+        mockSink.expectAndReturn( "getSinkLock", lock );
         final EventSink sink = (EventSink)mockSink.proxy();
         final ValveControlledSink vcs = new ValveControlledSink( sink, valve );
 
-        assertEquals( "vcs.getSyncLock()", lock, vcs.getSyncLock() );
+        assertEquals( "vcs.getSinkLock()", lock, vcs.getSinkLock() );
 
         mockSink.verify();
         mockValve.verify();
