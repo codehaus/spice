@@ -10,30 +10,25 @@ package org.realityforge.metaclass.jmx;
 import javax.management.modelmbean.ModelMBeanInfo;
 
 /**
- * A simple object that contains MBeanInfo object and associated name.
- * The name is the "topic" of the info object. Each object can have
- * multiple "topics" associated with it in the JMX system. Usually
- * one topic for the object (with null name) and one for each management
- * interface with specified name.
- *
+ * A simple object that contains MBeanInfo object and associated name. The name
+ * is the "topic" of the info object. Each object can have multiple "topics"
+ * associated with it in the JMX system. Usually one topic for the object (with
+ * null name) and one for each management interface with specified name.
+ * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-11-28 03:13:45 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 03:16:10 $
  */
 public class TopicDescriptor
 {
-    /**
-     * The topic name.
-     */
+    /** The topic name. */
     private final String m_name;
 
-    /**
-     * The associated info object.
-     */
+    /** The associated info object. */
     private final ModelMBeanInfo m_info;
 
     /**
      * Create descriptor with specified name and info.
-     *
+     * 
      * @param name the name
      * @param info the info
      */
@@ -50,7 +45,7 @@ public class TopicDescriptor
 
     /**
      * Return the topic name (May be null).
-     *
+     * 
      * @return the topic name (May be null).
      */
     public String getName()
@@ -60,7 +55,7 @@ public class TopicDescriptor
 
     /**
      * Return the associated Info object.
-     *
+     * 
      * @return the associated Info object.
      */
     public ModelMBeanInfo getInfo()

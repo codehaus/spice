@@ -8,9 +8,8 @@
 package org.realityforge.metaclass.jmx;
 
 /**
- *
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2003-11-28 03:13:45 $
+ * @version $Revision: 1.7 $ $Date: 2003-11-28 03:16:10 $
  */
 public class TestBean
     implements TestMxInterface

@@ -7,18 +7,17 @@
  */
 package org.realityforge.metaclass.jmx;
 
-import junit.framework.TestCase;
-import javax.management.modelmbean.ModelMBeanInfo;
-import javax.management.modelmbean.ModelMBeanAttributeInfo;
-import javax.management.modelmbean.ModelMBeanOperationInfo;
-import javax.management.modelmbean.ModelMBeanConstructorInfo;
-import javax.management.modelmbean.ModelMBeanNotificationInfo;
 import javax.management.MBeanParameterInfo;
+import javax.management.modelmbean.ModelMBeanAttributeInfo;
+import javax.management.modelmbean.ModelMBeanConstructorInfo;
+import javax.management.modelmbean.ModelMBeanInfo;
+import javax.management.modelmbean.ModelMBeanNotificationInfo;
+import javax.management.modelmbean.ModelMBeanOperationInfo;
+import junit.framework.TestCase;
 
 /**
- *
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-11-28 03:13:45 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 03:16:10 $
  */
 public class MBeanInfoCreationHelperTestCase
     extends TestCase
@@ -166,7 +165,8 @@ public class MBeanInfoCreationHelperTestCase
         assertEquals( "operations.length", 0, info.getOperations().length );
         assertEquals( "attributes.length", 0, info.getAttributes().length );
         assertEquals( "constructors.length", 0, info.getConstructors().length );
-        assertEquals( "notifications.length", 0, info.getNotifications().length );
+        assertEquals( "notifications.length", 0,
+                      info.getNotifications().length );
     }
 
     public void testCreateFullInfo()
@@ -210,8 +210,11 @@ public class MBeanInfoCreationHelperTestCase
         assertEquals( "attributes.length", 1, info.getAttributes().length );
         assertEquals( "attributes[0]", attribute, info.getAttributes()[ 0 ] );
         assertEquals( "constructors.length", 1, info.getConstructors().length );
-        assertEquals( "constructors[0]", constructor, info.getConstructors()[ 0 ] );
-        assertEquals( "notifications.length", 1, info.getNotifications().length );
-        assertEquals( "notifications[0]", notification, info.getNotifications()[ 0 ] );
+        assertEquals( "constructors[0]", constructor,
+                      info.getConstructors()[ 0 ] );
+        assertEquals( "notifications.length", 1,
+                      info.getNotifications().length );
+        assertEquals( "notifications[0]", notification,
+                      info.getNotifications()[ 0 ] );
     }
 }

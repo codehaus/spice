@@ -21,9 +21,8 @@ import mx4j.log.Log;
 import mx4j.log.Logger;
 
 /**
- *
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-11-28 03:13:45 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 03:16:10 $
  */
 public class WrapperModelMBeanTestCase
     extends TestCase
@@ -68,7 +67,8 @@ public class WrapperModelMBeanTestCase
         Log.setDefaultPriority( Logger.FATAL );
         final WrapperModelMBean wrapper =
             new WrapperModelMBean( info, mock.proxy() );
-        final ObjectName result = wrapper.preRegister( null, new ObjectName( "X:a=b" ) );
+        final ObjectName result = wrapper.preRegister( null,
+                                                       new ObjectName( "X:a=b" ) );
         wrapper.postRegister( Boolean.TRUE );
         wrapper.preDeregister();
         wrapper.postDeregister();

@@ -17,48 +17,36 @@ import javax.management.modelmbean.ModelMBeanNotificationInfo;
 import javax.management.modelmbean.ModelMBeanOperationInfo;
 
 /**
- * This is a class that helps the developer to incrementally
- * build a ModelMBean. The developer adds various info objects
- * and then at completion calls toModelMBean.
- *
+ * This is a class that helps the developer to incrementally build a ModelMBean.
+ * The developer adds various info objects and then at completion calls
+ * toModelMBean.
+ * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-11-28 03:13:45 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-28 03:16:10 $
  */
 public class ModelInfoCreationHelper
 {
-    /**
-     * List of constructor info objects.
-     */
+    /** List of constructor info objects. */
     private final List m_constructors = new ArrayList();
 
-    /**
-     * List of operation info objects.
-     */
+    /** List of operation info objects. */
     private final List m_operations = new ArrayList();
 
-    /**
-     * List of ttribute info objects.
-     */
+    /** List of ttribute info objects. */
     private final List m_attributes = new ArrayList();
 
-    /**
-     * List of notification info objects.
-     */
+    /** List of notification info objects. */
     private final List m_notifications = new ArrayList();
 
-    /**
-     * Classname representing ModelMBean.
-     */
+    /** Classname representing ModelMBean. */
     private String m_classname;
 
-    /**
-     * Description of ModelMBean.
-     */
+    /** Description of ModelMBean. */
     private String m_description;
 
     /**
      * Set the classname for ModelMBeanInfo.
-     *
+     * 
      * @param classname the classname for ModelMBeanInfo
      */
     public void setClassname( final String classname )
@@ -72,7 +60,7 @@ public class ModelInfoCreationHelper
 
     /**
      * Set the description for ModelMBeanInfo.
-     *
+     * 
      * @param description the description for ModelMBeanInfo.
      */
     public void setDescription( final String description )
@@ -86,7 +74,7 @@ public class ModelInfoCreationHelper
 
     /**
      * Add an attribute info.
-     *
+     * 
      * @param info the info
      */
     public void addAttribute( final ModelMBeanAttributeInfo info )
@@ -100,7 +88,7 @@ public class ModelInfoCreationHelper
 
     /**
      * Add a constructor info.
-     *
+     * 
      * @param info the info
      */
     public void addConstructor( final ModelMBeanConstructorInfo info )
@@ -114,7 +102,7 @@ public class ModelInfoCreationHelper
 
     /**
      * Add an operation info.
-     *
+     * 
      * @param info the info
      */
     public void addOperation( final ModelMBeanOperationInfo info )
@@ -128,7 +116,7 @@ public class ModelInfoCreationHelper
 
     /**
      * Add a notification info.
-     *
+     * 
      * @param info the info
      */
     public void addNotification( final ModelMBeanNotificationInfo info )
@@ -142,7 +130,7 @@ public class ModelInfoCreationHelper
 
     /**
      * Create ModelMBeanInfo from values specified for class.
-     *
+     * 
      * @return the new ModelMBeanInfo object
      */
     public ModelMBeanInfo toModelMBeanInfo()
@@ -165,7 +153,7 @@ public class ModelInfoCreationHelper
 
     /**
      * Return the set of notification infos.
-     *
+     * 
      * @return the infos
      */
     public ModelMBeanNotificationInfo[] getNotifications()
@@ -176,7 +164,7 @@ public class ModelInfoCreationHelper
 
     /**
      * Return the set of operation infos.
-     *
+     * 
      * @return the infos
      */
     public ModelMBeanOperationInfo[] getOperations()
@@ -187,7 +175,7 @@ public class ModelInfoCreationHelper
 
     /**
      * Return the set of constructor infos.
-     *
+     * 
      * @return the infos
      */
     public ModelMBeanConstructorInfo[] getConstructors()
@@ -198,7 +186,7 @@ public class ModelInfoCreationHelper
 
     /**
      * Return the set of attribute infos.
-     *
+     * 
      * @return the infos
      */
     public ModelMBeanAttributeInfo[] getAttributes()

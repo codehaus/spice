@@ -27,85 +27,60 @@ import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
- * Utility class to create ModelMBeanInfo objects from classes
- * annotated with MetaClass attributes. See documentation for
- * description of valid attributes.
- *
+ * Utility class to create ModelMBeanInfo objects from classes annotated with
+ * MetaClass attributes. See documentation for description of valid attributes.
+ * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-11-28 03:13:45 $
+ * @version $Revision: 1.5 $ $Date: 2003-11-28 03:16:10 $
  */
 public class MBeanInfoBuilder
 {
-    /**
-     * Constant for class annotation tag.
-     */
+    /** Constant for class annotation tag. */
     private static final String MX_COMPONENT_CONSTANT = "mx.component";
 
     /**
-     * Constant for class annotation tag that indicates
-     * specific interface is management interface.
+     * Constant for class annotation tag that indicates specific interface is
+     * management interface.
      */
     private static final String MX_INTERFACE_CONSTANT = "mx.interface";
 
-    /**
-     * Constant for constructor annotation tag.
-     */
+    /** Constant for constructor annotation tag. */
     private static final String MX_CONSTRUCTOR_CONSTANT = "mx.constructor";
 
-    /**
-     * Constant for method annotation tag.
-     */
+    /** Constant for method annotation tag. */
     private static final String MX_OPERATION_CONSTANT = "mx.operation";
 
-    /**
-     * Constant for getter/setter annotation tag.
-     */
+    /** Constant for getter/setter annotation tag. */
     private static final String MX_ATTRIBUTE_CONSTANT = "mx.attribute";
 
-    /**
-     * Constant for annotation of ctor or method parameters.
-     */
+    /** Constant for annotation of ctor or method parameters. */
     private static final String MX_PARAMETER_CONSTANT = "mx.parameter";
 
-    /**
-     * Constant for parameter name holding description.
-     */
+    /** Constant for parameter name holding description. */
     private static final String DESCRIPTION_KEY_CONSTANT = "description";
 
-    /**
-     * Constant for parameter name holding method impact.
-     */
+    /** Constant for parameter name holding method impact. */
     private static final String IMPACT_KEY_CONSTANT = "impact";
 
-    /**
-     * Constant for parameter name holding name of method/ctor parameters.
-     */
+    /** Constant for parameter name holding name of method/ctor parameters. */
     private static final String NAME_KEY_CONSTANT = "name";
 
-    /**
-     * Constant for empty string to avoid gratuitous creation.
-     */
+    /** Constant for empty string to avoid gratuitous creation. */
     private static final String EMPTY_STRING = "";
 
-    /**
-     * Constant string for INFO impact.
-     */
+    /** Constant string for INFO impact. */
     private static final String IMPACT_INFO = "INFO";
 
-    /**
-     * Constant string for ACTION impact.
-     */
+    /** Constant string for ACTION impact. */
     private static final String IMPACT_ACTION = "ACTION";
 
-    /**
-     * Constant string for ACTION_INFO impact.
-     */
+    /** Constant string for ACTION_INFO impact. */
     private static final String IMPACT_ACTION_INFO = "ACTION_INFO";
 
     /**
-     * Create a set of ModelMBeanInfo objects for specified class
-     * if class is annotated.
-     *
+     * Create a set of ModelMBeanInfo objects for specified class if class is
+     * annotated.
+     * 
      * @param type the class
      * @return the ModelMBeanInfo objects
      * @throws Exception if unable to get resolve specified types
@@ -121,7 +96,7 @@ public class MBeanInfoBuilder
 
     /**
      * Create a set of ModelMBeanInfo objects for specified class.
-     *
+     * 
      * @param type the class
      * @param infos the ModelMBeanInfo objects collected so far
      * @throws Exception if unable to get resolve specified types
@@ -151,7 +126,7 @@ public class MBeanInfoBuilder
 
     /**
      * Build topic representation.
-     *
+     * 
      * @param attribute the attribute containing topic descriptor
      * @param classLoader the classloader to load interface from
      * @return the TopicDescriptor
@@ -170,7 +145,7 @@ public class MBeanInfoBuilder
 
     /**
      * Build a ModelMBeanInfo object for specific class.
-     *
+     * 
      * @param type the class
      * @return the ModelMBeanInfo
      * @throws Exception if unable to introspect class
@@ -198,9 +173,9 @@ public class MBeanInfoBuilder
     }
 
     /**
-     * Return the description of class as specified in "description"
-     * parameter of mx.component attribute.
-     *
+     * Return the description of class as specified in "description" parameter
+     * of mx.component attribute.
+     * 
      * @param type the type
      * @return the description of "" if not specified
      */
@@ -211,15 +186,16 @@ public class MBeanInfoBuilder
         String description = EMPTY_STRING;
         if( null != desc )
         {
-            description = desc.getParameter( DESCRIPTION_KEY_CONSTANT, EMPTY_STRING );
+            description =
+            desc.getParameter( DESCRIPTION_KEY_CONSTANT, EMPTY_STRING );
         }
         return description;
     }
 
     /**
-     * Extract a set of Ctor info objects from specified ctors and
-     * add to helper.
-     *
+     * Extract a set of Ctor info objects from specified ctors and add to
+     * helper.
+     * 
      * @param constructors the constructors
      * @param helper the helper
      */
@@ -239,11 +215,12 @@ public class MBeanInfoBuilder
 
     /**
      * Extract info for constructor.
-     *
+     * 
      * @param constructor the constructor
      * @return the info or null if unmanaged
      */
-    ModelMBeanConstructorInfo extractConstructor( final Constructor constructor )
+    ModelMBeanConstructorInfo extractConstructor(
+        final Constructor constructor )
     {
         final Attribute attribute =
             Attributes.getAttribute( constructor, MX_CONSTRUCTOR_CONSTANT );
@@ -276,9 +253,9 @@ public class MBeanInfoBuilder
     }
 
     /**
-     * Extract a set of attribute info objects from specified propertys
-     * and add to specified hepler.
-     *
+     * Extract a set of attribute info objects from specified propertys and add
+     * to specified hepler.
+     * 
      * @param propertys the peroptys
      * @param helper the helper
      */
@@ -297,13 +274,14 @@ public class MBeanInfoBuilder
     }
 
     /**
-     * Extract an attribute info for specified property if attribute marked
-     * as an attribute.
-     *
+     * Extract an attribute info for specified property if attribute marked as
+     * an attribute.
+     * 
      * @param property the property
      * @return the info or null if property is not marked as an attribute
      */
-    ModelMBeanAttributeInfo extractAttribute( final PropertyDescriptor property )
+    ModelMBeanAttributeInfo extractAttribute(
+        final PropertyDescriptor property )
     {
         Method readMethod = property.getReadMethod();
         Method writeMethod = property.getWriteMethod();
@@ -322,7 +300,7 @@ public class MBeanInfoBuilder
             else
             {
                 description =
-                    attribute.getParameter( DESCRIPTION_KEY_CONSTANT, null );
+                attribute.getParameter( DESCRIPTION_KEY_CONSTANT, null );
             }
         }
 
@@ -337,12 +315,13 @@ public class MBeanInfoBuilder
             else if( null == description )
             {
                 description =
-                    attribute.getParameter( DESCRIPTION_KEY_CONSTANT, null );
+                attribute.getParameter( DESCRIPTION_KEY_CONSTANT, null );
             }
         }
 
         final boolean isReadable = null != readMethod;
-        final boolean isIs = isReadable && readMethod.getName().startsWith( "is" );
+        final boolean isIs = isReadable &&
+                             readMethod.getName().startsWith( "is" );
         final boolean isWritable = null != writeMethod;
 
         if( !isReadable && !isWritable )
@@ -380,7 +359,7 @@ public class MBeanInfoBuilder
 
     /**
      * Extract a list of operations for specified method descriptors.
-     *
+     * 
      * @param methods the method descriptors
      * @param helper the helper to add operations to
      */
@@ -389,7 +368,8 @@ public class MBeanInfoBuilder
     {
         for( int i = 0; i < methods.length; i++ )
         {
-            final ModelMBeanOperationInfo info = extractOperation( methods[ i ] );
+            final ModelMBeanOperationInfo info = extractOperation(
+                methods[ i ] );
             if( null != info )
             {
                 helper.addOperation( info );
@@ -399,7 +379,7 @@ public class MBeanInfoBuilder
 
     /**
      * Extract Operation Info if method is marked as an operation.
-     *
+     * 
      * @param method the method
      * @return the info object or null if not an operation
      */
@@ -417,7 +397,8 @@ public class MBeanInfoBuilder
             attribute.getParameter( IMPACT_KEY_CONSTANT, EMPTY_STRING );
         final int impactCode = parseImpact( impact );
 
-        final MBeanParameterInfo[] infos = parseParameterInfos( method.getMethod() );
+        final MBeanParameterInfo[] infos = parseParameterInfos(
+            method.getMethod() );
 
         final String returnType = method.getMethod().getReturnType().getName();
         final ModelMBeanOperationInfo info =
@@ -436,7 +417,7 @@ public class MBeanInfoBuilder
 
     /**
      * Extract the parameter infos for specified constructor.
-     *
+     * 
      * @param constructor the constructor
      * @return the infos
      */
@@ -452,13 +433,14 @@ public class MBeanInfoBuilder
         }
         catch( final MetaClassException mce )
         {
-            return buildParametersViaReflection( constructor.getParameterTypes() );
+            return buildParametersViaReflection(
+                constructor.getParameterTypes() );
         }
     }
 
     /**
      * Extract the parameter infos for specified method.
-     *
+     * 
      * @param method the method
      * @return the infos
      */
@@ -480,13 +462,14 @@ public class MBeanInfoBuilder
 
     /**
      * Build a set of parameter info objects via specified metadata.
-     *
+     * 
      * @param attributes the attributes
      * @param parameters the parameters
      * @return the parameter infos
      */
-    MBeanParameterInfo[] buildParametersFromMetaData( final Attribute[] attributes,
-                                                      final ParameterDescriptor[] parameters )
+    MBeanParameterInfo[] buildParametersFromMetaData(
+        final Attribute[] attributes,
+        final ParameterDescriptor[] parameters )
     {
         final MBeanParameterInfo[] infos = new MBeanParameterInfo[ parameters.length ];
         for( int i = 0; i < infos.length; i++ )
@@ -494,7 +477,8 @@ public class MBeanInfoBuilder
             final ParameterDescriptor parameter = parameters[ i ];
             final String name = parameter.getName();
             final String type = parameter.getType();
-            final String description = parseParameterDescription( attributes, name );
+            final String description = parseParameterDescription( attributes,
+                                                                  name );
             infos[ i ] = new MBeanParameterInfo( name, type, description );
         }
         return infos;
@@ -502,7 +486,7 @@ public class MBeanInfoBuilder
 
     /**
      * Build a set of parameter info objects via reflection.
-     *
+     * 
      * @param types the types of parameters
      * @return the parameter infos
      */
@@ -512,19 +496,19 @@ public class MBeanInfoBuilder
         for( int i = 0; i < types.length; i++ )
         {
             infos[ i ] =
-                new MBeanParameterInfo( EMPTY_STRING,
-                                        types[ i ].getName(),
-                                        EMPTY_STRING );
+            new MBeanParameterInfo( EMPTY_STRING,
+                                    types[ i ].getName(),
+                                    EMPTY_STRING );
         }
         return infos;
     }
 
     /**
-     * Extract parameter desciption for specified parameter
-     * from specified attributes. If the attributes have a mx.parameter
-     * specified for that attribute then use the description parameter
-     * of attribute otherwise return an empty string.
-     *
+     * Extract parameter desciption for specified parameter from specified
+     * attributes. If the attributes have a mx.parameter specified for that
+     * attribute then use the description parameter of attribute otherwise
+     * return an empty string.
+     * 
      * @param attributes the attributes
      * @param name the name of parameter
      * @return the parameter description
@@ -540,16 +524,17 @@ public class MBeanInfoBuilder
             final String key = paramAttribute.getParameter( NAME_KEY_CONSTANT );
             if( name.equals( key ) )
             {
-                return paramAttribute.getParameter( DESCRIPTION_KEY_CONSTANT, EMPTY_STRING );
+                return paramAttribute.getParameter( DESCRIPTION_KEY_CONSTANT,
+                                                    EMPTY_STRING );
             }
         }
         return EMPTY_STRING;
     }
 
     /**
-     * Parse Impact enum. Should be one of the IMPACT_*
-     * constants otherwise impact will be set to UNKNOWN.
-     *
+     * Parse Impact enum. Should be one of the IMPACT_* constants otherwise
+     * impact will be set to UNKNOWN.
+     * 
      * @param impact the impact string
      * @return the impact code
      */
