@@ -56,7 +56,7 @@ public class LoggerStoreTestCase
     {
         final LoggerStore store =
             new ConsoleLoggerStore( ConsoleLogger.LEVEL_DEBUG );
-        runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_DEBUG );
+        performConsoleTest( store, ConsoleLogger.LEVEL_DEBUG );
     }
 
     public void testConsoleLoggerStoreNoDebug()
@@ -64,7 +64,7 @@ public class LoggerStoreTestCase
     {
         final LoggerStore store =
             new ConsoleLoggerStore( ConsoleLogger.LEVEL_DEBUG );
-        runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_DISABLED );
+        performConsoleTest( store, ConsoleLogger.LEVEL_DISABLED );
     }
 
     public void testJDK14Configuration()
@@ -242,5 +242,16 @@ public class LoggerStoreTestCase
             final String message = "Failed to parse Document";
             throw new Exception( message, e );
         }
+    }
+
+    private void performConsoleTest( final LoggerStore store, final int level ) throws Exception
+    {
+        ContainerUtil.enableLogging( store, new ConsoleLogger( level ) );
+        final Logger logger = store.getLogger();
+        assertNotNull( "rootLogger for console", logger );
+        logger.info( MESSAGE );
+        final Logger noExistLogger = store.getLogger( "no-exist" );
+        assertNotNull( "noExistLogger for console", noExistLogger );
+        noExistLogger.info( MESSAGE2 );
     }
 }
