@@ -25,7 +25,7 @@ import org.realityforge.packet.events.SessionDisconnectRequestEvent;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.27 $ $Date: 2004-02-17 03:18:29 $
+ * @version $Revision: 1.28 $ $Date: 2004-02-18 02:33:38 $
  */
 public class Session
 {
@@ -48,19 +48,9 @@ public class Session
    public static final int STATUS_ESTABLISHED = 2;
 
    /**
-    * Status indicating transport is no longer active.
-    */
-   public static final int STATUS_LOST = 3;
-
-   /**
     * Status indicating client is no longer connected.
     */
    public static final int STATUS_DISCONNECTED = 4;
-
-   /**
-    * Status indicating the Client failed to connect to server.
-    */
-   public static final int STATUS_CONNECT_FAILED = 5;
 
    private final PacketQueue _txQueue = new PacketQueue();
 
@@ -159,9 +149,19 @@ public class Session
    private int _connections;
 
    /**
-    * Flag set to true when connection is attempted to be established..
+    * Flag set to true when connection is attempted to be established.
     */
    private boolean _connecting;
+
+   /**
+    * Flag set to true when session failed due to a persistent error.
+    */
+   private boolean _error;
+
+   /**
+    * The time when the last ping was sent.
+    */
+   private long _lastPingTime;
 
    /**
     * The address that socket connected to.
@@ -226,6 +226,16 @@ public class Session
       }
    }
 
+   public void setLastPingTime( final long lastPingTime )
+   {
+      _lastPingTime = lastPingTime;
+   }
+
+   public long getLastPingTime()
+   {
+      return _lastPingTime;
+   }
+
    public synchronized void
       startConnection( final SelectableChannelEventSource css )
       throws IOException
@@ -243,7 +253,7 @@ public class Session
    {
       while( true )
       {
-         if( STATUS_ESTABLISHED == _status && !isConnecting() )
+         if( STATUS_ESTABLISHED == _status && !isConnecting() || isError() )
          {
             return;
          }
@@ -255,6 +265,16 @@ public class Session
          {
          }
       }
+   }
+
+   public boolean isError()
+   {
+      return _error;
+   }
+
+   public void setError()
+   {
+      _error = true;
    }
 
    public void requestShutdown()
@@ -538,7 +558,7 @@ public class Session
       {
          if( Session.STATUS_DISCONNECTED != _status )
          {
-            setStatus( Session.STATUS_LOST );
+            setStatus( Session.STATUS_NOT_CONNECTED );
          }
       }
    }

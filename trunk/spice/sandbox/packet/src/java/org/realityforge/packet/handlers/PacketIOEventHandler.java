@@ -30,6 +30,7 @@ import org.realityforge.packet.events.SessionActiveEvent;
 import org.realityforge.packet.events.SessionConnectEvent;
 import org.realityforge.packet.events.SessionDisconnectEvent;
 import org.realityforge.packet.events.SessionDisconnectRequestEvent;
+import org.realityforge.packet.events.SessionErrorEvent;
 import org.realityforge.packet.events.SessionInactiveEvent;
 import org.realityforge.packet.session.PacketQueue;
 import org.realityforge.packet.session.Session;
@@ -37,7 +38,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.26 $ $Date: 2004-02-17 04:26:43 $
+ * @version $Revision: 1.27 $ $Date: 2004-02-18 02:33:38 $
  */
 public class PacketIOEventHandler
    extends AbstractDirectedHandler
@@ -167,14 +168,14 @@ public class PacketIOEventHandler
             else
             {
                signalDisconnectTransport( transport,
-                                          Protocol.ERROR_BAD_MESSAGE );
+                                          SessionErrorEvent.ERROR_BAD_MESSAGE );
             }
          }
          catch( final IOException ioe )
          {
             ioe.printStackTrace( System.out );
             signalDisconnectTransport( transport,
-                                       Protocol.ERROR_IO_ERROR );
+                                       SessionErrorEvent.ERROR_IO_ERROR );
          }
       }
    }
@@ -188,7 +189,7 @@ public class PacketIOEventHandler
       if( null == packet )
       {
          signalDisconnectTransport( session.getTransport(),
-                                    Protocol.ERROR_BAD_NACK );
+                                    SessionErrorEvent.ERROR_BAD_NACK );
       }
       else
       {
@@ -209,8 +210,13 @@ public class PacketIOEventHandler
       final Session session = (Session)key.getUserData();
       session.cancelTimeout();
       final int status = session.getStatus();
-      if( Session.STATUS_LOST == status )
+      if( Session.STATUS_NOT_CONNECTED == status )
       {
+         session.setError();
+         final SessionErrorEvent error =
+            new SessionErrorEvent( session,
+                                   SessionErrorEvent.ERROR_SESSION_TIMEOUT );
+         _target.addEvent( error );
          session.requestShutdown();
       }
    }
@@ -227,6 +233,10 @@ public class PacketIOEventHandler
       final ChannelTransport transport = session.getTransport();
       if( !canOutput( transport ) )
       {
+         if( session.isError() )
+         {
+            disconnectSession( session );
+         }
          return;
       }
 
@@ -280,6 +290,7 @@ public class PacketIOEventHandler
       if( session.hasTransmittedData() )
       {
          final short sequence = session.getLastPacketTransmitted();
+         session.setLastPingTime( System.currentTimeMillis() );
          //output( session, "SEND PING " + sequence );
          ensureValidSession( transport );
          if( canOutput( transport ) )
@@ -350,7 +361,6 @@ public class PacketIOEventHandler
          final SchedulingKey key =
             _timeEventSource.addTrigger( trigger, session );
          session.setTimeoutKey( key );
-         session.setStatus( Session.STATUS_CONNECT_FAILED );
       }
    }
 
@@ -404,7 +414,7 @@ public class PacketIOEventHandler
          if( Session.STATUS_DISCONNECTED == status )
          {
             signalDisconnectTransport( transport,
-                                       Protocol.ERROR_SESSION_DISCONNECTED );
+                                       SessionErrorEvent.ERROR_SESSION_DISCONNECTED );
             return;
          }
          //TODO: Why doesn't this occur on server connection?
@@ -498,7 +508,7 @@ public class PacketIOEventHandler
    {
       final InputStream input = transport.getInputStream();
 
-      if( input.available() < Protocol.SIZEOF_BYTE )
+      if( input.available() < TypeIOUtil.SIZEOF_BYTE )
       {
          return false;
       }
@@ -551,7 +561,7 @@ public class PacketIOEventHandler
       {
          output( session, "UNKNOWN MESSAGE " + msg );
          signalDisconnectTransport( transport,
-                                    Protocol.ERROR_BAD_MESSAGE );
+                                    SessionErrorEvent.ERROR_BAD_MESSAGE );
          return false;
       }
    }
@@ -593,7 +603,7 @@ public class PacketIOEventHandler
          if( !checkMagicNumber( input ) )
          {
             signalDisconnectTransport( transport,
-                                       Protocol.ERROR_BAD_MAGIC );
+                                       SessionErrorEvent.ERROR_BAD_MAGIC );
             return false;
          }
 
@@ -614,13 +624,13 @@ public class PacketIOEventHandler
             if( null == session )
             {
                signalDisconnectTransport( transport,
-                                          Protocol.ERROR_BAD_SESSION );
+                                          SessionErrorEvent.ERROR_BAD_SESSION );
                return false;
             }
             else if( session.getAuthID() != authID )
             {
                signalDisconnectTransport( transport,
-                                          Protocol.ERROR_BAD_AUTH );
+                                          SessionErrorEvent.ERROR_BAD_AUTH );
                return false;
             }
             else
@@ -704,7 +714,7 @@ public class PacketIOEventHandler
       final Session session = (Session)transport.getUserData();
       final InputStream input = transport.getInputStream();
       final int available = input.available();
-      if( available < Protocol.SIZEOF_LONG + Protocol.SIZEOF_SHORT )
+      if( available < TypeIOUtil.SIZEOF_LONG + TypeIOUtil.SIZEOF_SHORT )
       {
          input.reset();
          return false;
@@ -791,7 +801,7 @@ public class PacketIOEventHandler
       final Session session = (Session)transport.getUserData();
       final InputStream input = transport.getInputStream();
       final int available = input.available();
-      if( available < Protocol.SIZEOF_SHORT )
+      if( available < TypeIOUtil.SIZEOF_SHORT )
       {
          input.reset();
          return false;
@@ -819,7 +829,7 @@ public class PacketIOEventHandler
       final Session session = (Session)transport.getUserData();
       final InputStream input = transport.getInputStream();
       final int available = input.available();
-      if( available < Protocol.SIZEOF_SHORT )
+      if( available < TypeIOUtil.SIZEOF_SHORT )
       {
          input.reset();
          return false;
@@ -873,7 +883,7 @@ public class PacketIOEventHandler
       final Session session = (Session)transport.getUserData();
       final InputStream input = transport.getInputStream();
       final int available = input.available();
-      if( available < Protocol.SIZEOF_SHORT )
+      if( available < TypeIOUtil.SIZEOF_SHORT )
       {
          input.reset();
          return false;
@@ -971,7 +981,7 @@ public class PacketIOEventHandler
    {
       final InputStream input = transport.getInputStream();
       final int available = input.available();
-      if( available < Protocol.SIZEOF_BYTE )
+      if( available < TypeIOUtil.SIZEOF_BYTE )
       {
          input.reset();
          return false;
@@ -979,6 +989,14 @@ public class PacketIOEventHandler
       else
       {
          final byte reason = (byte)input.read();
+         final Session session = (Session)transport.getUserData();
+         if( null != session )
+         {
+            final SessionErrorEvent error =
+               new SessionErrorEvent( session,
+                                      reason );
+            _target.addEvent( error );
+         }
          signalDisconnectTransport( transport, reason );
          closeTransport( transport );
          return false;
@@ -1032,7 +1050,8 @@ public class PacketIOEventHandler
    {
       ensureValidSession( transport );
       final InputStream input = transport.getInputStream();
-      if( input.available() < Protocol.SIZEOF_SHORT + Protocol.SIZEOF_INTEGER )
+      if( input.available() <
+          TypeIOUtil.SIZEOF_SHORT + TypeIOUtil.SIZEOF_INTEGER )
       {
          input.reset();
          return false;
@@ -1149,6 +1168,10 @@ public class PacketIOEventHandler
       final Session session = (Session)transport.getUserData();
       if( null != session )
       {
+         final SessionErrorEvent error =
+            new SessionErrorEvent( session,
+                                   reason );
+         _target.addEvent( error );
          output( session, "Error=" + reason );
       }
       else
