@@ -95,7 +95,9 @@ public class SAXMetaClassSerializerTestCase
         final AttributesImpl attrs = new AttributesImpl();
         add( attrs, SAXMetaClassSerializer.NAME_ATTRIBUTE, name );
         add( attrs, SAXMetaClassSerializer.TYPE_ATTRIBUTE, value );
-        start( mockHandler, SAXMetaClassSerializer.PARAMETERS_ELEMENT, attrs );
+        start( mockHandler, SAXMetaClassSerializer.PARAMETERS_ELEMENT, new AttributesImpl() );
+        start( mockHandler, SAXMetaClassSerializer.PARAMETER_ELEMENT, attrs );
+        end( mockHandler, SAXMetaClassSerializer.PARAMETER_ELEMENT );
         end( mockHandler, SAXMetaClassSerializer.PARAMETERS_ELEMENT );
 
         final ContentHandler handler = (ContentHandler)mockHandler.proxy();
@@ -135,7 +137,7 @@ public class SAXMetaClassSerializerTestCase
             new MethodDescriptor( name,
                                   type,
                                   ParameterDescriptor.EMPTY_SET,
-                                  Attribute.EMPTY_SET, 
+                                  Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET )
         };
         serializer.serializeMethods( handler, methods );
