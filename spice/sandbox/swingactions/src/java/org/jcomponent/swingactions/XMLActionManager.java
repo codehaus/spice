@@ -9,6 +9,10 @@ package org.jcomponent.swingactions;
 
 import java.io.InputStream;
 
+import javax.swing.Action;
+
+import org.jcomponent.swingactions.metadata.ActionMetaData;
+import org.jcomponent.swingactions.metadata.ActionSetMetaData;
 import org.jcomponent.swingactions.reader.ConfigReader;
 
 /**
@@ -20,12 +24,37 @@ import org.jcomponent.swingactions.reader.ConfigReader;
 public class XMLActionManager
     extends AbstractActionManager
 {
-    final ConfigReader reader;
 
+    /** 
+     * Creates an ActionManager from an XML resource 
+     * @param resource the InputStream containing the XML configuration
+     * @throws Exception if the configuration fails
+     */
     public XMLActionManager( final InputStream resource ) 
         throws Exception
     {
-        reader = new ConfigReader();
+        if ( resource == null )
+        {
+            throw new NullPointerException( "resource" );
+        }
+        final ConfigReader reader = new ConfigReader();
         reader.parse( resource );
+        configure( reader );
+    }
+
+    /**
+     * Configures ActionManager using the ConfigReader contents
+     * @param reader the ConfigReader
+     */
+    private void configure( final ConfigReader reader )
+    {
+        final ActionSetMetaData actionSet = reader.getActionSetMetaData();      
+        final ActionMetaData[] actions = actionSet.getActions();
+        for ( int i = 0; i < actions.length; i++ )
+        {
+            final Action action = new ActionAdapter( actions[ i ], this );  
+            addAction( actions[ i ].getValue( ActionMetaData.ID ), action );
+        }
     }
 }
+
