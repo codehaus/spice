@@ -237,7 +237,6 @@ public class Connector
     * Set the connected state.
     *
     * @param connected the connected state.
-    * @mx.attribute
     */
    protected void setConnected( final boolean connected )
    {
