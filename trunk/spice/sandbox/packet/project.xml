@@ -13,6 +13,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>spice</groupId>
+            <artifactId>spice-event</artifactId>
+            <version>20031216.020310</version>
+        </dependency>
+        <dependency>
             <groupId>jmock</groupId>
             <artifactId>jmock</artifactId>
             <version>20031129.200437</version>
