@@ -1,8 +1,8 @@
 package org.codehaus.spice.netserve.connection.impl;
 
 import junit.framework.TestCase;
-import org.jcontainer.dna.impl.DefaultConfiguration;
-import org.jcontainer.dna.impl.ConsoleLogger;
+import org.codehaus.dna.impl.DefaultConfiguration;
+import org.codehaus.dna.impl.ConsoleLogger;
 
 public class DNAAcceptorManagerTestCase
    extends TestCase

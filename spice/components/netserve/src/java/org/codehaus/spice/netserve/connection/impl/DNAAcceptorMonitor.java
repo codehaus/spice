@@ -1,6 +1,6 @@
 package org.codehaus.spice.netserve.connection.impl;
 
-import org.jcontainer.dna.Logger;
+import org.codehaus.dna.Logger;
 import org.codehaus.spice.netserve.connection.impl.AbstractLoggingAcceptorMonitor;
 
 /**

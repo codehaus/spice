@@ -7,7 +7,7 @@
  */
 package org.codehaus.spice.threadpool.impl;
 
-import org.jcontainer.dna.AbstractLogEnabled;
+import org.codehaus.dna.AbstractLogEnabled;
 import org.codehaus.spice.threadpool.ThreadPoolMonitor;
 
 /**

@@ -7,16 +7,16 @@
  */
 package org.codehaus.spice.threadpool.impl;
 
+import org.codehaus.dna.impl.ConsoleLogger;
+import org.codehaus.dna.impl.ContainerUtil;
+import org.codehaus.dna.impl.DefaultConfiguration;
 import org.codehaus.spice.threadpool.ThreadPool;
-import org.jcontainer.dna.impl.ConsoleLogger;
-import org.jcontainer.dna.impl.ContainerUtil;
-import org.jcontainer.dna.impl.DefaultConfiguration;
 
 /**
  *  A TestCase for the DNACommonsThreadPool.
  *
  * @author Mauro Talevi
- * @version $Revision: 1.2 $ $Date: 2004-02-28 21:13:22 $
+ * @version $Revision: 1.3 $ $Date: 2004-04-25 11:14:17 $
  */
 public class DNAThreadPoolTestCase
     extends AbstractThreadPoolTestCase
