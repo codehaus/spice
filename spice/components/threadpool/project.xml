@@ -17,9 +17,9 @@
     
 	<versions>
         <version>
-            <id>1.1</id>
-            <name>1.1</name>
-            <tag>THREADPOOL_1_1-tag</tag>
+            <id>1.1-b1</id>
+            <name>1.1-b1</name>
+            <tag>THREADPOOL_1_1_b1-tag</tag>
         </version>
         <version>
             <id>1.0-b1</id>
