@@ -22,7 +22,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-22 02:41:25 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-22 02:44:30 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -117,6 +117,28 @@ public class MetaClassIOBinaryTestCase
         assertEquals( "bytes[" + offset + "] = " + paramKey, paramKey, readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + paramKey.length();
         assertEquals( "bytes[" + offset + "] = " + paramValue, paramValue, readString( bytes, offset ) );
+    }
+
+    public void testBinaryIOWriteParameters()
+        throws Exception
+    {
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final DataOutputStream data = new DataOutputStream( out );
+        final String name = "name";
+        final String type = "aType";
+        final ParameterDescriptor descriptor = new ParameterDescriptor( name, type );
+        io.writeParameters( data, new ParameterDescriptor[]{descriptor} );
+        data.flush();
+        final byte[] bytes = out.toByteArray();
+        assertEquals( "length", 17, bytes.length );
+        int offset = 0;
+        assertEquals( "bytes[" + offset + "] = 1", 1, readInteger( bytes, offset ) );
+        offset = 4;
+        assertEquals( "bytes[" + offset + "] = " + name, name, readString( bytes, offset ) );
+        offset += STRING_HEADER_SIZE + name.length();
+        assertEquals( "bytes[" + offset + "] = " + type, type, readString( bytes, offset ) );
+        offset += STRING_HEADER_SIZE + type.length();
     }
 
     public void testBinaryIOWriteZeroParameters()
