@@ -13,11 +13,13 @@ import java.nio.ByteBuffer;
  * The Packet class represents a chunk of data sent across network.
  *
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-12-05 06:57:12 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-23 05:27:09 $
  */
 public class Packet
 {
-    /** The sequence ID of packet. */
+    /**
+     * The sequence ID of packet.
+     */
     private final short m_sequence;
 
     /**
@@ -26,7 +28,9 @@ public class Packet
      */
     private final int m_flags;
 
-    /** The buffer containing data contained within packet. */
+    /**
+     * The buffer containing data contained within packet.
+     */
     private final ByteBuffer m_data;
 
     /**
@@ -78,5 +82,14 @@ public class Packet
     public ByteBuffer getData()
     {
         return m_data;
+    }
+
+    /**
+     * @see Object#toString()
+     */
+    public String toString()
+    {
+        return "Packet[Sequence=" + getSequence() +
+               ", Size=" + getData().limit() + "]";
     }
 }
