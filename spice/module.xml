@@ -149,8 +149,8 @@
         <depend project="spice-configkit" inherit="runtime"/>
         <depend project="spice-threadpool"/>
 
-        <work nested="components/jndikit/target/classes"/>
-        <work nested="components/jndikit/target/test-classes"/>
+        <work nested="components/netserve/target/classes"/>
+        <work nested="components/netserve/target/test-classes"/>
 
         <home nested="components/netserve"/>
         <jar name="target/spice-netserve-@@DATE@@.jar"/>
