@@ -14,11 +14,16 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
  * outputting as xml or as a serialized format.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-09-07 10:21:54 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-04 01:05:19 $
  */
 public class FormatEnum
     extends EnumeratedAttribute
 {
+    /**
+     * Return type code for format.
+     *
+     * @return the typecode
+     */
     public int getTypeCode()
     {
         final String value = super.getValue();
@@ -36,8 +41,13 @@ public class FormatEnum
         }
     }
 
+    /**
+     * Return the set of valid values.
+     *
+     * @return the set of valid values.
+     */
     public String[] getValues()
     {
-        return new String[]{"xml", "ser", "legacy"};
+        return new String[]{"xml", "ser", "binary"};
     }
 }
