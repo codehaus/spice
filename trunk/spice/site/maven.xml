@@ -21,27 +21,65 @@
         <j:file name="target/navigation.xml" prettyPrint="true">
             <naproject name="Spice" href="spice.sourceforge.net">
                 <title>Spice</title>
-                <body>
-   	               <links>
-    	              <item name="Home" href="/index.html"/>
-                   </links>
-                   <menu name="Overview">
-	                    <item name="Home" href="/index.html"/>
-                        <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
-	                    <item name="Components" href="/index.html" collapse="true">
-    	                    <ant:fileScanner var="components">
+                    <body>
+                        <links>
+                            <item name="Home" href="/index.html"/>
+                        </links>
+                        <menu name="Overview">
+                            <item name="Home" href="/index.html"/>
+                            <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
+   		                    <ant:fileScanner var="components">
        		                    <fileset dir="${basedir}/../components">
            		                    <include name="*/project.xml"/>
                		            </fileset>
                    		    </ant:fileScanner>
-                       		<j:forEach items="${components.iterator()}" var="component">
-                           		<maven:pom projectDescriptor="${component}" var="cPOM"/>
-                           		<item name="${cPOM.name}"
-                               		href="/${component.parentFile.name}/index.html"/>
-                       		</j:forEach>
-                   		</item>
-    	            </menu>
-                </body>
+   		                    <ant:fileScanner var="sandbox">
+       		                    <fileset dir="${basedir}/../sandbox">
+           		                    <include name="*/project.xml"/>
+               		            </fileset>
+                   		    </ant:fileScanner>
+		                    <item name="Spice" href="index.html" collapse="false">
+		                    	<item name="Components" href="index.html" collapse="false">
+	                        		<j:forEach items="${components.iterator()}" var="component">
+    	                        		<maven:pom projectDescriptor="${component}" var="cPOM"/>
+                	            		<j:if test="${cPOM.groupId != 'jcomponent'}">
+                    	        			<item name="${cPOM.name}"
+                        	        			href="/${component.parentFile.name}/index.html"/>
+                            	    	</j:if>
+	                        		</j:forEach>
+                        		</item>
+		                    	<item name="Sandbox" href="index.html" collapse="false">
+	                        		<j:forEach items="${sandbox.iterator()}" var="component">
+    	                        		<maven:pom projectDescriptor="${component}" var="cPOM"/>
+                	            		<j:if test="${cPOM.groupId != 'jcomponent'}">
+                    	        			<item name="${cPOM.name}"
+                        	        			href="/${component.parentFile.name}/index.html"/>
+                            	    	</j:if>
+	                        		</j:forEach>
+                        		</item>
+                    		</item>
+		                    <item name="JComponent" href="index.html" collapse="false">
+		                    	<item name="Components" href="index.html" collapse="false">
+	                        		<j:forEach items="${components.iterator()}" var="component">
+    	                        		<maven:pom projectDescriptor="${component}" var="cPOM"/>
+                	            		<j:if test="${cPOM.groupId == 'jcomponent'}">
+                    	        			<item name="${cPOM.name}"
+                        	        			href="/${component.parentFile.name}/index.html"/>
+                            	    	</j:if>
+	                        		</j:forEach>
+                        		</item>
+		                    	<item name="Sandbox" href="index.html" collapse="false">
+	                        		<j:forEach items="${sandbox.iterator()}" var="component">
+    	                        		<maven:pom projectDescriptor="${component}" var="cPOM"/>
+                	            		<j:if test="${cPOM.groupId == 'jcomponent'}">
+                    	        			<item name="${cPOM.name}"
+                        	        			href="/${component.parentFile.name}/index.html"/>
+                            	    	</j:if>
+	                        		</j:forEach>
+                        		</item>
+                    		</item>
+                        </menu>
+                    </body>
             </naproject>
         </j:file>
         <doc:jslFile
