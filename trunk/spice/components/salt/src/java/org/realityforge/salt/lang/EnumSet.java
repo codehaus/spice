@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.salt.lang;
 
 import java.lang.reflect.Field;
@@ -9,6 +16,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+/**
+ * A Utility class for extracting a set of int constants from a Java Class.
+ *
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ */
 public final class EnumSet
 {
    private final Map _nameMap = new HashMap();
