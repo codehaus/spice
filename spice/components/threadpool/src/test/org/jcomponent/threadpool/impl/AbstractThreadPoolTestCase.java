@@ -19,17 +19,16 @@ import org.realityforge.configkit.ValidateException;
 import org.xml.sax.ErrorHandler;
 
 /**
- *  An abtract TestCase for the ThreadPools.  
+ *  An abtract TestCase for the ThreadPools.
  *  Provides functionality common to all ThreadPool TestCases.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-30 09:26:20 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 00:37:29 $
  */
 public abstract class AbstractThreadPoolTestCase
     extends TestCase
 {
-
     public AbstractThreadPoolTestCase( final String name )
     {
         super( name );
@@ -204,6 +203,6 @@ public abstract class AbstractThreadPoolTestCase
 
     protected abstract AbstractThreadPool createThreadPoolWithDebug() throws Exception;
 
-    protected abstract void destroyThreadPool( final ThreadPool threadPool ) throws Exception;
+    protected abstract void destroyThreadPool( ThreadPool threadPool ) throws Exception;
 
 }
