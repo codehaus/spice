@@ -178,25 +178,6 @@ public class ComponentMetadataTaskTestCase extends TestCase {
         assertEquals(fullyQualifiedInterfaceName, expected.getInterfaceName());
     }
 
-/*
-    public void testThrowsAnExceptionWhenInterfaceIsAClass() throws IOException {
-        createJavaSourceFile(sourceDirectory, new Javaclass(
-                packageName,
-                interfaceName,
-                someJavadoc,
-                null), createdFiles);
-        final ComponentMetadataTask task = new ComponentMetadataTask(fullyQualifiedInterfaceName,sourceDirectory,targetDirectory);
-        NotAPublicInterfaceBuildException expected = null;
-        try {
-            task.execute();
-            fail("Did not get expected exception");
-        } catch (NotAPublicInterfaceBuildException e) {
-            expected = e;
-        }
-        assertEquals(fullyQualifiedInterfaceName, expected.getInterfaceName());
-    }
-*/
-
     public void testCanGenerateCorrectMetadataForOneInterface() throws IOException, ParserConfigurationException, SAXException {
         createJavaSourceFile(sourceDirectory, new Interface(
                 packageName,
@@ -243,6 +224,7 @@ public class ComponentMetadataTaskTestCase extends TestCase {
         assertEquals(fullyQualifiedInterfaceName, interfaceMetadata.getFullyQualifiedName());
         assertEquals(someJavadoc,interfaceMetadata.getJavadoc());
         assertEquals(firstLineOfJavadoc, interfaceMetadata.getShortDescription());
+        assertFalse(interfaceMetadata.isClass());
 
         interfaceMetadata = componentMetadata.getInterfaceMetadataForName(secondFullyQualifiedInterfaceName);
         assertEquals(packageName,interfaceMetadata.getPackageName());
@@ -250,6 +232,7 @@ public class ComponentMetadataTaskTestCase extends TestCase {
         assertEquals(secondFullyQualifiedInterfaceName, interfaceMetadata.getFullyQualifiedName());
         assertEquals(secondJavadoc,interfaceMetadata.getJavadoc());
         assertEquals(firstLineOfJavadocForSecondInterface, interfaceMetadata.getShortDescription());
+        assertTrue(interfaceMetadata.isClass());
     }
 
     private void createJavaSourceFile(String targetDirectory, JavaSourceFile javaSourceFile, final Collection collectingParameter) throws IOException {

@@ -6,6 +6,7 @@ public class NotADirectoryBuildException extends BuildException {
     private String directoryName;
 
     public NotADirectoryBuildException(String directoryName) {
+        super(directoryName + " is not a directory");
         this.directoryName = directoryName;
     }
 

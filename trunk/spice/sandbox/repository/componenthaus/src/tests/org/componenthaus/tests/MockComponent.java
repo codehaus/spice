@@ -1,9 +1,7 @@
 package org.componenthaus.tests;
 
 import org.componenthaus.repository.api.Component;
-import org.componenthaus.repository.api.ServiceImplementation;
 
-import java.util.Collection;
 import java.util.List;
 
 public class MockComponent implements Component {
@@ -18,13 +16,6 @@ public class MockComponent implements Component {
     }
 
     public void setId(String id) {
-    }
-
-    public Collection getImplementations() {
-        return null;
-    }
-
-    public void addImplementation(ServiceImplementation impl) {
     }
 
     public String getServiceInterface() {

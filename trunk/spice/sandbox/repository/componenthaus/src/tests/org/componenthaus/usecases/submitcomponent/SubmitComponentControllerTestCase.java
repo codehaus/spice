@@ -69,7 +69,7 @@ public class SubmitComponentControllerTestCase extends TestCase {
         assertNotNull(view.getViewName());
     }
 
-    private static final class MockSubmissionManager implements SubmissionManager {
+    private static final class MockSubmissionManager implements CarSubmissionManager {
         private File expectedJarFile = null;
         private File actualJarFile = null;
 

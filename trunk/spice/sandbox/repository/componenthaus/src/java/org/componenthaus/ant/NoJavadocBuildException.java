@@ -6,6 +6,7 @@ public class NoJavadocBuildException extends BuildException {
     private String interfaceName;
 
     public NoJavadocBuildException(String interfaceName) {
+        super("There is no javadoc for the source file " + interfaceName);
         this.interfaceName = interfaceName;
     }
 

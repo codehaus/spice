@@ -126,7 +126,6 @@ public abstract class AbstractPicoApplicationContext implements WebApplicationCo
     }
 
     public String[] getBeanDefinitionNames(Class type) {
-        System.out.println("getBeanDefinitionNames");
         final Collection names = new ArrayList();
         for(Iterator i=pico.getComponentKeys().iterator();i.hasNext();) {
             final Object key = i.next();
@@ -143,7 +142,6 @@ public abstract class AbstractPicoApplicationContext implements WebApplicationCo
     }
 
     public Object getBean(String name) throws BeansException {
-        System.out.println("getBean(" + name + ")");
         final Object instance = pico.getComponentInstance(name);
         if ( instance == null ) {
             throw new NoSuchBeanDefinitionException(name,"not registered");
@@ -152,7 +150,6 @@ public abstract class AbstractPicoApplicationContext implements WebApplicationCo
     }
 
     public Object getBean(String name, Class requiredType) throws BeansException {
-        System.out.println("getBean2");
         final Object componentInstance = pico.getComponentInstance(name);
         if ( componentInstance == null ) {
             throw new NoSuchBeanDefinitionException(name,"not available");

@@ -14,11 +14,17 @@
  * Restarted prevayler is not loading objects correctly - all the string fields are "gone".
  * Disable multiple submissions of the same component.
  * Structured API Search (Find me all methods taking a java.io.File and returning a java.lang.String, and importing java.sql classes)
- * If the component is a class, show only its methods, to better convey the service offering.
  * Consider providing a means of displaying test cases that use a particular service method.  Excellent way to convey purpose and usage of the service method.
  * Include coverage report in component metadata
+ * Offline tool to submit CAR files.
+ * Have all Exception constructors call super(...)
+ * Determine required jars from imports in the component itself (and its impl).  This is because one jar might contain two or more components.  Dependencies traditionally are at the jar to jar level.  But if you use only one component in a jar, you might not need all the dependencies the jar needs.
+ * When QDox bugs 27 and 28 are fixed, test if submission of Plexus FileUtils works.
 
 Done
+
+November 9th
+ * If the component is a class, show only its methods, to better convey the service offering.  Rolling this out was hampered by bugs in Qdox (27 and 28). So will retest when bugs are fixed.
 
 November 5th
  * Stop including plug-interfaces in the repository as public interfaces.  Allow the submitter decide whats public.

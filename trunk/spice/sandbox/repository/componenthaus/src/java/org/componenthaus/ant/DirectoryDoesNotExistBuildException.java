@@ -6,6 +6,7 @@ public class DirectoryDoesNotExistBuildException extends BuildException {
     private String directoryName;
 
     public DirectoryDoesNotExistBuildException(String directoryName) {
+        super("The directory '" + directoryName + "' does not exist");
         this.directoryName = directoryName;
     }
 

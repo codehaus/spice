@@ -119,7 +119,7 @@ public class ComponentMetadataTask extends Task {
         if (interfaceAsClass == null) {
             throw new NoSuchJavaSourceFileBuildException(interfaceName);
         }
-        final String javadoc = interfaceAsClass.getComment();
+        String javadoc = interfaceAsClass.getComment();
         if (javadoc == null || "".equals(javadoc)) {
             throw new NoJavadocBuildException(interfaceName);
         }
@@ -137,7 +137,8 @@ public class ComponentMetadataTask extends Task {
                 interfaceAsClass.getPackage(),
                 interfaceAsClass.getName(),
                 interfaceAsClass.getComment(),
-                source);
+                source,
+                !interfaceAsClass.isInterface());
         return interfaceMetadata;
     }
 
