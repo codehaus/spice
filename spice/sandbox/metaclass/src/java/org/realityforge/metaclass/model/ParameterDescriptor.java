@@ -25,7 +25,7 @@ import java.io.Serializable;
  * information such as display name for a Parameter.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-16 00:32:29 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-25 13:12:45 $
  */
 public final class ParameterDescriptor
     implements Serializable
@@ -38,12 +38,12 @@ public final class ParameterDescriptor
     /**
      * The name of the Parameter in source file.
      */
-    private final String _name;
+    private final String m_name;
 
     /**
      * The class/interface of the Parameter.
      */
-    private final String _type;
+    private final String m_type;
 
     /**
      * Construct a descriptor for a parameter.
@@ -63,8 +63,8 @@ public final class ParameterDescriptor
             throw new NullPointerException( "type" );
         }
 
-        _name = name;
-        _type = type;
+        m_name = name;
+        m_type = type;
     }
 
     /**
@@ -74,7 +74,7 @@ public final class ParameterDescriptor
      */
     public String getName()
     {
-        return _name;
+        return m_name;
     }
 
     /**
@@ -84,6 +84,6 @@ public final class ParameterDescriptor
      */
     public String getType()
     {
-        return _type;
+        return m_type;
     }
 }

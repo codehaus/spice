@@ -24,7 +24,7 @@ import java.io.Serializable;
  * about method.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-16 01:11:58 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-25 13:12:45 $
  */
 public final class MethodDescriptor
     extends FeatureDescriptor
@@ -38,17 +38,17 @@ public final class MethodDescriptor
     /**
      * The name of the Method.
      */
-    private final String _name;
+    private final String m_name;
 
     /**
      * The return type of the method.
      */
-    private final String _returnType;
+    private final String m_returnType;
 
     /**
      * The parameters associated with the method.
      */
-    private final ParameterDescriptor[] _parameters;
+    private final ParameterDescriptor[] m_parameters;
 
     /**
      * Create a descriptor for a method.
@@ -86,9 +86,9 @@ public final class MethodDescriptor
             }
         }
 
-        _name = name;
-        _returnType = returnType;
-        _parameters = parameters;
+        m_name = name;
+        m_returnType = returnType;
+        m_parameters = parameters;
     }
 
     /**
@@ -98,7 +98,7 @@ public final class MethodDescriptor
      */
     public String getName()
     {
-        return _name;
+        return m_name;
     }
 
     /**
@@ -108,7 +108,7 @@ public final class MethodDescriptor
      */
     public String getReturnType()
     {
-        return _returnType;
+        return m_returnType;
     }
 
     /**
@@ -118,6 +118,6 @@ public final class MethodDescriptor
      */
     public ParameterDescriptor[] getParameters()
     {
-        return _parameters;
+        return m_parameters;
     }
 }

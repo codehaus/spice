@@ -15,7 +15,7 @@ import java.io.Serializable;
  * the classes methods.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-15 08:35:48 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-25 13:12:45 $
  */
 public class ClassDescriptor
     extends FeatureDescriptor
@@ -24,17 +24,17 @@ public class ClassDescriptor
     /**
      * The name of class.
      */
-    private final String _name;
+    private final String m_name;
 
     /**
      * The fields of the class.
      */
-    private final FieldDescriptor[] _fields;
+    private final FieldDescriptor[] m_fields;
 
     /**
      * The methods in the class.
      */
-    private final MethodDescriptor[] _methods;
+    private final MethodDescriptor[] m_methods;
 
     /**
      * Create a ClassDescriptor with metadata about a class.
@@ -80,9 +80,9 @@ public class ClassDescriptor
                 throw new NullPointerException( "methods[" + i + "]" );
             }
         }
-        _name = classname;
-        _fields = fields;
-        _methods = methods;
+        m_name = classname;
+        m_fields = fields;
+        m_methods = methods;
     }
 
     /**
@@ -92,7 +92,7 @@ public class ClassDescriptor
      */
     public String getName()
     {
-        return _name;
+        return m_name;
     }
 
     /**
@@ -104,7 +104,7 @@ public class ClassDescriptor
      */
     public FieldDescriptor[] getFields()
     {
-        return _fields;
+        return m_fields;
     }
 
     /**
@@ -116,6 +116,6 @@ public class ClassDescriptor
      */
     public MethodDescriptor[] getMethods()
     {
-        return _methods;
+        return m_methods;
     }
 }
