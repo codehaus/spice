@@ -16,7 +16,7 @@ import org.jcontainer.dna.impl.DefaultConfiguration;
  *  A TestCase for the DNACommonsThreadPool.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-09-02 08:09:39 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-02 09:50:28 $
  */
 public class DNAThreadPoolTestCase
     extends AbstractThreadPoolTestCase
@@ -53,7 +53,7 @@ public class DNAThreadPoolTestCase
 
     private DefaultConfiguration buildConfiguration()
     {
-        final DefaultConfiguration configuration = new DefaultConfiguration( "root", "" );
+        final DefaultConfiguration configuration = new DefaultConfiguration( "root", "", "" );
         addChild( configuration, "name", "testThreadPool" );
         addChild( configuration, "priority", "5" );
         addChild( configuration, "is-daemon", "false" );
@@ -66,7 +66,7 @@ public class DNAThreadPoolTestCase
                            final String name,
                            final String value )
     {
-        final DefaultConfiguration child = new DefaultConfiguration( name, "" );
+        final DefaultConfiguration child = new DefaultConfiguration( name, "", "" );
         child.setValue( value );
         configuration.addChild( child );
     }
