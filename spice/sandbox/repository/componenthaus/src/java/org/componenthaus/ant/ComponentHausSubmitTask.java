@@ -15,6 +15,8 @@ import org.componenthaus.ant.metadata.ComponentImplementation;
 import org.componenthaus.ant.metadata.ComponentMetadata;
 import org.componenthaus.ant.metadata.Resource;
 import org.componenthaus.util.text.TextUtils;
+import org.componenthaus.util.file.FileManager;
+import org.componenthaus.util.file.FileManagerImpl;
 import org.xml.sax.SAXException;
 
 import java.beans.IntrospectionException;
@@ -30,6 +32,7 @@ import java.util.List;
 import java.nio.channels.FileChannel;
 
 public class ComponentHausSubmitTask extends Task {
+    private FileManager fileManager = new FileManagerImpl();
     private String serviceInterface = null;
     private String staging = null;
     private String source = null;
@@ -48,7 +51,12 @@ public class ComponentHausSubmitTask extends Task {
         assertDirExists(source);
         assertFileExists(binary);
 
-        compileMetadata();
+        try {
+            compileMetadata();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new BuildException("Exception compiling metadata",e);
+        }
 
         File newDir = new File(staging + File.separator + "binary");
         if ( ! newDir.exists() ) {
@@ -70,7 +78,7 @@ public class ComponentHausSubmitTask extends Task {
         }
     }
 
-    private void compileMetadata() {
+    private void compileMetadata() throws IOException {
         final JavaDocBuilder builder = new JavaDocBuilder();
         builder.addSourceTree(new File(source));
         final JavaSource[] sources = builder.getSources();
@@ -78,7 +86,7 @@ public class ComponentHausSubmitTask extends Task {
         if (serviceInterfaceClass == null) {
             throw new BuildException("Could not find a public interface called " + serviceInterface);
         }
-        final ComponentDefinition componentDefinition = extractComponentMetadata(serviceInterfaceClass);
+        final ComponentDefinition componentDefinition = extractComponentMetadata(serviceInterfaceClass,serviceInterface);
         final Collection impls = findImplementations(serviceInterfaceClass, sources, builder);
         final ComponentMetadata componentMetadata = new ComponentMetadata(componentDefinition, impls);
         writeComponentMetaData(componentMetadata);
@@ -122,7 +130,7 @@ public class ComponentHausSubmitTask extends Task {
         return result;
     }
 
-    private Collection findImplementations(JavaClass intf, JavaSource[] sources, JavaDocBuilder builder) {
+    private Collection findImplementations(JavaClass intf, JavaSource[] sources, JavaDocBuilder builder) throws IOException {
         final Collection result = new HashSet();
         for (int s = 0; s < sources.length; s++) {
             findImplementations(intf, sources[s].getClasses(), result, builder);
@@ -130,7 +138,7 @@ public class ComponentHausSubmitTask extends Task {
         return result;
     }
 
-    private void findImplementations(JavaClass intf, JavaClass[] classes, Collection result, JavaDocBuilder builder) {
+    private void findImplementations(JavaClass intf, JavaClass[] classes, Collection result, JavaDocBuilder builder) throws IOException {
         for (int c = 0; c < classes.length; c++) {
             if (implementsType(intf.asType(), classes[c].getImplements())) {
                 result.add(createComponentImplementation(classes[c], builder));
@@ -138,7 +146,7 @@ public class ComponentHausSubmitTask extends Task {
         }
     }
 
-    private ComponentImplementation createComponentImplementation(JavaClass aClass, JavaDocBuilder builder) {
+    private ComponentImplementation createComponentImplementation(JavaClass aClass, JavaDocBuilder builder) throws IOException {
         final String fullDesc = format(assertFullDescription(aClass));
         return new ComponentImplementation(aClass.getFullyQualifiedName(),
                 assertTagValyeByName(aClass, "version"),
@@ -172,12 +180,14 @@ public class ComponentHausSubmitTask extends Task {
     /**
      * Find out what other interface's this impl depends on
      */
-    private ComponentDefinition[] getServiceDependencies(final JavaClass impl, final JavaDocBuilder builder) {
+    private ComponentDefinition[] getServiceDependencies(final JavaClass impl, final JavaDocBuilder builder) throws IOException {
         final JavaMethod constructor = getDependencyConstructor(impl);
         final JavaParameter[] params = constructor.getParameters();
         final Collection result = new ArrayList();
         for (int i = 0; i < params.length; i++) {
-            result.add(extractComponentMetadata(builder.getClassByName(params[i].getType().getValue())));
+            final String typeName = params[i].getType().getValue();
+            final JavaClass classByName = builder.getClassByName(typeName);
+            result.add(extractComponentMetadata(classByName,typeName));
         }
         return (ComponentDefinition[]) result.toArray(new ComponentDefinition[result.size()]);
     }
@@ -205,13 +215,19 @@ public class ComponentHausSubmitTask extends Task {
     }
 
 
-    private ComponentDefinition extractComponentMetadata(final JavaClass intf) {
+    private ComponentDefinition extractComponentMetadata(final JavaClass intf, final String serviceInterface) throws IOException {
         return new ComponentDefinition(intf.getFullyQualifiedName(),
                 assertTagValyeByName(intf, "version"),
                 assertTagValuesByName(intf, "author"),
                 assertOneLineDescription(intf),
                 format(assertFullDescription(intf)),
-                format(intf.toString()));
+                format(getSourceCode(serviceInterface)));
+    }
+
+    private String getSourceCode(String className) throws IOException {
+        final String s = className.replaceAll("\\.","/"); //File.separator does not work here for some reason
+        File f = new File(source,s + ".java");
+        return fileManager.asString(f);
     }
 
     private String assertFullDescription(final JavaClass intf) {
