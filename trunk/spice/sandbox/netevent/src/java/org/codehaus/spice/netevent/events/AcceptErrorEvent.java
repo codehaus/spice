@@ -8,13 +8,13 @@
 package org.codehaus.spice.netevent.events;
 
 import java.io.IOException;
-import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.Channel;
 
 /**
  * An Event indicating that ServerSocket failed to accept a socket.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-16 00:17:04 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-19 04:35:09 $
  */
 public class AcceptErrorEvent
     extends ChannelEvent
@@ -27,7 +27,7 @@ public class AcceptErrorEvent
      * 
      * @param channel the channel.
      */
-    public AcceptErrorEvent( final ServerSocketChannel channel,
+    public AcceptErrorEvent( final Channel channel,
                              final Object userData,
                              final IOException ioe )
     {
