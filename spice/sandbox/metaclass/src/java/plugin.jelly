@@ -21,7 +21,7 @@
     </goal>
 
     <goal name="metaclass:generate"
-        prereqs="metaclass:init"
+        prereqs="metaclass:init, java:compile"
         description="Generate MetaClass Descriptors">
 
         <!-- Ensure maven.build.dest exists -->
