@@ -62,7 +62,7 @@ public abstract class AbstractNIOReactor
    {
       synchronized ( getReactorLock() )
       {
-         m_selector = Selector.open();
+         setSelector( Selector.open() );
       }
       startThread();
    }
@@ -88,12 +88,13 @@ public abstract class AbstractNIOReactor
       m_monitor.selectorShutdown();
       synchronized ( getReactorLock() )
       {
-         if ( null != m_selector )
+         final Selector selector = getSelector();
+         if ( null != selector )
          {
             try
             {
-               m_selector.wakeup();
-               m_selector.close();
+               selector.wakeup();
+               selector.close();
             }
             catch ( final IOException ioe )
             {
@@ -101,7 +102,7 @@ public abstract class AbstractNIOReactor
             }
          }
       }
-      while ( null != m_selector )
+      while ( null != getSelector() )
       {
          synchronized ( getReactorLock() )
          {
@@ -159,7 +160,7 @@ public abstract class AbstractNIOReactor
          {
             continue;
          }
-         final Set keys = m_selector.selectedKeys();
+         final Set keys = getSelector().selectedKeys();
          final Iterator iterator = keys.iterator();
 
          // Walk through the ready keys collection and process date requests.
@@ -175,7 +176,7 @@ public abstract class AbstractNIOReactor
       m_monitor.exitingSelectorLoop();
       synchronized ( getReactorLock() )
       {
-         m_selector = null;
+         setSelector( null );
          notifyAll();
       }
    }
@@ -191,7 +192,7 @@ public abstract class AbstractNIOReactor
       try
       {
          m_monitor.enteringSelect();
-         final int count = m_selector.select( m_timeout );
+         final int count = getSelector().select( m_timeout );
          m_monitor.selectCompleted( count );
          if ( 0 != count )
          {
@@ -216,13 +217,30 @@ public abstract class AbstractNIOReactor
    }
 
    /**
+    * Set the selector associated with reactor.
+    *
+    * @param selector the selector associated with reactor.
+    */
+   protected void setSelector( final Selector selector )
+   {
+      m_selector = selector;
+   }
+
+   /**
     * Return the selector associated with reactor.
     *
     * @return the selector associated with reactor.
     */
    protected Selector getSelector()
    {
-      return m_selector;
+      synchronized ( getReactorLock() )
+      {
+         if ( null == m_selector )
+         {
+            throw new NullPointerException( "selector" );
+         }
+         return m_selector;
+      }
    }
 
    /**
@@ -247,7 +265,7 @@ public abstract class AbstractNIOReactor
                                            final int ops )
       throws ClosedChannelException
    {
-      return channel.register( m_selector, ops );
+      return channel.register( getSelector(), ops );
    }
 
    /**
