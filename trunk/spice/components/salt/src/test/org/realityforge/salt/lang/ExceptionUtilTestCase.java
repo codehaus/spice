@@ -8,12 +8,11 @@
 package org.realityforge.salt.lang;
 
 import junit.framework.TestCase;
-import java.util.Arrays;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-12 22:30:25 $
+ * @version $Revision: 1.3 $ $Date: 2003-06-12 22:30:46 $
  */
 public class ExceptionUtilTestCase
     extends TestCase
@@ -59,7 +58,7 @@ public class ExceptionUtilTestCase
     private static final String TRACE3_LINE9 = "   at org.realityforge.CallerClass3.callerMethod8( CallerClass3.java:8 )";
     private static final String TRACE3 =
         TRACE3_LINE1 + NL + TRACE3_LINE2 + NL + TRACE3_LINE3 + NL + TRACE3_LINE4 + NL +
-        TRACE3_LINE5 + NL + TRACE3_LINE6 + NL + TRACE3_LINE7 + NL + TRACE3_LINE8 + NL + 
+        TRACE3_LINE5 + NL + TRACE3_LINE6 + NL + TRACE3_LINE7 + NL + TRACE3_LINE8 + NL +
         TRACE3_LINE9;
 
     public ExceptionUtilTestCase( final String name )
@@ -113,7 +112,6 @@ public class ExceptionUtilTestCase
     {
         final MockThrowable throwable = new MockThrowable( "s1", null, TRACE1 );
         final String[] trace = ExceptionUtil.captureStackTrace( throwable );
-        System.out.println( "trace = " + Arrays.asList( trace ) );
         assertEquals( "trace.length", 9, trace.length );
         assertEquals( "trace[0]", TRACE1_LINE1, trace[ 0 ] );
         assertEquals( "trace[1]", TRACE1_LINE2, trace[ 1 ] );
