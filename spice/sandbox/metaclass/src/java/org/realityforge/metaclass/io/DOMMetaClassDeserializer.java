@@ -21,16 +21,16 @@ import org.w3c.dom.NodeList;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-29 10:30:12 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-29 10:34:12 $
  */
 public class DOMMetaClassDeserializer
 {
     public ClassDescriptor buildClassDescriptor( final Element element )
         throws Exception
     {
-        expectElement( element, SAXMetaClassSerializer.CLASS_ELEMENT );
+        expectElement( element, MetaClassIOXml.CLASS_ELEMENT );
         final String type =
-            expectAttribute( element, SAXMetaClassSerializer.TYPE_ATTRIBUTE );
+            expectAttribute( element, MetaClassIOXml.TYPE_ATTRIBUTE );
         Attribute[] attributes = Attribute.EMPTY_SET;
         MethodDescriptor[] methods = MethodDescriptor.EMPTY_SET;
         FieldDescriptor[] fields = FieldDescriptor.EMPTY_SET;
@@ -44,11 +44,11 @@ public class DOMMetaClassDeserializer
             {
                 final Element child = (Element)node;
                 final String childName = child.getNodeName();
-                if( childName.equals( SAXMetaClassSerializer.METHODS_ELEMENT ) )
+                if( childName.equals( MetaClassIOXml.METHODS_ELEMENT ) )
                 {
                     methods = buildMethods( child );
                 }
-                else if( childName.equals( SAXMetaClassSerializer.FIELDS_ELEMENT ) )
+                else if( childName.equals( MetaClassIOXml.FIELDS_ELEMENT ) )
                 {
                     fields = buildFields( child );
                 }
@@ -68,7 +68,7 @@ public class DOMMetaClassDeserializer
     MethodDescriptor[] buildMethods( final Element element )
         throws Exception
     {
-        expectElement( element, SAXMetaClassSerializer.METHODS_ELEMENT );
+        expectElement( element, MetaClassIOXml.METHODS_ELEMENT );
 
         final ArrayList methods = new ArrayList();
         final NodeList nodes = element.getChildNodes();
@@ -91,11 +91,11 @@ public class DOMMetaClassDeserializer
     MethodDescriptor buildMethod( final Element element )
         throws Exception
     {
-        expectElement( element, SAXMetaClassSerializer.METHOD_ELEMENT );
+        expectElement( element, MetaClassIOXml.METHOD_ELEMENT );
         final String name =
-            expectAttribute( element, SAXMetaClassSerializer.NAME_ATTRIBUTE );
+            expectAttribute( element, MetaClassIOXml.NAME_ATTRIBUTE );
         final String type =
-            expectAttribute( element, SAXMetaClassSerializer.TYPE_ATTRIBUTE );
+            expectAttribute( element, MetaClassIOXml.TYPE_ATTRIBUTE );
         Attribute[] attributes = Attribute.EMPTY_SET;
         ParameterDescriptor[] parameters = ParameterDescriptor.EMPTY_SET;
         final NodeList nodes = element.getChildNodes();
@@ -108,7 +108,7 @@ public class DOMMetaClassDeserializer
             {
                 final Element child = (Element)node;
                     final String childName = child.getNodeName();
-                if( childName.equals( SAXMetaClassSerializer.PARAMETERS_ELEMENT ) )
+                if( childName.equals( MetaClassIOXml.PARAMETERS_ELEMENT ) )
                 {
                     parameters = buildParameters( child );
                 }
@@ -124,7 +124,7 @@ public class DOMMetaClassDeserializer
     ParameterDescriptor[] buildParameters( Element element )
         throws Exception
     {
-        expectElement( element, SAXMetaClassSerializer.PARAMETERS_ELEMENT );
+        expectElement( element, MetaClassIOXml.PARAMETERS_ELEMENT );
 
         final ArrayList parameters = new ArrayList();
         final NodeList nodes = element.getChildNodes();
@@ -148,11 +148,11 @@ public class DOMMetaClassDeserializer
     ParameterDescriptor buildParameter( final Element element )
         throws Exception
     {
-        expectElement( element, SAXMetaClassSerializer.PARAMETER_ELEMENT );
+        expectElement( element, MetaClassIOXml.PARAMETER_ELEMENT );
         final String name =
-            expectAttribute( element, SAXMetaClassSerializer.NAME_ATTRIBUTE );
+            expectAttribute( element, MetaClassIOXml.NAME_ATTRIBUTE );
         final String type =
-            expectAttribute( element, SAXMetaClassSerializer.TYPE_ATTRIBUTE );
+            expectAttribute( element, MetaClassIOXml.TYPE_ATTRIBUTE );
 
         return new ParameterDescriptor( name, type );
     }
@@ -160,7 +160,7 @@ public class DOMMetaClassDeserializer
     FieldDescriptor[] buildFields( final Element element )
         throws Exception
     {
-        expectElement( element, SAXMetaClassSerializer.FIELDS_ELEMENT );
+        expectElement( element, MetaClassIOXml.FIELDS_ELEMENT );
 
         final ArrayList fields = new ArrayList();
         final NodeList nodes = element.getChildNodes();
@@ -183,11 +183,11 @@ public class DOMMetaClassDeserializer
     FieldDescriptor buildField( final Element element )
         throws Exception
     {
-        expectElement( element, SAXMetaClassSerializer.FIELD_ELEMENT );
+        expectElement( element, MetaClassIOXml.FIELD_ELEMENT );
         final String name =
-            expectAttribute( element, SAXMetaClassSerializer.NAME_ATTRIBUTE );
+            expectAttribute( element, MetaClassIOXml.NAME_ATTRIBUTE );
         final String type =
-            expectAttribute( element, SAXMetaClassSerializer.TYPE_ATTRIBUTE );
+            expectAttribute( element, MetaClassIOXml.TYPE_ATTRIBUTE );
         Attribute[] attributes = Attribute.EMPTY_SET;
         final NodeList nodes = element.getChildNodes();
         final int length = nodes.getLength();
@@ -206,7 +206,7 @@ public class DOMMetaClassDeserializer
     Attribute[] buildAttributes( final Element element )
         throws Exception
     {
-        expectElement( element, SAXMetaClassSerializer.ATTRIBUTES_ELEMENT );
+        expectElement( element, MetaClassIOXml.ATTRIBUTES_ELEMENT );
 
         final ArrayList attributes = new ArrayList();
         final NodeList nodes = element.getChildNodes();
@@ -229,9 +229,9 @@ public class DOMMetaClassDeserializer
     Attribute buildAttribute( final Element element )
         throws Exception
     {
-        expectElement( element, SAXMetaClassSerializer.ATTRIBUTE_ELEMENT );
+        expectElement( element, MetaClassIOXml.ATTRIBUTE_ELEMENT );
         final String name =
-            expectAttribute( element, SAXMetaClassSerializer.NAME_ATTRIBUTE );
+            expectAttribute( element, MetaClassIOXml.NAME_ATTRIBUTE );
 
         final StringBuffer sb = new StringBuffer();
         final Properties parameters = new Properties();
@@ -277,11 +277,11 @@ public class DOMMetaClassDeserializer
                      final Properties parameters )
         throws Exception
     {
-        expectElement( element, SAXMetaClassSerializer.PARAM_ELEMENT );
+        expectElement( element, MetaClassIOXml.PARAM_ELEMENT );
         final String name =
-            expectAttribute( element, SAXMetaClassSerializer.NAME_ATTRIBUTE );
+            expectAttribute( element, MetaClassIOXml.NAME_ATTRIBUTE );
         final String value =
-            expectAttribute( element, SAXMetaClassSerializer.VALUE_ATTRIBUTE );
+            expectAttribute( element, MetaClassIOXml.VALUE_ATTRIBUTE );
         parameters.setProperty( name, value );
     }
 

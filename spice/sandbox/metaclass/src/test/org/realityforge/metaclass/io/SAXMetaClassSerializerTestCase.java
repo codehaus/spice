@@ -42,10 +42,10 @@ public class SAXMetaClassSerializerTestCase
         final Mock mockHandler = new Mock( ContentHandler.class );
 
         final AttributesImpl attrs = new AttributesImpl();
-        add( attrs, SAXMetaClassSerializer.NAME_ATTRIBUTE, name );
-        add( attrs, SAXMetaClassSerializer.VALUE_ATTRIBUTE, value );
-        start( mockHandler, SAXMetaClassSerializer.PARAM_ELEMENT, attrs );
-        end( mockHandler, SAXMetaClassSerializer.PARAM_ELEMENT );
+        add( attrs, MetaClassIOXml.NAME_ATTRIBUTE, name );
+        add( attrs, MetaClassIOXml.VALUE_ATTRIBUTE, value );
+        start( mockHandler, MetaClassIOXml.PARAM_ELEMENT, attrs );
+        end( mockHandler, MetaClassIOXml.PARAM_ELEMENT );
 
         final ContentHandler handler = (ContentHandler)mockHandler.proxy();
 
@@ -64,15 +64,15 @@ public class SAXMetaClassSerializerTestCase
     {
         final Mock mockHandler = new Mock( ContentHandler.class );
 
-        start( mockHandler, SAXMetaClassSerializer.ATTRIBUTES_ELEMENT, new AttributesImpl() );
+        start( mockHandler, MetaClassIOXml.ATTRIBUTES_ELEMENT, new AttributesImpl() );
         final String attributeName = "blah";
 
         final AttributesImpl attributeAttrs = new AttributesImpl();
-        add( attributeAttrs, SAXMetaClassSerializer.NAME_ATTRIBUTE, attributeName );
+        add( attributeAttrs, MetaClassIOXml.NAME_ATTRIBUTE, attributeName );
 
-        start( mockHandler, SAXMetaClassSerializer.ATTRIBUTE_ELEMENT, attributeAttrs );
-        end( mockHandler, SAXMetaClassSerializer.ATTRIBUTE_ELEMENT );
-        end( mockHandler, SAXMetaClassSerializer.ATTRIBUTES_ELEMENT );
+        start( mockHandler, MetaClassIOXml.ATTRIBUTE_ELEMENT, attributeAttrs );
+        end( mockHandler, MetaClassIOXml.ATTRIBUTE_ELEMENT );
+        end( mockHandler, MetaClassIOXml.ATTRIBUTES_ELEMENT );
 
         final ContentHandler handler = (ContentHandler)mockHandler.proxy();
 
@@ -93,12 +93,12 @@ public class SAXMetaClassSerializerTestCase
         final Mock mockHandler = new Mock( ContentHandler.class );
 
         final AttributesImpl attrs = new AttributesImpl();
-        add( attrs, SAXMetaClassSerializer.NAME_ATTRIBUTE, name );
-        add( attrs, SAXMetaClassSerializer.TYPE_ATTRIBUTE, value );
-        start( mockHandler, SAXMetaClassSerializer.PARAMETERS_ELEMENT, new AttributesImpl() );
-        start( mockHandler, SAXMetaClassSerializer.PARAMETER_ELEMENT, attrs );
-        end( mockHandler, SAXMetaClassSerializer.PARAMETER_ELEMENT );
-        end( mockHandler, SAXMetaClassSerializer.PARAMETERS_ELEMENT );
+        add( attrs, MetaClassIOXml.NAME_ATTRIBUTE, name );
+        add( attrs, MetaClassIOXml.TYPE_ATTRIBUTE, value );
+        start( mockHandler, MetaClassIOXml.PARAMETERS_ELEMENT, new AttributesImpl() );
+        start( mockHandler, MetaClassIOXml.PARAMETER_ELEMENT, attrs );
+        end( mockHandler, MetaClassIOXml.PARAMETER_ELEMENT );
+        end( mockHandler, MetaClassIOXml.PARAMETERS_ELEMENT );
 
         final ContentHandler handler = (ContentHandler)mockHandler.proxy();
 
@@ -121,13 +121,13 @@ public class SAXMetaClassSerializerTestCase
 
         final Mock mockHandler = new Mock( ContentHandler.class );
 
-        start( mockHandler, SAXMetaClassSerializer.METHODS_ELEMENT, new AttributesImpl() );
+        start( mockHandler, MetaClassIOXml.METHODS_ELEMENT, new AttributesImpl() );
         final AttributesImpl attrs = new AttributesImpl();
-        add( attrs, SAXMetaClassSerializer.NAME_ATTRIBUTE, name );
-        add( attrs, SAXMetaClassSerializer.TYPE_ATTRIBUTE, type );
-        start( mockHandler, SAXMetaClassSerializer.METHOD_ELEMENT, attrs );
-        end( mockHandler, SAXMetaClassSerializer.METHOD_ELEMENT );
-        end( mockHandler, SAXMetaClassSerializer.METHODS_ELEMENT );
+        add( attrs, MetaClassIOXml.NAME_ATTRIBUTE, name );
+        add( attrs, MetaClassIOXml.TYPE_ATTRIBUTE, type );
+        start( mockHandler, MetaClassIOXml.METHOD_ELEMENT, attrs );
+        end( mockHandler, MetaClassIOXml.METHOD_ELEMENT );
+        end( mockHandler, MetaClassIOXml.METHODS_ELEMENT );
 
         final ContentHandler handler = (ContentHandler)mockHandler.proxy();
 
@@ -153,13 +153,13 @@ public class SAXMetaClassSerializerTestCase
 
         final Mock mockHandler = new Mock( ContentHandler.class );
 
-        start( mockHandler, SAXMetaClassSerializer.FIELDS_ELEMENT, new AttributesImpl() );
+        start( mockHandler, MetaClassIOXml.FIELDS_ELEMENT, new AttributesImpl() );
         final AttributesImpl attrs = new AttributesImpl();
-        add( attrs, SAXMetaClassSerializer.NAME_ATTRIBUTE, name );
-        add( attrs, SAXMetaClassSerializer.TYPE_ATTRIBUTE, type );
-        start( mockHandler, SAXMetaClassSerializer.FIELD_ELEMENT, attrs );
-        end( mockHandler, SAXMetaClassSerializer.FIELD_ELEMENT );
-        end( mockHandler, SAXMetaClassSerializer.FIELDS_ELEMENT );
+        add( attrs, MetaClassIOXml.NAME_ATTRIBUTE, name );
+        add( attrs, MetaClassIOXml.TYPE_ATTRIBUTE, type );
+        start( mockHandler, MetaClassIOXml.FIELD_ELEMENT, attrs );
+        end( mockHandler, MetaClassIOXml.FIELD_ELEMENT );
+        end( mockHandler, MetaClassIOXml.FIELDS_ELEMENT );
 
         final ContentHandler handler = (ContentHandler)mockHandler.proxy();
 
@@ -181,10 +181,10 @@ public class SAXMetaClassSerializerTestCase
         final Mock mockHandler = new Mock( ContentHandler.class );
 
         final AttributesImpl attrs = new AttributesImpl();
-        add( attrs, SAXMetaClassSerializer.TYPE_ATTRIBUTE, type );
-        add( attrs, SAXMetaClassSerializer.VERSION_ATTRIBUTE, MetaClassIOXml.VERSION );
-        start( mockHandler, SAXMetaClassSerializer.CLASS_ELEMENT, attrs );
-        end( mockHandler, SAXMetaClassSerializer.CLASS_ELEMENT );
+        add( attrs, MetaClassIOXml.TYPE_ATTRIBUTE, type );
+        add( attrs, MetaClassIOXml.VERSION_ATTRIBUTE, MetaClassIOXml.VERSION );
+        start( mockHandler, MetaClassIOXml.CLASS_ELEMENT, attrs );
+        end( mockHandler, MetaClassIOXml.CLASS_ELEMENT );
 
         final ContentHandler handler = (ContentHandler)mockHandler.proxy();
 
@@ -208,11 +208,11 @@ public class SAXMetaClassSerializerTestCase
         final Mock mockHandler = new Mock( ContentHandler.class );
 
         final AttributesImpl attrs = new AttributesImpl();
-        add( attrs, SAXMetaClassSerializer.TYPE_ATTRIBUTE, type );
-        add( attrs, SAXMetaClassSerializer.VERSION_ATTRIBUTE, MetaClassIOXml.VERSION );
+        add( attrs, MetaClassIOXml.TYPE_ATTRIBUTE, type );
+        add( attrs, MetaClassIOXml.VERSION_ATTRIBUTE, MetaClassIOXml.VERSION );
         mockHandler.expect( "startDocument", C.NO_ARGS );
-        start( mockHandler, SAXMetaClassSerializer.CLASS_ELEMENT, attrs );
-        end( mockHandler, SAXMetaClassSerializer.CLASS_ELEMENT );
+        start( mockHandler, MetaClassIOXml.CLASS_ELEMENT, attrs );
+        end( mockHandler, MetaClassIOXml.CLASS_ELEMENT );
         mockHandler.expect( "endDocument", C.NO_ARGS );
 
         final ContentHandler handler = (ContentHandler)mockHandler.proxy();

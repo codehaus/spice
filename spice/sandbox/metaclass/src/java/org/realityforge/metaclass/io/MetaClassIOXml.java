@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
  * to a stream using the xml format outlined in documentation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-29 10:28:02 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-29 10:34:13 $
  */
 public class MetaClassIOXml
     implements MetaClassIO
@@ -37,6 +37,76 @@ public class MetaClassIOXml
      * The current version of ClassDescriptor XML format.
      */
     static final String VERSION = "1.0";
+
+    /**
+     * Constant for name of class element.
+     */
+    static final String CLASS_ELEMENT = "class";
+
+    /**
+     * Constant for name of fields element.
+     */
+    static final String FIELDS_ELEMENT = "fields";
+
+    /**
+     * Constant for name of field element.
+     */
+    static final String FIELD_ELEMENT = "field";
+
+    /**
+     * Constant for name of methods element.
+     */
+    static final String METHODS_ELEMENT = "methods";
+
+    /**
+     * Constant for name of method element.
+     */
+    static final String METHOD_ELEMENT = "method";
+
+    /**
+     * Constant for name of method parameters group element.
+     */
+    static final String PARAMETERS_ELEMENT = "parameters";
+
+    /**
+     * Constant for name of method parameters element.
+     */
+    static final String PARAMETER_ELEMENT = "parameter";
+
+    /**
+     * Constant for name of attributes element.
+     */
+    static final String ATTRIBUTES_ELEMENT = "attributes";
+
+    /**
+     * Constant for name of attribute element.
+     */
+    static final String ATTRIBUTE_ELEMENT = "attribute";
+
+    /**
+     * Constant for name of attribute parameter element.
+     */
+    static final String PARAM_ELEMENT = "param";
+
+    /**
+     * Constant for name of name attribute.
+     */
+    static final String NAME_ATTRIBUTE = "name";
+
+    /**
+     * Constant for name of type attribute.
+     */
+    static final String TYPE_ATTRIBUTE = "type";
+
+    /**
+     * Constant for name of value attribute.
+     */
+    static final String VALUE_ATTRIBUTE = "value";
+
+    /**
+     * Constant for name of version attribute.
+     */
+    static final String VERSION_ATTRIBUTE = "version";
 
     /**
      * @see MetaClassIO#deserializeClass
