@@ -18,8 +18,8 @@ import javax.naming.spi.StateFactory;
  * This is the class to extend that provides
  * basic facilities for Namespace management.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractNamespace
     implements Namespace

@@ -26,8 +26,8 @@ import javax.naming.Referenceable;
  * provide a particular type of Context. These contexts are assumed to be
  * on the same machine.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractLocalContext
     extends AbstractContext

@@ -14,8 +14,8 @@ import javax.naming.spi.StateFactory;
 /**
  * This is the default namespace implementation.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $
  */
 public class DefaultNamespace
     extends AbstractNamespace

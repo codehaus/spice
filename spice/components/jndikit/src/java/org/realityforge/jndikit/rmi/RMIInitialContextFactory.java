@@ -27,8 +27,8 @@ import org.realityforge.jndikit.RemoteContext;
 /**
  * Initial context factory for memorycontext.
  *
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $
  */
 public class RMIInitialContextFactory
     implements InitialContextFactory
