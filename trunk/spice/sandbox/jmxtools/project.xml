@@ -4,7 +4,6 @@
     <name>JMX Tools</name>
     <id>spice-jmxtools</id>
     <currentVersion>1.0</currentVersion>
-    <gumpRepositoryId>sandbox</gumpRepositoryId>
     <inceptionYear>2003</inceptionYear>
 
     <shortDescription>JMX based components</shortDescription>
