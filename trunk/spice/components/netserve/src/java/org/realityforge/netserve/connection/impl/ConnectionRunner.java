@@ -15,7 +15,7 @@ import org.realityforge.netserve.connection.ConnectionHandler;
  * This class is responsible for handling a single connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-04-23 04:47:13 $
+ * @version $Revision: 1.9 $ $Date: 2003-04-23 09:22:12 $
  */
 class ConnectionRunner
     extends AbstractLogEnabled
@@ -75,13 +75,13 @@ class ConnectionRunner
         {
             throw new NullPointerException( "socket" );
         }
-        if( null == acceptor )
-        {
-            throw new NullPointerException( "acceptor" );
-        }
         if( null == handler )
         {
             throw new NullPointerException( "handler" );
+        }
+        if( null == acceptor )
+        {
+            throw new NullPointerException( "acceptor" );
         }
         m_name = name;
         m_socket = socket;
