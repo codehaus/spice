@@ -210,4 +210,33 @@ public abstract class AbstractConnector
    {
       return _connectionFailureReason;
    }
+
+   public void connect()
+   {
+
+   }
+
+   public void disconnect()
+   {
+
+   }
+
+   /**
+    * Attempt to verify Connector is connected.
+    * If not connected then the connector will attempt
+    * to establish a connection.
+    *
+    * @return true if connected
+    */
+   public boolean verifyConnected()
+   {
+      synchronized ( this )
+      {
+         if ( !isConnected() )
+         {
+            connect();
+         }
+         return isConnected();
+      }
+   }
 }
