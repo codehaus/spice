@@ -6,7 +6,7 @@ package org.realityforge.packet.event.impl;
  * or a set of event pumps in series.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-09 05:27:05 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-10 00:53:32 $
  */
 public class EventPumpRunner
     implements Runnable
@@ -113,16 +113,24 @@ public class EventPumpRunner
 
         while( isActive() )
         {
-            for( int i = 0; i < _eventPumps.length; i++ )
-            {
-                _eventPumps[ i ].refresh();
-            }
+            refresh();
         }
 
         synchronized( this )
         {
             _finished = true;
             notifyAll();
+        }
+    }
+
+    /**
+     * Perform a refresh on all contained EventPumps.
+     */
+    public void refresh()
+    {
+        for( int i = 0; i < _eventPumps.length; i++ )
+        {
+            _eventPumps[ i ].refresh();
         }
     }
 }
