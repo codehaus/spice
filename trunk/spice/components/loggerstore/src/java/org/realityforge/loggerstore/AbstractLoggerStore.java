@@ -48,7 +48,18 @@ public abstract class AbstractLoggerStore
     public Logger getLogger()
         throws Exception
     {
-        return getRootLogger();
+        if( m_logger != null && m_logger.isDebugEnabled() )
+        {
+            final String message = "Root Logger returned";
+            m_logger.debug( message );
+        }
+        final Logger logger = getRootLogger();
+        if( logger == null )
+        {
+            final String message = "Root Logger is not defined";
+            throw new Exception( message );
+        }
+        return logger;
     }
 
     /**
@@ -98,21 +109,12 @@ public abstract class AbstractLoggerStore
     }
 
     /**
-     * Returns the root Logger.
+     * Returns the root logger.
+     *
+     * @return the root logger.
      */
-    private Logger getRootLogger()
-        throws Exception
+    protected final Logger getRootLogger()
     {
-        if( m_logger != null && m_logger.isDebugEnabled() )
-        {
-            final String message = "Root Logger returned";
-            m_logger.debug( message );
-        }
-        if( m_rootLogger == null )
-        {
-            final String message = "Root Logger is not defined";
-            throw new Exception( message );
-        }
         return m_rootLogger;
     }
 
