@@ -24,4 +24,12 @@
         </developer>
     </developers>
 
+    <dependencies>
+        <dependency>
+            <groupId>mockobjects</groupId>
+            <artifactId>mockobjects-core</artifactId>
+            <version>0.09</version>
+        </dependency>
+    </dependencies>
+
 </project>
