@@ -36,56 +36,55 @@ public class ConfiguratorTestCase
         }
     }
     
-    public void testJDK14Configurator()
+    public void testLogKitExcaliburConfigurator()
         throws Exception
     {
-        runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, "org/realityforge/loggerstore/logging.properties" ),
+        runLoggerTest( "logkit-excalibur", Configurator.createLoggerStore( Configurator.LOGKIT_EXCALIBUR, "org/realityforge/loggerstore/logkit-excalibur.xml" ),
                        ConsoleLogger.LEVEL_DEBUG );
-        runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, getResource( "logging.properties" )),
+        runLoggerTest( "logkit-excalibur", Configurator.createLoggerStore( Configurator.LOGKIT_EXCALIBUR, getResource( "logkit-excalibur.xml" )),
                        ConsoleLogger.LEVEL_DEBUG );
     }
 
-    public void testJDK14ConfiguratorNoDebug()
+    public void testLogKitExcaliburConfiguratorNoDebug()
         throws Exception
     {
-        runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, "org/realityforge/loggerstore/logging.properties" ),
+        runLoggerTest( "logkit-excalibur", Configurator.createLoggerStore( Configurator.LOGKIT_EXCALIBUR, "org/realityforge/loggerstore/logkit-excalibur.xml" ),
                        ConsoleLogger.LEVEL_DISABLED );
-        runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, getResource( "logging.properties" )),
-                       ConsoleLogger.LEVEL_DISABLED );
-    }
-
-    public void testJDK14ConfiguratorNoLog()
-        throws Exception
-    {
-        runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, "org/realityforge/loggerstore/logging.properties" ) );
-        runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, getResource( "logging.properties" )) );
-    }
-
-    public void testLogKitConfigurator()
-        throws Exception
-    {
-        runLoggerTest( "logkit", Configurator.createLoggerStore( Configurator.LOGKIT, "org/realityforge/loggerstore/logkit.xml" ),
-                       ConsoleLogger.LEVEL_DEBUG );
-        runLoggerTest( "logkit", Configurator.createLoggerStore( Configurator.LOGKIT, getResource( "logkit.xml" )),
-                       ConsoleLogger.LEVEL_DEBUG );
-    }
-
-    public void testLogKitConfiguratorNoDebug()
-        throws Exception
-    {
-        runLoggerTest( "logkit", Configurator.createLoggerStore( Configurator.LOGKIT, "org/realityforge/loggerstore/logkit.xml" ),
-                       ConsoleLogger.LEVEL_DISABLED );
-        runLoggerTest( "logkit", Configurator.createLoggerStore( Configurator.LOGKIT, getResource( "logkit.xml" )),
+        runLoggerTest( "logkit-excalibur", Configurator.createLoggerStore( Configurator.LOGKIT_EXCALIBUR, getResource( "logkit-excalibur.xml" )),
                        ConsoleLogger.LEVEL_DISABLED );
      }
 
-    public void testLogKitConfiguratorNoLog()
+    public void testLogKitExcaliburConfiguratorNoLog()
         throws Exception
     {
-        runLoggerTest( "logkit", Configurator.createLoggerStore( Configurator.LOGKIT, "org/realityforge/loggerstore/logkit.xml" ) );
-        runLoggerTest( "logkit", Configurator.createLoggerStore( Configurator.LOGKIT, getResource( "logkit.xml" )) );
+        runLoggerTest( "logkit-excalibur", Configurator.createLoggerStore( Configurator.LOGKIT_EXCALIBUR, "org/realityforge/loggerstore/logkit-excalibur.xml" ) );
+        runLoggerTest( "logkit-excalibur", Configurator.createLoggerStore( Configurator.LOGKIT_EXCALIBUR, getResource( "logkit-excalibur.xml" )) );
      }
 
+    public void testLogKitSimpleConfigurator()
+        throws Exception
+    {
+        runLoggerTest( "logkit-simple", Configurator.createLoggerStore( Configurator.LOGKIT_SIMPLE, "org/realityforge/loggerstore/logkit-simple.xml" ),
+                       ConsoleLogger.LEVEL_DEBUG );
+        runLoggerTest( "logkit-simple", Configurator.createLoggerStore( Configurator.LOGKIT_SIMPLE, getResource( "logkit-simple.xml" )),
+                       ConsoleLogger.LEVEL_DEBUG );
+    }
+
+    public void testLogKitSimpleConfiguratorNoDebug()
+        throws Exception
+    {
+        runLoggerTest( "logkit-simple", Configurator.createLoggerStore( Configurator.LOGKIT_SIMPLE, "org/realityforge/loggerstore/logkit-simple.xml" ),
+                       ConsoleLogger.LEVEL_DISABLED );
+        runLoggerTest( "logkit-simple", Configurator.createLoggerStore( Configurator.LOGKIT_SIMPLE, getResource( "logkit-simple.xml" )),
+                       ConsoleLogger.LEVEL_DISABLED );
+     }
+
+    public void testLogKitSimpleConfiguratorNoLog()
+        throws Exception
+    {
+        runLoggerTest( "logkit-simple", Configurator.createLoggerStore( Configurator.LOGKIT_SIMPLE, "org/realityforge/loggerstore/logkit-simple.xml" ) );
+        runLoggerTest( "logkit-simple", Configurator.createLoggerStore( Configurator.LOGKIT_SIMPLE, getResource( "logkit-simple.xml" )) );
+     }
   
     public void testLog4JDOMConfigurator()
         throws Exception
@@ -135,6 +134,31 @@ public class ConfiguratorTestCase
     {
         runLoggerTest( "log4j-properties", Configurator.createLoggerStore( Configurator.LOG4J_PROPERTY, "org/realityforge/loggerstore/log4j.properties" ) );
         runLoggerTest( "log4j-properties", Configurator.createLoggerStore( Configurator.LOG4J_PROPERTY, getResource( "log4j.properties" )) );
+    }
+
+    public void testJDK14Configurator()
+        throws Exception
+    {
+        runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, "org/realityforge/loggerstore/logging.properties" ),
+                       ConsoleLogger.LEVEL_DEBUG );
+        runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, getResource( "logging.properties" )),
+                       ConsoleLogger.LEVEL_DEBUG );
+    }
+
+    public void testJDK14ConfiguratorNoDebug()
+        throws Exception
+    {
+        runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, "org/realityforge/loggerstore/logging.properties" ),
+                       ConsoleLogger.LEVEL_DISABLED );
+        runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, getResource( "logging.properties" )),
+                       ConsoleLogger.LEVEL_DISABLED );
+    }
+
+    public void testJDK14ConfiguratorNoLog()
+        throws Exception
+    {
+        runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, "org/realityforge/loggerstore/logging.properties" ) );
+        runLoggerTest( "jdk14", Configurator.createLoggerStore( Configurator.JDK14, getResource( "logging.properties" )) );
     }
 
 

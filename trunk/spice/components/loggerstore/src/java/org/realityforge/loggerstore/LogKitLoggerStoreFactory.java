@@ -9,10 +9,12 @@ package org.realityforge.loggerstore;
 
 import java.io.InputStream;
 import java.util.Map;
+
+import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.context.Context;
+import org.apache.avalon.framework.logger.Logger;
 
 /**
  * LogKitLoggerStoreFactory is an implementation of LoggerStoreFactory
@@ -20,7 +22,7 @@ import org.apache.avalon.framework.context.Context;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-05-27 21:19:50 $
+ * @version $Revision: 1.9 $ $Date: 2003-05-31 15:21:34 $
  */
 public class LogKitLoggerStoreFactory
     extends AbstractLoggerStoreFactory
@@ -35,6 +37,9 @@ public class LogKitLoggerStoreFactory
     protected LoggerStore doCreateLoggerStore( final Map config )
         throws Exception
     {
+        final LoggerManager loggerManager =
+            (LoggerManager)config.get( LoggerManager.class.getName() );
+            
         Logger logger =
             (Logger)config.get( Logger.class.getName() );
         if( null == logger )
@@ -44,25 +49,18 @@ public class LogKitLoggerStoreFactory
         final Context context =
             (Context)config.get( Context.class.getName() );
 
-        /*
-        final Element element = (Element)config.get( Element.class.getName() );
-        if( null != element )
-        {
-            return new LogKitLoggerStore( ConfigurationUtil.toConfiguration( element ) );
-        }
-        */
         final Configuration configuration =
             (Configuration)config.get( Configuration.class.getName() );
         if( null != configuration )
         {
-            return new LogKitLoggerStore( logger, context, configuration );
+            return new LogKitLoggerStore( loggerManager, logger, context, configuration );
         }
 
         final InputStream resource = getInputStream( config );
         if( null != resource )
         {
             final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
-            return new LogKitLoggerStore( logger, context, builder.build( resource ) );
+            return new LogKitLoggerStore( loggerManager, logger, context, builder.build( resource ) );
         }
 
         return missingConfiguration();
