@@ -10,13 +10,12 @@ package org.realityforge.salt.i18n;
 import java.util.HashMap;
 import java.util.Map;
 import java.lang.ref.WeakReference;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * Manager for resources.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-05-28 12:34:04 $
+ * @version $Revision: 1.5 $ $Date: 2003-05-28 12:35:06 $
  */
 public class ResourceManager
 {
