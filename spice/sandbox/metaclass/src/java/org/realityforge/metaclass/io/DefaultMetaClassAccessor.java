@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.realityforge.metaclass.MetaClassException;
 import org.realityforge.metaclass.model.ClassDescriptor;
-import org.realityforge.metaclass.model.PackageDescriptor;
 
 /**
  * This is the default mechanism for loading ClassDescriptor
@@ -28,7 +27,7 @@ import org.realityforge.metaclass.model.PackageDescriptor;
  * look for attributes.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-22 04:30:14 $
+ * @version $Revision: 1.6 $ $Date: 2003-09-28 03:53:00 $
  */
 public class DefaultMetaClassAccessor
     implements MetaClassAccessor
@@ -52,48 +51,6 @@ public class DefaultMetaClassAccessor
      * Class used to read the MetaData.
      */
     private static final MetaClassIO c_metaClassIO = new MetaClassIOBinary();
-
-    /**
-     * Return a {@link PackageDescriptor} for specified package.
-     *
-     * @param name the name to get {@link PackageDescriptor} for
-     * @param classLoader the classLoader to use
-     * @return the newly created {@link PackageDescriptor}
-     * @throws MetaClassException if unable to create {@link PackageDescriptor}
-     */
-    public PackageDescriptor getPackageDescriptor( final String name,
-                                                   final ClassLoader classLoader )
-        throws MetaClassException
-    {
-        final String resource;
-        if( "".equals( name ) )
-        {
-            resource = "package" + BINARY_EXT;
-        }
-        else
-        {
-            resource = name.replace( '.', '/' ) + "/package" + BINARY_EXT;
-        }
-        final InputStream inputStream =
-            classLoader.getResourceAsStream( resource );
-        if( null == inputStream )
-        {
-            final String message =
-                "Missing Attributes for " + name;
-            throw new MetaClassException( message );
-        }
-
-        try
-        {
-            return c_metaClassIO.deserializePackage( inputStream );
-        }
-        catch( final IOException ioe )
-        {
-            final String message =
-                "Unable to load Attributes for " + name;
-            throw new MetaClassException( message, ioe );
-        }
-    }
 
     /**
      * Return a {@link ClassDescriptor} for specified class.

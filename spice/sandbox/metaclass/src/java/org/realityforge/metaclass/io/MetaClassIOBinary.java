@@ -18,7 +18,6 @@ import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
-import org.realityforge.metaclass.model.PackageDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
@@ -27,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.13 $ $Date: 2003-08-22 03:42:08 $
+ * @version $Revision: 1.14 $ $Date: 2003-09-28 03:53:00 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -36,48 +35,6 @@ public class MetaClassIOBinary
      * The current version of Attributes object.
      */
     static final int VERSION = 1;
-
-    /**
-     * Read a PackageDescriptor from an input stream.
-     *
-     * @param input the input stream
-     * @return the PackageDescriptor
-     * @throws IOException if unable ot read class descriptor
-     */
-    public PackageDescriptor deserializePackage( InputStream input )
-        throws IOException
-    {
-        final DataInputStream data = new DataInputStream( input );
-        checkVersionHeader( data );
-        final String name = data.readUTF();
-        final Attribute[] attributes = readAttributes( data );
-
-        return new PackageDescriptor( name, attributes );
-    }
-
-    /**
-     * Write a PackageDescriptor to an output stream.
-     *
-     * @param output the stream to write class descriptor out to
-     * @param info the PackageDescriptor to write out
-     * @throws IOException if unable ot write class descriptor
-     */
-    public void serializePackage( final OutputStream output,
-                                  final PackageDescriptor info )
-        throws IOException
-    {
-        final DataOutputStream data = new DataOutputStream( output );
-        try
-        {
-            data.writeInt( VERSION );
-            data.writeUTF( info.getName() );
-            writeAttributes( data, info.getAttributes() );
-        }
-        finally
-        {
-            data.flush();
-        }
-    }
 
     /**
      * Read a ClassDescriptor from an input stream.
