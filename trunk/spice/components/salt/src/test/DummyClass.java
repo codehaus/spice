@@ -9,8 +9,8 @@
 /**
  * a dummy class so we can get package resources for it in i18n tests.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-06-13 01:48:29 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-12-02 02:15:05 $
  */
 public class DummyClass
 {

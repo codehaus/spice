@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <title>Package Documentation for org.codehaus.spice.salt.i18n Package</title>
+    </head>
+    <body bgcolor="white">
+        Utility code for extractin i18n'ed resources.
+       <br><br>
+        <h3>Introduction</h3>
+        <p>The utilities in <code>org.codehaus.spice.salt.i18n</code> assist
+        you in retrieving strings and other values from i18n'ed ResourceBundles.
+        The ResourceBundles are resolved on the first request for a resource.
+        The ResourceBundles are also cached so that multiple requests for the
+        same i18n resource in the same classloader will result in accessing of
+        cached versions.</p>
+        <p>The ResourceManager allows you to load resources for an individual
+        class or for entire package. The name of ResourceBundle created for
+        the class is the same as the name of the Class with the string "Resources"
+        appended. The package resources ResourceBundle name is the same as the
+        name of the package with "Resources" appended.</p>
+        <p>Looking up the class resources for <tt>com.biz.MyClass</tt> would result
+        in looking up ResourceBundle named <tt>com.biz.MyClassResources</tt> which
+        usually means looking up the properties file <tt>com/biz/MyClassResources.properties</tt>.
+        Looking up the package resources for same class would result in looking up
+        ResourceBundle named <tt>com.biz.Resources</tt> often stored in properties
+        file <tt>com/biz/Resources.properties</tt>.</p>
+        <a name="doc.Usage"></a>
+        <h3>Usage Example</h3>
+
+<h4>Resources.properties</h4>
+        <pre>
+bland.message=This is message without substitution!
+param.message=Hello {0}! Are you feeling {1}?
+sunlight.ratio=7.4
+</pre>
+
+<h4>I18nDemo.java</h4>
+        <pre>
+import org.codehaus.spice.salt.i18n.ResourceManager;
+import org.codehaus.spice.salt.i18n.Resources;
+
+/**
+ * Demonstrates the i18n utilities.
+ *
+ * @author <a href="peter at realityforge.org">Peter Donald</a>
+ */
+public class I18nDemo
+{
+    /**
+     * i18n resources for used to present messages.
+     */
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( I18nDemo.class );
+
+    public static void main( final String[] args )
+    {
+        String message = null;
+
+        message = REZ.getString( "bland.message" )
+        assert( message.equals( "This is message without substitution!" ) );
+
+        message = REZ.getString( "nonexistent.message", "This is default message!" )
+        assert( message.equals( "This is default message!" ) );
+
+        message = REZ.getString( "param.message" )
+        assert( message.equals( "Hello {0}! Are you feeling {1}?" ) );
+
+        message = REZ.format( "param.message", "Bob", "well" )
+        assert( message.equals( "Hello Bob! Are you feeling well?" ) );
+
+        double value = REZ.getDouble( "sunlight.ratio" )
+        assert( value == 7.4 );
+    }
+}
+</pre>
+
+@since 4.0
+
+</body>
+</html>
