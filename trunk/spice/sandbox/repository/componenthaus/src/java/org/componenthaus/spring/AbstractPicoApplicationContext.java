@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
+import java.util.HashMap;
 
 public abstract class AbstractPicoApplicationContext implements WebApplicationContext {
     private ApplicationEventMulticaster eventMulticaster = new ApplicationEventMulticasterImpl();
@@ -41,11 +43,11 @@ public abstract class AbstractPicoApplicationContext implements WebApplicationCo
     protected MutablePicoContainer pico = new DefaultPicoContainer();
     private MessageSource messageSource = new StaticMessageSource();
     private ContextOptions contextOptions = new ContextOptions();
-    private ServletContext servletContext = null;
+    protected ServletContext servletContext = null;
+    private Map sharedObjects = new HashMap();
 
     public AbstractPicoApplicationContext (ApplicationContext parent, String nameSpace) {
         this.parent = parent;
-        registerBeans();
     }
 
     public ApplicationContext getParent() {
@@ -142,7 +144,11 @@ public abstract class AbstractPicoApplicationContext implements WebApplicationCo
 
     public Object getBean(String name) throws BeansException {
         System.out.println("getBean(" + name + ")");
-        return pico.getComponentInstance(name);
+        final Object instance = pico.getComponentInstance(name);
+        if ( instance == null ) {
+            throw new NoSuchBeanDefinitionException(name,"not registered");
+        }
+        return instance;
     }
 
     public Object getBean(String name, Class requiredType) throws BeansException {
@@ -169,20 +175,19 @@ public abstract class AbstractPicoApplicationContext implements WebApplicationCo
         return parentBeanFactory;
     }
 
-    public void shareObject(String s, Object o) {
-    }
+    public synchronized void shareObject(String key, Object o) {
+		this.sharedObjects.put(key, o);
+	}
 
     public Object sharedObject(String s) {
-        return null;
+        return sharedObjects.get(s);
     }
 
     public Object removeSharedObject(String s) {
-        return null;
+        return sharedObjects.remove(s);
     }
 
-    public void setServletContext(ServletContext servletContext) throws ApplicationContextException {
-        this.servletContext = servletContext;
-    }
+    public abstract void setServletContext(ServletContext servletContext) throws ApplicationContextException;
 
     public ServletContext getServletContext() {
         return servletContext;
@@ -191,6 +196,4 @@ public abstract class AbstractPicoApplicationContext implements WebApplicationCo
     public Theme getTheme(String themeName) {
         return null;
     }
-
-
 }

@@ -27,5 +27,5 @@ October 5th
  * Fix pagination links in the search results page.
 
 October 4th
- * Menubar on each page
+ * Menubar on each page - tiles integration
  * CSS style sheets
