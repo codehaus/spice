@@ -8,6 +8,24 @@
     <cvs repository="sourceforge" host-prefix="cvs.spice"
         module="spice" dir="spice"/>
 
+    <project name="spice-cli">
+        <package>org.realityforge.cli</package>
+
+        <ant basedir="components/cli">
+            <property name="final.name" value="cli-@@DATE@@"/>
+        </ant>
+
+        <depend project="jakarta-ant" inherit="runtime"/>
+        <depend project="junit"/>
+        <depend project="xml-xerces"/>
+        <work nested="components/cli/target/classes"/>
+
+        <home nested="components/cli"/>
+        <jar name="target/cli-@@DATE@@.jar"/>
+        <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
+            to="spice-devel@lists.sourceforge.net"/>
+    </project>
+
     <project name="spice-converter">
         <package>org.realityforge.converter</package>
 
