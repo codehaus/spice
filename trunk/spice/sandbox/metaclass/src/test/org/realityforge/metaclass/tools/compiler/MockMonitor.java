@@ -14,7 +14,7 @@ import java.util.List;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-04 09:28:16 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-04 09:56:30 $
  */
 class MockMonitor
     extends DefaultCompilerMonitor
@@ -26,12 +26,14 @@ class MockMonitor
     {
         System.out.println( "errorWritingDescriptor(" + descriptor.getName() + "," + e + ")" );
         m_error = true;
+        super.errorWritingDescriptor( descriptor, e );
     }
 
     public void missingSourceFile( File file )
     {
         System.out.println( "missingSourceFile(" + file + ")" );
         m_error = true;
+        super.missingSourceFile( file );
     }
 
     public boolean isError()
@@ -42,10 +44,12 @@ class MockMonitor
     public void javaClassObjectsLoaded( List classes )
     {
         System.out.println( "javaClassObjectsLoaded(" + classes + ")" );
+        super.javaClassObjectsLoaded( classes );
     }
 
     public void postFilterJavaClassList( List classes )
     {
         System.out.println( "postFilterJavaClassList(" + classes + ")" );
+        super.postFilterJavaClassList( classes );
     }
 }
