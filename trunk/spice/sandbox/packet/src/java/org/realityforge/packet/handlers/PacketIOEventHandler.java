@@ -37,7 +37,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.25 $ $Date: 2004-02-13 04:41:51 $
+ * @version $Revision: 1.26 $ $Date: 2004-02-17 04:26:43 $
  */
 public class PacketIOEventHandler
    extends AbstractDirectedHandler
@@ -995,7 +995,12 @@ public class PacketIOEventHandler
                           final Packet packet )
       throws IOException
    {
-      ensureValidSession( transport );
+      final Session session = (Session)transport.getUserData();
+      if( !canOutput( transport ) ||
+          Session.STATUS_ESTABLISHED != session.getStatus() )
+      {
+         return;
+      }
       //final Session session = (Session)transport.getUserData();
       //output( session, "SENT " + packet.getSequence() );
 
@@ -1006,7 +1011,7 @@ public class PacketIOEventHandler
       final ByteBuffer data = packet.getData();
 
       final int dataSize = data.limit();
-      TypeIOUtil.writeShort( output, (short)dataSize );
+      TypeIOUtil.writeInteger( output, dataSize );
       data.position( 0 );
       while( data.remaining() > 0 )
       {
@@ -1027,14 +1032,14 @@ public class PacketIOEventHandler
    {
       ensureValidSession( transport );
       final InputStream input = transport.getInputStream();
-      if( input.available() < Protocol.SIZEOF_SHORT + Protocol.SIZEOF_SHORT )
+      if( input.available() < Protocol.SIZEOF_SHORT + Protocol.SIZEOF_INTEGER )
       {
          input.reset();
          return false;
       }
 
       final short sequence = TypeIOUtil.readShort( input );
-      final short length = TypeIOUtil.readShort( input );
+      final int length = TypeIOUtil.readInteger( input );
       if( input.available() < length )
       {
          input.reset();

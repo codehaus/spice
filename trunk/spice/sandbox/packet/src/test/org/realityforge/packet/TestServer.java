@@ -21,227 +21,227 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.14 $ $Date: 2004-02-11 05:52:22 $
+ * @version $Revision: 1.15 $ $Date: 2004-02-17 04:26:43 $
  */
 public class TestServer
 {
-    public static final long START_TIME = System.currentTimeMillis();
-    private static boolean c_done;
+   public static final long START_TIME = System.currentTimeMillis();
+   private static boolean c_done;
 
-    private static SelectableChannelEventSource c_clientSocketSouce;
-    private static final DefaultBufferManager BUFFER_MANAGER = new DefaultBufferManager();
-    public static final DefaultSessionManager SESSION_MANAGER = new DefaultSessionManager();
-    private static final int SESSION_COUNT = 53;
-    private static final Session[] SESSIONS = new Session[ SESSION_COUNT ];
+   private static SelectableChannelEventSource c_clientSocketSouce;
+   private static final DefaultBufferManager BUFFER_MANAGER = new DefaultBufferManager();
+   public static final DefaultSessionManager SESSION_MANAGER = new DefaultSessionManager();
+   private static final int SESSION_COUNT = 53;
+   private static final Session[] SESSIONS = new Session[ SESSION_COUNT ];
 
-    public static void main( final String[] args )
-        throws Exception
-    {
-        final EventPump[] serverSidePumps = createServerSidePumps();
-        final EventPump[] clientSidePumps = createClientSidePumps();
-        final ArrayList pumpList = new ArrayList();
-        pumpList.addAll( Arrays.asList( serverSidePumps ) );
-        pumpList.addAll( Arrays.asList( clientSidePumps ) );
-        final EventPump[] pumps =
-            (EventPump[])pumpList.toArray( new EventPump[ pumpList.size() ] );
+   public static void main( final String[] args )
+      throws Exception
+   {
+      final EventPump[] serverSidePumps = createServerSidePumps();
+      final EventPump[] clientSidePumps = createClientSidePumps();
+      final ArrayList pumpList = new ArrayList();
+      pumpList.addAll( Arrays.asList( serverSidePumps ) );
+      pumpList.addAll( Arrays.asList( clientSidePumps ) );
+      final EventPump[] pumps =
+         (EventPump[])pumpList.toArray( new EventPump[ pumpList.size() ] );
 
-        final Runnable runnable = new Runnable()
-        {
-            public void run()
+      final Runnable runnable = new Runnable()
+      {
+         public void run()
+         {
+            doPump( pumps );
+         }
+      };
+      final Thread thread = new Thread( runnable );
+      thread.start();
+      thread.setPriority( Thread.NORM_PRIORITY - 1 );
+
+      final InetSocketAddress address =
+         new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
+      for( int i = 0; i < SESSIONS.length; i++ )
+      {
+         SESSIONS[ i ] = new Session( address );
+      }
+
+      boolean started = false;
+      while( !c_done )
+      {
+         for( int i = 0; i < SESSIONS.length; i++ )
+         {
+            final Session session = SESSIONS[ i ];
+            final int status = session.getStatus();
+            if( Session.STATUS_LOST == status ||
+                Session.STATUS_CONNECT_FAILED == status ||
+                Session.STATUS_NOT_CONNECTED == status )
             {
-                doPump( pumps );
+               if( Session.STATUS_CONNECT_FAILED == status )
+               {
+                  final long change =
+                     session.getTimeOfLastStatusChange() + 1000;
+                  if( change < System.currentTimeMillis() )
+                  {
+                     System.out.println( "Rejigging conenct that failed " +
+                                         "but now ready to go again " +
+                                         session +
+                                         " time=" +
+                                         session.getTimeOfLastStatusChange()
+                                         + " now " +
+                                         System.currentTimeMillis() );
+                     session.setStatus( Session.STATUS_NOT_CONNECTED );
+                  }
+               }
+
+               if( !session.isConnecting() )
+               {
+                  if( session.getConnections() > 0 )
+                  {
+                     final String message =
+                        "Re-establish " + session.getSessionID();
+                     System.out.println( message );
+                  }
+                  else
+                  {
+                     final String message =
+                        "Establish conenction to Server.";
+                     System.out.println( message );
+                  }
+                  session.startConnection( c_clientSocketSouce );
+               }
             }
-        };
-        final Thread thread = new Thread( runnable );
-        thread.start();
-        thread.setPriority( Thread.NORM_PRIORITY - 1 );
+         }
 
-        final InetSocketAddress address =
-            new InetSocketAddress( InetAddress.getLocalHost(), 1980 );
-        for( int i = 0; i < SESSIONS.length; i++ )
-        {
-            SESSIONS[ i ] = new Session( address );
-        }
+         if( SESSION_MANAGER.getSessionCount() > 0 )
+         {
+            started = true;
+         }
+         if( started && 0 == SESSION_MANAGER.getSessionCount() )
+         {
+            c_done = true;
+         }
+         try
+         {
+            Thread.sleep( 5 );
+         }
+         catch( InterruptedException e )
+         {
+            e.printStackTrace();
+         }
+      }
+   }
 
-        boolean started = false;
-        while( !c_done )
-        {
-            for( int i = 0; i < SESSIONS.length; i++ )
-            {
-                final Session session = SESSIONS[ i ];
-                final int status = session.getStatus();
-                if( Session.STATUS_LOST == status ||
-                    Session.STATUS_CONNECT_FAILED == status ||
-                    Session.STATUS_NOT_CONNECTED == status )
-                {
-                    if( Session.STATUS_CONNECT_FAILED == status )
-                    {
-                        final long change =
-                            session.getTimeOfLastStatusChange() + 1000;
-                        if( change < System.currentTimeMillis() )
-                        {
-                            System.out.println( "Rejigging conenct that failed " +
-                                                "but now ready to go again " +
-                                                session +
-                                                " time=" +
-                                                session.getTimeOfLastStatusChange()
-                                                + " now " +
-                                                System.currentTimeMillis() );
-                            session.setStatus( Session.STATUS_NOT_CONNECTED );
-                        }
-                    }
+   private static EventPump[] createServerSidePumps()
+      throws IOException
+   {
+      final DefaultEventQueue queue1 =
+         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+      final DefaultEventQueue queue2 =
+         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+      final DefaultEventQueue queue3 =
+         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+      final DefaultEventQueue queue4 =
+         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+      final DefaultEventQueue queue5 =
+         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
-                    if( !session.isConnecting() )
-                    {
-                        if( session.getConnections() > 0 )
-                        {
-                            final String message =
-                                "Re-establish " + session.getSessionID();
-                            System.out.println( message );
-                        }
-                        else
-                        {
-                            final String message =
-                                "Establish conenction to Server.";
-                            System.out.println( message );
-                        }
-                        session.startConnection( c_clientSocketSouce );
-                    }
-                }
-            }
+      final SelectableChannelEventSource source1 =
+         new SelectableChannelEventSource( queue1 );
+      final TimeEventSource source2 = new TimeEventSource( queue4 );
+      final TimeEventSource source3 = new TimeEventSource( queue5 );
 
-            if( SESSION_MANAGER.getSessionCount() > 0 )
-            {
-                started = true;
-            }
-            if( started && 0 == SESSION_MANAGER.getSessionCount() )
-            {
-                c_done = true;
-            }
-            try
-            {
-                Thread.sleep( 5 );
-            }
-            catch( InterruptedException e )
-            {
-                e.printStackTrace();
-            }
-        }
-    }
+      final EventHandler handler1 =
+         new EchoHandler( "CHAN SV",
+                          new ChannelEventHandler( source1,
+                                                   queue1,
+                                                   queue2,
+                                                   BUFFER_MANAGER ) );
 
-    private static EventPump[] createServerSidePumps()
-        throws IOException
-    {
-        final DefaultEventQueue queue1 =
-            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue2 =
-            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue3 =
-            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue4 =
-            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue5 =
-            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+      final EventHandler handler2 =
+         new EchoHandler( "PACK SV",
+                          new PacketIOEventHandler( source2,
+                                                    queue2,
+                                                    queue3,
+                                                    BUFFER_MANAGER,
+                                                    SESSION_MANAGER ) );
 
-        final SelectableChannelEventSource source1 =
-            new SelectableChannelEventSource( queue1 );
-        final TimeEventSource source2 = new TimeEventSource( queue4 );
-        final TimeEventSource source3 = new TimeEventSource( queue5 );
+      final EventHandler handler3 =
+         new EchoHandler( "TEST SV",
+                          new TestEventHandler( queue1,
+                                                BUFFER_MANAGER,
+                                                "TEST SV" ) );
 
-        final EventHandler handler1 =
-            new EchoHandler( "CHAN SV",
-                             new ChannelEventHandler( source1,
-                                                      queue1,
-                                                      queue2,
-                                                      BUFFER_MANAGER ) );
+      final EventPump pump1 = new EventPump( source1, handler1 );
+      final EventPump pump2 = new EventPump( queue2, handler2 );
+      final EventPump pump3 = new EventPump( queue3, handler3 );
+      final EventPump pump4 = new EventPump( source2, handler2 );
+      final EventPump pump5 = new EventPump( source3, handler3 );
+      final ServerSocketChannel channel = ServerSocketChannel.open();
+      source1.registerChannel( channel,
+                               SelectionKey.OP_ACCEPT,
+                               null );
+      channel.socket().bind( new InetSocketAddress( 1980 ) );
 
-        final EventHandler handler2 =
-            new EchoHandler( "PACK SV",
-                             new PacketIOEventHandler( source2,
-                                                       queue2,
-                                                       queue3,
-                                                       BUFFER_MANAGER,
-                                                       SESSION_MANAGER ) );
+      return new EventPump[]{pump1, pump2, pump3, pump4, pump5};
+   }
 
-        final EventHandler handler3 =
-            new EchoHandler( "TEST SV",
-                             new TestEventHandler( queue1,
-                                                   BUFFER_MANAGER,
-                                                   "TEST SV" ) );
+   private static EventPump[] createClientSidePumps()
+      throws IOException
+   {
+      final DefaultEventQueue queue1 =
+         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+      final DefaultEventQueue queue2 =
+         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+      final DefaultEventQueue queue3 =
+         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+      final DefaultEventQueue queue4 =
+         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+      final DefaultEventQueue queue5 =
+         new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
-        final EventPump pump1 = new EventPump( source1, handler1 );
-        final EventPump pump2 = new EventPump( queue2, handler2 );
-        final EventPump pump3 = new EventPump( queue3, handler3 );
-        final EventPump pump4 = new EventPump( source2, handler2 );
-        final EventPump pump5 = new EventPump( source3, handler3 );
-        final ServerSocketChannel channel = ServerSocketChannel.open();
-        source1.registerChannel( channel,
-                                 SelectionKey.OP_ACCEPT,
-                                 null );
-        channel.socket().bind( new InetSocketAddress( 1980 ) );
+      final SelectableChannelEventSource source1 =
+         new SelectableChannelEventSource( queue1 );
+      final TimeEventSource source2 = new TimeEventSource( queue4 );
+      final TimeEventSource source3 = new TimeEventSource( queue5 );
 
-        return new EventPump[]{pump1, pump2, pump3, pump4, pump5};
-    }
+      final EventHandler handler1 =
+         new EchoHandler( "CHAN CL",
+                          new ChannelEventHandler( source1,
+                                                   queue1,
+                                                   queue2,
+                                                   BUFFER_MANAGER ) );
 
-    private static EventPump[] createClientSidePumps()
-        throws IOException
-    {
-        final DefaultEventQueue queue1 =
-            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue2 =
-            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue3 =
-            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue4 =
-            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
-        final DefaultEventQueue queue5 =
-            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+      final EventHandler handler2 =
+         new EchoHandler( "PACK CL",
+                          new PacketIOEventHandler( source2,
+                                                    queue2,
+                                                    queue3,
+                                                    BUFFER_MANAGER,
+                                                    new DefaultSessionManager() ) );
 
-        final SelectableChannelEventSource source1 =
-            new SelectableChannelEventSource( queue1 );
-        final TimeEventSource source2 = new TimeEventSource( queue4 );
-        final TimeEventSource source3 = new TimeEventSource( queue5 );
+      final EventHandler handler3 =
+         new EchoHandler( "TEST CL",
+                          new TestEventHandler( queue1,
+                                                BUFFER_MANAGER,
+                                                "TEST CL" ) );
 
-        final EventHandler handler1 =
-            new EchoHandler( "CHAN CL",
-                             new ChannelEventHandler( source1,
-                                                      queue1,
-                                                      queue2,
-                                                      BUFFER_MANAGER ) );
+      final EventPump pump1 = new EventPump( source1, handler1 );
+      final EventPump pump2 = new EventPump( queue2, handler2 );
+      final EventPump pump3 = new EventPump( queue3, handler3 );
+      final EventPump pump4 = new EventPump( source2, handler2 );
+      final EventPump pump5 = new EventPump( source3, handler3 );
 
-        final EventHandler handler2 =
-            new EchoHandler( "PACK CL",
-                             new PacketIOEventHandler( source2,
-                                                       queue2,
-                                                       queue3,
-                                                       BUFFER_MANAGER,
-                                                       new DefaultSessionManager() ) );
+      c_clientSocketSouce = source1;
 
-        final EventHandler handler3 =
-            new EchoHandler( "TEST CL",
-                             new TestEventHandler( queue1,
-                                                   BUFFER_MANAGER,
-                                                   "TEST CL" ) );
+      return new EventPump[]{pump1, pump2, pump3, pump4, pump5};
+   }
 
-        final EventPump pump1 = new EventPump( source1, handler1 );
-        final EventPump pump2 = new EventPump( queue2, handler2 );
-        final EventPump pump3 = new EventPump( queue3, handler3 );
-        final EventPump pump4 = new EventPump( source2, handler2 );
-        final EventPump pump5 = new EventPump( source3, handler3 );
-
-        c_clientSocketSouce = source1;
-
-        return new EventPump[]{pump1, pump2, pump3, pump4, pump5};
-    }
-
-    private static void doPump( final EventPump[] pumps )
-    {
-        while( !c_done )
-        {
-            for( int j = 0; j < pumps.length; j++ )
-            {
-                pumps[ j ].refresh();
-            }
-        }
-    }
+   private static void doPump( final EventPump[] pumps )
+   {
+      while( !c_done )
+      {
+         for( int j = 0; j < pumps.length; j++ )
+         {
+            pumps[ j ].refresh();
+         }
+      }
+   }
 }
