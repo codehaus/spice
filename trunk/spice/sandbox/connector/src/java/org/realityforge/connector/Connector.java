@@ -409,8 +409,8 @@ public class Connector
    public long checkPing()
    {
       final PingPolicy pingPolicy = getPingPolicy();
-      final boolean doPing = pingPolicy.checkPingConnection( this );
-      final long result = pingPolicy.nextPingCheck( getLastPingTime() );
+      final boolean doPing = pingPolicy.checkPingConnection();
+      final long result = pingPolicy.nextPingCheck();
       if ( doPing )
       {
          ping();
