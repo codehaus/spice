@@ -10,9 +10,9 @@
 		<p>Alchemist is a utility component for transforming objects of different COP frameworks.
 		usually performing equivalent or similar roles.
 		</p>
-		<p>Currently provides transformation methods between the type-1 frameworks 
-		<a href="http://dna.jcontainer.org">DNA</a> 
-		<a href="http://avalon.apache.org">Avalon</a>.
+		<p>Currently provides transformation methods between the
+		<a href="http://dna.jcontainer.org">DNA</a> and
+		<a href="http://avalon.apache.org">Avalon</a> frameworks.
 		</p>		
      </section>				
 
