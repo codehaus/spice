@@ -18,7 +18,7 @@ import org.realityforge.cli.CLUtil;
  * long form or only short form of an option is capable of
  * being used.
  *
- * @author <a href="peter@apache.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public class NoAlias
 {
