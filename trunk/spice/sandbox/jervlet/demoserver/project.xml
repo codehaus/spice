@@ -72,7 +72,8 @@
     <dependency>
       <groupId>loom</groupId>
       <artifactId>maven-sar-plugin</artifactId>
-      <version>20031028.090136</version>
+      <version>1.0-beta1-dev</version>
+      <type>plugin</type>
     </dependency>
   </dependencies>
 
