@@ -230,7 +230,7 @@ public abstract class AbstractConnector
     */
    public boolean verifyConnected()
    {
-      synchronized ( this )
+      synchronized ( getSyncLock() )
       {
          if ( !isConnected() )
          {
@@ -238,5 +238,16 @@ public abstract class AbstractConnector
          }
          return isConnected();
       }
+   }
+
+   /**
+    * Return the object that will be used to
+    * synchronization connection/disconnection.
+    *
+    * @return the sync lock
+    */
+   protected Object getSyncLock()
+   {
+      return this;
    }
 }
