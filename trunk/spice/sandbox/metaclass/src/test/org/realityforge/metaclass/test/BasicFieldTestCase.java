@@ -18,7 +18,7 @@ public class BasicFieldTestCase
 
     public BasicFieldTestCase()
     {
-        super( "BasicField", CLASS_NAME );
+        super( "BasicField" );
     }
 
     /**

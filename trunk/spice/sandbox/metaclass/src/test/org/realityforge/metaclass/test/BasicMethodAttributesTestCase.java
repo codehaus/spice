@@ -21,7 +21,7 @@ public class BasicMethodAttributesTestCase
 
     public BasicMethodAttributesTestCase()
     {
-        super( "BasicMethodAttributes", CLASS_NAME );
+        super( "BasicMethodAttributes" );
     }
 
     /**
