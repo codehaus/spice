@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import junit.framework.TestCase;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -19,17 +20,157 @@ import org.apache.tools.ant.types.FileSet;
 import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.FieldDescriptor;
+import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2003-10-04 01:34:55 $
+ * @version $Revision: 1.15 $ $Date: 2003-10-04 02:20:56 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
 {
+    public void testGetOutputDescriptionWithBinary()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "binary" );
+        task.setFormat( format );
+        assertEquals( "binary", task.getOutputDescription() );
+    }
+
+    public void testGetOutputDescriptionWithXML()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "xml" );
+        task.setFormat( format );
+        assertEquals( "xml", task.getOutputDescription() );
+    }
+
+    public void testGetMetaClassIOWithBinary()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "binary" );
+        task.setFormat( format );
+        assertNotNull( "MetaClassIO", task.getMetaClassIO() );
+    }
+
+    public void testGetMetaClassIOWithXML()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "xml" );
+        task.setFormat( format );
+        try
+        {
+            task.getMetaClassIO();
+        }
+        catch( BuildException e )
+        {
+            return;
+        }
+        fail( "Expected to be unable to get IO for XML type" );
+    }
+
+    public void testGetOutputFileForClassWithBinary()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "binary" );
+        task.setFormat( format );
+        final File destDir = new File( "." );
+        task.setDestDir( destDir );
+        final File file = task.getOutputFileForClass( "foo" );
+        final File expected = new File( destDir, "foo-meta.binary" ).getCanonicalFile();
+        assertEquals( expected, file );
+    }
+
+    public void testGetOutputFileForClassWithXML()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "xml" );
+        task.setFormat( format );
+        final File destDir = new File( "." );
+        task.setDestDir( destDir );
+        final File file = task.getOutputFileForClass( "foo" );
+        final File expected = new File( destDir, "foo-meta.xml" ).getCanonicalFile();
+        assertEquals( expected, file );
+    }
+
+    public void testCreateFilterOfBadType()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        task.setProject( new Project() );
+
+        final PluginElement element = new PluginElement();
+        element.setName( MetaGenerateTaskTestCase.class.getName() );
+        try
+        {
+            task.createInstance( element, JavaClassFilter.class, "filter" );
+        }
+        catch( Exception e )
+        {
+            return;
+        }
+        fail( "Expected to fail to create badly typed filter." );
+    }
+
+    public void testCreateFilterUsingBadClassname()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        task.setProject( new Project() );
+
+        final PluginElement element = new PluginElement();
+        element.setName( "noExist" );
+        try
+        {
+            task.createInstance( element, JavaClassFilter.class, "filter" );
+        }
+        catch( Exception e )
+        {
+            return;
+        }
+        fail( "Expected to fail to create badly named filter." );
+    }
+
+    public void testCreateFilterUsingBadClassnameButSpecifyingClasspath()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final Project project = new Project();
+        task.setProject( project );
+
+        final PluginElement element = new PluginElement();
+        element.setName( "noExist" );
+        final FileSet set = new FileSet();
+        set.setProject( project );
+        element.addClasspath( set );
+        try
+        {
+            task.createInstance( element, JavaClassFilter.class, "filter" );
+        }
+        catch( Exception e )
+        {
+            return;
+        }
+        fail( "Expected to fail to create badly named filter." );
+    }
+
     public void testNullFilterName()
         throws Exception
     {
@@ -60,6 +201,30 @@ public class MetaGenerateTaskTestCase
             return;
         }
         fail( "Expected execute to fail as Interceptor must have a name." );
+    }
+
+    public void testFailToWriteClassDescriptors()
+        throws Exception
+    {
+        final FailingMockMetaGenerateTask task = new FailingMockMetaGenerateTask();
+
+        final ArrayList descriptors = new ArrayList();
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( "test",
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        descriptors.add( descriptor );
+        try
+        {
+            task.processClassDescriptors( descriptors );
+        }
+        catch( Exception e )
+        {
+            return;
+        }
+        fail( "Expected to fail to process class descriptors." );
     }
 
     public void testNullDestDir()
@@ -330,7 +495,6 @@ public class MetaGenerateTaskTestCase
         fileSet.setIncludes( "**/*.java" );
 
         final PluginElement element = new PluginElement();
-        element.setName( DefaultQDoxAttributeInterceptor.class.getName() );
         element.setName( DeletingAttributeInterceptor.class.getName() );
 
         final String sourceFilename =
