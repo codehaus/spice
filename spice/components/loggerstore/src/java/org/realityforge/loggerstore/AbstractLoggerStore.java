@@ -53,30 +53,31 @@ public abstract class AbstractLoggerStore
 
     /**
      * Retrieves a Logger hierarchy from the store for a given category name.
-     * @param categoryName the name of the logger category.
+     *
+     * @param name the name of the logger.
      * @return the Logger
      * @throws Exception if unable to retrieve Logger
      */
-    public Logger getLogger( final String categoryName )
+    public Logger getLogger( final String name )
         throws Exception
     {
-        if( categoryName == null )
+        if( null == name )
         {
-            final String message = "categoryName cannot be null.  Use getLogger() for root Logger";
-            throw new Exception( message );
+            throw new NullPointerException( "name" );
         }
-        Logger logger = retrieveLogger( categoryName );
+        Logger logger = retrieveLogger( name );
         if( logger == null )
         {
-            if( m_logger != null
-                && m_logger.isDebugEnabled() )
+            if( m_logger != null && m_logger.isDebugEnabled() )
             {
-                final String message = "Logger for category " + categoryName +
-                    " not defined in configuration. New Logger created and returned";
+                final String message = "Logger named '" + name +
+                    "' not defined in configuration. New Logger " +
+                    "created and returned.";
                 m_logger.debug( message );
             }
-            logger = createLogger( categoryName );
-            storeLogger( categoryName, logger );
+            logger = createLogger( name );
+            final Logger logger1 = logger;
+            m_loggers.put( name, logger1 );
         }
         return logger;
     }
@@ -86,12 +87,12 @@ public abstract class AbstractLoggerStore
      *  This is logger-implementation specific and will be implemented in
      *  concrete subclasses.
      */
-    protected abstract Logger createLogger( String categoryName );
+    protected abstract Logger createLogger( String name );
 
     /**
      * Sets the root Logger.
      */
-    protected void setRootLogger( Logger rootLogger )
+    protected final void setRootLogger( final Logger rootLogger )
     {
         m_rootLogger = rootLogger;
     }
@@ -99,7 +100,8 @@ public abstract class AbstractLoggerStore
     /**
      * Returns the root Logger.
      */
-    private Logger getRootLogger() throws Exception
+    private Logger getRootLogger()
+        throws Exception
     {
         if( m_logger != null && m_logger.isDebugEnabled() )
         {
@@ -116,33 +118,22 @@ public abstract class AbstractLoggerStore
 
     /**
      *  Retrieve Logger from store map.
-     *  @param categoryName the category of the Logger
+     *
+     *  @param name the name of the Logger
      *  @return the Logger instance or <code>null</code> if not found in map.
      */
-    private Logger retrieveLogger( final String categoryName )
+    private Logger retrieveLogger( final String name )
     {
-        Logger logger = (Logger)m_loggers.get( categoryName );
-
+        Logger logger = (Logger)m_loggers.get( name );
         if( null != logger )
         {
             if( m_logger.isDebugEnabled() )
             {
-                final String message = "Logger for category " + categoryName +
-                    " retrieved";
+                final String message = "Retrieved Logger named: " + name;
                 m_logger.debug( message );
             }
         }
 
         return logger;
-    }
-
-    /**
-     *  Stores Logger in map.
-     *  @param categoryName the category of the Logger
-     *  @param logger the Logger instance
-     */
-    private void storeLogger( final String categoryName, final Logger logger )
-    {
-        m_loggers.put( categoryName, logger );
     }
 }
