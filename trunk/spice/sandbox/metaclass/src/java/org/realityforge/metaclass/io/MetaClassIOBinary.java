@@ -26,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.16 $ $Date: 2003-10-28 13:26:54 $
+ * @version $Revision: 1.17 $ $Date: 2003-10-28 13:34:22 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -231,7 +231,7 @@ public class MetaClassIOBinary
         final String name = data.readUTF();
         final String type = data.readUTF();
         final Attribute[] attributes = readAttributes( data );
-        return new FieldDescriptor( name, type, attributes );
+        return new FieldDescriptor( name, type, attributes, attributes );
     }
 
     /**
