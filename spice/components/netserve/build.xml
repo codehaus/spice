@@ -47,6 +47,7 @@
         <junit dir="./" printSummary="yes"
             haltonfailure="true" haltonerror="true">
             <sysproperty key="basedir" value="${target.basedir}"/>
+            <sysproperty key="netserve.precreate.delay" value="300"/>
             <sysproperty key="gump" value="true"/>
             <formatter usefile="true" type="plain"/>
             <formatter usefile="false" type="plain"/>
