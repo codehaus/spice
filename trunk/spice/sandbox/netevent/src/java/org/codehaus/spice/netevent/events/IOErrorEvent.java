@@ -15,7 +15,7 @@ import org.codehaus.spice.netevent.transport.TcpTransport;
  * Abstract event for IO errors.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 04:14:52 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-07 04:17:23 $
  */
 public abstract class IOErrorEvent
     extends AbstractTransportEvent
@@ -33,6 +33,10 @@ public abstract class IOErrorEvent
                          final IOException ioe )
     {
         super( transport );
+        if( null == ioe )
+        {
+            throw new NullPointerException( "ioe" );
+        }
         _ioe = ioe;
     }
 
