@@ -2,7 +2,9 @@
 <project default="jar:install">
 
     <postGoal name="java:compile">
-        <attainGoal name="metaclass:generate"/>
+        <attainGoal name="generateMetaData"/>
     </postGoal>
+
+    <goal name="generateMetaData" prereqs="dna:metagenerate"/>
 
 </project>
