@@ -28,7 +28,7 @@ import org.jcomponent.netserve.connection.impl.ConnectionAcceptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-27 05:34:57 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-28 00:09:11 $
  */
 public class DefaultAcceptorManager
     implements SocketAcceptorManager
@@ -87,6 +87,16 @@ public class DefaultAcceptorManager
     public void setShutdownTimeout( final int shutdownTimeout )
     {
         m_shutdownTimeout = shutdownTimeout;
+    }
+
+    /**
+     * Return the shutdownTimeout.
+     *
+     * @return the shutdownTimeout
+     */
+    protected int getShutdownTimeout()
+    {
+        return m_shutdownTimeout;
     }
 
     /**
@@ -191,6 +201,6 @@ public class DefaultAcceptorManager
             throw new IllegalArgumentException( message );
         }
 
-        acceptor.close( m_shutdownTimeout );
+        acceptor.close( getShutdownTimeout() );
     }
 }
