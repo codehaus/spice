@@ -13,7 +13,7 @@ import org.codehaus.dna.Configuration;
  * Utility class containing methods to transform Configuration objects.
  *
  * @author Mauro Talevi
- * @version $Revision: 1.1 $ $Date: 2004-06-13 13:35:14 $
+ * @version $Revision: 1.2 $ $Date: 2004-06-17 22:27:22 $
  */
 public class ConfigurationAlchemist
 {
@@ -37,5 +37,37 @@ public class ConfigurationAlchemist
     public static org.apache.avalon.framework.configuration.Configuration toAvalonConfiguration( final Configuration configuration )
     {
         return new AvalonConfiguration( configuration );
+    }
+    
+    /**
+     * Determines if an object is Avalon Configurable
+     * 
+     * @param object the Object to check
+     * @return A boolean <code>true</code> if the object is an instance of
+     * 		   {@link org.apache.avalon.framework.configuration.Configurable}
+     */
+    public static boolean isAvalonConfigurable( final Object object ){
+        if ( object instanceof org.apache.avalon.framework.configuration.Configurable )
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Casts an object to Avalon Configurable if possible.
+     * 
+     * @param object the Object to cast
+     * @return A {@link org.apache.avalon.framework.configuration.Configurable}
+     * @throws IllegalArgumentException if not Avalon Configurable.
+     */
+    public static org.apache.avalon.framework.configuration.Configurable toAvalonConfigurable( final Object object ){
+        if ( isAvalonConfigurable( object ) )
+        {
+            return (org.apache.avalon.framework.configuration.Configurable)object; 
+        }
+        final String message = ( object != null ? object.getClass().getName() : "Object" )
+        						+ " is not Avalon Configurable";
+        throw new IllegalArgumentException( message );
     }
 }

@@ -13,7 +13,7 @@ import org.codehaus.dna.Logger;
  * Utility class containing methods to transform Logger objects.
  *
  * @author Mauro Talevi
- * @version $Revision: 1.1 $ $Date: 2004-06-13 13:35:14 $
+ * @version $Revision: 1.2 $ $Date: 2004-06-17 22:27:22 $
  */
 public class LoggerAlchemist
 {
@@ -38,4 +38,37 @@ public class LoggerAlchemist
     {
         return new AvalonLogger( logger );
     }
+    
+    /**
+     * Determines if an object is Avalon LogEnabled
+     * 
+     * @param object the Object to check
+     * @return A boolean <code>true</code> if the object is an instance of
+     * 		   {@link org.apache.avalon.framework.logger.LogEnabled}
+     */
+    public static boolean isAvalonLogEnabled( final Object object ){
+        if ( object instanceof org.apache.avalon.framework.logger.LogEnabled )
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Casts an object to Avalon LogEnabled if possible.
+     * 
+     * @param object the Object to cast
+     * @return A {@link org.apache.avalon.framework.logger.LogEnabled}
+     * @throws IllegalArgumentException if not Avalon LogEnabled.
+     */
+    public static org.apache.avalon.framework.logger.LogEnabled toAvalonLogEnabled( final Object object ){
+        if ( isAvalonLogEnabled( object ) )
+        {
+            return (org.apache.avalon.framework.logger.LogEnabled)object; 
+        }
+        final String message = ( object != null ? object.getClass().getName() : "Object" )
+        					 	+ " is not Avalon LogEnabled";
+        throw new IllegalArgumentException( message );
+    }
+
 }
