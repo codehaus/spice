@@ -19,7 +19,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * {@link java.beans.Introspector} class does for Java Beans.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-09-28 03:53:00 $
+ * @version $Revision: 1.11 $ $Date: 2003-09-28 04:27:58 $
  */
 public final class MetaClassIntrospector
 {
@@ -47,13 +47,6 @@ public final class MetaClassIntrospector
      * classloader.
      */
     private static final Map c_cache = new WeakHashMap();
-
-    /**
-     * Private constructor so that class can not be instantiated.
-     */
-    private MetaClassIntrospector()
-    {
-    }
 
     /**
      * Flush all of the Introspector's internal caches.  This method is
