@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-28 00:54:16 $
+ * @version $Revision: 1.5 $ $Date: 2003-11-10 10:36:56 $
  */
 public class DefaultAcceptorManagerTestCase
    extends TestCase
@@ -104,9 +104,7 @@ public class DefaultAcceptorManagerTestCase
       }
 
       final MockSocketConnectionHandler handler = new MockSocketConnectionHandler();
-      manager.connect( name,
-                       serverSocket,
-                       handler );
+      manager.connect( name, serverSocket, handler );
 
       final Socket clientSocket = new Socket( localAddress, port );
       System.out.print( "Socket Connecting" );
@@ -242,4 +240,9 @@ public class DefaultAcceptorManagerTestCase
       }
       fail( "expected NPE due to null handler in connect" );
    }
+
+    protected void setUp() throws Exception
+    {
+        System.out.print( "Test: " + getName() );
+    }
 }
