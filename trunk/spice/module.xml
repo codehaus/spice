@@ -59,10 +59,8 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="isorelax"/>
+        <depend project="spice-isorelax"/>
         <depend project="msv"/>
-        <depend project="xsdlib"/>
-        <depend project="relaxngDatatype"/>
         <work nested="components/configkit/target/classes"/>
         <work nested="components/configkit/target/test-classes"/>
 
@@ -70,6 +68,12 @@
         <jar name="target/spice-configkit-@@DATE@@.jar"/>
         <nag from="Peter Donald &lt;peter@realityforge.org&gt;"
             to="spice-devel@lists.sourceforge.net"/>
+    </project>
+
+    <!-- Ugly hackity project as isorelax is not gumpified -->
+    <project name="spice-isorelax">
+        <jar name="tools/lib/isorelax-20020414.jar"/>
+        <jar name="tools/lib/relaxngDatatype-20020414.jar"/>
     </project>
 
     <project name="spice-converter">
