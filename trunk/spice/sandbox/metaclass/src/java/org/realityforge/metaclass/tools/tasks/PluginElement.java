@@ -14,9 +14,9 @@ import org.apache.tools.ant.types.Path;
  * An element used by ant to configure an interceptor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-31 08:17:38 $
+ * @version $Revision: 1.1 $ $Date: 2003-08-31 08:18:15 $
  */
-public class ClassElement
+public class PluginElement
 {
     /**
      * The fileset to use

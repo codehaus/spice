@@ -25,7 +25,7 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-08-31 08:17:38 $
+ * @version $Revision: 1.10 $ $Date: 2003-08-31 08:18:15 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -237,7 +237,7 @@ public class MetaGenerateTaskTestCase
         fileSet.setDir( sourceDirectory );
         fileSet.setIncludes( "**/*.java" );
 
-        final ClassElement element = new ClassElement();
+        final PluginElement element = new PluginElement();
         element.setName( DefaultQDoxAttributeInterceptor.class.getName() );
 
         final String sourceFilename =
@@ -295,7 +295,7 @@ public class MetaGenerateTaskTestCase
         fileSet.setDir( sourceDirectory );
         fileSet.setIncludes( "**/*.java" );
 
-        final ClassElement element = new ClassElement();
+        final PluginElement element = new PluginElement();
         element.setName( DefaultQDoxAttributeInterceptor.class.getName() );
         element.setName( DeletingAttributeInterceptor.class.getName() );
 

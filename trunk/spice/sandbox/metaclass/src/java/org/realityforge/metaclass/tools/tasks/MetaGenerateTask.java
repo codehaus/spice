@@ -32,7 +32,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.21 $ $Date: 2003-08-31 08:17:38 $
+ * @version $Revision: 1.22 $ $Date: 2003-08-31 08:18:15 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -87,7 +87,7 @@ public class MetaGenerateTask
      *
      * @param element the interceptor definition
      */
-    public void addInterceptor( final ClassElement element )
+    public void addInterceptor( final PluginElement element )
     {
         if( null == element.getName() )
         {
@@ -154,7 +154,7 @@ public class MetaGenerateTask
         final Iterator iterator = m_elements.iterator();
         while( iterator.hasNext() )
         {
-            final ClassElement element = (ClassElement)iterator.next();
+            final PluginElement element = (PluginElement)iterator.next();
             Path path = element.getPath();
             if( null == path )
             {
