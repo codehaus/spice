@@ -11,24 +11,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
 import org.realityforge.metaclass.model.ClassDescriptor;
-import org.xml.sax.SAXException;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 /**
  * This is a utility class that writes out the ClassDescriptor
  * to a stream using the xml format outlined in documentation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-29 10:34:13 $
+ * @version $Revision: 1.8 $ $Date: 2003-11-01 00:04:53 $
  */
 public class MetaClassIOXml
     implements MetaClassIO
@@ -120,8 +119,7 @@ public class MetaClassIOXml
             final DocumentBuilder builder = factory.newDocumentBuilder();
             final Document document = builder.parse( input );
             final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
-            final Element element = document.getDocumentElement();
-            return deserializer.buildClassDescriptor( element );
+            return deserializer.buildClassDescriptor( document );
         }
         catch( final Exception e )
         {

@@ -18,16 +18,30 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
 
 /**
  * Utility class to build a ClassDescriptor from a DOM
  * representation Element.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-11-01 00:03:08 $
+ * @version $Revision: 1.10 $ $Date: 2003-11-01 00:04:35 $
  */
 public class DOMMetaClassDeserializer
 {
+    /**
+     * Build a ClassDescriptor from a Document.
+     *
+     * @param document the document
+     * @return the ClassDescriptor
+     * @throws Exception if document malformed
+     */
+    public ClassDescriptor buildClassDescriptor( final Document document )
+        throws Exception
+    {
+        return buildClassDescriptor( document.getDocumentElement() );
+    }
+
     /**
      * Build a ClassDescriptor from element.
      *
