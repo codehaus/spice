@@ -21,7 +21,7 @@ import org.realityforge.threadpool.ThreadPool;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-04-23 03:59:02 $
+ * @version $Revision: 1.8 $ $Date: 2003-04-23 04:04:32 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
@@ -65,6 +65,14 @@ class ConnectionAcceptor
      */
     private long m_id;
 
+    /**
+     * Create the acceptor.
+     *
+     * @param name the name that connection was registered using
+     * @param serverSocket the ServerSocket that used to accept connections
+     * @param handlerManager the handler manager to aquire/release handlers to/from
+     * @param threadPool the threadPool that acceptor associated with (may be null)
+     */
     ConnectionAcceptor( final String name,
                         final ServerSocket serverSocket,
                         final ConnectionHandlerManager handlerManager,
