@@ -4,7 +4,7 @@ package org.realityforge.packet.event.impl.collections;
  * A bounded FIFO Buffer implementation.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-05 02:14:24 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-05 03:31:33 $
  */
 public final class BoundedFifoBuffer
     extends AbstractFifoBuffer
@@ -24,7 +24,7 @@ public final class BoundedFifoBuffer
      */
     protected boolean doAddAll( final Object[] objects )
     {
-        if( size() + objects.length >= m_buffer.length )
+        if( size() + objects.length > m_buffer.length )
         {
             return false;
         }
@@ -43,7 +43,7 @@ public final class BoundedFifoBuffer
      */
     protected boolean doAdd( final Object object )
     {
-        if( size() + 1 >= m_buffer.length )
+        if( size() + 1 > m_buffer.length )
         {
             return false;
         }
@@ -54,6 +54,7 @@ public final class BoundedFifoBuffer
             if( m_tail >= m_buffer.length )
             {
                 m_tail = 0;
+                m_isWrappedBuffer = true;
             }
             return true;
         }

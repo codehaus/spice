@@ -5,7 +5,7 @@ package org.realityforge.packet.event.impl.collections;
  * Jakarta-Commons Collections package Buffer implementations.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-12-05 02:28:33 $
+ * @version $Revision: 1.3 $ $Date: 2003-12-05 03:31:33 $
  */
 public abstract class AbstractFifoBuffer
     implements Buffer
@@ -19,6 +19,9 @@ public abstract class AbstractFifoBuffer
     /** The pointer to last element. */
     int m_tail;
 
+    /** Flag indicating whether buffer is wrapped around. */
+    boolean m_isWrappedBuffer;
+
     /**
      * Create a buffer with specified initial size.
      * 
@@ -30,7 +33,7 @@ public abstract class AbstractFifoBuffer
         {
             throw new IllegalArgumentException( "size <= 0" );
         }
-        m_buffer = new Object[ size + 1 ];
+        m_buffer = new Object[ size ];
         m_head = 0;
         m_tail = 0;
     }
@@ -40,7 +43,7 @@ public abstract class AbstractFifoBuffer
      */
     public int size()
     {
-        if( m_tail < m_head )
+        if( m_isWrappedBuffer )
         {
             return m_buffer.length - m_head + m_tail;
         }
@@ -104,6 +107,7 @@ public abstract class AbstractFifoBuffer
             if( m_head >= m_buffer.length )
             {
                 m_head = 0;
+                m_isWrappedBuffer = false;
             }
         }
 
