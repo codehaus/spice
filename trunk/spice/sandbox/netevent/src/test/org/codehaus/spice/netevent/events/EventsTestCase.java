@@ -1,5 +1,6 @@
 package org.codehaus.spice.netevent.events;
 
+import java.io.IOException;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import junit.framework.TestCase;
@@ -7,7 +8,7 @@ import org.codehaus.spice.netevent.transport.TcpTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-07 04:13:36 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-07 04:22:13 $
  */
 public class EventsTestCase
     extends TestCase
@@ -82,6 +83,48 @@ public class EventsTestCase
         final ConnectEvent event = new ConnectEvent( channel );
 
         final String expected = "org.codehaus.spice.netevent.events.ConnectEvent[null]";
+        assertEquals( "event.toString()", expected, event.toString() );
+    }
+
+    public void testNull_ioe_PassedIntoCtor_of_IOError()
+        throws Exception
+    {
+        final SocketChannel channel = SocketChannel.open();
+        final TcpTransport transport = new TcpTransport( channel, 1, 1 );
+        try
+        {
+            new ReadErrorEvent( transport, null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.getMessage()", "ioe", npe.getMessage() );
+            return;
+        }
+        fail( "Expected a NPE when passing ioe into Ctor_of_IOError" );
+    }
+
+    public void testGetIoeOnWriteErrorEvent()
+        throws Exception
+    {
+        final SocketChannel channel = SocketChannel.open();
+        final TcpTransport transport = new TcpTransport( channel, 1, 1 );
+        final IOException ioe = new IOException( "X" );
+        final WriteErrorEvent event = new WriteErrorEvent( transport, ioe );
+
+        assertEquals( "event.getIoe()", ioe, event.getIoe() );
+    }
+
+    public void testToStringOnReadIOErrorEvent()
+        throws Exception
+    {
+        final SocketChannel channel = SocketChannel.open();
+        final TcpTransport transport = new TcpTransport( channel, 1, 1 );
+        final IOException ioe = new IOException( "X" );
+        final ReadErrorEvent event = new ReadErrorEvent( transport, ioe );
+
+        final String expected =
+            "org.codehaus.spice.netevent.events." +
+            "ReadErrorEvent[X error connected to null]";
         assertEquals( "event.toString()", expected, event.toString() );
     }
 }
