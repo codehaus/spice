@@ -132,7 +132,11 @@ public class SAXMetaClassSerializerTestCase
         final SAXMetaClassSerializer serializer = new SAXMetaClassSerializer();
         final MethodDescriptor[] methods = new MethodDescriptor[]
         {
-            new MethodDescriptor( name, type, ParameterDescriptor.EMPTY_SET, Attribute.EMPTY_SET )
+            new MethodDescriptor( name,
+                                  type,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET, 
+                                  Attribute.EMPTY_SET )
         };
         serializer.serializeMethods( handler, methods );
 

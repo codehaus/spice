@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 11:50:18 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-28 13:40:54 $
  */
 public class MethodDescriptorTestCase
     extends TestCase
@@ -25,6 +25,7 @@ public class MethodDescriptorTestCase
             new MethodDescriptor( null,
                                   "int",
                                   ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         }
         catch( final NullPointerException npe )
@@ -43,6 +44,7 @@ public class MethodDescriptorTestCase
             new MethodDescriptor( "doMagic",
                                   null,
                                   ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         }
         catch( final NullPointerException npe )
@@ -61,6 +63,7 @@ public class MethodDescriptorTestCase
             new MethodDescriptor( "doMagic",
                                   "int",
                                   null,
+                                  Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         }
         catch( final NullPointerException npe )
@@ -79,6 +82,7 @@ public class MethodDescriptorTestCase
             new MethodDescriptor( "doMagic",
                                   "int",
                                   new ParameterDescriptor[]{null},
+                                  Attribute.EMPTY_SET,
                                   Attribute.EMPTY_SET );
         }
         catch( final NullPointerException npe )
