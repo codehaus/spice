@@ -21,7 +21,7 @@ import org.realityforge.threadpool.ThreadPool;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-23 03:52:10 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 03:52:46 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
@@ -215,10 +215,10 @@ class ConnectionAcceptor
      */
     void disposeRunner( final ConnectionRunner runner )
     {
-        if( getLogger().isInfoEnabled() )
+        if( getLogger().isDebugEnabled() )
         {
             final String message = "Disposing runner " + runner + ".";
-            getLogger().info( message );
+            getLogger().debug( message );
         }
         if( !m_runners.contains( runner ) )
         {
