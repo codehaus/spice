@@ -15,7 +15,7 @@ import java.util.Random;
  * A basic in memory SessionManager implementation.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-13 07:00:02 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-19 05:54:06 $
  */
 public class DefaultSessionManager
     implements SessionManager
@@ -30,7 +30,7 @@ public class DefaultSessionManager
      * The last sessionID allocated. The next session ID will just be the next
      * in sequence.
      */
-    private long _lastSessionID;
+    private long _lastSessionID = 1;
 
     /**
      * @see SessionManager#findSession(long)
