@@ -29,7 +29,7 @@ import javax.naming.Referenceable;
  * Context that hooks up to a remote source.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class RemoteContext
     extends AbstractContext
@@ -192,7 +192,7 @@ public class RemoteContext
         try
         {
             final NameClassPair[] result = getProvider().list( getAbsoluteName( name ) );
-            return new ArrayNamingEnumeration( this, m_namespace, result );
+            return new ArrayNamingEnumeration( this, getNamespace(), result );
         }
         catch( final Exception e )
         {
@@ -223,7 +223,7 @@ public class RemoteContext
                 }
             }
 
-            return new ArrayNamingEnumeration( this, m_namespace, result );
+            return new ArrayNamingEnumeration( this, getNamespace(), result );
         }
         catch( final Exception e )
         {
