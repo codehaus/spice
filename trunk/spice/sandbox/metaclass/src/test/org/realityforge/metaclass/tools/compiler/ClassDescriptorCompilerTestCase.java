@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.ByteArrayInputStream;
 import java.lang.reflect.Modifier;
 import junit.framework.TestCase;
 import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
@@ -25,11 +27,121 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-04 09:33:58 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-04 09:55:06 $
  */
 public class ClassDescriptorCompilerTestCase
     extends TestCase
 {
+    public void testNullInShutdownOutputStream()
+        throws Exception
+    {
+        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
+        task.shutdownStream( (OutputStream)null );
+    }
+
+    public void testNonNullInShutdownInputStream()
+        throws Exception
+    {
+        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
+        task.shutdownStream( new ByteArrayInputStream( new byte[ 0 ] ) );
+    }
+
+    public void testSetNullMonitor()
+        throws Exception
+    {
+        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
+        try
+        {
+            task.setMonitor( null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.message", "monitor", npe.getMessage() );
+            return;
+        }
+        fail( "Expected to fail due to npe" );
+    }
+
+    public void testAddNullSourceFile()
+        throws Exception
+    {
+        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
+        try
+        {
+            task.addSourceFile( null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.message", "sourceFile", npe.getMessage() );
+            return;
+        }
+        fail( "Expected to fail due to npe" );
+    }
+
+    public void testAddNullFilter()
+        throws Exception
+    {
+        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
+        try
+        {
+            task.addFilter( null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.message", "filter", npe.getMessage() );
+            return;
+        }
+        fail( "Expected to fail due to npe" );
+    }
+
+    public void testAddNullInterceptor()
+        throws Exception
+    {
+        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
+        try
+        {
+            task.addInterceptor( null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.message", "interceptor", npe.getMessage() );
+            return;
+        }
+        fail( "Expected to fail due to npe" );
+    }
+
+    public void testSetMetaClassIO()
+        throws Exception
+    {
+        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
+        try
+        {
+            task.setMetaClassIO( null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.message", "metaClassIO", npe.getMessage() );
+            return;
+        }
+        fail( "Expected to fail due to npe" );
+    }
+
+    public void testSetExtension()
+        throws Exception
+    {
+        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
+        try
+        {
+            task.setExtension( null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.message", "extension", npe.getMessage() );
+            return;
+        }
+        fail( "Expected to fail due to npe" );
+    }
+
     public void testGetOutputFileForClassWithBinary()
         throws Exception
     {
@@ -240,6 +352,22 @@ public class ClassDescriptorCompilerTestCase
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
         assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+    }
+
+    public void testNonExistentSourceFile()
+        throws Exception
+    {
+        final File destDirectory = generateDirectory();
+
+        final ClassDescriptorCompiler task = new ClassDescriptorCompiler();
+        task.setDestDir( destDirectory );
+        task.addSourceFile( new File( "noExist.txt" ) );
+        task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
+        task.setMetaClassIO( new MetaClassIOBinary() );
+        final MockMonitor monitor = new MockMonitor();
+        task.setMonitor( monitor );
+        task.execute();
+        assertEquals( true, monitor.isError() );
     }
 
     public void testSingleSourceFileWithPassThroughInterceptor()
