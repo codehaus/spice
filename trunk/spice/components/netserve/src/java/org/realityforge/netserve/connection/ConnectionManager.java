@@ -11,8 +11,8 @@ import java.net.ServerSocket;
 import org.realityforge.threadpool.ThreadPool;
 
 /**
- * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-04-23 01:52:41 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.5 $ $Date: 2003-04-23 01:54:36 $
  */
 public interface ConnectionManager
 {
