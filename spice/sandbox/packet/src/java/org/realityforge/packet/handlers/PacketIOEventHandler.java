@@ -28,9 +28,9 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-01-15 03:28:28 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-15 03:45:32 $
  */
-public class SessionInputEventHandler
+public class PacketIOEventHandler
     extends AbstractDirectedHandler
 {
     /** The associated BufferManager used to create ByteBuffers for incoming packets. */
@@ -44,9 +44,9 @@ public class SessionInputEventHandler
      * 
      * @param sink the destination
      */
-    public SessionInputEventHandler( final EventSink sink,
-                                     final BufferManager bufferManager,
-                                     final SessionManager sessionManager )
+    public PacketIOEventHandler( final EventSink sink,
+                                 final BufferManager bufferManager,
+                                 final SessionManager sessionManager )
     {
         super( sink );
         if( null == bufferManager )
