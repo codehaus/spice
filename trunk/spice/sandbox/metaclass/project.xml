@@ -4,7 +4,6 @@
     <name>MetaClass</name>
     <id>spice-metaclass</id>
     <currentVersion>1.0-rc2-dev</currentVersion>
-    <gumpRepositoryId>sandbox</gumpRepositoryId>
     <inceptionYear>2003</inceptionYear>
 
     <shortDescription>Provides runtime access to attributes</shortDescription>
