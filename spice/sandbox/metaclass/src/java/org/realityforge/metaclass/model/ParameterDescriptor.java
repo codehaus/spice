@@ -25,7 +25,7 @@ import java.io.Serializable;
  * information such as display name for a Parameter.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-05 04:43:34 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-15 06:53:32 $
  */
 public final class ParameterDescriptor
     implements Serializable
@@ -80,15 +80,5 @@ public final class ParameterDescriptor
     public String getType()
     {
         return _type;
-    }
-
-    /**
-     * Return a string representation of the parameter.
-     *
-     * @return a string representation of the parameter.
-     */
-    public String toString()
-    {
-        return "PARAMETER: " + getName() + " (" + getType() + ") ";
     }
 }

@@ -7,16 +7,6 @@
  */
 package org.realityforge.metaclass.test;
 
-import org.realityforge.metaclass.Attributes;
-import org.realityforge.metaclass.ClassDescriptorUtility;
-import org.realityforge.metaclass.InvalidMetaClassException;
-import org.realityforge.metaclass.model.Attribute;
-import org.realityforge.metaclass.model.ClassDescriptor;
-import org.realityforge.metaclass.model.FieldDescriptor;
-import org.realityforge.metaclass.model.MethodDescriptor;
-import org.realityforge.metaclass.model.ParameterDescriptor;
-
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -24,10 +14,17 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Properties;
 
+import org.realityforge.metaclass.Attributes;
+import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.model.FieldDescriptor;
+import org.realityforge.metaclass.model.MethodDescriptor;
+import org.realityforge.metaclass.model.ParameterDescriptor;
+
 /**
  *
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.5 $ $Date: 2003-06-25 04:53:39 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-15 06:53:32 $
  */
 public final class MetaClassTestUtility
 {
@@ -314,10 +311,10 @@ public final class MetaClassTestUtility
                                                                    final String methodName,
                                                                    final Class aClass,
                                                                    final Class[] parameterTypeClasses )
-        throws NoSuchMethodException, InvalidMetaClassException, IOException
+        throws NoSuchMethodException
     {
         Attribute[] attributes;
-        if ( methodName.equals( ClassDescriptorUtility.getJustClassName( className ) ) )
+        if ( methodName.equals( getJustClassName( className ) ) )
         {
             final Constructor declaredConstructor =
                 aClass.getDeclaredConstructor( parameterTypeClasses );
@@ -336,10 +333,10 @@ public final class MetaClassTestUtility
                                                                    final Class aClass,
                                                                    final Class[] parameterTypeClasses,
                                                                    final String attributeName )
-        throws NoSuchMethodException, InvalidMetaClassException, IOException
+        throws NoSuchMethodException
     {
         Attribute[] attributes = null;
-        if ( methodName.equals( ClassDescriptorUtility.getJustClassName( aClass.getName() ) ) )
+        if ( methodName.equals( getJustClassName( aClass.getName() ) ) )
         {
             final Constructor declaredConstructor =
                 aClass.getDeclaredConstructor( parameterTypeClasses );
@@ -358,10 +355,10 @@ public final class MetaClassTestUtility
                                                                 final Class aClass,
                                                                 final Class[] parameterTypeClasses,
                                                                 final String attributeName )
-        throws NoSuchMethodException, InvalidMetaClassException, IOException
+        throws NoSuchMethodException
     {
         Attribute attribute = null;
-        if ( methodName.equals( ClassDescriptorUtility.getJustClassName( aClass.getName() ) ) )
+        if ( methodName.equals( getJustClassName( aClass.getName() ) ) )
         {
             final Constructor declaredConstructor =
                 aClass.getDeclaredConstructor( parameterTypeClasses );
@@ -375,4 +372,14 @@ public final class MetaClassTestUtility
         }
         return attribute;
     }
+
+   private static String getJustClassName( final String classname )
+   {
+      int lastDot = classname.lastIndexOf( "." );
+      if ( lastDot < classname.length() )
+      {
+         lastDot++;
+      }
+      return classname.substring( lastDot, classname.length() );
+   }
 }

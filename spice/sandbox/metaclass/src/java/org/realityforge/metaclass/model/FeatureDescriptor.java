@@ -8,8 +8,6 @@
 package org.realityforge.metaclass.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This is the Abstract class for all feature descriptors.
@@ -19,116 +17,66 @@ import java.util.Arrays;
  * be defined by future specification documents.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-10 01:39:56 $
+ * @author <a href="mailto:doug at stocksoftware.com.au">Doug Hagan</a>
+ * @version $Revision: 1.3 $ $Date: 2003-08-15 06:53:32 $
  */
 public abstract class FeatureDescriptor
-    implements Serializable
+   implements Serializable
 {
-    /**
-     * The arbitrary set of Attributes associated with Component.
-     */
-    private final Attribute[] _attributes;
+   /**
+    * The arbitrary set of Attributes associated with Component.
+    */
+   private final Attribute[] _attributes;
 
-    /**
-     * The modifiers for this particular feature as defined
-     * in {@link java.lang.reflect.Modifier}.
-     */
-    private final int _modifiers;
+   /**
+    * The modifiers for this particular feature as defined
+    * in {@link java.lang.reflect.Modifier}.
+    */
+   private final int _modifiers;
 
-    /**
-     * Create a FeatureDescriptor with specific set of attributes.
-     *
-     * @param attributes the attributes
-     */
-    protected FeatureDescriptor( final Attribute[] attributes,
-                                 final int modifiers )
-    {
-        if( null == attributes )
-        {
-            throw new NullPointerException( "attributes" );
-        }
+   /**
+    * Create a FeatureDescriptor with specific set of attributes.
+    *
+    * @param attributes the attributes
+    */
+   protected FeatureDescriptor( final Attribute[] attributes,
+                                final int modifiers )
+   {
+      if ( null == attributes )
+      {
+         throw new NullPointerException( "attributes" );
+      }
+      for ( int i = 0; i < attributes.length; i++ )
+      {
+         if ( null == attributes[ i ] )
+         {
+            throw new NullPointerException( "attributes[" + i + "]" );
+         }
+      }
 
-        _attributes = attributes;
-        _modifiers = modifiers;
-    }
+      _attributes = attributes;
+      _modifiers = modifiers;
+   }
 
-    /**
-     * Return the attributes associated with descriptor.
-     *
-     * @return the attributes associated with descriptor.
-     */
-    public Attribute[] getAttributes()
-    {
-        return _attributes;
-    }
+   /**
+    * Return the attributes associated with descriptor.
+    *
+    * @return the attributes associated with descriptor.
+    */
+   public Attribute[] getAttributes()
+   {
+      return _attributes;
+   }
 
-    /**
-     * Return the attribute with specified name.
-     *
-     * @return the attribute with specified name.
-     */
-    public Attribute getAttributeByName( final String name )
-    {
-        for( int i = 0; i < _attributes.length; i++ )
-        {
-            final Attribute attribute = _attributes[ i ];
-            if( attribute.getName().equals( name ) )
-            {
-                return attribute;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Return the attributes with specified name.
-     *
-     * @return the attributes with specified name.
-     */
-    public Attribute[] getAttributesByName( final String name )
-    {
-        final ArrayList results = new ArrayList();
-
-        for( int i = 0; i < _attributes.length; i++ )
-        {
-            final Attribute attribute = _attributes[ i ];
-            final String attributeName = attribute.getName();
-            if( attributeName.equals( name ) )
-            {
-                results.add( attribute );
-            }
-        }
-        return (Attribute[])results.toArray( new Attribute[ results.size() ] );
-    }
-
-    /**
-     * Return the modifiers for feature decoded by
-     * {@link java.lang.reflect.Modifier}.
-     *
-     * @return the modifiers for feature decoded by
-     *         {@link java.lang.reflect.Modifier}.
-     */
-    public int getModifiers()
-    {
-        return _modifiers;
-    }
-
-    /**
-     * Helper method to convert attributes into a
-     * string representation.
-     *
-     * @return attributes converted into a string representation
-     */
-    protected final String attributesToString()
-    {
-        if( 0 == _attributes.length )
-        {
-            return "";
-        }
-        else
-        {
-            return String.valueOf( Arrays.asList( _attributes ) );
-        }
-    }
+   /**
+    * Return the modifiers for feature decoded by
+    * {@link java.lang.reflect.Modifier}.
+    *
+    * @return the modifiers for feature decoded by
+    *         {@link java.lang.reflect.Modifier}.
+    */
+   public int getModifiers()
+   {
+      return _modifiers;
+   }
 }

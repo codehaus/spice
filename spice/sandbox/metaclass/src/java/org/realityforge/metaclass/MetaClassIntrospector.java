@@ -7,12 +7,11 @@
  */
 package org.realityforge.metaclass;
 
-import java.io.InputStream;
-import java.io.IOException;
+import java.util.Map;
 import java.util.WeakHashMap;
 
-import org.realityforge.metaclass.io.MetaClassIO;
-import org.realityforge.metaclass.io.MetaClassIOBinary;
+import org.realityforge.metaclass.io.DefaultMetaClassAccessor;
+import org.realityforge.metaclass.io.MetaClassAccessor;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
@@ -21,113 +20,140 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * {@link java.beans.Introspector} class does for Java Beans.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-10 01:39:55 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-15 06:53:33 $
  */
 public final class MetaClassIntrospector
 {
-    /**
-     * Class used to read the MetaData.
-     */
-    private static final MetaClassIO c_metaClassIO = new MetaClassIOBinary();
+   /**
+    * Permission needed to clear complete cache.
+    */
+   private static final RuntimePermission CLEAR_CACHE_PERMISSION =
+      new RuntimePermission( "metaclass.clearCompleteCache" );
 
-    /**
-     * The cache in which info objects are stored.
-     */
-    private static final WeakHashMap c_cache = new WeakHashMap();
+   /**
+    * Permission needed to set the accessor.
+    */
+   private static final RuntimePermission SET_ACCESSOR_PERMISSION =
+      new RuntimePermission( "metaclass.setAccessor" );
 
-    /**
-     * Private constructor so that class can not be instantiated.
-     */
-    private MetaClassIntrospector()
-    {
-    }
+   /**
+    * Class used to access the MetaData.
+    */
+   private static MetaClassAccessor c_accessor = new DefaultMetaClassAccessor();
 
-    /**
-     * Flush all of the Introspector's internal caches.  This method is
-     * not normally required.  It is normally only needed by advanced
-     * tools that update existing "Class" objects in-place and need
-     * to make the Introspector re-analyze existing Class objects.
-     */
-    public static void flushCaches()
-    {
-        c_cache.clear();
-    }
+   /**
+    * The cache in which info objects are stored.
+    * This cache stores maps for ClassLoaders which in
+    * turn stores info for particular classes in
+    * classloader.
+    */
+   private static final Map c_cache = new WeakHashMap();
 
-    /**
-     * Return a {@link ClassDescriptor} for specified class.
-     *
-     * @param clazz the class to {@link ClassDescriptor} for
-     * @return the newly created {@link ClassDescriptor}
-     * @throws InvalidMetaClassException if unable to create {@link ClassDescriptor}
-     * @throws IOException if incorrect version or read/write error
-     */
-    public static ClassDescriptor getClassInfo( final Class clazz )
-        throws InvalidMetaClassException, IOException
-    {
-        ClassDescriptor info = (ClassDescriptor)c_cache.get( clazz );
-        if( null != info )
-        {
-            return info;
-        }
-        else
-        {
-            final String className = clazz.getName();
-            info = createClassInfo( className,
-                                    clazz.getClassLoader() );
-            c_cache.put( className, info );
-            return info;
-        }
-    }
+   /**
+    * Private constructor so that class can not be instantiated.
+    */
+   private MetaClassIntrospector()
+   {
+   }
 
-    /**
-     * Return a {@link ClassDescriptor} for specified class.
-     *
-     * @param className the className to get {@link ClassDescriptor} for
-     * @param classLoader the classLoader to use
-     * @return the newly created {@link ClassDescriptor}
-     * @throws InvalidMetaClassException if unable to create {@link ClassDescriptor}
-     * @throws IOException if unable to create {@link ClassDescriptor}
-     */
-    public static ClassDescriptor getClassInfo( final String className,
-                                                final ClassLoader classLoader )
-        throws InvalidMetaClassException, IOException
-    {
-        ClassDescriptor info = (ClassDescriptor)c_cache.get( className );
-        if( null != info )
-        {
-            return info;
-        }
-        else
-        {
-            info = createClassInfo( className,
-                                    classLoader );
-            c_cache.put( className, info );
-            return info;
-        }
-    }
+   /**
+    * Flush all of the Introspector's internal caches.  This method is
+    * not normally required.  It is normally only needed by advanced
+    * tools that update existing "Class" objects in-place and need
+    * to make the Introspector re-analyze existing Class objects.
+    *
+    * <p>Note that the caller must have been granted the
+    * "metaclass.clearCompleteCache" {@link RuntimePermission} or
+    * else a security exception will be thrown.</p>
+    *
+    * @throws SecurityException if the caller does not have
+    *                           permission to clear cache
+    */
+   public static void clearCompleteCache()
+   {
+      final SecurityManager sm = System.getSecurityManager();
+      if ( null != sm )
+      {
+         sm.checkPermission( CLEAR_CACHE_PERMISSION );
+      }
+      c_cache.clear();
+   }
 
-    /**
-     * Create a {@link ClassDescriptor} for specified class.
-     *
-     * @param classname the classname of the class
-     * @param classLoader the classLoader to load {@link ClassDescriptor} from
-     * @return the newly created {@link ClassDescriptor}
-     * @throws InvalidMetaClassException if unable to create {@link ClassDescriptor}
-     * @throws IOException if incorrect version or read/write error
-     */
-    private static ClassDescriptor createClassInfo( final String classname,
-                                                    final ClassLoader classLoader )
-        throws InvalidMetaClassException, IOException
-    {
-        final String resource = classname.replace( '.', '/' ) + ".mad";
-        final InputStream inputStream = classLoader.getResourceAsStream( resource );
-        if( null == inputStream )
-        {
-            final String message =
-                "Unable to locate metadata for: " + classname;
-            throw new InvalidMetaClassException( message );
-        }
+   /**
+    * Set the MetaClassAccessor to use to locate
+    * ClassDescriptor objects.
+    *
+    * <p>Note that the caller must have been granted the
+    * "metaclass.setAccessor" {@link RuntimePermission} or
+    * else a security exception will be thrown.</p>
+    *
+    * @param accessor the MetaClassAccessor
+    * @throws SecurityException if the caller does not have
+    *                           permission to clear cache
+    */
+   public static void setAccessor( MetaClassAccessor accessor )
+   {
+      final SecurityManager sm = System.getSecurityManager();
+      if ( null != sm )
+      {
+         sm.checkPermission( SET_ACCESSOR_PERMISSION );
+      }
+      c_accessor = accessor;
+   }
 
-        return c_metaClassIO.deserialize( inputStream );
-    }
+   /**
+    * Return a {@link ClassDescriptor} for specified class.
+    *
+    * @param clazz the class to {@link ClassDescriptor} for
+    * @return the newly created {@link ClassDescriptor}
+    * @throws MetaClassException if unable to create {@link ClassDescriptor}
+    */
+   public static ClassDescriptor getClassDescriptor( final Class clazz )
+      throws MetaClassException
+   {
+      return getClassDescriptor( clazz.getName(), clazz.getClassLoader() );
+   }
+
+   /**
+    * Return a {@link ClassDescriptor} for specified class.
+    *
+    * @param classname the classname to get {@link ClassDescriptor} for
+    * @param classLoader the classLoader to use
+    * @return the newly created {@link ClassDescriptor}
+    * @throws MetaClassException if unable to create {@link ClassDescriptor}
+    */
+   public static ClassDescriptor getClassDescriptor( final String classname,
+                                                     final ClassLoader classLoader )
+      throws MetaClassException
+   {
+      final Map cache = getClassLoaderCache( classLoader );
+      ClassDescriptor info = (ClassDescriptor) cache.get( classname );
+      if ( null != info )
+      {
+         return info;
+      }
+      else
+      {
+         info = c_accessor.getClassDescriptor( classname, classLoader );
+         cache.put( classname, info );
+         return info;
+      }
+   }
+
+   /**
+    * Get Cache for specified ClassLoader.
+    *
+    * @param classLoader the ClassLoader to get cache for
+    * @return the Map/Cache for ClassLoader
+    */
+   private static Map getClassLoaderCache( final ClassLoader classLoader )
+   {
+      Map map = (Map) c_cache.get( classLoader );
+      if ( null == map )
+      {
+         map = new WeakHashMap();
+         c_cache.put( classLoader, map );
+      }
+      return map;
+   }
 }

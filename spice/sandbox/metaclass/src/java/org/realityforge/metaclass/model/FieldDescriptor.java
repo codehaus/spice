@@ -24,7 +24,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-05 04:43:34 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-15 06:53:32 $
  */
 public final class FieldDescriptor
     extends FeatureDescriptor
@@ -85,15 +85,5 @@ public final class FieldDescriptor
     public String getType()
     {
         return _type;
-    }
-
-    /**
-     * Return a string representation of the field.
-     * @return a string representation of the field.
-     */
-    public String toString()
-    {
-        return "FIELD: " + getName() + ":" + getModifiers() + " (" + getType() + ")" + "\n" +
-            attributesToString();
     }
 }
