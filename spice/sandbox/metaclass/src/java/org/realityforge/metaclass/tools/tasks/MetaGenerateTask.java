@@ -25,7 +25,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.10 $ $Date: 2003-08-24 01:15:53 $
+ * @version $Revision: 1.11 $ $Date: 2003-08-24 02:02:56 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -179,6 +179,7 @@ public class MetaGenerateTask
     {
         final String fqn = descriptor.getName();
         final File file = getOutputFileForClass( fqn );
+        file.getParentFile().mkdirs();
         final OutputStream outputStream = new FileOutputStream( file );
         try
         {
