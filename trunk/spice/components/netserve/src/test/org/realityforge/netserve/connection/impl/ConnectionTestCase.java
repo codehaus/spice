@@ -14,6 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Random;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
@@ -33,7 +34,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.14 $ $Date: 2003-04-23 11:10:49 $
+ * @version $Revision: 1.15 $ $Date: 2003-04-23 13:50:32 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -51,8 +52,8 @@ public class ConnectionTestCase
 
     private static final int[] SO_TIMEOUT = new int[]
     {
-        50, 50, 0, 0, 50, 50, 0, 0,
-        50, 50, 0, 0, 50, 50, 0, 0
+        50, 50, 1000, 1000, 50, 50, 1000, 1000,
+        50, 50, 1000, 1000, 50, 50, 1000, 1000
     };
 
     private static final boolean[] FORCE_SHUTDOWN = new boolean[]
@@ -63,9 +64,10 @@ public class ConnectionTestCase
 
     private static final int[] SHUTDOWN_TIMEOUT = new int[]
     {
-        200, 200, 200, 200, 200, 200, 200, 200,
+        100, 100, 100, 100, 100, 100, 100, 100,
         0, 0, 0, 0, 0, 0, 0, 0
     };
+    private static final Random RANDOM = new Random();
 
     public ConnectionTestCase( final String name )
     {
@@ -113,6 +115,17 @@ public class ConnectionTestCase
         for( int i = 0; i < TEST_COUNT; i++ )
         {
             doCMTests( i );
+
+            //need to sleep a bit so that OS can recover bound socket
+            System.gc();
+            System.gc();
+            try
+            {
+                Thread.sleep( 200 );
+            }
+            catch( InterruptedException e )
+            {
+            }
         }
     }
 
@@ -172,22 +185,23 @@ public class ConnectionTestCase
         {
         }
         cm.connect( "p", new ServerSocket( PORT, 5, HOST ), handler );
-        //cm.connect( "q", new ServerSocket( PORT + 33, 5, HOST ), handler );
         doClientConnect();
         doClientConnect();
         doClientConnect();
         doClientConnect();
+        cm.connect( "q", new ServerSocket( PORT + RANDOM.nextInt( 40 ) ), handler );
         doClientConnect();
         doClientConnect();
         doClientConnect();
-        cm.disconnect( "p", false );
-        //cm.disconnect( "q", true );
+        cm.disconnect( "p", true );
+        cm.disconnect( "q", true );
     }
 
     private DefaultConnectionManager createCM( boolean addThreadPool, final int soTimeoutVal, final boolean forceShutdown, final int shutdownTimeout ) throws ServiceException, ConfigurationException
     {
         final DefaultConnectionManager cm = new DefaultConnectionManager();
         cm.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
+        //cm.enableLogging( new ConsoleLogger() );
 
         final DefaultServiceManager manager = new DefaultServiceManager();
         if( addThreadPool )
