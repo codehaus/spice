@@ -7,10 +7,8 @@
  */
 package org.realityforge.loggerstore;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Configurator is a collection of utility methods to create and configure
@@ -58,8 +56,12 @@ public class Configurator
                                                  final String resource )
         throws Exception
     {
-        return createLoggerStore( loggerType, configurationType,
-                                  new FileInputStream( resource ) );
+        final InitialLoggerStoreFactory factory = new InitialLoggerStoreFactory();
+        final HashMap data = new HashMap();
+        data.put( InitialLoggerStoreFactory.INITIAL_FACTORY, getFactoryClassName( loggerType ) );
+        data.put( Log4JLoggerStoreFactory.CONFIGURATION_TYPE, configurationType );
+        data.put( LoggerStoreFactory.FILE_LOCATION, resource );
+        return factory.createLoggerStore( data );
     }
 
     /**
@@ -77,32 +79,12 @@ public class Configurator
                                                  final InputStream resource )
         throws Exception
     {
-        final LoggerStoreFactory factory = createLoggerStoreFactory( loggerType );
-        final Map config = buildConfigurationMap( configurationType, resource );
-        return factory.createLoggerStore( config );
-    }
-
-    /**
-     * Create a {@link LoggerStoreFactory} for specified loggerType.
-     *
-     * @param type the type of the Logger to use.
-     * @return the created {@link LoggerStoreFactory}
-     */
-    public static LoggerStoreFactory createLoggerStoreFactory( final String type )
-    {
-        final String className = getFactoryClassName( type );
-        try
-        {
-            final ClassLoader classLoader = Configurator.class.getClassLoader();
-            final Class clazz = classLoader.loadClass( className );
-            return (LoggerStoreFactory)clazz.newInstance();
-        }
-        catch( final Exception e )
-        {
-            final String message =
-                "Failed to created LoggerStoreFactory for " + type;
-            throw new IllegalArgumentException( message );
-        }
+        final InitialLoggerStoreFactory factory = new InitialLoggerStoreFactory();
+        final HashMap data = new HashMap();
+        data.put( InitialLoggerStoreFactory.INITIAL_FACTORY, getFactoryClassName( loggerType ) );
+        data.put( Log4JLoggerStoreFactory.CONFIGURATION_TYPE, configurationType );
+        data.put( InputStream.class.getName(), resource );
+        return factory.createLoggerStore( data );
     }
 
     /**
@@ -130,19 +112,5 @@ public class Configurator
             final String message = "Unknown type " + type;
             throw new IllegalArgumentException( message );
         }
-    }
-
-    /**
-     *  Builds a configuration Map for factory
-     *  @param configurationType the type of the configuration
-     *  @param resource the InputStream of the configuration resource
-     */
-    private static Map buildConfigurationMap( final String configurationType,
-                                              final InputStream resource )
-    {
-        final Map map = new HashMap();
-        map.put( LoggerStoreFactory.CONFIGURATION, resource );
-        map.put( LoggerStoreFactory.CONFIGURATION_TYPE, configurationType );
-        return map;
     }
 }
