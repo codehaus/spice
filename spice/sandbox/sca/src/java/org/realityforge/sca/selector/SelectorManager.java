@@ -12,18 +12,16 @@ import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 
 /**
- * Service enabling management of Non-blocking IO Channels.
- * The service will call back the specified handler
- * when one of the specified operations occurs on the
- * channel.
+ * Service enabling management of Non-blocking IO Channels. The service will
+ * call back the specified handler when one of the specified operations occurs
+ * on the channel.
  */
 public interface SelectorManager
 {
     /**
-     * Register a channel with selector.
-     * Note the user MUST NOT modify the returned
-     * SelectionKeys attachment.
-     *
+     * Register a channel with selector. Note the user MUST NOT modify the
+     * returned SelectionKeys attachment.
+     * 
      * @param channel the channel
      * @param ops the operations to register
      * @param handler the handler that will be notified on event

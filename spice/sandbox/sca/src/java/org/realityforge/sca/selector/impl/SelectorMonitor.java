@@ -12,9 +12,9 @@ import java.nio.channels.SelectionKey;
 
 /**
  * Monitor used to monitor events in the AcceptorManager.
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-30 02:46:32 $
+ * 
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 03:17:37 $
  */
 public interface SelectorMonitor
 {
@@ -24,8 +24,7 @@ public interface SelectorMonitor
     void selectorStartup();
 
     /**
-     * Entering the main loop that
-     * accepts connections.
+     * Entering the main loop that accepts connections.
      */
     void enteringSelectorLoop();
 
@@ -36,21 +35,20 @@ public interface SelectorMonitor
 
     /**
      * Aselect has completed.
-     *
+     * 
      * @param count the number of accepts that are ready
      */
     void selectCompleted( int count );
 
     /**
      * About to handle a selection event.
-     *
+     * 
      * @param key the selection key
      */
     void handlingSelectEvent( SelectionKey key );
 
     /**
-     * Exiting the main loop that
-     * accepts connections.
+     * Exiting the main loop that accepts connections.
      */
     void exitingSelectorLoop();
 
@@ -61,14 +59,14 @@ public interface SelectorMonitor
 
     /**
      * There was an error closing selector.
-     *
+     * 
      * @param ioe the exception
      */
     void errorClosingSelector( IOException ioe );
 
     /**
      * The specified key has an invalid attachment.
-     *
+     * 
      * @param key the key
      */
     void invalidAttachment( SelectionKey key );

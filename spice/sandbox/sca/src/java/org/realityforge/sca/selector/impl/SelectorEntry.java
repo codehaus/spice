@@ -10,25 +10,22 @@ package org.realityforge.sca.selector.impl;
 import org.realityforge.sca.selector.SelectorEventHandler;
 
 /**
- * A simple class that contains data relating
- * to a specific Selector registration.
+ * A simple class that contains data relating to a specific Selector
+ * registration.
  */
 class SelectorEntry
 {
     /**
-     * The associated handler that is passed
-     * events about channel.
+     * The associated handler that is passed events about channel.
      */
     private final SelectorEventHandler _handler;
 
-    /**
-     * The user specified data that is passed to the handler.
-     */
+    /** The user specified data that is passed to the handler. */
     private final Object _userData;
 
     /**
      * Create an Entry for Selector registration.
-     *
+     * 
      * @param handler the handler
      * @param userData the user specified data
      */
@@ -45,7 +42,7 @@ class SelectorEntry
 
     /**
      * Return the handler for channel.
-     *
+     * 
      * @return the handler for channel.
      */
     SelectorEventHandler getHandler()
@@ -55,7 +52,7 @@ class SelectorEntry
 
     /**
      * Return the userData passed to handler.
-     *
+     * 
      * @return the userData passed to handler.
      */
     Object getUserData()

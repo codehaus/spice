@@ -2,7 +2,6 @@ package org.realityforge.sca.selector.impl;
 
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
-import org.realityforge.sca.selector.impl.SelectorMonitor;
 
 class DebugSelectorMonitor
     implements SelectorMonitor

@@ -11,12 +11,6 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.util.Random;
 import junit.framework.TestCase;
-import org.realityforge.sca.selector.impl.DefaultSelectorManager;
-import org.realityforge.sca.selector.impl.NullSelectorMonitor;
-import org.realityforge.sca.selector.impl.SelectorMonitor;
-import org.realityforge.sca.selector.impl.DelayingSelectorEventHandler;
-import org.realityforge.sca.selector.impl.HelloSelectorEventHandler;
-import org.realityforge.sca.selector.impl.MockSelector;
 
 public class SelectorManagerTestCase
     extends TestCase
@@ -115,7 +109,8 @@ public class SelectorManagerTestCase
         final Mock mockMonitor = new Mock( SelectorMonitor.class );
 
         mockMonitor.expect( "selectorShutdown", C.NO_ARGS );
-        mockMonitor.expect( "errorClosingSelector", C.args( C.eq( MockSelector.EXCEPTION ) ) );
+        mockMonitor.expect( "errorClosingSelector",
+                            C.args( C.eq( MockSelector.EXCEPTION ) ) );
         final SelectorMonitor monitor = (SelectorMonitor)mockMonitor.proxy();
 
         final DefaultSelectorManager manager = new DefaultSelectorManager();
@@ -138,13 +133,14 @@ public class SelectorManagerTestCase
         final InetAddress localAddress = InetAddress.getLocalHost();
         final Random random = new Random();
         final int port = Math.abs( random.nextInt() % 5000 ) + 1024;
-        final InetSocketAddress address = new InetSocketAddress( localAddress, port );
+        final InetSocketAddress address = new InetSocketAddress( localAddress,
+                                                                 port );
         channel.socket().bind( address );
         System.out.println( "address = " + address );
-        while ( !channel.socket().isBound() )
+        while( !channel.socket().isBound() )
         {
-           System.out.print( "." );
-           Thread.yield();
+            System.out.print( "." );
+            Thread.yield();
         }
 
         final Mock mockMonitor = new Mock( SelectorMonitor.class );
@@ -217,12 +213,13 @@ public class SelectorManagerTestCase
         final InetAddress localAddress = InetAddress.getLocalHost();
         final Random random = new Random();
         final int port = Math.abs( random.nextInt() % 5000 ) + 1024;
-        final InetSocketAddress address = new InetSocketAddress( localAddress, port );
+        final InetSocketAddress address = new InetSocketAddress( localAddress,
+                                                                 port );
         channel.socket().bind( address );
-        while ( !channel.socket().isBound() )
+        while( !channel.socket().isBound() )
         {
-           System.out.print( "." );
-           Thread.yield();
+            System.out.print( "." );
+            Thread.yield();
         }
 
         final Mock mockMonitor = new Mock( SelectorMonitor.class );
@@ -251,10 +248,10 @@ public class SelectorManagerTestCase
         assertNotNull( "getSelector post start", manager.getSelector() );
 
         final SelectionKey key =
-          manager.registerChannel( channel,
-                                        SelectionKey.OP_ACCEPT,
-                                        new HelloSelectorEventHandler(),
-                                        null );
+            manager.registerChannel( channel,
+                                     SelectionKey.OP_ACCEPT,
+                                     new HelloSelectorEventHandler(),
+                                     null );
         key.attach( null );
 
         final Socket clientSocket = new Socket( localAddress, port );
@@ -274,7 +271,6 @@ public class SelectorManagerTestCase
         mockMonitor.verify();
     }
 
-
     public void testWaitingForThreadToShutdown()
         throws Exception
     {
@@ -283,13 +279,14 @@ public class SelectorManagerTestCase
         final InetAddress localAddress = InetAddress.getLocalHost();
         final Random random = new Random();
         final int port = Math.abs( random.nextInt() % 5000 ) + 1024;
-        final InetSocketAddress address = new InetSocketAddress( localAddress, port );
+        final InetSocketAddress address = new InetSocketAddress( localAddress,
+                                                                 port );
         channel.socket().bind( address );
         System.out.println( "address = " + address );
-        while ( !channel.socket().isBound() )
+        while( !channel.socket().isBound() )
         {
-           System.out.print( "." );
-           Thread.yield();
+            System.out.print( "." );
+            Thread.yield();
         }
 
         final Mock mockMonitor = new Mock( SelectorMonitor.class );
