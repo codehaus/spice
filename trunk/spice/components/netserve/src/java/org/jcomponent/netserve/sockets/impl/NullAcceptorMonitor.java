@@ -14,13 +14,13 @@ import java.io.IOException;
  * A noop monitor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-10 02:41:12 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-10 02:45:34 $
  */
 public class NullAcceptorMonitor
     implements AcceptorMonitor
 {
     /**
-     * Add constant for instance of Null Acceptor.
+     * Add constant for instance of Null Monitor.
      */
     public static final NullAcceptorMonitor MONITOR = new NullAcceptorMonitor();
 
