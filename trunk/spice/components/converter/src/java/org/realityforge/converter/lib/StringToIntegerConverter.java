@@ -4,6 +4,9 @@
  * This software is published under the terms of the Spice
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
+ *
+ * This product includes software developed by the
+ * Apache Software Foundation (http://www.apache.org/).
  */
 package org.realityforge.converter.lib;
 
@@ -17,7 +20,7 @@ import org.realityforge.converter.ConverterException;
  * numbers begin with 0b, all other values are assumed to be decimal.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-02-12 11:01:32 $
+ * @version $Revision: 1.3 $ $Date: 2003-03-18 09:14:18 $
  */
 public class StringToIntegerConverter
     extends AbstractConverter
