@@ -16,7 +16,7 @@ import java.io.OutputStreamWriter;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-06-13 04:39:35 $
+ * @version $Revision: 1.7 $ $Date: 2003-06-13 04:46:30 $
  */
 public class IOUtil2TestCase
     extends TestCase
@@ -184,7 +184,7 @@ public class IOUtil2TestCase
         final MockInputStream input = new MockInputStream( DATA_4_ELEMENTS );
         final MockOutputStream output = new MockOutputStream();
         final OutputStreamWriter writer = new OutputStreamWriter( output );
-        IOUtil.copy( input, writer, "US-ASCII",  2 );
+        IOUtil.copy( input, writer, "US-ASCII", 2 );
         writer.flush();
         final byte[] bytes = output.toByteArray();
         assertEqualArrays( DATA_4_ELEMENTS, bytes );
@@ -306,8 +306,8 @@ public class IOUtil2TestCase
     public void testCopyReaderToWriterWithGreaterBuffer()
         throws Exception
     {
-        final MockInputStream input = new MockInputStream(DATA_4_ELEMENTS);
-        final InputStreamReader reader = new InputStreamReader(input);
+        final MockInputStream input = new MockInputStream( DATA_4_ELEMENTS );
+        final InputStreamReader reader = new InputStreamReader( input );
         final MockOutputStream output = new MockOutputStream();
         final OutputStreamWriter writer = new OutputStreamWriter( output );
         IOUtil.copy( reader, writer, 50 );
@@ -452,6 +452,78 @@ public class IOUtil2TestCase
         final MockInputStream input2 = new MockInputStream( DATA_4_ELEMENTS_CE );
         final boolean contentsEqual = IOUtil.contentEquals( input1, input2 );
         assertTrue( !contentsEqual );
+    }
+
+    public void testInputToStringWithDefaultBuffer()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final String string = IOUtil.toString( input1 );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testInputToStringWithLesserBuffer()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final String string = IOUtil.toString( input1, 2 );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testInputToStringWithGreaterBuffer()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final String string = IOUtil.toString( input1, 20 );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testEncodedInputToStringWithDefaultBuffer()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final String string = IOUtil.toString( input1, "US_ASCII" );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testEncodedInputToStringWithLesserBuffer()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final String string = IOUtil.toString( input1, "US_ASCII", 2 );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testEncodedInputToStringWithGreaterBuffer()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final String string = IOUtil.toString( input1, "US_ASCII", 20 );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testReaderToStringWithDefaultBuffer()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final String string = IOUtil.toString( new InputStreamReader(input1)  );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testReaderToStringWithLesserBuffer()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final String string = IOUtil.toString( new InputStreamReader( input1 ), 2 );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
+    }
+
+    public void testReaderToStringWithGreaterBuffer()
+        throws Exception
+    {
+        final MockInputStream input1 = new MockInputStream( DATA_4_ELEMENTS );
+        final String string = IOUtil.toString( new InputStreamReader( input1 ), 20 );
+        assertEquals( new String( DATA_4_ELEMENTS ), string );
     }
 
     private void assertEqualArrays( final byte[] expected,
