@@ -30,4 +30,39 @@ public abstract class AbstractConnector
     */
    private Object _lastRxMessage;
 
+   /**
+    * Method called to indicate transmission occured.
+    *
+    * @param message the message
+    */
+   public void transmissionOccured( final Object message )
+   {
+      _lastTxTime = System.currentTimeMillis();
+      _lastTxMessage = message;
+   }
+
+   /**
+    * Method called to indicate receive occured.
+    *
+    * @param message the message
+    */
+   public void receiveOccured( final Object message )
+   {
+      _lastRxTime = System.currentTimeMillis();
+      _lastRxMessage = message;
+   }
+
+   /**
+    * Method called to indicate bidirectional communication occured.
+    *
+    * @param message the message
+    */
+   public void commOccured( final Object message )
+   {
+      final long now = System.currentTimeMillis();
+      _lastTxTime = now;
+      _lastRxTime = now;
+      _lastRxMessage = message;
+      _lastTxMessage = message;
+   }
 }
