@@ -14,7 +14,7 @@ import java.util.Map;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-12-17 04:12:12 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-07 01:29:29 $
  */
 public class Session
 {
@@ -47,7 +47,7 @@ public class Session
     private long _timeOfLastStatusChange;
 
     /** Status of session. Must be one of the STATUS_* constants. */
-    private int _status;
+    private int _status = STATUS_NOT_CONNECTED;
 
     /** List of attributes associated with session. */
     private final Map _attributes = new HashMap();
