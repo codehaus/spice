@@ -44,17 +44,6 @@ public class MBeanBuilder
     private static final String IMPACT_ACTION = "ACTION";
     private static final String IMPACT_ACTION_INFO = "ACTION_INFO";
 
-    public Object buildMBean( final Object value )
-        throws Exception
-    {
-        final ModelMBeanInfo mBeanInfo = buildMBeanInfo( value.getClass() );
-        if( null == mBeanInfo )
-        {
-            return null;
-        }
-        return new WrapperModelMBean( mBeanInfo, value );
-    }
-
     public ModelMBeanInfo buildMBeanInfo( final Class type )
         throws Exception
     {
