@@ -17,24 +17,38 @@ import java.util.Map;
 
 import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 import org.jcomponent.netserve.sockets.SocketConnectionHandler;
+import org.jcomponent.netserve.selector.SelectorManager;
+import org.jcomponent.netserve.selector.SelectorEventHandler;
 
 /**
  * Abstract implementation of {@link SocketAcceptorManager} that NIO
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.18 $ $Date: 2003-10-23 04:24:30 $
+ * @version $Revision: 1.19 $ $Date: 2003-10-23 05:11:17 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
 public class NIOAcceptorManager
-   extends AbstractNIOReactor
-   implements SocketAcceptorManager
+   extends SelectorManager
+   implements SocketAcceptorManager,SelectorEventHandler
 {
+   /**
+    * Monitor to receive events.
+    */
+   private NIOAcceptorMonitor m_monitor = NullNIOAcceptorMonitor.MONITOR;
+
    /**
     * The map of name->SelectorKey.
     */
    private final Map m_acceptors = new Hashtable();
+
+   public void setMonitor( final NIOAcceptorMonitor monitor )
+   {
+      //Super call will check null
+      super.setMonitor( monitor );
+      m_monitor = monitor;
+   }
 
    /**
     * Shutdown the selector and any associated acceptors.
@@ -110,7 +124,7 @@ public class NIOAcceptorManager
             new AcceptorConfig( name, socket, handler );
          key.attach( config );
          m_acceptors.put( name, key );
-         getMonitor().acceptorCreated( name, socket );
+         m_monitor.acceptorCreated( name, socket );
       }
    }
 
@@ -135,13 +149,13 @@ public class NIOAcceptorManager
          throw new IllegalArgumentException( message );
       }
       key.cancel();
-      getMonitor().acceptorClosing( name );
+      m_monitor.acceptorClosing( name );
    }
 
    /**
-    * @see AbstractNIOReactor#handleChannel
+    * @see SelectorEventHandler#handleSelectorEvent
     */
-   protected void handleChannel( final SelectionKey key )
+   public void handleSelectorEvent( final SelectionKey key )
    {
       final ServerSocketChannel channel =
          (ServerSocketChannel) key.channel();
@@ -161,12 +175,12 @@ public class NIOAcceptorManager
       try
       {
          final Socket socket = channel.accept().socket();
-         getMonitor().handlingConnection( name, serverSocket, socket );
+         m_monitor.handlingConnection( name, serverSocket, socket );
          handler.handleConnection( socket );
       }
       catch ( final IOException ioe )
       {
-         getMonitor().errorAcceptingConnection( name, ioe );
+         m_monitor.errorAcceptingConnection( name, ioe );
       }
    }
 }
