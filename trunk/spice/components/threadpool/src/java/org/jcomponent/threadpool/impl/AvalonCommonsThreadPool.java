@@ -34,7 +34,7 @@ import org.apache.commons.pool.impl.GenericObjectPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-29 07:24:25 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-29 07:42:04 $
  * @phoenix.service type="ThreadPool"
  */
 public class AvalonCommonsThreadPool
@@ -99,11 +99,8 @@ public class AvalonCommonsThreadPool
 
    /**
     * Initialize the monitor then initialize parent class.
-    *
-    * @throws Exception if error occurs creating pool or monitor
     */
    public void initialize()
-      throws Exception
    {
       final AvalonThreadPoolMonitor monitor = new AvalonThreadPoolMonitor();
       ContainerUtil.enableLogging( monitor, m_logger );
