@@ -69,8 +69,7 @@ public class LogKitLoggerStore
         setRootLogger( new AvalonLogger( m_loggerManager.getDefaultLogger() ) );
     }
 
-
-	/**
+    /**
      *  Creates new LogKitLogger for the given category.
      */
     protected org.jcontainer.dna.Logger createLogger( final String name )

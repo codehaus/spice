@@ -9,9 +9,9 @@ package org.jcomponent.loggerstore.stores;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jcomponent.loggerstore.LoggerStore;
 import org.jcontainer.dna.LogEnabled;
 import org.jcontainer.dna.Logger;
-import org.jcomponent.loggerstore.LoggerStore;
 
 /**
  * AbstractLoggerStore is an abstract implementation of LoggerStore for the
@@ -100,7 +100,7 @@ public abstract class AbstractLoggerStore
      *  concrete subclasses.
      */
     protected abstract Logger createLogger( String name );
-    
+
     /**
      * Sets the root Logger.
      */

@@ -9,7 +9,6 @@ package org.jcomponent.loggerstore;
 
 import java.io.InputStream;
 import java.util.HashMap;
-
 import org.jcomponent.loggerstore.factories.DOMLog4JLoggerStoreFactory;
 import org.jcomponent.loggerstore.factories.ExcaliburLogKitLoggerStoreFactory;
 import org.jcomponent.loggerstore.factories.InitialLoggerStoreFactory;
@@ -20,16 +19,15 @@ import org.jcomponent.loggerstore.factories.SimpleLogKitLoggerStoreFactory;
 /**
  * Configurator is a collection of utility methods to create and configure
  * LoggerStore objects of different types using configuration resources.
- * LogKit, Log4J and JDK14 Loggers are supported.  
+ * LogKit, Log4J and JDK14 Loggers are supported.
  * In the case of Log4J, both DOM and Property configuration types are supported.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
 public class Configurator
 {
-
     /**
-     * Constant used to define Log4J type with DOMConfigurator  
+     * Constant used to define Log4J type with DOMConfigurator
      */
     public static final String LOG4J_DOM = "log4j-dom";
 
@@ -37,17 +35,17 @@ public class Configurator
      * Constant used to define Log4J type with PropertyConfigurator
      */
     public static final String LOG4J_PROPERTY = "log4j-property";
-    
+
     /**
      * Constant used to define LogKit type with Excalibur configuration
      */
     public static final String LOGKIT_EXCALIBUR = "logkit-excalibur";
-    
+
     /**
      * Constant used to define LogKit type with Simple configuration
      */
     public static final String LOGKIT_SIMPLE = "logkit-simple";
-    
+
     /**
      * Constant used to define JDK14 type
      */
@@ -97,7 +95,7 @@ public class Configurator
      * Get the Factory class name of the LoggerStoreFactory that corresponds
      * to specified type of Logger.
      *
-     * @param type the type of Configurator 
+     * @param type the type of Configurator
      */
     private static String getFactoryClassName( final String type )
     {

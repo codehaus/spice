@@ -13,7 +13,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
 import org.jcomponent.loggerstore.LoggerStore;
 import org.jcomponent.loggerstore.LoggerStoreFactory;
 
@@ -23,7 +22,7 @@ import org.jcomponent.loggerstore.LoggerStoreFactory;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-18 09:14:29 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-19 01:51:35 $
  */
 public class InitialLoggerStoreFactory
     implements LoggerStoreFactory

@@ -12,7 +12,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
-
 import org.jcomponent.loggerstore.LoggerStore;
 import org.jcomponent.loggerstore.LoggerStoreFactory;
 import org.jcontainer.dna.AbstractLogEnabled;
@@ -23,7 +22,7 @@ import org.jcontainer.dna.AbstractLogEnabled;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-18 11:52:22 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-19 01:51:35 $
  */
 public abstract class AbstractLoggerStoreFactory
     extends AbstractLogEnabled

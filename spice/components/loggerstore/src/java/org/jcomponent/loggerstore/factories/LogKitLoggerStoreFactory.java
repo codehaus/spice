@@ -9,7 +9,6 @@ package org.jcomponent.loggerstore.factories;
 
 import java.io.InputStream;
 import java.util.Map;
-
 import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -25,7 +24,7 @@ import org.jcomponent.loggerstore.stores.LogKitLoggerStore;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-18 11:52:22 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-19 01:51:35 $
  */
 public class LogKitLoggerStoreFactory
     extends AbstractLoggerStoreFactory
@@ -42,7 +41,7 @@ public class LogKitLoggerStoreFactory
      */
     private static final String DEFAULT_LOGGER_MANAGER = LogKitLoggerManager.class.getName();
 
-	/**
+    /**
      * Creates a LoggerStore from a given set of configuration parameters.
      *
      * @param config the Map of parameters for the configuration of the store
@@ -61,17 +60,17 @@ public class LogKitLoggerStoreFactory
             {
                 type = DEFAULT_LOGGER_MANAGER;
             }
-            final ClassLoader classLoader = getClassLoader( config );                
+            final ClassLoader classLoader = getClassLoader( config );
             loggerManager = createLoggerManager( type, classLoader );
         }
-            
+
         Logger logger =
             (Logger)config.get( Logger.class.getName() );
         if( null == logger )
         {
             logger = loggerManager.getDefaultLogger();
         }
-        
+
         final Context context =
             (Context)config.get( Context.class.getName() );
 
@@ -91,7 +90,7 @@ public class LogKitLoggerStoreFactory
 
         return missingConfiguration();
     }
-    
+
     /**
      * Retrieve the classloader from data map. If no classloader is specified
      * then use ContextClassLoader. If ContextClassLoader not specified then
@@ -114,7 +113,6 @@ public class LogKitLoggerStoreFactory
         return loader;
     }
 
-
     /**
      * Create a {@link LoggerManager} for specified type.
      *
@@ -122,7 +120,7 @@ public class LogKitLoggerStoreFactory
      * @return the created {@link LoggerManager}
      */
     private LoggerManager createLoggerManager( final String type,
-                                                final ClassLoader classLoader )
+                                               final ClassLoader classLoader )
     {
         try
         {

@@ -9,7 +9,6 @@ package org.jcomponent.loggerstore.factories;
 
 import java.io.InputStream;
 import java.util.Map;
-
 import org.jcomponent.loggerstore.LoggerStore;
 import org.jcomponent.loggerstore.stores.Log4JLoggerStore;
 import org.w3c.dom.Element;
@@ -20,7 +19,7 @@ import org.w3c.dom.Element;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-18 11:52:22 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-19 01:51:35 $
  */
 public class DOMLog4JLoggerStoreFactory
     extends AbstractLoggerStoreFactory

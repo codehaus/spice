@@ -9,7 +9,6 @@ package org.jcomponent.loggerstore.stores;
 
 import java.io.InputStream;
 import java.util.logging.LogManager;
-
 import org.jcontainer.dna.Logger;
 import org.jcontainer.dna.impl.Jdk14Logger;
 

@@ -8,7 +8,6 @@
 package org.jcomponent.loggerstore.factories;
 
 import java.util.Map;
-
 import org.apache.avalon.excalibur.logger.LoggerManager;
 import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
 import org.jcomponent.loggerstore.LoggerStore;
