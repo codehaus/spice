@@ -18,7 +18,7 @@ import org.realityforge.packet.events.PacketWriteRequestEvent;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.19 $ $Date: 2004-02-06 02:34:17 $
+ * @version $Revision: 1.20 $ $Date: 2004-02-06 02:58:25 $
  */
 public class Session
 {
@@ -132,6 +132,12 @@ public class Session
      * The EventSink that this Session sends events to.
      */
     private EventSink _sink;
+
+    /**
+     * Flag set to true when need to send acke for last received
+     * packetProcessed.
+     */
+    private boolean _needsToSendAck;
 
     /**
      * Create Serverside session with specified ID.
@@ -251,8 +257,12 @@ public class Session
      */
     public void setLastPacketProcessed( final short lastPacketProcessed )
     {
-        _hasReceivedData = true;
-        _lastPacketProcessed = lastPacketProcessed;
+        if( lastPacketProcessed != _lastPacketProcessed )
+        {
+            _hasReceivedData = true;
+            _needsToSendAck = true;
+            _lastPacketProcessed = lastPacketProcessed;
+        }
     }
 
     /**
@@ -358,6 +368,16 @@ public class Session
         return _lastPacketTransmitted;
     }
 
+    public void acked()
+    {
+        _needsToSendAck = false;
+    }
+
+    public boolean needsToSendAck()
+    {
+        return _needsToSendAck;
+    }
+
     public boolean sendPacket( final ByteBuffer buffer )
     {
         if( isPendingDisconnect() || isDisconnectRequested() )
@@ -389,6 +409,7 @@ public class Session
             _transport.getInputStream().close();
             _transport.getOutputStream().close();
         }
+        _needsToSendAck = true;
         _transport = transport;
         if( null != _transport )
         {

@@ -35,7 +35,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.14 $ $Date: 2004-02-06 02:34:17 $
+ * @version $Revision: 1.15 $ $Date: 2004-02-06 02:58:25 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -281,9 +281,11 @@ public class PacketIOEventHandler
         throws IOException
     {
         final ChannelTransport transport = session.getTransport();
-        if( session.hasReceivedData() )
+        if( session.hasReceivedData() &&
+            session.needsToSendAck() )
         {
             final short processed = session.getLastPacketProcessed();
+            session.acked();
             output( session, "SEND ACK " + processed +
                              " at " + transport.getTxByteCount() );
             sendAck( transport, processed );
@@ -854,9 +856,11 @@ public class PacketIOEventHandler
         throws IOException
     {
         ensureValidSession( transport );
-
         final Session session = (Session)transport.getUserData();
-        session.setPendingDisconnect();
+        if( !session.isDisconnectRequested() || !session.isClient() )
+        {
+            session.setPendingDisconnect();
+        }
         sendSessionStatus( session );
 
         checkDisconnect( session, transport );
