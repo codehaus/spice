@@ -127,8 +127,6 @@ public class LoggerStoreFactoryTestCase
     public void testLogKitLoggerStoreFactoryWithSpecifiedClassLoader()
         throws Exception
     {
-//TODO understand why it fails when line is uncommented - while it passes for InitialLoggerStoreFactory
-//        Thread.currentThread().setContextClassLoader( null );
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
         config.put( Configuration.class.getName(),
