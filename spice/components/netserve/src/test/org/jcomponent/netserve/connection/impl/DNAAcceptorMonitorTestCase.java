@@ -56,4 +56,19 @@ public class DNAAcceptorMonitorTestCase
 
       mockLogger.verify();
    }
+
+   public void testDNAAcceptorMonitorPassedNullIntoCtor()
+      throws Exception
+   {
+      try
+      {
+         new DNAAcceptorMonitor( null );
+      }
+      catch ( final NullPointerException npe )
+      {
+         assertEquals( "npe.getMessage()", "logger", npe.getMessage() );
+         return;
+      }
+      fail( "Expected to fail due to npe in ctor" );
+   }
 }
