@@ -20,6 +20,8 @@
 
     <target name="car" depends="jar">
         <mkdir dir="componenthaus/staging"/>
+        <mkdir dir="componenthaus/staging/dist"/>
+        <copy file="dist/sqlexecutor-0.1.jar" todir="componenthaus/staging/dist"/>
 
         <mkcar
             sourceDirectory="src/java"

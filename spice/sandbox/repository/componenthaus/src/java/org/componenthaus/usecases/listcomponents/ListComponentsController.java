@@ -18,9 +18,7 @@ public class ListComponentsController extends AbstractController {
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("repository = " + repository);
         final Collection modelObject = repository.listComponents();
-        System.out.println("Num components " + modelObject.size());
         return new ModelAndView("listComponentsView","components",modelObject);
     }
 }

@@ -11,7 +11,6 @@ import java.io.IOException;
 public class WelcomeUserController implements Controller {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html");
         return new ModelAndView("welcomeView");
     }
 }
