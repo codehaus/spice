@@ -9,12 +9,14 @@ package org.realityforge.salt.i18n;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.ref.WeakReference;
+import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * Manager for resources.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-05-28 12:29:59 $
+ * @version $Revision: 1.4 $ $Date: 2003-05-28 12:34:04 $
  */
 public class ResourceManager
 {
@@ -57,21 +59,19 @@ public class ResourceManager
     /**
      * Retrieve resource with specified basename.
      *
-     * @param baseName the basename
+     * @param basename the basename
      * @return the Resources
      */
-    public final static Resources getBaseResources( final String baseName )
+    public final static Resources getBaseResources( final String basename )
     {
-        //TODO: Make these weak references????
-        Resources packet = (Resources)c_resources.get( baseName );
-
-        if( null == packet )
+        Resources resources = getCachedResource( basename );
+        if( null == resources )
         {
-            packet = new Resources( baseName );
-            c_resources.put( baseName, packet );
+            resources = new Resources( basename );
+            putCachedResource( basename, resources );
         }
 
-        return packet;
+        return resources;
     }
 
     /**
@@ -112,5 +112,38 @@ public class ResourceManager
     {
         final String resource = clazz.getName() + ".Resources";
         return getBaseResources( resource );
+    }
+
+    /**
+     * Cache specified resource in weak reference.
+     *
+     * @param baseName the resource key
+     * @param resources the resources object
+     */
+    private synchronized static final void putCachedResource( final String baseName,
+                                                              final Resources resources )
+    {
+        c_resources.put( baseName,
+                         new WeakReference( resources ) );
+    }
+
+    /**
+     * Retrieve cached resource.
+     *
+     * @param baseName the resource key
+     * @return resources the resources object
+     */
+    private synchronized static final Resources getCachedResource( final String baseName )
+    {
+        final WeakReference weakReference =
+            (WeakReference)c_resources.get( baseName );
+        if( null == weakReference )
+        {
+            return null;
+        }
+        else
+        {
+            return (Resources)weakReference.get();
+        }
     }
 }
