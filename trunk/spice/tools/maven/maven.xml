@@ -35,9 +35,9 @@
         <available
             file="xdocs/navigation.xml"
             type="file"
-            property="navigation.available"/>
+            property="navigationAvailable"/>
 
-        <j:if test="${navigation.available != 'true'}">
+        <j:if test="${navigationAvailable != 'true'}">
             <j:file name="target/navigation.xml" omitXmlDeclaration="true">
                 <naproject name="${pom.name}">
                     <title>${pom.name}</title>
