@@ -9,6 +9,7 @@ package org.realityforge.metaclass.tools.tasks;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.tools.ant.AntClassLoader;
@@ -31,7 +32,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
  * A Task to generate Attributes descriptors from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-10-04 10:31:58 $
+ * @version $Revision: 1.11 $ $Date: 2003-10-16 06:38:57 $
  */
 public class GenerateClassDescriptorsTask
     extends Task
@@ -362,7 +363,7 @@ public class GenerateClassDescriptorsTask
      *
      * @param classes the classes
      */
-    public void javaClassObjectsLoaded( final List classes )
+    public void javaClassObjectsLoaded( final Collection classes )
     {
         log( "Loaded " + classes.size() + " Java classes.",
              Project.MSG_DEBUG );
@@ -374,7 +375,7 @@ public class GenerateClassDescriptorsTask
      *
      * @param classes the classes
      */
-    public void postFilterJavaClassList( final List classes )
+    public void postFilterJavaClassList( final Collection classes )
     {
         log( "MetaClass Attributes Compiler building " + classes.size() +
              " " + getOutputDescription() + " descriptors.",

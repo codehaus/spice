@@ -7,15 +7,15 @@
  */
 package org.realityforge.metaclass.tools.compiler;
 
-import org.realityforge.metaclass.model.ClassDescriptor;
 import java.io.File;
-import java.util.List;
+import java.util.Collection;
+import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
  * The default no-op implementation of compiler monitor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 04:20:03 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-16 06:38:57 $
  */
 public class DefaultCompilerMonitor
     implements CompilerMonitor
@@ -48,7 +48,7 @@ public class DefaultCompilerMonitor
      *
      * @param classes the list of JavaClass objects
      */
-    public void javaClassObjectsLoaded( final List classes )
+    public void javaClassObjectsLoaded( final Collection classes )
     {
     }
 
@@ -58,7 +58,7 @@ public class DefaultCompilerMonitor
      *
      * @param classes the list of JavaClass objects
      */
-    public void postFilterJavaClassList( final List classes )
+    public void postFilterJavaClassList( final Collection classes )
     {
     }
 }

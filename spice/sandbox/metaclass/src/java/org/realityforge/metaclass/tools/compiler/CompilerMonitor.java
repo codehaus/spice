@@ -7,8 +7,8 @@
  */
 package org.realityforge.metaclass.tools.compiler;
 
-import java.util.List;
 import java.io.File;
+import java.util.Collection;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
@@ -16,7 +16,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * can monitor events that occur during compilation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 04:20:03 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-16 06:38:57 $
  */
 public interface CompilerMonitor
 {
@@ -43,7 +43,7 @@ public interface CompilerMonitor
      *
      * @param classes the list of JavaClass objects
      */
-    void javaClassObjectsLoaded( List classes );
+    void javaClassObjectsLoaded( Collection classes );
 
     /**
      * Called to notify the monitor about the list of JavaClass
@@ -51,5 +51,5 @@ public interface CompilerMonitor
      *
      * @param classes the list of JavaClass objects
      */
-    void postFilterJavaClassList( List classes );
+    void postFilterJavaClassList( Collection classes );
 }
