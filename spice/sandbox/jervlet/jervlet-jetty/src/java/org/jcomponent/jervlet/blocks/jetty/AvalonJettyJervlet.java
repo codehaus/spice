@@ -62,8 +62,9 @@ import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
+import org.apache.avalon.framework.CascadingRuntimeException;
 import org.jcomponent.jervlet.*;
-import org.mortbay.util.Log;
+import org.mortbay.util.MultiException;
 
 import java.io.File;
 import java.util.Collections;
@@ -154,12 +155,6 @@ public class AvalonJettyJervlet extends AbstractJettyJervlet
     {
         m_server = createHttpServer();
         m_server.addListener( createSocketListener() );
-
-        AvalonLogSink logSink = new AvalonLogSink();
-        logSink.enableLogging( getLogger() );
-
-        // unsatisfactory as is static
-        Log.instance().add( logSink );
 
         RequestLogger logger = (RequestLogger)
             m_jervletContext.getServiceManager().lookup( RequestLogger.ROLE );
@@ -391,6 +386,36 @@ public class AvalonJettyJervlet extends AbstractJettyJervlet
             getLogger().error( msg, e );
 
             throw new JervletException( msg, e );
+        }
+    }
+
+    /**
+     * Start
+     */
+    public final void start()
+    {
+        try
+        {
+            m_server.start();
+        }
+        catch( MultiException e )
+        {
+            throw new CascadingRuntimeException( "Some problem starting Jetty", e );
+        }
+    }
+
+    /**
+     * Stop
+     */
+    public final void stop()
+    {
+        try
+        {
+            m_server.stop();
+        }
+        catch( InterruptedException e )
+        {
+            throw new CascadingRuntimeException( "Some problem stopping Jetty", e );
         }
     }
 }

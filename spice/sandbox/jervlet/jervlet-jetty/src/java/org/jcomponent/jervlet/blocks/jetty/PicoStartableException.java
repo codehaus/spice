@@ -1,10 +1,10 @@
 /*
 
- ============================================================================
-                   The Apache Software License, Version 1.1
+============================================================================
+                     The Spice Software License, Version 1.1
  ============================================================================
 
- Copyright (C) 2002,2003 The Apache Software Foundation. All rights reserved.
+ Copyright (C) 1999-2003 The Spice Group. All rights reserved.
 
  Redistribution and use in source and binary forms, with or without modifica-
  tion, are permitted provided that the following conditions are met:
@@ -18,18 +18,17 @@
 
  3. The end-user documentation included with the redistribution, if any, must
     include  the following  acknowledgment:  "This product includes  software
-    developed  by the  Apache Software Foundation  (http://www.apache.org/)."
+    developed  by the  Spice Group (http://spice.codehaus.org/)."
     Alternately, this  acknowledgment may  appear in the software itself,  if
     and wherever such third-party acknowledgments normally appear.
 
- 4. The names "Jakarta", "Avalon", "Excalibur" and "Apache Software Foundation"
-    must not be used to endorse or promote products derived from this  software
-    without  prior written permission. For written permission, please contact
-    apache@apache.org.
+ 4. The names "Spice" and "Spice Group" must not be used to endorse or
+    promote products derived from this  software without  prior written
+    permission. For written permission, please contact spice-dev@spice.codehaus.org.
 
- 5. Products  derived from this software may not  be called "Apache", nor may
-    "Apache" appear  in their name,  without prior written permission  of the
-    Apache Software Foundation.
+ 5. Products  derived from this software may not  be called "Spice", nor
+    may "Spice" appear  in their name,  without prior written permission
+    of The Spice Group.
 
  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -43,34 +42,20 @@
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
  This software  consists of voluntary contributions made  by many individuals
- on  behalf of the Apache Software  Foundation. For more  information on the
- Apache Software Foundation, please see <http://www.apache.org/>.
+ on  behalf of The Spice Group. For more information on The Spice Group,
+ please see <http://spice.codehaus.org/>.
 
 */
-package org.jcomponent.jervlet;
+package org.jcomponent.jervlet.blocks.jetty;
 
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.defaults.DefaultPicoContainer;
+import org.picocontainer.PicoException;
 
 /**
- * Holder class for objects to be used when creating servlets under Jervlet
- *
  * @author Paul Hammant
+ * @version $Revision: 1.1 $
  */
-public class PicoJervletContext implements JervletContext
-{
-    private final MutablePicoContainer parentContainer;
-
-    public PicoJervletContext( MutablePicoContainer mutablePicoContainer )
-    {
-        this.parentContainer = mutablePicoContainer;
+public class PicoStartableException extends PicoException {
+    public PicoStartableException(String s, Throwable throwable) {
+        super(s, throwable);
     }
-
-    public Object instantiate(Class servletClass) throws InstantiationException, IllegalAccessException {
-        MutablePicoContainer picoContainer = new DefaultPicoContainer(parentContainer);
-        picoContainer.registerComponentImplementation(servletClass);
-        return picoContainer.getComponentInstance(servletClass);
-    }
-
 }
-

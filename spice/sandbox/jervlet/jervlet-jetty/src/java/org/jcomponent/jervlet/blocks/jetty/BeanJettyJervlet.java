@@ -51,8 +51,8 @@ package org.jcomponent.jervlet.blocks.jetty;
 
 import org.jcomponent.jervlet.*;
 import org.mortbay.jetty.Server;
-import org.mortbay.util.Log;
-import org.mortbay.util.LogSink;
+import org.mortbay.util.MultiException;
+import org.apache.avalon.framework.CascadingRuntimeException;
 
 import java.io.File;
 import java.net.UnknownHostException;
@@ -86,7 +86,6 @@ public class BeanJettyJervlet extends AbstractJettyJervlet
 
     private HashMap m_webcontexts = new HashMap();
     private RequestLogger requestLogger;
-    private LogSink logSink;
 
     public void setJervletConfig(JervletConfig config) {
         super.config = config;
@@ -104,10 +103,6 @@ public class BeanJettyJervlet extends AbstractJettyJervlet
         this.monitor = jervletMonitor;
     }
 
-    public void setLogSink(LogSink logSink) {
-        this.logSink = logSink;
-    }
-
 
     public void initialize() throws UnknownHostException {
 
@@ -115,9 +110,6 @@ public class BeanJettyJervlet extends AbstractJettyJervlet
 
         m_server = createHttpServer();
         m_server.addListener( createSocketListener() );
-
-        // unsatisfactory as is static
-        Log.instance().add( logSink );
 
         m_server.setRequestLog( new JettyRequestLogAdapter( requestLogger ) );
     }
@@ -333,6 +325,36 @@ public class BeanJettyJervlet extends AbstractJettyJervlet
         {
             monitor.undeployException(this.getClass(), context, e);
 
+        }
+    }
+
+    /**
+     * Start
+     */
+    public final void start()
+    {
+        try
+        {
+            m_server.start();
+        }
+        catch( MultiException e )
+        {
+            throw new CascadingRuntimeException( "Some problem starting Jetty", e );
+        }
+    }
+
+    /**
+     * Stop
+     */
+    public final void stop()
+    {
+        try
+        {
+            m_server.stop();
+        }
+        catch( InterruptedException e )
+        {
+            throw new CascadingRuntimeException( "Some problem stopping Jetty", e );
         }
     }
 }
