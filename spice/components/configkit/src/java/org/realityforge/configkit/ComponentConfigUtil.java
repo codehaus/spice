@@ -9,6 +9,7 @@ package org.realityforge.configkit;
 
 import java.io.InputStream;
 import java.net.URL;
+
 import org.realityforge.configkit.ConfigValidator;
 import org.realityforge.configkit.ConfigValidatorFactory;
 import org.xml.sax.InputSource;
@@ -19,7 +20,7 @@ import org.xml.sax.InputSource;
  * explanation about how ConfigValidator objects are loaded.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-06 04:19:41 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-06 04:21:37 $
  */
 public class ComponentConfigUtil
 {
@@ -83,8 +84,8 @@ public class ComponentConfigUtil
     * @param location the specified location of schema
     * @return the actual location of schema
     */
-   private static String calculateLocation( final String classname,
-                                            final String location )
+   static String calculateLocation( final String classname,
+                                    final String location )
    {
       if ( null == location )
       {
@@ -128,8 +129,8 @@ public class ComponentConfigUtil
     * @param location the relative location of schema
     * @return the absolute name of schema resource
     */
-   private static String calcSchemaResource( final String classname,
-                                             final String location )
+   static String calcSchemaResource( final String classname,
+                                     final String location )
    {
       if ( location.startsWith( "/" ) )
       {
