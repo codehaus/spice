@@ -90,7 +90,7 @@ final class BinaryHeap
      * Return element on top of heap but don't remove it.
      *
      * @return the element at top of heap
-     * @exception NoSuchElementException if isEmpty() == true
+     * @throws NoSuchElementException if isEmpty() == true
      */
     public Comparable peek() throws NoSuchElementException
     {
@@ -108,7 +108,7 @@ final class BinaryHeap
      * Return element on top of heap and remove it.
      *
      * @return the element at top of heap
-     * @exception NoSuchElementException if isEmpty() == true
+     * @throws NoSuchElementException if isEmpty() == true
      */
     public Comparable pop() throws NoSuchElementException
     {
