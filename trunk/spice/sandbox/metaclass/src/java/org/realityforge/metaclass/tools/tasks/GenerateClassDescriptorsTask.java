@@ -31,7 +31,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-04 02:01:40 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-04 02:13:02 $
  */
 public class GenerateClassDescriptorsTask
     extends AbstractQdoxTask
@@ -263,6 +263,17 @@ public class GenerateClassDescriptorsTask
              " classes and writing as " + getOutputDescription() + "." );
 
         final List descriptors = buildClassDescriptors( classes );
+        processClassDescriptors( descriptors );
+    }
+
+    /**
+     * Output the ClassDescriptors that are not filtered out
+     * and throw build exception if any fail to build.
+     *
+     * @param descriptors the list of ClassDescriptor objects
+     */
+    void processClassDescriptors( final List descriptors )
+    {
         writeClassDescriptors( descriptors );
 
         if( m_failed )
@@ -403,26 +414,6 @@ public class GenerateClassDescriptorsTask
     }
 
     /**
-     * Close the specified output stream and swallow any exceptions.
-     *
-     * @param outputStream the output stream
-     */
-    private static void shutdownStream( final OutputStream outputStream )
-    {
-        if( null != outputStream )
-        {
-            try
-            {
-                outputStream.close();
-            }
-            catch( IOException e )
-            {
-                //Ignored
-            }
-        }
-    }
-
-    /**
      * Determine the file for specified class.
      *
      * @param classname the fully qualified name of file to generate
@@ -459,6 +450,26 @@ public class GenerateClassDescriptorsTask
         else
         {
             return "binary";
+        }
+    }
+
+    /**
+     * Close the specified output stream and swallow any exceptions.
+     *
+     * @param outputStream the output stream
+     */
+    void shutdownStream( final OutputStream outputStream )
+    {
+        if( null != outputStream )
+        {
+            try
+            {
+                outputStream.close();
+            }
+            catch( IOException e )
+            {
+                //Ignored
+            }
         }
     }
 }
