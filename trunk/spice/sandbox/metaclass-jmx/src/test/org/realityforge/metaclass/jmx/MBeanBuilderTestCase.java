@@ -25,7 +25,7 @@ import java.beans.PropertyDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-10-14 00:48:14 $
+ * @version $Revision: 1.13 $ $Date: 2003-10-14 00:50:23 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -477,5 +477,125 @@ public class MBeanBuilderTestCase
         assertEquals( "returnType", "int", attribute.getType() );
         assertEquals( "currencyTimeLimit", new Integer( 1 ),
                       attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+    }
+
+    public void testExtractAttributeInfoFromAttributeWhereReaderNotAnnotated()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final PropertyDescriptor descriptor =
+            new PropertyDescriptor( "value", TestBean.class );
+
+        final Attribute[] attributesSansDescription =
+            new Attribute[]{new Attribute( "mx.attribute" )};
+        final MethodDescriptor reader =
+            new MethodDescriptor( "getValue",
+                                  "int",
+                                  0,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET );
+        final MethodDescriptor writer =
+            new MethodDescriptor( "setValue",
+                                  "",
+                                  0,
+                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  attributesSansDescription );
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( TestBean.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{reader, writer} );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final ModelMBeanAttributeInfo attribute =
+            builder.extractAttribute( descriptor );
+        assertNotNull( "attribute", attribute );
+        assertEquals( "name", "value", attribute.getName() );
+        assertEquals( "isReadable", false, attribute.isReadable() );
+        assertEquals( "isWritable", true, attribute.isWritable() );
+        assertEquals( "description", "", attribute.getDescription() );
+        assertEquals( "returnType", "int", attribute.getType() );
+        assertEquals( "currencyTimeLimit", new Integer( 1 ),
+                      attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+    }
+
+    public void testExtractAttributeInfoFromAttributeWhereWriterNotAnnotated()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final PropertyDescriptor descriptor =
+            new PropertyDescriptor( "value", TestBean.class );
+
+        final Attribute[] attributesSansDescription =
+            new Attribute[]{new Attribute( "mx.attribute" )};
+        final MethodDescriptor reader =
+            new MethodDescriptor( "getValue",
+                                  "int",
+                                  0,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  attributesSansDescription );
+        final MethodDescriptor writer =
+            new MethodDescriptor( "setValue",
+                                  "",
+                                  0,
+                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  Attribute.EMPTY_SET );
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( TestBean.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{reader, writer} );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final ModelMBeanAttributeInfo attribute =
+            builder.extractAttribute( descriptor );
+        assertNotNull( "attribute", attribute );
+        assertEquals( "name", "value", attribute.getName() );
+        assertEquals( "isReadable", true, attribute.isReadable() );
+        assertEquals( "isWritable", false, attribute.isWritable() );
+        assertEquals( "description", "", attribute.getDescription() );
+        assertEquals( "returnType", "int", attribute.getType() );
+        assertEquals( "currencyTimeLimit", new Integer( 1 ),
+                      attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+    }
+
+    public void testExtractAttributeInfoFromAttributeWhereNeitherAnnotated()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final PropertyDescriptor descriptor =
+            new PropertyDescriptor( "value", TestBean.class );
+
+        final MethodDescriptor reader =
+            new MethodDescriptor( "getValue",
+                                  "int",
+                                  0,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET );
+        final MethodDescriptor writer =
+            new MethodDescriptor( "setValue",
+                                  "",
+                                  0,
+                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  Attribute.EMPTY_SET );
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( TestBean.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{reader, writer} );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final ModelMBeanAttributeInfo attribute =
+            builder.extractAttribute( descriptor );
+        assertNull( "attribute", attribute );
     }
 }
