@@ -17,8 +17,8 @@
     <package>org.realityforge.${pom.artifactId.substring(6)}</package>
     <url>http://spice.sourceforge.net/${pom.artifactId.substring(6)}</url>
     <siteDirectory>/home/groups/s/sp/spice/htdocs/${pom.artifactId.substring(6)}</siteDirectory>
-    <distributionDirectory>/home/groups/s/sp/spice/htdocs/maven/${groupId}</distributionDirectory>
-    <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=67448</issueTrackingUrl>
+    <distributionDirectory>/home/groups/s/sp/spice/htdocs/maven</distributionDirectory>
+    <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10140</issueTrackingUrl>
 
     <siteAddress>spice.sourceforge.net</siteAddress>
     <distributionSite>spice.sourceforge.net</distributionSite>
