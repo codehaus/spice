@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  * and other common resources from a ResourceBundle.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-06-13 00:51:10 $
+ * @version $Revision: 1.7 $ $Date: 2003-06-13 00:55:36 $
 */
 public class Resources
 {
@@ -93,7 +93,6 @@ public class Resources
      * @return the resource boolean
      */
     public boolean getBoolean( final String key, final boolean defaultValue )
-        throws MissingResourceException
     {
         try
         {
@@ -127,7 +126,6 @@ public class Resources
      * @return the resource byte
      */
     public byte getByte( final String key, final byte defaultValue )
-        throws MissingResourceException
     {
         try
         {
@@ -170,7 +168,6 @@ public class Resources
      * @return the resource char
      */
     public char getChar( final String key, final char defaultValue )
-        throws MissingResourceException
     {
         try
         {
@@ -214,7 +211,6 @@ public class Resources
      * @return the resource short
      */
     public short getShort( final String key, final short defaultValue )
-        throws MissingResourceException
     {
         try
         {
@@ -257,7 +253,6 @@ public class Resources
      * @return the resource integer
      */
     public int getInteger( final String key, final int defaultValue )
-        throws MissingResourceException
     {
         try
         {
@@ -300,7 +295,6 @@ public class Resources
      * @return the resource long
      */
     public long getLong( final String key, final long defaultValue )
-        throws MissingResourceException
     {
         try
         {
@@ -343,7 +337,6 @@ public class Resources
      * @return the resource float
      */
     public float getFloat( final String key, final float defaultValue )
-        throws MissingResourceException
     {
         try
         {
@@ -386,7 +379,6 @@ public class Resources
      * @return the resource double
      */
     public double getDouble( final String key, final double defaultValue )
-        throws MissingResourceException
     {
         try
         {
@@ -429,7 +421,6 @@ public class Resources
      * @return the resource date
      */
     public Date getDate( final String key, final Date defaultValue )
-        throws MissingResourceException
     {
         try
         {
@@ -474,7 +465,6 @@ public class Resources
      * @return the resource time
      */
     public Date getTime( final String key, final Date defaultValue )
-        throws MissingResourceException
     {
         try
         {
@@ -519,7 +509,6 @@ public class Resources
      * @return the resource time
      */
     public Date getDateTime( final String key, final Date defaultValue )
-        throws MissingResourceException
     {
         try
         {
@@ -567,6 +556,25 @@ public class Resources
     {
         final ResourceBundle bundle = getBundle();
         return bundle.getString( key );
+    }
+
+    /**
+     * Retrieve a raw string from bundle.
+     *
+     * @param key the key of resource
+     * @param defaultValue the default value if key is missing
+     * @return the resource string
+     */
+    public String getStringWithDefault( final String key, final String defaultValue )
+    {
+        try
+        {
+            return getString( key );
+        }
+        catch( final MissingResourceException mre )
+        {
+            return defaultValue;
+        }
     }
 
     /**
