@@ -2,7 +2,7 @@ package org.realityforge.reactor;
 
 import java.nio.channels.SocketChannel;
 
-public class ReactorEntry
+class ReactorEntry
 {
    private final String _name;
    private final SocketChannel _channel;
