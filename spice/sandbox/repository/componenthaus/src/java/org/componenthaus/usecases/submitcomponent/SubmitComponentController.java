@@ -17,6 +17,8 @@ import org.prevayler.Prevayler;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContextException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +36,7 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class SubmitComponentController extends SimpleFormController {
+public class SubmitComponentController extends SimpleFormController implements InitializingBean {
     private ServletException bootstrapException = null;
     private Prevayler prevayler;
     private ComponentFactory componentFactory;
@@ -63,6 +65,18 @@ public class SubmitComponentController extends SimpleFormController {
 
     public void setServiceImplementationFactory(ServiceImplementationFactory serviceImplementationFactory) {
         this.serviceImplementationFactory = serviceImplementationFactory;
+    }
+
+    public void afterPropertiesSet() throws Exception {
+        assertSet("prevayler",prevayler);
+        assertSet("componentFactory",componentFactory);
+        assertSet("serviceImplementationFactory",serviceImplementationFactory);
+    }
+
+    private void assertSet(String name, Object property) {
+        if ( property == null ) {
+            throw new ApplicationContextException("Must set property '" + name + "' on " + getClass());
+        }
     }
 
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object o, BindException e) throws ServletException, IOException {

@@ -10,4 +10,8 @@ public interface ComponentRepository {
     void registerDownloadable(String componentId, File downloadable);
     File getDownloadable(String componentId);
     ServiceImplementation getImplementation(String componentId, String implId);
+
+    public static interface Monitor {
+        public void componentAdded(final Component component);
+    }
 }

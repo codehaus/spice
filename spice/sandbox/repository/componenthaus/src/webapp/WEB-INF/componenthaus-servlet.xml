@@ -2,7 +2,20 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-    <bean id="repository" class="org.componenthaus.repository.api.RepositoryImpl"/>
+
+    <bean id="searchService" class="org.componenthaus.search.LuceneSearchService"/>
+
+    <bean id="addComponentMonitor" class="org.componenthaus.search.AddComponentMonitor">
+        <property name="searchService">
+            <ref bean="searchService"/>
+        </property>
+    </bean>
+
+    <bean id="repository" class="org.componenthaus.repository.api.RepositoryImpl">
+        <property name="monitor">
+            <ref bean="addComponentMonitor"/>
+        </property>
+    </bean>
 
     <bean id="fileManager" class="org.componenthaus.util.file.FileManagerImpl"/>
 
@@ -11,7 +24,9 @@
     <bean id="serviceImplementationFactory" class="org.componenthaus.repository.impl.ServiceImplementationFactory"/>
 
     <bean id="prevayler" class="org.componenthaus.prevayler.PrevaylerBean">
-        <property name="prevaylentSystem"><ref bean="repository"/></property>
+        <property name="prevaylentSystem">
+            <ref bean="repository"/>
+        </property>
     </bean>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
@@ -29,6 +44,7 @@
                 <prop key="/componentDetails.action">showComponentController</prop>
                 <prop key="/downloadComponent.action">downloadComponentController</prop>
                 <prop key="/showImplementation.action">showImplementationController</prop>
+                <prop key="/searchComponents.action">searchComponentsController</prop>
             </props>
         </property>
     </bean>
@@ -40,27 +56,54 @@
         <property name="formView">
             <value>submitComponentView</value>
         </property>
-        <property name="prevayler"><ref bean="prevayler"/></property>
-        <property name="componentFactory"><ref bean="componentFactory"/></property>
-        <property name="serviceImplementationFactory"><ref bean="serviceImplementationFactory"/></property>
-        <property name="successView"><value>welcomeView</value></property>
+        <property name="prevayler">
+            <ref bean="prevayler"/>
+        </property>
+        <property name="componentFactory">
+            <ref bean="componentFactory"/>
+        </property>
+        <property name="serviceImplementationFactory">
+            <ref bean="serviceImplementationFactory"/>
+        </property>
+        <property name="successView">
+            <value>welcomeView</value>
+        </property>
     </bean>
 
     <bean id="listComponentsController" class="org.componenthaus.usecases.listcomponents.ListComponentsController">
-        <property name="prevayler"><ref bean="prevayler"/></property>
+        <property name="prevayler">
+            <ref bean="prevayler"/>
+        </property>
     </bean>
 
     <bean id="showImplementationController" class="org.componenthaus.usecases.showimplementation.ShowImplementationController">
-        <property name="prevayler"><ref bean="prevayler"/></property>
+        <property name="prevayler">
+            <ref bean="prevayler"/>
+        </property>
+    </bean>
+
+    <bean id="searchComponentsController" class="org.componenthaus.usecases.searchcomponents.SearchComponentsController">
+        <property name="formView">
+            <value>searchCriteriaView</value>
+        </property>
+        <property name="searchService">
+            <ref bean="searchService"/>
+        </property>
     </bean>
 
     <bean id="showComponentController" class="org.componenthaus.usecases.showcomponent.ShowComponentController">
-        <property name="prevayler"><ref bean="prevayler"/></property>
+        <property name="prevayler">
+            <ref bean="prevayler"/>
+        </property>
     </bean>
 
     <bean id="downloadComponentController" class="org.componenthaus.usecases.downloadcomponent.DownloadComponentController">
-        <property name="prevayler"><ref bean="prevayler"/></property>
-        <property name="fileManager"><ref bean="fileManager"/></property>
+        <property name="prevayler">
+            <ref bean="prevayler"/>
+        </property>
+        <property name="fileManager">
+            <ref bean="fileManager"/>
+        </property>
     </bean>
 
 </beans>
