@@ -16,7 +16,7 @@ package org.realityforge.cli;
  * and passes it to {@link CLArgsParser#CLArgsParser(String[], CLOptionDescriptor[])}.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-03-17 18:39:42 $
+ * @version $Revision: 1.4 $ $Date: 2003-04-04 13:56:23 $
  * @since 4.0
  * @see CLArgsParser
  * @see CLUtil
@@ -66,7 +66,6 @@ public final class CLOptionDescriptor
      * @param id the id/character option
      * @param description description of option usage
      * @param incompatible an array listing the ids of all incompatible options
-     * @deprecated use the version with the array of CLOptionDescriptor's
      */
     public CLOptionDescriptor( final String name,
                                final int flags,
