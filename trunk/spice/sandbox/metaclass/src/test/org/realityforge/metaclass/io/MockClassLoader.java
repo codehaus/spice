@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-11-28 11:14:54 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-16 00:56:55 $
  */
 public class MockClassLoader
     extends ClassLoader
@@ -27,7 +27,7 @@ public class MockClassLoader
         m_resources.put( name, data );
     }
 
-    public InputStream getResourceAsStream( String name )
+    public InputStream getResourceAsStream( final String name )
     {
         final byte[] bytes = (byte[])m_resources.get( name );
         if( null == bytes )
