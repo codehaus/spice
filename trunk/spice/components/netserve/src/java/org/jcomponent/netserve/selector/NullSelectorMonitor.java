@@ -22,6 +22,13 @@ public class NullSelectorMonitor
    }
 
    /**
+    * @see SelectorMonitor#enteringSelectorLoop
+    */
+   public void enteringSelectorLoop()
+   {
+   }
+
+   /**
     * @see SelectorMonitor#enteringSelect
     */
    public void enteringSelect()
