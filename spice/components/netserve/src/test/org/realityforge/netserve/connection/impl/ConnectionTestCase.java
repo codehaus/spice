@@ -26,7 +26,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-04-23 09:38:33 $
+ * @version $Revision: 1.11 $ $Date: 2003-04-23 09:41:55 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -65,34 +65,35 @@ public class ConnectionTestCase
     {
         final String name = "test-" + getName() + "-";
         final ServerSocket serverSocket = getServerSocket();
-        final RandmoizingHandler handlerManager = new RandmoizingHandler();
-        final ConnectionAcceptor acceptor =
-            new ConnectionAcceptor( name,
-                                    serverSocket,
-                                    handlerManager,
-                                    null );
-        final Runnable runnable = new Runnable()
-        {
-            public void run()
-            {
-                while( !serverSocket.isClosed() )
-                {
-                    try
-                    {
-                        serverSocket.accept();
-                    }
-                    catch( IOException ioe )
-                    {
-                    }
-                }
-            }
-        };
-        start( runnable );
-        Thread.sleep( 200 );
-        final Socket socket = new Socket( HOST, PORT );
-
+        Socket socket = null;
         try
         {
+            final RandmoizingHandler handlerManager = new RandmoizingHandler();
+            final ConnectionAcceptor acceptor =
+                new ConnectionAcceptor( name,
+                                        serverSocket,
+                                        handlerManager,
+                                        null );
+            final Runnable runnable = new Runnable()
+            {
+                public void run()
+                {
+                    while( !serverSocket.isClosed() )
+                    {
+                        try
+                        {
+                            serverSocket.accept();
+                        }
+                        catch( IOException ioe )
+                        {
+                        }
+                    }
+                }
+            };
+            start( runnable );
+            Thread.sleep( 200 );
+            socket = new Socket( HOST, PORT );
+
             try
             {
                 new ConnectionRunner( null,
@@ -190,7 +191,7 @@ public class ConnectionTestCase
             {
                 socket.close();
             }
-            catch( IOException ioe )
+            catch( Exception ioe )
             {
             }
         }
@@ -364,7 +365,6 @@ public class ConnectionTestCase
             shutdown( serverSocket );
         }
     }
-
 
     public void testOverRunForceShutdownNoLogging()
         throws Exception
