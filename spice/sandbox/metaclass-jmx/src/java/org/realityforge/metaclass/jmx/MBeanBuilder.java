@@ -174,7 +174,7 @@ public class MBeanBuilder
             else
             {
                 description =
-                    attribute.getParameter( DESCRIPTION_KEY_CONSTANT, EMPTY_STRING );
+                    attribute.getParameter( DESCRIPTION_KEY_CONSTANT, null );
             }
         }
 
@@ -189,7 +189,7 @@ public class MBeanBuilder
             else if( null == description )
             {
                 description =
-                    attribute.getParameter( DESCRIPTION_KEY_CONSTANT, EMPTY_STRING );
+                    attribute.getParameter( DESCRIPTION_KEY_CONSTANT, null );
             }
         }
 
@@ -200,6 +200,11 @@ public class MBeanBuilder
         if( !isReadable && !isWritable )
         {
             return null;
+        }
+
+        if( null == description )
+        {
+            description = EMPTY_STRING;
         }
 
         final String name = property.getName();
