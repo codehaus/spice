@@ -49,10 +49,10 @@
 */
 package org.jcomponent.jervlet.blocks.jetty;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.logger.LogEnabled;
+import org.apache.avalon.framework.logger.Logger;
 import org.mortbay.util.Frame;
 import org.mortbay.util.Log;
-import org.mortbay.util.LogSink;
 
 /**
  * Jetty Log redirection
@@ -63,40 +63,12 @@ import org.mortbay.util.LogSink;
  * @author  Bruno Dumon & Paul Hammant
  * @version 1.0
  */
-public class PhoenixLogSink extends AbstractLogEnabled implements LogSink
+public class AvalonLogSink extends SimpleLogSink implements LogEnabled
 {
-    /**
-     * Stop (unimpled)
-     * @throws InterruptedException
-     */
-    public void stop() throws InterruptedException
-    {
-    }
+    private Logger logger;
 
-    /**
-     * Is this started (always)
-     * @return
-     */
-    public boolean isStarted()
-    {
-        return true;
-    }
-
-    /**
-     * Set Options (un implemented)
-     * @param s the options
-     */
-    public void setOptions( String s )
-    {
-    }
-
-    /**
-     * Get Option (unimplemented)
-     * @return the options
-     */
-    public String getOptions()
-    {
-        return "";
+    public void enableLogging(Logger logger) {
+        this.logger = logger;
     }
 
     /**
@@ -134,6 +106,10 @@ public class PhoenixLogSink extends AbstractLogEnabled implements LogSink
         }
     }
 
+    private Logger getLogger() {
+        return logger;
+    }
+
     /**
      * Log a message
      * @param message the Message
@@ -143,11 +119,5 @@ public class PhoenixLogSink extends AbstractLogEnabled implements LogSink
         getLogger().info( message );
     }
 
-    /**
-     * Start a logger (unimpled)
-     * @throws Exception
-     */
-    public void start() throws Exception
-    {
-    }
+
 }
