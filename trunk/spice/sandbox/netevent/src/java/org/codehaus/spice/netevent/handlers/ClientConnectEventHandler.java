@@ -24,7 +24,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-02-10 02:59:25 $
+ * @version $Revision: 1.7 $ $Date: 2004-02-10 03:27:19 $
  */
 public class ClientConnectEventHandler
     extends AbstractIOEventHandler
@@ -81,10 +81,10 @@ public class ClientConnectEventHandler
                                   new UnboundedFifoBuffer( 4 ),
                                   getBufferManager(),
                                   getSink() );
+        transport.setUserData( ce.getUserData() );
         try
         {
             channel.finishConnect();
-            transport.setUserData( ce.getUserData() );
             final ConnectEvent response = new ConnectEvent( transport );
             _target.addEvent( response );
             transport.register( _source );
