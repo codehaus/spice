@@ -25,7 +25,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.11 $ $Date: 2003-08-24 02:02:56 $
+ * @version $Revision: 1.12 $ $Date: 2003-08-24 02:12:49 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -101,7 +101,7 @@ public class MetaGenerateTask
         try
         {
             writeClassDescriptors();
-            System.out.println( "MetaData generation done." );
+            log( "MetaData generation done." );
         }
         catch( final IOException ioe )
         {
