@@ -10,6 +10,7 @@ package org.realityforge.metaclass.io;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.DataInputStream;
 import java.lang.reflect.Modifier;
 import java.util.Properties;
 import junit.framework.TestCase;
@@ -22,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-22 02:44:30 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-22 02:49:48 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -40,6 +41,20 @@ public class MetaClassIOBinaryTestCase
         final byte[] bytes = out.toByteArray();
         assertEquals( "length", 4, bytes.length );
         assertEquals( "bytes[0-4] = 0", 0, readInteger( bytes, 0 ) );
+    }
+
+    public void testBinaryIOReadZeroAttributes()
+        throws Exception
+    {
+        final byte[] bytes = new byte[]
+        {
+            0, 0, 0, 0 //length
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+        final DataInputStream data = new DataInputStream( in );
+        final Attribute[] attributes = io.readAttributes( data );
+        assertEquals( "attributes.length", 0, attributes.length );
     }
 
     public void testBinaryIOWriteAttributeWithoutValueOrParameters()
