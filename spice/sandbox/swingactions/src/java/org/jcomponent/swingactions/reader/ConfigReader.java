@@ -8,35 +8,129 @@
 package org.jcomponent.swingactions.reader;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.digester.Digester;
 import org.jcomponent.swingactions.metadata.ActionMetaData;
 import org.jcomponent.swingactions.metadata.ActionSetMetaData;
+import org.jcomponent.swingactions.metadata.GroupActionMetaData;
+import org.jcomponent.swingactions.metadata.SeparatorActionMetaData;
 
 /** 
- * ConfigReader reads the configuration from an XML file.
+ * ConfigReader is a helper class used by the digester to store 
+ * the configuration objects as they are created when parsing the XML file.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
 public class ConfigReader {
     
-    Set m_actions; 
-    
-    public ConfigReader() {
-        m_actions = new HashSet();
-    }
+    private Map m_actions; 
+    private Map m_groups; 
+    private String m_currentGroupId;    
 
+    /**
+     * Creates a ConfigReader
+     */
+    public ConfigReader() {
+        m_actions = new HashMap();
+        m_groups = new HashMap();
+    }
+    
+    /**
+     * Adds an Action metadata
+     * @param metadata
+     */
     public void addActionMetaData( final ActionMetaData metadata )
     {
-        m_actions.add( metadata );
+        m_actions.put( metadata.getValue( ActionMetaData.ID), metadata );
     }
 
-    public ActionSetMetaData  getActionSetMetaData()
+    /**
+     * Adds a GroupAction metadata
+     * @param metadata
+     */
+    public void addGroupActionMetaData( final GroupActionMetaData metadata )
     {
-        final ActionMetaData[] actions = (ActionMetaData[])m_actions.toArray(new ActionMetaData[ m_actions.size() ] );
+        final String groupId = metadata.getValue( GroupActionMetaData.GROUP_ID );
+        Set groupActions = (Set)m_groups.get( groupId );
+        if ( groupActions == null )
+        {
+            groupActions = new HashSet();
+            m_groups.put( groupId, groupActions );
+        }
+        groupActions.add( metadata );
+    }
+
+    /**
+     * Adds a SeparatorAction metadata
+     * @param metadata
+     */
+    public void addSeparatorActionMetaData( final SeparatorActionMetaData metadata )
+    {
+        final String groupId = metadata.getValue( SeparatorActionMetaData.GROUP_ID );
+        Set groupActions = (Set)m_groups.get( groupId );
+        if ( groupActions == null )
+        {
+            groupActions = new HashSet();
+            m_groups.put( groupId, groupActions );
+        }
+        groupActions.add( metadata );
+    }
+
+    /**
+     * Returns the set of actions parsed
+     * @return the ActionSetMetaData
+     */
+    public ActionSetMetaData getActionSetMetaData()
+    {
+        final ActionMetaData[] actions = 
+            (ActionMetaData[])m_actions.values().toArray(new ActionMetaData[ m_actions.size() ] );
         return new ActionSetMetaData( actions );
+    }
+
+    /**
+     * Returns the action group Ids 
+     * @return the array of ids of groups
+     */
+    public String[] getActionGroupIds()
+    {
+        final Set groupKeys  = m_groups.keySet();
+        return (String[])groupKeys.toArray(new String[ groupKeys.size() ] );
+    }
+    
+    /**
+     * Returns the set of actions for a given group
+     * @param groupId the Id of the group
+     * @return the ActionSetMetaData
+     */
+    public ActionSetMetaData getActionGroupMetaData( final String groupId )
+    {
+        final Set groupActions = (Set)m_groups.get( groupId );       
+        final ActionMetaData[] actions = 
+            (ActionMetaData[])groupActions.toArray(new ActionMetaData[ groupActions.size() ] );
+        return new ActionSetMetaData( actions );
+    }
+
+
+    /**
+     * Returns the current group Id
+     * @return the Id of the group being parsed
+     */
+    public String getCurrentGroupId()
+    {
+        return m_currentGroupId;       
+    }
+    
+    /**
+     * Sets the current group Id
+     * @param groupId the Id of the group being parsed
+     */
+    public void setCurrentGroupId( final String groupId )
+    {
+        m_currentGroupId = groupId;        
     }
 
     /**
@@ -58,6 +152,7 @@ public class ConfigReader {
 
         digester.parse( resource );
     }
+
 
 
     
