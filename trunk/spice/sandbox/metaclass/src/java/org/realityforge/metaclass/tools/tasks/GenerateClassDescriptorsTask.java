@@ -31,7 +31,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
  * A Task to generate Attributes descriptors from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-10-04 10:30:06 $
+ * @version $Revision: 1.10 $ $Date: 2003-10-04 10:31:58 $
  */
 public class GenerateClassDescriptorsTask
     extends Task
@@ -374,7 +374,7 @@ public class GenerateClassDescriptorsTask
      *
      * @param classes the classes
      */
-    public void postFilterJavaClassList( List classes )
+    public void postFilterJavaClassList( final List classes )
     {
         log( "MetaClass Attributes Compiler building " + classes.size() +
              " " + getOutputDescription() + " descriptors.",
