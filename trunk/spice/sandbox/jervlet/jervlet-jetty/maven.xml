@@ -1,6 +1,6 @@
 <project default="install">
 	<goal name="install" prereqs="clean">
-		<attainGoal name="sar:metagenerate"/>
+		<attainGoal name="loom:metagenerate"/>
 		<attainGoal name="jar:install"/>
 	</goal>
 </project>
