@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <title>XInvoke</title>
+    <author email="peter at www.stocksoftware.com.au">Peter Donald</author>
+  </properties>
+
+  <body>
+
+  <section name="XInvoke">
+    <p>
+      XInvoke is a high performance implementation of the "Interceptor"
+      pattern for method invocations. Essentially this means that this
+      toolkit allows you to "intercept" a method invocation and perform
+      operations before and after an invocation or even to directly handle
+      the method invocation. The objects that implement this interception are
+      called <a href="apidocs/org/realityforge/xinvoke/Interceptor.html">
+      Interceptors</a> and usually there is a series of interceptors through
+      which a method invocation will pass.
+    </p>
+    <p>
+      The XInvoke framework only supports interception of methods defined by a
+      interface. It was found that this satisfied the majority of use cases in
+      component architectures and it was easy to implement with the advent of
+      java.lang.reflect.Proxy in JDK 1.3.
+    </p>
+  </section>
+
+  </body>
+
+</document>
