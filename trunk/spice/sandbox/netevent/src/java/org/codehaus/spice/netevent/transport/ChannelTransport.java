@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.nio.channels.Channel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.spi.AbstractSelectableChannel;
-import java.util.HashMap;
-import java.util.Map;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.event.impl.collections.Buffer;
 import org.codehaus.spice.netevent.buffers.BufferManager;
@@ -22,7 +20,7 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-01-13 03:13:00 $
+ * @version $Revision: 1.7 $ $Date: 2004-01-13 06:20:50 $
  */
 public class ChannelTransport
 {
@@ -41,8 +39,8 @@ public class ChannelTransport
     /** The key used to register channel in selector. */
     private SelectionKey m_key;
 
-    /** List of attributes associated with session. */
-    private final Map _attributes = new HashMap();
+    /** Associated userData. */
+    private Object _userData;
 
     /**
      * Create transport.
@@ -85,47 +83,23 @@ public class ChannelTransport
     }
 
     /**
-     * Return true if attribute set.
+     * Return the associated user data.
      * 
-     * @param key the attributes key
-     * @return true if attribute set.
+     * @return the associated user data.
      */
-    public boolean isAttribute( final String key )
+    public Object getUserData()
     {
-        return _attributes.containsKey( key );
+        return _userData;
     }
 
     /**
-     * Return the attribute with specified key or null if no such attribute.
+     * Set the associated user data.
      * 
-     * @param key the attributes key
-     * @return the attribute with specified key or null if no such attribute.
+     * @param userData the associated user data.
      */
-    public Object getAttribute( final String key )
+    public void setUserData( final Object userData )
     {
-        return _attributes.get( key );
-    }
-
-    /**
-     * Set attribute with specified key to specified value.
-     * 
-     * @param key the key
-     * @param value the value
-     */
-    public void setAttribute( final String key,
-                              final Object value )
-    {
-        _attributes.put( key, value );
-    }
-
-    /**
-     * Remove attribute with specified key.
-     * 
-     * @param key the key
-     */
-    public void removeAttribute( final String key )
-    {
-        _attributes.remove( key );
+        _userData = userData;
     }
 
     /**
