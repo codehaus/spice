@@ -8,8 +8,12 @@
 package org.jcomponent.swingactions;
 
 import java.awt.event.ActionEvent;
+import java.net.URL;
 
 import javax.swing.AbstractAction;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.KeyStroke;
 
 import org.jcomponent.swingactions.metadata.ActionMetaData;
 /**
@@ -42,8 +46,8 @@ public class ActionAdapter extends AbstractAction
         {
             throw new NullPointerException( "metadata" );
         }
-        addMetaData( metadata );       
         m_metadata = metadata;
+        setActionValues( metadata );       
         if ( manager == null )
         {
             throw new NullPointerException( "manager" );
@@ -71,14 +75,73 @@ public class ActionAdapter extends AbstractAction
     }
 
     /**
-     * Adds metadata to the Action implementation
+     * Sets Action values using the metadata
      * @param metadata the ActionMetaData
      */
-    private void addMetaData( final ActionMetaData metadata ){
+    private void setActionValues( final ActionMetaData metadata ){
         String[] keys = metadata.getKeys();
         for ( int i = 0; i < keys.length; i++ )
         {
-            putValue( keys[i], metadata.getValue( keys[i] ) );            
+            final String key = keys[ i ];
+            final String value = metadata.getValue( key );
+            if ( key.equals( ActionMetaData.SMALL_ICON ) 
+              || key.equals( ActionMetaData.LARGE_ICON ) )
+            {
+                putValue( key, createIcon( value ) );            
+            } else if ( key.equals( ActionMetaData.MNEMONIC_KEY ) )
+            {
+                putValue( key, createCharacter( value ) );
+            } else if ( key.equals( ActionMetaData.ACCELERATOR_KEY ) )
+            {
+                putValue( key, createKeyStroke( value ) );
+            } else
+            {
+                putValue( key, value );
+            }
         }        
+    }
+    
+    /**
+     *  Creates Icon from value
+     */
+    private Icon createIcon( final String value )
+    {
+        if ( value == null )
+        {
+            return null;
+        }
+        final URL resource = getClass().getResource( value );
+        if ( resource != null ) {
+            return new ImageIcon( resource );
+        }
+        return null;
+    }
+
+    /**
+     *  Creates Character from value
+     */
+    private Character createCharacter( final String value )
+    {
+        if ( value == null )
+        {
+            return null;
+        }
+        if ( value.length() > 0 ){
+            return new Character( value.charAt( 0 ) );
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     *  Creates KeyStroke from value
+     */
+    private KeyStroke createKeyStroke( final String value )
+    {
+        if ( value == null )
+        {
+            return null;
+        }
+        return KeyStroke.getKeyStroke( value );
     }
 }
