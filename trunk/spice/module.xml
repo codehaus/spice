@@ -20,6 +20,7 @@
         <depend project="xml-xerces"/>
         <depend project="excalibur-extension"/>
         <depend project="excalibur-i18n"/>
+        <depend project="jakarta-oro"/>
         <work nested="components/classman/target/classes"/>
         <work nested="components/classman/target/test-classes"/>
 
