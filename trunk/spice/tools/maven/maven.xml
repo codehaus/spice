@@ -96,6 +96,7 @@
                 <ant:include name="*.menu"/>
             </ant:fileset>
         </ant:copy>
+
         <!-- Component menu -->
         <ant:available
             file="target/templates/component.menu"
@@ -108,63 +109,6 @@
         			prettyPrint="true"/>
 		</j:if>
 
-		<!-- Repository menu -->
-        <j:file name="target/templates/repository.menu"
-        		omitXmlDeclaration="true"
-        		prettyPrint="true">
-            <menu name="Repository">
-                <ant:fileScanner var="components">
-	                <fileset dir="${basedir}/../../components">
-   	                    <include name="*/project.xml"/>
-   		            </fileset>
-       		    </ant:fileScanner>
-   	            <ant:fileScanner var="sandbox">
-   	                <fileset dir="${basedir}/../../sandbox">
-   		                    <include name="*/project.xml"/>
-   		            </fileset>
-       		    </ant:fileScanner>
-                <item name="Spice" href="index.html" collapse="false">
-                	<item name="Components" href="index.html" collapse="false">
-                		<j:forEach items="${components.iterator()}" var="component">
-                    		<maven:pom projectDescriptor="${component}" var="cPOM"/>
-    	            		<j:if test="${cPOM.groupId != 'jcomponent'}">
-        	        			<item name="${cPOM.name}"
-            	        			href="../${component.parentFile.name}/index.html"/>
-                	    	</j:if>
-                		</j:forEach>
-            		</item>
-                	<item name="Sandbox" href="index.html" collapse="false">
-                		<j:forEach items="${sandbox.iterator()}" var="component">
-                    		<maven:pom projectDescriptor="${component}" var="cPOM"/>
-    	            		<j:if test="${cPOM.groupId != 'jcomponent'}">
-        	        			<item name="${cPOM.name}"
-            	        			href="../${component.parentFile.name}/index.html"/>
-                	    	</j:if>
-                		</j:forEach>
-            		</item>
-        		</item>
-                <item name="JComponent" href="index.html" collapse="false">
-                	<item name="Components" href="index.html" collapse="false">
-                		<j:forEach items="${components.iterator()}" var="component">
-                    		<maven:pom projectDescriptor="${component}" var="cPOM"/>
-    	            		<j:if test="${cPOM.groupId == 'jcomponent'}">
-        	        			<item name="${cPOM.name}"
-            	        			href="../${component.parentFile.name}/index.html"/>
-                	    	</j:if>
-                		</j:forEach>
-            		</item>
-                	<item name="Sandbox" href="index.html" collapse="false">
-                		<j:forEach items="${sandbox.iterator()}" var="component">
-                    		<maven:pom projectDescriptor="${component}" var="cPOM"/>
-    	            		<j:if test="${cPOM.groupId == 'jcomponent'}">
-        	        			<item name="${cPOM.name}"
-            	        			href="../${component.parentFile.name}/index.html"/>
-                	    	</j:if>
-                		</j:forEach>
-            		</item>
-        		</item>
-            </menu>
-        </j:file>
         <ant:mkdir dir="target/generated-xdocs"/>
         <velocity:merge
           name="target/generated-xdocs/navigation.xml"

@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="${pom.name}">
 
-  <title>${pom.name}</title>
+    <title>${pom.name}</title>
+    <body>
+    	<links>
+    		<item name="Home" href="../index.html"/>
+            <item name="Download" href="../download.html"/>
+            <item name="Components" href="../components.html"/>
+            <item name="Sandbox" href="../sandbox.html"/>
+        </links>
 
-  <body>
-     <links>
-     	<item name="Home" href="../index.html"/>
-        <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
-    </links>
-    <menu name="Overview">
-      <item name="Home"       href="../index.html" />
-      <item name="Downloads"  href="http://sourceforge.net/project/showfiles.php?group_id=67448" />
-    </menu>
+        <search/>
+        <menu name="Overview">
+    		<item name="Home" href="../index.html"/>
+            <item name="Download" href="../download.html"/>
+        </menu>
+        <menu name="Repository">
+            <item name="Components" href="../components.html"/>
+            <item name="Sandbox" href="../sandbox.html"/>
+        </menu>
 
-	#parse( "component.menu" )
-	#parse( "repository.menu" )
-
-  </body>
+		#parse( "component.menu" )
+        
+	</body>
 </project>
 
