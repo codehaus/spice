@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<document>
+   <properties>
+      <title>Salt</title>
+   </properties>
+   <body>
+      <section name="Introduction">
+         <p>
+	        Salt is a library that provides several different utility
+	        classes. The classes have methods to manipulate files, input
+	        streams, work with little endian systems etc. There are also
+	        classes that make i18n easier, and utility classes to work
+	        with language level features such as Exceptions and Enumerations.
+         </p>
+      </section>
+   </body>
+</document>
