@@ -43,7 +43,7 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-29 19:12:58 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 02:17:41 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
@@ -105,15 +105,4 @@ public class AvalonConnectionManager
     {
         m_logger = logger;
     }
-
-    /**
-     * Enable logging
-     *
-     * @param logger the Logger
-     */
-    public Logger getLogger()
-    {
-        return m_logger;
-    }
-
 }
