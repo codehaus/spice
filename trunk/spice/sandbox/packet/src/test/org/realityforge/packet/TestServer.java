@@ -24,7 +24,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.9 $ $Date: 2004-02-05 05:57:28 $
+ * @version $Revision: 1.10 $ $Date: 2004-02-06 02:34:17 $
  */
 public class TestServer
 {
@@ -165,7 +165,7 @@ public class TestServer
                                                        SESSION_MANAGER ) );
 
         final EventHandler handler3 =
-            new EchoHandler( "TEST SV",
+            new EchoHandler( null, //"TEST SV",
                              new TestEventHandler( source3,
                                                    queue2,
                                                    BUFFER_MANAGER,
@@ -230,7 +230,7 @@ public class TestServer
                                                        new DefaultSessionManager() ) );
 
         final EventHandler handler3 =
-            new EchoHandler( "TEST CL",
+            new EchoHandler( null, //"TEST CL",
                              new TestEventHandler( source3,
                                                    queue2,
                                                    BUFFER_MANAGER,
