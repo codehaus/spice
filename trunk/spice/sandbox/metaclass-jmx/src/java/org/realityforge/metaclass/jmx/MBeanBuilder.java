@@ -231,7 +231,13 @@ public class MBeanBuilder
         }
     }
 
-    private ModelMBeanOperationInfo extractOperation( final MethodDescriptor method )
+    /**
+     * Extract Operation Info if method is marked as an operation.
+     *
+     * @param method the method
+     * @return the info object or null if not an operation
+     */
+    ModelMBeanOperationInfo extractOperation( final MethodDescriptor method )
     {
         final Attribute attribute =
             Attributes.getAttribute( method.getMethod(), MX_OPERATION_CONSTANT );
