@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.metaclass;
 
 import com.thoughtworks.qdox.model.DocletTag;
@@ -113,8 +120,9 @@ public class ClassDescriptorUtility
             final String value = tag.getValue();
             final String[] parameters = tag.getParameters();
 
+            boolean validProperties = true;
             final Properties properties = new Properties();
-            for ( int j = 0; j < parameters.length; j++ )
+            for ( int j = 0; j < parameters.length && validProperties == true; j++ )
             {
                 final String parameter = parameters[ j ];
                 final String[] contents = parameter.split( "=" );
@@ -122,8 +130,20 @@ public class ClassDescriptorUtility
                 {
                     properties.setProperty( contents[ 0 ], contents[ 1 ] );
                 }
+                else
+                {
+                    validProperties = false;
+                }
             }
-            attributes[ i ] = new Attribute( name, value, properties );
+
+            if ( validProperties )
+            {
+                attributes[ i ] = new Attribute( name, properties );
+            }
+            else
+            {
+                attributes[ i ] = new Attribute( name, value );
+            }
         }
         return attributes;
     }
