@@ -115,7 +115,9 @@ public class LoggerStoreTestCase
             final Logger logger = store.getLogger();
             assertNotNull( "rootLogger for " + filename, logger );
             logger.info( MESSAGE );
-            logger.getChildLogger( "no-exist" ).info( MESSAGE2 );
+            final Logger noExistLogger = store.getLogger( "no-exist" );
+            assertNotNull( "noExistLogger for " + filename, noExistLogger );
+            noExistLogger.info( MESSAGE2 );
 
             final File logFile = new File( m_logsDir, filename + ".log" );
             assertTrue( "Checking LogFile Exists: " + filename, logFile.exists() );
