@@ -10,7 +10,7 @@ package org.jcomponent.netserve.connection.impl;
 import java.net.ServerSocket;
 import java.util.Hashtable;
 import java.util.Map;
-import org.jcomponent.netserve.connection.ConnectionHandler;
+import org.jcomponent.netserve.connection.RequestHandler;
 import org.jcomponent.netserve.connection.SocketAcceptorManager;
 import org.jcomponent.netserve.connection.impl.AcceptorConfig;
 import org.jcomponent.netserve.connection.impl.AcceptorMonitor;
@@ -28,7 +28,7 @@ import org.jcomponent.netserve.connection.impl.ConnectionAcceptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-27 05:26:55 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-27 05:34:57 $
  */
 public class DefaultAcceptorManager
     implements SocketAcceptorManager
@@ -119,7 +119,7 @@ public class DefaultAcceptorManager
      */
     public void connect( final String name,
                          final ServerSocket socket,
-                         final ConnectionHandler handler )
+                         final RequestHandler handler )
         throws Exception
     {
         if( null == name )

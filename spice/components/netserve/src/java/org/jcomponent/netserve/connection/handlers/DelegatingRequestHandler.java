@@ -8,13 +8,13 @@
 package org.jcomponent.netserve.connection.handlers;
 
 import java.net.Socket;
-import org.jcomponent.netserve.connection.ConnectionHandler;
+import org.jcomponent.netserve.connection.RequestHandler;
 
 /**
  * A simple handler that delegates to another handler.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-26 01:04:18 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-27 05:34:57 $
  */
 public abstract class DelegatingRequestHandler
     extends AbstractRequestHandler
@@ -22,14 +22,14 @@ public abstract class DelegatingRequestHandler
     /**
      * The underlying handler to delegate to.
      */
-    private final ConnectionHandler m_handler;
+    private final RequestHandler m_handler;
 
     /**
      * Create handler.
      *
      * @param handler the handler to delegate to
      */
-    public DelegatingRequestHandler( final ConnectionHandler handler )
+    public DelegatingRequestHandler( final RequestHandler handler )
     {
         if( null == handler )
         {

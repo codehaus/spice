@@ -11,16 +11,16 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
-import org.jcomponent.netserve.connection.ConnectionHandler;
+import org.jcomponent.netserve.connection.RequestHandler;
 
 /**
  * Abstract base class for request handlers.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-26 01:04:18 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-27 05:34:57 $
  */
 public abstract class AbstractRequestHandler
-    implements ConnectionHandler
+    implements RequestHandler
 {
     /**
      * The set of active requests.
@@ -38,7 +38,7 @@ public abstract class AbstractRequestHandler
     }
 
     /**
-     * @see ConnectionHandler#shutdown
+     * @see RequestHandler#shutdown
      */
     public void shutdown( final long timeout )
     {

@@ -13,9 +13,9 @@ import java.net.Socket;
  * Implement this interface to process incoming socket connections.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-26 01:04:18 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-27 05:34:57 $
  */
-public interface ConnectionHandler
+public interface RequestHandler
 {
     /**
      * Processes connections as they occur.

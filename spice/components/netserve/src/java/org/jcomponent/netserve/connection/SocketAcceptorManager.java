@@ -8,16 +8,16 @@
 package org.jcomponent.netserve.connection;
 
 import java.net.ServerSocket;
-import org.jcomponent.netserve.connection.ConnectionHandler;
+import org.jcomponent.netserve.connection.RequestHandler;
 
 /**
  * This service is used to manage network acceptors.
- * The service takes a ServerSocket and ConnectionHandler and
+ * The service takes a ServerSocket and RequestHandler and
  * anytime a new connection is accepted the handler is called
  * with the new socket connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-27 05:26:55 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-27 05:34:57 $
  */
 public interface SocketAcceptorManager
 {
@@ -34,7 +34,7 @@ public interface SocketAcceptorManager
      */
     void connect( String name,
                   ServerSocket socket,
-                  ConnectionHandler handler )
+                  RequestHandler handler )
         throws Exception;
 
     /**
