@@ -5,23 +5,21 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.loggerstore;
+package org.jcomponent.loggerstore;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 
 /**
- * Jdk14LoggerStoreFactory is an implementation of LoggerStoreFactory
- * for the JDK14 Logger.
+ * PropertyLog4JLoggerStoreFactory is an implementation of LoggerStoreFactory
+ * for the Log4J Logger using a property configuration resource.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-05-27 21:19:50 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 11:51:41 $
  */
-public class Jdk14LoggerStoreFactory
+public class PropertyLog4JLoggerStoreFactory
     extends AbstractLoggerStoreFactory
 {
     /**
@@ -37,16 +35,23 @@ public class Jdk14LoggerStoreFactory
         final Properties properties = (Properties)config.get( Properties.class.getName() );
         if( null != properties )
         {
-            final ByteArrayOutputStream output = new ByteArrayOutputStream();
-            properties.store( output, "" );
-            final ByteArrayInputStream input = new ByteArrayInputStream( output.toByteArray() );
-            return new Jdk14LoggerStore( input );
+            return new Log4JLoggerStore( properties );
         }
+
         final InputStream resource = getInputStream( config );
         if( null != resource )
         {
-            return new Jdk14LoggerStore( resource );
+            return new Log4JLoggerStore( createPropertiesFromStream( resource ) );
         }
+        
         return missingConfiguration();
     }
+
+	private Properties createPropertiesFromStream( final InputStream resource )
+		throws Exception
+	{
+		final Properties properties = new Properties();
+		properties.load( resource );
+		return properties;
+	}
 }

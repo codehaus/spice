@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.loggerstore;
+package org.jcomponent.loggerstore;
 
 import java.io.InputStream;
 import java.util.Properties;

@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.loggerstore;
+package org.jcomponent.loggerstore;
 
 import java.util.Map;
 import org.apache.avalon.framework.logger.ConsoleLogger;
@@ -14,7 +14,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
  * This is a basic factory for ConsoleLoggerStore.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-05-26 10:25:37 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 11:51:41 $
  */
 public class ConsoleLoggerStoreFactory
     extends AbstractLoggerStoreFactory

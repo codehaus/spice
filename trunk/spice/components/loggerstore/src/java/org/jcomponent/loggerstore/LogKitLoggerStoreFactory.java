@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.loggerstore;
+package org.jcomponent.loggerstore;
 
 import java.io.InputStream;
 import java.util.Map;
@@ -23,7 +23,7 @@ import org.apache.avalon.framework.logger.Logger;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-06-02 20:50:35 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 11:51:41 $
  */
 public class LogKitLoggerStoreFactory
     extends AbstractLoggerStoreFactory
@@ -33,7 +33,7 @@ public class LogKitLoggerStoreFactory
      * LoggerManager to use in creating a LogKitLoggerStore when not specified in the
      * configuration map.
      */
-    public static final String LOGGER_MANAGER = "org.realityforge.loggerstore.logkit.loggermanager";
+    public static final String LOGGER_MANAGER = "org.jcomponent.loggerstore.logkit.loggermanager";
 
     /**
      * The default LoggerManager class name

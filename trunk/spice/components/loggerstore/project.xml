@@ -6,7 +6,7 @@
     <id>jcomponent-loggerstore</id>
     <gumpRepositoryId>components</gumpRepositoryId>
     <package>org.jcomponent.${pom.artifactId.substring(11)}</package>
-    <currentVersion>0.5</currentVersion>
+    <currentVersion>1.0-b1</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
     <shortDescription>Component for storing a set of Avalon Loggers.</shortDescription>
@@ -19,6 +19,11 @@
     </description>
 
     <versions>
+        <version>
+            <id>1.0-b1</id>
+            <name>1.0-b1</name>
+            <tag>HEAD</tag>
+        </version>
         <version>
             <id>0.5</id>
             <name>0.5</name>
