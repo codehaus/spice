@@ -18,7 +18,7 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="excalibur-extension" runtime="true"/>
+        <depend project="spice-extension" runtime="true"/>
         <depend project="spice-salt" runtime="true" inherit="runtime"/>
         <work nested="components/classman/target/classes"/>
         <work nested="components/classman/target/test-classes"/>
