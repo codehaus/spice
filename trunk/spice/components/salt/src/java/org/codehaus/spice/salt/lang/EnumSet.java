@@ -13,11 +13,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.apache.oro.text.regex.MalformedPatternException;
-import org.apache.oro.text.regex.MatchResult;
-import org.apache.oro.text.regex.Pattern;
-import org.apache.oro.text.regex.Perl5Compiler;
-import org.apache.oro.text.regex.Perl5Matcher;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A Utility class for managing a set of name-integer constants.
@@ -158,19 +155,8 @@ public final class EnumSet
                                       final String patternString,
                                       final boolean deep )
     {
-        final Perl5Matcher matcher = new Perl5Matcher();
-        final Perl5Compiler compiler = new Perl5Compiler();
-        final Pattern pattern;
-        try
-        {
-            pattern = compiler.compile( patternString );
-        }
-        catch( final MalformedPatternException mpe )
-        {
-            final String message =
-                "Malformed pattern " + patternString + ". Reason: " + mpe;
-            throw new IllegalArgumentException( message );
-        }
+        final Pattern pattern = Pattern.compile( patternString );
+        final Matcher matcher = pattern.matcher( "" );
 
         final EnumSet set = new EnumSet();
         final Field[] fields = getFields( clazz, deep );
@@ -197,16 +183,16 @@ public final class EnumSet
                 throw new IllegalStateException( message );
             }
 
-            if( matcher.contains( name, pattern ) )
+            matcher.reset( name );
+            if( matcher.matches() )
             {
-                final MatchResult match = matcher.getMatch();
-                final int groups = match.groups();
-                if( 2 != groups )
+                final int groups = matcher.groupCount();
+                if( 1 != groups )
                 {
                     final String message = "Pattern must have one group";
                     throw new IllegalArgumentException( message );
                 }
-                final String key = match.group( 1 );
+                final String key = matcher.group( 1 );
                 set.add( key, value );
             }
         }
