@@ -4,6 +4,8 @@ import java.nio.channels.SocketChannel;
 
 public interface Reactor
 {
+   boolean isConnected( String name );
+
    void addConnection( String name,
                        SocketChannel channel,
                        SocketDataHandler handler,
