@@ -13,11 +13,10 @@
             from ACE for both stream based and packet based connections,
             etc.
          </p>
-            <p>
+         <p>
             All Spice jars are held in the 
-            <a href="http://spice.sf.net/maven">http://spice.sf.net/maven</a> 
-            repository for Maven usage.
-            </p>
+            <a href="http://dist.codehaus.org/spice">Codehaus Repository</a>. 
+         </p>
        </section>
       <section name="Multi-Container support">
          <p>
@@ -31,9 +30,9 @@
                supports type-1 Inversion of Control (IoC).
             </p>
             <p>
-               <a href="apidocs/org/jcomponent/netserve/connection/impl/AvalonConnectionManager.html">
+               <a href="apidocs/org/codehaus/spice/netserve/connection/impl/AvalonConnectionManager.html">
                   AvalonConnectionManager</a> provides an implementation of the
-               <a href="apidocs/org/jcomponent/netserve/connection/ConnectionManager.html">
+               <a href="apidocs/org/codehaus/spice/netserve/connection/ConnectionManager.html">
                   ConnectionManager</a> interface which is Avalon-compatible.
             </p>
          </subsection>
@@ -43,9 +42,9 @@
                supports type-1 Inversion of Control (IoC).
             </p>
             <p>
-               <a href="apidocs/org/jcomponent/netserve/connection/impl/DNAConnectionManager.html">
+               <a href="apidocs/org/codehaus/spice/netserve/connection/impl/DNAConnectionManager.html">
                   DNAConnectionManager</a> provides an implementation of the
-               <a href="apidocs/org/jcomponent/netserve/connection/ConnectionManager.html">
+               <a href="apidocs/org/codehaus/spice/netserve/connection/ConnectionManager.html">
                   ConnectionManager</a> interface which is DNA-compatible.
             </p>
          </subsection>
@@ -55,9 +54,9 @@
                supports type-3 IoC.
             </p>
             <p>
-               <a href="apidocs/org/jcomponent/netserve/connection/impl/PicoConnectionManager.html">
+               <a href="apidocs/org/codehaus/spice/netserve/connection/impl/PicoConnectionManager.html">
                   PicoConnectionManager</a> provides an implementation of the
-               <a href="apidocs/org/jcomponent/netserve/connection/ConnectionManager.html">
+               <a href="apidocs/org/codehaus/spice/netserve/connection/ConnectionManager.html">
                   ConnectionManager</a> interface which is 
                   <img src="http://www.picocontainer.org/images/pico-compatible.png" alt="Pico-compatible"/>.
             </p>
