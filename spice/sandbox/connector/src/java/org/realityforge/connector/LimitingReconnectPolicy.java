@@ -1,7 +1,5 @@
 package org.realityforge.connector;
 
-
-
 /**
  * A Policy that will always attempt to limit
  * the number of connection attempts in a

@@ -1,6 +1,5 @@
 package org.realityforge.connector;
 
-
 /**
  * The Connector is a base class for connectors.
  * Connectors establish a connection to a resource
