@@ -8,13 +8,14 @@ public class PeriodicPingPolicyTestCase
    public void testNeverPingPolicy()
       throws Exception
    {
-      final PeriodicPingPolicy policy = new PeriodicPingPolicy( 100 );
       final long lastPingTime = System.currentTimeMillis();
+      final MockConnector connector = new MockConnector( 0, 0, lastPingTime );
+      final PeriodicPingPolicy policy = new PeriodicPingPolicy( 100, connector );
       assertEquals( "nextPingCheck",
                     lastPingTime + 100,
-                    policy.nextPingCheck( lastPingTime ) );
+                    policy.nextPingCheck() );
       assertEquals( "checkPingConnection",
                     true,
-                    policy.checkPingConnection( null ) );
+                    policy.checkPingConnection() );
    }
 }
