@@ -21,7 +21,7 @@ import org.jcomponent.threadpool.ThreadPool;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-09 05:30:00 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-10 04:18:38 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
@@ -200,10 +200,10 @@ public abstract class AbstractConnectionManager
      * @param threadPool the threadPool to use (may be null)
      * @throws Exception if unable to setup socket properly
      */
-    protected void doConnect( final String name,
-                              final ServerSocket socket,
-                              final ConnectionHandlerManager handlerManager,
-                              final ThreadPool threadPool )
+    private void doConnect( final String name,
+                            final ServerSocket socket,
+                            final ConnectionHandlerManager handlerManager,
+                            final ThreadPool threadPool )
         throws Exception
     {
         synchronized( m_acceptors )
