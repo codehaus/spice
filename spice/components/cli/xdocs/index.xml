@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
     <properties>
-        <title>Excalibur Command-line Utilities - Overview</title>
+        <title>Command-line Utilities - Overview</title>
         <author email="peter at apache.org">Peter Donald</author>
-        <author email="leosimons at apache.org">Leo Simons</author>
     </properties>
     <body>
         <section name="Introduction">
