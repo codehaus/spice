@@ -64,7 +64,7 @@
         <echo message="Deploy Sandbox Repository"/>
         <maven:reactor
             basedir="${basedir}"
-            includes="deploy/*/project.xml"
+            includes="sandbox/*/project.xml"
             goals="clean,deploy"
             banner="Deploying"
             ignoreFailures="false" />
