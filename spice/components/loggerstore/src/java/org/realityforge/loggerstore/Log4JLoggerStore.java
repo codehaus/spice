@@ -71,7 +71,7 @@ public class Log4JLoggerStore
             final PropertyConfigurator configurator = new PropertyConfigurator();
             configurator.doConfigure( buildProperties( resource ), repository );
         }
-        else if( type.equals( LoggerStoreFactory.PROPERTIES ) )
+        else if( type.equals( LoggerStoreFactory.XML ) )
         {
             final DOMConfigurator configurator = new DOMConfigurator();
             configurator.doConfigure( resource, repository );
