@@ -15,16 +15,16 @@ import org.codehaus.spice.event.EventValve;
  * filtered out by a valve.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-16 02:03:12 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-16 04:22:17 $
  */
 public class ValveControlledSink
     implements EventSink
 {
     /** The destination sink. */
-    final EventSink m_sink;
+    EventSink m_sink;
 
     /** The valve that controls whether event passed onto sink. */
-    final EventValve m_valve;
+    EventValve m_valve;
 
     /**
      * Create valved sink terminating on specified sink with specified valve.
@@ -35,16 +35,8 @@ public class ValveControlledSink
     public ValveControlledSink( final EventSink sink,
                                 final EventValve valve )
     {
-        if( null == sink )
-        {
-            throw new NullPointerException( "sink" );
-        }
-        if( null == valve )
-        {
-            throw new NullPointerException( "valve" );
-        }
-        m_sink = sink;
-        m_valve = valve;
+        setSink( sink );
+        setValve( valve );
     }
 
     /**
@@ -83,5 +75,33 @@ public class ValveControlledSink
     public Object getSinkLock()
     {
         return m_sink.getSinkLock();
+    }
+
+    /**
+     * Set the valve.
+     * 
+     * @param valve the valve.
+     */
+    public void setValve( final EventValve valve )
+    {
+        if( null == valve )
+        {
+            throw new NullPointerException( "valve" );
+        }
+        m_valve = valve;
+    }
+
+    /**
+     * Set the sink.
+     * 
+     * @param sink the sink.
+     */
+    private void setSink( final EventSink sink )
+    {
+        if( null == sink )
+        {
+            throw new NullPointerException( "sink" );
+        }
+        m_sink = sink;
     }
 }
