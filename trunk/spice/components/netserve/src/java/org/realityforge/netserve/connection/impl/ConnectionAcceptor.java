@@ -22,7 +22,7 @@ import org.realityforge.threadpool.ThreadPool;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-04-23 04:06:18 $
+ * @version $Revision: 1.10 $ $Date: 2003-04-23 04:11:04 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
@@ -158,6 +158,16 @@ class ConnectionAcceptor
         }
 
         stopRunning();
+    }
+
+    /**
+     * Overide toString method to make it easier to debug acceptor.
+     *
+     * @return the decorated name of acceptor
+     */
+    public String toString()
+    {
+        return "ConnectionAcceptor[" + m_name + "]";
     }
 
     /**
