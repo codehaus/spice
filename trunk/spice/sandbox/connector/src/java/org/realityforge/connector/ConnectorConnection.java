@@ -11,7 +11,7 @@ public interface ConnectorConnection
     *
     * @throws Exception if unable to connect
     */
-   void connect()
+   void doConnect()
       throws Exception;
 
    /**
@@ -19,7 +19,7 @@ public interface ConnectorConnection
     *
     * @throws Exception if unable to connect
     */
-   void disconnect()
+   void doDisconnect()
       throws Exception;
 
    /**
@@ -29,6 +29,6 @@ public interface ConnectorConnection
     *
     * @throws Exception if unable to connection is not valid
     */
-   void validateConnection()
+   void doValidateConnection()
       throws Exception;
 }
