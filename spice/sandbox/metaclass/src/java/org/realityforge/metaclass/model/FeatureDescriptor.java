@@ -18,7 +18,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.9 $ $Date: 2003-10-28 11:02:02 $
+ * @version $Revision: 1.10 $ $Date: 2003-10-28 11:17:32 $
  */
 public abstract class FeatureDescriptor
     implements Serializable
@@ -79,7 +79,7 @@ public abstract class FeatureDescriptor
             if( !match )
             {
                 final String message =
-                    "declared attribute not an attribute";
+                    "declaredAttribute[" + i + "] not an attribute";
                 throw new IllegalArgumentException( message );
             }
         }
