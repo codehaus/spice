@@ -53,6 +53,7 @@ class MockSelector
 
    public void close() throws IOException
    {
+      EXCEPTION.fillInStackTrace();
       throw EXCEPTION;
    }
 }
