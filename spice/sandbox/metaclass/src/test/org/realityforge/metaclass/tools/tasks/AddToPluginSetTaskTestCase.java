@@ -14,7 +14,7 @@ import java.util.Collection;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 10:00:39 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-28 11:08:18 $
  */
 public class AddToPluginSetTaskTestCase
     extends TestCase
@@ -23,8 +23,8 @@ public class AddToPluginSetTaskTestCase
         throws Exception
     {
         final AddToFilterSetTask task = new AddToFilterSetTask();
-        task.setId( null );
-        task.setRefid( "boo" );
+        task.setDest( null );
+        task.setSource( "boo" );
         try
         {
             task.validate();
@@ -40,8 +40,8 @@ public class AddToPluginSetTaskTestCase
         throws Exception
     {
         final AddToInterceptorSetTask task = new AddToInterceptorSetTask();
-        task.setId( "blah" );
-        task.setRefid( null );
+        task.setDest( "blah" );
+        task.setSource( null );
         try
         {
             task.validate();
@@ -61,8 +61,8 @@ public class AddToPluginSetTaskTestCase
         project.bindReference( "myid", new FilterSet() );
         project.bindReference( "myrefid", new InterceptorSet() );
         task.setProject( project );
-        task.setId( "myid" );
-        task.setRefid( "myrefid" );
+        task.setDest( "myid" );
+        task.setSource( "myrefid" );
         try
         {
             task.execute();
@@ -82,8 +82,8 @@ public class AddToPluginSetTaskTestCase
         project.bindReference( "myid", new InterceptorSet() );
         project.bindReference( "myrefid", new FilterSet() );
         task.setProject( project );
-        task.setId( "myid" );
-        task.setRefid( "myrefid" );
+        task.setDest( "myid" );
+        task.setSource( "myrefid" );
         try
         {
             task.execute();
@@ -108,8 +108,8 @@ public class AddToPluginSetTaskTestCase
         refid.addInterceptor( element );
         project.bindReference( "myrefid", refid );
         task.setProject( project );
-        task.setId( "myid" );
-        task.setRefid( "myrefid" );
+        task.setDest( "myid" );
+        task.setSource( "myrefid" );
         task.execute();
 
         final Collection collection = id.toPlugins();
