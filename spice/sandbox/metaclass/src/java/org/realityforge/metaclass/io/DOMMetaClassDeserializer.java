@@ -25,7 +25,7 @@ import org.w3c.dom.Document;
  * representation Element.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-11-01 00:14:36 $
+ * @version $Revision: 1.12 $ $Date: 2003-11-01 00:23:08 $
  */
 public class DOMMetaClassDeserializer
 {
@@ -339,7 +339,7 @@ public class DOMMetaClassDeserializer
         {
             final String message =
                 "Attribute named " + name +
-                "specified both a value (" + value + ") " +
+                " specified both a value (" + value + ") " +
                 "and parameters (" + parameters + ").";
             throw new Exception( message );
         }
