@@ -9,7 +9,7 @@ import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-19 06:47:02 $
  */
 public class SocketEventSource
     implements EventSource
@@ -56,6 +56,7 @@ public class SocketEventSource
 
     void refresh()
     {
+        _selectorManager.setTimeout( 1 );
         _selectorManager.setRunning( true );
         _selectorManager.refresh();
     }
