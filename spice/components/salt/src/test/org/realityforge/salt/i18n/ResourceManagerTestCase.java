@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-06-13 01:51:06 $
+ * @version $Revision: 1.8 $ $Date: 2003-06-13 01:55:55 $
  */
 public class ResourceManagerTestCase
     extends TestCase
@@ -47,6 +47,24 @@ public class ResourceManagerTestCase
         assertEquals( "default value", true, resources.getBoolean( "default" ) );
         assertEquals( "package value", true, resources.getBoolean( "package" ) );
         assertEquals( "class value", false, resources.getBoolean( "class" ) );
+    }
+
+    public void testGetUncachedResourceFromCachedClassLoader()
+        throws Exception
+    {
+        final Resources resources1 =
+            ResourceManager.getPackageResources( ResourceManagerTestCase.class );
+        assertNotNull( "resources1", resources1 );
+
+        final Resources resources2 =
+            ResourceManager.getClassResources( ResourceManagerTestCase.class );
+        assertNotNull( "resources2", resources2 );
+
+        assertEquals( "package value", true, resources1.getBoolean( "package" ) );
+        assertEquals( "class value", false, resources1.getBoolean( "class" ) );
+
+        assertEquals( "package value", false, resources2.getBoolean( "package" ) );
+        assertEquals( "class value", true, resources2.getBoolean( "class" ) );
     }
 
     public void testGetClassResources()
