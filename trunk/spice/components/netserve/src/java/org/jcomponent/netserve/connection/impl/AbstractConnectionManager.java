@@ -10,34 +10,22 @@ package org.jcomponent.netserve.connection.impl;
 import java.net.ServerSocket;
 import java.util.Hashtable;
 import java.util.Map;
+
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 import org.jcomponent.netserve.connection.ConnectionManager;
 import org.jcomponent.threadpool.ThreadPool;
 
 /**
- * Abstract implementation of {@link ConnectionManager}.
- *
- * <p>A sample of configuration parameters for the component are given below. Note that on some OS/JVM
- * combinations <tt>soTimeout</tt> must be set to non-0 value or else the ServerSocket will
- * never get out of accept() system call and we wont be able to shutdown the server
- * socket properly. However it can introduce performance problems if constantly
- * timing out. <tt>shutdownTimeout</tt> indicates how long we should wait to see if
- * incoming connections will shutdown gracefully when asked. If they dont shutdown
- * gracefully and <tt>forceShutdown</tt> is true then the connection will be forced
- * to be shutdown if the user asked for connection to be "tearedDown".</p>
- * <ul>
- *  <li>soTimeout=500 -- 500 ms timeouts on Server Sockets --</li>
- *  <li>forceShutdown=true -- forcefully shutdown connections if they don't shutdown gracefully --</li>
- *  <li>shutdownTimeout=200 -- wait 200ms for connections to gracefully shutdown --</li>
- * </ul>
+ * Abstract implementation of {@link ConnectionManager}.  Concrete subclasses
+ * will be container-specific.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-31 02:48:52 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-31 10:37:12 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
-public class AbstractConnectionManager
+public abstract class AbstractConnectionManager
     implements ConnectionManager
 {
     /**
