@@ -2,7 +2,7 @@ package org.realityforge.connection;
 
 /**
  * The ConnectorMonitor gets notified of events
- * in AbstractConnector.
+ * in Connector.
  */
 public interface ConnectorMonitor
 {

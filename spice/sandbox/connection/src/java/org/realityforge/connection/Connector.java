@@ -1,14 +1,14 @@
 package org.realityforge.connection;
 
 /**
- * The AbstractConnector is a base class for connectors.
+ * The Connector is a base class for connectors.
  * Connectors establish a connection to a resource
  * and attempt to maintain the connection and reconnect
  * when the connection fails.
  *
  * @mx.component
  */
-public class AbstractConnector
+public class Connector
 {
    /**
     * The associated reconnection policy for connector.
