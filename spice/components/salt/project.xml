@@ -28,6 +28,14 @@
         </developer>
     </developers>
 
+
+    <contributors>
+        <contributor>
+            <name>Mircea Toma</name>
+            <email>mirceatoma@airpost.net</email>
+        </contributor>
+    </contributors>
+
     <dependencies>
         <dependency>
             <id>oro</id>
