@@ -5,13 +5,13 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.netserve.connection;
+package org.jcomponent.netserve.connection;
 
 /**
  * This manages creation and destruction of ConnectionHandler objects.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-04-23 01:35:46 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:14 $
  */
 public interface ConnectionHandlerManager
 {

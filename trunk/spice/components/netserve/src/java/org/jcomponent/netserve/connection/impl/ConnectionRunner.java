@@ -5,17 +5,17 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.netserve.connection.impl;
+package org.jcomponent.netserve.connection.impl;
 
 import java.net.Socket;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.realityforge.netserve.connection.ConnectionHandler;
+import org.jcomponent.netserve.connection.ConnectionHandler;
 
 /**
  * This class is responsible for handling a single connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-04-23 14:03:19 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
  */
 class ConnectionRunner
     extends AbstractLogEnabled

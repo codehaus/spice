@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.netserve.connection.impl;
+package org.jcomponent.netserve.connection.impl;
 
 import java.net.ServerSocket;
 import java.util.Hashtable;
@@ -18,8 +18,8 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.realityforge.netserve.connection.ConnectionHandlerManager;
-import org.realityforge.netserve.connection.ConnectionManager;
+import org.jcomponent.netserve.connection.ConnectionHandlerManager;
+import org.jcomponent.netserve.connection.ConnectionManager;
 import org.realityforge.threadpool.ThreadPool;
 
 /**
@@ -46,7 +46,7 @@ import org.realityforge.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-04-23 12:48:31 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */

@@ -5,23 +5,22 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.netserve.sockets.impl;
+package org.jcomponent.netserve.sockets;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import org.realityforge.netserve.sockets.ServerSocketFactory;
 
 /**
- * Factory implementation for vanilla TCP sockets.
+ * Service used to create server sockets. The factory is used so that
+ * the exact socket type and underlying transport is abstracted. The
+ * sockets created could be proxied, SSL enabled, TLS enabled etc.
+ * However clients just care that they return sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-23 01:33:30 $
- * @phoenix.component
- * @phoenix.service type="ServerSocketFactory"
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
  */
-public class DefaultServerSocketFactory
-    implements ServerSocketFactory
+public interface ServerSocketFactory
 {
     /**
      * Creates a socket on specified port.
@@ -30,11 +29,8 @@ public class DefaultServerSocketFactory
      * @return the created ServerSocket
      * @throws IOException if unable to create socket
      */
-    public ServerSocket createServerSocket( final int port )
-        throws IOException
-    {
-        return new ServerSocket( port );
-    }
+    ServerSocket createServerSocket( int port )
+        throws IOException;
 
     /**
      * Creates a socket on specified port with a specified backlog.
@@ -44,11 +40,8 @@ public class DefaultServerSocketFactory
      * @return the created ServerSocket
      * @throws IOException if unable to create socket
      */
-    public ServerSocket createServerSocket( int port, int backlog )
-        throws IOException
-    {
-        return new ServerSocket( port, backlog );
-    }
+    ServerSocket createServerSocket( int port, int backlog )
+        throws IOException;
 
     /**
      * Creates a socket on a particular network interface on specified port
@@ -60,10 +53,7 @@ public class DefaultServerSocketFactory
      * @return the created ServerSocket
      * @throws IOException if unable to create socket
      */
-    public ServerSocket createServerSocket( int port, int backlog, InetAddress address )
-        throws IOException
-    {
-        return new ServerSocket( port, backlog, address );
-    }
+    ServerSocket createServerSocket( int port, int backlog, InetAddress address )
+        throws IOException;
 }
 
