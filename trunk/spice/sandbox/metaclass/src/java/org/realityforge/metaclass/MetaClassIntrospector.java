@@ -20,7 +20,7 @@ import org.realityforge.metaclass.model.PackageDescriptor;
  * {@link java.beans.Introspector} class does for Java Beans.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-18 07:18:23 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-22 04:30:13 $
  */
 public final class MetaClassIntrospector
 {
@@ -112,7 +112,7 @@ public final class MetaClassIntrospector
         throws MetaClassException
     {
         final String name = clazz.getName();
-        final int index = name.lastIndexOf( ".");
+        final int index = name.lastIndexOf( "." );
         final String packageName;
         if( -1 == index )
         {
@@ -122,9 +122,8 @@ public final class MetaClassIntrospector
         {
             packageName = name.substring( index + 1 );
         }
-        return getPackageDescriptor(packageName, clazz.getClassLoader() );
+        return getPackageDescriptor( packageName, clazz.getClassLoader() );
     }
-
 
     /**
      * Return a {@link PackageDescriptor} for specified package.

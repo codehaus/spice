@@ -28,7 +28,7 @@ import org.realityforge.metaclass.model.PackageDescriptor;
  * look for attributes.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-19 00:04:33 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-22 04:30:14 $
  */
 public class DefaultMetaClassAccessor
     implements MetaClassAccessor
@@ -66,7 +66,7 @@ public class DefaultMetaClassAccessor
         throws MetaClassException
     {
         final String resource;
-        if( "".equals( name ))
+        if( "".equals( name ) )
         {
             resource = "package" + BINARY_EXT;
         }
