@@ -35,8 +35,9 @@
 
     <dependencies>
         <dependency>
-            <id>avalon-framework</id>
-            <version>4.0</version>
+            <groupId>avalon</groupId>
+            <artifactId>avalon-framework</artifactId>
+            <version>4.1.4</version>
         </dependency>
         <dependency> <!-- for jexl -->
             <id>commons-logging</id>

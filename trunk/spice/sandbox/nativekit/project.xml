@@ -27,11 +27,13 @@
 
     <dependencies>
         <dependency>
-            <id>avalon-framework</id>
-            <version>4.0</version>
+            <groupId>avalon</groupId>
+            <artifactId>avalon-framework</artifactId>
+            <version>4.1.4</version>
         </dependency>
         <dependency>
-            <id>excalibur-i18n</id>
+            <groupId>excalibur</groupId>
+            <artifactId>excalibur-i18n</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>
