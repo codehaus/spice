@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice Alchemist</name>
+    <id>spice-alchemist</id>    
+    <package>org.codehaus.spice.alchemist</package>
+    <currentVersion>1.1</currentVersion>
+    <inceptionYear>2003</inceptionYear>
+
+    <shortDescription>
+    	Alchemist is a utility component for transforming objects of different COP frameworks.
+    </shortDescription>
+
+    <description>
+		Alchemist is a utility component for transforming objects of different COP frameworks,
+		usually performing equivalent or similar roles.
+		Eg it provides transformation methods between the DNA and Avalon frameworks.
+    </description>
+
+    <versions>
+        <version>
+            <id>1.1</id>
+            <name>1.1</name>
+            <tag>ALCHEMIST_1_1-tag</tag>
+        </version>
+        <version>
+            <id>1.0</id>
+            <name>1.0</name>
+            <tag>ALCHEMIST_1_0-tag</tag>
+        </version>
+    </versions>
+
+    <dependencies>
+        <dependency>
+            <groupId>avalon</groupId>
+            <artifactId>avalon-framework</artifactId>
+            <version>4.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>dna</groupId>
+            <artifactId>dna-api</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency> <!-- for unit test -->
+            <groupId>dna</groupId>
+            <artifactId>dna-impl</artifactId>
+            <version>1.1</version>
+        </dependency>
+    </dependencies>
+
+    <developers>
+        <developer>
+            <name>Mauro Talevi</name>
+            <id>mauro</id>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+</project>
