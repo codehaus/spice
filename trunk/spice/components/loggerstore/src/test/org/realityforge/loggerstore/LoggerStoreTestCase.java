@@ -234,6 +234,7 @@ public class LoggerStoreTestCase
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
         config.put( Configuration.class.getName(), builder.build( getResource( "logkit.xml" ) ) );
+        config.put( Logger.class.getName(), new NullLogger() );
 
         runFactoryTest( new LogKitLoggerStoreFactory(),
                         ConsoleLogger.LEVEL_DEBUG,
