@@ -26,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.6 $ $Date: 2003-08-15 08:44:39 $
+ * @version $Revision: 1.7 $ $Date: 2003-08-16 01:37:15 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -277,13 +277,6 @@ public class MetaClassIOBinary
             data.writeUTF( attribute.getName() );
 
             final String value = attribute.getValue();
-            if( null != value &&
-                0 != attribute.getParameterCount() )
-            {
-                throw new IOException( "Cannot write attributes containing both " +
-                                       "text and parameters." );
-            }
-
             if( null != value )
             {
                 data.writeUTF( value );
