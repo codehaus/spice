@@ -1,20 +1,25 @@
 package org.codehaus.spice.netevent.events;
 
 import java.nio.channels.Channel;
+import org.codehaus.spice.event.AbstractEvent;
 
 /**
  * Abstract event about Channels.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-16 00:17:04 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-22 02:10:47 $
  */
 public abstract class ChannelEvent
     extends AbstractEvent
 {
-    /** The Channel. */
+    /**
+     * The Channel.
+     */
     private final Channel m_channel;
 
-    /** The associated userdata. */
+    /**
+     * The associated userdata.
+     */
     private final Object m_userData;
 
     /**

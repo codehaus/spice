@@ -7,13 +7,14 @@
  */
 package org.codehaus.spice.netevent.events;
 
+import org.codehaus.spice.event.AbstractEvent;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * An Event related to a particular transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-21 03:25:38 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-22 02:10:47 $
  */
 public abstract class AbstractTransportEvent
     extends AbstractEvent
