@@ -10,6 +10,10 @@ package org.realityforge.threadpool.impl;
 import org.realityforge.threadpool.ThreadPool;
 import org.realityforge.threadpool.ThreadControl;
 import org.realityforge.threadpool.Executable;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Collections;
+import java.util.Iterator;
 
 /**
  * This is the base class of all ThreadPools.
@@ -17,22 +21,27 @@ import org.realityforge.threadpool.Executable;
  * retrieve and return Threads to the pool.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-03-01 03:08:15 $
- * @avalon.service type="ThreadPool"
+ * @version $Revision: 1.2 $ $Date: 2003-04-04 11:44:45 $
+ * @phoenix.service type="ThreadPool"
  */
 public abstract class AbstractThreadPool
     implements ThreadPool
 {
     /**
+     * The set of threads that are currently in use.
+     */
+    private Set m_inUse = Collections.synchronizedSet( new HashSet() );
+
+    /**
      * The thread group associated with pool.
      */
-    private final ThreadGroup m_threadGroup;
+    private ThreadGroup m_threadGroup;
 
     /**
      * The name of the thread pool.
      * Used in naming threads.
      */
-    private final String m_name;
+    private String m_name;
 
     /**
      * A Running number that indicates the number
@@ -42,37 +51,28 @@ public abstract class AbstractThreadPool
     private int m_level;
 
     /**
-     * Create a ThreadPool with the specified name.
-     *
-     * @param name the name of thread pool (appears in thread group
-     *             and thread names)
-     * @throws Exception if unable to create pool
+     * A falg indicating whether the pool should create daemon threads.
      */
-    public AbstractThreadPool( final String name,
-                               final ThreadGroup threadGroup )
-        throws Exception
-    {
-        if( null == name )
-        {
-            throw new NullPointerException( "name" );
-        }
-        if( null == threadGroup )
-        {
-            throw new NullPointerException( "threadGroup" );
-        }
+    private boolean m_isDaemon;
 
-        m_name = name;
-        m_threadGroup = threadGroup;
-    }
+    /**
+     * The priorty of the threads created by pool.
+     */
+    private int m_priority;
+
+    /**
+     * The maximum amount of time that will be spent disposing a thread.
+     */
+    private int m_disposeTime = 100;
 
     /**
      * Destroy a worker thread by scheduling it for shutdown.
      *
-     * @param thread the worker thread
+     * @param worker the worker thread
      */
-    protected void destroyWorker( final WorkerThread thread )
+    protected void destroyWorker( final WorkerThread worker )
     {
-        thread.dispose();
+        worker.dispose( getDisposeTime() );
     }
 
     /**
@@ -82,10 +82,11 @@ public abstract class AbstractThreadPool
      */
     protected WorkerThread createWorker()
     {
-        final String name = m_name + " Worker #" + m_level++;
+        final String name = getName() + " Worker #" + m_level++;
 
         final WorkerThread worker = newWorkerThread( name );
-        worker.setDaemon( true );
+        worker.setDaemon( m_isDaemon );
+        worker.setPriority( m_priority );
         worker.start();
         return worker;
     }
@@ -98,7 +99,7 @@ public abstract class AbstractThreadPool
      */
     protected WorkerThread newWorkerThread( final String name )
     {
-        return new WorkerThread( this, m_threadGroup, name );
+        return new WorkerThread( this, getThreadGroup(), name );
     }
 
     /**
@@ -122,7 +123,28 @@ public abstract class AbstractThreadPool
     public ThreadControl execute( final Executable work )
     {
         final WorkerThread worker = getWorker();
+        worker.setPriority( m_priority );
+        m_inUse.add( worker );
         return worker.execute( work );
+    }
+
+    /**
+     * Helper method that attempts to shutdown all
+     * threads that originated from this pool and are
+     * currently in use.
+     */
+    protected void shutdownInUseThreads()
+    {
+        synchronized( m_inUse )
+        {
+            final Iterator iterator = m_inUse.iterator();
+            while( iterator.hasNext() )
+            {
+                final WorkerThread worker = (WorkerThread)iterator.next();
+                destroyWorker( worker );
+            }
+            m_inUse.clear();
+        }
     }
 
     /**
@@ -137,6 +159,57 @@ public abstract class AbstractThreadPool
     }
 
     /**
+     * Set the name used for thread pool.
+     * Used in naming threads.
+     *
+     * @param name the thread pool name
+     */
+    protected void setName( final String name )
+    {
+        m_name = name;
+    }
+
+    /**
+     * Set flag indicating whether daemon threads should be created by pool.
+     *
+     * @param daemon flag indicating whether daemon threads should be created by pool.
+     */
+    protected void setDaemon( final boolean daemon )
+    {
+        m_isDaemon = daemon;
+    }
+
+    /**
+     * Return flag indicating whether daemon threads should be created by pool.
+     *
+     * @return flag indicating whether daemon threads should be created by pool.
+     */
+    protected boolean isDaemon()
+    {
+        return m_isDaemon;
+    }
+
+    /**
+     * Set the priorty of threads created for pool.
+     *
+     * @param priority the priorty of threads created for pool.
+     */
+    protected void setPriority( int priority )
+    {
+        m_priority = priority;
+    }
+
+    /**
+     * Return the priorty of threads created for pool.
+     *
+     * @return the priorty of threads created for pool.
+     */
+    protected int getPriority()
+    {
+        return m_priority;
+    }
+
+    /**
      * Return the thread group that thread pool is associated with.
      *
      * @return the thread group that thread pool is associated with.
@@ -144,6 +217,47 @@ public abstract class AbstractThreadPool
     protected ThreadGroup getThreadGroup()
     {
         return m_threadGroup;
+    }
+
+    /**
+     * Set the thread group that thread pool is associated with.
+     *
+     * @param threadGroup the thread group that thread pool is associated with.
+     */
+    protected void setThreadGroup( final ThreadGroup threadGroup )
+    {
+        m_threadGroup = threadGroup;
+    }
+
+    /**
+     * Return the maximum amount of time that will be spent disposing a thread.
+     *
+     * @return the maximum amount of time that will be spent disposing a thread.
+     */
+    protected int getDisposeTime()
+    {
+        return m_disposeTime;
+    }
+
+    /**
+     * Set the maximum amount of time that will be spent disposing a thread.
+     *
+     * @param disposeTime the maximum amount of time that will be spent disposing a thread.
+     */
+    protected void setDisposeTime( final int disposeTime )
+    {
+        m_disposeTime = disposeTime;
+    }
+
+    /**
+     * Return the WorkerThread to management by the ThreadPool object.
+     *
+     * @param worker the worker
+     */
+    protected void threadCompleted( final WorkerThread worker )
+    {
+        m_inUse.remove( worker );
+        releaseWorker( worker );
     }
 
     /**
@@ -158,5 +272,5 @@ public abstract class AbstractThreadPool
      *
      * @param worker the worker thread to put back in pool
      */
-    protected abstract void releaseWorker( final WorkerThread worker );
+    protected abstract void releaseWorker( WorkerThread worker );
 }
