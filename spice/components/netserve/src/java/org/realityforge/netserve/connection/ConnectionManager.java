@@ -12,22 +12,40 @@ import org.realityforge.threadpool.ThreadPool;
 
 /**
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-23 01:49:28 $
+ * @version $Revision: 1.3 $ $Date: 2003-04-23 01:52:21 $
  */
 public interface ConnectionManager
 {
     String ROLE = ConnectionManager.class.getName();
 
+    /**
+     * Start managing a connection. Once a connection is managed by
+     * this service it will accept connections from ServerSocket and pass
+     * the connections to the ConnectionHandlers. The ConnectionHandlers
+     * will be called in a Thread aquired from the specified ThreadPool.
+     *
+     * @param name the name of connection. This serves as a key
+     * @param socket the ServerSocket from which connections are accepted
+     * @param handlerManager the manager from which to aquire handlers and
+     *                       release them afterwards
+     * @param threadPool the threadPool that threads are aquired from to handle
+     *                   the connections.
+     * @throws Exception if unable to initiate connection management. This could
+     *                   be due to the key already being used for another connection
+     *                   the serversocket being closed, the handlerManager being null etc.
+     */
     void connect( String name,
                   ServerSocket socket,
-                  ConnectionHandlerManager handlerFactory,
+                  ConnectionHandlerManager handlerManager,
                   ThreadPool threadPool )
         throws Exception;
 
     /**
      * Start managing a connection. Once a connection is managed by
      * this service it will accept connections from ServerSocket and pass
-     * the connections to the ConnectionHandlers.
+     * the connections to the ConnectionHandlers. This method may use an
+     * underlying "common" ThreadPool or may create threads to handle
+     * connections. The exact workings is an implementation detail.
      *
      * @param name the name of connection. This serves as a key
      * @param socket the ServerSocket from which connections are accepted
