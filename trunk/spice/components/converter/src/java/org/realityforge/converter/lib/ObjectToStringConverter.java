@@ -15,7 +15,7 @@ import org.realityforge.converter.ConverterException;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003-05-24 23:55:43 $
+ * @version $Revision: 1.7 $ $Date: 2003-05-24 23:55:57 $
  */
 public class ObjectToStringConverter
     extends AbstractConverter
@@ -54,4 +54,3 @@ public class ObjectToStringConverter
         return String.valueOf( object );
     }
 }
-
