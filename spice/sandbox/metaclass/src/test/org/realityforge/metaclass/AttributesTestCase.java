@@ -20,7 +20,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-09-28 05:02:01 $
+ * @version $Revision: 1.11 $ $Date: 2003-09-28 05:47:34 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -29,6 +29,18 @@ public class AttributesTestCase
      * Leave this fied in as it is used in unit tests.
      */
     protected int m_testField = 1;
+
+    /**
+     * Leave this constructor in as it is used by unit tests.
+     */
+    public AttributesTestCase( final String name )
+    {
+        super( name );
+    }
+
+    public AttributesTestCase()
+    {
+    }
 
     public void testGetAttributeByNameWithZeroAttributes()
     {
@@ -454,11 +466,16 @@ public class AttributesTestCase
 
     public void testGetNonExistentField()
     {
-        final ClassDescriptor descriptor =
+        final FieldDescriptor fieldDescriptor =
+            new FieldDescriptor( "ignoreMe",
+                                  "java.lang.String",
+                                  0,
+                                  Attribute.EMPTY_SET );
+                final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
                                  0,
                                  Attribute.EMPTY_SET,
-                                 FieldDescriptor.EMPTY_SET,
+                                 new FieldDescriptor[]{fieldDescriptor},
                                  MethodDescriptor.EMPTY_SET );
         final Field field = AttributesTestCase.class.getDeclaredFields()[ 0 ];
 
@@ -478,12 +495,18 @@ public class AttributesTestCase
 
     public void testGetNonExistentMethod()
     {
+        final MethodDescriptor methodDescriptor =
+            new MethodDescriptor( "ignoreMe",
+                                  "",
+                                  0,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
                                  0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
-                                 MethodDescriptor.EMPTY_SET );
+                                 new MethodDescriptor[]{methodDescriptor} );
         final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
 
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -502,12 +525,18 @@ public class AttributesTestCase
 
     public void testGetNonExistentConstructor()
     {
+        final MethodDescriptor methodDescriptor =
+            new MethodDescriptor( "ignoreMe",
+                                  "",
+                                  0,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
                                  0,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
-                                 MethodDescriptor.EMPTY_SET );
+                                 new MethodDescriptor[]{methodDescriptor} );
         final Constructor constructor = AttributesTestCase.class.getDeclaredConstructors()[ 0 ];
 
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -673,5 +702,94 @@ public class AttributesTestCase
             name = name.substring( index + 1 );
         }
         return name;
+    }
+
+    public void testGetAttributeForConstructorWithMatchingNamedCtorButDifferentParameters()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( "bleh" );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+
+        final Constructor constructor =
+            AttributesTestCase.class.getDeclaredConstructors()[ 0 ];
+        final ParameterDescriptor[] parameters = new ParameterDescriptor[]
+        {
+            new ParameterDescriptor( "notExist", "java.lang.Integer" )
+        };
+        final MethodDescriptor methodDescriptor =
+            new MethodDescriptor( getConstructorName( constructor ),
+                                  "",
+                                  constructor.getModifiers(),
+                                  parameters,
+                                  attributes );
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{methodDescriptor} );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        final Attribute[] results = Attributes.getAttributes( constructor );
+        assertEquals( "attributes.length", 0, results.length );
+    }
+
+    public void testGetAttributeForMethodWithMatchingNamedMethodButDifferentParameters()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( "bleh" );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+
+        final Method method =
+            AttributesTestCase.class.getDeclaredMethods()[ 0 ];
+        final ParameterDescriptor[] parameters = new ParameterDescriptor[]
+        {
+            new ParameterDescriptor( "notExist", "java.lang.Integer" )
+        };
+        final MethodDescriptor methodDescriptor =
+            new MethodDescriptor( method.getName(),
+                                  "",
+                                  method.getModifiers(),
+                                  parameters,
+                                  attributes );
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{methodDescriptor} );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        final Attribute[] results = Attributes.getAttributes( method );
+        assertEquals( "attributes.length", 0, results.length );
+    }
+
+    public void testGetConstructorOnDefaultPackageClass()
+        throws Exception
+    {
+        final Class clazz = Class.forName( "DefaultPackageClass" );
+        final Constructor constructor =
+            clazz.getDeclaredConstructors()[ 0 ];
+        final MethodDescriptor methodDescriptor =
+            new MethodDescriptor( constructor.getName(),
+                                  "",
+                                  constructor.getModifiers(),
+                                  ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET );
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{methodDescriptor} );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        final Attribute[] results = Attributes.getAttributes( constructor );
+        assertEquals( "attributes.length", 0, results.length );
     }
 }
