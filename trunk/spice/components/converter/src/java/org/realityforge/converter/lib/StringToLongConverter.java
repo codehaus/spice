@@ -17,6 +17,7 @@ import org.realityforge.converter.ConverterException;
  * numbers begin with 0b, all other values are assumed to be decimal.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-02-12 11:01:32 $
  */
 public class StringToLongConverter
     extends AbstractConverter
