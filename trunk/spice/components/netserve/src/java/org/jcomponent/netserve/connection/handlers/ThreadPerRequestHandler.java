@@ -7,19 +7,24 @@
  */
 package org.jcomponent.netserve.connection.handlers;
 
-import org.jcomponent.netserve.connection.ConnectionHandlerManager;
-import org.jcomponent.threadpool.ThreadPool;
 import java.net.Socket;
+import org.jcomponent.netserve.connection.ConnectionHandler;
+import org.jcomponent.threadpool.ThreadPool;
 
 /**
  * A Handler that uses a thread from a pool for each different request.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-24 08:10:58 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-24 08:21:40 $
  */
 public class ThreadPerRequestHandler
-    extends DefaultRequestHandler
+    extends AbstractRequestHandler
 {
+    /**
+     * The underlying handler to delegate to.
+     */
+    private final ConnectionHandler m_handler;
+
     /**
      * the thread pool that used to handle requests.
      */
@@ -28,17 +33,21 @@ public class ThreadPerRequestHandler
     /**
      * Create handler.
      *
-     * @param handlerManager the underlying handler
+     * @param handler the underlying handler
      * @param threadPool the thread pool to use to create handler threads
      */
-    public ThreadPerRequestHandler( final ConnectionHandlerManager handlerManager,
+    public ThreadPerRequestHandler( final ConnectionHandler handler,
                                     final ThreadPool threadPool )
     {
-        super( handlerManager );
+        if( null == handler )
+        {
+            throw new NullPointerException( "handler" );
+        }
         if( null == threadPool )
         {
             throw new NullPointerException( "threadPool" );
         }
+        m_handler = handler;
         m_threadPool = threadPool;
     }
 
@@ -51,5 +60,17 @@ public class ThreadPerRequestHandler
     {
         final Runnable runnable = createRunnable( socket );
         m_threadPool.execute( runnable );
+    }
+
+    /**
+     * Delegate request to supplied handler.
+     *
+     * @param socket the socket
+     * @throws Exception on error
+     */
+    protected void doPerformRequest( final Socket socket )
+        throws Exception
+    {
+        m_handler.handleConnection( socket );
     }
 }
