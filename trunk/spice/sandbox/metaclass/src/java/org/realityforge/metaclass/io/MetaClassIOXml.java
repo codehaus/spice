@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
  * to a stream using the xml format outlined in documentation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-28 02:20:59 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-28 05:20:52 $
  */
 public class MetaClassIOXml
    implements MetaClassIO
@@ -73,7 +73,7 @@ public class MetaClassIOXml
       final SAXMetaClassSerializer serializer = new SAXMetaClassSerializer();
       try
       {
-         serializer.serialize( descriptor, handler );
+         serializer.serialize( handler, descriptor );
       }
       catch( final SAXException se )
       {

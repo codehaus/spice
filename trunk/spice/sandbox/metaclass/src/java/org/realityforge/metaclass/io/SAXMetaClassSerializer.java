@@ -21,7 +21,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * to a SAX2 compliant ContentHandler.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-28 04:23:14 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-28 05:20:52 $
  */
 public class SAXMetaClassSerializer
 {
@@ -108,12 +108,12 @@ public class SAXMetaClassSerializer
     * @param descriptor the ClassDescriptor
     * @throws SAXException if error during serilization
     */
-   public void serialize( final ClassDescriptor descriptor,
-                          final ContentHandler handler )
+   public void serialize( final ContentHandler handler,
+                          final ClassDescriptor descriptor )
       throws SAXException
    {
       handler.startDocument();
-      serializeClass( descriptor, handler );
+      serializeClass( handler, descriptor );
       handler.endDocument();
    }
 
@@ -124,8 +124,8 @@ public class SAXMetaClassSerializer
     * @param descriptor the ClassDescriptor
     * @throws SAXException if error during serilization
     */
-   void serializeClass( final ClassDescriptor descriptor,
-                        final ContentHandler handler )
+   void serializeClass( final ContentHandler handler,
+                        final ClassDescriptor descriptor)
       throws SAXException
    {
       final AttributesImpl atts = new AttributesImpl();
@@ -174,7 +174,7 @@ public class SAXMetaClassSerializer
    {
       final AttributesImpl atts = new AttributesImpl();
       add( atts, NAME_ATTRIBUTE, descriptor.getName() );
-      add( atts, TYPE_ATTRIBUTE, descriptor.getName() );
+      add( atts, TYPE_ATTRIBUTE, descriptor.getType() );
       start( handler, FIELD_ELEMENT, atts );
       serializeAttributes( handler, descriptor.getAttributes() );
       end( handler, FIELD_ELEMENT );
@@ -216,7 +216,7 @@ public class SAXMetaClassSerializer
    {
       final AttributesImpl atts = new AttributesImpl();
       add( atts, NAME_ATTRIBUTE, descriptor.getName() );
-      add( atts, TYPE_ATTRIBUTE, descriptor.getName() );
+      add( atts, TYPE_ATTRIBUTE, descriptor.getReturnType() );
       start( handler, METHOD_ELEMENT, atts );
       serializeParameters( handler, descriptor.getParameters() );
       serializeAttributes( handler, descriptor.getAttributes() );
