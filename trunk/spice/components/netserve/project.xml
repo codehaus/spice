@@ -4,7 +4,7 @@
     <name>Spice Netserve</name>
     <id>spice-netserve</id>
     <package>org.codehaus.spice.netserve</package>
-    <currentVersion>1.0-b1</currentVersion>
+    <currentVersion>1.1-dev</currentVersion>
     <inceptionYear>1999</inceptionYear>
 
     <shortDescription>Netserve is set of utility components for creating a Network Server.</shortDescription>
@@ -17,6 +17,11 @@
     
 	<versions>
         <version>
+            <id>1.1</id>
+            <name>1.1</name>
+            <tag>NETSERVE_1_1-tag</tag>
+        </version>
+        <version>
             <id>1.0-b1</id>
             <name>1.0-b1</name>
             <tag>NETSERVE_1_0_b1-tag</tag>
@@ -25,11 +30,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>mockobjects</groupId>
-            <artifactId>mockobjects-core</artifactId>
-            <version>0.09</version>
-        </dependency>
-        <dependency>
             <groupId>avalon</groupId>
             <artifactId>avalon-framework</artifactId>
             <version>4.1.4</version>
@@ -37,23 +37,23 @@
         <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-api</artifactId>
-            <version>1.0</version>
+            <version>1.1-rc4-dev</version>
         </dependency>
         <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-impl</artifactId>
-            <version>1.0</version>
+            <version>1.1-rc4-dev</version>
         </dependency>
         <dependency>
             <groupId>dna</groupId>
-            <artifactId>dna-tools-plugin</artifactId>
-            <version>1.1-rc2</version>
+            <artifactId>maven-dna-plugin</artifactId>
+            <version>1.1-rc4-dev</version>
             <type>plugin</type>
         </dependency>
         <dependency>
             <groupId>spice</groupId>
             <artifactId>spice-threadpool</artifactId>
-            <version>1.0-b1</version>
+            <version>1.1-dev</version>
             <properties>
                 <category>runtime</category>
             </properties>
@@ -93,13 +93,17 @@
             <id>relaxngDatatype</id>
             <version>20020414</version>
         </dependency>
+        <dependency><!-- for unit testing -->
+            <groupId>mockobjects</groupId>
+            <artifactId>mockobjects-core</artifactId>
+            <version>0.09</version>
+        </dependency>
     </dependencies>
 
     <developers>
         <developer>
             <name>Peter Donald</name>
             <id>donaldp</id>
-
             <roles>
                 <role>Developer</role>
             </roles>

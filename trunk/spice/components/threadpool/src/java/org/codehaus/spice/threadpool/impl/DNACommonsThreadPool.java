@@ -8,20 +8,21 @@
 package org.codehaus.spice.threadpool.impl;
 
 import org.apache.commons.pool.impl.GenericObjectPool;
-import org.jcontainer.dna.Active;
-import org.jcontainer.dna.Configurable;
-import org.jcontainer.dna.Configuration;
-import org.jcontainer.dna.ConfigurationException;
-import org.jcontainer.dna.LogEnabled;
-import org.jcontainer.dna.Logger;
-import org.jcontainer.dna.impl.ContainerUtil;
+import org.codehaus.dna.Active;
+import org.codehaus.dna.Configurable;
+import org.codehaus.dna.Configuration;
+import org.codehaus.dna.ConfigurationException;
+import org.codehaus.dna.LogEnabled;
+import org.codehaus.dna.Logger;
+import org.codehaus.dna.impl.ContainerUtil;
+import org.codehaus.spice.threadpool.impl.CommonsThreadPool;
 
 /**
  * The DNACommonsThreadPool wraps the CommonsThreadPool for
  * DNA-compatible systems.
  *
  * @author Mauro Talevi
- * @version $Revision: 1.2 $ $Date: 2004-02-28 21:13:23 $
+ * @version $Revision: 1.3 $ $Date: 2004-04-25 11:14:17 $
  * @dna.service type="ThreadPool"
  */
 public class DNACommonsThreadPool

@@ -1,11 +1,11 @@
 package org.codehaus.spice.netserve.connection.impl;
 
-import org.jcontainer.dna.Configuration;
-import org.jcontainer.dna.ConfigurationException;
-import org.jcontainer.dna.Active;
-import org.jcontainer.dna.Configurable;
-import org.jcontainer.dna.LogEnabled;
-import org.jcontainer.dna.Logger;
+import org.codehaus.dna.Configuration;
+import org.codehaus.dna.ConfigurationException;
+import org.codehaus.dna.Active;
+import org.codehaus.dna.Configurable;
+import org.codehaus.dna.LogEnabled;
+import org.codehaus.dna.Logger;
 import org.codehaus.spice.netserve.connection.impl.DefaultAcceptorManager;
 
 /**
@@ -21,7 +21,7 @@ import org.codehaus.spice.netserve.connection.impl.DefaultAcceptorManager;
  * </pre>
  *
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-03-21 23:42:59 $
+ * @version $Revision: 1.3 $ $Date: 2004-04-25 11:14:17 $
  * @dna.component
  * @dna.service type="org.codehaus.spice.netserve.connection.SocketAcceptorManager"
  * @see org.codehaus.spice.netserve.connection.impl.DefaultAcceptorManager

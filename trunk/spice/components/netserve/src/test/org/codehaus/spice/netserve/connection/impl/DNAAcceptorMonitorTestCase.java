@@ -6,7 +6,7 @@ import java.io.IOException;
 import com.mockobjects.dynamic.C;
 import com.mockobjects.dynamic.Mock;
 import junit.framework.TestCase;
-import org.jcontainer.dna.Logger;
+import org.codehaus.dna.Logger;
 
 public class DNAAcceptorMonitorTestCase
    extends TestCase

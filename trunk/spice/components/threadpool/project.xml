@@ -4,7 +4,7 @@
     <name>Spice ThreadPool</name>
     <id>spice-threadpool</id>
     <package>org.codehaus.spice.threadpool</package>
-    <currentVersion>1.0-b1</currentVersion>
+    <currentVersion>1.1-dev</currentVersion>
 
     <shortDescription>ThreadPool component</shortDescription>
 
@@ -17,37 +17,17 @@
     
 	<versions>
         <version>
+            <id>1.1</id>
+            <name>1.1</name>
+            <tag>THREADPOOL_1_1-tag</tag>
+        </version>
+        <version>
             <id>1.0-b1</id>
             <name>1.0-b1</name>
             <tag>THREADPOOL_1_0_b1-tag</tag>
         </version>
     </versions>
 
-    <developers>
-        <developer>
-            <name>Peter Donald</name>
-            <id>donaldp</id>
-            <email>peter at apache.org</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>Mauro Talevi</name>
-            <id>mauro</id>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <name>Paul Hammant</name>
-            <id>paul-h</id>
-            <email>paul_hammant at yahoo.com</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-    </developers>
 
     <dependencies>
         <dependency>
@@ -58,12 +38,12 @@
         <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-api</artifactId>
-            <version>1.0</version>
+            <version>1.1-rc4-dev</version>
         </dependency>
         <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-impl</artifactId>
-            <version>1.0</version>
+            <version>1.1-rc4-dev</version>
         </dependency>
         <dependency>
             <id>commons-pool</id>
@@ -102,4 +82,29 @@
         </dependency>
     </dependencies>
 
+    <developers>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <email>peter at apache.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Mauro Talevi</name>
+            <id>mauro</id>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Paul Hammant</name>
+            <id>paul-h</id>
+            <email>paul_hammant at yahoo.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
 </project>
