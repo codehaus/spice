@@ -1,1 +1,2 @@
-RedirectMatch ^/cli(.*) http://spice.codehaus.org/deprecated.html
+RedirectMatch ^/cli(.*) http://spice.codehaus.org/deprecated.html#CLI
+RedirectMatch ^/xmlpolicy(.*) http://spice.codehaus.org/deprecated.html#XML%20Policy
