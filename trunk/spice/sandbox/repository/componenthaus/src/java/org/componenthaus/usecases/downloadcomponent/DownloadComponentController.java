@@ -2,6 +2,7 @@ package org.componenthaus.usecases.downloadcomponent;
 
 import org.componenthaus.repository.api.ComponentRepository;
 import org.componenthaus.util.file.FileManager;
+import org.componenthaus.usecases.common.MissingRequestParameterServletException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 

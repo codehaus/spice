@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class MockComponentRepository implements ComponentRepository {
     private Map downloadables = new HashMap();
+    private Map components = new HashMap();
 
     public String add(Component component) {
         return null;
@@ -21,7 +22,7 @@ public class MockComponentRepository implements ComponentRepository {
     }
 
     public Component getComponent(String id) {
-        return null;
+        return (Component) components.get(id);
     }
 
     public void registerDownloadable(String componentId, File downloadable) {
@@ -37,5 +38,9 @@ public class MockComponentRepository implements ComponentRepository {
 
     public void setupDownloadable(String id,File file) {
         downloadables.put(id,file);
+    }
+
+    public void setupComponent(Component component) {
+        components.put(component.getId(),component);
     }
 }

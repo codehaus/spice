@@ -11,6 +11,7 @@ import java.io.IOException;
 import org.componenthaus.util.file.MockFileManager;
 import org.componenthaus.util.file.MockFile;
 import org.componenthaus.tests.MockComponentRepository;
+import org.componenthaus.usecases.common.MissingRequestParameterServletException;
 
 public class DownloadComponentControllerTestCase extends TestCase {
     private static final String ID = "345";
