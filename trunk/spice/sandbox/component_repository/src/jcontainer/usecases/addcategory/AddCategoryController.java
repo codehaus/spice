@@ -12,6 +12,7 @@ import org.prevayler.Prevayler;
 import java.io.Serializable;
 
 public class AddCategoryController extends PrevaylerFormController {
+
     public AddCategoryController() {
         setCommandClass(FormData.class);
     }
