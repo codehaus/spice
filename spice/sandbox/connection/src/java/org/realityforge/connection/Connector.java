@@ -296,26 +296,26 @@ public class Connector
 
          while ( !isConnected() && isActive() )
          {
-            if ( !_policy.attemptConnection( _lastConnectionTime,
-                                             _connectionAttempts ) )
+            if ( !getPolicy().attemptConnection( _lastConnectionTime,
+                                                 _connectionAttempts ) )
             {
-               _monitor.skippingConnectionAttempt();
+               getMonitor().skippingConnectionAttempt();
                return;
             }
-            _monitor.attemptingConnection();
+            getMonitor().attemptingConnection();
             try
             {
                _lastConnectionTime = now;
-               _connection.connect();
+               getConnection().connect();
                _connectionAttempts = 0;
                _connectionError = null;
-               _monitor.connectionEstablished();
+               getMonitor().connectionEstablished();
             }
             catch ( final Throwable t )
             {
                _connectionAttempts++;
                _connectionError = t.toString();
-               _monitor.errorConnecting( t );
+               getMonitor().errorConnecting( t );
             }
          }
       }
@@ -335,11 +335,11 @@ public class Connector
             _connected = false;
             try
             {
-               _connection.disconnect();
+               getConnection().disconnect();
             }
             catch ( final Throwable t )
             {
-               _monitor.errorDisconnecting( t );
+               getMonitor().errorDisconnecting( t );
             }
          }
       }
@@ -375,7 +375,7 @@ public class Connector
    {
       synchronized ( getSyncLock() )
       {
-         _monitor.attemptingValidation();
+         getMonitor().attemptingValidation();
          if ( !verifyConnected() )
          {
             return false;
@@ -384,14 +384,14 @@ public class Connector
          {
             try
             {
-               _connection.validateConnection();
+               getConnection().validateConnection();
             }
             catch ( final Throwable t )
             {
                _connectionError = t.toString();
-               _monitor.errorValidatingConnection( t );
+               getMonitor().errorValidatingConnection( t );
                disconnect();
-               if ( _policy.reconnectOnDisconnect() )
+               if ( getPolicy().reconnectOnDisconnect() )
                {
                   connect();
                }
@@ -410,5 +410,35 @@ public class Connector
    protected Object getSyncLock()
    {
       return this;
+   }
+
+   /**
+    * Return the reconnection policy.
+    *
+    * @return the reconnection policy.
+    */
+   protected ReconnectionPolicy getPolicy()
+   {
+      return _policy;
+   }
+
+   /**
+    * Return the monitor.
+    *
+    * @return the monitor.
+    */
+   protected ConnectorMonitor getMonitor()
+   {
+      return _monitor;
+   }
+
+   /**
+    * Return the connection.
+    *
+    * @return the connection
+    */
+   protected ConnectorConnection getConnection()
+   {
+      return _connection;
    }
 }
