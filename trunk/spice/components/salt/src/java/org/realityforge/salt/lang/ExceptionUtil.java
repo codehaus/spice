@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  * This class makes it easy to manipulate data stored in exceptions.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-12 22:35:05 $
+ * @version $Revision: 1.3 $ $Date: 2003-06-12 22:42:43 $
  */
 public final class ExceptionUtil
 {
@@ -117,11 +117,9 @@ public final class ExceptionUtil
             sb.append( result );
 
             Throwable cause = getCause( throwable );
-
             while( null != cause )
             {
-                sb.append( "rethrown from" );
-                sb.append( LINE_SEPARATOR );
+                sb.append( "Caused by: " );
                 sb.append( printStackTrace( cause, depth ) );
 
                 cause = getCause( cause );
