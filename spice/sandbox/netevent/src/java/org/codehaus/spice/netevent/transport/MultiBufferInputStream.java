@@ -14,7 +14,7 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
  * specified in the constructor.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-12 01:06:11 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-12 02:32:41 $
  */
 public class MultiBufferInputStream
     extends InputStream
@@ -213,7 +213,6 @@ public class MultiBufferInputStream
      * @see InputStream#available()
      */
     public synchronized int available()
-        throws IOException
     {
         if( -1 == _currentBuffer )
         {

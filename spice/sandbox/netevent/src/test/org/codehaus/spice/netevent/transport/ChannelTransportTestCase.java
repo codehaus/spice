@@ -15,10 +15,11 @@ import java.nio.channels.SocketChannel;
 import junit.framework.TestCase;
 import org.codehaus.spice.event.impl.collections.Buffer;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
+import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-09 00:47:29 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-12 02:32:41 $
  */
 public class ChannelTransportTestCase
     extends TestCase
@@ -42,7 +43,7 @@ public class ChannelTransportTestCase
     {
         final UnboundedFifoBuffer tx = new UnboundedFifoBuffer( 1 );
         final ChannelTransport transport =
-            new ChannelTransport( m_channel, tx );
+            new ChannelTransport( m_channel, tx, new DefaultBufferManager() );
         assertEquals( "channel", m_channel, transport.getChannel() );
         assertEquals( "key", null, transport.getKey() );
         assertEquals( "getTransmitBuffer", tx, transport.getTransmitBuffer() );
@@ -54,7 +55,7 @@ public class ChannelTransportTestCase
         final UnboundedFifoBuffer tx = new UnboundedFifoBuffer( 1 );
         try
         {
-            new ChannelTransport( null, tx );
+            new ChannelTransport( null, tx, new DefaultBufferManager() );
         }
         catch( final NullPointerException npe )
         {
@@ -70,7 +71,7 @@ public class ChannelTransportTestCase
         final SocketChannel channel = SocketChannel.open();
         try
         {
-            new ChannelTransport( channel, null );
+            new ChannelTransport( channel, null, new DefaultBufferManager() );
         }
         catch( final NullPointerException npe )
         {
@@ -95,7 +96,8 @@ public class ChannelTransportTestCase
             m_channel.connect( socketAddress );
             final ChannelTransport transport =
                 new ChannelTransport( m_channel,
-                                      new UnboundedFifoBuffer( 1 ) );
+                                      new UnboundedFifoBuffer( 1 ),
+                                      new DefaultBufferManager() );
             assertEquals( "channel.isOpen()", true, m_channel.isOpen() );
             transport.close();
             assertEquals( "key", null, transport.getKey() );
@@ -112,7 +114,8 @@ public class ChannelTransportTestCase
     {
         final ChannelTransport transport =
             new ChannelTransport( m_channel,
-                                  new UnboundedFifoBuffer( 1 ) );
+                                  new UnboundedFifoBuffer( 1 ),
+                                  new DefaultBufferManager() );
         m_channel.close();
         assertEquals( "channel.isOpen()", false, m_channel.isOpen() );
         transport.close();
@@ -125,7 +128,8 @@ public class ChannelTransportTestCase
     {
         final ChannelTransport transport =
             new ChannelTransport( m_channel,
-                                  new UnboundedFifoBuffer( 1 ) );
+                                  new UnboundedFifoBuffer( 1 ),
+                                  new DefaultBufferManager() );
         final Buffer writeBuffer = transport.getTransmitBuffer();
         writeBuffer.add( new Object() );
         assertEquals( "SelectOps",
@@ -138,7 +142,8 @@ public class ChannelTransportTestCase
     {
         final ChannelTransport transport =
             new ChannelTransport( m_channel,
-                                  new UnboundedFifoBuffer( 1 ) );
+                                  new UnboundedFifoBuffer( 1 ),
+                                  new DefaultBufferManager() );
         assertEquals( "SelectOps",
                       SelectionKey.OP_READ,
                       transport.getSelectOps() );

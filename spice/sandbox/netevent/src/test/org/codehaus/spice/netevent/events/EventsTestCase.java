@@ -6,11 +6,12 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import junit.framework.TestCase;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
+import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2004-01-09 00:54:15 $
+ * @version $Revision: 1.8 $ $Date: 2004-01-12 02:32:41 $
  */
 public class EventsTestCase
     extends TestCase
@@ -18,7 +19,8 @@ public class EventsTestCase
     private ChannelTransport newTransport( final SocketChannel channel )
     {
         return new ChannelTransport( channel,
-                                     new UnboundedFifoBuffer( 1 ) );
+                                     new UnboundedFifoBuffer( 1 ),
+                                     new DefaultBufferManager() );
     }
 
     public void testNull_channel_PassedIntoCtor()

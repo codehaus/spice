@@ -10,7 +10,7 @@ import org.jmock.Mock;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-12 01:06:11 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-12 02:32:41 $
  */
 public class MultiBufferInputStreamTestCase
     extends TestCase
