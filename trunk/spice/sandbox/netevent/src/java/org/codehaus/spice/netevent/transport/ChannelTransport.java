@@ -8,10 +8,12 @@
 package org.codehaus.spice.netevent.transport;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.channels.Channel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.nio.channels.spi.AbstractSelectableChannel;
+import java.util.List;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.event.impl.collections.Buffer;
 import org.codehaus.spice.netevent.buffers.BufferManager;
@@ -21,7 +23,7 @@ import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.16 $ $Date: 2004-01-29 05:48:23 $
+ * @version $Revision: 1.17 $ $Date: 2004-02-05 04:01:35 $
  */
 public class ChannelTransport
 {
@@ -59,6 +61,16 @@ public class ChannelTransport
      * Flag indicating whether transport is closed.
      */
     private boolean m_closed;
+
+    /**
+     * The number of bytes transmitted.
+     */
+    private long _txByteCount;
+
+    /**
+     * The number of bytes received.
+     */
+    private long _rxByteCount;
 
     /**
      * Create transport.
@@ -156,6 +168,48 @@ public class ChannelTransport
     }
 
     /**
+     * Return the number of bytes queued for output.
+     *
+     * @return the number of bytes queued for output.
+     */
+    public long getOutputCount()
+    {
+        long count = 0;
+        final List list = m_transmitBuffer.toList();
+        for( int i = 0; i < list.size(); i++ )
+        {
+            final ByteBuffer buffer = (ByteBuffer)list.get( i );
+            count += buffer.remaining();
+        }
+        return count;
+    }
+
+    public long getRxByteCount()
+    {
+        return _rxByteCount;
+    }
+
+    public void incRxByteCount( final long rxByteCount )
+    {
+        _rxByteCount += rxByteCount;
+    }
+
+    public void setRxByteCount( final long rxByteCount )
+    {
+        _rxByteCount = rxByteCount;
+    }
+
+    public void incTxByteCount( final long txByteCount )
+    {
+        _txByteCount += txByteCount;
+    }
+
+    public long getTxByteCount()
+    {
+        return _txByteCount;
+    }
+
+    /**
      * Return the write buffer.
      * 
      * @return the write buffer.
@@ -191,7 +245,8 @@ public class ChannelTransport
      * 
      * @param source the source.
      */
-    public synchronized void register( final SelectableChannelEventSource source )
+    public synchronized void register(
+        final SelectableChannelEventSource source )
         throws IOException
     {
         final AbstractSelectableChannel channel =
