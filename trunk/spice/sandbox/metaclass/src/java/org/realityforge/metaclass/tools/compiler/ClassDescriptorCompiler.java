@@ -30,7 +30,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  * Java Source files with qdox.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-04 09:43:28 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-04 09:54:40 $
  */
 public class ClassDescriptorCompiler
 {
@@ -166,16 +166,6 @@ public class ClassDescriptorCompiler
             throw new NullPointerException( "extension" );
         }
         m_extension = extension;
-    }
-
-    /**
-     * Return the extension appended to descriptor files.
-     *
-     * @return the extension appended to descriptor files.
-     */
-    public String getExtension()
-    {
-        return m_extension;
     }
 
     /**
