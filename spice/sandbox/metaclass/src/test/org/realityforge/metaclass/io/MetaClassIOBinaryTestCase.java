@@ -23,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-08-22 02:55:29 $
+ * @version $Revision: 1.8 $ $Date: 2003-08-22 03:00:20 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -183,6 +183,37 @@ public class MetaClassIOBinaryTestCase
         assertEquals( "bytes[" + offset + "] = " + paramKey, paramKey, readString( bytes, offset ) );
         offset += STRING_HEADER_SIZE + paramKey.length();
         assertEquals( "bytes[" + offset + "] = " + paramValue, paramValue, readString( bytes, offset ) );
+    }
+
+    public void testBinaryIOReadAttributeWithParameters()
+        throws Exception
+    {
+        final String name = "name";
+        final String value = null;
+        final int paramCount = 1;
+        final String paramKey = "key";
+        final String paramValue = "value";
+        final byte[] bytes = new byte[]
+        {
+            0, 0, 0, 1, //length
+            0, 4, //length of name
+            'n', 'a', 'm', 'e',
+            0, 0, //length of value
+            0, 0, 0, 1, //count of params
+            0, 3, //length of paramKey
+            'k', 'e', 'y',
+            0, 5, //length of paramKey
+            'v', 'a', 'l', 'u', 'e'
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
+        final DataInputStream data = new DataInputStream( in );
+        final Attribute[] attributes = io.readAttributes( data );
+        assertEquals( "attributes.length", 1, attributes.length );
+        assertEquals( "attributes[0].name", name, attributes[ 0 ].getName() );
+        assertEquals( "attributes[0].value", value, attributes[ 0 ].getValue() );
+        assertEquals( "attributes[0].parameterCount", paramCount, attributes[ 0 ].getParameterCount() );
+        assertEquals( "attributes[0].parameter(key)", paramValue, attributes[ 0 ].getParameter( paramKey ) );
     }
 
     public void testBinaryIOWriteParameters()
