@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-06-13 00:22:51 $
+ * @version $Revision: 1.8 $ $Date: 2003-06-13 00:26:50 $
  */
 public class ResourcesTestCase
     extends TestCase
@@ -205,10 +205,11 @@ public class ResourcesTestCase
             new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
                            Locale.getDefault(),
                            MockResourceBundle.class.getClassLoader() );
-        MockResourceBundle.addResource( "rez", "Jan 12, 1952" );
         final DateFormat format =
             DateFormat.getDateInstance( DateFormat.DEFAULT, Locale.getDefault() );
-        final Date expected = format.parse( "Jan 12, 1952" );
+        final String current = format.format( new Date() );
+        MockResourceBundle.addResource( "rez", current );
+        final Date expected = format.parse( current );
         assertEquals( "GetDate", expected, resources.getDate( "rez" ) );
     }
 
@@ -230,10 +231,12 @@ public class ResourcesTestCase
             new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
                            Locale.getDefault(),
                            MockResourceBundle.class.getClassLoader() );
-        MockResourceBundle.addResource( "rez", "3:30:32pm" );
+        final Date date = new Date();
         final DateFormat format =
             DateFormat.getTimeInstance( DateFormat.DEFAULT, Locale.getDefault() );
-        final Date expected = format.parse( "3:30:32pm" );
+        final String current = format.format( date );
+        final Date expected = format.parse( current );
+        MockResourceBundle.addResource( "rez", current );
         assertEquals( "GetTime", expected, resources.getTime( "rez" ) );
     }
 
