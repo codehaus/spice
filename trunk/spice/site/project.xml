@@ -20,7 +20,7 @@
     <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10140</issueTrackingUrl>
 
     <repository>
-        <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:spice</connection>
+        <connection>scm:cvs:pserver:anonymous@cvs.spice.codehaus.org:/scm/spice:spice</connection>
         <url>http://cvs.spice.codehaus.org/</url>
     </repository>
 
