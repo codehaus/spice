@@ -11,7 +11,7 @@ package org.realityforge.packet.protocol;
  * Set of constants used in network protocol.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-11-11 22:35:58 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-12 00:42:16 $
  */
 public interface ProtocolConstants
 {
@@ -37,21 +37,13 @@ public interface ProtocolConstants
     byte S2C_BAD_AUTH = 3;
 
     /**
-     * Message indicating client needs to login.
-     * SessionID (short) and SessionAuth (short) fields follow.
-     * If this is new Session the SessionID and SessionAuth
-     * are -1.
-     */
-    byte C2S_LOGIN = 4;
-
-    /**
      * Message indicating regular data being transmitted.
      */
-    byte MSG_DATA = 5;
+    byte MSG_DATA = 4;
 
     /**
      * Message indicating client or server is
      * disconnecting.
      */
-    byte MSG_DISCONNECT = 6;
+    byte MSG_DISCONNECT = 5;
 }
