@@ -55,8 +55,8 @@ public class ActionManagerFactoryTestCase
         throws Exception
     {
         final HashMap config = new HashMap();
-        config.put( InitialActionManagerFactory.CONFIGURABLE_FACTORY,
-                    XMLActionManagerFactory.class.getName() );
+        config.put( InitialActionManagerFactory.FACTORY,
+                    SimpleActionManagerFactory.class.getName() );
         final InitialActionManagerFactory factory = new InitialActionManagerFactory();
         final ActionManager manager = factory.createActionManager( config );
         runManagerTest( manager );
@@ -66,7 +66,7 @@ public class ActionManagerFactoryTestCase
         throws Exception
     {
         final HashMap config = new HashMap();
-        config.put( InitialActionManagerFactory.CONFIGURABLE_FACTORY, "Blah" );
+        config.put( InitialActionManagerFactory.FACTORY, "Blah" );
         final InitialActionManagerFactory factory = new InitialActionManagerFactory();
         try
         {
@@ -112,7 +112,7 @@ public class ActionManagerFactoryTestCase
         throws Exception
     {
         runStreamBasedFactoryTest( "actions.xml",
-                                   new XMLActionManagerFactory(),
+                                   new SimpleActionManagerFactory(),
                                    "xml",
                                    new HashMap() );
     }
