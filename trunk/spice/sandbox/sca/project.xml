@@ -18,6 +18,15 @@
             <artifactId>mockobjects-core</artifactId>
             <version>0.09</version>
         </dependency>
+        <dependency> <!-- to generate metadata -->
+            <groupId>spice</groupId>
+            <artifactId>spice-metaclass</artifactId>
+            <version>20031119.015852</version>
+        </dependency>
+        <dependency> <!-- for metaclass -->
+            <id>qdox</id>
+            <version>1.3</version>
+        </dependency>
     </dependencies>
 
     <developers>
