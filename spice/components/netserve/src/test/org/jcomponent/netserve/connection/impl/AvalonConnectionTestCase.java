@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
 import junit.framework.TestCase;
+
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.container.ContainerUtil;
@@ -34,7 +36,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link org.jcomponent.netserve.connection.ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-31 09:23:31 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-31 09:33:26 $
  */
 public class AvalonConnectionTestCase
     extends TestCase
@@ -104,7 +106,7 @@ public class AvalonConnectionTestCase
         throws Exception
     {
         final InputStream schema =
-            getClass().getResourceAsStream( "DefaultConnectionManager-schema.xml" );
+            getClass().getResourceAsStream( "ConnectionManager-schema.xml" );
         assertNotNull( "Schema file", schema );
         final ConfigValidator validator =
             ConfigValidatorFactory.create( "http://relaxng.org/ns/structure/1.0", schema );
