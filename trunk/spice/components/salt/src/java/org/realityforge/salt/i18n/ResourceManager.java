@@ -8,16 +8,20 @@
 package org.realityforge.salt.i18n;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Manager for resources.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-05-28 12:26:53 $
+ * @version $Revision: 1.2 $ $Date: 2003-05-28 12:28:43 $
  */
 public class ResourceManager
 {
-    private final static HashMap  m_resources   = new HashMap();
+    /**
+     * Map of names onto Resources.
+     */
+    private final static Map c_resources = new HashMap();
 
     /**
      * Retrieve resource with specified basename.
@@ -28,12 +32,12 @@ public class ResourceManager
     public final static Resources getBaseResources( final String baseName )
     {
         //TODO: Make these weak references????
-        Resources packet = (Resources)m_resources.get( baseName );
+        Resources packet = (Resources)c_resources.get( baseName );
 
         if( null == packet )
         {
             packet = new Resources( baseName );
-            m_resources.put( baseName, packet );
+            c_resources.put( baseName, packet );
         }
 
         return packet;
