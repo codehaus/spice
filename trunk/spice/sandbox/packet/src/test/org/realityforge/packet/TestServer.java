@@ -22,7 +22,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.12 $ $Date: 2004-02-11 00:02:29 $
+ * @version $Revision: 1.13 $ $Date: 2004-02-11 03:52:56 $
  */
 public class TestServer
 {
@@ -68,7 +68,6 @@ public class TestServer
         {
             for( int i = 0; i < SESSIONS.length; i++ )
             {
-                boolean madeNewConn = false;
                 final Session session = SESSIONS[ i ];
                 final SessionData sd = (SessionData)session.getUserData();
                 final int status = session.getStatus();
@@ -82,22 +81,19 @@ public class TestServer
                             session.getTimeOfLastStatusChange() + 1000;
                         if( change < System.currentTimeMillis() )
                         {
-                            System.out.println(
-                                "Rejigging conenct that failed " +
-                                "but now ready to go again " +
-                                session +
-                                " time=" +
-                                session.getTimeOfLastStatusChange()
-                                + " now " +
-                                System.currentTimeMillis() );
-                            sd.setConnecting( false );
+                            System.out.println( "Rejigging conenct that failed " +
+                                                "but now ready to go again " +
+                                                session +
+                                                " time=" +
+                                                session.getTimeOfLastStatusChange()
+                                                + " now " +
+                                                System.currentTimeMillis() );
                             session.setStatus( Session.STATUS_NOT_CONNECTED );
                         }
                     }
 
                     if( sd.getConnectionCount() == session.getConnections() &&
-                        !sd.isConnecting() &&
-                        !madeNewConn )
+                        !session.isConnecting() )
                     {
                         if( sd.getConnectionCount() > 0 )
                         {
@@ -111,8 +107,7 @@ public class TestServer
                                 "Establish conenction to Server.";
                             System.out.println( message );
                         }
-                        madeNewConn = true;
-                        sd.setConnecting( true );
+                        session.setConnecting( true );
                         makeClientConnection( session );
                     }
                 }

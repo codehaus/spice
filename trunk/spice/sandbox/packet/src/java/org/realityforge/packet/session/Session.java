@@ -19,7 +19,7 @@ import org.realityforge.packet.events.SessionDisconnectRequestEvent;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.23 $ $Date: 2004-02-11 00:02:29 $
+ * @version $Revision: 1.24 $ $Date: 2004-02-11 03:52:56 $
  */
 public class Session
 {
@@ -151,6 +151,11 @@ public class Session
     private boolean _needsToSendAck;
 
     private int _connections;
+
+    /**
+     * Flag set to true when connection is attempted to be established..
+     */
+    private boolean _connecting;
 
     /**
      * Create Serverside session with specified ID.
@@ -499,6 +504,16 @@ public class Session
     public void setUserData( final Object userData )
     {
         _userData = userData;
+    }
+
+    public boolean isConnecting()
+    {
+        return _connecting;
+    }
+
+    public void setConnecting( final boolean connecting )
+    {
+        _connecting = connecting;
     }
 
     public String toString()
