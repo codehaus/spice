@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
+    <name>Connection Maintainence Tools</name>
+    <id>spice-connection</id>
+    <currentVersion>1.0</currentVersion>
+    <inceptionYear>2003</inceptionYear>
+
+    <shortDescription>Connection Maintainence Tools</shortDescription>
+
+    <description>
+        Connection Maintainence Tools.
+    </description>
+
+    <developers>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <email>peter@realityforge.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+10</timezone>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <groupId>mockobjects</groupId>
+            <artifactId>mockobjects-core</artifactId>
+            <version>0.09</version>
+        </dependency>
+    </dependencies>
+
+</project>
