@@ -23,6 +23,19 @@ public class ConfiguratorTestCase
         super( name );
     }
     
+    public void testInvalidConfiguratorType()
+        throws Exception
+    {
+        try
+        {
+            Configurator.createLoggerStore( "blah", "org/realityforge/loggerstore/logging.properties" );
+            fail( "Expected exception as invalid type specified" );
+        }
+        catch( final Exception e )
+        {
+        }
+    }
+    
     public void testJDK14Configurator()
         throws Exception
     {
