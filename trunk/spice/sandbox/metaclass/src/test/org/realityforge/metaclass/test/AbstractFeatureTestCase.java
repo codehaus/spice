@@ -7,8 +7,6 @@
  */
 package org.realityforge.metaclass.test;
 
-import java.util.Vector;
-
 import junit.framework.TestCase;
 import org.realityforge.metaclass.MetaClassIntrospector;
 import org.realityforge.metaclass.model.Attribute;
@@ -79,12 +77,11 @@ public abstract class AbstractFeatureTestCase
         assertNotNull( _classDescriptor );
     }
 
-    protected void checkAttributesMatchExpected( final Vector expectedAttributes,
+    protected void checkAttributesMatchExpected( final Attribute[] expectedAttributes,
                                                  final Attribute[] attributes,
                                                  final String testName )
     {
-        if ( !areContentsEqual( expectedAttributes,
-                                attributes ) )
+        if ( !areContentsEqual( expectedAttributes, attributes ) )
         {
             final StringBuffer failMessage = new StringBuffer();
             failMessage.append( "Test: " + testName + "\n" );
@@ -97,10 +94,10 @@ public abstract class AbstractFeatureTestCase
             }
             else
             {
-                failMessage.append( expectedAttributes.size() + " elements\n" );
-                for ( int i = 0; i < expectedAttributes.size(); i++ )
+                failMessage.append( expectedAttributes.length + " elements\n" );
+                for ( int i = 0; i < expectedAttributes.length; i++ )
                 {
-                    final Attribute attribute = (Attribute) expectedAttributes.elementAt( i );
+                    final Attribute attribute = expectedAttributes[ i ];
                     failMessage.append( i + " = " + attribute + "\n" );
                 }
             }
@@ -125,57 +122,44 @@ public abstract class AbstractFeatureTestCase
     }
 
     /**
-     * Compares contents of a vector with contents of an array.
+     * Compares contents of an array with contents of an array.
      * Returns true if collections are of equal size
-     * and each member of other is contained by other.
+     * and each member of other is equal to the same member in the same position in original.
      * @param original
      * @param original
      * @return result
      */
-    protected static boolean areContentsEqual( final Vector original,
+    protected static boolean areContentsEqual( final Object[] original,
                                                final Object[] other )
     {
-        if ( null == original )
+        if ( null == original || null == other )
         {
-            if ( null != other )
-            {
-                return false;
-            }
-        }
-        else
-        {
-            if ( null == other )
-            {
-                return false;
-            }
+            return ( null == original && null == other );
         }
 
+        boolean valid = true;
         if ( null != original && null != other )
         {
-            if ( original.size() != other.length )
+            if ( original.length != other.length )
             {
-                return false;
+                valid = false;
             }
-
-            for ( int i = 0; i < original.size(); i++ )
+            else
             {
-                final Object originalElement = original.elementAt( i );
-                boolean found = false;
-                for ( int j = 0; j < other.length; j++ )
+                for ( int i = 0; i < original.length; i++ )
                 {
-                    final Object otherElement = other[ j ];
-                    if ( MetaClassTestUtility.areDescriptorsEqual( originalElement, otherElement ) )
+                    final Object originalElement = original[ i ];
+                    final Object otherElement = other[ i ];
+                    if ( !MetaClassTestUtility.areDescriptorsEqual( originalElement,
+                                                                    otherElement ) )
                     {
-                        found = true;
+                        valid = false;
                         break;
                     }
                 }
-                if ( !found )
-                {
-                    return false;
-                }
             }
         }
-        return true;
+        return valid;
     }
+
 }

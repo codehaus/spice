@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.3 $ $Date: 2003-06-05 23:47:55 $
+ * @version $Revision: 1.4 $ $Date: 2003-06-25 03:54:58 $
  */
 public final class Attribute
     implements Serializable
@@ -206,14 +206,23 @@ public final class Attribute
         final StringBuffer result = new StringBuffer();
         result.append( getName() );
         result.append( ": " );
-        final String[] names = getParameterNames();
-        for ( int i = 0; i < names.length; i++ )
+
+        if ( null == _parameters )
         {
-            final String name = names[ i ];
-            result.append( name );
-            result.append( "=" );
-            result.append( getParameter( name ) );
-            result.append( "," );
+            result.append( "value: " + _value );
+        }
+        else
+        {
+            final String[] names = getParameterNames();
+            for ( int i = 0; i < names.length; i++ )
+            {
+                final String name = names[ i ];
+                result.append( "param: " );
+                result.append( name );
+                result.append( "=" );
+                result.append( getParameter( name ) );
+                result.append( "," );
+            }
         }
         return result.toString();
     }

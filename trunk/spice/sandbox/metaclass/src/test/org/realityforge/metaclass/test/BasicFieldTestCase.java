@@ -7,14 +7,14 @@
  */
 package org.realityforge.metaclass.test;
 
-import java.lang.reflect.Modifier;
-import java.util.Properties;
-import java.util.Vector;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.FieldDescriptor;
+
+import java.lang.reflect.Modifier;
+import java.util.Properties;
 
 public class BasicFieldTestCase
     extends AbstractFeatureTestCase
@@ -43,7 +43,7 @@ public class BasicFieldTestCase
             Modifier.PROTECTED,
             Modifier.PRIVATE
         };
-    private Vector[] _expectedAttributes;
+    private Attribute[][] _expectedAttributes;
 
     private FieldDescriptor[] _fieldDescriptors;
 
@@ -75,17 +75,22 @@ public class BasicFieldTestCase
         {
             _fieldDescriptors = getClassDescriptor().getFields();
 
-            _expectedAttributes = new Vector[ NUM_FIELDS ];
-            _expectedAttributes[ 0 ] = new Vector();
-            _expectedAttributes[ 0 ].add( new Attribute( "haha", "this is javadoc for a field." ) );
             final Properties parameters = new Properties();
             parameters.put( "parameters", "true" );
-            _expectedAttributes[ 1 ] = new Vector();
-            _expectedAttributes[ 1 ].add( new Attribute( "hoho", parameters ) );
-            _expectedAttributes[ 2 ] = new Vector();
-            _expectedAttributes[ 3 ] = new Vector();
+
+            _expectedAttributes = new Attribute[ NUM_FIELDS ][];
+            _expectedAttributes[ 0 ] = new Attribute[]
+            {
+                new Attribute( "haha", "this is javadoc for a field" )
+            };
+            _expectedAttributes[ 1 ] = new Attribute[]
+            {
+                new Attribute( "hoho", parameters )
+            };
+            _expectedAttributes[ 2 ] = new Attribute[]{};
+            _expectedAttributes[ 3 ] = new Attribute[]{};
         }
-        catch( final Exception e )
+        catch ( final Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );
@@ -111,7 +116,7 @@ public class BasicFieldTestCase
 
     public void testName()
     {
-        for( int i = 0; i < _fieldDescriptors.length; i++ )
+        for ( int i = 0; i < _fieldDescriptors.length; i++ )
         {
             final FieldDescriptor fieldDescriptor = _fieldDescriptors[ i ];
             assertNotNull( fieldDescriptor );
@@ -121,7 +126,7 @@ public class BasicFieldTestCase
 
     public void testType()
     {
-        for( int i = 0; i < _fieldDescriptors.length; i++ )
+        for ( int i = 0; i < _fieldDescriptors.length; i++ )
         {
             final FieldDescriptor fieldDescriptor = _fieldDescriptors[ i ];
             assertNotNull( fieldDescriptor );
@@ -131,7 +136,7 @@ public class BasicFieldTestCase
 
     public void testModifiers()
     {
-        for( int i = 0; i < _fieldDescriptors.length; i++ )
+        for ( int i = 0; i < _fieldDescriptors.length; i++ )
         {
             final FieldDescriptor fieldDescriptor = _fieldDescriptors[ i ];
             assertNotNull( fieldDescriptor );
@@ -141,14 +146,14 @@ public class BasicFieldTestCase
 
     public void testGetAttributes()
     {
-        for( int i = 0; i < _fieldDescriptors.length; i++ )
+        for ( int i = 0; i < _fieldDescriptors.length; i++ )
         {
             final FieldDescriptor fieldDescriptor = _fieldDescriptors[ i ];
             assertNotNull( fieldDescriptor );
 
             final Attribute[] attributes = fieldDescriptor.getAttributes();
-            final Vector expectedAttributes = _expectedAttributes[ i ];
-            if( i < _expectedAttributes.length )
+            final Attribute[] expectedAttributes = _expectedAttributes[ i ];
+            if ( i < _expectedAttributes.length )
             {
                 checkAttributesMatchExpected( expectedAttributes, attributes,
                                               "Field: getAttributes" + i );

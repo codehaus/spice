@@ -28,20 +28,16 @@ public class ClassDescriptorUtility
         final String classname = javaClass.getFullyQualifiedName();
 
         // get class modifiers
-        final int classModifiers =
-            ClassDescriptorUtility.convertModifiersToInt( javaClass.getModifiers() );
+        final int classModifiers = convertModifiersToInt( javaClass.getModifiers() );
 
         // get class attributes
-        final Attribute[] classAttributes =
-            ClassDescriptorUtility.convertTagsToAttributes( javaClass.getTags() );
+        final Attribute[] classAttributes = convertTagsToAttributes( javaClass.getTags() );
 
         // get fields
-        final FieldDescriptor[] fieldDescriptors =
-            ClassDescriptorUtility.getFields( javaClass );
+        final FieldDescriptor[] fieldDescriptors = getFields( javaClass );
 
         // get methods
-        final MethodDescriptor[] methodDescriptors =
-            ClassDescriptorUtility.getMethods( javaClass );
+        final MethodDescriptor[] methodDescriptors = getMethods( javaClass );
 
         return new ClassDescriptor( classname,
                                     classModifiers,
@@ -66,14 +62,12 @@ public class ClassDescriptorUtility
                 final int methodModifiers =
                     convertModifiersToInt( method.getModifiers() );
 
-
                 // get method parameters
                 final ParameterDescriptor[] methodParameters =
                     parametersToDescriptors( method.getParameters() );
 
                 // get method attributes
-                final Attribute[] methodAttributes =
-                    convertTagsToAttributes( method.getTags() );
+                final Attribute[] methodAttributes = convertTagsToAttributes( method.getTags() );
                 methodDescriptors[ i ] = new MethodDescriptor( name,
                                                                type,
                                                                methodModifiers,
@@ -117,22 +111,31 @@ public class ClassDescriptorUtility
         {
             final DocletTag tag = tags[ i ];
             final String name = tag.getName();
-            final String value = tag.getValue();
-            final String[] parameters = tag.getParameters();
 
-            boolean validProperties = true;
             final Properties properties = new Properties();
+            boolean validProperties = false;
+
+            final String value = tag.getValue();
+            String validParameter = getValidParameter( value );
+            if ( null != validParameter )
+            {
+                final String[] contents = value.split( "=" );
+                final String tagName = contents[ 0 ];
+                properties.setProperty( tagName, validParameter );
+                validProperties = true;
+            }
+
+            final String[] parameters = tag.getParameters();
             for ( int j = 0; j < parameters.length && validProperties == true; j++ )
             {
                 final String parameter = parameters[ j ];
-                final String[] contents = parameter.split( "=" );
-                if ( contents.length == 2 )
+                validParameter = getValidParameter( parameter );
+                if ( null != validParameter )
                 {
-                    properties.setProperty( contents[ 0 ], contents[ 1 ] );
-                }
-                else
-                {
-                    validProperties = false;
+                    final String[] contents = parameter.split( "=" );
+                    final String tagName = contents[ 0 ];
+                    properties.setProperty( tagName, validParameter );
+                    validProperties = true;
                 }
             }
 
@@ -146,6 +149,23 @@ public class ClassDescriptorUtility
             }
         }
         return attributes;
+    }
+
+    private static String getValidParameter( final String string )
+    {
+        String[] contents = string.split( "=" );
+        if ( contents.length == 2 )
+        {
+            final String value = contents[ 1 ];
+            if ( value.length() > 2 &&
+                value.startsWith( "\"" ) &&
+                value.endsWith( "\"" ) )
+            {
+                return value.substring( 1, value.length() - 1 );
+            }
+        }
+
+        return null;
     }
 
     public static int convertModifiersToInt( final String[] modifiers )

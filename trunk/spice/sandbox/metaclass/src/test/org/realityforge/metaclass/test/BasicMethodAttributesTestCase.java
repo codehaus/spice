@@ -17,7 +17,6 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.Vector;
 
 public class BasicMethodAttributesTestCase
     extends AbstractFeatureTestCase
@@ -49,8 +48,8 @@ public class BasicMethodAttributesTestCase
 
     private static final int NUM_METHODS = 4;
 
-    private Vector[] _expectedAttributes;
-    private Vector _expectedNamedAttributes;
+    private Attribute[][] _expectedAttributes;
+    private Attribute[] _expectedNamedAttributes;
     private Attribute _expectedNamedValueAttribute;
     private Attribute _expectedNamedParametersAttribute;
 
@@ -90,17 +89,25 @@ public class BasicMethodAttributesTestCase
             parameters.put( "1", "2" );
             _expectedNamedParametersAttribute = new Attribute( "stuff", parameters );
 
-            _expectedNamedAttributes = new Vector();
-            _expectedNamedAttributes.add( _expectedNamedValueAttribute );
+            _expectedNamedAttributes = new Attribute[]
+            {
+                _expectedNamedValueAttribute
+            };
 
-            _expectedAttributes = new Vector[ NUM_METHODS ];
-            _expectedAttributes[ 0 ] = new Vector();
-            _expectedAttributes[ 1 ] = new Vector();
-            _expectedAttributes[ 1 ].add( _expectedNamedValueAttribute );
-            _expectedAttributes[ 2 ] = new Vector();
-            _expectedAttributes[ 2 ].add( new Attribute( "param", "aPrivateString" ) );
-            _expectedAttributes[ 3 ] = new Vector();
-            _expectedAttributes[ 3 ].add( _expectedNamedParametersAttribute );
+            _expectedAttributes = new Attribute[ NUM_METHODS ][];
+            _expectedAttributes[ 0 ] = new Attribute[]{};
+            _expectedAttributes[ 1 ] = new Attribute[]
+            {
+                _expectedNamedValueAttribute
+            };
+            _expectedAttributes[ 2 ] = new Attribute[]
+            {
+                new Attribute( "param", "aPrivateString" )
+            };
+            _expectedAttributes[ 3 ] = new Attribute[]
+            {
+                _expectedNamedParametersAttribute
+            };
         }
         catch ( final Exception e )
         {
@@ -133,7 +140,7 @@ public class BasicMethodAttributesTestCase
             final Class aClass = Class.forName( CLASS_NAME );
             for ( int i = 0; i < _expectedAttributes.length; i++ )
             {
-                final Vector expectedAttributes = _expectedAttributes[ i ];
+                final Attribute[] expectedAttributes = _expectedAttributes[ i ];
                 final ParameterDescriptor[] expectedParameters = EXPECTED_PARAMETERS[ i ];
 
                 final ArrayList parameterTypes = new ArrayList();

@@ -7,7 +7,6 @@
  */
 package org.realityforge.metaclass.test;
 
-import java.util.Vector;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
@@ -20,7 +19,7 @@ public class EmptyClassTestCase
 
     // there seems not to be a Modifier.NONE
     private static final int EXPECTED_MODIFIER = 0;
-    private Vector _expectedAttributes;
+    private Attribute[] _expectedAttributes;
 
     public EmptyClassTestCase()
     {
@@ -48,7 +47,7 @@ public class EmptyClassTestCase
         super.setUp();
         try
         {
-            _expectedAttributes = new Vector();
+            _expectedAttributes = new Attribute[]{};
         }
         catch( final Exception e )
         {

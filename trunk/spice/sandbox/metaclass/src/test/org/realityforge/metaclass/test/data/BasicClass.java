@@ -13,7 +13,7 @@ package org.realityforge.metaclass.test.data;
  * Please update all relevant test compare data (constants within tests) if you change this class.
  * @test-attribute1 true
  * @test-attribute2 thisIsATestString
- * @test-attribute3 satan=17.5
+ * @test-attribute3 satan="17.5"
  */
 public class BasicClass
 {
@@ -23,7 +23,7 @@ public class BasicClass
     public static final String A_CONSTANT_STRING = "a constant string";
 
     /**
-     * @hoho parameters=true
+     * @hoho parameters="true"
      */
     public int _aPublicInt;
     protected double _aProtectedDouble;
@@ -58,7 +58,7 @@ public class BasicClass
 
     /**
      * This is a private method.
-     * @stuff 1=2
+     * @stuff 1="2"
      */
     private void aPrivateMethod()
     {
