@@ -9,6 +9,7 @@ package org.realityforge.metaclass.jmx;
 
 import junit.framework.TestCase;
 import javax.management.modelmbean.ModelMBeanOperationInfo;
+import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.management.MBeanParameterInfo;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ParameterDescriptor;
@@ -16,14 +17,16 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.introspector.MetaClassIntrospector;
+import org.jcontainer.loom.info.TestBean;
 import java.util.Properties;
 import java.lang.reflect.Method;
 import java.lang.reflect.Constructor;
+import java.beans.PropertyDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-10-14 00:27:19 $
+ * @version $Revision: 1.10 $ $Date: 2003-10-14 00:36:53 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -324,5 +327,19 @@ public class MBeanBuilderTestCase
         final ModelInfoCreationHelper helper = new ModelInfoCreationHelper();
         builder.extractOperations( methods, helper );
         assertEquals( "operation count", 1, helper.getOperations().length );
+    }
+
+    public void testExtractAttributeFromNonAttribute()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final PropertyDescriptor descriptor =
+            new PropertyDescriptor( "value", TestBean.class );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+
+        final ModelMBeanAttributeInfo attribute =
+            builder.extractAttribute( descriptor );
+        assertNull( "attribute", attribute );
     }
 }
