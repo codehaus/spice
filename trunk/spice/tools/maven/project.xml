@@ -5,25 +5,25 @@
 
     <currentVersion>1.0</currentVersion>
     <inceptionYear>2000</inceptionYear>
-    <!--<logo>/images/${pom.artifactId}.gif</logo>-->
+    <!--<logo>/images/${pom.artifactId.substring(6)}.gif</logo>-->
 
     <organization>
         <name>The Spice Group</name>
         <url>http://sourceforge.net/projects/spice</url>
         <logo>http://sourceforge.net/sflogo.php?group_id=67448&amp;type=5</logo>
     </organization>
-    <package>org.realityforge.${pom.artifactId}</package>
+    <package>org.realityforge.${pom.artifactId.substring(6)}</package>
 
-    <url>http://spice.sourceforge.net/${pom.artifactId}</url>
+    <url>http://spice.sourceforge.net/${pom.artifactId.substring(6)}</url>
     <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=67448</issueTrackingUrl>
 
     <siteAddress>spice.sourceforge.net</siteAddress>
-    <siteDirectory>/home/groups/s/sp/spice/htdocs/${pom.artifactId}</siteDirectory>
-    <distributionDirectory>/home/groups/s/sp/spice/htdocs/downloads/${pom.artifactId}</distributionDirectory>
+    <siteDirectory>/home/groups/s/sp/spice/htdocs/${pom.artifactId.substring(6)}</siteDirectory>
+    <distributionDirectory>/home/groups/s/sp/spice/htdocs/downloads/${pom.artifactId.substring(6)}</distributionDirectory>
     <distributionSite>spice.sourceforge.net</distributionSite>
 
     <repository>
-        <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/spice:${pom.gumpRepositoryId}/${pom.artifactId}</connection>
+        <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/spice:${pom.gumpRepositoryId}/${pom.artifactId.substring(6)}</connection>
         <url>http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/spice/spice/${pom.gumpRepositoryId}</url>
     </repository>
 
@@ -58,7 +58,7 @@
 
         <unitTest>
             <resource>
-                <directory>src/test</directory>
+                <directory>${basedir}/src/test</directory>
                 <includes>
                     <include>**/*</include>
                 </includes>
@@ -73,11 +73,11 @@
         </unitTest>
         <resources>
             <resource>
-                <directory>src/java</directory>
+                <directory>${basedir}/src/java</directory>
                 <!--<targetPath>path/</targetPath>-->
-                <includes>
+                <excludes>
                     <exclude>**/*.java</exclude>
-                </includes>
+                </excludes>
             </resource>
         </resources>
         <!--
