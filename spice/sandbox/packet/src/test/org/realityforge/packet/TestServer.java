@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
@@ -19,11 +18,10 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
 import org.realityforge.packet.handlers.PacketEventHandler;
 import org.realityforge.packet.session.DefaultSessionManager;
 import org.realityforge.packet.session.Session;
-import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-21 05:01:06 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-21 23:49:02 $
  */
 public class TestServer
 {
@@ -100,10 +98,6 @@ public class TestServer
     private static EventPump[] createServerSidePumps()
         throws IOException
     {
-        final DefaultSelectorManager sm = new DefaultSelectorManager();
-        sm.setRunning( true );
-        sm.setSelector( Selector.open() );
-
         final DefaultEventQueue queue1 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
         final DefaultEventQueue queue2 =
@@ -111,8 +105,7 @@ public class TestServer
         final DefaultEventQueue queue3 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
-        final SocketEventSource source1 =
-            new SocketEventSource( sm, queue1 );
+        final SocketEventSource source1 = new SocketEventSource( queue1 );
 
         final EventHandler handler1 =
             new EchoHandler( null, //"CHAN SV",
@@ -158,9 +151,6 @@ public class TestServer
     private static EventPump[] createClientSidePumps()
         throws IOException
     {
-        final DefaultSelectorManager sm = new DefaultSelectorManager();
-        sm.setRunning( true );
-        sm.setSelector( Selector.open() );
         final DefaultEventQueue queue1 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
         final DefaultEventQueue queue2 =
@@ -168,8 +158,7 @@ public class TestServer
         final DefaultEventQueue queue3 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
-        final SocketEventSource source1 =
-            new SocketEventSource( sm, queue1 );
+        final SocketEventSource source1 = new SocketEventSource( queue1 );
 
         final EventHandler handler1 =
             new EchoHandler( null, //"CHAN CL",
