@@ -33,7 +33,7 @@ import javax.xml.parsers.ParserConfigurationException;
  * ConfigValidatorFactory.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-04-07 11:01:44 $
+ * @version $Revision: 1.6 $ $Date: 2003-04-10 10:56:23 $
  */
 public class ConfigValidator
 {
@@ -272,8 +272,14 @@ public class ConfigValidator
         try
         {
             final Verifier verifier = m_schema.newVerifier();
-            verifier.setErrorHandler( errorHandler );
-            verifier.setEntityResolver( m_resolver );
+            if( null != errorHandler )
+            {
+                verifier.setErrorHandler( errorHandler );
+            }
+            if( null != m_resolver )
+            {
+                verifier.setEntityResolver( m_resolver );
+            }
             boolean valid;
             if( data instanceof InputSource )
             {
@@ -359,7 +365,10 @@ public class ConfigValidator
             final XMLReader reader = saxParser.getXMLReader();
 
             final Verifier verifier = m_schema.newVerifier();
-            verifier.setErrorHandler( errorHandler );
+            if( null != errorHandler )
+            {
+                verifier.setErrorHandler( errorHandler );
+            }
             if( null != m_resolver )
             {
                 verifier.setEntityResolver( m_resolver );
@@ -367,6 +376,10 @@ public class ConfigValidator
             final VerifierFilter filter = verifier.getVerifierFilter();
             filter.setParent( reader );
             filter.setContentHandler( contentHandler );
+            if( null != errorHandler )
+            {
+                filter.setErrorHandler( errorHandler );
+            }
             if( null != m_resolver )
             {
                 filter.setEntityResolver( m_resolver );
