@@ -10,14 +10,13 @@ package org.realityforge.salt.i18n;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-06-13 00:48:09 $
+ * @version $Revision: 1.13 $ $Date: 2003-06-13 00:51:17 $
  */
 public class ResourcesTestCase
     extends TestCase
@@ -377,27 +376,9 @@ public class ResourcesTestCase
             new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
                            Locale.getDefault(),
                            MockResourceBundle.class.getClassLoader() );
-        final String string = resources.getString( "noExist" );
+        final String string = resources.getString( "noExist", "blah" );
         assertTrue( "Non existent resource starts with 'Unknown resource'",
                     string.startsWith( "Unknown resource" ) );
-    }
-
-    public void testGetBadType()
-        throws Exception
-    {
-        final Resources resources =
-            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
-                           Locale.getDefault(),
-                           MockResourceBundle.class.getClassLoader() );
-        MockResourceBundle.addResource( "rez", new Integer( 3 ) );
-        try
-        {
-            resources.getString( "rez" );
-            fail( "Expected to be unable to locate convert 'rez' as it is not a string" );
-        }
-        catch( MissingResourceException e )
-        {
-        }
     }
 
     public void testAlternateConstructor()
