@@ -30,7 +30,7 @@ import org.realityforge.threadpool.ThreadPool;
  * to ConnectionHandler instances to handle the connection.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-04-23 04:48:51 $
+ * @version $Revision: 1.7 $ $Date: 2003-04-23 04:49:22 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
@@ -98,9 +98,9 @@ public class DefaultConnectionManager
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        m_shutdownTimeout = configuration.getChild( "shutdownTimeout" ).getValueAsInteger( 0 );
-        m_forceShutdown = configuration.getChild( "forceShutdown" ).getValueAsBoolean( false );
         m_soTimeout = configuration.getChild( "soTimeout" ).getValueAsInteger( 0 );
+        m_forceShutdown = configuration.getChild( "forceShutdown" ).getValueAsBoolean( false );
+        m_shutdownTimeout = configuration.getChild( "shutdownTimeout" ).getValueAsInteger( 0 );
     }
 
     /**
