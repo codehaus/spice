@@ -13,16 +13,22 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
 import org.codehaus.spice.netevent.transport.TransportOutputStream;
 import org.realityforge.packet.Packet;
 import org.realityforge.packet.events.AckEvent;
+import org.realityforge.packet.events.AckRequestEvent;
+import org.realityforge.packet.events.GreetingRequestEvent;
 import org.realityforge.packet.events.NackEvent;
+import org.realityforge.packet.events.NackRequestEvent;
 import org.realityforge.packet.events.PacketReadEvent;
+import org.realityforge.packet.events.PacketWriteRequestEvent;
 import org.realityforge.packet.events.SessionEstablishedEvent;
+import org.realityforge.packet.events.SessionEstablishedRequestEvent;
+import org.realityforge.packet.events.SessionEvent;
 import org.realityforge.packet.events.TransportDisconnectRequestEvent;
 import org.realityforge.packet.session.Session;
 import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-15 00:58:26 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-15 03:28:28 $
  */
 public class SessionInputEventHandler
     extends AbstractDirectedHandler
@@ -60,8 +66,95 @@ public class SessionInputEventHandler
      */
     public void handleEvent( final Object event )
     {
-        final InputDataPresentEvent ie = (InputDataPresentEvent)event;
-        handleInput( ie );
+        if( event instanceof InputDataPresentEvent )
+        {
+            final InputDataPresentEvent ie = (InputDataPresentEvent)event;
+            handleInput( ie );
+        }
+        else if( event instanceof TransportDisconnectRequestEvent )
+        {
+            final TransportDisconnectRequestEvent e =
+                (TransportDisconnectRequestEvent)event;
+            handleDisconnect( e );
+        }
+        else
+        {
+            handleOutput( event );
+        }
+    }
+
+    /**
+     * Handle disconenect event.
+     * 
+     * @param e the event
+     */
+    private void handleDisconnect( final TransportDisconnectRequestEvent e )
+    {
+        final ChannelTransport transport = e.getTransport();
+        try
+        {
+            sendDisconnect( transport, e.getReason() );
+            transport.getOutputStream().close();
+        }
+        catch( final IOException ioe )
+        {
+            signalDisconnectTransport( transport,
+                                       Protocol.ERROR_IO_ERROR,
+                                       getSink() );
+        }
+    }
+
+    /**
+     * Handle event relating to output.
+     * 
+     * @param event the output event
+     */
+    private void handleOutput( final Object event )
+    {
+        final SessionEvent se = (SessionEvent)event;
+        final Session session = se.getSession();
+        final ChannelTransport transport = session.getTransport();
+        try
+        {
+            if( event instanceof AckRequestEvent )
+            {
+                final AckRequestEvent e = (AckRequestEvent)event;
+                sendAck( transport, e.getSequence() );
+            }
+            else if( event instanceof NackRequestEvent )
+            {
+                final NackRequestEvent e = (NackRequestEvent)event;
+                sendNack( transport, e.getSequence() );
+            }
+            else if( event instanceof SessionEstablishedRequestEvent )
+            {
+                sendEstablished( transport );
+            }
+            else if( event instanceof PacketWriteRequestEvent )
+            {
+                final PacketWriteRequestEvent e =
+                    (PacketWriteRequestEvent)event;
+                sendData( transport, e.getPacket() );
+            }
+            else if( event instanceof GreetingRequestEvent )
+            {
+                sendGreeting( transport,
+                              session.getSessionID(),
+                              session.getAuthID() );
+            }
+            else
+            {
+                signalDisconnectTransport( transport,
+                                           Protocol.ERROR_BAD_MESSAGE,
+                                           getSink() );
+            }
+        }
+        catch( final IOException ioe )
+        {
+            signalDisconnectTransport( transport,
+                                       Protocol.ERROR_IO_ERROR,
+                                       getSink() );
+        }
     }
 
     /**
