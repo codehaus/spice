@@ -15,13 +15,11 @@ import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.FieldDescriptor;
 
 import java.util.Properties;
-import java.util.Vector;
 
 public class BasicFieldAttributesTestCase
     extends AbstractFeatureTestCase
 {
     private static final String CLASS_NAME = "org.realityforge.metaclass.test.data.BasicClass";
-
     private static final String[] NAMES =
         {
             "A_CONSTANT_STRING",
@@ -29,16 +27,14 @@ public class BasicFieldAttributesTestCase
             "_aProtectedDouble",
             "_aPrivateString"
         };
-
-    private static final String VALUE_FIELD_NAME = NAMES[0];
+    private static final String VALUE_FIELD_NAME = NAMES[ 0 ];
     private static final String VALUE_ATTRIBUTE_NAME = "haha";
-    private static final String PARAMETERS_FIELD_NAME = NAMES[1];
+    private static final String PARAMETERS_FIELD_NAME = NAMES[ 1 ];
     private static final String PARAMETERS_ATTRIBUTE_NAME = "hoho";
-
     private static final int NUM_FIELDS = 4;
 
-    private Vector[] _expectedAttributes;
-    private Vector _expectedNamedAttributes;
+    private Attribute[][] _expectedAttributes;
+    private Attribute[] _expectedNamedAttributes;
     private Attribute _expectedNamedValueAttribute;
     private Attribute _expectedNamedParametersAttribute;
 
@@ -72,23 +68,28 @@ public class BasicFieldAttributesTestCase
         {
             _fieldDescriptors = getClassDescriptor().getFields();
 
-            _expectedNamedValueAttribute = new Attribute( "haha", "this is javadoc for a field." );
+            _expectedNamedValueAttribute = new Attribute( "haha", "this is javadoc for a field" );
 
             final Properties parameters = new Properties();
             parameters.put( "parameters", "true" );
             _expectedNamedParametersAttribute = new Attribute( "hoho", parameters );
 
-            _expectedNamedAttributes = new Vector();
-            _expectedNamedAttributes.add( _expectedNamedValueAttribute );
+            _expectedNamedAttributes = new Attribute[]
+            {
+                _expectedNamedValueAttribute
+            };
 
-            _expectedAttributes = new Vector[ NUM_FIELDS ];
-            _expectedAttributes[ 0 ] = new Vector();
-            _expectedAttributes[ 0 ].add( _expectedNamedValueAttribute );
-            _expectedAttributes[ 1 ] = new Vector();
-            _expectedAttributes[ 1 ].add( _expectedNamedParametersAttribute );
-            _expectedAttributes[ 2 ] = new Vector();
-            _expectedAttributes[ 3 ] = new Vector();
-
+            _expectedAttributes = new Attribute[ NUM_FIELDS ][];
+            _expectedAttributes[ 0 ] = new Attribute[]
+            {
+                _expectedNamedValueAttribute
+            };
+            _expectedAttributes[ 1 ] = new Attribute[]
+            {
+                _expectedNamedParametersAttribute
+            };
+            _expectedAttributes[ 2 ] = new Attribute[]{};
+            _expectedAttributes[ 3 ] = new Attribute[]{};
         }
         catch ( final Exception e )
         {
@@ -123,7 +124,7 @@ public class BasicFieldAttributesTestCase
                 Attributes.getAttributes( aClass.getDeclaredField( PARAMETERS_FIELD_NAME ) );
             for ( int i = 0; i < _expectedAttributes.length; i++ )
             {
-                final Vector expectedAttributes = _expectedAttributes[ i ];
+                final Attribute[] expectedAttributes = _expectedAttributes[ i ];
                 checkAttributesMatchExpected( expectedAttributes, attributes,
                                               "getAttributes" );
             }

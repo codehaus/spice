@@ -7,24 +7,28 @@
  */
 package org.realityforge.metaclass.test;
 
-import org.realityforge.metaclass.model.ClassDescriptor;
-import org.realityforge.metaclass.model.MethodDescriptor;
-import org.realityforge.metaclass.model.FieldDescriptor;
-import org.realityforge.metaclass.model.ParameterDescriptor;
-import org.realityforge.metaclass.model.Attribute;
-import org.realityforge.metaclass.InvalidMetaClassException;
-import org.realityforge.metaclass.ClassDescriptorUtility;
 import org.realityforge.metaclass.Attributes;
+import org.realityforge.metaclass.ClassDescriptorUtility;
+import org.realityforge.metaclass.InvalidMetaClassException;
+import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.model.FieldDescriptor;
+import org.realityforge.metaclass.model.MethodDescriptor;
+import org.realityforge.metaclass.model.ParameterDescriptor;
 
-import java.util.Vector;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.Vector;
 
 /**
  *
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.3 $ $Date: 2003-06-10 01:39:57 $
+ * @version $Revision: 1.4 $ $Date: 2003-06-25 03:54:57 $
  */
 public final class MetaClassTestUtility
 {
@@ -143,6 +147,11 @@ public final class MetaClassTestUtility
     public static boolean areClassDescriptorsEqual( final ClassDescriptor one,
                                                     final ClassDescriptor two )
     {
+        if ( null == one || null == two )
+        {
+            return ( null == one && null == two );
+        }
+
         final String name2 = two.getName();
         final String name1 = one.getName();
         if ( null == name1 || null == name2 )
@@ -160,6 +169,11 @@ public final class MetaClassTestUtility
     public static boolean areMethodDescriptorsEqual( final MethodDescriptor one,
                                                      final MethodDescriptor two )
     {
+        if ( null == one || null == two )
+        {
+            return ( null == one && null == two );
+        }
+
         final String name2 = two.getName();
         final String name1 = one.getName();
         if ( null == name1 || null == name2 )
@@ -184,6 +198,11 @@ public final class MetaClassTestUtility
     public static boolean areFieldDescriptorsEqual( final FieldDescriptor one,
                                                     final FieldDescriptor two )
     {
+        if ( null == one || null == two )
+        {
+            return ( null == one && null == two );
+        }
+
         final String name2 = two.getName();
         final String name1 = one.getName();
         if ( null == name1 || null == name2 )
@@ -207,6 +226,11 @@ public final class MetaClassTestUtility
     public static boolean areParameterDescriptorsEqual( final ParameterDescriptor one,
                                                         final ParameterDescriptor two )
     {
+        if ( null == one || null == two )
+        {
+            return ( null == one && null == two );
+        }
+
         final String name2 = two.getName();
         final String name1 = one.getName();
         if ( null == name1 || null == name2 )
@@ -232,14 +256,94 @@ public final class MetaClassTestUtility
             return ( null == one && null == two );
         }
 
-        final String name2 = one.getName();
-        final String name1 = two.getName();
-        if ( null == name1 || null == name2 )
+        boolean valid = true;
+
+        final String nameOne = one.getName();
+        final String nameTwo = two.getName();
+        if ( null == nameTwo || null == nameOne )
         {
-            return ( null == name1 && null == name2 );
+            if ( null != nameTwo || null != nameOne )
+            {
+                valid = false;
+            }
         }
 
-        return name1.equals( name2 );
+        if ( valid )
+        {
+            final String valueOne = one.getValue();
+            final String valueTwo = two.getValue();
+            if ( null == valueTwo || null == valueOne )
+            {
+                if ( null != valueTwo || null != valueOne )
+                {
+                    valid = false;
+                }
+            }
+            else
+            {
+                if ( !valueOne.equals( valueTwo ) )
+                {
+                    valid = false;
+                }
+            }
+        }
+
+        if ( valid )
+        {
+            final Properties parametersOne = one.getParameters();
+            final Properties parametersTwo = two.getParameters();
+            if ( null == parametersTwo || null == parametersOne )
+            {
+                if ( null != parametersTwo || null != parametersOne )
+                {
+                    valid = false;
+                }
+            }
+            else
+            {
+                final Enumeration keySetOne = parametersOne.keys();
+                final Enumeration keySetTwo = parametersTwo.keys();
+                while ( keySetOne.hasMoreElements() )
+                {
+                    final Object oOne = keySetOne.nextElement();
+                    if ( keySetTwo.hasMoreElements() )
+                    {
+                        final Object oTwo = keySetTwo.nextElement();
+                        if ( oOne instanceof String )
+                        {
+                            final String stringOne = (String) oOne;
+                            final String stringTwo = (String) oTwo;
+                            if ( !stringOne.equals( stringTwo ) )
+                            {
+                                valid = false;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+
+                final Collection valuesOne = parametersOne.values();
+                final Collection valuesTwo = parametersTwo.values();
+                final Iterator iteratorTwo = valuesTwo.iterator();
+                for ( final Iterator iteratorOne = valuesOne.iterator(); iteratorOne.hasNext(); )
+                {
+                    final String stringOne = (String) iteratorOne.next();
+                    final String stringTwo = (String) iteratorTwo.next();
+                    if ( !stringOne.equals( stringTwo ) )
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return valid;
     }
 
     public static Attribute[] getAttributesForMethodOrConstructor( final String className,

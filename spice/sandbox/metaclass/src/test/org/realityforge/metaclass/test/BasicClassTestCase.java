@@ -7,14 +7,13 @@
  */
 package org.realityforge.metaclass.test;
 
-import java.lang.reflect.Modifier;
-import java.util.Vector;
-import java.util.Properties;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 import org.realityforge.metaclass.model.Attribute;
+
+import java.lang.reflect.Modifier;
+import java.util.Properties;
 
 /**
  * Use Class to get ClassDescriptor from BasicClass.
@@ -25,7 +24,7 @@ public class BasicClassTestCase
     private static final String CLASS_NAME = "org.realityforge.metaclass.test.data.BasicClass";
 
     private static final int EXPECTED_MODIFIER = Modifier.PUBLIC;
-    private Vector _expectedAttributes;
+    private Attribute[] _expectedAttributes;
 
     public BasicClassTestCase()
     {
@@ -53,14 +52,17 @@ public class BasicClassTestCase
         super.setUp();
         try
         {
-            _expectedAttributes = new Vector();
-            _expectedAttributes.add( new Attribute( "test-attribute1", "true" ) );
-            _expectedAttributes.add( new Attribute( "test-attribute2", "thisIsATestString" ) );
             final Properties parameters = new Properties();
             parameters.put( "satan", "17.5" );
-            _expectedAttributes.add( new Attribute( "test-attribute3", parameters ) );
+
+            _expectedAttributes = new Attribute[]
+            {
+                new Attribute( "test-attribute1", "true" ),
+                new Attribute( "test-attribute2", "thisIsATestString" ),
+                new Attribute( "test-attribute3", parameters )
+            };
         }
-        catch( final Exception e )
+        catch ( final Exception e )
         {
             e.printStackTrace();
             fail( e.getMessage() );

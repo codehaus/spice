@@ -13,7 +13,6 @@ import junit.textui.TestRunner;
 import org.realityforge.metaclass.Attributes;
 import org.realityforge.metaclass.model.Attribute;
 
-import java.util.Vector;
 import java.util.Properties;
 
 /**
@@ -23,10 +22,10 @@ public class BasicClassAttributesTestCase
     extends AbstractFeatureTestCase
 {
     private static final String CLASS_NAME = "org.realityforge.metaclass.test.data.BasicClass";
-    private static final String ATTRIBUTE_NAME = "test-attribute1";
+    private static final String ATTRIBUTE_NAME_1 = "test-attribute1";
 
-    private Vector _expectedAttributes;
-    private Vector _expectedNamedAttributes;
+    private Attribute[] _expectedAttributes;
+    private Attribute[] _expectedNamedAttributes;
     private Attribute _expectedNamedAttribute;
 
     public BasicClassAttributesTestCase()
@@ -55,17 +54,22 @@ public class BasicClassAttributesTestCase
         super.setUp();
         try
         {
-            _expectedNamedAttribute = new Attribute( "test-attribute1", "true" );
+            _expectedNamedAttribute = new Attribute( ATTRIBUTE_NAME_1, "true" );
 
-            _expectedAttributes = new Vector();
-            _expectedAttributes.add( _expectedNamedAttribute );
-            _expectedAttributes.add( new Attribute( "test-attribute2", "thisIsATestString" ) );
-            final Properties parameters = new Properties();
-            parameters.put( "satan", "17.5" );
-            _expectedAttributes.add( new Attribute( "test-attribute3", parameters ) );
+            final Properties attributeParameters3 = new Properties();
+            attributeParameters3.put( "satan", "17.5" );
 
-            _expectedNamedAttributes = new Vector();
-            _expectedNamedAttributes.add( _expectedNamedAttribute );
+            _expectedAttributes = new Attribute[]
+            {
+                _expectedNamedAttribute,
+                new Attribute( "test-attribute2", "thisIsATestString" ),
+                new Attribute( "test-attribute3", attributeParameters3 )
+            };
+
+            _expectedNamedAttributes = new Attribute[]
+            {
+                _expectedNamedAttribute
+            };
         }
         catch ( final Exception e )
         {
@@ -93,7 +97,7 @@ public class BasicClassAttributesTestCase
         try
         {
             final Attribute[] attributes = Attributes.getAttributes( Class.forName( CLASS_NAME ),
-                                                                     ATTRIBUTE_NAME );
+                                                                     ATTRIBUTE_NAME_1 );
             checkAttributesMatchExpected( _expectedNamedAttributes, attributes,
                                           "getNamedAttributes" );
         }
@@ -108,7 +112,7 @@ public class BasicClassAttributesTestCase
         try
         {
             final Attribute attribute = Attributes.getAttribute( Class.forName( CLASS_NAME ),
-                                                                 ATTRIBUTE_NAME );
+                                                                 ATTRIBUTE_NAME_1 );
             if ( !MetaClassTestUtility.areAttributesEqual( _expectedNamedAttribute, attribute ) )
             {
                 fail( "getNamedAttribute: Attributes not equal:\n" +

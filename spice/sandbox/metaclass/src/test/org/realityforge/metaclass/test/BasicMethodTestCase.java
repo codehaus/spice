@@ -7,16 +7,15 @@
  */
 package org.realityforge.metaclass.test;
 
-import java.lang.reflect.Modifier;
-import java.util.Vector;
-import java.util.Properties;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
+
+import java.lang.reflect.Modifier;
+import java.util.Properties;
 
 public class BasicMethodTestCase
     extends AbstractFeatureTestCase
@@ -54,7 +53,7 @@ public class BasicMethodTestCase
             },
             new ParameterDescriptor[ 0 ]
         };
-    private Vector[] _expectedAttributes;
+    private Attribute[][] _expectedAttributes;
 
     private MethodDescriptor[] _methodDescriptors;
 
@@ -86,17 +85,23 @@ public class BasicMethodTestCase
         {
             _methodDescriptors = getClassDescriptor().getMethods();
 
-            _expectedAttributes = new Vector[ NUM_METHODS ];
-            _expectedAttributes[ 0 ] = new Vector();
-            _expectedAttributes[ 1 ] = new Vector();
-            _expectedAttributes[ 1 ].add( new Attribute( "return", "the private string" ) );
-            _expectedAttributes[ 2 ] = new Vector();
-            _expectedAttributes[ 2 ].add( new Attribute( "param", "aPrivateString" ) );
+            _expectedAttributes = new Attribute[ NUM_METHODS ][];
+            _expectedAttributes[ 0 ] = new Attribute[]{};
+            _expectedAttributes[ 1 ] = new Attribute[]
+            {
+                new Attribute( "return", "the private string" )
+            };
+            _expectedAttributes[ 2 ] = new Attribute[]
+            {
+                new Attribute( "param", "aPrivateString" )
+            };
 
             final Properties parameters = new Properties();
             parameters.put( "1", "2" );
-            _expectedAttributes[ 3 ] = new Vector();
-            _expectedAttributes[ 3 ].add( new Attribute( "stuff", parameters ) );
+            _expectedAttributes[ 3 ] = new Attribute[]
+            {
+                new Attribute( "stuff", parameters )
+            };
         }
         catch ( final Exception e )
         {
