@@ -1,57 +1,68 @@
 package org.jcomponent.threadpool.impl;
 
-import org.jcomponent.threadpool.ThreadPoolMonitor;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.jcomponent.threadpool.ThreadPoolMonitor;
 
 /**
  * @author Mauro n Paul
  */
-public class AvalonThreadPoolMonitor extends AbstractLogEnabled
-    implements ThreadPoolMonitor {
-    public void newThreadPool(String name, int priority, boolean daemon, int maxActive, int maxIdle) {
+public class AvalonThreadPoolMonitor
+   extends AbstractLogEnabled
+   implements ThreadPoolMonitor
+{
+   public void newThreadPool( String name, int priority, boolean daemon, int maxActive, int maxIdle )
+   {
+      if ( getLogger().isInfoEnabled() )
+      {
+         getLogger().info( "Creating a new ThreadPool " + name +
+                           "(priority=" + priority +
+                           ",isDaemon=" + daemon + ") with " +
+                           "max-threads=" + maxActive + " and " +
+                           "max-idle=" + maxIdle );
+      }
+   }
 
-        if (getLogger().isInfoEnabled()) {
-            getLogger().info("Creating a new ThreadPool " + name +
-                "(priority=" + priority +
-                ",isDaemon=" + daemon + ") with " +
-                "max-threads=" + maxActive + " and " +
-                "max-idle=" + maxIdle);
-        }
+   public void unexpectedThrowable( String reference, Throwable t )
+   {
+      if ( getLogger().isErrorEnabled() )
+      {
 
-    }
+         getLogger().error( "Unexpected Exception (" + reference + ")", t );
+      }
+   }
 
-    public void unexpectedThrowable(String reference, Throwable t) {
-        if (getLogger().isErrorEnabled()) {
+   public void threadRetrieved( Thread worker )
+   {
+      if ( getLogger().isDebugEnabled() )
+      {
 
-            getLogger().error("Unexpected Exception (" + reference + ")", t);
-        }
-    }
+         getLogger().debug( "Thread retrieved - " + worker.getName() );
+      }
+   }
 
-    public void threadRetrieved(WorkerThread worker) {
-        if (getLogger().isDebugEnabled()) {
+   public void threadReturned( Thread worker )
+   {
+      if ( getLogger().isDebugEnabled() )
+      {
 
-            getLogger().debug("Thread retrieved - " + worker.getName());
-        }
-    }
+         getLogger().debug( "Thread returned - " + worker.getName() );
+      }
+   }
 
-    public void threadReturned(WorkerThread worker) {
-        if (getLogger().isDebugEnabled()) {
+   public void threadCreated( Thread worker )
+   {
+      if ( getLogger().isInfoEnabled() )
+      {
 
-            getLogger().debug("Thread returned - " + worker.getName());
-        }
-    }
+         getLogger().info( "Thread Created - " + worker.getName() );
+      }
+   }
 
-    public void threadCreated(WorkerThread worker) {
-        if (getLogger().isInfoEnabled()) {
-
-            getLogger().info("Thread Created - " + worker.getName());
-        }
-    }
-
-    public void threadDisposing(WorkerThread worker) {
-        if (getLogger().isInfoEnabled()) {
-
-            getLogger().info("Thread Disposing - " + worker.getName());
-        }
-    }
+   public void threadDisposing( final Thread worker )
+   {
+      if ( getLogger().isInfoEnabled() )
+      {
+         getLogger().info( "Thread Disposing - " + worker.getName() );
+      }
+   }
 }
