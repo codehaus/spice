@@ -1,32 +1,27 @@
 <?xml version="1.0"?>
 <project>
-    <pomVersion>3</pomVersion>
 
-    <name>Spice</name>
+    <pomVersion>3</pomVersion>
     <id>spice-site</id>
     <currentVersion>1.0</currentVersion>
     <inceptionYear>2000</inceptionYear>
     <organization>
-        <name>codehaus</name>
+        <name>Codehaus</name>
         <url>http://codehaus.org</url>
         <logo>http://codehaus.org/codehaus-small.gif</logo>
     </organization>
 
-    <shortDescription>Main Spice Website</shortDescription>
-    <description>Main Spice Website</description>
-
-	<groupId>spice</groupId>
-    <package>org.codehaus.spice.${pom.artifactId.substring(6)}</package>
     <url>http://spice.codehaus.org/</url>
+    <logo>/images/spice.gif</logo>
     <siteAddress>spice.codehaus.org</siteAddress>
     <siteDirectory>/www/spice.codehaus.org/</siteDirectory>
-    <distributionSite>codehaus.org</distributionSite>
+    <distributionSite>spice.codehaus.org</distributionSite>
     <distributionDirectory>/www/dist.codehaus.org</distributionDirectory>
     <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10140</issueTrackingUrl>
 
     <repository>
-        <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvs:spice</connection>
-        <url>http://cvs.codehaus.org/viewcvs.cgi/spice/?root=codehaus</url>
+        <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:spice</connection>
+        <url>http://cvs.spice.codehaus.org/</url>
     </repository>
 
     <licenses>
@@ -56,12 +51,11 @@
             <archive>http://lists.codehaus.org/pipermail/spice-scm/</archive>
         </mailingList>
     </mailingLists>
-
+    
     <developers>
         <developer>
             <name>Peter Donald</name>
             <id>donaldp</id>
-
             <roles>
                 <role>Developer</role>
                 <role>Project Admin</role>
@@ -112,4 +106,9 @@
     <build>
         <nagEmailAddress>spice-dev@lists.codehaus.org</nagEmailAddress>
     </build>
+    <reports>
+        <report>maven-license-plugin</report>
+        <report>maven-faq-plugin</report>
+    </reports>
+
 </project>

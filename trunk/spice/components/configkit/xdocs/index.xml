@@ -11,11 +11,6 @@
                 configuration files. It caches and manages the Schemas and is capable
                 of scanning ClassLoaders for potential schema definitions.
             </p>
-            <p>
-            All Spice jars are held in the 
-            <a href="http://spice.sf.net/maven">http://spice.sf.net/maven</a> 
-            repository for Maven usage.
-            </p>            
         </section>
         <section name="Using ResolverFactory">
             <p>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>JNDI Kit</name>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice JNDIKit</name>
     <id>spice-jndikit</id>
     <inceptionYear>1999</inceptionYear>
     <currentVersion>1.1</currentVersion>
@@ -10,8 +10,8 @@
     <shortDescription>A toolkit for building JNDI providers</shortDescription>
     <description>
      JNDI Kit is a toolkit designed to help with the construction of JNDI
-     providers. The toolkit also provides users with ready made memory based
-     and rmi based contexts.
+     providers. The toolkit also provides users with ready made memory-based
+     and RMI-based contexts.
     </description>
 
     <developers>

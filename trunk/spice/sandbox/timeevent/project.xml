@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>Time Event Toolkit</name>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice TimeEvent</name>
     <id>spice-timeevent</id>
     <currentVersion>1.1-dev</currentVersion>
     <package>org.codehaus.spice.timeevent</package>

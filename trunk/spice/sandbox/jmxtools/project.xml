@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>JMX Tools</name>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice JMXTools</name>
     <id>spice-jmxtools</id>
     <currentVersion>1.0</currentVersion>
     <inceptionYear>2003</inceptionYear>

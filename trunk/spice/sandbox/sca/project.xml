@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>SCA</name>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice SCA</name>
     <id>spice-sca</id>
     <currentVersion>0.7</currentVersion>
     <inceptionYear>1999</inceptionYear>
@@ -19,9 +19,9 @@
             <version>0.09</version>
         </dependency>
         <dependency> <!-- to generate metadata -->
-            <groupId>spice</groupId>
-            <artifactId>spice-metaclass-plugin</artifactId>
-            <version>1.0-rc2</version>
+            <groupId>metaclass</groupId>
+            <artifactId>maven-metaclass-plugin</artifactId>
+            <version>1.1-rc4-dev</version>
             <type>plugin</type>
         </dependency>
     </dependencies>

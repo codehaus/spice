@@ -1,17 +1,16 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>LoggerStore</name>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice LoggerStore</name>
     <id>spice-loggerstore</id>
-    <gumpRepositoryId>components</gumpRepositoryId>
     <package>org.codehaus.spice.loggerstore</package>
     <currentVersion>1.1-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
-    <shortDescription>Component for storing a set of DNA Loggers.</shortDescription>
+    <shortDescription>LoggerStore is a component for storing a set of DNA Loggers.</shortDescription>
 
     <description>
-        Component for storing a DNA Logger hierarchy, abstracting
+        LoggerStore is a component for storing a DNA Logger hierarchy, abstracting
         the underlying logger implementation and configuration mechanims.
         ie Avalon LogKit, Log4J or JDK14 Loggers are possible implementations
         managed by this toolkit.
