@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -33,7 +34,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  * Java Source files with qdox.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-10-29 08:27:50 $
+ * @version $Revision: 1.12 $ $Date: 2003-11-05 23:15:36 $
  */
 public class ClassDescriptorCompiler
 {
@@ -281,7 +282,7 @@ public class ClassDescriptorCompiler
             FileInputStream in = null;
             try
             {
-                builder.addSource( file );
+                builder.addSource( new FileReader( file ) );
             }
             catch( final FileNotFoundException fnfe )
             {
