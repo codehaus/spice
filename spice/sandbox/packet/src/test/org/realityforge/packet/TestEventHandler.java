@@ -12,11 +12,12 @@ import org.realityforge.packet.events.SessionActiveEvent;
 import org.realityforge.packet.events.SessionDisconnectEvent;
 import org.realityforge.packet.events.SessionDisconnectRequestEvent;
 import org.realityforge.packet.events.SessionEvent;
+import org.realityforge.packet.events.SessionInactiveEvent;
 import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-21 05:01:05 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-22 05:52:16 $
  */
 class TestEventHandler
     extends AbstractDirectedHandler
@@ -61,7 +62,7 @@ class TestEventHandler
             final Packet packet = e.getPacket();
             final int available = packet.getData().limit();
 
-            if( _closeOnReceive && available == _receiveCount )
+            if( _closeOnReceive && available >= _receiveCount )
             {
                 final boolean persistent =
                     ((Boolean)session.getUserData()).booleanValue();
@@ -79,6 +80,13 @@ class TestEventHandler
                     getSink().addEvent( response );
                 }
             }
+        }
+        else if( event instanceof SessionInactiveEvent )
+        {
+            final int queueSize = session.getMessageQueue().size();
+            final String text =
+                "Session Inactive. Unacked=" + queueSize;
+            output( session, text );
         }
         else if( event instanceof SessionDisconnectEvent )
         {

@@ -8,12 +8,13 @@
 package org.realityforge.packet.session;
 
 import org.codehaus.spice.netevent.transport.ChannelTransport;
+import org.codehaus.spice.timeevent.source.SchedulingKey;
 
 /**
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2004-01-21 04:19:45 $
+ * @version $Revision: 1.11 $ $Date: 2004-01-22 05:52:16 $
  */
 public class Session
 {
@@ -95,6 +96,8 @@ public class Session
      */
     private Object _userData;
 
+    private SchedulingKey _timeoutKey;
+
     /**
      * Create Serverside session with specified ID.
      * 
@@ -129,6 +132,26 @@ public class Session
         _sessionID = sessionID;
         _authID = authID;
         _client = client;
+    }
+
+    public void setTimeoutKey( final SchedulingKey timeoutKey )
+    {
+        cancelTimeout();
+        _timeoutKey = timeoutKey;
+    }
+
+    public void cancelTimeout()
+    {
+        if( null != _timeoutKey )
+        {
+            _timeoutKey.cancel();
+            _timeoutKey = null;
+        }
+    }
+
+    public SchedulingKey getTimeoutKey()
+    {
+        return _timeoutKey;
     }
 
     public short getLastPacketTransmitted()
@@ -228,8 +251,12 @@ public class Session
      */
     public void setStatus( final int status )
     {
+        System.out.println(
+            (isClient() ? "PACK CL" : "PACK SV") + ": setStatus(" + status +
+            ")" );
         _status = status;
         _timeOfLastStatusChange = System.currentTimeMillis();
+        cancelTimeout();
     }
 
     /**
@@ -274,7 +301,10 @@ public class Session
         }
         else
         {
-            setStatus( Session.STATUS_LOST );
+            if( Session.STATUS_DISCONNECTED != _status )
+            {
+                setStatus( Session.STATUS_LOST );
+            }
         }
     }
 
@@ -286,5 +316,13 @@ public class Session
     public void setUserData( final Object userData )
     {
         _userData = userData;
+    }
+
+    public String toString()
+    {
+        final long sessionID = getSessionID();
+        final int transportID = (_transport != null) ? _transport.getId() : -1;
+        return "Session[SessionID=" + sessionID +
+               ", TransportID=" + transportID + "]";
     }
 }

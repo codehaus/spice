@@ -1,6 +1,6 @@
 package org.realityforge.packet.events;
 
-import org.codehaus.spice.netevent.events.AbstractEvent;
+import org.codehaus.spice.event.AbstractEvent;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 import org.realityforge.packet.session.Session;
 
@@ -8,7 +8,7 @@ import org.realityforge.packet.session.Session;
  * An event about a Session.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-21 04:16:56 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-22 05:52:16 $
  */
 public abstract class SessionEvent
     extends AbstractEvent

@@ -14,6 +14,10 @@ import org.codehaus.spice.netevent.handlers.AbstractDirectedHandler;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 import org.codehaus.spice.netevent.transport.MultiBufferInputStream;
 import org.codehaus.spice.netevent.transport.TransportOutputStream;
+import org.codehaus.spice.timeevent.events.TimeEvent;
+import org.codehaus.spice.timeevent.source.SchedulingKey;
+import org.codehaus.spice.timeevent.source.TimeEventSource;
+import org.codehaus.spice.timeevent.triggers.PeriodicTimeTrigger;
 import org.realityforge.packet.Packet;
 import org.realityforge.packet.events.AckEvent;
 import org.realityforge.packet.events.AckRequestEvent;
@@ -34,11 +38,16 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-01-21 04:47:47 $
+ * @version $Revision: 1.7 $ $Date: 2004-01-22 05:52:16 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
 {
+    /**
+     * The time event source to use to add timeouts.
+     */
+    private final TimeEventSource _timeEventSource;
+
     /**
      * The associated BufferManager used to create ByteBuffers for incoming
      * packets.
@@ -56,16 +65,26 @@ public class PacketIOEventHandler
     private final EventSink _target;
 
     /**
+     * The number of milliseconds before the session will timeout.
+     */
+    private static final int TIMEOUT_IN_MILLIS = 5 * 1000;
+
+    /**
      * Create handler with specified destination sink.
      * 
      * @param sink the destination
      */
-    public PacketIOEventHandler( final EventSink sink,
+    public PacketIOEventHandler( final TimeEventSource timeEventSource,
+                                 final EventSink sink,
                                  final EventSink target,
                                  final BufferManager bufferManager,
                                  final SessionManager sessionManager )
     {
         super( sink );
+        if( null == timeEventSource )
+        {
+            throw new NullPointerException( "timeEventSource" );
+        }
         if( null == target )
         {
             throw new NullPointerException( "target" );
@@ -78,6 +97,7 @@ public class PacketIOEventHandler
         {
             throw new NullPointerException( "sessionManager" );
         }
+        _timeEventSource = timeEventSource;
         _target = target;
         _bufferManager = bufferManager;
         _sessionManager = sessionManager;
@@ -92,6 +112,11 @@ public class PacketIOEventHandler
         {
             final InputDataPresentEvent ie = (InputDataPresentEvent)event;
             handleInput( ie );
+        }
+        else if( event instanceof TimeEvent )
+        {
+            final TimeEvent e = (TimeEvent)event;
+            handleTimeout( e );
         }
         else if( event instanceof SessionEstablishRequestEvent )
         {
@@ -126,6 +151,20 @@ public class PacketIOEventHandler
         }
     }
 
+    private void handleTimeout( final TimeEvent e )
+    {
+        final SchedulingKey key = e.getKey();
+        key.cancel();
+        final Session session = (Session)key.getUserData();
+        final int status = session.getStatus();
+        if( Session.STATUS_LOST == status )
+        {
+            final SessionDisconnectRequestEvent response =
+                new SessionDisconnectRequestEvent( session );
+            getSink().addEvent( response );
+        }
+    }
+
     /**
      * Handle message to disconnect Session gracefully.
      * 
@@ -138,7 +177,6 @@ public class PacketIOEventHandler
         {
             handleDisconnect( transport, Protocol.ERROR_NONE );
         }
-        session.setTransport( null );
         session.setStatus( Session.STATUS_DISCONNECTED );
         _sessionManager.deleteSession( session );
         _target.addEvent( new SessionDisconnectEvent( session ) );
@@ -168,16 +206,25 @@ public class PacketIOEventHandler
 
     /**
      * Handle close of transport event.
-     * 
+     *
      * @param cc the close event
      */
     private void handleClose( final ChannelClosedEvent cc )
     {
         final ChannelTransport transport = cc.getTransport();
         final Session session = (Session)transport.getUserData();
-        if( null != session )
+        if( null != session &&
+            Session.STATUS_DISCONNECTED != session.getStatus() )
         {
-            session.setTransport( null );
+            System.out.println( (session.isClient() ? "PACK CL" : "PACK SV") +
+                                ": getStatus()=" +
+                                session.getStatus() );
+            closeTransport( transport );
+            final PeriodicTimeTrigger trigger =
+                new PeriodicTimeTrigger( TIMEOUT_IN_MILLIS, -1 );
+            final SchedulingKey key =
+                _timeEventSource.addTrigger( trigger, session );
+            session.setTimeoutKey( key );
             _target.addEvent( new SessionInactiveEvent( session ) );
         }
     }
@@ -193,6 +240,14 @@ public class PacketIOEventHandler
         final Session session = (Session)transport.getUserData();
         if( null != session )
         {
+            final int status = session.getStatus();
+            if( Session.STATUS_DISCONNECTED == status )
+            {
+                signalDisconnectTransport( transport,
+                                           Protocol.ERROR_SESSION_DISCONNECTED,
+                                           getSink() );
+                return;
+            }
             if( !session.isClient() )
             {
                 System.out.println( "PACK Handle Greeting on " +
@@ -231,7 +286,17 @@ public class PacketIOEventHandler
         catch( final IOException ioe )
         {
         }
+        closeTransport( transport );
+    }
+
+    private void closeTransport( final ChannelTransport transport )
+    {
         transport.getOutputStream().close();
+        final Session session = (Session)transport.getUserData();
+        if( null != session )
+        {
+            session.setTransport( null );
+        }
     }
 
     /**
@@ -467,6 +532,13 @@ public class PacketIOEventHandler
         }
     }
 
+    /**
+     * Send a "connect" message on transport.
+     *
+     * @param transport the transport
+     * @param session the associated session
+     * @throws IOException if error reading from stream
+     */
     private void sendConnect( final ChannelTransport transport,
                               final Session session )
         throws IOException
@@ -725,6 +797,8 @@ public class PacketIOEventHandler
         throws IOException
     {
         ensureValidSession( transport );
+        final Session session = (Session)transport.getUserData();
+        session.getMessageQueue().addPacket( packet );
         final TransportOutputStream output = transport.getOutputStream();
         output.write( Protocol.MSG_DATA );
         TypeIOUtil.writeShort( output, packet.getSequence() );
