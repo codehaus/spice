@@ -25,7 +25,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-10-10 04:02:22 $
+ * @version $Revision: 1.14 $ $Date: 2003-10-23 01:49:46 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -168,15 +168,7 @@ public class NIOAcceptorManager
     }
 
     /**
-     * Start accepting connections from a socket and passing connections
-     * to specified handler.
-     *
-     * @param name the name of connection. This serves as a key used to
-     *        shutdown acceptor.
-     * @param socket the ServerSocket from which connections are accepted
-     * @throws Exception if unable to initiate connection management. This could
-     *         be due to the key already being used for another acceptor,
-     *        the serversocket being closed, the handler being null etc.
+     * @see SocketAcceptorManager#connect
      */
     public void connect( final String name,
                          final ServerSocket socket,
@@ -229,10 +221,7 @@ public class NIOAcceptorManager
     }
 
     /**
-     * Return true if acceptor with specified name exists.
-     *
-     * @param name the name
-     * @return true if acceptor with specified name exists.
+     * @see SocketAcceptorManager#isConnected
      */
     public boolean isConnected( final String name )
     {
@@ -240,10 +229,7 @@ public class NIOAcceptorManager
     }
 
     /**
-     * This shuts down the acceptor and the associated ServerSocket.
-     *
-     * @param name the name of connection
-     * @throws IllegalArgumentException if no connection with specified name
+     * @see SocketAcceptorManager#disconnect
      */
     public void disconnect( final String name )
     {
