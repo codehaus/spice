@@ -16,6 +16,8 @@ import java.io.OutputStream;
 public class DownloadComponentController extends AbstractController {
     private final FileManager fileManager;
     private final ComponentRepository repository;
+    public static final String DOWNLOAD_ID_PARAMETER_NAME = "id";
+    public static final String CONTENT_TYPE = "application/x-java-archive";
 
     public DownloadComponentController(FileManager fileManager, ComponentRepository repository) {
         this.fileManager = fileManager;
@@ -23,10 +25,18 @@ public class DownloadComponentController extends AbstractController {
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        final String downloadId = request.getParameter(DOWNLOAD_ID_PARAMETER_NAME);
+        if ( downloadId == null ) {
+            throw new MissingRequestParameterServletException(DOWNLOAD_ID_PARAMETER_NAME);
+        }
+        final File f = repository.getDownloadable(downloadId);
+        if ( f == null ) {
+            throw new NoSuchDownloadableServletException(downloadId);
+        }
         final OutputStream out = new BufferedOutputStream(response.getOutputStream());
-        final File f = repository.getDownloadable(request.getParameter("id"));
 
-        response.setContentType("application/x-java-archive");
+
+        response.setContentType(CONTENT_TYPE);
         response.setContentLength((int) f.length());
         fileManager.copy(f,out);
 
