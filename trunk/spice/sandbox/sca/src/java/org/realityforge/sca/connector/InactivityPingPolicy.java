@@ -51,7 +51,7 @@ public class InactivityPingPolicy
     }
 
     /**
-     * @see PingPolicy#checkPingConnection
+     * @see PingPolicy#checkPingConnection()
      */
     public boolean checkPingConnection()
     {
@@ -81,7 +81,7 @@ public class InactivityPingPolicy
     }
 
     /**
-     * @see PingPolicy#nextPingCheck
+     * @see PingPolicy#nextPingCheck()
      */
     public long nextPingCheck()
     {
