@@ -7,18 +7,19 @@
  */
 package org.jcomponent.netserve.sockets.impl;
 
-import org.jcomponent.netserve.sockets.SocketConnectionHandler;
-import java.net.Socket;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.Socket;
+
+import org.jcomponent.netserve.connection.ConnectionHandler;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-10 03:52:19 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-24 04:27:55 $
  */
 class ClosingSocketConnectionHandler
-    implements SocketConnectionHandler
+    implements ConnectionHandler
 {
     static final String MESSAGE = "Bye!";
 
