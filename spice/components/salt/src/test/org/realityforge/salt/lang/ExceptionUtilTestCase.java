@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-06-12 22:46:36 $
+ * @version $Revision: 1.5 $ $Date: 2003-06-12 22:55:44 $
  */
 public class ExceptionUtilTestCase
     extends TestCase
@@ -31,7 +31,7 @@ public class ExceptionUtilTestCase
     private static final String TRACE1 =
         TRACE1_LINE1 + NL + TRACE1_LINE2 + NL + TRACE1_LINE3 + NL + TRACE1_LINE4 + NL +
         TRACE1_LINE5 + NL + TRACE1_LINE6 + NL + TRACE1_LINE7 + NL + TRACE1_LINE8 + NL +
-        TRACE1_LINE9;
+        TRACE1_LINE9 + NL;
 
     private static final String TRACE2_LINE1 = "org.realityforge.salt.lang.MockThrowable: s2";
     private static final String TRACE2_LINE2 = "   at org.realityforge.CallerClass2.callerMethod1( CallerClass2.java:1 )";
@@ -45,7 +45,7 @@ public class ExceptionUtilTestCase
     private static final String TRACE2 =
         TRACE2_LINE1 + NL + TRACE2_LINE2 + NL + TRACE2_LINE3 + NL + TRACE2_LINE4 + NL +
         TRACE2_LINE5 + NL + TRACE2_LINE6 + NL + TRACE2_LINE7 + NL + TRACE2_LINE8 + NL +
-        TRACE2_LINE9;
+        TRACE2_LINE9 + NL;
 
     private static final String TRACE3_LINE1 = "org.realityforge.salt.lang.MockThrowable: s2";
     private static final String TRACE3_LINE2 = "   at org.realityforge.CallerClass3.callerMethod1( CallerClass3.java:1 )";
@@ -59,7 +59,7 @@ public class ExceptionUtilTestCase
     private static final String TRACE3 =
         TRACE3_LINE1 + NL + TRACE3_LINE2 + NL + TRACE3_LINE3 + NL + TRACE3_LINE4 + NL +
         TRACE3_LINE5 + NL + TRACE3_LINE6 + NL + TRACE3_LINE7 + NL + TRACE3_LINE8 + NL +
-        TRACE3_LINE9;
+        TRACE3_LINE9 + NL;
 
     public ExceptionUtilTestCase( final String name )
     {
@@ -159,8 +159,10 @@ public class ExceptionUtilTestCase
         assertEquals( "trace[8]", TRACE1_LINE9, trace[ 8 ] );
     }
 
-    public void testCaptureStackTraceOnOneLevelDeepExceptionssss()
+    public void testPrintStackTraceOnLeafException()
     {
-        //Caused by: ja
+        final MockThrowable throwable = new MockThrowable( "s1", null, TRACE1 );
+        final String trace = ExceptionUtil.printStackTrace( throwable );
+        assertEquals( "printStackTrace", TRACE1, trace );
     }
 }
