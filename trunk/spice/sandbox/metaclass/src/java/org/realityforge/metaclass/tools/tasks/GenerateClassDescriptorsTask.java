@@ -33,8 +33,8 @@ import org.realityforge.metaclass.tools.qdox.NonNamespaceAttributeRemovingInterc
 /**
  * A Task to generate Attributes descriptors from source files.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2003-11-20 09:23:19 $
+ * @author Peter Donald
+ * @version $Revision: 1.17 $ $Date: 2003-11-27 08:13:43 $
  */
 public class GenerateClassDescriptorsTask
     extends Task
