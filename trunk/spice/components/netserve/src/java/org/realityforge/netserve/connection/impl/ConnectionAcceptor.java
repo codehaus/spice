@@ -21,7 +21,7 @@ import org.realityforge.threadpool.ThreadPool;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-04-23 03:55:57 $
+ * @version $Revision: 1.5 $ $Date: 2003-04-23 03:56:52 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
@@ -86,29 +86,6 @@ class ConnectionAcceptor
         m_serverSocket = serverSocket;
         m_handlerManager = handlerManager;
         m_threadPool = threadPool;
-    }
-
-    /**
-     * Utility method that tells the acceptor to stop running.
-     */
-    synchronized void stopRunning()
-    {
-        if( isRunning() )
-        {
-            final Thread thread = m_thread;
-            m_thread = null;
-            thread.interrupt();
-        }
-    }
-
-    /**
-     * Return true if the acceptor is currently running.
-     *
-     * @return true if the acceptor is currently running.
-     */
-    synchronized boolean isRunning()
-    {
-        return null != m_thread;
     }
 
     public void close( final int waitTime )
@@ -251,5 +228,28 @@ class ConnectionAcceptor
                 }
             }
         }
+    }
+
+    /**
+     * Utility method that tells the acceptor to stop running.
+     */
+    private synchronized void stopRunning()
+    {
+        if( isRunning() )
+        {
+            final Thread thread = m_thread;
+            m_thread = null;
+            thread.interrupt();
+        }
+    }
+
+    /**
+     * Return true if the acceptor is currently running.
+     *
+     * @return true if the acceptor is currently running.
+     */
+    private synchronized boolean isRunning()
+    {
+        return null != m_thread;
     }
 }
