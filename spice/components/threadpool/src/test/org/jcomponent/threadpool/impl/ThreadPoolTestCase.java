@@ -24,7 +24,7 @@ import java.io.InputStream;
  *  An basic test case for the ThreadPools.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-27 19:10:42 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-29 07:23:55 $
  */
 public class ThreadPoolTestCase
     extends TestCase
@@ -201,7 +201,7 @@ public class ThreadPoolTestCase
 
     private AbstractThreadPool createThreadPool() throws Exception
     {
-        final AbstractThreadPool threadPool = new CommonsThreadPool();
+        final AbstractThreadPool threadPool = new AvalonCommonsThreadPool();
         ContainerUtil.enableLogging( threadPool, new ConsoleLogger( m_debug ) );
         DefaultConfiguration configuration = buildConfiguration();
         ContainerUtil.configure( threadPool, configuration );
