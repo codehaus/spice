@@ -30,7 +30,7 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.24 $ $Date: 2003-11-18 23:06:22 $
+ * @version $Revision: 1.25 $ $Date: 2003-11-20 09:23:19 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -618,6 +618,7 @@ public class MetaGenerateTaskTestCase
         task.addFileset( fileSet );
         task.setNamespaceTagsOnly( false );
         task.addInterceptor( element );
+        task.addInterceptorSet( new InterceptorSet() );
         task.execute();
         final String destFilename =
             destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
@@ -673,6 +674,7 @@ public class MetaGenerateTaskTestCase
         final PluginElement element = new PluginElement();
         element.setName( PassThroughFilter.class.getName() );
         task.addFilter( element );
+        task.addFilterSet( new FilterSet() );
         task.setNamespaceTagsOnly( false );
         task.execute();
         final String destFilename =
