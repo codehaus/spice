@@ -8,6 +8,7 @@
 package org.realityforge.configkit;
 
 import java.io.InputStream;
+import java.net.URL;
 import org.xml.sax.InputSource;
 
 /**
@@ -16,7 +17,7 @@ import org.xml.sax.InputSource;
  * explanation about how ConfigValidator objects are loaded.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-06 12:15:58 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-06 12:24:34 $
  */
 public class ComponentConfigUtil
 {
@@ -63,7 +64,7 @@ public class ComponentConfigUtil
         }
         final String actualLocation = calculateLocation( classname, location );
         final InputSource inputSource =
-            getSchemaInputSource( actualLocation, classLoader );
+            getSchemaInputSource( actualLocation.substring( 1 ), classLoader );
         if( null != inputSource )
         {
             return ConfigValidatorFactory.create( type, inputSource );
@@ -131,7 +132,15 @@ public class ComponentConfigUtil
         }
 
         final InputSource inputSource = new InputSource( inputStream );
-        inputSource.setSystemId( resource );
+        final URL url = classLoader.getResource( resource );
+        if( null != url )
+        {
+            inputSource.setSystemId( url.toExternalForm() );
+        }
+        else
+        {
+            inputSource.setSystemId( resource );
+        }
         return inputSource;
     }
 }
