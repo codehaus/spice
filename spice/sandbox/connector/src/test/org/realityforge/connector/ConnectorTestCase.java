@@ -486,7 +486,7 @@ public class ConnectorTestCase
 
       connector.setActive( true );
       connector.setConnected( true );
-      connector.validateConnection();
+      connector.ping();
 
       assertEquals( "isConnected", true, connector.isConnected() );
 
