@@ -11,6 +11,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.events.AcceptPossibleEvent;
+import org.codehaus.spice.netevent.events.ConnectPossibleEvent;
 import org.codehaus.spice.netevent.events.ReadPossibleEvent;
 import org.codehaus.spice.netevent.events.WritePossibleEvent;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
@@ -21,7 +22,7 @@ import org.realityforge.sca.selector.SelectorEventHandler;
  * corresponding events to pass onto an EventSink.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-16 00:22:03 $
  */
 public class SocketSelectorEventHandler
     implements SelectorEventHandler
@@ -52,7 +53,8 @@ public class SocketSelectorEventHandler
         {
             final ServerSocketChannel channel =
                 (ServerSocketChannel)key.channel();
-            final AcceptPossibleEvent event = new AcceptPossibleEvent( channel );
+            final AcceptPossibleEvent event =
+                new AcceptPossibleEvent( channel, userData );
             _sink.addEvent( event );
         }
         if( key.isWritable() )
@@ -67,6 +69,12 @@ public class SocketSelectorEventHandler
             final ChannelTransport transport = (ChannelTransport)userData;
             final ReadPossibleEvent event =
                 new ReadPossibleEvent( transport );
+            _sink.addEvent( event );
+        }
+        if( key.isConnectable() )
+        {
+            final ConnectPossibleEvent event =
+                new ConnectPossibleEvent( key.channel(), userData );
             _sink.addEvent( event );
         }
     }
