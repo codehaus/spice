@@ -30,7 +30,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  * Java Source files with qdox.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-04 10:31:01 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-04 10:31:23 $
  */
 public class ClassDescriptorCompiler
 {
@@ -214,7 +214,8 @@ public class ClassDescriptorCompiler
     private List buildClassDescriptors( final List classes )
     {
         final QDoxAttributeInterceptor[] interceptors =
-            (QDoxAttributeInterceptor[])m_interceptors.toArray( new QDoxAttributeInterceptor[ m_interceptors.size() ] );
+            (QDoxAttributeInterceptor[])m_interceptors.
+            toArray( new QDoxAttributeInterceptor[ m_interceptors.size() ] );
 
         final ArrayList descriptors = new ArrayList();
         final Iterator iterator = classes.iterator();
