@@ -33,7 +33,7 @@ public class SelectorManager
    /**
     * Flag indicating whether manager is running.
     */
-   private boolean m_running;
+   private boolean m_active;
 
    /**
     * Timeout on selector.
@@ -101,6 +101,7 @@ public class SelectorManager
    {
       setInactive();
       shutdownSelector();
+      waitForThreadToComplete();
    }
 
    /**
@@ -137,6 +138,13 @@ public class SelectorManager
             }
          }
       }
+   }
+
+   /**
+    * Wait for selector thread to complete.
+    */
+   protected void waitForThreadToComplete()
+   {
       while ( null != m_selector )
       {
          synchronized ( getSelectorLock() )
@@ -174,7 +182,7 @@ public class SelectorManager
    {
       synchronized ( getSelectorLock() )
       {
-         return m_running;
+         return m_active;
       }
    }
 
@@ -328,7 +336,7 @@ public class SelectorManager
    {
       synchronized ( getSelectorLock() )
       {
-         m_running = running;
+         m_active = running;
       }
    }
 
