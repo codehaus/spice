@@ -25,7 +25,7 @@ import org.codehaus.spice.alchemist.logger.LoggerAlchemist;
  * 
  * @author Johan Sjoberg
  * @author Mauro Talevi
- * @version $Revision: 1.2 $ $Date: 2004-06-17 22:26:53 $
+ * @version $Revision: 1.3 $ $Date: 2004-06-19 17:51:35 $
  */
 public class DNAInstrumentManager implements InstrumentManager, LogEnabled,
         Configurable, Active {
@@ -39,6 +39,10 @@ public class DNAInstrumentManager implements InstrumentManager, LogEnabled,
      * @param manager the Excalibur InstrumentManager
      */
     public DNAInstrumentManager( final InstrumentManager manager ) {
+        if( null == manager )
+        {
+            throw new NullPointerException( "manager" );
+        }
         _manager = manager;
     }
 

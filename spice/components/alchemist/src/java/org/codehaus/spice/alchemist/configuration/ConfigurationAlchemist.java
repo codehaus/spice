@@ -8,12 +8,13 @@
 package org.codehaus.spice.alchemist.configuration;
 
 import org.codehaus.dna.Configuration;
+import org.codehaus.dna.impl.DefaultConfiguration;
 
 /**
  * Utility class containing methods to transform Configuration objects.
  *
  * @author Mauro Talevi
- * @version $Revision: 1.2 $ $Date: 2004-06-17 22:27:22 $
+ * @version $Revision: 1.3 $ $Date: 2004-06-19 17:51:35 $
  */
 public class ConfigurationAlchemist
 {
@@ -25,7 +26,10 @@ public class ConfigurationAlchemist
      */
     public static Configuration toDNAConfiguration( final org.apache.avalon.framework.configuration.Configuration configuration )
     {
-        return new DNAConfiguration( configuration );
+        if ( null == configuration ) { 
+            throw new NullPointerException( "configuration" ); 
+        }
+        return new DefaultConfiguration( configuration.getName(), "", configuration.getLocation() );
     }
 
     /**
@@ -36,7 +40,10 @@ public class ConfigurationAlchemist
      */
     public static org.apache.avalon.framework.configuration.Configuration toAvalonConfiguration( final Configuration configuration )
     {
-        return new AvalonConfiguration( configuration );
+        if ( null == configuration ) { 
+            throw new NullPointerException( "configuration" ); 
+        }
+        return new org.apache.avalon.framework.configuration.DefaultConfiguration( configuration.getName(), configuration.getLocation() );
     }
     
     /**
