@@ -2,11 +2,6 @@ package org.realityforge.metaclass.io;
 
 import java.util.Properties;
 
-import com.mockobjects.constraint.Constraint;
-import com.mockobjects.dynamic.C;
-import com.mockobjects.dynamic.Mock;
-import com.mockobjects.dynamic.ConstraintMatcher;
-import com.mockobjects.dynamic.FullConstraintMatcher;
 import junit.framework.TestCase;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.helpers.AttributesImpl;
@@ -15,6 +10,11 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.ClassDescriptor;
+import org.jmock.Mock;
+import org.jmock.C;
+import org.jmock.InvocationMatcher;
+import org.jmock.Constraint;
+import org.jmock.matcher.ArgumentsMatcher;
 
 public class SAXMetaClassSerializerTestCase
     extends TestCase
@@ -241,23 +241,23 @@ public class SAXMetaClassSerializerTestCase
         mockHandler.expect( "startElement", ST( name, attrs ) );
     }
 
-    private static ConstraintMatcher END( final String name )
+    private static InvocationMatcher END( final String name )
     {
         final Constraint[] constraints = new Constraint[]
         {
             C.eq( "" ), C.eq( name ), C.eq( name )
         };
-        return new FullConstraintMatcher( constraints );
+        return new ArgumentsMatcher( constraints );
     }
 
-    private static ConstraintMatcher ST( final String name,
+    private static InvocationMatcher ST( final String name,
                                          final AttributesImpl attr )
     {
         final Constraint[] constraints = new Constraint[]
         {
             C.eq( "" ), C.eq( name ), C.eq( name ), AT( attr )
         };
-        return new FullConstraintMatcher( constraints );
+        return new ArgumentsMatcher( constraints );
     }
 
     private static Constraint AT( final AttributesImpl attr )
