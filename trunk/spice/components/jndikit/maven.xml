@@ -5,14 +5,14 @@
     default="jar:install">
 
     <postGoal name="java:compile">
-        <rmic base="${maven.build.dest}"
-            classname="org.realityforge.jndikit.rmi.server.RMINamingProviderImpl"
+        <ant:rmic base="${maven.build.dest}"
+            classname="org.codehaus.spice.jndikit.rmi.server.RMINamingProviderImpl"
             stubVersion="1.2">
-            <classpath>
-                <path refid="maven.dependency.classpath"/>
-                <pathelement path="${maven.build.dest}"/>
-            </classpath>
-        </rmic>
+            <ant:classpath>
+                <ant:path refid="maven.dependency.classpath"/>
+                <ant:pathelement path="${maven.build.dest}"/>
+            </ant:classpath>
+        </ant:rmic>
     </postGoal>
 
 </project>
