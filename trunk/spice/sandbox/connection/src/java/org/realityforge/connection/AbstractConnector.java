@@ -105,4 +105,24 @@ public abstract class AbstractConnector
    {
       return _lastRxMessage;
    }
+
+   /**
+    * Return true if connector is active.
+    *
+    * @return true if connector is active.
+    */
+   public boolean isActive()
+   {
+      return _active;
+   }
+
+   /**
+    * Set the flag to indicate if the connector is active or inactive.
+    *
+    * @param active the flag to indicate if the connector is active or inactive.
+    */
+   public void setActive( final boolean active )
+   {
+      _active = active;
+   }
 }
