@@ -172,6 +172,7 @@ public abstract class AbstractConnector
     * Set the connected state.
     *
     * @param connected the connected state.
+    * @mx.attribute
     */
    protected void setConnected( final boolean connected )
    {
@@ -182,6 +183,7 @@ public abstract class AbstractConnector
     * Return the time the last connection attempt started.
     *
     * @return the time the last connection attempt started.
+    * @mx.attribute
     */
    public long getLastConnectionTime()
    {
@@ -192,6 +194,7 @@ public abstract class AbstractConnector
     * Return the number of sequential failed connection attempts.
     *
     * @return the number of sequential failed connection attempts.
+    * @mx.attribute
     */
    public int getConnectionAttempts()
    {
