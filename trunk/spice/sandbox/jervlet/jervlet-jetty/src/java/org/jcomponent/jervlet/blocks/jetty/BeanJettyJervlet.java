@@ -51,10 +51,6 @@ package org.jcomponent.jervlet.blocks.jetty;
 
 import org.jcomponent.jervlet.*;
 import org.mortbay.jetty.Server;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.lifecycle.Disposable;
-import org.picocontainer.lifecycle.Startable;
-import org.picocontainer.lifecycle.Stoppable;
 
 import java.io.File;
 import java.net.UnknownHostException;
@@ -64,8 +60,8 @@ import java.util.Set;
 
 /**
  *
- * Jetty Wrapper for PicoContainer etc
- * Type-3 IoC
+ * Jetty Wrapper for SpringFramework etc
+ * Type-2 IoC
  *
  *
  * @see <a href="http://jetty.mortbay.com/">Jetty Project Page</a>
@@ -76,23 +72,38 @@ import java.util.Set;
  * @author  Ryan Hoegg
  * @version 1.0
  */
-public class PicoJettyJervlet extends AbstractJettyJervlet
-    implements Jervlet, Startable, Stoppable, Disposable
+public class BeanJettyJervlet extends AbstractJettyJervlet
+    implements Jervlet
 {
-    private final JervletMonitor monitor;
-    private final File appRootDir;
-    private final JervletContext jervletContext;
+
+    private JervletMonitor monitor;
+    private File appRootDir;
+    private JervletContext jervletContext;
 
     private Server m_server;
 
     private HashMap m_webcontexts = new HashMap();
+    private RequestLogger requestLogger;
 
-    public PicoJettyJervlet(JervletConfig config, JervletMonitor monitor, MutablePicoContainer parentContainer,
-                            File appRootDir, RequestLogger requestLogger) throws UnknownHostException {
+    public void setJervletConfig(JervletConfig config) {
         super.config = config;
-        this.monitor = monitor;
+    }
+
+    public void setRequestLogger(RequestLogger requestLogger) {
+        this.requestLogger = requestLogger;
+    }
+
+    public void setAppRootDir(File appRootDir) {
         this.appRootDir = appRootDir;
-        this.jervletContext = new PicoJervletContext(parentContainer);
+    }
+
+    public void setJervletMonitor(JervletMonitor jervletMonitor) {
+        this.monitor = jervletMonitor;
+    }
+
+    public void initialize() throws UnknownHostException {
+
+        this.jervletContext = new SimpleJervletContext();
 
         m_server = createHttpServer();
         m_server.addListener( createSocketListener() );

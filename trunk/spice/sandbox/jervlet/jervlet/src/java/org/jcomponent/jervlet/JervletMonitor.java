@@ -20,7 +20,7 @@ public interface JervletMonitor {
 
     void undeployException(Class reportingClass, String context, Exception e) throws JervletException;
 
-    void deployingContextException(Class reportingClass, String context, String webappUrl, String hostName, Exception e) throws JervletException;
+    void deployingException(Class reportingClass, String context, String webappUrl, String hostName, Exception e) throws JervletException;
 
     void undeployWarning(Class reportingClass, String context, String msg);
 

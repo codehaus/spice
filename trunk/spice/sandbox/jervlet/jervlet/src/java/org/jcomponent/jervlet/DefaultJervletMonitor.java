@@ -21,7 +21,6 @@ public class DefaultJervletMonitor implements JervletMonitor {
     }
 
     public void redeployException(Class reportingClass, String context, JervletException e) throws JervletException {
-        //getLogger().error( "Exception restarting: " + context, e );
         throw e;
     }
 
@@ -38,7 +37,7 @@ public class DefaultJervletMonitor implements JervletMonitor {
         throw new JervletException(msg, e);
     }
 
-    public void deployingContextException(Class reportingClass, String context, String webappUrl, String hostName, Exception e) throws JervletException {
+    public void deployingException(Class reportingClass, String context, String webappUrl, String hostName, Exception e) throws JervletException {
         final String msg = "Unable to deploy '" + context + "' : " + e.getMessage();
         throw new JervletException(msg, e);
     }

@@ -50,6 +50,11 @@
       <version>1.0-SNAPSHOT</version>
       <url>http://www.picocontainer.org/</url>
     </dependency>    
+    <dependency>
+      <id>commons-logging</id>
+      <version>1.0.3</version>
+      <url>http://jakarta.apache.org/commons/logging.html</url>
+    </dependency>
   </dependencies>
   
   <build>
