@@ -18,9 +18,9 @@ import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-09 00:47:29 $
  */
-public class TcpTransportTestCase
+public class ChannelTransportTestCase
     extends TestCase
 {
     private SocketChannel m_channel;
@@ -40,24 +40,21 @@ public class TcpTransportTestCase
     public void testCreate()
         throws Exception
     {
-        final UnboundedFifoBuffer rx = new UnboundedFifoBuffer( 1 );
         final UnboundedFifoBuffer tx = new UnboundedFifoBuffer( 1 );
         final ChannelTransport transport =
-            new ChannelTransport( m_channel, rx, tx );
+            new ChannelTransport( m_channel, tx );
         assertEquals( "channel", m_channel, transport.getChannel() );
         assertEquals( "key", null, transport.getKey() );
-        assertEquals( "getReceiveBuffer", rx, transport.getReceiveBuffer() );
         assertEquals( "getTransmitBuffer", tx, transport.getTransmitBuffer() );
     }
 
     public void testNullChannelPassedToCtor()
         throws Exception
     {
-        final UnboundedFifoBuffer rx = new UnboundedFifoBuffer( 1 );
         final UnboundedFifoBuffer tx = new UnboundedFifoBuffer( 1 );
         try
         {
-            new ChannelTransport( null, rx, tx );
+            new ChannelTransport( null, tx );
         }
         catch( final NullPointerException npe )
         {
@@ -67,32 +64,13 @@ public class TcpTransportTestCase
         fail( "Expected to fail due to null Channel passed into Ctor" );
     }
 
-    public void testNullReceiveBufferPassedToCtor()
-        throws Exception
-    {
-        final SocketChannel channel = SocketChannel.open();
-        final UnboundedFifoBuffer tx = new UnboundedFifoBuffer( 1 );
-        try
-        {
-            new ChannelTransport( channel, null, tx );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe.getMessage()", "receiveBuffer",
-                          npe.getMessage() );
-            return;
-        }
-        fail( "Expected to fail due to null receiveBuffer passed into Ctor" );
-    }
-
     public void testNullTransmitBufferPassedToCtor()
         throws Exception
     {
         final SocketChannel channel = SocketChannel.open();
-        final UnboundedFifoBuffer rx = new UnboundedFifoBuffer( 1 );
         try
         {
-            new ChannelTransport( channel, rx, null );
+            new ChannelTransport( channel, null );
         }
         catch( final NullPointerException npe )
         {
@@ -117,7 +95,6 @@ public class TcpTransportTestCase
             m_channel.connect( socketAddress );
             final ChannelTransport transport =
                 new ChannelTransport( m_channel,
-                                      new UnboundedFifoBuffer( 1 ),
                                       new UnboundedFifoBuffer( 1 ) );
             assertEquals( "channel.isOpen()", true, m_channel.isOpen() );
             transport.close();
@@ -135,7 +112,6 @@ public class TcpTransportTestCase
     {
         final ChannelTransport transport =
             new ChannelTransport( m_channel,
-                                  new UnboundedFifoBuffer( 1 ),
                                   new UnboundedFifoBuffer( 1 ) );
         m_channel.close();
         assertEquals( "channel.isOpen()", false, m_channel.isOpen() );
@@ -148,7 +124,7 @@ public class TcpTransportTestCase
         throws Exception
     {
         final ChannelTransport transport =
-            new ChannelTransport( m_channel, new UnboundedFifoBuffer( 1 ),
+            new ChannelTransport( m_channel,
                                   new UnboundedFifoBuffer( 1 ) );
         final Buffer writeBuffer = transport.getTransmitBuffer();
         writeBuffer.add( new Object() );
@@ -161,7 +137,7 @@ public class TcpTransportTestCase
         throws Exception
     {
         final ChannelTransport transport =
-            new ChannelTransport( m_channel, new UnboundedFifoBuffer( 1 ),
+            new ChannelTransport( m_channel,
                                   new UnboundedFifoBuffer( 1 ) );
         assertEquals( "SelectOps",
                       SelectionKey.OP_READ,
