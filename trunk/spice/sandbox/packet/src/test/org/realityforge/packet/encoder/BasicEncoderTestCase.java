@@ -14,7 +14,7 @@ import org.realityforge.packet.Packet;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-11-11 11:39:30 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-11 12:13:23 $
  */
 public class BasicEncoderTestCase
     extends TestCase
@@ -32,7 +32,7 @@ public class BasicEncoderTestCase
         data.put( (byte)'n' );
         data.put( (byte)'g' );
         data.flip();
-        data.position( sequence );
+        data.position( 2 );
 
         final Packet packet = new Packet( (short)sequence, 0, data );
         final BasicEncoder encoder = new BasicEncoder();
@@ -55,8 +55,6 @@ public class BasicEncoderTestCase
     public void testEncodePacketThatNoFit()
         throws Exception
     {
-        final int sequence = 2;
-
         final ByteBuffer data = ByteBuffer.allocate( 5 );
         data.clear();
         data.put( (byte)'B' );
@@ -64,15 +62,16 @@ public class BasicEncoderTestCase
         data.put( (byte)'n' );
         data.put( (byte)'g' );
         data.flip();
-        data.position( sequence );
+        data.position( 2 );
 
-        final Packet packet = new Packet( (short)sequence, 0, data );
+        final Packet packet = new Packet( (short)2, 0, data );
         final BasicEncoder encoder = new BasicEncoder();
 
         final ByteBuffer output = ByteBuffer.allocate( 50 );
         output.position( 48 );
         final boolean result = encoder.encode( packet, output );
         assertEquals( "encoded?", false, result );
+        assertEquals( "output.position()", 48, output.position() );
     }
 
     public void testDecodePacketThatHeaderNoPresent()
@@ -106,5 +105,45 @@ public class BasicEncoderTestCase
         assertEquals( "packet", null, packet );
         assertEquals( "input.position()", 2, input.position() );
         assertEquals( "input.limit()", 10, input.limit() );
+    }
+
+    public void testDecodePacket()
+        throws Exception
+    {
+        final ByteBuffer input = ByteBuffer.allocate( 40 );
+        input.clear();
+        input.limit( 13 );
+        input.position( 0 );
+        input.putShort( (short)2 );
+        input.putShort( (short)23 );
+        input.put( (byte)'H' );
+        input.put( (byte)'i' );
+
+        //The next set of data defines data still encoded
+        input.putShort( (short)3 );
+        input.putShort( (short)24 );
+        input.put( (byte)'B' );
+        input.put( (byte)'a' );
+        input.put( (byte)'i' );
+        input.position( 2 );
+
+        final BasicEncoder encoder = new BasicEncoder();
+        final Packet packet = encoder.decode( input );
+        assertNotNull( "packet", packet );
+
+        assertEquals( "packet.getSequence()", 23, packet.getSequence() );
+        final ByteBuffer data = packet.getData();
+        assertEquals( "data.limit()", 2, data.limit() );
+        assertEquals( "data.position()", 0, data.position() );
+        assertEquals( "data.get( 0 )", 'H', data.get( 0 ) );
+        assertEquals( "data.get( 1 )", 'i', data.get( 1 ) );
+
+        assertEquals( "input.position()", 0, input.position() );
+        assertEquals( "input.limit()", 7, input.limit() );
+        assertEquals( "input.getShort( 0 )", 3, input.getShort( 0 ) );
+        assertEquals( "input.getShort( 2 )", 24, input.getShort( 2 ) );
+        assertEquals( "input.get( 4 )", 'B', input.get( 4 ) );
+        assertEquals( "input.get( 5 )", 'a', input.get( 5 ) );
+        assertEquals( "input.get( 6 )", 'i', input.get( 6 ) );
     }
 }
