@@ -4,9 +4,12 @@
     xmlns:j="jelly:core"
     xmlns:maven="jelly:maven"
     xmlns:define="jelly:define"
+    xmlns:util="jelly:util"
     xmlns:ant="jelly:ant"
     xmlns:archive="spice:archive"
     default="java:jar">
+
+    <j:set var="spice.tool.dir" value="${basedir}/../../tools"/>
 
     <define:taglib uri="spice:archive">
         <define:tag name="copy-runtime-deps">
@@ -36,6 +39,12 @@
         </define:tag>
     </define:taglib>
 
+    <preGoal name="xdoc:copy-user-resources">
+        <ant:mkdir dir="${basedir}/xdocs/style"/>
+        <ant:copy file="${basedir}/../../tools/site/project.css"
+                  todir="${basedir}/xdocs/style"/>
+    </preGoal>
+
     <goal name="test-deps">
         <ant:mkdir dir="target"/>
         <archive:copy-runtime-deps todir="target"/>
@@ -60,6 +69,7 @@
 
     <preGoal name="xdoc:transform">
         <attainGoal name="generateNavigation"/>
+        <ant:copy file="${basedir}/../../tools/site/site.jsl" todir="target"/>
     </preGoal>
 
     <goal name="generateNavigation">
@@ -88,7 +98,7 @@
             <doc:jslFile
                 input="target/navigation.xml"
                 output="target/generated-xdocs/navigation.xml"
-                stylesheet="../../tools/navigation.jsl"
+                stylesheet="${basedir}/../../tools/navigation.jsl"
                 omitXmlDeclaration="true"
                 outputMode="xml"
                 prettyPrint="true"/>
@@ -96,7 +106,7 @@
     </goal>
 
     <preGoal name="checkstyle:check-license-file">
-        <ant:copy file="../../tools/checkstyle/LICENSE-header.txt" todir="target"/>
+        <ant:copy file="${basedir}/../../tools/checkstyle/LICENSE-header.txt" todir="target"/>
     </preGoal>
 
     <postGoal name="dist:prepare-bin-filesystem">
