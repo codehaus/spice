@@ -6,7 +6,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Event to indicate Channel was accepted.
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-08 04:03:58 $
+ * @version $Revision: 1.6 $ $Date: 2004-05-17 06:21:38 $
  */
 public class ConnectEvent
     extends AbstractTransportEvent

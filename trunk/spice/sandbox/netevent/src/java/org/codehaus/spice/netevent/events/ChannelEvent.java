@@ -7,7 +7,7 @@ import org.codehaus.spice.event.AbstractEvent;
  * Abstract event about Channels.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-22 02:10:47 $
+ * @version $Revision: 1.5 $ $Date: 2004-05-17 06:21:38 $
  */
 public abstract class ChannelEvent
     extends AbstractEvent
@@ -27,8 +27,7 @@ public abstract class ChannelEvent
      * 
      * @param channel the channel
      */
-    public ChannelEvent( final Channel channel,
-                         final Object userData )
+    public ChannelEvent( final Channel channel, final Object userData )
     {
         if( null == channel )
         {

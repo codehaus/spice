@@ -13,7 +13,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Event indicating more data ready in stream were read.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-20 01:08:30 $
+ * @version $Revision: 1.3 $ $Date: 2004-05-17 06:21:38 $
  */
 public class InputDataPresentEvent
     extends DataPresentEvent
@@ -23,8 +23,7 @@ public class InputDataPresentEvent
      * 
      * @param transport the transport
      */
-    public InputDataPresentEvent( final ChannelTransport transport,
-                                  final int count )
+    public InputDataPresentEvent( final ChannelTransport transport, final int count )
     {
         super( transport, count );
     }

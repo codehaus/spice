@@ -11,7 +11,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.12 $ $Date: 2004-01-21 03:44:55 $
+ * @version $Revision: 1.13 $ $Date: 2004-05-17 06:21:39 $
  */
 public class EventsTestCase
     extends TestCase
@@ -43,11 +43,9 @@ public class EventsTestCase
         throws Exception
     {
         final ServerSocketChannel channel = ServerSocketChannel.open();
-        final AcceptPossibleEvent event = new AcceptPossibleEvent( channel,
-                                                                   new Object() );
+        final AcceptPossibleEvent event = new AcceptPossibleEvent( channel, new Object() );
 
-        assertEquals( "event.getChannel()", channel,
-                      event.getChannel() );
+        assertEquals( "event.getChannel()", channel, event.getChannel() );
     }
 
     public void testNull_ioe_PassedIntoCtor_of_IOError()

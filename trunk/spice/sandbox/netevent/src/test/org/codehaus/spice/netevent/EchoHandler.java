@@ -5,7 +5,7 @@ import org.codehaus.spice.event.EventHandler;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-05-17 05:45:34 $
+ * @version $Revision: 1.2 $ $Date: 2004-05-17 06:21:39 $
  */
 class EchoHandler
     extends AbstractEventHandler

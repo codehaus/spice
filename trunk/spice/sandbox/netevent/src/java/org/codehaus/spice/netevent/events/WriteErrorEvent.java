@@ -14,7 +14,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Event indicating a write error occured.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:13 $
+ * @version $Revision: 1.3 $ $Date: 2004-05-17 06:21:38 $
  */
 public class WriteErrorEvent
     extends IOErrorEvent
@@ -25,8 +25,7 @@ public class WriteErrorEvent
      * @param transport the transport
      * @param ioe the error
      */
-    public WriteErrorEvent( final ChannelTransport transport,
-                            final IOException ioe )
+    public WriteErrorEvent( final ChannelTransport transport, final IOException ioe )
     {
         super( transport, ioe );
     }

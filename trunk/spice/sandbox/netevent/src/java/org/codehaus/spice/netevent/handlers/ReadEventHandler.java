@@ -23,7 +23,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Handler for reading data from channel.
  * 
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-01-20 05:46:32 $
+ * @version $Revision: 1.7 $ $Date: 2004-05-17 06:21:38 $
  */
 public class ReadEventHandler
     extends AbstractIOEventHandler
@@ -34,8 +34,7 @@ public class ReadEventHandler
      * @param sink the destination
      * @param bufferManager the bufferManager
      */
-    public ReadEventHandler( final EventSink sink,
-                             final BufferManager bufferManager )
+    public ReadEventHandler( final EventSink sink, final BufferManager bufferManager )
     {
         super( sink, bufferManager );
     }
@@ -45,10 +44,9 @@ public class ReadEventHandler
      */
     public void handleEvent( final Object event )
     {
-        final ReadPossibleEvent ce = (ReadPossibleEvent)event;
+        final ReadPossibleEvent ce = (ReadPossibleEvent) event;
         final ChannelTransport transport = ce.getTransport();
-        final ReadableByteChannel channel =
-            (ReadableByteChannel)transport.getChannel();
+        final ReadableByteChannel channel = (ReadableByteChannel) transport.getChannel();
         if( !channel.isOpen() )
         {
             return;
@@ -60,8 +58,7 @@ public class ReadEventHandler
             final int count = channel.read( buffer );
             if( -1 == count )
             {
-                final CloseChannelRequestEvent result =
-                    new CloseChannelRequestEvent( transport );
+                final CloseChannelRequestEvent result = new CloseChannelRequestEvent( transport );
                 getSink().addEvent( result );
                 getBufferManager().releaseBuffer( buffer );
             }
@@ -72,16 +69,13 @@ public class ReadEventHandler
             else
             {
                 buffer.flip();
-                final ReadEvent result =
-                    new ReadEvent( transport, buffer );
+                final ReadEvent result = new ReadEvent( transport, buffer );
                 getSink().addEvent( result );
             }
         }
         catch( final IOException ioe )
         {
-            final ReadErrorEvent error =
-                new ReadErrorEvent( transport,
-                                    ioe );
+            final ReadErrorEvent error = new ReadErrorEvent( transport, ioe );
             getSink().addEvent( error );
         }
     }

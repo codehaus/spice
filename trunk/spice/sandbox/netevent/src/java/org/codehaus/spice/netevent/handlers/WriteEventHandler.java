@@ -23,7 +23,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Handler for writing data to channel.
  * 
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2004-02-13 04:53:32 $
+ * @version $Revision: 1.8 $ $Date: 2004-05-17 06:21:38 $
  */
 public class WriteEventHandler
     extends AbstractIOEventHandler
@@ -34,8 +34,7 @@ public class WriteEventHandler
      * @param sink the destination
      * @param bufferManager the bufferManager
      */
-    public WriteEventHandler( final EventSink sink,
-                              final BufferManager bufferManager )
+    public WriteEventHandler( final EventSink sink, final BufferManager bufferManager )
     {
         super( sink, bufferManager );
     }
@@ -45,17 +44,16 @@ public class WriteEventHandler
      */
     public void handleEvent( final Object event )
     {
-        final WritePossibleEvent we = (WritePossibleEvent)event;
+        final WritePossibleEvent we = (WritePossibleEvent) event;
         final ChannelTransport transport = we.getTransport();
-        final WritableByteChannel channel =
-            (WritableByteChannel)transport.getChannel();
+        final WritableByteChannel channel = (WritableByteChannel) transport.getChannel();
         if( !channel.isOpen() )
         {
             return;
         }
 
         final Buffer transmitBuffer = transport.getTransmitBuffer();
-        final ByteBuffer buffer = (ByteBuffer)transmitBuffer.peek();
+        final ByteBuffer buffer = (ByteBuffer) transmitBuffer.peek();
         if( null == buffer )
         {
             return;
@@ -78,8 +76,7 @@ public class WriteEventHandler
         }
         catch( final IOException ioe )
         {
-            final WriteErrorEvent error =
-                new WriteErrorEvent( transport, ioe );
+            final WriteErrorEvent error = new WriteErrorEvent( transport, ioe );
             getSink().addEvent( error );
         }
     }

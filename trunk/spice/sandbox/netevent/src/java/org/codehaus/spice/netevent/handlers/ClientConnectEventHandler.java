@@ -24,7 +24,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.11 $ $Date: 2004-02-11 04:00:34 $
+ * @version $Revision: 1.12 $ $Date: 2004-05-17 06:21:38 $
  */
 public class ClientConnectEventHandler
     extends AbstractIOEventHandler
@@ -57,18 +57,17 @@ public class ClientConnectEventHandler
      */
     public void handleEvent( final Object event )
     {
-        final ConnectPossibleEvent ce = (ConnectPossibleEvent)event;
-        final SocketChannel channel = (SocketChannel)ce.getChannel();
+        final ConnectPossibleEvent ce = (ConnectPossibleEvent) event;
+        final SocketChannel channel = (SocketChannel) ce.getChannel();
         if( !channel.isConnectionPending() )
         {
             return;
         }
 
-        final ChannelTransport transport =
-            new ChannelTransport( channel,
-                                  new UnboundedFifoBuffer( 4 ),
-                                  getBufferManager(),
-                                  getSink() );
+        final ChannelTransport transport = new ChannelTransport( channel,
+                                                                 new UnboundedFifoBuffer( 4 ),
+                                                                 getBufferManager(),
+                                                                 getSink() );
         transport.setUserData( ce.getUserData() );
         final SelectionKey key = ce.getKey();
         transport.setKey( key );
@@ -83,8 +82,7 @@ public class ClientConnectEventHandler
         catch( final IOException ioe )
         {
             transport.close();
-            final ConnectErrorEvent error =
-                new ConnectErrorEvent( transport, ioe );
+            final ConnectErrorEvent error = new ConnectErrorEvent( transport, ioe );
             _target.addEvent( error );
         }
     }

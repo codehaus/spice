@@ -20,7 +20,7 @@ import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
  * events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.13 $ $Date: 2004-02-11 02:56:00 $
+ * @version $Revision: 1.14 $ $Date: 2004-05-17 06:21:38 $
  */
 public class ChannelEventHandler
     extends AbstractEventHandler
@@ -41,17 +41,12 @@ public class ChannelEventHandler
     {
         _closeHandler = new CloseEventHandler( target );
         _acceptHandler = new AcceptEventHandler( queue );
-        _connectHandler = new ConnectEventHandler( queue,
-                                                   target,
-                                                   bufferManager,
-                                                   source );
+        _connectHandler = new ConnectEventHandler( queue, target, bufferManager, source );
         _readHandler = new ReadEventHandler( queue, bufferManager );
         _writeHandler = new WriteEventHandler( queue, bufferManager );
         _inputHandler = new InputDataEventHandler( target );
         _outputHandler = new OutputDataEventHandler( queue );
-        _clientConnectHandler = new ClientConnectEventHandler( queue,
-                                                               target,
-                                                               bufferManager );
+        _clientConnectHandler = new ClientConnectEventHandler( queue, target, bufferManager );
     }
 
     /**
@@ -59,8 +54,7 @@ public class ChannelEventHandler
      */
     public void handleEvent( final Object event )
     {
-        if( event instanceof CloseChannelRequestEvent ||
-            event instanceof IOErrorEvent )
+        if( event instanceof CloseChannelRequestEvent || event instanceof IOErrorEvent )
         {
             _closeHandler.handleEvent( event );
         }

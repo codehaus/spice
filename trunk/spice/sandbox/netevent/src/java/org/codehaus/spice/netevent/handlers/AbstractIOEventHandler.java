@@ -9,7 +9,7 @@ import org.codehaus.spice.netevent.events.AbstractTransportEvent;
  * Abstract handler for IO based events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-09 00:51:43 $
+ * @version $Revision: 1.3 $ $Date: 2004-05-17 06:21:38 $
  */
 public abstract class AbstractIOEventHandler
     extends AbstractDirectedHandler
@@ -23,8 +23,7 @@ public abstract class AbstractIOEventHandler
      * @param sink the destination
      * @param bufferManager the bufferManager
      */
-    protected AbstractIOEventHandler( final EventSink sink,
-                                      final BufferManager bufferManager )
+    protected AbstractIOEventHandler( final EventSink sink, final BufferManager bufferManager )
     {
         super( sink );
         if( null == bufferManager )

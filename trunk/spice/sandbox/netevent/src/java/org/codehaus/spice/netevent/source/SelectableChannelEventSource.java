@@ -19,7 +19,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * An event source that generates events based from SelectableChannels.
  *
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2004-05-17 06:17:27 $
+ * @version $Revision: 1.11 $ $Date: 2004-05-17 06:21:39 $
  */
 public class SelectableChannelEventSource
     extends AbstractEventSource
