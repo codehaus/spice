@@ -63,7 +63,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.phoenix.BlockContext;
 
 /**
  * @phoenix:block
@@ -77,14 +76,14 @@ public class JervletDeployer
     extends AbstractLogEnabled
     implements Contextualizable, Serviceable, Configurable, Initializable
 {
-    private BlockContext m_context;
+    private Context m_context;
     private Configuration m_configuration;
     private ServiceManager m_manager;
     private Jervlet m_jervlet;
 
     public void contextualize( final Context context )
     {
-        m_context = (BlockContext)context;
+        m_context = context;
     }
 
     /**
@@ -144,8 +143,9 @@ public class JervletDeployer
         }
         else
         {
-            return new File( m_context.getBaseDirectory().getAbsolutePath()
-                             + File.separatorChar + path );
+            return new File( "TODO");
+//                    m_context.getBaseDirectory().getAbsolutePath()
+  //                           + File.separatorChar + path );
         }
     }
 }

@@ -51,12 +51,10 @@ package org.jcomponent.jervlet.blocks.jetty;
 
 import org.jcomponent.jervlet.*;
 import org.mortbay.jetty.Server;
-import org.mortbay.util.LogSink;
-import org.mortbay.util.Log;
+import org.mortbay.util.MultiException;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.lifecycle.Disposable;
-import org.picocontainer.lifecycle.Startable;
-import org.picocontainer.lifecycle.Stoppable;
+import org.picocontainer.Disposable;
+import org.picocontainer.Startable;
 
 import java.io.File;
 import java.net.UnknownHostException;
@@ -79,11 +77,10 @@ import java.util.Set;
  * @version 1.0
  */
 public class PicoJettyJervlet extends AbstractJettyJervlet
-    implements Jervlet, Startable, Stoppable, Disposable
+    implements Jervlet, Startable
 {
     private final JervletMonitor monitor;
     private final File appRootDir;
-    private final LogSink logSink;
     private final JervletContext jervletContext;
 
     private Server m_server;
@@ -91,26 +88,18 @@ public class PicoJettyJervlet extends AbstractJettyJervlet
     private HashMap m_webcontexts = new HashMap();
 
     public PicoJettyJervlet(JervletConfig config, JervletMonitor monitor, MutablePicoContainer parentContainer,
-                            File appRootDir, RequestLogger requestLogger,
-                            LogSink logSink) throws UnknownHostException {
+                            File appRootDir, RequestLogger requestLogger) throws UnknownHostException {
         super.config = config;
         this.monitor = monitor;
         this.appRootDir = appRootDir;
-        this.logSink = logSink;
         this.jervletContext = new PicoJervletContext(parentContainer);
 
         m_server = createHttpServer();
         m_server.addListener( createSocketListener() );
 
-        // unsatisfactory as is static        
-        Log.instance().add( logSink );
-
         m_server.setRequestLog( new JettyRequestLogAdapter( requestLogger ) );
     }
 
-    public void dispose() {
-
-    }
 
     /**
      * Deploy a webapp
@@ -319,6 +308,36 @@ public class PicoJettyJervlet extends AbstractJettyJervlet
         {
             monitor.undeployException(this.getClass(), context, e);
 
+        }
+    }
+
+    /**
+     * Start
+     */
+    public final void start()
+    {
+        try
+        {
+            m_server.start();
+        }
+        catch( MultiException e )
+        {
+            throw new PicoStartableException( "Some problem starting Jetty", e );
+        }
+    }
+
+    /**
+     * Stop
+     */
+    public final void stop()
+    {
+        try
+        {
+            m_server.stop();
+        }
+        catch( InterruptedException e )
+        {
+            throw new PicoStartableException( "Some problem stopping Jetty", e );
         }
     }
 }
