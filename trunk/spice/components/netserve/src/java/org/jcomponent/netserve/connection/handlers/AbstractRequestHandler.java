@@ -12,9 +12,10 @@ import java.net.Socket;
 import java.io.IOException;
 
 /**
+ * Abstract base class for request handlers.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-24 08:19:21 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-25 22:29:49 $
  */
 public abstract class AbstractRequestHandler
     implements ConnectionHandler
@@ -52,6 +53,12 @@ public abstract class AbstractRequestHandler
         }
     }
 
+    /**
+     * Method implemented to actually do the work.
+     *
+     * @param socket the socket
+     * @throws Exception if an error occurs
+     */
     protected abstract void doPerformRequest( Socket socket )
         throws Exception;
 
