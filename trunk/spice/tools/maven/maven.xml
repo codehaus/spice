@@ -7,7 +7,7 @@
     xmlns:util="jelly:util"
     xmlns:ant="jelly:ant"
     xmlns:archive="spice:archive"
-    default="java:jar">
+    default="jar:jar">
 
     <j:set var="spice.tool.dir" value="${basedir}/../../tools"/>
 
