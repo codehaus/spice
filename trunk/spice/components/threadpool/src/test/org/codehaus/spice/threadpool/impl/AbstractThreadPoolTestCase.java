@@ -13,9 +13,9 @@ import junit.framework.TestCase;
 
 import org.codehaus.spice.threadpool.Executable;
 import org.codehaus.spice.threadpool.ThreadPool;
-import org.realityforge.configkit.ConfigValidator;
-import org.realityforge.configkit.ConfigValidatorFactory;
-import org.realityforge.configkit.ValidateException;
+import org.codehaus.spice.configkit.ConfigValidator;
+import org.codehaus.spice.configkit.ConfigValidatorFactory;
+import org.codehaus.spice.configkit.ValidateException;
 import org.xml.sax.ErrorHandler;
 
 /**
@@ -24,7 +24,7 @@ import org.xml.sax.ErrorHandler;
  *
  * @author Peter Donald
  * @author Mauro Talevi
- * @version $Revision: 1.3 $ $Date: 2004-03-21 23:42:58 $
+ * @version $Revision: 1.4 $ $Date: 2004-04-24 11:39:31 $
  */
 public abstract class AbstractThreadPoolTestCase
     extends TestCase
