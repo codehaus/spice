@@ -12,11 +12,11 @@ import org.codehaus.spice.netevent.events.ConnectEvent;
 import org.codehaus.spice.netevent.events.InputDataPresentEvent;
 import org.codehaus.spice.netevent.handlers.AbstractDirectedHandler;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
+import org.codehaus.spice.netevent.transport.MultiBufferInputStream;
 import org.codehaus.spice.netevent.transport.TransportOutputStream;
 import org.realityforge.packet.Packet;
 import org.realityforge.packet.events.AckEvent;
 import org.realityforge.packet.events.AckRequestEvent;
-import org.realityforge.packet.events.GreetingRequestEvent;
 import org.realityforge.packet.events.NackEvent;
 import org.realityforge.packet.events.NackRequestEvent;
 import org.realityforge.packet.events.PacketReadEvent;
@@ -30,7 +30,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-16 04:10:48 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-16 06:48:00 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -128,6 +128,7 @@ public class PacketIOEventHandler
     {
         final ChannelTransport transport = e.getTransport();
         final Session session = (Session)transport.getUserData();
+
         if( null != session && session.isClient() )
         {
             try
@@ -195,12 +196,6 @@ public class PacketIOEventHandler
                     (PacketWriteRequestEvent)event;
                 sendData( transport, e.getPacket() );
             }
-            else if( event instanceof GreetingRequestEvent )
-            {
-                sendGreeting( transport,
-                              session.getSessionID(),
-                              session.getAuthID() );
-            }
             else
             {
                 signalDisconnectTransport( transport,
@@ -241,6 +236,7 @@ public class PacketIOEventHandler
         }
         catch( final IOException ioe )
         {
+            ioe.printStackTrace( System.out );
             signalDisconnectTransport( transport,
                                        Protocol.ERROR_IO_ERROR,
                                        getSink() );
@@ -313,7 +309,6 @@ public class PacketIOEventHandler
                                final short authID )
         throws IOException
     {
-        ensureValidSession( transport );
         final OutputStream output = transport.getOutputStream();
         final byte[] magic = Protocol.MAGIC;
         for( int i = 0; i < magic.length; i++ )
@@ -334,7 +329,7 @@ public class PacketIOEventHandler
     private boolean receiveGreeting( final ChannelTransport transport )
         throws IOException
     {
-        final InputStream input = transport.getInputStream();
+        final MultiBufferInputStream input = transport.getInputStream();
         final int available = input.available();
         if( available >= Protocol.SIZEOF_GREETING )
         {
@@ -420,7 +415,6 @@ public class PacketIOEventHandler
                               final short authID )
         throws IOException
     {
-        ensureValidSession( transport );
         final OutputStream output = transport.getOutputStream();
         output.write( Protocol.S2C_CONNECT );
         TypeIOUtil.writeLong( output, sessionID );

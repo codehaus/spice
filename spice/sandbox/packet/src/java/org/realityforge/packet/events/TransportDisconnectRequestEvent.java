@@ -14,7 +14,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Event indicating that it is possible to read from the socket.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-15 03:28:28 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-16 06:47:59 $
  */
 public class TransportDisconnectRequestEvent
     extends AbstractTransportEvent
@@ -32,6 +32,7 @@ public class TransportDisconnectRequestEvent
                                             final byte reason )
     {
         super( transport );
+        new Throwable().printStackTrace( System.out );
         _reason = reason;
     }
 
