@@ -22,7 +22,7 @@ public abstract class AbstractLoggerStore
     implements LoggerStore, LogEnabled
 {
     /** Map of Loggers held in the store */
-    protected final Map m_loggers = new HashMap();
+    private final Map m_loggers = new HashMap();
 
     /** The Logger used by LogEnabled. */
     private Logger m_logger;
@@ -145,5 +145,4 @@ public abstract class AbstractLoggerStore
     {
         m_loggers.put( categoryName, logger );
     }
-
 }
