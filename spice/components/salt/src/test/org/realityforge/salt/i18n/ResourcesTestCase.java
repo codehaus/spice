@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-06-13 00:26:50 $
+ * @version $Revision: 1.9 $ $Date: 2003-06-13 00:28:19 $
  */
 public class ResourcesTestCase
     extends TestCase
@@ -249,5 +249,32 @@ public class ResourcesTestCase
                            MockResourceBundle.class.getClassLoader() );
         final Date date = new Date();
         assertEquals( "GetTime", date, resources.getTime( "rez", date ) );
+    }
+
+    public void testGetDateTime()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        final Date date = new Date();
+        final DateFormat format =
+            DateFormat.getDateTimeInstance( DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.getDefault() );
+        final String current = format.format( date );
+        final Date expected = format.parse( current );
+        MockResourceBundle.addResource( "rez", current );
+        assertEquals( "GetDateTime", expected, resources.getDateTime( "rez" ) );
+    }
+
+    public void testGetDateTimeWithDefault()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        final Date date = new Date();
+        assertEquals( "GetDateTime", date, resources.getDateTime( "rez", date ) );
     }
 }
