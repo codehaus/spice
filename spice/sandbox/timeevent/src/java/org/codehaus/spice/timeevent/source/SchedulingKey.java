@@ -1,12 +1,12 @@
 package org.codehaus.spice.timeevent.source;
 
-import org.apache.avalon.cornerstone.services.scheduler.TimeTrigger;
+import org.codehaus.spice.timeevent.triggers.TimeTrigger;
 
 /**
  * The key that the trigger is registered under.
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-22 03:32:21 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-22 04:16:49 $
  */
 public class SchedulingKey
     implements Comparable
@@ -60,7 +60,7 @@ public class SchedulingKey
      *
      * @param moment the moment
      */
-    public void updateNextTime( final int moment )
+    public void updateNextTime( final long moment )
     {
         _nextTime = _trigger.getTimeAfter( moment );
     }
@@ -90,7 +90,7 @@ public class SchedulingKey
      */
     public void cancel()
     {
-        _source.removeTrigger( this );
+        _source.removeKey( this );
         _nextTime = -1;
     }
 
