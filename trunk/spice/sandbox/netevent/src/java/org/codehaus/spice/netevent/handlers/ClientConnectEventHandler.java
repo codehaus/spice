@@ -16,7 +16,6 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.ConnectErrorEvent;
 import org.codehaus.spice.netevent.events.ConnectEvent;
 import org.codehaus.spice.netevent.events.ConnectPossibleEvent;
-import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
@@ -24,16 +23,11 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.9 $ $Date: 2004-02-11 02:27:09 $
+ * @version $Revision: 1.10 $ $Date: 2004-02-11 02:56:00 $
  */
 public class ClientConnectEventHandler
     extends AbstractIOEventHandler
 {
-    /**
-     * Handler to pass events on to.
-     */
-    private final SelectableChannelEventSource _source;
-
     /**
      * The destination for events relating to next layer.
      */
@@ -44,24 +38,17 @@ public class ClientConnectEventHandler
      * 
      * @param sink the destination
      * @param bufferManager the bufferManager
-     * @param source the source
      */
     public ClientConnectEventHandler( final EventSink sink,
                                       final EventSink target,
-                                      final BufferManager bufferManager,
-                                      final SelectableChannelEventSource source )
+                                      final BufferManager bufferManager )
     {
         super( sink, bufferManager );
         if( null == target )
         {
             throw new NullPointerException( "target" );
         }
-        if( null == source )
-        {
-            throw new NullPointerException( "source" );
-        }
         _target = target;
-        _source = source;
     }
 
     /**
@@ -82,16 +69,17 @@ public class ClientConnectEventHandler
                                   getBufferManager(),
                                   getSink() );
         transport.setUserData( ce.getUserData() );
+        transport.setKey( ce.getKey() );
+        ce.getKey().attach( transport );
         try
         {
             channel.finishConnect();
             final ConnectEvent response = new ConnectEvent( transport );
             _target.addEvent( response );
-            transport.register( _source );
+            transport.reregister();
         }
         catch( final IOException ioe )
         {
-            ce.getKey().cancel();
             transport.close();
             final ConnectErrorEvent error =
                 new ConnectErrorEvent( transport, ioe );

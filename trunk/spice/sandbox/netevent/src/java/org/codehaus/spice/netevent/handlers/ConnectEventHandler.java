@@ -9,6 +9,8 @@ package org.codehaus.spice.netevent.handlers;
 
 import java.io.IOException;
 import java.nio.channels.Channel;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.spi.AbstractSelectableChannel;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
@@ -24,7 +26,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.13 $ $Date: 2004-02-11 02:27:09 $
+ * @version $Revision: 1.14 $ $Date: 2004-02-11 02:56:00 $
  */
 public class ConnectEventHandler
     extends AbstractIOEventHandler
@@ -83,7 +85,11 @@ public class ConnectEventHandler
                                   getSink() );
         try
         {
-            transport.register( _source );
+            final AbstractSelectableChannel asc = (AbstractSelectableChannel)channel;
+            final SelectionKey key =
+                _source.registerChannel( asc, 0, transport );
+            transport.setKey( key );
+            transport.reregister();
             final ConnectEvent response = new ConnectEvent( transport );
             _target.addEvent( response );
         }

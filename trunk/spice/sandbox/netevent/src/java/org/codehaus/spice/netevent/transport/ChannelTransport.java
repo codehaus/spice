@@ -12,18 +12,16 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
-import java.nio.channels.spi.AbstractSelectableChannel;
 import java.util.List;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.event.impl.collections.Buffer;
 import org.codehaus.spice.netevent.buffers.BufferManager;
-import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 
 /**
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.19 $ $Date: 2004-02-10 02:59:26 $
+ * @version $Revision: 1.20 $ $Date: 2004-02-11 02:56:01 $
  */
 public class ChannelTransport
 {
@@ -239,21 +237,9 @@ public class ChannelTransport
         return m_outputStream;
     }
 
-    /**
-     * Register this transport with specified managger and using specified
-     * EventHandler.
-     * 
-     * @param source the source.
-     */
-    public synchronized void
-        register( final SelectableChannelEventSource source )
-        throws IOException
+    public synchronized void setKey( final SelectionKey key )
     {
-        final AbstractSelectableChannel channel =
-            (AbstractSelectableChannel)getChannel();
-        m_key = source.registerChannel( channel,
-                                        getSelectOps(),
-                                        this );
+        m_key = key;
     }
 
     /**
@@ -264,6 +250,9 @@ public class ChannelTransport
     {
         if( null != m_key && m_key.isValid() )
         {
+            final String message =
+                "reregister(" + getSelectOps() + ") on " + m_key;
+            System.out.println( message );
             m_key.interestOps( getSelectOps() );
         }
     }
@@ -318,7 +307,6 @@ public class ChannelTransport
     public String toString()
     {
         return "[TransportID=" + getId() + ", channel=" +
-               String.valueOf( getChannel() ) +
-               "]";
+               String.valueOf( getChannel() ) + "]";
     }
 }

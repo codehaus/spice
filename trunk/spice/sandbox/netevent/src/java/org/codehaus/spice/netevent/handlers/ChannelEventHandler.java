@@ -20,7 +20,7 @@ import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
  * events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.12 $ $Date: 2004-02-10 02:59:25 $
+ * @version $Revision: 1.13 $ $Date: 2004-02-11 02:56:00 $
  */
 public class ChannelEventHandler
     extends AbstractEventHandler
@@ -51,8 +51,7 @@ public class ChannelEventHandler
         _outputHandler = new OutputDataEventHandler( queue );
         _clientConnectHandler = new ClientConnectEventHandler( queue,
                                                                target,
-                                                               bufferManager,
-                                                               source );
+                                                               bufferManager );
     }
 
     /**
