@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
  * to a stream using the xml format outlined in documentation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 02:18:46 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-28 02:20:59 $
  */
 public class MetaClassIOXml
    implements MetaClassIO
@@ -36,11 +36,7 @@ public class MetaClassIOXml
    static final String VERSION = "1.0";
 
    /**
-    * Read a ClassDescriptor from an input stream.
-    *
-    * @param input the input stream
-    * @return the ClassDescriptor
-    * @throws IOException if unable ot read class descriptor
+    * @see MetaClassIO#deserializeClass
     */
    public ClassDescriptor deserializeClass( final InputStream input )
       throws IOException
