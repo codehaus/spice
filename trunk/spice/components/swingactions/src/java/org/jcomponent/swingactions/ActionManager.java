@@ -8,6 +8,7 @@
 package org.jcomponent.swingactions;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.NoSuchElementException;
 
 import javax.swing.Action;
@@ -22,6 +23,14 @@ import javax.swing.Action;
  */
 public interface ActionManager
 {
+
+    /** 
+     *  Adds an ActionListener which handles a given Action
+     *  @param actionId the Id of the Action 
+     *  @param handler the ActionListener which handles the Action
+     */
+    public void addHandler(Object actionId, ActionListener handler);
+
     /** 
      *  Enables or disables an Action 
      *  @param actionId the Id of the Action 

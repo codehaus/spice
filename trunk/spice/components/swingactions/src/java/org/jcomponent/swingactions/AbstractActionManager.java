@@ -105,7 +105,7 @@ public abstract class AbstractActionManager implements ActionManager
      *  @param actionId the Id of the Action 
      *  @param handler the ActionListener which handles the Action
      */
-    protected void addHandler(Object actionId, ActionListener handler)
+    public void addHandler(Object actionId, ActionListener handler)
     {
         final ActionDelegate delegate = getActionDelegate(actionId);
         delegate.addActionListener(handler);
