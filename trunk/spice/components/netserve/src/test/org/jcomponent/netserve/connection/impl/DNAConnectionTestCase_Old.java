@@ -20,16 +20,11 @@ import org.jcontainer.dna.impl.DefaultResourceLocator;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-24 08:07:20 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-27 04:45:08 $
  */
 public class DNAConnectionTestCase_Old
     extends AbstractConnectionTestCase
 {
-    protected void setUp() throws Exception
-    {
-        setMonitor( createConnectionMonitor() );
-    }
-
     protected ConnectionManager createConnectionManager( boolean addThreadPool,
                                                          final SocketAcceptorManager acceptorManager,
                                                          final boolean forceShutdown,
@@ -66,21 +61,7 @@ public class DNAConnectionTestCase_Old
         return cm;
     }
 
-    protected ConnectionMonitor createConnectionMonitor()
-    {
-        final DNAConnectionMonitor monitor = new DNAConnectionMonitor();
-        ContainerUtil.enableLogging( monitor, new ConsoleLogger() );
-        return monitor;
-    }
-
-    protected ConnectionMonitor createConnectionMonitorNoLogging()
-    {
-        final DNAConnectionMonitor monitor = new DNAConnectionMonitor();
-        ContainerUtil.enableLogging( monitor, new ConsoleLogger( ConsoleLogger.LEVEL_NONE ) );
-        return monitor;
-    }
-
-    protected void disposeConnectionManager( final ConnectionManager cm ) throws Exception
+   protected void disposeConnectionManager( final ConnectionManager cm ) throws Exception
     {
         ContainerUtil.dispose( cm );
     }

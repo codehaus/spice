@@ -20,16 +20,11 @@ import org.jcomponent.threadpool.ThreadPool;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-24 08:07:20 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-27 04:45:08 $
  */
 public class AvalonConnectionTestCase_Old
     extends AbstractConnectionTestCase
 {
-    protected void setUp() throws Exception
-    {
-        setMonitor( createConnectionMonitor() );
-    }
-
     protected ConnectionManager createConnectionManager( boolean addThreadPool,
                                                          final SocketAcceptorManager acceptorManager,
                                                          final boolean forceShutdown,
@@ -66,21 +61,7 @@ public class AvalonConnectionTestCase_Old
         return cm;
     }
 
-    protected ConnectionMonitor createConnectionMonitor()
-    {
-        final AvalonConnectionMonitor monitor = new AvalonConnectionMonitor();
-        ContainerUtil.enableLogging( monitor, new ConsoleLogger() );
-        return monitor;
-    }
-
-    protected ConnectionMonitor createConnectionMonitorNoLogging()
-    {
-        final AvalonConnectionMonitor monitor = new AvalonConnectionMonitor();
-        ContainerUtil.enableLogging( monitor, new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
-        return monitor;
-    }
-
-    protected void disposeConnectionManager( final ConnectionManager cm )
+   protected void disposeConnectionManager( final ConnectionManager cm )
     {
         ContainerUtil.dispose( cm );
     }
