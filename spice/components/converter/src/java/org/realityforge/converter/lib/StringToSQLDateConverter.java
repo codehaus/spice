@@ -19,6 +19,7 @@ import org.realityforge.converter.ConverterException;
  * <p>"Sat, 12 Aug 1995 13:30:00 GMT"</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-02-12 11:01:32 $
  */
 public class StringToSQLDateConverter
     extends AbstractConverter

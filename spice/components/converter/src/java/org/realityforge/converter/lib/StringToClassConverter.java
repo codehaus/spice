@@ -14,6 +14,7 @@ import org.realityforge.converter.ConverterException;
  * String to class converter
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-02-12 11:01:31 $
  */
 public class StringToClassConverter
     extends AbstractConverter

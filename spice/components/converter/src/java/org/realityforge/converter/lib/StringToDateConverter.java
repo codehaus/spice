@@ -21,6 +21,7 @@ import org.realityforge.converter.ConverterException;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @see java.util.Date#parse
+ * @version $Revision: 1.2 $ $Date: 2003-02-12 11:01:31 $
  */
 public class StringToDateConverter
     extends AbstractConverter

@@ -15,6 +15,7 @@ import org.realityforge.converter.ConverterException;
  * String to Timestamp converter.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-02-12 11:01:34 $
  */
 public class StringToTimestampConverter
     extends AbstractConverter
