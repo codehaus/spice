@@ -12,7 +12,7 @@ public abstract class AbstractLoggingAcceptorMonitor
    implements AcceptorMonitor
 {
    /**
-    * @see org.jcomponent.netserve.connection.impl.AcceptorMonitor#acceptorCreated
+    * @see AcceptorMonitor#acceptorCreated
     */
    public void acceptorCreated( final String name,
                                 final ServerSocket serverSocket )
@@ -25,7 +25,7 @@ public abstract class AbstractLoggingAcceptorMonitor
    }
 
    /**
-    * @see org.jcomponent.netserve.connection.impl.AcceptorMonitor#acceptorClosing
+    * @see AcceptorMonitor#acceptorClosing
     */
    public void acceptorClosing( final String name,
                                 final ServerSocket serverSocket )
@@ -35,7 +35,7 @@ public abstract class AbstractLoggingAcceptorMonitor
    }
 
    /**
-    * @see org.jcomponent.netserve.connection.impl.AcceptorMonitor#serverSocketListening
+    * @see AcceptorMonitor#serverSocketListening
     */
    public void serverSocketListening( final String name,
                                       final ServerSocket serverSocket )
