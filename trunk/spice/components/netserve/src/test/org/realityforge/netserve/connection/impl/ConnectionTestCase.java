@@ -14,14 +14,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Random;
 import junit.framework.TestCase;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.apache.avalon.framework.container.ContainerUtil;
+import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.service.DefaultServiceManager;
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.container.ContainerUtil;
 import org.realityforge.configkit.ConfigValidator;
 import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ValidateException;
@@ -34,7 +33,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.17 $ $Date: 2003-05-01 10:33:48 $
+ * @version $Revision: 1.18 $ $Date: 2003-05-03 03:02:32 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -67,7 +66,6 @@ public class ConnectionTestCase
         100, 100, 100, 100, 100, 100, 100, 100,
         0, 0, 0, 0, 0, 0, 0, 0
     };
-    private static final Random RANDOM = new Random();
 
     /**
      * Delay used to try and trick OS into unbinding socket.
@@ -195,7 +193,7 @@ public class ConnectionTestCase
         doClientConnect();
         doClientConnect();
 
-        cm.connect( "q", getServerSocket( PORT + RANDOM.nextInt( 40 ) ), handler );
+        cm.connect( "q", getServerSocket( PORT + 1 ), handler );
         doClientConnect();
         doClientConnect();
         doClientConnect();
@@ -627,9 +625,18 @@ public class ConnectionTestCase
         {
 
         }
-        final ServerSocket serverSocket = new ServerSocket( port, 5, HOST );
-        serverSocket.setSoTimeout( 50 );
-        return serverSocket;
+        try
+        {
+            final ServerSocket serverSocket = new ServerSocket( port, 5, HOST );
+            serverSocket.setSoTimeout( 50 );
+            return serverSocket;
+        }
+        catch( IOException ioe )
+        {
+            System.out.println( "port = " + port );
+            ioe.printStackTrace( System.out );
+            throw ioe;
+        }
     }
 
     private void start( final Runnable acceptor )
