@@ -25,11 +25,16 @@ import java.io.Serializable;
  * information such as display name for a Parameter.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-15 06:53:32 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-16 00:32:29 $
  */
 public final class ParameterDescriptor
     implements Serializable
 {
+    /**
+     * The constant for Empty Set of parameters.
+     */
+    public static final ParameterDescriptor[] EMPTY_SET = new ParameterDescriptor[ 0 ];
+
     /**
      * The name of the Parameter in source file.
      */
