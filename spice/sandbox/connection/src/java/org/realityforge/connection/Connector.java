@@ -19,7 +19,7 @@ public class Connector
     * The associated monitor that receives
     * events about connector.
     */
-   private ConnectorMonitor _monitor;
+   private ConnectorMonitor _monitor = NullMonitor.MONITOR;
 
    /**
     * The underlying connection.
