@@ -4,9 +4,6 @@
  * This software is published under the terms of the Spice
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
- *
- * This product includes software developed by the
- * Apache Software Foundation (http://www.apache.org/).
  */
 package org.realityforge.jndikit.rmi.server;
 
@@ -26,42 +23,23 @@ import org.realityforge.jndikit.memory.MemoryContext;
  * production system.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class Main
     implements Runnable
 {
-    public static void main( final String[] args )
-        throws Exception
-    {
-        boolean debug = true;
-        int port = 1977;
-
-        for( int i = 0; i < args.length; i++ )
-        {
-            String arg = args[ i ];
-            if( "-q".equals( arg ) )
-            {
-                debug = false;
-            }
-            else
-            {
-                port = Integer.decode( arg ).intValue();
-            }
-        }
-
-        final Main main = new Main( debug, port );
-        main.start();
-        main.accept();
-    }
-
+    //Config settings
     private final boolean m_debug;
     private final int m_port;
+
+    //Runtime flags
+    private boolean m_isRunning;
+    private boolean m_isInitialized;
+
+    //Server facet
     private RMINamingProviderImpl m_server;
     private ServerSocket m_serverSocket;
     private MarshalledObject m_serverStub;
-    private boolean m_running;
-    private boolean m_initialized;
 
     public Main( final boolean debug,
                  final int port )
@@ -70,15 +48,10 @@ public class Main
         m_port = port;
     }
 
-    public Main()
-    {
-        this( true, 1977 );
-    }
-
     public void init()
         throws Exception
     {
-        if( m_initialized )
+        if( m_isInitialized )
         {
             return;
         }
@@ -87,7 +60,7 @@ public class Main
         {
             m_serverSocket = new ServerSocket( m_port );
             debug( "Started server on port " + m_serverSocket.getLocalPort() );
-            m_initialized = true;
+            m_isInitialized = true;
         }
         catch( final IOException ioe )
         {
@@ -119,8 +92,7 @@ public class Main
             debug( "Exporting RMI object." );
             final Remote remote =
                 UnicastRemoteObject.exportObject( m_server );
-            m_serverStub =
-                new MarshalledObject( remote );
+            m_serverStub = new MarshalledObject( remote );
         }
         catch( final IOException ioe )
         {
@@ -129,11 +101,16 @@ public class Main
         }
     }
 
+    public void run()
+    {
+        accept();
+    }
+
     public void dispose()
         throws Exception
     {
         debug( "Shutting down server" );
-        m_running = false;
+        m_isRunning = false;
         final ServerSocket serverSocket = m_serverSocket;
         m_serverSocket = null;
         serverSocket.close();
@@ -144,7 +121,7 @@ public class Main
         throws Exception
     {
         debug( "Stopping" );
-        m_running = false;
+        m_isRunning = false;
         debug( "Unexporting object" );
         UnicastRemoteObject.unexportObject( m_server, true );
         m_serverStub = null;
@@ -153,8 +130,8 @@ public class Main
 
     public void accept()
     {
-        m_running = true;
-        while( m_running )
+        m_isRunning = true;
+        while( m_isRunning )
         {
             // Accept a connection
             try
@@ -170,7 +147,7 @@ public class Main
             }
             catch( final IOException ioe )
             {
-                if( !m_running )
+                if( !m_isRunning )
                 {
                     break;
                 }
@@ -179,16 +156,11 @@ public class Main
         }
     }
 
-    public void run()
-    {
-        accept();
-    }
-
     private void debug( final String message )
     {
         if( m_debug )
         {
-            System.out.println( message );
+            System.out.println( "RNC: " + message );
         }
     }
 }
