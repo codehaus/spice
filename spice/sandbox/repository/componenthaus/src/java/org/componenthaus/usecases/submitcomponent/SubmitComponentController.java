@@ -43,8 +43,10 @@ public class SubmitComponentController extends SimpleFormController implements I
     private ComponentFactory componentFactory;
     private ServiceImplementationFactory serviceImplementationFactory;
     private CodeFormatter codeFormatter;
+    private final ViewConfiguration viewConfiguration;
 
-    public SubmitComponentController() {
+    public SubmitComponentController(final ViewConfiguration viewConfiguration) {
+        this.viewConfiguration = viewConfiguration;
         setCommandClass(Object.class);
         File submissionsDir = new File("submissions");
         if (submissionsDir.exists() && !submissionsDir.isDirectory()) {
@@ -223,5 +225,17 @@ public class SubmitComponentController extends SimpleFormController implements I
             }
         }
         return (String) prevayler.executeCommand(new SubmitComponentCommand(component));
+    }
+
+    /**
+     * Small plug interface to allow the application configuration tell
+     * this controller what view to show initially (form view) and what view
+     * to show on success.  I made this an interface as its easier to do than
+     * providing parameters for the constructor of this controller explicitly
+     * in Pico.  Better to let Pico figure out what needs to be passed.
+     */
+    public static interface ViewConfiguration {
+        String getFormView();
+        String getSuccessView();
     }
 }

@@ -23,9 +23,11 @@ public class SearchComponentsController extends SimpleFormController implements 
     private static final int HITS_PER_PAGE = 10;
     private SearchService searchService;
     private ComponentRepository repository = null;
+    private final ViewConfiguration viewConfiguration;
 
-    public SearchComponentsController() {
+    public SearchComponentsController(final ViewConfiguration viewConfiguration) {
         setCommandClass(Object.class);
+        this.viewConfiguration = viewConfiguration;
     }
 
     public void afterPropertiesSet() throws Exception {
@@ -130,5 +132,10 @@ public class SearchComponentsController extends SimpleFormController implements 
         public int getEndIndex() {
             return endIndex;
         }
+    }
+
+    public static interface ViewConfiguration {
+        //Return the name of the form to show when the controller is first invoked.
+        String getFormView();
     }
 }
