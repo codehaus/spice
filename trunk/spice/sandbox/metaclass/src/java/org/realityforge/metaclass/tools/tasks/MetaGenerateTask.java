@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Path;
 import org.realityforge.metaclass.io.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIO;
@@ -32,7 +31,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.22 $ $Date: 2003-08-31 08:18:15 $
+ * @version $Revision: 1.23 $ $Date: 2003-08-31 08:31:51 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -78,9 +77,33 @@ public class MetaGenerateTask
     private QDoxAttributeInterceptor[] m_interceptors;
 
     /**
+     * The filter to filter out JavaClass prior to processing.
+     */
+    private JavaClassFilter m_filter;
+
+    /**
+     * Internal list of filter elements added by user.
+     */
+    private final List m_filters = new ArrayList();
+
+    /**
      * Internal list of interceptor elements added by user.
      */
     private final List m_elements = new ArrayList();
+
+    /**
+     * Add an filter definition that will create filter to process metadata.
+     *
+     * @param element the filter definition
+     */
+    public void addFilter( final PluginElement element )
+    {
+        if( null == element.getName() )
+        {
+            throw new BuildException( "Filter must have a name" );
+        }
+        m_filters.add( element );
+    }
 
     /**
      * Add an interceptor definition that will create interceptor to process metadata.
@@ -123,7 +146,8 @@ public class MetaGenerateTask
     {
         validate();
 
-        setupInterceptorChain();
+        m_interceptors = buildInterceptors();
+        m_filter = buildFilters();
 
         super.execute();
 
@@ -131,12 +155,25 @@ public class MetaGenerateTask
     }
 
     /**
-     * Setup the interceptor chain from interceptor
-     * element definitions.
+     * Build a MultiCastFilter containgin all added by the user.
+     *
+     * @return a MultiCastFilter containgin all filters
      */
-    private void setupInterceptorChain()
+    private JavaClassFilter buildFilters()
     {
-        m_interceptors = buildInterceptors();
+        final ArrayList instances = new ArrayList();
+        final Iterator iterator = m_filters.iterator();
+        while( iterator.hasNext() )
+        {
+            final PluginElement element = (PluginElement)iterator.next();
+            final Object object =
+                createInstance( element,
+                                JavaClassFilter.class,
+                                "filter" );
+            instances.add( object );
+        }
+        final JavaClassFilter[] filters = (JavaClassFilter[])instances.toArray( new JavaClassFilter[ instances.size() ] );
+        return new MulticastJavaClassFilter( filters );
     }
 
     /**
@@ -147,50 +184,71 @@ public class MetaGenerateTask
      */
     private QDoxAttributeInterceptor[] buildInterceptors()
     {
-        final ClassLoader classLoader = getClass().getClassLoader();
-        final Project project = getProject();
-
-        final ArrayList interceptors = new ArrayList();
+        final ArrayList instances = new ArrayList();
         final Iterator iterator = m_elements.iterator();
         while( iterator.hasNext() )
         {
             final PluginElement element = (PluginElement)iterator.next();
-            Path path = element.getPath();
-            if( null == path )
-            {
-                path = new Path( project );
-            }
-
-            final AntClassLoader loader =
-                new AntClassLoader( classLoader, project, path, true );
-            final String name = element.getName();
-            try
-            {
-                final QDoxAttributeInterceptor interceptor =
-                    (QDoxAttributeInterceptor)loader.loadClass( name ).newInstance();
-                interceptors.add( interceptor );
-            }
-            catch( final Exception e )
-            {
-                final String message = "Error creating interceptor " + name;
-                log( message );
-                throw new BuildException( message, e );
-            }
+            final Object object =
+                createInstance( element,
+                                QDoxAttributeInterceptor.class,
+                                "interceptor" );
+            instances.add( object );
         }
-        return (QDoxAttributeInterceptor[])interceptors.toArray( new QDoxAttributeInterceptor[ interceptors.size() ] );
+        return (QDoxAttributeInterceptor[])instances.toArray( new QDoxAttributeInterceptor[ instances.size() ] );
     }
 
     /**
-     * This method provides an access point for subclasses to use custom filters
-     * on the list of classes parsed, i.e. to return null if the class has been filtered.
+     * Create an instance of a plugin object.
      *
-     * @param javaClass
-     * @return javaClass or null
+     * @param element the plugin def
+     * @param type the expected type
+     * @param description the description of type
+     * @return the instance of type
      */
-    public JavaClass filterClass( final JavaClass javaClass )
+    private Object createInstance( final PluginElement element,
+                                   final Class type,
+                                   final String description )
     {
-        // do nothing
-        return javaClass;
+        final String name = element.getName();
+        final AntClassLoader loader = createLoader( element );
+
+        try
+        {
+            final Object object = loader.loadClass( name ).newInstance();
+            if( !type.isInstance( object ) )
+            {
+                final String message =
+                    "Error creating " + description + " " + name +
+                    " as it does not implement " + type.getName() + ".";
+                log( message );
+                throw new BuildException( message );
+            }
+            return object;
+        }
+        catch( final Exception e )
+        {
+            final String message = "Error creating " + description + " " + name;
+            log( message );
+            throw new BuildException( message, e );
+        }
+    }
+
+    /**
+     * Create Loader for PLuginElement.
+     *
+     * @param element the element
+     * @return the loader
+     */
+    private AntClassLoader createLoader( final PluginElement element )
+    {
+        Path path = element.getPath();
+        if( null == path )
+        {
+            path = new Path( getProject() );
+        }
+
+        return new AntClassLoader( getClass().getClassLoader(), getProject(), path, true );
     }
 
     /**
@@ -260,7 +318,7 @@ public class MetaGenerateTask
         for( int i = 0; i < classCount; i++ )
         {
             final JavaClass candidate = (JavaClass)allClasses.get( i );
-            final JavaClass javaClass = filterClass( candidate );
+            final JavaClass javaClass = m_filter.filterClass( candidate );
             if( null == javaClass )
             {
                 continue;
