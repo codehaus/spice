@@ -4,7 +4,6 @@
     xmlns="http://relaxng.org/ns/structure/1.0"
     datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
     <interleave>
-        <element name="soTimeout"><data type="integer"/></element>
         <element name="forceShutdown"><data type="boolean"/></element>
         <element name="shutdownTimeout"><data type="integer"/></element>
     </interleave>

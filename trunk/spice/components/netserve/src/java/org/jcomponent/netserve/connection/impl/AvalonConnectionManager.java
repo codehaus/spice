@@ -19,6 +19,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.jcomponent.threadpool.ThreadPool;
+import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 
 /**
  * An implementation of ConnectionManager which honours the
@@ -41,9 +42,9 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-10-08 07:10:23 $
- * @phoenix.component
- * @phoenix.service type="org.jcomponent.netserve.connection.ConnectionManager"
+ * @version $Revision: 1.12 $ $Date: 2003-10-14 04:12:43 $
+ * @dna.component
+ * @dna.service type="org.jcomponent.netserve.connection.ConnectionManager"
  */
 public class AvalonConnectionManager
     extends AbstractConnectionManager
@@ -67,7 +68,8 @@ public class AvalonConnectionManager
      *
      * @param manager the manager to retrieve services from
      * @throws ServiceException if unable to aquire ThreadPool
-     * @phoenix.dependency type="ThreadPool" optional="true"
+     * @dna.dependency type="ThreadPool" optional="true"
+     * @dna.dependency type="SocketAcceptorManager"
      */
     public void service( final ServiceManager manager )
         throws ServiceException
@@ -76,6 +78,9 @@ public class AvalonConnectionManager
         {
             setDefaultThreadPool( (ThreadPool)manager.lookup( ThreadPool.class.getName() ) );
         }
+        final SocketAcceptorManager acceptorManager =
+            (SocketAcceptorManager)manager.lookup( SocketAcceptorManager.class.getName() );
+        setAcceptorManager( acceptorManager );
     }
 
     /**
@@ -83,13 +88,12 @@ public class AvalonConnectionManager
      *
      * @param configuration the configuration
      * @throws ConfigurationException if error reading configuration
-     * @phoenix.configuration type="http://relaxng.org/ns/structure/1.0"
+     * @dna.configuration type="http://relaxng.org/ns/structure/1.0"
      *    location="ConnectionManager-schema.xml"
      */
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        setSoTimeout( configuration.getChild( "soTimeout" ).getValueAsInteger( 1000 ) );
         setForceShutdown( configuration.getChild( "forceShutdown" ).getValueAsBoolean( false ) );
         setShutdownTimeout( configuration.getChild( "shutdownTimeout" ).getValueAsInteger( 0 ) );
     }

@@ -8,6 +8,7 @@
 package org.jcomponent.netserve.connection.impl;
 
 import org.jcomponent.threadpool.ThreadPool;
+import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 import org.jcontainer.dna.Active;
 import org.jcontainer.dna.Composable;
 import org.jcontainer.dna.Configurable;
@@ -41,9 +42,9 @@ import org.jcontainer.dna.impl.ContainerUtil;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-09-21 12:43:13 $
- * @phoenix.component
- * @phoenix.service type="org.jcomponent.netserve.connection.ConnectionManager"
+ * @version $Revision: 1.2 $ $Date: 2003-10-14 04:12:43 $
+ * @dna.component
+ * @dna.service type="org.jcomponent.netserve.connection.ConnectionManager"
  */
 public class DNAConnectionManager
     extends AbstractConnectionManager
@@ -63,19 +64,21 @@ public class DNAConnectionManager
     }
 
     /**
-     * Get ThreadPool service if present.
-     *
-     * @param manager the manager to retrieve services from
-     * @throws ServiceException if unable to aquire ThreadPool
-     * @phoenix.dependency type="ThreadPool" optional="true"
+     * @dna.dependency type="ThreadPool" optional="true"
+     * @dna.dependency type="SocketAcceptorManager"
      */
     public void compose( ResourceLocator locator )
-       throws MissingResourceException
+        throws MissingResourceException
     {
         if( locator.contains( ThreadPool.class.getName() ) )
         {
-            setDefaultThreadPool( (ThreadPool)locator.lookup( ThreadPool.class.getName() ) );
+            final ThreadPool threadPool =
+                (ThreadPool)locator.lookup( ThreadPool.class.getName() );
+            setDefaultThreadPool( threadPool );
         }
+        final SocketAcceptorManager acceptorManager =
+            (SocketAcceptorManager)locator.lookup( SocketAcceptorManager.class.getName() );
+        setAcceptorManager( acceptorManager );
     }
 
     /**
@@ -83,13 +86,12 @@ public class DNAConnectionManager
      *
      * @param configuration the configuration
      * @throws ConfigurationException if error reading configuration
-     * @phoenix.configuration type="http://relaxng.org/ns/structure/1.0"
+     * @dna.configuration type="http://relaxng.org/ns/structure/1.0"
      *    location="ConnectionManager-schema.xml"
      */
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        setSoTimeout( configuration.getChild( "soTimeout" ).getValueAsInteger( 1000 ) );
         setForceShutdown( configuration.getChild( "forceShutdown" ).getValueAsBoolean( false ) );
         setShutdownTimeout( configuration.getChild( "shutdownTimeout" ).getValueAsInteger( 0 ) );
     }

@@ -13,6 +13,7 @@ import java.util.Map;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 import org.jcomponent.netserve.connection.ConnectionManager;
 import org.jcomponent.netserve.sockets.impl.DefaultAcceptorManager;
+import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 import org.jcomponent.threadpool.ThreadPool;
 
 /**
@@ -21,9 +22,9 @@ import org.jcomponent.threadpool.ThreadPool;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-10 04:18:38 $
- * @phoenix.component
- * @phoenix.service type="ConnectionManager"
+ * @version $Revision: 1.7 $ $Date: 2003-10-14 04:12:43 $
+ * @dna.component
+ * @dna.service type="ConnectionManager"
  */
 public abstract class AbstractConnectionManager
     implements ConnectionManager
@@ -31,7 +32,7 @@ public abstract class AbstractConnectionManager
     /**
      * The AcceptorManager
      */
-    private final DefaultAcceptorManager m_acceptorManager = new DefaultAcceptorManager();
+    private SocketAcceptorManager m_acceptorManager = new DefaultAcceptorManager();
 
     /**
      * The map of name->acceptor.
@@ -86,9 +87,9 @@ public abstract class AbstractConnectionManager
         m_forceShutdown = forceShutdown;
     }
 
-    protected void setSoTimeout( final int soTimeout )
+    protected void setAcceptorManager( final SocketAcceptorManager acceptorManager )
     {
-        m_acceptorManager.setSoTimeout( soTimeout );
+        m_acceptorManager = acceptorManager;
     }
 
     protected void setDefaultThreadPool( final ThreadPool threadPool )
@@ -172,15 +173,8 @@ public abstract class AbstractConnectionManager
      */
     public void disconnect( final String name, final boolean tearDown )
     {
+        m_acceptorManager.disconnect( name );
         final ConnectionAcceptor acceptor = (ConnectionAcceptor)m_acceptors.remove( name );
-        if( null == acceptor )
-        {
-            final String message = "No connection with name " + name;
-            throw new IllegalArgumentException( message );
-        }
-
-        m_monitor.acceptorDisconnecting( name, tearDown );
-
         if( !tearDown )
         {
             acceptor.close( 0, m_forceShutdown );
