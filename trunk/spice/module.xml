@@ -147,6 +147,7 @@
         <depend project="xml-xerces"/>
         <depend project="avalon" runtime="true"/>
         <depend project="spice-configkit" inherit="runtime"/>
+        <depend project="spice-threadpool"/>
 
         <work nested="components/jndikit/target/classes"/>
         <work nested="components/jndikit/target/test-classes"/>
