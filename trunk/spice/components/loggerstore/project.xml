@@ -8,7 +8,7 @@
     <package>org.jcomponent.${pom.artifactId.substring(11)}</package>
     <siteDirectory>/home/groups/s/sp/spice/htdocs/${pom.artifactId.substring(11)}</siteDirectory>
     <distributionDirectory>/home/groups/s/sp/spice/htdocs/maven/${groupId}</distributionDirectory>
-    <currentVersion>1.0-b1</currentVersion>
+    <currentVersion>1.0</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
     <shortDescription>Component for storing a set of Avalon Loggers.</shortDescription>
@@ -22,9 +22,9 @@
 
     <versions>
         <version>
-            <id>1.0-b1</id>
-            <name>1.0-b1</name>
-            <tag>HEAD</tag>
+            <id>1.0</id>
+            <name>1.0</name>
+            <tag>LOGGERSTORE_1_0-tag</tag>
         </version>
         <version>
             <id>0.5</id>
