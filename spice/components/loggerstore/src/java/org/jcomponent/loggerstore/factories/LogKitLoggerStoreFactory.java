@@ -24,7 +24,7 @@ import org.jcomponent.loggerstore.stores.LogKitLoggerStore;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-19 01:51:35 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-10 19:26:10 $
  */
 public class LogKitLoggerStoreFactory
     extends AbstractLoggerStoreFactory
@@ -99,7 +99,7 @@ public class LogKitLoggerStoreFactory
      * @param data the configuration data
      * @return a ClassLoader
      */
-    private ClassLoader getClassLoader( final Map data )
+    protected ClassLoader getClassLoader( final Map data )
     {
         ClassLoader loader = (ClassLoader)data.get( ClassLoader.class.getName() );
         if( null == loader )
