@@ -15,22 +15,16 @@ public class Connector
     /** The associated reconnection policy for connector. */
     private ReconnectionPolicy _reconnectPolicy = AlwaysReconnectPolicy.POLICY;
 
-    /**
-     * The associated monitor that receives events about connector.
-     */
+    /** The associated monitor that receives events about connector. */
     private ConnectorMonitor _monitor = NullMonitor.MONITOR;
 
     /** The underlying connection. */
     private ConnectorConnection _connection;
 
-    /**
-     * A flag indicating whether the connection is "active".
-     */
+    /** A flag indicating whether the connection is "active". */
     private boolean _active;
 
-    /**
-     * A flag indicating whether the connection is "connected".
-     */
+    /** A flag indicating whether the connection is "connected". */
     private boolean _connected;
 
     /** Time at which last transmission occured. */
@@ -54,9 +48,7 @@ public class Connector
     /** The time the last connection attempt started. */
     private long _lastConnectionTime;
 
-    /**
-     * Number of sequential failed connection attempts.
-     */
+    /** Number of sequential failed connection attempts. */
     private int _connectionAttempts;
 
     /** The reason the last conenction attempt failed. */
@@ -326,9 +318,10 @@ public class Connector
 
             while( !isConnected() && isActive() )
             {
-                if( !getReconnectPolicy().attemptConnection(
-                    _lastConnectionTime,
-                    _connectionAttempts ) )
+                final boolean connect = getReconnectPolicy().
+                    attemptConnection( _lastConnectionTime,
+                                       _connectionAttempts );
+                if( !connect )
                 {
                     getMonitor().skippingConnectionAttempt();
                     return;
@@ -447,13 +440,13 @@ public class Connector
     {
         synchronized( getSyncLock() )
         {
-            getMonitor().attemptingValidation();
             if( !verifyConnected() )
             {
                 return false;
             }
             else
             {
+                getMonitor().attemptingValidation();
                 doValidateConnection();
                 return isConnected();
             }
