@@ -148,7 +148,14 @@ public class MBeanBuilder
         }
     }
 
-    private ModelMBeanAttributeInfo extractAttribute( final PropertyDescriptor property )
+    /**
+     * Extract an attribute info for specified property if attribute marked
+     * as an attribute.
+     *
+     * @param property the property
+     * @return the info or null if property is not marked as an attribute
+     */
+    ModelMBeanAttributeInfo extractAttribute( final PropertyDescriptor property )
     {
         Method readMethod = property.getReadMethod();
         Method writeMethod = property.getWriteMethod();
