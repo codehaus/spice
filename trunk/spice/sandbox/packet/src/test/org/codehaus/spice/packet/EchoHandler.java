@@ -5,15 +5,15 @@ import org.codehaus.spice.event.EventHandler;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-03-22 01:17:51 $
+ * @version $Revision: 1.2 $ $Date: 2004-05-17 06:25:47 $
  */
-public class EchoHandler
+class EchoHandler
     extends AbstractEventHandler
 {
     private final EventHandler _eventHandler;
     private final String _header;
 
-    public EchoHandler( final String header, final EventHandler eventHandler )
+    EchoHandler( final String header, final EventHandler eventHandler )
     {
         _header = header;
         _eventHandler = eventHandler;
