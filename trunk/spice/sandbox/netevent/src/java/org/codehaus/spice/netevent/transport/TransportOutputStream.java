@@ -13,7 +13,7 @@ import org.codehaus.spice.netevent.events.OutputDataPresentEvent;
  * An output stream that will send chunks of data via transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-20 01:08:30 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-20 05:46:32 $
  */
 public class TransportOutputStream
     extends OutputStream
@@ -115,11 +115,11 @@ public class TransportOutputStream
     {
         if( null != _buffer )
         {
-            new Throwable().printStackTrace( System.out );
             _buffer.flip();
             _transport.getTransmitBuffer().add( _buffer );
-            _sink.addEvent(
-                new OutputDataPresentEvent( _transport, _buffer.limit() ) );
+            final OutputDataPresentEvent event =
+                new OutputDataPresentEvent( _transport, _buffer.limit() );
+            _sink.addEvent( event );
             _buffer = null;
         }
     }

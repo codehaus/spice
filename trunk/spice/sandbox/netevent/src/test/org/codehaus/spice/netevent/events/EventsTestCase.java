@@ -12,7 +12,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2004-01-16 02:04:21 $
+ * @version $Revision: 1.11 $ $Date: 2004-01-20 05:46:32 $
  */
 public class EventsTestCase
     extends TestCase
@@ -115,7 +115,7 @@ public class EventsTestCase
         final ReadEvent event = new ReadEvent( transport, buffer );
 
         final String expected =
-            "ReadEvent[4 bytes to " + channel + "]";
+            "ReadEvent[count=4 " + channel + "]";
         assertEquals( "event.toString()", expected, event.toString() );
     }
 }
