@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
  * Schemas.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-03-11 09:17:12 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-04 11:12:09 $
  */
 class ConfigKitEntityResolver
     implements EntityResolver
@@ -75,7 +75,10 @@ class ConfigKitEntityResolver
                         "Looking in classloader " + classLoader + ".";
                     throw new IOException( message );
                 }
-                return new InputSource( inputStream );
+                final InputSource inputSource = new InputSource( inputStream );
+                inputSource.setPublicId( publicId );
+                inputSource.setSystemId( systemId );
+                return inputSource;
             }
         }
 
