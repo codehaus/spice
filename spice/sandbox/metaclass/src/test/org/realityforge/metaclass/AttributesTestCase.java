@@ -13,7 +13,7 @@ import org.realityforge.metaclass.model.Attribute;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-23 04:59:42 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-23 05:04:23 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -58,5 +58,49 @@ public class AttributesTestCase
             Attributes.getAttributeByName( attributes, name );
         assertNotNull( "attribute", attribute );
         assertEquals( "attribute", attribute1, attribute );
+    }
+
+    public void testGetAttributesByNameWithZeroAttributes()
+    {
+        final String name = "name";
+        final Attribute[] results =
+            Attributes.getAttributesByName( Attribute.EMPTY_SET, name );
+        assertEquals( "attributes.length", 0, results.length );
+    }
+
+    public void testGetAttributesByNameWithNoMatchingAttributes()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( "foo" );
+        final Attribute attribute2 = new Attribute( "baz" );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+        final Attribute[] results =
+            Attributes.getAttributesByName( attributes, name );
+        assertEquals( "attributes.length", 0, results.length );
+    }
+
+    public void testGetAttributesByNameWithOneMatchingAttribute()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( "baz" );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+        final Attribute[] results =
+            Attributes.getAttributesByName( attributes, name );
+        assertEquals( "attributes.length", 1, results.length );
+        assertEquals( "attribute[ 0 ]", attribute1, results[ 0 ] );
+    }
+
+    public void testGetAttributesByNameWithOneMatchingAttributes()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( name );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+        final Attribute[] results =
+            Attributes.getAttributesByName( attributes, name );
+        assertEquals( "attributes.length", 2, results.length );
+        assertEquals( "attributes[ 0 ]", attribute1, results[ 0 ] );
+        assertEquals( "attributes[ 1 ]", attribute2, results[ 1 ] );
     }
 }
