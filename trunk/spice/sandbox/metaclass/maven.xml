@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <project default="main"
     xmlns:deploy="deploy"
+    xmlns:maven="jelly:maven"
     xmlns:ant="jelly:ant">
 
     <postGoal name="java:compile">
@@ -8,6 +9,20 @@
             todir="${maven.build.dest}"/>
         <ant:copy file="${basedir}/project.xml"
             todir="${maven.build.dest}"/>
+    </postGoal>
+
+    <postGoal name="install">
+        <maven:maven
+            descriptor="${basedir}/src/plugin-test/project.xml"
+            goals="main"
+            ignoreFailures="false"/>
+    </postGoal>
+
+    <postGoal name="clean:clean">
+        <maven:maven
+            descriptor="${basedir}/src/plugin-test/project.xml"
+            goals="test-clean"
+            ignoreFailures="false"/>
     </postGoal>
 
     <goal name="main">
