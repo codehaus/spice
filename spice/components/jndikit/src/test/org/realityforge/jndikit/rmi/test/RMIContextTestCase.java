@@ -1,9 +1,12 @@
 /*
- * Copyright (C) The Apache Software Foundation. All rights reserved.
+ * Copyright (C) The Spice Group. All rights reserved.
  *
- * This software is published under the terms of the Apache Software License
- * version 1.1, a copy of which has been included with this distribution in
- * the LICENSE.txt file.
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ *
+ * This product includes software developed by the
+ * Apache Software Foundation (http://www.apache.org/).
  */
 package org.realityforge.jndikit.rmi.test;
 
@@ -18,7 +21,7 @@ import org.realityforge.jndikit.test.AbstractContextTestCase;
  * Unit testing for JNDI system
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class RMIContextTestCase
     extends AbstractContextTestCase
