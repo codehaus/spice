@@ -11,15 +11,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Modifier;
 import junit.framework.TestCase;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
-import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.tools.compiler.JavaClassFilter;
@@ -28,11 +27,19 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.19 $ $Date: 2003-10-22 09:19:42 $
+ * @version $Revision: 1.20 $ $Date: 2003-10-26 11:59:42 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
 {
+    public void testErrorGeneratingDescriptor()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        task.setProject( new Project() );
+        task.errorGeneratingDescriptor( "foo", new Throwable() );
+    }
+
     public void testGetOutputDescriptionWithBinary()
         throws Exception
     {
