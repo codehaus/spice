@@ -1,0 +1,5 @@
+<root>
+    <soTimeout>500</soTimeout>
+    <forceShutdown>true</forceShutdown>
+    <shutdownTimeout>200</shutdownTimeout>
+</root>
