@@ -21,7 +21,7 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-17 08:14:48 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-18 23:13:38 $
  */
 public class MBeanBinderTestCase
     extends TestCase
@@ -57,7 +57,7 @@ public class MBeanBinderTestCase
             new Attribute[]{new Attribute( "mx.component" )};
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 attributes,
                                  attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -83,7 +83,7 @@ public class MBeanBinderTestCase
             new Attribute[]{new Attribute( "mx.component" )};
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 attributes,
                                  attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -108,7 +108,7 @@ public class MBeanBinderTestCase
             new Attribute[]{new Attribute( "mx.component" )};
         final ClassDescriptor classDescriptor =
             new ClassDescriptor( TestBean.class.getName(),
-                                 0,
+                                 attributes,
                                  attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );

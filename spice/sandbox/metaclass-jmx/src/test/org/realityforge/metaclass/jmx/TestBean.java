@@ -10,7 +10,7 @@ package org.realityforge.metaclass.jmx;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-15 02:09:07 $
+ * @version $Revision: 1.5 $ $Date: 2003-11-18 23:13:38 $
  */
 public class TestBean
     implements TestMxInterface
@@ -22,7 +22,7 @@ public class TestBean
     {
     }
 
-    public TestBean( int value )
+    public TestBean( final int value )
     {
         m_value = value;
     }
@@ -32,7 +32,7 @@ public class TestBean
         return m_value;
     }
 
-    public void setValue( int value )
+    public void setValue( final int value )
     {
         m_value = value;
     }
@@ -42,7 +42,7 @@ public class TestBean
         return m_otherValue;
     }
 
-    public void setOtherValue( int otherValue )
+    public void setOtherValue( final int otherValue )
     {
         m_otherValue = otherValue;
     }
