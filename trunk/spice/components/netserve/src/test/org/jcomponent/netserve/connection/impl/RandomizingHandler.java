@@ -11,13 +11,14 @@ import java.io.IOException;
 import java.net.ProtocolException;
 import java.net.Socket;
 import java.util.Random;
+
 import org.jcomponent.netserve.connection.ConnectionHandler;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-31 09:23:31 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 09:33:55 $
  */
 class RandomizingHandler
     implements ConnectionHandlerManager, ConnectionHandler
