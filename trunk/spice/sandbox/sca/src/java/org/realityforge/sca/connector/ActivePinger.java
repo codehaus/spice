@@ -86,10 +86,12 @@ public class ActivePinger
 
       while ( null != _thread )
       {
-         final long now = _connector.checkPing();
+         final long now = System.currentTimeMillis();
+         final long then = _connector.checkPing();
+         final long sleep = then - now;
          try
          {
-            Thread.sleep( now );
+            Thread.sleep( sleep );
          }
          catch ( final InterruptedException ie )
          {
