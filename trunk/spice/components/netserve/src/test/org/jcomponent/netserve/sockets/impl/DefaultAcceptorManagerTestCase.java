@@ -7,15 +7,15 @@
  */
 package org.jcomponent.netserve.sockets.impl;
 
-import junit.framework.TestCase;
+import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-09 04:38:53 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-09 07:02:17 $
  */
 public class DefaultAcceptorManagerTestCase
-    extends TestCase
+    extends AbstractAcceptorManagerTestCase
 {
     public void testDisconnectNonExistent()
         throws Exception
@@ -87,87 +87,13 @@ public class DefaultAcceptorManagerTestCase
         assertEquals( "isConnected post disconnect", false, manager.isConnected( name ) );
     }
 
-    public void testConnectWithNullName()
-        throws Exception
+    protected SocketAcceptorManager createAcceptorManager()
     {
-        final DefaultAcceptorManager manager = new DefaultAcceptorManager();
-        try
-        {
-            manager.connect( null,
-                             new ExceptOnAcceptServerSocket( true ),
-                             new MockSocketConnectionHandler() );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe.message", "name", npe.getMessage() );
-            return;
-        }
-        fail( "expected NPE due to null name in connect" );
+        return new DefaultAcceptorManager();
     }
 
-    public void testConnectWithNullSocket()
-        throws Exception
+    protected void shutdownAcceptorManager( final SocketAcceptorManager manager )
     {
-        final DefaultAcceptorManager manager = new DefaultAcceptorManager();
-        try
-        {
-            manager.connect( "name",
-                             null,
-                             new MockSocketConnectionHandler() );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe.message", "socket", npe.getMessage() );
-            return;
-        }
-        fail( "expected NPE due to null socket in connect" );
-    }
-
-    public void testConnectWithNullHandler()
-        throws Exception
-    {
-        final DefaultAcceptorManager manager = new DefaultAcceptorManager();
-        try
-        {
-            manager.connect( "name",
-                             new ExceptOnAcceptServerSocket( true ),
-                             null );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe.message", "handler", npe.getMessage() );
-            return;
-        }
-        fail( "expected NPE due to null handler in connect" );
-    }
-
-    public void testDuplicateConnect()
-        throws Exception
-    {
-        final DefaultAcceptorManager manager = new DefaultAcceptorManager();
-        manager.setMonitor( NullAcceptorMonitor.MONITOR );
-        manager.setSoTimeout( 10 );
-        final String name = "name";
-        assertEquals( "isConnected pre connect", false, manager.isConnected( name ) );
-        manager.connect( name,
-                         new ExceptOnAcceptServerSocket( true ),
-                         new MockSocketConnectionHandler() );
-        assertEquals( "isConnected pre disconnect", true, manager.isConnected( name ) );
-        try
-        {
-            manager.connect( name,
-                             new ExceptOnAcceptServerSocket( true ),
-                             new MockSocketConnectionHandler() );
-        }
-        catch( final IllegalArgumentException iae )
-        {
-            return;
-        }
-        finally
-        {
-            manager.shutdownAcceptors();
-            assertEquals( "isConnected post disconnect", false, manager.isConnected( name ) );
-        }
-        fail( "Expected to fail due to duplicate connect" );
+        ( (DefaultAcceptorManager)manager ).shutdownAcceptors();
     }
 }
