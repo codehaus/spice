@@ -13,46 +13,50 @@ import java.util.HashMap;
 /**
  * Configurator is a collection of utility methods to create and configure
  * LoggerStore objects of different types using configuration resources.
- * LogKit, Log4J and JDK14 Loggers are supported
+ * LogKit, Log4J and JDK14 Loggers are supported.  
+ * In the case of Log4J, both DOM and Property configuration types are supported.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
 public class Configurator
 {
+
     /**
-     * Constant used to define LogKit Logger type
+     * Constant used to define Log4J type with DOMConfigurator  
+     */
+    public static final String LOG4J_DOM = "log4j-dom";
+
+    /**
+     * Constant used to define Log4J type with PropertyConfigurator
+     */
+    public static final String LOG4J_PROPERTY = "log4j-property";
+    
+    /**
+     * Constant used to define LogKit type
      */
     public static final String LOGKIT = "logkit";
-
+    
     /**
-     * Constant used to define Log4J Logger type
-     */
-    public static final String LOG4J = "log4j";
-
-    /**
-     * Constant used to define JDK14 Logger type
+     * Constant used to define JDK14 type
      */
     public static final String JDK14 = "jdk14";
 
     /**
      * Create and configure a {@link LoggerStore} from a specified
-     * configuration file.
+     * configuration resource.
      *
-     * @param loggerType the type of the Logger to use.
-     * @param configurationType the type of the configuration
+     * @param configuratorType the type of the configurator
      * @param resource the String encoding the path of the configuration resource
      * @return the configured LoggerStore
      * @throws Exception if unable to create the LoggerStore
      */
-    public static LoggerStore createLoggerStore( final String loggerType,
-                                                 final String configurationType,
+    public static LoggerStore createLoggerStore( final String configuratorType,
                                                  final String resource )
         throws Exception
     {
         final InitialLoggerStoreFactory factory = new InitialLoggerStoreFactory();
         final HashMap data = new HashMap();
-        data.put( InitialLoggerStoreFactory.INITIAL_FACTORY, getFactoryClassName( loggerType ) );
-        data.put( Log4JLoggerStoreFactory.CONFIGURATION_TYPE, configurationType );
+        data.put( InitialLoggerStoreFactory.INITIAL_FACTORY, getFactoryClassName( configuratorType ) );
         data.put( LoggerStoreFactory.FILE_LOCATION, resource );
         return factory.createLoggerStore( data );
     }
@@ -61,21 +65,18 @@ public class Configurator
      * Create and configure a {@link LoggerStore} from a specified
      * configuration resource.
      *
-     * @param loggerType the type of the Logger to use.
-     * @param configurationType the type of the configuration
+     * @param configuratorType the type of the configurator
      * @param resource the InputStream of the configuration resource
      * @return the configured LoggerStore
      * @throws Exception if unable to create the LoggerStore
      */
-    public static LoggerStore createLoggerStore( final String loggerType,
-                                                 final String configurationType,
+    public static LoggerStore createLoggerStore( final String configuratorType,
                                                  final InputStream resource )
         throws Exception
     {
         final InitialLoggerStoreFactory factory = new InitialLoggerStoreFactory();
         final HashMap data = new HashMap();
-        data.put( InitialLoggerStoreFactory.INITIAL_FACTORY, getFactoryClassName( loggerType ) );
-        data.put( Log4JLoggerStoreFactory.CONFIGURATION_TYPE, configurationType );
+        data.put( InitialLoggerStoreFactory.INITIAL_FACTORY, getFactoryClassName( configuratorType ) );
         data.put( InputStream.class.getName(), resource );
         return factory.createLoggerStore( data );
     }
@@ -84,19 +85,23 @@ public class Configurator
      * Get the Factory class name of the LoggerStoreFactory that corresponds
      * to specified type of Logger.
      *
-     * @param type the type of Logger
+     * @param type the type of Configurator 
      */
     private static String getFactoryClassName( final String type )
     {
-        if( type.equals( LOGKIT ) )
+        if( LOG4J_DOM.equals( type ) )
+        {
+            return DOMLog4JLoggerStoreFactory.class.getName();
+        }
+        else if( LOG4J_PROPERTY.equals( type ) )
+        {
+            return PropertyLog4JLoggerStoreFactory.class.getName();
+        }
+        else if( LOGKIT.equals( type ) )
         {
             return LogKitLoggerStoreFactory.class.getName();
         }
-        else if( type.equals( LOG4J ) )
-        {
-            return Log4JLoggerStoreFactory.class.getName();
-        }
-        else if( type.equals( JDK14 ) )
+        else if( JDK14.equals( type ) )
         {
             return Jdk14LoggerStoreFactory.class.getName();
         }
