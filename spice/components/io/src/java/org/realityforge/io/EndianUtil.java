@@ -4,9 +4,6 @@
  * This software is published under the terms of the Spice
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
- *
- * This product includes software developed by the
- * Apache Software Foundation (http://www.apache.org/).
  */
 package org.realityforge.io;
 
@@ -19,7 +16,7 @@ import java.io.OutputStream;
  * Utility code for dealing with different endian systems.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version CVS $Revision: 1.1 $ $Date: 2003-03-24 07:47:06 $
+ * @version CVS $Revision: 1.2 $ $Date: 2003-03-25 02:47:27 $
  * @since 4.0
  */
 public final class EndianUtil

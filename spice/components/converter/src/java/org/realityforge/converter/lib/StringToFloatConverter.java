@@ -4,9 +4,6 @@
  * This software is published under the terms of the Spice
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
- *
- * This product includes software developed by the
- * Apache Software Foundation (http://www.apache.org/).
  */
 package org.realityforge.converter.lib;
 
@@ -17,7 +14,7 @@ import org.realityforge.converter.ConverterException;
  * String to float converter
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-03-18 09:14:18 $
+ * @version $Revision: 1.4 $ $Date: 2003-03-25 02:51:26 $
  */
 public class StringToFloatConverter
     extends AbstractConverter
