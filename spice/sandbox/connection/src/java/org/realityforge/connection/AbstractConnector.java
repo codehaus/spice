@@ -257,7 +257,21 @@ public abstract class AbstractConnector
     */
    public void disconnect()
    {
-
+      synchronized( getSyncLock() )
+      {
+         if( isConnected() )
+         {
+            _connected = false;
+            try
+            {
+               doDisconnect();
+            }
+            catch ( final Throwable t )
+            {
+               //TODO: Error disconnecting
+            }
+         }
+      }
    }
 
    /**
@@ -291,10 +305,19 @@ public abstract class AbstractConnector
    }
 
    /**
-    * Method to implement to actually start connection.
+    * Subclasses implement this method to establish the connection.
     *
     * @throws Exception if unable to connect
     */
    protected abstract void doConnect()
+      throws Exception;
+
+   /**
+    * Subclasses implement this method to disconnect
+    * the connection.
+    *
+    * @throws Exception if unable to connect
+    */
+   protected abstract void doDisconnect()
       throws Exception;
 }
