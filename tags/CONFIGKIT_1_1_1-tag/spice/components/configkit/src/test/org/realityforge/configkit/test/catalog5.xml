@@ -1,0 +1,9 @@
+<catalog version="1.0">
+    <entity publicId="-//PHOENIX/Assembly DTD Version 1.0//EN"
+        resource="org/apache/avalon/phoenix/tools/assembly.dtd"/>
+    <entity systemId="http://jakarta.apache.org/phoenix/assembly_1_0.dtd"
+        resource="org/apache/avalon/phoenix/tools/assembly.dtd"/>
+    <entity publicId="-//PHOENIX/Assembly DTD Version 1.0//EN"
+        systemId="http://jakarta.apache.org/phoenix/assembly_1_0.dtd"
+        resource="org/apache/avalon/phoenix/tools/assembly.dtd"/>
+</catalog>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<project
+    xmlns:j="jelly:core"
+    xmlns:ant="jelly:ant"
+    default="java:jar">
+
+    <preGoal name="test:test">
+        <mkdir dir="target/test-classes"/>
+        <jar jarfile="target/test-classes/aTestCatalog.jar" basedir="src/test">
+            <include name="**/relax-schema.xml"/>
+            <include name="**/*.dtd"/>
+            <zipfileset dir="src/test/org/realityforge/configkit/test" prefix="META-INF/">
+                <include name="empty.txt"/>
+            </zipfileset>
+            <zipfileset dir="src/test/org/realityforge/configkit/test">
+                <include name="empty.txt"/>
+            </zipfileset>
+            <zipfileset dir="src/test/org/realityforge/configkit/test" fullpath="META-INF/spice/catalog.xml">
+                <include name="jar-catalog.xml"/>
+            </zipfileset>
+        </jar>
+    </preGoal>
+
+</project>
+
+
