@@ -26,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * and building a ClassDescriptor to correspond to the JavaClass
  * object.
  *
- * @version $Revision: 1.8 $ $Date: 2003-08-22 05:49:12 $
+ * @version $Revision: 1.9 $ $Date: 2003-08-22 06:07:13 $
  */
 public class QDoxDescriptorParser
 {
@@ -165,7 +165,7 @@ public class QDoxDescriptorParser
      * @param javaClass the JavaClass
      * @return the FieldDescriptors
      */
-    FieldDescriptor[] buildFields( final JavaClass javaClass )
+    private FieldDescriptor[] buildFields( final JavaClass javaClass )
     {
         final JavaField[] fields = javaClass.getFields();
         final FieldDescriptor[] fieldDescriptors = new FieldDescriptor[ fields.length ];
@@ -201,7 +201,7 @@ public class QDoxDescriptorParser
      * @param tags the DocletTag instances
      * @return the Attributes
      */
-    Attribute[] buildAttributes( final DocletTag[] tags )
+    private Attribute[] buildAttributes( final DocletTag[] tags )
     {
         final Attribute[] attributes = new Attribute[ tags.length ];
         for( int i = 0; i < tags.length; i++ )
