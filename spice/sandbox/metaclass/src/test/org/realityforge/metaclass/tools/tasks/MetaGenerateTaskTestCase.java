@@ -23,7 +23,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-08-25 06:12:41 $
+ * @version $Revision: 1.7 $ $Date: 2003-08-31 05:55:54 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -117,19 +117,20 @@ public class MetaGenerateTaskTestCase
         throws Exception
     {
         final String source =
-            "package com.biz;" +
-            "" +
-            "/**" +
-            " * @anAttribute" +
-            " */" +
-            "public class MyClass" +
-            "{" +
-            "}";
+            "package com.biz;\n" +
+            "\n" +
+            "/**\n" +
+            " * @anAttribute\n" +
+            " */\n" +
+            "public class MyClass\n" +
+            "{\n" +
+            "}\n";
 
         final File sourceDirectory = generateDirectory();
         final File destDirectory = generateDirectory();
         final FileSet fileSet = new FileSet();
         fileSet.setDir( sourceDirectory );
+        fileSet.setIncludes( "**/*.java" );
 
         final String sourceFilename =
             sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
@@ -162,23 +163,24 @@ public class MetaGenerateTaskTestCase
         assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
     }
 
-        public void testSingleSourceFileInWrongDirectory()
+    public void testSingleSourceFileInWrongDirectory()
         throws Exception
     {
         final String source =
-            "package com.biz;" +
-            "" +
-            "/**" +
-            " * @anAttribute" +
-            " */" +
-            "public class MyClass" +
-            "{" +
-            "}";
+            "package com.biz;\n" +
+            "\n" +
+            "/**\n" +
+            " * @anAttribute\n" +
+            " */\n" +
+            "public class MyClass\n" +
+            "{\n" +
+            "}\n";
 
         final File sourceDirectory = generateDirectory();
         final File destDirectory = generateDirectory();
         final FileSet fileSet = new FileSet();
         fileSet.setDir( sourceDirectory );
+        fileSet.setIncludes( "**/*.java" );
 
         final String sourceFilename =
             sourceDirectory + File.separator + "com" + File.separator + "MyClass.java";
