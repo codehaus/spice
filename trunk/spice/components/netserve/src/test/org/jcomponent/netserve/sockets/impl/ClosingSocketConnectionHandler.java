@@ -15,7 +15,7 @@ import java.io.OutputStream;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-09 08:16:35 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-09 08:18:59 $
  */
 class ClosingSocketConnectionHandler
     implements SocketConnectionHandler
@@ -29,8 +29,5 @@ class ClosingSocketConnectionHandler
         outputStream.write( MESSAGE.getBytes() );
         outputStream.flush();
         outputStream.close();
-        connection.shutdownInput();
-        connection.shutdownOutput();
-        connection.close();
     }
 }
