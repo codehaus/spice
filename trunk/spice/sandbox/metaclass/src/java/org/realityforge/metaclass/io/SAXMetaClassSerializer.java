@@ -21,7 +21,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * to a SAX2 compliant ContentHandler.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-28 08:15:02 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-29 09:37:59 $
  */
 public class SAXMetaClassSerializer
 {
@@ -63,7 +63,7 @@ public class SAXMetaClassSerializer
     /**
      * Constant for name of method parameters element.
      */
-    static final String PARAMETERS_ELEMENT = "parameters";
+    static final String PARAMETER_ELEMENT = "parameter";
 
     /**
      * Constant for name of attributes element.
@@ -254,8 +254,8 @@ public class SAXMetaClassSerializer
         final AttributesImpl atts = new AttributesImpl();
         add( atts, NAME_ATTRIBUTE, parameter.getName() );
         add( atts, TYPE_ATTRIBUTE, parameter.getType() );
-        start( handler, PARAMETERS_ELEMENT, atts );
-        end( handler, PARAMETERS_ELEMENT );
+        start( handler, PARAMETER_ELEMENT, atts );
+        end( handler, PARAMETER_ELEMENT );
     }
 
     /**
