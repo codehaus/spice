@@ -1,7 +1,7 @@
 package org.jcomponent.netserve.connection.handlers;
 
 import java.net.Socket;
-import org.jcomponent.netserve.connection.ConnectionHandler;
+import org.jcomponent.netserve.connection.RequestHandler;
 
 /**
  * A handler that allows user to handle ConnectionHandlers.
@@ -22,7 +22,7 @@ public abstract class ManagedRequestHandler
     protected void doPerformRequest( final Socket socket )
         throws Exception
     {
-        final ConnectionHandler handler = aquireHandler( socket );
+        final RequestHandler handler = aquireHandler( socket );
         try
         {
             handler.handleConnection( socket );
@@ -37,14 +37,14 @@ public abstract class ManagedRequestHandler
      * Retrieve the underlying handler.
      *
      * @param socket the socket
-     * @return the ConnectionHandler
+     * @return the RequestHandler
      */
-    protected abstract ConnectionHandler aquireHandler( Socket socket );
+    protected abstract RequestHandler aquireHandler( Socket socket );
 
     /**
      * Release the underlying handler.
      *
      * @param handler the handler
      */
-    protected abstract void releaseHandler( ConnectionHandler handler );
+    protected abstract void releaseHandler( RequestHandler handler );
 }

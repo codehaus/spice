@@ -8,14 +8,14 @@
 package org.jcomponent.netserve.connection.handlers;
 
 import java.net.Socket;
-import org.jcomponent.netserve.connection.ConnectionHandler;
+import org.jcomponent.netserve.connection.RequestHandler;
 import org.jcomponent.threadpool.ThreadPool;
 
 /**
  * A Handler that uses a thread from a pool for each different request.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-26 01:04:18 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-27 05:34:57 $
  */
 public class ThreadPerRequestHandler
     extends DelegatingRequestHandler
@@ -31,7 +31,7 @@ public class ThreadPerRequestHandler
      * @param handler the underlying handler
      * @param threadPool the thread pool to use to create handler threads
      */
-    public ThreadPerRequestHandler( final ConnectionHandler handler,
+    public ThreadPerRequestHandler( final RequestHandler handler,
                                     final ThreadPool threadPool )
     {
         super( handler );
