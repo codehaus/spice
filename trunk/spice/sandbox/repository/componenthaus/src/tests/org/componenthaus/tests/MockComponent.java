@@ -6,16 +6,18 @@ import java.util.List;
 
 public class MockComponent implements Component {
     private String componentId = null;
+    private String fullDescription;
 
     public MockComponent(String componentId) {
         this.componentId = componentId;
     }
 
     public String getId() {
-        return null;
+        return componentId;
     }
 
     public void setId(String id) {
+        componentId = id;
     }
 
     public String getServiceInterface() {
@@ -34,10 +36,6 @@ public class MockComponent implements Component {
         return null;
     }
 
-    public String getAuthorsCSV() {
-        return null;
-    }
-
     public List getAuthors() {
         return null;
     }
@@ -47,6 +45,10 @@ public class MockComponent implements Component {
     }
 
     public String getFullDescription() {
-        return null;
+        return fullDescription;
+    }
+
+    public void setFullDescription(String fullDescription) {
+        this.fullDescription = fullDescription;
     }
 }

@@ -11,12 +11,13 @@ import java.io.IOException;
 
 public class ShowComponentController extends AbstractController {
     private final ComponentRepository repository;
+    static final String MODEL_NAME = "component";
 
     public ShowComponentController(ComponentRepository repository) {
         this.repository = repository;
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return new ModelAndView("showComponentView","component",repository.getComponent(request.getParameter("id")));
+        return new ModelAndView("showComponentView",MODEL_NAME,repository.getComponent(request.getParameter("id")));
     }
 }

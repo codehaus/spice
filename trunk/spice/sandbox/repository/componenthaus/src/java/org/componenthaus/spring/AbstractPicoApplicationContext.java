@@ -48,6 +48,7 @@ public abstract class AbstractPicoApplicationContext implements WebApplicationCo
 
     public AbstractPicoApplicationContext (ApplicationContext parent, String nameSpace) {
         this.parent = parent;
+        this.startupTime = System.currentTimeMillis();
     }
 
     public ApplicationContext getParent() {
@@ -176,8 +177,8 @@ public abstract class AbstractPicoApplicationContext implements WebApplicationCo
 		this.sharedObjects.put(key, o);
 	}
 
-    public Object sharedObject(String s) {
-        return sharedObjects.get(s);
+    public Object sharedObject(String key) {
+        return sharedObjects.get(key);
     }
 
     public Object removeSharedObject(String s) {

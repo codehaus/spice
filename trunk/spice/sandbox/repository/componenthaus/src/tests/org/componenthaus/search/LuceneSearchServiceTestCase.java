@@ -3,14 +3,13 @@ package org.componenthaus.search;
 import junit.framework.TestCase;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.InputStream;
 import org.apache.lucene.store.Lock;
 import org.apache.lucene.store.OutputStream;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.componenthaus.util.file.MockFile;
 
 import java.io.IOException;
 

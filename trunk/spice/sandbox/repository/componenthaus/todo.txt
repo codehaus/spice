@@ -18,7 +18,7 @@
  * Include coverage report in component metadata
  * Offline tool to submit CAR files.
  * Have all Exception constructors call super(...)
- * Determine required jars from imports in the component itself (and its impl).  This is because one jar might contain two or more components.  Dependencies traditionally are at the jar to jar level.  But if you use only one component in a jar, you might not need all the dependencies the jar needs.
+ * Determine required jars from imports in the component itself (and its impl).  This is because one jar might contain two or more components.  Dependencies traditionally are at the jar to jar level.  But if you use only one component in a jar, you might not need all the dependencies the jar needs. Resolve transitive dependencies in this way also.  Expose as web service (so federated componenthauses can come to the central one to have dependencies resolved).
  * Better to make methods (services) the unit of indexing, searching and presentation?  Or stick with classes?
  * Write a test case to enable ClassAbbreviater to deal with constructors
  * Display service interface fully collapsed, like in IDEA, with clickable buttons to show javadoc.

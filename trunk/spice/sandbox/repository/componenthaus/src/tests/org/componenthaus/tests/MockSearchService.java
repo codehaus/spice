@@ -15,12 +15,22 @@ public class MockSearchService implements SearchService {
     private String actualQuery;
     private int actualBeginIndex;
     private int actualEndIndex;
+    private String expectedIndexComponentId;
+    private String expectedIndexFullDescription;
+    private String actualIndexComponentId;
+    private String actualIndexFullDescription;
+    private SearchService.Exception preparedIndexException;
 
     public void setToBeThrown(SearchService.Exception toBeThrown) {
         this.toBeThrown = toBeThrown;
     }
 
     public void index(String componentId, String componentDescription) throws SearchService.Exception {
+        if ( preparedIndexException != null ) {
+            throw preparedIndexException;
+        }
+        this.actualIndexComponentId = componentId;
+        this.actualIndexFullDescription = componentDescription;
     }
 
     public int search(String query, int beginIndex, int endIndex, List collector) throws SearchService.Exception {
@@ -48,5 +58,18 @@ public class MockSearchService implements SearchService {
         Assert.assertEquals("Did not get expected query",expectedQuery,actualQuery);
         Assert.assertEquals("Did not get expected beginIndex",expectedBeginIndex,actualBeginIndex);
         Assert.assertEquals("Did not get expected endIndex",expectedEndIndex,actualEndIndex);
+
+        Assert.assertEquals("Did not get expected component id during index",expectedIndexComponentId,actualIndexComponentId);
+        Assert.assertEquals("Did not get expected component desc during index",expectedIndexFullDescription,actualIndexFullDescription);
+
+    }
+
+    public void setupExpectedIndexCall(String componentId, String fullDescription) {
+        this.expectedIndexComponentId = componentId;
+        this.expectedIndexFullDescription = fullDescription;
+    }
+
+    public void setupIndexCallException(SearchService.Exception preparedException) {
+        preparedIndexException = preparedException;
     }
 }

@@ -1,5 +1,9 @@
 package org.componenthaus.spring;
 
+import org.componenthaus.ant.ClassAbbreviatorImpl;
+import org.componenthaus.ant.JavadocFormatter;
+import org.componenthaus.ant.JavadocFormatterImpl;
+import org.componenthaus.ant.LineIndenterImpl;
 import org.componenthaus.prevayler.PrevaylerBean;
 import org.componenthaus.repository.api.ComponentRepository;
 import org.componenthaus.repository.api.RepositoryImpl;
@@ -13,18 +17,14 @@ import org.componenthaus.usecases.listcomponents.ListComponentsController;
 import org.componenthaus.usecases.searchcomponents.SearchComponentsController;
 import org.componenthaus.usecases.showcomponent.ShowComponentController;
 import org.componenthaus.usecases.submitcomponent.DefaultCarSubmissionManager;
-import org.componenthaus.usecases.submitcomponent.SubmitComponentController;
-import org.componenthaus.usecases.submitcomponent.MetadataConverterImpl;
 import org.componenthaus.usecases.submitcomponent.DefaultComponentSubmissionManager;
+import org.componenthaus.usecases.submitcomponent.MetadataConverterImpl;
+import org.componenthaus.usecases.submitcomponent.SubmitComponentController;
 import org.componenthaus.usecases.welcomeuser.WelcomeUserController;
 import org.componenthaus.util.file.FileManager;
 import org.componenthaus.util.file.FileManagerImpl;
-import org.componenthaus.util.source.CodeFormatter;
-import org.componenthaus.util.source.JalopyCodeFormatter;
-import org.componenthaus.ant.ClassAbbreviatorImpl;
-import org.componenthaus.ant.LineIndenterImpl;
-import org.componenthaus.ant.JavadocFormatterImpl;
-import org.componenthaus.ant.JavadocFormatter;
+import org.picocontainer.Parameter;
+import org.picocontainer.defaults.ConstantParameter;
 import org.prevayler.Prevayler;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -34,8 +34,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.view.ResourceBundleViewResolver;
 import org.springframework.web.servlet.view.tiles.TilesConfigurer;
-import org.picocontainer.Parameter;
-import org.picocontainer.defaults.ConstantParameter;
 
 import javax.servlet.ServletContext;
 import java.util.HashMap;
@@ -59,7 +57,7 @@ public class PicoApplicationContext extends AbstractPicoApplicationContext {
     }
 
     protected void registerBeans() throws BeansException {
-        assert servletContext != null : servletContext; //Must be called after setServletContext()
+        assert servletContext != null : "Servlet Context cannot be null"; //Must be called after setServletContext()
 
         addController(WelcomeUserController.class, "/welcome.htm");
         addController(ListComponentsController.class, "/listComponents.action");
@@ -86,7 +84,6 @@ public class PicoApplicationContext extends AbstractPicoApplicationContext {
         });
 
         pico.registerComponentImplementation(SearchService.class, LuceneSearchService.class);
-        pico.registerComponentImplementation(CodeFormatter.class, JalopyCodeFormatter.class);
         pico.registerComponentImplementation(ComponentRepository.Monitor.class, AddComponentMonitor.class); //Will need multiples here soon
         pico.registerComponentImplementation(ComponentRepository.class, RepositoryImpl.class);
         //pico.registerComponentImplementation(PrevalentSystem.class, RepositoryImpl.class); //This causes a second instance of repository to exist.  Yuck.
@@ -114,7 +111,7 @@ public class PicoApplicationContext extends AbstractPicoApplicationContext {
         addController(controllerClass, new String[]{urlMapping});
     }
 
-    private void addSpringStuff() {
+    protected void addSpringStuff() {
         ResourceBundleViewResolver viewResolver = new ResourceBundleViewResolver();
         viewResolver.setBasename(VIEW_FILE);
         TilesConfigurer tilesConfigurer = new TilesConfigurer();
