@@ -34,7 +34,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link org.jcomponent.netserve.connection.ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-31 03:04:34 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-31 09:23:31 $
  */
 public class AvalonConnectionTestCase
     extends TestCase
@@ -172,7 +172,7 @@ public class AvalonConnectionTestCase
 
     private void runCMTests( final ConnectionManager cm ) throws Exception
     {
-        final RandmoizingHandler handler = new RandmoizingHandler();
+        final RandomizingHandler handler = new RandomizingHandler();
         cm.connect( "a", getServerSocket(), handler );
         cm.disconnect( "a", false );
         cm.connect( "a", getServerSocket(), handler );
@@ -258,7 +258,7 @@ public class AvalonConnectionTestCase
         throws Exception
     {
         final String name = "test-" + getName() + "-";
-        final RandmoizingHandler handlerManager = new RandmoizingHandler();
+        final RandomizingHandler handlerManager = new RandomizingHandler();
         final ServerSocket serverSocket = getServerSocket();
         final ConnectionAcceptor acceptor =
             new ConnectionAcceptor( name,
@@ -413,7 +413,7 @@ public class AvalonConnectionTestCase
             final ConnectionAcceptor acceptor =
                 new ConnectionAcceptor( "test-" + getName() + "-",
                                         serverSocket,
-                                        new RandmoizingHandler(),
+                                        new RandomizingHandler(),
                                         m_monitor,
                                         null );
             start( acceptor );
