@@ -314,7 +314,6 @@ public class Connector
             }
             catch ( final Throwable t )
             {
-               t.printStackTrace();
                _connectionAttempts++;
                _connectionError = t.toString();
                getMonitor().errorConnecting( t );
