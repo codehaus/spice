@@ -22,7 +22,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * to a SAX2 compliant ContentHandler.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 02:18:33 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-28 02:20:48 $
  */
 public class SAXMetaClassSerializer
 {
@@ -97,6 +97,11 @@ public class SAXMetaClassSerializer
    static final String VALUE_ATTRIBUTE = "value";
 
    /**
+    * Constant for name of version attribute.
+    */
+   static final String VERSION_ATTRIBUTE = "version";
+
+   /**
     * Serialize the ClassDescriptor to as a Document to the
     * specified ContentHandler.
     *
@@ -126,6 +131,7 @@ public class SAXMetaClassSerializer
    {
       final AttributesImpl atts = new AttributesImpl();
       add( atts, TYPE_ATTRIBUTE, descriptor.getName() );
+      add( atts, VERSION_ATTRIBUTE, MetaClassIOXml.VERSION );
       start( handler, CLASS_ELEMENT, atts );
       serializeFields( handler, descriptor.getFields() );
       serializeMethods( handler, descriptor.getMethods() );
