@@ -96,6 +96,7 @@
             <roles>
                 <role>Developer</role>
             </roles>
+            <timezone>+2</timezone>  
         </developer>
         <developer>
             <name>Ryan Hoegg</name>
@@ -120,6 +121,7 @@
             <roles>
                 <role>Developer</role>
             </roles>
+            <timezone>-5</timezone>
         </developer>
     </developers>
 
