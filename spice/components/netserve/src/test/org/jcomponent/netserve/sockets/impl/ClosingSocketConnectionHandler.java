@@ -16,7 +16,7 @@ import org.jcomponent.netserve.connection.ConnectionHandler;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-24 04:27:55 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-24 08:05:23 $
  */
 class ClosingSocketConnectionHandler
     implements ConnectionHandler
@@ -24,11 +24,17 @@ class ClosingSocketConnectionHandler
     static final String MESSAGE = "Bye!";
 
     public void handleConnection( final Socket socket )
-        throws IOException
     {
-        final OutputStream outputStream = socket.getOutputStream();
-        outputStream.write( MESSAGE.getBytes() );
-        outputStream.flush();
-        outputStream.close();
+        try
+        {
+            final OutputStream outputStream = socket.getOutputStream();
+            outputStream.write( MESSAGE.getBytes() );
+            outputStream.flush();
+            outputStream.close();
+        }
+        catch( final IOException ioe )
+        {
+            ioe.printStackTrace();
+        }
     }
 }

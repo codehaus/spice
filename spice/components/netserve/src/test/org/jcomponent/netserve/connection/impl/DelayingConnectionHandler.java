@@ -7,16 +7,13 @@
  */
 package org.jcomponent.netserve.connection.impl;
 
-import java.io.IOException;
-import java.net.ProtocolException;
 import java.net.Socket;
-
 import org.jcomponent.netserve.connection.ConnectionHandler;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-31 09:33:55 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-24 08:05:22 $
  */
 class DelayingConnectionHandler
     implements ConnectionHandler
@@ -29,7 +26,6 @@ class DelayingConnectionHandler
     }
 
     public void handleConnection( final Socket connection )
-        throws IOException, ProtocolException
     {
         final long start = System.currentTimeMillis();
         final long end = start + m_delay;
