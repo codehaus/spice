@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
+    <name>CLI</name>
+    <id>cli</id>
+    <groupId>components</groupId>
+    <currentVersion>1.0</currentVersion>
+
+    <shortDescription>Parse command line arguments conforming to the GNU
+        command line standard.</shortDescription>
+
+    <description>
+        The CLI component is a set of classes that allow you to parse
+        command line arguments. It parses command line arguments that
+        conform to the GNU "standard" for command line arguments.
+    </description>
+
+    <developers>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <email>peter at apache.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Berin Loritsch</name>
+            <email>bloritsch at apache.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Leo Simons</name>
+            <email>leosimons at apache.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+</project>
