@@ -33,7 +33,7 @@
 
     <target name="test" description="o Run the test cases" depends="build">
         <taskdef name="metagenerate"
-            classname="org.realityforge.metaclass.tools.tasks.MetaGenerateTask">
+            classname="org.realityforge.metaclass.tools.tasks.GenerateClassDescriptorsTask">
             <classpath>
                 <pathelement path="${target.classes}"/>
             </classpath>
@@ -46,7 +46,7 @@
         </metagenerate>
 
         <mkdir dir="${target.reports}"/>
-	<junit dir="./" printSummary="yes" 
+	<junit dir="./" printSummary="yes"
 	       haltonfailure="true" fork="true" haltonerror="true">
             <sysproperty key="basedir" value="src/test"/>
             <formatter usefile="true" type="plain"/>

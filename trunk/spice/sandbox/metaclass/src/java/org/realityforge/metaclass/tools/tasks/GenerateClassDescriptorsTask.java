@@ -31,9 +31,9 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.23 $ $Date: 2003-08-31 08:31:51 $
+ * @version $Revision: 1.1 $ $Date: 2003-09-07 10:21:54 $
  */
-public class MetaGenerateTask
+public class GenerateClassDescriptorsTask
     extends AbstractQdoxTask
 {
     /**

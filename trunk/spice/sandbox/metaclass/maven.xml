@@ -12,7 +12,7 @@
             <fileset dir="src/test"/>
         </copy>
         <taskdef name="metagenerate"
-            classname="org.realityforge.metaclass.tools.tasks.MetaGenerateTask">
+            classname="org.realityforge.metaclass.tools.tasks.GenerateClassDescriptorsTask">
             <classpath>
                 <path refid="maven.dependency.classpath"/>
                 <pathelement path="${maven.build.dest}"/>

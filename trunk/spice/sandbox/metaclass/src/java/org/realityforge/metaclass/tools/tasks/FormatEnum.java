@@ -14,7 +14,7 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
  * outputting as xml or as a serialized format.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-15 08:40:01 $
+ * @version $Revision: 1.3 $ $Date: 2003-09-07 10:21:54 $
  */
 public class FormatEnum
     extends EnumeratedAttribute
@@ -24,15 +24,15 @@ public class FormatEnum
         final String value = super.getValue();
         if( value.equals( "binary" ) )
         {
-            return MetaGenerateTask.BINARY_TYPE;
+            return GenerateClassDescriptorsTask.BINARY_TYPE;
         }
         else if( value.equals( "ser" ) )
         {
-            return MetaGenerateTask.SER_TYPE;
+            return GenerateClassDescriptorsTask.SER_TYPE;
         }
         else
         {
-            return MetaGenerateTask.XML_TYPE;
+            return GenerateClassDescriptorsTask.XML_TYPE;
         }
     }
 
