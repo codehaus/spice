@@ -15,7 +15,7 @@ import org.codehaus.spice.netevent.transport.MultiBufferInputStream;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-23 04:26:21 $
+ * @version $Revision: 1.4 $ $Date: 2004-05-17 06:15:21 $
  */
 class TestEventHandler
     extends AbstractEventHandler
@@ -28,16 +28,28 @@ class TestEventHandler
     private final long _transmitCount;
     private final long _receiveCount;
     private final boolean _closeOnReceive;
+    private int m_connectCount;
+    private int m_disconnectCount;
 
-    public TestEventHandler( final String header,
-                             final long transmitCount,
-                             final long receiveCount,
-                             final boolean closeOnReceive )
+    TestEventHandler( final String header,
+                      final long transmitCount,
+                      final long receiveCount,
+                      final boolean closeOnReceive )
     {
         _header = header;
         _transmitCount = transmitCount;
         _receiveCount = receiveCount;
         _closeOnReceive = closeOnReceive;
+    }
+
+    int getConnectCount()
+    {
+        return m_connectCount;
+    }
+
+    int getDisconnectCount()
+    {
+        return m_disconnectCount;
     }
 
     /**
@@ -47,7 +59,7 @@ class TestEventHandler
     {
         if( event instanceof InputDataPresentEvent )
         {
-            final InputDataPresentEvent e = (InputDataPresentEvent)event;
+            final InputDataPresentEvent e = (InputDataPresentEvent) event;
             final ChannelTransport transport = e.getTransport();
             final int available = transport.getInputStream().available();
             if( available == _receiveCount && _closeOnReceive )
@@ -57,16 +69,30 @@ class TestEventHandler
         }
         else if( event instanceof ChannelClosedEvent )
         {
-            final ChannelClosedEvent ce = (ChannelClosedEvent)event;
+            m_disconnectCount++;
+            final ChannelClosedEvent ce = (ChannelClosedEvent) event;
             final ChannelTransport transport = ce.getTransport();
+            status( transport, "Channel Diconnected." );
             receiveData( transport );
         }
         else if( event instanceof ConnectEvent )
         {
-            final ConnectEvent ce = (ConnectEvent)event;
+            m_connectCount++;
+            final ConnectEvent ce = (ConnectEvent) event;
             final ChannelTransport transport = ce.getTransport();
+            setupUserData( transport );
+
+            status( transport, "Channel Connected." );
             transmitData( transport );
         }
+    }
+
+    private void status( final ChannelTransport transport, final String msg )
+    {
+        final int connected = m_connectCount - m_disconnectCount;
+        final String message = _header + " (" + transport.getUserData() + "): " +
+                               ( msg + " Current=" + connected + " Connected= " + m_connectCount + " Disconnected=" + m_disconnectCount );
+        System.out.println( message );
     }
 
     private void receiveData( final ChannelTransport transport )
@@ -80,7 +106,7 @@ class TestEventHandler
         {
             for( int i = 0; i < count; i++ )
             {
-                sb.append( (char)in.read() );
+                sb.append( (char) in.read() );
             }
         }
         catch( IOException e )
@@ -88,16 +114,11 @@ class TestEventHandler
             e.printStackTrace();
         }
 
-        output( transport, "Received " + available + " Sample: " + sb );
+        status( transport, "Received " + available + " Sample: " + sb );
     }
 
     private void transmitData( final ChannelTransport transport )
     {
-        final SocketChannel channel = (SocketChannel)transport.getChannel();
-        final Socket socket = channel.socket();
-        final String conn =
-            socket.getLocalPort() + "<->" + socket.getPort();
-        transport.setUserData( conn );
         final OutputStream outputStream = transport.getOutputStream();
         try
         {
@@ -108,11 +129,11 @@ class TestEventHandler
             }
             for( int i = 0; i < transmitCount; i++ )
             {
-                final byte ch = DATA[ i % DATA.length ];
+                final byte ch = DATA[i % DATA.length];
                 outputStream.write( ch );
             }
             outputStream.flush();
-            output( transport, "Transmitting " + transmitCount );
+            status( transport, "Transmitting " + transmitCount );
         }
         catch( final IOException ioe )
         {
@@ -120,10 +141,12 @@ class TestEventHandler
         }
     }
 
-    private void output( final ChannelTransport transport, final String text )
+    private void setupUserData( final ChannelTransport transport )
     {
-        final String message =
-            _header + " (" + transport.getUserData() + "): " + text;
-        System.out.println( message );
+        final SocketChannel channel = (SocketChannel) transport.getChannel();
+        final Socket socket = channel.socket();
+        final String conn = socket.getLocalPort() + "<->" + socket.getPort();
+        transport.setUserData( conn );
     }
+
 }
