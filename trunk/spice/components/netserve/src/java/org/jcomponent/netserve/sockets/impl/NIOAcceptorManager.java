@@ -26,7 +26,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-09 08:22:19 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-09 08:23:39 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -59,6 +59,11 @@ public class NIOAcceptorManager
     private boolean m_running;
 
     /**
+     * Timeout on selector.
+     */
+    private int m_timeout = 500;
+
+    /**
      * Set the AcceptorMonitor that receives events when changes occur.
      *
      * @param monitor the AcceptorMonitor that receives events when
@@ -67,6 +72,16 @@ public class NIOAcceptorManager
     public void setMonitor( final AcceptorMonitor monitor )
     {
         m_monitor = monitor;
+    }
+
+    /**
+     * Set the timeout on the selector.
+     *
+     * @param timeout the timeout.
+     */
+    public void setTimeout( final int timeout )
+    {
+        m_timeout = timeout;
     }
 
     /**
@@ -253,7 +268,7 @@ public class NIOAcceptorManager
             // Someone is ready for I/O, get the ready keys
             try
             {
-                if( 0 == m_selector.select( 500 ) )
+                if( 0 == m_selector.select( m_timeout ) )
                 {
                     continue;
                 }
