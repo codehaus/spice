@@ -14,6 +14,14 @@
         for creating sockets, an implementation of the Acceptor/Connector pattern from
         ACE for both stream based and packet based connections, etc.
     </description>
+    
+	<versions>
+        <version>
+            <id>1.0-b1</id>
+            <name>1.0-b1</name>
+            <tag>NETSERVE_1_0_b1-tag</tag>
+        </version>
+    </versions>
 
     <dependencies>
         <dependency>

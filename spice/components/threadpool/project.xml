@@ -14,6 +14,14 @@
         customize the thread environment before and after it executes the work
         on the pooled threads.
     </description>
+    
+	<versions>
+        <version>
+            <id>1.0-b1</id>
+            <name>1.0-b1</name>
+            <tag>THREADPOOL_1_0_b1-tag</tag>
+        </version>
+    </versions>
 
     <developers>
         <developer>
