@@ -1,0 +1,7 @@
+<project default="war:war">
+
+  <preGoal name="war:war">
+	<echo>${maven.war.src}</echo>
+	<echo>${maven.src.dir}</echo>
+  </preGoal>
+</project>
