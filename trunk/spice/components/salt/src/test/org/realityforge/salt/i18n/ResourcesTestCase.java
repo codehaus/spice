@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-06-13 00:18:46 $
+ * @version $Revision: 1.7 $ $Date: 2003-06-13 00:22:51 $
  */
 public class ResourcesTestCase
     extends TestCase
@@ -230,10 +230,10 @@ public class ResourcesTestCase
             new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
                            Locale.getDefault(),
                            MockResourceBundle.class.getClassLoader() );
-        MockResourceBundle.addResource( "rez", "3:22 a" );
+        MockResourceBundle.addResource( "rez", "3:30:32pm" );
         final DateFormat format =
-            DateFormat.getTimeInstance( DateFormat.SHORT, Locale.getDefault() );
-        final Date expected = format.parse( "3:22 a" );
+            DateFormat.getTimeInstance( DateFormat.DEFAULT, Locale.getDefault() );
+        final Date expected = format.parse( "3:30:32pm" );
         assertEquals( "GetTime", expected, resources.getTime( "rez" ) );
     }
 
