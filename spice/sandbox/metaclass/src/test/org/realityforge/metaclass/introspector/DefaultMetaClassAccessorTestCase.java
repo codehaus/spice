@@ -14,12 +14,12 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-28 07:01:01 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-01 01:31:57 $
  */
 public class DefaultMetaClassAccessorTestCase
     extends TestCase
 {
-    public void testLoadAttributesForClass()
+    public void testLoadBinaryAttributesForClass()
         throws Exception
     {
         final String name = "com.biz.MyClass";
@@ -33,6 +33,27 @@ public class DefaultMetaClassAccessorTestCase
             0, 0, 0, 0, //field count
             0, 0, 0, 0 //method count
         };
+        final MockClassLoader classLoader = new MockClassLoader();
+        classLoader.bindResource( location, data );
+        final DefaultMetaClassAccessor accessor = new DefaultMetaClassAccessor();
+        final ClassDescriptor clazz = accessor.getClassDescriptor( name, classLoader, null );
+        assertEquals( "class.name", name, clazz.getName() );
+        assertEquals( "class.attributes.length",
+                      0, clazz.getAttributes().length );
+        assertEquals( "class.methods.length",
+                      0, clazz.getMethods().length );
+        assertEquals( "class.fields.length",
+                      0, clazz.getFields().length );
+    }
+
+    public void testLoadXMLAttributesForAsClass()
+        throws Exception
+    {
+        final String name = "com.biz.MyClass";
+        final String location = "com/biz/MyClass-meta.xml";
+        final String xml =
+            "<class type=\"com.biz.MyClass\" version=\"1.0\"/>";
+        final byte[] data = xml.getBytes();
         final MockClassLoader classLoader = new MockClassLoader();
         classLoader.bindResource( location, data );
         final DefaultMetaClassAccessor accessor = new DefaultMetaClassAccessor();
