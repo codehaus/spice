@@ -16,16 +16,25 @@
             <groupId>spice</groupId>
             <artifactId>spice-event</artifactId>
             <version>1.0-dev</version>
+            <properties>
+                <bundle>true</bundle>
+            </properties>
         </dependency>
         <dependency>
             <groupId>spice</groupId>
             <artifactId>spice-netevent</artifactId>
             <version>1.0-dev</version>
+            <properties>
+                <bundle>true</bundle>
+            </properties>
         </dependency>
         <dependency>
             <groupId>spice</groupId>
             <artifactId>spice-timeevent</artifactId>
             <version>1.0-dev</version>
+            <properties>
+                <bundle>true</bundle>
+            </properties>
         </dependency>
         <dependency>
             <groupId>jmock</groupId>
