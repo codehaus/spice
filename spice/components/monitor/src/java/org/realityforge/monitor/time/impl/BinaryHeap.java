@@ -46,7 +46,7 @@ final class BinaryHeap
     /**
      * Test if queue is empty.
      *
-     * @@return true if queue is empty else false.
+     * @return true if queue is empty else false.
      */
     public boolean isEmpty()
     {
@@ -56,7 +56,7 @@ final class BinaryHeap
     /**
      * Test if queue is full.
      *
-     * @@return true if queue is full else false.
+     * @return true if queue is full else false.
      */
     public boolean isFull()
     {
@@ -66,7 +66,7 @@ final class BinaryHeap
     /**
      * Insert an element into queue.
      *
-     * @@param element the element to be inserted
+     * @param element the element to be inserted
      */
     public void insert( final Comparable element )
     {
@@ -89,8 +89,8 @@ final class BinaryHeap
     /**
      * Return element on top of heap but don't remove it.
      *
-     * @@return the element at top of heap
-     * @@exception NoSuchElementException if isEmpty() == true
+     * @return the element at top of heap
+     * @exception NoSuchElementException if isEmpty() == true
      */
     public Comparable peek() throws NoSuchElementException
     {
@@ -107,8 +107,8 @@ final class BinaryHeap
     /**
      * Return element on top of heap and remove it.
      *
-     * @@return the element at top of heap
-     * @@exception NoSuchElementException if isEmpty() == true
+     * @return the element at top of heap
+     * @exception NoSuchElementException if isEmpty() == true
      */
     public Comparable pop() throws NoSuchElementException
     {
@@ -135,7 +135,7 @@ final class BinaryHeap
      * Percolate element down heap from top.
      * Assume it is a maximum heap.
      *
-     * @@param element the element
+     * @param element the element
      */
     protected void percolateDownMinHeap( final int index )
     {
@@ -172,7 +172,7 @@ final class BinaryHeap
      * Percolate element down heap from top.
      * Assume it is a maximum heap.
      *
-     * @@param element the element
+     * @param element the element
      */
     protected void percolateDownMaxHeap( final int index )
     {
@@ -209,7 +209,7 @@ final class BinaryHeap
      * Percolate element up heap from bottom.
      * Assume it is a maximum heap.
      *
-     * @@param element the element
+     * @param element the element
      */
     protected void percolateUpMinHeap( final Comparable element )
     {
@@ -234,7 +234,7 @@ final class BinaryHeap
      * Percolate element up heap from bottom.
      * Assume it is a maximum heap.
      *
-     * @@param element the element
+     * @param element the element
      */
     protected void percolateUpMaxHeap( final Comparable element )
     {
