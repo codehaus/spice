@@ -33,7 +33,7 @@ public class DNAAcceptorMonitor
     */
    protected boolean isDebugEnabled()
    {
-      return m_logger.isDebugEnabled();
+      return getLogger().isDebugEnabled();
    }
 
    /**
@@ -41,7 +41,7 @@ public class DNAAcceptorMonitor
     */
    protected void debug( final String message )
    {
-      m_logger.debug( message );
+      getLogger().debug( message );
    }
 
    /**
@@ -49,7 +49,7 @@ public class DNAAcceptorMonitor
     */
    protected void info( final String message )
    {
-      m_logger.info( message );
+      getLogger().info( message );
    }
 
    /**
@@ -58,6 +58,16 @@ public class DNAAcceptorMonitor
    protected void warn( final String message,
                         final Exception e )
    {
-      m_logger.warn( message, e );
+      getLogger().warn( message, e );
+   }
+
+   /**
+    * Return the logger.
+    *
+    * @return the logger
+    */
+   protected Logger getLogger()
+   {
+      return m_logger;
    }
 }

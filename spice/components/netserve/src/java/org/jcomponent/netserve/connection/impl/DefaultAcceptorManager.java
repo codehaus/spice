@@ -28,7 +28,7 @@ import org.jcomponent.netserve.connection.impl.ConnectionAcceptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-28 00:09:11 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-28 00:31:35 $
  */
 public class DefaultAcceptorManager
     implements SocketAcceptorManager
@@ -161,7 +161,7 @@ public class DefaultAcceptorManager
             }
 
             final AcceptorConfig config = new AcceptorConfig( name, socket, handler );
-            acceptor = new ConnectionAcceptor( config, m_monitor );
+            acceptor = new ConnectionAcceptor( config, getMonitor() );
             m_acceptors.put( name, acceptor );
         }
 
@@ -202,5 +202,15 @@ public class DefaultAcceptorManager
         }
 
         acceptor.close( getShutdownTimeout() );
+    }
+
+    /**
+     * Return the monitor used by manager.
+     *
+     * @return the monitor used by manager.
+     */
+    protected AcceptorMonitor getMonitor()
+    {
+        return m_monitor;
     }
 }
