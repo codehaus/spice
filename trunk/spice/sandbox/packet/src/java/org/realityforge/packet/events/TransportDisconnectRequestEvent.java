@@ -1,0 +1,47 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
+package org.realityforge.packet.events;
+
+import org.codehaus.spice.netevent.events.AbstractTransportEvent;
+import org.codehaus.spice.netevent.transport.ChannelTransport;
+
+/**
+ * Event indicating that it is possible to read from the socket.
+ * 
+ * @author Peter Donald
+ * @version $Revision: 1.1 $ $Date: 2004-01-13 05:02:16 $
+ */
+public class TransportDisconnectRequestEvent
+    extends AbstractTransportEvent
+{
+    /** The reason for disconnecting transport. */
+    private final int _reason;
+
+    /**
+     * Create Event.
+     * 
+     * @param transport the transport
+     * @param reason the reason
+     */
+    public TransportDisconnectRequestEvent( final ChannelTransport transport,
+                                            final int reason )
+    {
+        super( transport );
+        _reason = reason;
+    }
+
+    /**
+     * Return the reason for disconnecting transport.
+     * 
+     * @return the reason for disconnecting transport.
+     */
+    public int getReason()
+    {
+        return _reason;
+    }
+}
