@@ -24,7 +24,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2004-02-10 04:24:38 $
+ * @version $Revision: 1.9 $ $Date: 2004-02-11 02:27:09 $
  */
 public class ClientConnectEventHandler
     extends AbstractIOEventHandler
@@ -91,6 +91,7 @@ public class ClientConnectEventHandler
         }
         catch( final IOException ioe )
         {
+            ce.getKey().cancel();
             transport.close();
             final ConnectErrorEvent error =
                 new ConnectErrorEvent( transport, ioe );
