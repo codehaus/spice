@@ -15,7 +15,7 @@ import org.codehaus.spice.event.EventSource;
  * transmit batchSize events every time it performs a refresh.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-02-11 04:16:19 $
+ * @version $Revision: 1.3 $ $Date: 2004-03-18 03:39:07 $
  */
 public class EventPump
 {
@@ -23,6 +23,11 @@ public class EventPump
      * The number events to try to pump from Source to Handler each refresh.
      */
     private int m_batchSize = Integer.MAX_VALUE;
+
+    /**
+     * The name of pump. (Useful for debugging).
+     */
+    final String m_name;
 
     /**
      * The source of events.
@@ -34,15 +39,33 @@ public class EventPump
      */
     final EventHandler m_handler;
 
-    /**
+   /**
      * Create a pump from specified source to specified handler.
-     * 
+     *
      * @param source the source
      * @param handler the handler
      */
     public EventPump( final EventSource source,
                       final EventHandler handler )
     {
+       this( "", source, handler );
+    }
+
+    /**
+     * Create a pump from specified source to specified handler.
+     *
+     * @param name the name
+     * @param source the source
+     * @param handler the handler
+     */
+    public EventPump( final String name,
+                      final EventSource source,
+                      final EventHandler handler )
+    {
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
         if( null == source )
         {
             throw new NullPointerException( "source" );
@@ -51,6 +74,7 @@ public class EventPump
         {
             throw new NullPointerException( "handler" );
         }
+        m_name = name;
         m_source = source;
         m_handler = handler;
     }
@@ -97,5 +121,15 @@ public class EventPump
     public void setBatchSize( final int batchSize )
     {
         m_batchSize = batchSize;
+    }
+
+   /**
+    * Return the name.
+    *
+    * @return the name
+    */
+    public String getName()
+    {
+        return m_name;
     }
 }
