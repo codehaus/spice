@@ -10,9 +10,11 @@ public interface ReconnectionPolicy
     * Return true to continue with connection attempt.
     *
     * @param connectionAttempts the number of sequential connection failures
+    * @param lastConnectionAttemptTime time at which connection was last attempted
     * @return true to continue with connection attempt.
     */
-   boolean attemptConnection( int connectionAttempts );
+   boolean attemptConnection( long lastConnectionAttemptTime,
+                              int connectionAttempts );
 
    /**
     * Return true to disconnect connection on specified error.

@@ -17,7 +17,8 @@ public class AlwaysReconnectPolicy
    /**
     * @see ReconnectionPolicy#attemptConnection
     */
-   public boolean attemptConnection( final int connectionAttempts )
+   public boolean attemptConnection( final long lastConnectionAttempt,
+                                     final int connectionAttempts )
    {
       return true;
    }

@@ -294,7 +294,8 @@ public class Connector
 
          while ( !isConnected() && isActive() )
          {
-            if ( !_policy.attemptConnection( _connectionAttempts ) )
+            if ( !_policy.attemptConnection( _lastConnectionTime,
+                                             _connectionAttempts ) )
             {
                _monitor.skippingConnectionAttempt();
                return;
