@@ -22,7 +22,7 @@ import org.w3c.dom.Attr;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-31 23:49:32 $
+ * @version $Revision: 1.8 $ $Date: 2003-10-31 23:58:43 $
  */
 public class DOMMetaClassDeserializer
 {
@@ -286,15 +286,23 @@ public class DOMMetaClassDeserializer
         parameters.setProperty( name, value );
     }
 
+    /**
+     * Expect that specified element has specified name else
+     * throw an exception.
+     *
+     * @param element the element
+     * @param name the name
+     * @throws Exception if element does not have name
+     */
     void expectElement( final Element element,
-                        final String expected )
+                        final String name )
         throws Exception
     {
         final String actual = element.getTagName();
-        if( !actual.equals( expected ) )
+        if( !actual.equals( name ) )
         {
             final String message = "Unexpected element. " +
-                "Expected: " + expected + ". Actual: " + actual +
+                "Expected: " + name + ". Actual: " + actual +
                 " @ " + getPathDescription( element ) + ".";
             throw new Exception( message );
         }
