@@ -13,7 +13,7 @@ import java.nio.ByteBuffer;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-11 04:20:48 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-11 11:22:57 $
  */
 public class PacketTestCase
     extends TestCase
@@ -22,7 +22,7 @@ public class PacketTestCase
         throws Exception
     {
         final ByteBuffer data = ByteBuffer.allocate( 3 );
-        final Packet packet = new Packet( 2, 3, data );
+        final Packet packet = new Packet( (short)2, 3, data );
         assertEquals( "sequence", 2, packet.getSequence() );
         assertEquals( "flags", 3, packet.getFlags() );
         assertEquals( "data", data, packet.getData() );
@@ -33,7 +33,7 @@ public class PacketTestCase
     {
         try
         {
-            new Packet( 2, 2, null );
+            new Packet( (short)2, 2, null );
         }
         catch( final NullPointerException npe )
         {
