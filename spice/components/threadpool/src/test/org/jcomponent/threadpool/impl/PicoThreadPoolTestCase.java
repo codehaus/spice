@@ -7,10 +7,10 @@
  */
 package org.jcomponent.threadpool.impl;
 
+import java.io.InputStream;
+
 import junit.framework.TestCase;
-import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.jcomponent.threadpool.Executable;
 import org.jcomponent.threadpool.ThreadPool;
 import org.realityforge.configkit.ConfigValidator;
@@ -18,19 +18,15 @@ import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ValidateException;
 import org.xml.sax.ErrorHandler;
 
-import java.io.InputStream;
-
 /**
  *  An basic test case for the ThreadPools.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-27 21:38:15 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-29 07:40:28 $
  */
 public class PicoThreadPoolTestCase
     extends TestCase
 {
-    private int m_debug;
-
     public PicoThreadPoolTestCase( final String name )
     {
         super( name );
@@ -92,9 +88,7 @@ public class PicoThreadPoolTestCase
     public void testThreadPool()
         throws Exception
     {
-        m_debug = ConsoleLogger.LEVEL_DISABLED;
         doThreadPoolTest();
-        m_debug = ConsoleLogger.LEVEL_DEBUG;
         doThreadPoolTest();
     }
 
@@ -202,31 +196,6 @@ public class PicoThreadPoolTestCase
 
     private AbstractThreadPool createThreadPool() throws Exception
     {
-        final AbstractThreadPool threadPool = new AvalonAdaptedPicoCommonsThreadPool();
-        ContainerUtil.enableLogging( threadPool, new ConsoleLogger( m_debug ) );
-        DefaultConfiguration configuration = buildConfiguration();
-        ContainerUtil.configure( threadPool, configuration );
-        ContainerUtil.initialize( threadPool );
-        return threadPool;
-    }
-
-    private DefaultConfiguration buildConfiguration()
-    {
-        final DefaultConfiguration configuration = new DefaultConfiguration( "root", "" );
-        addChild( configuration, "name", "testThreadPool" );
-        addChild( configuration, "priority", "5" );
-        addChild( configuration, "is-daemon", "false" );
-        addChild( configuration, "max-threads", "3" );
-        addChild( configuration, "max-idle", "1" );
-        return configuration;
-    }
-
-    private void addChild( final DefaultConfiguration configuration,
-                           final String name,
-                           final String value )
-    {
-        final DefaultConfiguration child = new DefaultConfiguration( name, "" );
-        child.setValue( value );
-        configuration.addChild( child );
+       return new PicoCommonsThreadPool( new AvalonThreadPoolMonitor(), "testThreadPool", 5, false, false, 3, 1 );
     }
 }
