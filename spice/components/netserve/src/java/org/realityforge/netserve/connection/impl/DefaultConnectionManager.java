@@ -11,13 +11,13 @@ import java.net.ServerSocket;
 import java.util.Hashtable;
 import java.util.Map;
 import org.apache.avalon.framework.activity.Disposable;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.realityforge.netserve.connection.ConnectionHandlerManager;
 import org.realityforge.netserve.connection.ConnectionManager;
 import org.realityforge.threadpool.ThreadPool;
@@ -46,7 +46,7 @@ import org.realityforge.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-04-23 10:29:40 $
+ * @version $Revision: 1.12 $ $Date: 2003-04-23 12:48:31 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
@@ -83,7 +83,7 @@ public class DefaultConnectionManager
 
     /**
      * Value that we are to set SO_TIMEOUT to if the user
-     * has not already set the timeout. Defaults to 0 (inifinite timeout).
+     * has not already set the timeout. Defaults to 1000 (1s timeout).
      */
     private int m_soTimeout;
 
@@ -114,7 +114,7 @@ public class DefaultConnectionManager
     public void configure( final Configuration configuration )
         throws ConfigurationException
     {
-        m_soTimeout = configuration.getChild( "soTimeout" ).getValueAsInteger( 0 );
+        m_soTimeout = configuration.getChild( "soTimeout" ).getValueAsInteger( 1000 );
         m_forceShutdown = configuration.getChild( "forceShutdown" ).getValueAsBoolean( false );
         m_shutdownTimeout = configuration.getChild( "shutdownTimeout" ).getValueAsInteger( 0 );
     }
@@ -130,7 +130,6 @@ public class DefaultConnectionManager
         {
             names = (String[])m_acceptors.keySet().toArray( new String[ 0 ] );
         }
-
         for( int i = 0; i < names.length; i++ )
         {
             final String name = names[ i ];
@@ -217,6 +216,13 @@ public class DefaultConnectionManager
             throw new IllegalArgumentException( message );
         }
 
+        if( getLogger().isInfoEnabled() )
+        {
+            final String message =
+                "Disconnecting Acceptor " + acceptor + ". tearDown=" + tearDown;
+            getLogger().info( message );
+        }
+
         if( !tearDown )
         {
             acceptor.close( 0, m_forceShutdown );
@@ -260,9 +266,14 @@ public class DefaultConnectionManager
             socket.setSoTimeout( m_soTimeout );
         }
 
-        final ConnectionAcceptor runner = new ConnectionAcceptor( name, socket, handlerManager, threadPool );
-        setupLogger( runner );
+        final ConnectionAcceptor acceptor = new ConnectionAcceptor( name, socket, handlerManager, threadPool );
+        setupLogger( acceptor );
 
+        if( getLogger().isInfoEnabled() )
+        {
+            final String message = "Creating Acceptor " + acceptor + ".";
+            getLogger().info( message );
+        }
         synchronized( m_acceptors )
         {
             if( m_acceptors.containsKey( name ) )
@@ -272,16 +283,16 @@ public class DefaultConnectionManager
                 throw new IllegalArgumentException( message );
             }
 
-            m_acceptors.put( name, runner );
+            m_acceptors.put( name, acceptor );
         }
 
         if( null != threadPool )
         {
-            threadPool.execute( runner );
+            threadPool.execute( acceptor );
         }
         else
         {
-            final Thread thread = new Thread( runner, runner.toString() );
+            final Thread thread = new Thread( acceptor, acceptor.toString() );
             thread.start();
         }
     }
