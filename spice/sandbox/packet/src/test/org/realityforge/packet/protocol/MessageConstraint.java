@@ -11,9 +11,8 @@ import com.mockobjects.constraint.Constraint;
 import java.nio.ByteBuffer;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-12 11:09:09 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-12-05 06:57:12 $
  */
 class MessageConstraint
     implements Constraint

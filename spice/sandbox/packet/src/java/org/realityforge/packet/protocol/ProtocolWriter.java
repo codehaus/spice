@@ -16,8 +16,8 @@ import java.nio.channels.WritableByteChannel;
  * A helper class for writing writing protocol to channel. Note that this class
  * is single threaded as it uses a shared message buffer.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-11-26 02:14:04 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003-12-05 06:57:12 $
  */
 class ProtocolWriter
 {

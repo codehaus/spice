@@ -15,9 +15,8 @@ import java.nio.channels.WritableByteChannel;
 import junit.framework.TestCase;
 
 /**
- *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-11-26 02:09:41 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-12-05 06:57:12 $
  */
 public class ProtocolWriterTestCase
     extends TestCase

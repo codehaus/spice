@@ -1,17 +1,24 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.packet.event.impl.collections;
 
 /**
  * A unbounded FIFO Buffer implementation.
- * 
+ *
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-05 02:14:24 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-05 06:57:11 $
  */
 public final class UnboundedFifoBuffer
     extends AbstractFifoBuffer
 {
     /**
      * Create a buffer with specified initial size.
-     * 
+     *
      * @param size the initial size of the buffer
      */
     public UnboundedFifoBuffer( final int size )
@@ -38,7 +45,7 @@ public final class UnboundedFifoBuffer
     {
         if( size() + 1 >= m_buffer.length )
         {
-            final int newSize = ((m_buffer.length - 1) * 2) + 1;
+            final int newSize = ( ( m_buffer.length - 1 ) * 2 ) + 1;
             final Object[] tmp = new Object[ newSize ];
 
             int j = 0;

@@ -1,11 +1,18 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.packet.event.impl.collections;
 
 /**
  * A unbounded FIFO Buffer implementation. This class is loosely based on the
  * Jakarta-Commons Collections package Buffer implementations.
- * 
+ *
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-12-05 03:31:33 $
+ * @version $Revision: 1.4 $ $Date: 2003-12-05 06:57:11 $
  */
 public abstract class AbstractFifoBuffer
     implements Buffer
@@ -24,7 +31,7 @@ public abstract class AbstractFifoBuffer
 
     /**
      * Create a buffer with specified initial size.
-     * 
+     *
      * @param size the initial size of the buffer
      */
     public AbstractFifoBuffer( final int size )
@@ -116,7 +123,7 @@ public abstract class AbstractFifoBuffer
 
     /**
      * Perform addition of objects to buffer.
-     * 
+     *
      * @param objects the objects
      * @return true if addition successful
      */
@@ -124,7 +131,7 @@ public abstract class AbstractFifoBuffer
 
     /**
      * Perform addition of object to buffer.
-     * 
+     *
      * @param object the object
      * @return true if addition successful
      */

@@ -12,8 +12,8 @@ import java.nio.ByteBuffer;
 /**
  * A circular byte buffer.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-11-26 04:32:54 $
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003-12-05 06:57:12 $
  */
 public class CircularBuffer
 {

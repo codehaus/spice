@@ -1,10 +1,17 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.packet.event.impl.collections;
 
 import junit.framework.TestCase;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-05 03:31:33 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-05 06:57:12 $
  */
 public class FifoBufferTestCase
     extends TestCase
@@ -115,7 +122,9 @@ public class FifoBufferTestCase
         final AbstractFifoBuffer buffer = new BoundedFifoBuffer( 3 );
         final Object object = new Object();
         final Object[] objects = new Object[]{object};
-        assertEquals( "buffer.addAll( objects )", true, buffer.addAll( objects ) );
+        assertEquals( "buffer.addAll( objects )",
+                      true,
+                      buffer.addAll( objects ) );
         assertEquals( "buffer.size()", 1, buffer.size() );
         assertEquals( "buffer.m_head", 0, buffer.m_head );
         assertEquals( "buffer.m_tail", 1, buffer.m_tail );

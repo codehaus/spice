@@ -7,13 +7,13 @@
  */
 package org.realityforge.packet.transport;
 
+import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
-import java.nio.channels.SelectableChannel;
 
 /**
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-26 04:34:02 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-12-05 06:57:12 $
  */
 class MockSelectorKey
     extends SelectionKey
