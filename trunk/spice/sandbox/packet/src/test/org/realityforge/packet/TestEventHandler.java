@@ -14,13 +14,12 @@ import org.realityforge.packet.events.DataPacketReadyEvent;
 import org.realityforge.packet.events.SessionActiveEvent;
 import org.realityforge.packet.events.SessionConnectEvent;
 import org.realityforge.packet.events.SessionDisconnectEvent;
-import org.realityforge.packet.events.SessionDisconnectRequestEvent;
 import org.realityforge.packet.events.SessionInactiveEvent;
 import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2004-02-06 04:04:56 $
+ * @version $Revision: 1.11 $ $Date: 2004-02-09 04:51:42 $
  */
 class TestEventHandler
     extends AbstractDirectedHandler
@@ -150,9 +149,7 @@ class TestEventHandler
         final long dropOn = sd.getSession().getSessionID() % 5;
         if( receivedMessages == 5 )
         {
-            final SessionDisconnectRequestEvent sdr =
-                new SessionDisconnectRequestEvent( session );
-            getSink().addEvent( sdr );
+            session.requestShutdown();
         }
         else if( null != session.getTransport() &&
                  receivedMessages == dropOn &&
