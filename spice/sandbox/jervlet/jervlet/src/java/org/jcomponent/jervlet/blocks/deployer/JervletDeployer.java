@@ -52,6 +52,7 @@ package org.jcomponent.jervlet.blocks.deployer;
 import java.io.File;
 import org.jcomponent.jervlet.Jervlet;
 import org.jcomponent.jervlet.JervletContext;
+import org.jcomponent.jervlet.AvalonJervletContext;
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
@@ -108,7 +109,7 @@ public class JervletDeployer
 
     public void initialize() throws Exception
     {
-        final JervletContext jervletContext = new JervletContext( m_context, m_manager, getLogger() );
+        final JervletContext jervletContext = new AvalonJervletContext( m_context, m_manager, getLogger() );
         final Configuration[] contexts = m_configuration.getChildren( "Context" );
 
         for( int i = 0; i < contexts.length; i++ )

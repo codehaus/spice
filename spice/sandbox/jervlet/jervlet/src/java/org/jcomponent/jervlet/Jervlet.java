@@ -75,7 +75,7 @@ public interface Jervlet
      * Deploy the given Web Application
      * @param context Context for the the webapp
      * @param pathToWebAppFolder path can be a war-archive or exploded directory
-     * @param sevakContext the context that is applied to the servlet on instantiation.
+     * @param jervletContext the context that is applied to the servlet on instantiation.
      * @throws JervletException Thrown when context already exists
      */
     void deploy( String context, File pathToWebAppFolder, JervletContext jervletContext )

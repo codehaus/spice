@@ -50,9 +50,6 @@
 package org.jcomponent.jervlet.blocks.jetty;
 
 import org.jcomponent.jervlet.JervletContext;
-import org.apache.avalon.framework.container.ContainerUtil;
-import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.service.ServiceManager;
 import org.mortbay.jetty.servlet.ServletHolder;
 
 /**
@@ -105,33 +102,8 @@ class JervletServletHolder extends ServletHolder
         }
         else
         {
-            final Logger logger = m_jervletContext.getLogger();
-            Object instance = _class.newInstance();
+            return m_jervletContext.instantiate(_class);
 
-            try
-            {
-                ContainerUtil.enableLogging( instance, logger );
-                ContainerUtil.contextualize( instance, m_jervletContext.getContext() );
-
-                final ServiceManager manager = m_jervletContext.getServiceManager();
-                if( null != manager )
-                {
-                    ContainerUtil.service( instance, manager );
-                }
-
-                ContainerUtil.initialize( instance );
-            }
-            catch( Exception e )
-            {
-                final String msg = "Exception during lifecycle processing for servlet "
-                    + _class.getName() + ":" + e.getMessage();
-
-                logger.error( msg, e );
-
-                throw new InstantiationException( msg );
-            }
-
-            return instance;
         }
     }
 }
