@@ -13,7 +13,7 @@ public class Connector
    /**
     * The associated reconnection policy for connector.
     */
-   private ReconnectionPolicy _policy = AlwaysReconnectPolicy.POLICY;
+   private ReconnectionPolicy _reconnectPolicy = AlwaysReconnectPolicy.POLICY;
 
    /**
     * The associated monitor that receives
@@ -84,15 +84,15 @@ public class Connector
    /**
     * Specify the reconnection policy that connector will use.
     *
-    * @param policy the policy
+    * @param reconnectPolicy the policy
     */
-   public void setPolicy( final ReconnectionPolicy policy )
+   public void setReconnectPolicy( final ReconnectionPolicy reconnectPolicy )
    {
-      if ( null == policy )
+      if ( null == reconnectPolicy )
       {
-         throw new NullPointerException( "policy" );
+         throw new NullPointerException( "reconnectPolicy" );
       }
-      _policy = policy;
+      _reconnectPolicy = reconnectPolicy;
    }
 
    /**
@@ -166,10 +166,10 @@ public class Connector
     */
    public void commErrorOccured( final Throwable t )
    {
-      if ( _policy.disconnectOnError( t ) )
+      if ( getReconnectPolicy().disconnectOnError( t ) )
       {
          disconnect();
-         if ( _policy.reconnectOnDisconnect() )
+         if ( getReconnectPolicy().reconnectOnDisconnect() )
          {
             connect();
          }
@@ -327,7 +327,7 @@ public class Connector
 
          while ( !isConnected() && isActive() )
          {
-            if ( !getPolicy().attemptConnection( _lastConnectionTime,
+            if ( !getReconnectPolicy().attemptConnection( _lastConnectionTime,
                                                  _connectionAttempts ) )
             {
                getMonitor().skippingConnectionAttempt();
@@ -452,7 +452,7 @@ public class Connector
          _connectionError = t.toString();
          getMonitor().errorValidatingConnection( t );
          disconnect();
-         if ( getPolicy().reconnectOnDisconnect() )
+         if ( getReconnectPolicy().reconnectOnDisconnect() )
          {
             connect();
          }
@@ -475,9 +475,9 @@ public class Connector
     *
     * @return the reconnection policy.
     */
-   protected ReconnectionPolicy getPolicy()
+   protected ReconnectionPolicy getReconnectPolicy()
    {
-      return _policy;
+      return _reconnectPolicy;
    }
 
    /**
