@@ -18,11 +18,12 @@ import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.introspector.MetaClassIntrospector;
 import java.util.Properties;
 import java.lang.reflect.Method;
+import java.lang.reflect.Constructor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-13 23:57:24 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-13 23:59:41 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -175,6 +176,44 @@ public class MBeanBuilderTestCase
         final Class c = MBeanBuilderTestCase.class;
         final Method m = c.getMethod( "testParseParameterInfosViaReflection",
                                       new Class[ 0 ] );
+        MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
+
+        final MBeanParameterInfo[] infos = builder.parseParameterInfos( m );
+        assertEquals( "infos.length", 0, infos.length );
+    }
+
+    public void testParseParameterInfosViaMetaDataForConstructor()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Class c = MBeanBuilderTestCase.class;
+        final Constructor m = c.getConstructors()[ 0 ];
+
+        final MethodDescriptor md =
+            new MethodDescriptor( m.getName(),
+                                  "",
+                                  0,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  Attribute.EMPTY_SET );
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( c.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{md} );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final MBeanParameterInfo[] infos = builder.parseParameterInfos( m );
+        assertEquals( "infos.length", 0, infos.length );
+    }
+
+    public void testParseParameterInfosViaReflectionForConstructor()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Class c = MBeanBuilderTestCase.class;
+        final Constructor m = c.getConstructors()[ 0 ];
         MetaClassIntrospector.setAccessor( new MockAccessor( null ) );
 
         final MBeanParameterInfo[] infos = builder.parseParameterInfos( m );
