@@ -13,7 +13,7 @@ import org.realityforge.metaclass.model.Attribute;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-29 08:27:02 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-01 01:07:27 $
  */
 public class NonNamespaceAttributeRemovingInterceptorTestCase
     extends TestCase
@@ -56,5 +56,35 @@ public class NonNamespaceAttributeRemovingInterceptorTestCase
         final Attribute attribute = new Attribute( "baz." );
         final Attribute result = interceptor.processAttribute( attribute );
         assertEquals( "attribute", null, result );
+    }
+
+    public void testProcessClassAttribute()
+        throws Exception
+    {
+        final NonNamespaceAttributeRemovingInterceptor interceptor =
+            new NonNamespaceAttributeRemovingInterceptor();
+        final Attribute attribute = new Attribute( "foo.baz" );
+        final Attribute result = interceptor.processClassAttribute( null, attribute );
+        assertEquals( "attribute", attribute, result );
+    }
+
+    public void testProcessMethodAttribute()
+        throws Exception
+    {
+        final NonNamespaceAttributeRemovingInterceptor interceptor =
+            new NonNamespaceAttributeRemovingInterceptor();
+        final Attribute attribute = new Attribute( "foo.baz" );
+        final Attribute result = interceptor.processMethodAttribute( null, attribute );
+        assertEquals( "attribute", attribute, result );
+    }
+
+    public void testProcessFieldAttribute()
+        throws Exception
+    {
+        final NonNamespaceAttributeRemovingInterceptor interceptor =
+            new NonNamespaceAttributeRemovingInterceptor();
+        final Attribute attribute = new Attribute( "foo.baz" );
+        final Attribute result = interceptor.processFieldAttribute( null, attribute );
+        assertEquals( "attribute", attribute, result );
     }
 }
