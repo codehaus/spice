@@ -1,4 +1,4 @@
-    $Id: AvalonRoadmap.txt,v 1.2 2002-11-26 04:46:06 donaldp Exp $
+    $Id: AvalonRoadmap.txt,v 1.3 2002-11-26 05:13:22 donaldp Exp $
 
                      Roadmap for development of 
                         Avalon Framework
@@ -34,7 +34,21 @@ that would be a far better situation than one big revolution. It may also
 restore the trust in each other that is currently lacking around here.
 
 The most important issue IMO is to enable portability of components between
-containers where possible or at least give the ability to identify non-portable 
-components.
+containers where possible or at least give the ability to identify 
+non-portable components. This means that we need to be able to associate 
+metadata with particular components that define;
+ * what the component requires
+ * what the component is capable of providing
+
+This essentially means defining a more complete component model. The component
+model must be based on stable foundations however it must also be extensible to 
+deal with future evolutions of the components. We must also put in place a 
+mechanism for defining such extensions.
+
+This component model should not be considered to be a required part of all 
+containers but if a container does implement richer type semantics they should be 
+able to implement it using this model. This means that containers such as 
+ECM/Fortress can still exist sans support and users such as Cocoon can continue to
+work without breaking backwards compatability.
 
 [1] Martin Fowler, Complexity/Flexability Interview - http://www.artima.com/intv/flexplex.html
