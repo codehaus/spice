@@ -25,11 +25,43 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-10-04 00:47:49 $
+ * @version $Revision: 1.14 $ $Date: 2003-10-04 01:34:55 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
 {
+    public void testNullFilterName()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        try
+        {
+            task.addFilter( new PluginElement() );
+        }
+        catch( final BuildException e )
+        {
+            assertEquals( "Filter must have a name", e.getMessage() );
+            return;
+        }
+        fail( "Expected execute to fail as filter has no name." );
+    }
+
+    public void testNullInterceptorName()
+        throws Exception
+    {
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        try
+        {
+            task.addInterceptor( new PluginElement() );
+        }
+        catch( final BuildException e )
+        {
+            assertEquals( "Interceptor must have a name", e.getMessage() );
+            return;
+        }
+        fail( "Expected execute to fail as Interceptor must have a name." );
+    }
+
     public void testNullDestDir()
         throws Exception
     {
@@ -146,6 +178,9 @@ public class MetaGenerateTaskTestCase
         final Project project = new Project();
         project.setBaseDir( getBaseDirectory() );
         task.setProject( project );
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "binary" );
+        task.setFormat( format );
         task.setDestDir( destDirectory );
         task.addFileset( fileSet );
         task.execute();
@@ -328,7 +363,6 @@ public class MetaGenerateTaskTestCase
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
         assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
     }
-
 
     public void testSingleSourceFileWithDeletingFilter()
         throws Exception
