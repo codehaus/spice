@@ -278,6 +278,12 @@ public class MBeanBuilder
         }
     }
 
+    /**
+     * Extract the parameter infos for specified method.
+     *
+     * @param method the method
+     * @return the infos
+     */
     private MBeanParameterInfo[] parseParameterInfos( final Method method )
     {
         try
