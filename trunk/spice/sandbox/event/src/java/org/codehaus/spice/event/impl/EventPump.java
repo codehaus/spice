@@ -15,17 +15,23 @@ import org.codehaus.spice.event.EventSource;
  * transmit batchSize events every time it performs a refresh.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-16 02:03:12 $
+ * @version $Revision: 1.2 $ $Date: 2004-02-11 04:16:19 $
  */
 public class EventPump
 {
-    /** The number events to try to pump from Source to Handler each refresh. */
-    private int m_batchSize;
+    /**
+     * The number events to try to pump from Source to Handler each refresh.
+     */
+    private int m_batchSize = Integer.MAX_VALUE;
 
-    /** The source of events. */
+    /**
+     * The source of events.
+     */
     final EventSource m_source;
 
-    /** The handler for events. */
+    /**
+     * The handler for events.
+     */
     final EventHandler m_handler;
 
     /**
