@@ -7,17 +7,19 @@
  */
 package org.realityforge.metaclass;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import junit.framework.TestCase;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
-import java.lang.reflect.Field;
+import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-23 05:19:56 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-23 05:22:37 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -255,6 +257,89 @@ public class AttributesTestCase
 
         final Attribute result =
             Attributes.getAttribute( field, name );
+        assertEquals( "attribute", attribute1, result );
+    }
+
+    public void testGetAttributesForMethod()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( name );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+        final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
+        final MethodDescriptor methodDescriptor =
+            new MethodDescriptor( method.getName(),
+                                  method.getReturnType().getName(),
+                                  method.getModifiers(),
+                                  ParameterDescriptor.EMPTY_SET,
+                                  attributes );
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{methodDescriptor} );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.clearCompleteCache();
+        final Attribute[] results = Attributes.getAttributes( method );
+        assertEquals( "attributes.length", 2, results.length );
+        assertEquals( "attributes[ 0 ]", attribute1, results[ 0 ] );
+        assertEquals( "attributes[ 1 ]", attribute2, results[ 1 ] );
+    }
+
+    public void testGetAttributesForMethodWithName()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( "bleh" );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+
+        final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
+        final MethodDescriptor methodDescriptor =
+            new MethodDescriptor( method.getName(),
+                                  method.getReturnType().getName(),
+                                  method.getModifiers(),
+                                  ParameterDescriptor.EMPTY_SET,
+                                  attributes );
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{methodDescriptor} );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.clearCompleteCache();
+        final Attribute[] results =
+            Attributes.getAttributes( method, name );
+        assertEquals( "attributes.length", 1, results.length );
+        assertEquals( "attributes[ 0 ]", attribute1, results[ 0 ] );
+    }
+
+    public void testGetAttributeForMethodWithName()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( "bleh" );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+
+        final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
+        final MethodDescriptor methodDescriptor =
+            new MethodDescriptor( method.getName(),
+                                  method.getReturnType().getName(),
+                                  method.getModifiers(),
+                                  ParameterDescriptor.EMPTY_SET,
+                                  attributes );
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{methodDescriptor} );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        final Attribute result =
+            Attributes.getAttribute( method, name );
         assertEquals( "attribute", attribute1, result );
     }
 }
