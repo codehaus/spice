@@ -1,4 +1,4 @@
-    $Id: AvalonRoadmap.txt,v 1.4 2002-11-26 06:10:00 donaldp Exp $
+    $Id: AvalonRoadmap.txt,v 1.5 2002-11-26 06:52:07 donaldp Exp $
 
                      Roadmap for development of 
                         Avalon Framework
@@ -73,5 +73,22 @@ as;
 * Usage of Selectors
 * Usage of typed Contexts
 * Usage of array/map dependencies
+
+Nor has there been any mention of assembly metadata (ie metadata relating to instantiation 
+of a component). While it may be possible to define this in the future, it is a significantly
+more complex problem which has not matured enough to be ready for us to standardize on.
+
+So given the above I think that the first three things we need to do and the time frame in 
+which we can do them;
+
+1. Define a generic mechanism for attaching MetaData to entitys. 
+   Expected Resolution Date: Mid-December
+2. Define the component model. 
+   Expected Resolution Date: Late-January
+3. Define the library format. 
+   Expected Resolution Date: Mid to Late-Febuary
+
+After we have done the above we can then look at taking further steps to converge
+the current work occuring in Avalon.
 
 [1] Martin Fowler, Complexity/Flexability Interview - http://www.artima.com/intv/flexplex.html
