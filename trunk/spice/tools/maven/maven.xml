@@ -66,6 +66,11 @@
             </fileset>
         </copy>
         <copy todir="${maven.dist.bin.assembly.dir}">
+            <fileset dir=".">
+                <include name="LICENSE.*.txt"/>
+            </fileset>
+        </copy>
+        <copy todir="${maven.dist.bin.assembly.dir}">
             <fileset dir="target">
                 <include name="README.txt"/>
             </fileset>
