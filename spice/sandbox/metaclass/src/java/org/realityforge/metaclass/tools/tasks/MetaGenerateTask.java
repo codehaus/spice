@@ -13,6 +13,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.apache.tools.ant.BuildException;
 import org.realityforge.metaclass.io.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIO;
@@ -26,7 +29,7 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.14 $ $Date: 2003-08-24 04:27:01 $
+ * @version $Revision: 1.15 $ $Date: 2003-08-31 05:22:12 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -107,7 +110,7 @@ public class MetaGenerateTask
         super.execute();
         try
         {
-            writeClassDescriptors();
+            processSourceFiles();
             log( "MetaClass Descriptor generation done." );
         }
         catch( final IOException ioe )
@@ -130,13 +133,44 @@ public class MetaGenerateTask
     }
 
     /**
-     * Output the ClassDescriptors for all the classes.
+     * Output the ClassDescriptors that are not filtered out.
      *
      * @throws IOException If there is a problem writing output
      */
-    protected void writeClassDescriptors()
+    protected void processSourceFiles()
         throws IOException
     {
+        final List classes = collectClassesToSerialize();
+        log( "MetaClass Attributes Compiler compiling " + classes.size() + " files." );
+
+        writeClassDescriptors( classes );
+    }
+
+    /**
+     * Output the ClassDescriptors for the specified JavaClass list.
+     *
+     * @throws IOException If there is a problem writing output
+     */
+    private void writeClassDescriptors( final List classes )
+        throws IOException
+    {
+        final Iterator iterator = classes.iterator();
+        while( iterator.hasNext() )
+        {
+            final JavaClass javaClass = (JavaClass)iterator.next();
+            final ClassDescriptor descriptor =
+                c_infoBuilder.buildClassDescriptor( javaClass, m_interceptor );
+            writeClassDescriptor( descriptor );
+        }
+    }
+
+    /**
+     * Return the set of classes that will actually be serialized
+     * and have not been filtered out.
+     */
+    private List collectClassesToSerialize()
+    {
+        final List classes = new ArrayList();
         final int classCount = allClasses.size();
         for( int i = 0; i < classCount; i++ )
         {
@@ -146,9 +180,9 @@ public class MetaGenerateTask
             {
                 continue;
             }
-
-            writeClassDescriptor( c_infoBuilder.buildClassDescriptor( javaClass, m_interceptor ) );
+            classes.add( javaClass );
         }
+        return classes;
     }
 
     /**
