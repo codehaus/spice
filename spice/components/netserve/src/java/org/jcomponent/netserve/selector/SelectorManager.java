@@ -1,7 +1,6 @@
 package org.jcomponent.netserve.selector;
 
 import java.io.IOException;
-import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -192,16 +191,17 @@ public class SelectorManager
     * @param channel the channel
     * @param ops the operations to register
     * @return the SelectionKey
-    * @throws ClosedChannelException if channel is closed
+    * @throws IOException if channel can not be registered
     */
    public SelectionKey registerChannel( final SelectableChannel channel,
                                         final int ops )
-      throws ClosedChannelException
+      throws IOException
    {
       if ( null == channel )
       {
          throw new NullPointerException( "channel" );
       }
+      channel.configureBlocking( false );
       return channel.register( getSelector(), ops );
    }
 
