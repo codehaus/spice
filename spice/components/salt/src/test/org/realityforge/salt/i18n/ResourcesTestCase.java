@@ -7,13 +7,15 @@
  */
 package org.realityforge.salt.i18n;
 
-import junit.framework.TestCase;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Locale;
+import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-06-13 00:12:03 $
+ * @version $Revision: 1.5 $ $Date: 2003-06-13 00:16:03 $
  */
 public class ResourcesTestCase
     extends TestCase
@@ -195,4 +197,29 @@ public class ResourcesTestCase
                            MockResourceBundle.class.getClassLoader() );
         assertEquals( "GetChar", 'a', resources.getChar( "rez", 'a' ) );
     }
- }
+
+    public void testGetDate()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez", "Jan 12, 1952" );
+        final DateFormat format =
+            DateFormat.getDateInstance( DateFormat.DEFAULT, Locale.getDefault() );
+        final Date expected = format.parse( "Jan 12, 1952" );
+        assertEquals( "GetDate", expected, resources.getDate( "rez" ) );
+    }
+
+    public void testGetDateWithDefault()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        final Date date = new Date();
+        assertEquals( "GetDate", date, resources.getDate( "rez", date ) );
+    }
+}
