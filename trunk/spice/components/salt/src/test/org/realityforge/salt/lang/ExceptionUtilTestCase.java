@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-07-21 11:01:08 $
+ * @version $Revision: 1.12 $ $Date: 2003-10-18 07:14:20 $
  */
 public class ExceptionUtilTestCase
     extends TestCase
@@ -106,6 +106,58 @@ public class ExceptionUtilTestCase
         final MockThrowable throwable2 = new MockThrowable( "s2", throwable3, TRACE2 );
         final MockThrowable throwable = new MockThrowable( "s1", throwable2, TRACE1 );
         assertEquals( "getRootCause", throwable3, ExceptionUtil.getRootCause( throwable ) );
+    }
+
+    public void testCaptureStackTraceWithNoStopLineOnLeafException()
+    {
+        final MockThrowable throwable = new MockThrowable( "s1", null, TRACE1 );
+        final String[] trace =
+            ExceptionUtil.captureStackTrace( throwable, "No Appears" );
+
+        assertEquals( "trace.length", 9, trace.length );
+        assertEquals( "trace[0]", TRACE1_LINE1, trace[ 0 ] );
+        assertEquals( "trace[1]", TRACE1_LINE2, trace[ 1 ] );
+        assertEquals( "trace[2]", TRACE1_LINE3, trace[ 2 ] );
+        assertEquals( "trace[3]", TRACE1_LINE4, trace[ 3 ] );
+        assertEquals( "trace[4]", TRACE1_LINE5, trace[ 4 ] );
+        assertEquals( "trace[5]", TRACE1_LINE6, trace[ 5 ] );
+        assertEquals( "trace[6]", TRACE1_LINE7, trace[ 6 ] );
+        assertEquals( "trace[7]", TRACE1_LINE8, trace[ 7 ] );
+        assertEquals( "trace[8]", TRACE1_LINE9, trace[ 8 ] );
+    }
+
+    public void testCaptureStackTraceWithStopLine()
+    {
+        final MockThrowable throwable = new MockThrowable( "s1", null, TRACE1 );
+        final String[] trace =
+            ExceptionUtil.captureStackTrace( throwable,
+                                             "org.realityforge.CallerClass.callerMethod6" );
+
+        assertEquals( "trace.length", 6, trace.length );
+        assertEquals( "trace[0]", TRACE1_LINE1, trace[ 0 ] );
+        assertEquals( "trace[1]", TRACE1_LINE2, trace[ 1 ] );
+        assertEquals( "trace[2]", TRACE1_LINE3, trace[ 2 ] );
+        assertEquals( "trace[3]", TRACE1_LINE4, trace[ 3 ] );
+        assertEquals( "trace[4]", TRACE1_LINE5, trace[ 4 ] );
+    }
+
+    public void testCaptureStackTraceWithNoStopLineOnOneLevelDeepException()
+    {
+        final MockThrowable throwable2 = new MockThrowable( "s2", null, TRACE2 );
+        final MockThrowable throwable = new MockThrowable( "s1", throwable2, TRACE1 );
+        final String[] trace =
+            ExceptionUtil.captureStackTrace( throwable, "No Appears" );
+
+        assertEquals( "trace.length", 9, trace.length );
+        assertEquals( "trace[0]", TRACE1_LINE1, trace[ 0 ] );
+        assertEquals( "trace[1]", TRACE1_LINE2, trace[ 1 ] );
+        assertEquals( "trace[2]", TRACE1_LINE3, trace[ 2 ] );
+        assertEquals( "trace[3]", TRACE1_LINE4, trace[ 3 ] );
+        assertEquals( "trace[4]", TRACE1_LINE5, trace[ 4 ] );
+        assertEquals( "trace[5]", TRACE1_LINE6, trace[ 5 ] );
+        assertEquals( "trace[6]", TRACE1_LINE7, trace[ 6 ] );
+        assertEquals( "trace[7]", TRACE1_LINE8, trace[ 7 ] );
+        assertEquals( "trace[8]", TRACE1_LINE9, trace[ 8 ] );
     }
 
     public void testCaptureStackTraceOnLeafException()
