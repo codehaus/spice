@@ -4,46 +4,31 @@ import java.nio.channels.Channel;
 import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 import java.util.Map;
-import org.codehaus.spice.event.AbstractEventHandler;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
-import org.codehaus.spice.netevent.events.AcceptEvent;
-import org.codehaus.spice.netevent.events.AcceptPossibleEvent;
+import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.ChannelClosedEvent;
-import org.codehaus.spice.netevent.events.IOErrorEvent;
 import org.codehaus.spice.netevent.events.ReadEvent;
-import org.codehaus.spice.netevent.events.ReadPossibleEvent;
-import org.codehaus.spice.netevent.events.WritePossibleEvent;
-import org.codehaus.spice.netevent.handlers.AcceptEventHandler;
-import org.codehaus.spice.netevent.handlers.CloseEventHandler;
-import org.codehaus.spice.netevent.handlers.ConnectEventHandler;
-import org.codehaus.spice.netevent.handlers.ReadEventHandler;
-import org.codehaus.spice.netevent.handlers.WriteEventHandler;
+import org.codehaus.spice.netevent.handlers.ChannelEventHandler;
 import org.codehaus.spice.netevent.selector.SocketEventSource;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-08 04:03:58 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-09 00:54:15 $
  */
 class TestSocketEventHandler
-    extends AbstractEventHandler
+    extends ChannelEventHandler
 {
     private final Map _counts = new HashMap();
-    private final CloseEventHandler _closeHandler;
-    private final ReadEventHandler _readEventHandler;
-    private final WriteEventHandler _writeEventHandler;
-    private final AcceptEventHandler _acceptHandler;
-    private final ConnectEventHandler _connectHandler;
+    private BufferManager _bufferManager;
 
     public TestSocketEventHandler( final SocketEventSource source,
-                                   final EventSink queue )
+                                   final EventSink queue,
+                                   final BufferManager bufferManager )
     {
-        _closeHandler = new CloseEventHandler();
-        _acceptHandler = new AcceptEventHandler( queue );
-        _connectHandler = new ConnectEventHandler( queue, source );
-        _readEventHandler = new ReadEventHandler( queue );
-        _writeEventHandler = new WriteEventHandler( queue );
+        super( source, queue, bufferManager );
+        _bufferManager = bufferManager;
     }
 
     /**
@@ -51,7 +36,9 @@ class TestSocketEventHandler
      */
     public void handleEvent( final Object event )
     {
-        //System.out.println( "event = " + event );
+        /*
+        System.out.println( "event = " + event );
+        */
         if( event instanceof ChannelClosedEvent )
         {
             final ChannelClosedEvent ce = (ChannelClosedEvent)event;
@@ -61,28 +48,6 @@ class TestSocketEventHandler
             final int count = getTotalBytesRead( transport );
             System.out.println( "Received " + count + "B via " + port );
         }
-
-        if( event instanceof ChannelClosedEvent ||
-            event instanceof IOErrorEvent )
-        {
-            _closeHandler.handleEvent( event );
-        }
-        else if( event instanceof AcceptPossibleEvent )
-        {
-            _acceptHandler.handleEvent( event );
-        }
-        else if( event instanceof AcceptEvent )
-        {
-            _connectHandler.handleEvent( event );
-        }
-        else if( event instanceof ReadPossibleEvent )
-        {
-            _readEventHandler.handleEvent( event );
-        }
-        else if( event instanceof WritePossibleEvent )
-        {
-            _writeEventHandler.handleEvent( event );
-        }
         else if( event instanceof ReadEvent )
         {
             final ReadEvent re = (ReadEvent)event;
@@ -91,8 +56,12 @@ class TestSocketEventHandler
             final int total =
                 getTotalBytesRead( transport ) + re.getBuffer().position();
 
+            _bufferManager.releaseBuffer( re.getBuffer() );
+
             _counts.put( transport, new Integer( total ) );
         }
+
+        super.handleEvent( event );
     }
 
     private int getTotalBytesRead( final ChannelTransport transport )

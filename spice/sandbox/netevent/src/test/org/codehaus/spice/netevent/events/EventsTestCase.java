@@ -10,39 +10,15 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.7 $ $Date: 2004-01-09 00:54:15 $
  */
 public class EventsTestCase
     extends TestCase
 {
-    public void testTransportPassedAbstractTransportEvent()
-        throws Exception
-    {
-        final SocketChannel channel = SocketChannel.open();
-        final ChannelTransport transport = newTransport( channel );
-        final BufferOverflowEvent event =
-            new BufferOverflowEvent( transport );
-
-        assertEquals( "event.getTransport()", transport, event.getTransport() );
-    }
-
     private ChannelTransport newTransport( final SocketChannel channel )
     {
         return new ChannelTransport( channel,
-                                     new UnboundedFifoBuffer( 1 ),
                                      new UnboundedFifoBuffer( 1 ) );
-    }
-
-    public void testToStringOnAbstractTransportEvent()
-        throws Exception
-    {
-        final SocketChannel channel = SocketChannel.open();
-        final ChannelTransport transport = newTransport( channel );
-        final BufferUnderflowEvent event =
-            new BufferUnderflowEvent( transport );
-
-        final String expected = "BufferUnderflowEvent[" + channel + "]";
-        assertEquals( "event.toString()", expected, event.toString() );
     }
 
     public void testNull_channel_PassedIntoCtor()
@@ -130,7 +106,7 @@ public class EventsTestCase
         final ChannelTransport transport = newTransport( channel );
         final ByteBuffer buffer = ByteBuffer.allocate( 4 );
         buffer.limit( 4 );
-        buffer.position( 0 );
+        buffer.position( 4 );
         final ReadEvent event = new ReadEvent( transport, buffer );
 
         final String expected =

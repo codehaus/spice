@@ -11,12 +11,13 @@ import java.util.Random;
 import org.codehaus.spice.event.impl.DefaultEventQueue;
 import org.codehaus.spice.event.impl.EventPump;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
+import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
 import org.codehaus.spice.netevent.selector.SocketEventSource;
 import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:14 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-09 00:54:15 $
  */
 public class TestServer
 {
@@ -42,8 +43,11 @@ public class TestServer
                                 SelectionKey.OP_ACCEPT,
                                 null );
 
+        final DefaultBufferManager bufferManager =
+            new DefaultBufferManager();
+
         final TestSocketEventHandler handler =
-            new TestSocketEventHandler( source, queue );
+            new TestSocketEventHandler( source, queue, bufferManager );
 
         final EventPump pump1 = new EventPump( source, handler );
         pump1.setBatchSize( 10 );
