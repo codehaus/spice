@@ -17,7 +17,7 @@
 
     <goal name="main" prereqs="metaclass:generate">
         <ant:available
-            file="${maven.build.dest}/com/biz/MyClass-meta.binary"
+            file="${maven.build.dest}/com/biz/MyClass.class"
             type="file"
             property="descAvailable"/>
         <j:if test="${descAvailable != 'true'}">
