@@ -8,7 +8,7 @@ import java.util.List;
  * A simple BufferManager that caches buffers in map.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-18 23:51:37 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-19 05:54:37 $
  */
 public class DefaultBufferManager
     implements BufferManager
@@ -32,17 +32,29 @@ public class DefaultBufferManager
         final int count = _cache.size();
         if( count > 0 )
         {
-            final ByteBuffer buffer = (ByteBuffer)_cache.remove( count - 1 );
+            final ByteBuffer buffer = (ByteBuffer)_cache.get( count - 1 );
             if( buffer.capacity() >= size )
             {
+                _cache.remove( buffer );
+                clean( buffer );
                 return buffer;
             }
         }
         _newCount++;
         final int sz = Math.max( DEFAULT_SIZE, size );
         final ByteBuffer buffer = ByteBuffer.allocate( sz );
-        buffer.clear();
+        clean( buffer );
         return buffer;
+    }
+
+    /**
+     * Reset state of buffer.
+     * 
+     * @param buffer the buffer
+     */
+    private void clean( final ByteBuffer buffer )
+    {
+        buffer.clear();
     }
 
     /**
@@ -51,7 +63,6 @@ public class DefaultBufferManager
     public synchronized void releaseBuffer( final ByteBuffer buffer )
     {
         _activeCount--;
-        buffer.clear();
         _cache.add( buffer );
     }
 
