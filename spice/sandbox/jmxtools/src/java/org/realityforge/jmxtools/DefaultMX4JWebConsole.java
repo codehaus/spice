@@ -47,7 +47,7 @@ public class DefaultMX4JWebConsole
    private ObjectName _processorName;
 
    /**
-    * @dna.dependency type="MBeanServer"
+    * @dna.dependency type="MBeanServer"  optional="true"
     */
    public void compose( final ResourceLocator locator )
       throws MissingResourceException
