@@ -8,24 +8,36 @@
 package org.codehaus.spice.netevent.events;
 
 import java.nio.channels.Channel;
+import java.nio.channels.SelectionKey;
 
 /**
  * Event indicating that it is possible to read from the socket.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-16 00:17:04 $
+ * @version $Revision: 1.2 $ $Date: 2004-02-11 02:27:09 $
  */
 public class ConnectPossibleEvent
     extends ChannelEvent
 {
+    /**
+     * Key that used to generate event.
+     */
+    private final SelectionKey _key;
+
     /**
      * Create event.
      * 
      * @param channel the channel.
      */
     public ConnectPossibleEvent( final Channel channel,
-                                 final Object userData )
+                                 final Object userData, final SelectionKey key )
     {
         super( channel, userData );
+        _key = key;
+    }
+
+    public SelectionKey getKey()
+    {
+        return _key;
     }
 }
