@@ -13,7 +13,7 @@
 
     <preGoal name="xdoc:transform">
         <attainGoal name="generateNavigation"/>
-        <ant:copy file="${basedir}/../../tools/site/site.jsl" todir="target"/>
+        <ant:copy file="${basedir}/../tools/site/site.jsl" todir="target"/>
     </preGoal>
 
     <goal name="generateNavigation">
