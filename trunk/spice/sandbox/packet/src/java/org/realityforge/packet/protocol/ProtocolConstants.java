@@ -11,7 +11,7 @@ package org.realityforge.packet.protocol;
  * Set of constants used in network protocol.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-11 22:34:23 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-11 22:35:58 $
  */
 public interface ProtocolConstants
 {
@@ -45,19 +45,13 @@ public interface ProtocolConstants
     byte C2S_LOGIN = 4;
 
     /**
-     * Message indicating client has established
-     * connection.
-     */
-    byte C2S_ESTABLISHED = 5;
-
-    /**
      * Message indicating regular data being transmitted.
      */
-    byte MSG_DATA = 6;
+    byte MSG_DATA = 5;
 
     /**
      * Message indicating client or server is
      * disconnecting.
      */
-    byte MSG_DISCONNECT = 7;
+    byte MSG_DISCONNECT = 6;
 }
