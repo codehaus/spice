@@ -20,8 +20,8 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 
 /**
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-11-18 23:13:38 $
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-11-28 03:13:45 $
  */
 public class MBeanBinderTestCase
     extends TestCase

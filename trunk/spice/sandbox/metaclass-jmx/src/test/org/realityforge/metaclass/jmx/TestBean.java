@@ -9,8 +9,8 @@ package org.realityforge.metaclass.jmx;
 
 /**
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-11-18 23:13:38 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2003-11-28 03:13:45 $
  */
 public class TestBean
     implements TestMxInterface

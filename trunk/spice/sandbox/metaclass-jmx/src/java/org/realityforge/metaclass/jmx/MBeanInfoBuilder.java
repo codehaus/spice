@@ -31,8 +31,8 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * annotated with MetaClass attributes. See documentation for
  * description of valid attributes.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-17 08:14:47 $
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003-11-28 03:13:45 $
  */
 public class MBeanInfoBuilder
 {
