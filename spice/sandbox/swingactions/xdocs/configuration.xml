@@ -21,8 +21,8 @@ return factory.createActionManager( new HashMap() );
 	  The swingactions.properties file contains the ActionManager factory implementation class name and the 
 	  path the the configuration resource.  For example:
 	  <source>
-org.jcomponent.swingactions.factory=org.jcomponent.swingactions.XMLActionManagerFactory
-org.jcomponent.swingactions.configuration.file=/path/to/actionconfig.xml
+org.codehaus.spice.swingactions.factory=org.codehaus.spice.swingactions.XMLActionManagerFactory
+org.codehaus.spice.swingactions.configuration.file=/path/to/actionconfig.xml
 	  </source>
 	  </p> 
 	  </section>

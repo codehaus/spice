@@ -1,11 +1,9 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>SwingActions</name>
-    <groupId>jcomponent</groupId>
-    <id>jcomponent-swingactions</id>
-    <gumpRepositoryId>components</gumpRepositoryId>
-    <package>org.jcomponent.${pom.artifactId.substring(11)}</package>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice SwingActions</name>
+    <id>spice-swingactions</id>
+    <package>org.codehaus.spice.${pom.artifactId.substring(11)}</package>
     <currentVersion>0.2</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
