@@ -9,10 +9,9 @@ public interface PingPolicy
    /**
     * Return true if need to ping connection.
     *
-    * @param connector the associated Connector
     * @return true if need to ping connection.
     */
-   boolean checkPingConnection( Connector connector );
+   boolean checkPingConnection();
 
    /**
     * Return the time at which the next ping should occur.
@@ -22,5 +21,5 @@ public interface PingPolicy
     * @param lastPingTime the time of last ping
     * @return the time that ping should be checked
     */
-   long nextPingCheck( long lastPingTime );
+   long nextPingCheck();
 }

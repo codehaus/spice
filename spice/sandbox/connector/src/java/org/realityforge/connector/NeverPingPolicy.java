@@ -14,7 +14,7 @@ public class NeverPingPolicy
    /**
     * @see PingPolicy#checkPingConnection
     */
-   public boolean checkPingConnection( Connector connector )
+   public boolean checkPingConnection()
    {
       return false;
    }
@@ -22,7 +22,7 @@ public class NeverPingPolicy
    /**
     * @see PingPolicy#nextPingCheck
     */
-   public long nextPingCheck( final long lastPingTime )
+   public long nextPingCheck()
    {
       return Long.MAX_VALUE;
    }

@@ -12,28 +12,37 @@ public class PeriodicPingPolicy
    private final long _period;
 
    /**
+    * The associated connector.
+    */
+   private final Connector _connector;
+
+
+   /**
     * Create policy with specified period.
     *
     * @param period the period
+    * @param connector the associated connector
     */
-   public PeriodicPingPolicy( final long period )
+   public PeriodicPingPolicy( final long period,
+                              final Connector connector )
    {
       _period = period;
+      _connector = connector;
    }
 
    /**
-    * @see org.realityforge.connector.PingPolicy#checkPingConnection
+    * @see PingPolicy#checkPingConnection
     */
-   public boolean checkPingConnection( Connector connector )
+   public boolean checkPingConnection()
    {
       return true;
    }
 
    /**
-    * @see org.realityforge.connector.PingPolicy#nextPingCheck
+    * @see PingPolicy#nextPingCheck
     */
-   public long nextPingCheck( final long lastPingTime )
+   public long nextPingCheck()
    {
-      return lastPingTime + _period;
+      return _connector.getLastPingTime() + _period;
    }
 }
