@@ -2,18 +2,17 @@ package org.componenthaus.ant;
 
 import com.thoughtworks.qdox.JavaDocBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
-import com.thoughtworks.xstream.XStream;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.componenthaus.ant.metadata.ComponentMetadata;
 import org.componenthaus.ant.metadata.InterfaceMetadata;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.FileReader;
-import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -119,10 +118,9 @@ public class ComponentMetadataTask extends Task {
                 source);
         ComponentMetadata componentMetadata = new ComponentMetadata();
         componentMetadata.addInterface(interfaceMetadata);
-        XStream xStream = new XStream();
         try {
             FileWriter writer = new FileWriter(metadataFile);
-            writer.write(xStream.toXML(componentMetadata));
+            writer.write(componentMetadata.toXml());
             writer.close();
         } catch (IOException e) {
             throw new IOBuildException(e);

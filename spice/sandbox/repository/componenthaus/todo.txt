@@ -1,4 +1,3 @@
- * test cases, before we get out of control
  * take version number from maven pom
  * take dependency jars from maven pom
  * Federation
@@ -18,6 +17,9 @@
  * Disable multiple submissions of the same component.
 
 Done
+
+November 2nd
+ * More test cases for search stuff
 
 October 26th
  * TDD'ed re-write of the submission stuff

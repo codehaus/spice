@@ -4,6 +4,7 @@ import java.io.File;
 
 public class MockFile extends File {
     private boolean preparedExists = false;
+    private boolean preparedIsDirectory = false;
     private int setupLength = 0;
 
     public MockFile() {
@@ -24,5 +25,13 @@ public class MockFile extends File {
 
     public long length() {
         return setupLength;
+    }
+
+    public void setupPreparedIsDirectory(boolean b) {
+        this.preparedIsDirectory = b;
+    }
+
+    public boolean isDirectory() {
+        return preparedIsDirectory;
     }
 }
