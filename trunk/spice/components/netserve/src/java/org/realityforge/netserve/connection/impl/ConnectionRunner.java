@@ -15,7 +15,7 @@ import org.realityforge.netserve.connection.ConnectionHandler;
  * This class is responsible for handling a single connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-04-23 03:47:07 $
+ * @version $Revision: 1.7 $ $Date: 2003-04-23 03:50:27 $
  */
 class ConnectionRunner
     extends AbstractLogEnabled
@@ -110,25 +110,48 @@ class ConnectionRunner
         }
     }
 
+    /**
+     * Actually handle the connection
+     */
     public void run()
     {
         m_done = false;
         try
         {
             m_thread = Thread.currentThread();
-            getLogger().debug( "Starting connection on " + m_socket );
+            debugBanner( true );
             m_handler.handleConnection( m_socket );
-            getLogger().debug( "Ending connection on " + m_socket );
+            debugBanner( false );
         }
         catch( final Exception e )
         {
-            getLogger().warn( "Error handling connection", e );
+            final String message =
+                "Error handling connection '" + m_name + "' due to: " + e;
+            getLogger().warn( message, e );
         }
         finally
         {
             m_done = true;
             m_thread = null;
             m_acceptor.disposeRunner( this );
+        }
+    }
+
+    /**
+     * Print out debug banner indicating that handling of a connection
+     * is starting or ending.
+     *
+     * @param starting true if starting, false othrewise
+     */
+    private void debugBanner( final boolean starting )
+    {
+        if( getLogger().isDebugEnabled() )
+        {
+            final String prefix = ( starting ) ? "Starting" : "Ending";
+            final String message =
+                prefix + " connection '" + m_name + "' on " +
+                m_socket.getInetAddress().getHostAddress();
+            getLogger().debug( message );
         }
     }
 
