@@ -1,4 +1,4 @@
-<module name="spice">
+<module name="spice-pe">
 
     <url href="http://spice.sourceforge.net"/>
     <description>
@@ -6,9 +6,9 @@
     </description>
 
     <cvs repository="sourceforge" host-prefix="cvs.spice"
-        module="spice" dir="spice"/>
+        module="spice" dir="spice" tag="PRE_EVOLVE-branch"/>
 
-    <project name="spice-classman">
+    <project name="spice-classman-pe">
         <package>org.realityforge.classman</package>
 
         <ant basedir="components/classman">
@@ -29,7 +29,7 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
-    <project name="spice-cli">
+    <project name="spice-cli-pe">
         <package>org.realityforge.cli</package>
 
         <ant basedir="components/cli">
@@ -48,7 +48,7 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
-    <project name="spice-configkit">
+    <project name="spice-configkit-pe">
         <package>org.realityforge.configkit</package>
 
         <ant basedir="components/configkit">
@@ -70,12 +70,12 @@
     </project>
 
     <!-- Ugly hackity project as isorelax is not gumpified -->
-    <project name="spice-isorelax">
+    <project name="spice-isorelax-pe">
         <jar name="tools/lib/isorelax-20020414.jar" runtime="true"/>
         <jar name="tools/lib/relaxngDatatype-20020414.jar" runtime="true"/>
     </project>
 
-    <project name="spice-converter">
+    <project name="spice-converter-pe">
         <package>org.realityforge.converter</package>
 
         <ant basedir="components/converter">
@@ -95,7 +95,7 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
-    <project name="spice-jndikit">
+    <project name="spice-jndikit-pe">
         <package>org.realityforge.jndikit</package>
 
         <ant basedir="components/jndikit">
@@ -114,7 +114,7 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
-    <project name="spice-loggerstore">
+    <project name="spice-loggerstore-pe">
         <package>org.realityforge.loggerstore</package>
 
         <ant basedir="components/loggerstore">
@@ -139,7 +139,7 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
-    <project name="spice-netserve">
+    <project name="spice-netserve-pe">
         <package>org.realityforge.netserve</package>
 
         <ant basedir="components/netserve">
@@ -162,7 +162,7 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
-    <project name="spice-metaclass">
+    <project name="spice-metaclass-pe">
         <package>org.realityforge.metaclass</package>
 
         <ant basedir="sandbox/metaclass">
@@ -182,7 +182,7 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
-    <project name="spice-nativekit">
+    <project name="spice-nativekit-pe">
         <package>org.realityforge.nativekit</package>
 
         <ant basedir="sandbox/nativekit">
@@ -204,11 +204,11 @@
     </project>
 
     <!-- Ugly hackity project as qdox is not gumpified -->
-    <project name="spice-qdox">
+    <project name="spice-qdox-pe">
         <jar name="tools/lib/qdox-1.0.jar"/>
     </project>
 
-    <project name="spice-salt">
+    <project name="spice-salt-pe">
         <package>org.realityforge.salt</package>
 
         <ant basedir="components/salt">
@@ -228,7 +228,7 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
-    <project name="spice-threadpool">
+    <project name="spice-threadpool-pe">
         <package>org.realityforge.threadpool</package>
 
         <ant basedir="components/threadpool">
@@ -252,7 +252,7 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
-    <project name="spice-xmlpolicy">
+    <project name="spice-xmlpolicy-pe">
         <package>org.realityforge.xmlpolicy</package>
 
         <ant basedir="components/xmlpolicy">
@@ -272,7 +272,7 @@
             to="spice-devel@lists.sourceforge.net"/>
     </project>
 
-    <project name="spice-xinvoke">
+    <project name="spice-xinvoke-pe">
         <package>org.realityforge.xinvoke</package>
 
         <ant basedir="sandbox/xinvoke">
