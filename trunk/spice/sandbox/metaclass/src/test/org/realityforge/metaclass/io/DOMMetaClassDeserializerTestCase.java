@@ -12,12 +12,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import junit.framework.TestCase;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Text;
+import org.w3c.dom.Comment;
+import org.realityforge.metaclass.model.Attribute;
 import java.util.Properties;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-11-01 00:09:09 $
+ * @version $Revision: 1.5 $ $Date: 2003-11-01 00:25:03 $
  */
 public class DOMMetaClassDeserializerTestCase
     extends TestCase
@@ -116,7 +119,105 @@ public class DOMMetaClassDeserializerTestCase
         final Properties parameters = new Properties();
         deserializer.buildParam( element, parameters );
         assertEquals( "parameters.size()", 1, parameters.size() );
-        assertEquals( "parameters['myKey']", "myValue", parameters.getProperty( "myKey") );
+        assertEquals( "parameters['myKey']", "myValue", parameters.getProperty( "myKey" ) );
+    }
+
+    public void testAttributeWithJustName()
+        throws Exception
+    {
+        final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+        final Document document = createDocument();
+        final Element root = document.createElement( MetaClassIOXml.ATTRIBUTES_ELEMENT );
+        final Element element = document.createElement( MetaClassIOXml.ATTRIBUTE_ELEMENT );
+        root.appendChild( element );
+        element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myAttribute" );
+        final Attribute[] attributes = deserializer.buildAttributes( root );
+        assertEquals( "attributes.length", 1, attributes.length );
+        assertEquals( "attributes[0].name", "myAttribute", attributes[ 0 ].getName() );
+        assertEquals( "attributes[0].value", null, attributes[ 0 ].getValue() );
+        assertEquals( "attributes[0].parameterCount", 0, attributes[ 0 ].getParameterCount() );
+    }
+
+    public void testAttributeWithParametersAndValue()
+        throws Exception
+    {
+        final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+        final Document document = createDocument();
+        final Element root = document.createElement( MetaClassIOXml.ATTRIBUTES_ELEMENT );
+        final Element element = document.createElement( MetaClassIOXml.ATTRIBUTE_ELEMENT );
+        root.appendChild( element );
+        element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myAttribute" );
+        final Element parameterElement = document.createElement( MetaClassIOXml.PARAM_ELEMENT );
+        element.appendChild( parameterElement );
+        parameterElement.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myKey" );
+        parameterElement.setAttribute( MetaClassIOXml.VALUE_ATTRIBUTE, "myValue" );
+
+        final Text text = document.createTextNode( "Part1" );
+        element.appendChild( text );
+        final Comment comment = document.createComment( "Random COmment" );
+        element.appendChild( comment );
+        final Text text2 = document.createCDATASection( "Part2" );
+        element.appendChild( text2 );
+
+        try
+        {
+            deserializer.buildAttributes( root );
+        }
+        catch( Exception e )
+        {
+            final Properties parameters = new Properties();
+            parameters.setProperty( "myKey", "myValue" );
+            final String message =
+                "Attribute named myAttribute specified both a value " +
+                "(Part1Part2) and parameters (" + parameters + ").";
+            assertEquals( "e.getMessage()", message, e.getMessage() );
+            return;
+        }
+        fail( "Expected to fail due to mixed content" );
+    }
+
+    public void testAttributeWithParameters()
+        throws Exception
+    {
+        final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+        final Document document = createDocument();
+        final Element root = document.createElement( MetaClassIOXml.ATTRIBUTES_ELEMENT );
+        final Element element = document.createElement( MetaClassIOXml.ATTRIBUTE_ELEMENT );
+        root.appendChild( element );
+        element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myAttribute" );
+        final Element parameterElement = document.createElement( MetaClassIOXml.PARAM_ELEMENT );
+        element.appendChild( parameterElement );
+        parameterElement.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myKey" );
+        parameterElement.setAttribute( MetaClassIOXml.VALUE_ATTRIBUTE, "myValue" );
+
+        final Attribute[] attributes = deserializer.buildAttributes( root );
+        assertEquals( "attributes.length", 1, attributes.length );
+        assertEquals( "attributes[0].name", "myAttribute", attributes[ 0 ].getName() );
+        assertEquals( "attributes[0].value", null, attributes[ 0 ].getValue() );
+        assertEquals( "attributes[0].parameterCount", 1, attributes[ 0 ].getParameterCount() );
+        assertEquals( "attributes[0].parameters['myKey']", "myValue", attributes[ 0 ].getParameter( "myKey" ) );
+    }
+
+    public void testAttributeWithValue()
+        throws Exception
+    {
+        final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
+        final Document document = createDocument();
+        final Element root = document.createElement( MetaClassIOXml.ATTRIBUTES_ELEMENT );
+        final Element element = document.createElement( MetaClassIOXml.ATTRIBUTE_ELEMENT );
+        root.appendChild( element );
+        final Text text = document.createTextNode( "Part1" );
+        element.appendChild( text );
+        final Comment comment = document.createComment( "Random COmment" );
+        element.appendChild( comment );
+        final Text text2 = document.createCDATASection( "Part2" );
+        element.appendChild( text2 );
+        element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myAttribute" );
+        final Attribute[] attributes = deserializer.buildAttributes( root );
+        assertEquals( "attributes.length", 1, attributes.length );
+        assertEquals( "attributes[0].name", "myAttribute", attributes[ 0 ].getName() );
+        assertEquals( "attributes[0].value", "Part1Part2", attributes[ 0 ].getValue() );
+        assertEquals( "attributes[0].parameterCount", 0, attributes[ 0 ].getParameterCount() );
     }
 
     private Document createDocument()
