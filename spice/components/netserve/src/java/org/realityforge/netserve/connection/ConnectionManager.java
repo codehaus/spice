@@ -11,8 +11,14 @@ import java.net.ServerSocket;
 import org.realityforge.threadpool.ThreadPool;
 
 /**
+ * This service is used to manage serverside network acceptors.
+ * To establish a connection the service is provided with a
+ * ServerSocket and a ConnectionHandlerManager. The service will start
+ * accepting connections to ServerSocket and then pass the accepted socket
+ * to ConnectionHandler instances to handle the connection.
+ *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-04-23 01:54:36 $
+ * @version $Revision: 1.6 $ $Date: 2003-04-23 02:10:00 $
  */
 public interface ConnectionManager
 {
