@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
  * and other common resources from a ResourceBundle.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-05-28 12:21:59 $
+ * @version $Revision: 1.3 $ $Date: 2003-05-28 12:37:27 $
 */
 public class Resources
 {
@@ -31,27 +31,25 @@ public class Resources
      */
     private static final Random RANDOM = new Random();
 
-    ///Local of Resources
+    /**
+     * Local of Resources.
+     */
     private final Locale m_locale;
 
-    ///Resource bundle referenced by manager
-    private ResourceBundle m_bundle;
-
-    ///Base name of resource bundle
-    private String m_baseName;
-
-    ///ClassLoader from which to load resources
-    private ClassLoader m_classLoader;
+    /**
+     * Base name of resource bundle.
+     */
+    private final String m_baseName;
 
     /**
-     * Constructor that builds a manager in default locale.
-     *
-     * @param baseName the base name of ResourceBundle
+     * ClassLoader from which to load resources.
      */
-    public Resources( final String baseName )
-    {
-        this( baseName, Locale.getDefault(), null );
-    }
+    private final ClassLoader m_classLoader;
+
+    /**
+     * Resource bundle referenced by manager.
+     */
+    private ResourceBundle m_bundle;
 
     /**
      * Constructor that builds a manager in default locale
@@ -63,17 +61,6 @@ public class Resources
     public Resources( final String baseName, final ClassLoader classLoader )
     {
         this( baseName, Locale.getDefault(), classLoader );
-    }
-
-    /**
-     * Constructor that builds a manager in specified locale.
-     *
-     * @param baseName the base name of ResourceBundle
-     * @param locale the Locale for resource bundle
-     */
-    public Resources( final String baseName, final Locale locale )
-    {
-        this( baseName, locale, null );
     }
 
     /**
@@ -94,6 +81,10 @@ public class Resources
         if( null == locale )
         {
             throw new NullPointerException( "locale" );
+        }
+        if( null == classLoader )
+        {
+            throw new NullPointerException( "classLoader" );
         }
 
         m_baseName = baseName;
@@ -723,19 +714,8 @@ public class Resources
         if( null == m_bundle )
         {
             // bundle wasn't cached, so load it, cache it, and return it.
-            ClassLoader classLoader = m_classLoader;
-            if( null == classLoader )
-            {
-                classLoader = Thread.currentThread().getContextClassLoader();
-            }
-            if( null != classLoader )
-            {
-                m_bundle = ResourceBundle.getBundle( m_baseName, m_locale, classLoader );
-            }
-            else
-            {
-                m_bundle = ResourceBundle.getBundle( m_baseName, m_locale );
-            }
+            m_bundle = ResourceBundle.
+                getBundle( m_baseName, m_locale, m_classLoader );
         }
         return m_bundle;
     }
