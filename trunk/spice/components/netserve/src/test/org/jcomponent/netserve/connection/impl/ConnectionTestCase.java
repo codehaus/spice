@@ -26,14 +26,14 @@ import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ValidateException;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 import org.jcomponent.netserve.connection.ConnectionManager;
-import org.realityforge.threadpool.ThreadPool;
+import org.jcomponent.threadpool.ThreadPool;
 import org.xml.sax.ErrorHandler;
 
 /**
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
+ * @version $Revision: 1.2 $ $Date: 2003-07-13 18:03:53 $
  */
 public class ConnectionTestCase
     extends TestCase

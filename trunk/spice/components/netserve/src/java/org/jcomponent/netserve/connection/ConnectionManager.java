@@ -8,7 +8,7 @@
 package org.jcomponent.netserve.connection;
 
 import java.net.ServerSocket;
-import org.realityforge.threadpool.ThreadPool;
+import org.jcomponent.threadpool.ThreadPool;
 
 /**
  * This service is used to manage serverside network acceptors.
@@ -18,7 +18,7 @@ import org.realityforge.threadpool.ThreadPool;
  * to ConnectionHandler instances to handle the connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:14 $
+ * @version $Revision: 1.2 $ $Date: 2003-07-13 18:03:53 $
  */
 public interface ConnectionManager
 {

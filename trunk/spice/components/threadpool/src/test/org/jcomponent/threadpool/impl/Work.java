@@ -5,15 +5,15 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.threadpool.impl;
+package org.jcomponent.threadpool.impl;
 
-import org.realityforge.threadpool.Executable;
+import org.jcomponent.threadpool.Executable;
 
 /**
  * A bit of work used during testing.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-04 11:39:39 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 18:03:03 $
  */
 class Work
     implements Runnable, Executable

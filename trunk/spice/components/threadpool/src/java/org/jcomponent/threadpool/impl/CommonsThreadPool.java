@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.threadpool.impl;
+package org.jcomponent.threadpool.impl;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Disposable;
@@ -16,7 +16,7 @@ import org.apache.avalon.framework.logger.LogEnabled;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
-import org.realityforge.threadpool.ThreadPool;
+import org.jcomponent.threadpool.ThreadPool;
 
 /**
  * The CommonsThreadPool is a component that provides a basic
@@ -34,7 +34,7 @@ import org.realityforge.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-04 11:39:38 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 18:03:03 $
  * @phoenix.service type="ThreadPool"
  */
 public class CommonsThreadPool
