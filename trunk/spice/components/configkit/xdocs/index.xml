@@ -12,7 +12,7 @@
                 of scanning ClassLoaders for potential schema definitions.
             </p>
         </section>
-        <section name="Ussing ResolverFactory">
+        <section name="Using ResolverFactory">
             <p>
                 ResolverFactory is a utility class in ConfigKit that makes it easy to
                 manage the set of XML entitys that can be loaded from a jar file. The
