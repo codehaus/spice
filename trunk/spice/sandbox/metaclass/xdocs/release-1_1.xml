@@ -87,6 +87,11 @@
                     To disable this behaviour use set the
                     namespaceTagsOnly="false" attribute on the task.
                 </li>
+                <li>
+                    Support reading and writing of descriptors in XML format.
+                    The runtime will attempt to load XML descriptors if binary
+                    descriptors are not present.
+                </li>
             </ul>
         </section>
     </body>
