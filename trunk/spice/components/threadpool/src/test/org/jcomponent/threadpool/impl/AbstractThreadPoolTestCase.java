@@ -24,7 +24,7 @@ import org.xml.sax.ErrorHandler;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-31 00:37:29 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-31 00:40:33 $
  */
 public abstract class AbstractThreadPoolTestCase
     extends TestCase
@@ -91,6 +91,12 @@ public abstract class AbstractThreadPoolTestCase
     {
         final ThreadPool threadPool = createThreadPool();
         doTestThread( threadPool );
+    }
+
+    public void testThreadPoolWithNoEnd()
+        throws Exception
+    {
+        final ThreadPool threadPool = createThreadPool();
         doTestThreadWithNoEnd( threadPool );
     }
 
@@ -99,6 +105,12 @@ public abstract class AbstractThreadPoolTestCase
     {
         final ThreadPool threadPool = createThreadPoolWithDebug();
         doTestThread( threadPool );
+    }
+
+    public void testThreadPoolWithDebugWithNoEnd()
+        throws Exception
+    {
+        final ThreadPool threadPool = createThreadPoolWithDebug();
         doTestThreadWithNoEnd( threadPool );
     }
 
