@@ -15,7 +15,7 @@ import org.realityforge.packet.event.Sink;
  * filtered out by a valve.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-11-28 05:00:38 $
+ * @version $Revision: 1.3 $ $Date: 2003-12-05 00:47:44 $
  */
 public class ValveControlledSink
     implements Sink
@@ -59,6 +59,21 @@ public class ValveControlledSink
         else
         {
             return _sink.addEvent( event );
+        }
+    }
+
+    /**
+     * @see Sink#addEvents(Object[])
+     */
+    public boolean addEvents( final Object[] events )
+    {
+        if( !_valve.acceptEvents( events ) )
+        {
+            return false;
+        }
+        else
+        {
+            return _sink.addEvents( events );
         }
     }
 }
