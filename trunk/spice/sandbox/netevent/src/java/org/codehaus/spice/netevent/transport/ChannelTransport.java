@@ -12,13 +12,14 @@ import java.nio.channels.Channel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.spi.AbstractSelectableChannel;
 import org.codehaus.spice.event.impl.collections.Buffer;
+import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.selector.SocketEventSource;
 
 /**
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-09 00:46:26 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-12 02:32:41 $
  */
 public class ChannelTransport
 {
@@ -27,6 +28,9 @@ public class ChannelTransport
 
     /** The buffer used to store outgoing data. */
     private final Buffer m_transmitBuffer;
+
+    /** The Stream representing data received from channel. */
+    private final MultiBufferInputStream m_receivedData;
 
     /** The key used to register channel in selector. */
     private SelectionKey m_key;
@@ -41,7 +45,8 @@ public class ChannelTransport
      * @param transmitBuffer the transmit buffer
      */
     public ChannelTransport( final Channel channel,
-                             final Buffer transmitBuffer )
+                             final Buffer transmitBuffer,
+                             final BufferManager bufferManager )
     {
         if( null == channel )
         {
@@ -53,6 +58,7 @@ public class ChannelTransport
         }
         m_channel = channel;
         m_transmitBuffer = transmitBuffer;
+        m_receivedData = new MultiBufferInputStream( bufferManager );
     }
 
     /**
@@ -119,6 +125,16 @@ public class ChannelTransport
     public Buffer getTransmitBuffer()
     {
         return m_transmitBuffer;
+    }
+
+    /**
+     * Return the stream containing received data.
+     * 
+     * @return the stream containing received data.
+     */
+    public MultiBufferInputStream getReceivedData()
+    {
+        return m_receivedData;
     }
 
     /**

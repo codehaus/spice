@@ -12,6 +12,7 @@ import java.nio.channels.Channel;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
+import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.AcceptEvent;
 import org.codehaus.spice.netevent.events.ConnectErrorEvent;
 import org.codehaus.spice.netevent.events.ConnectEvent;
@@ -23,10 +24,10 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-09 00:51:43 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-12 02:32:41 $
  */
 public class ConnectEventHandler
-    extends AbstractDirectedHandler
+    extends AbstractIOEventHandler
 {
     /** Handler to pass events on to. */
     private final SocketEventSource _source;
@@ -35,11 +36,18 @@ public class ConnectEventHandler
      * Create handler with specified destination sink.
      * 
      * @param sink the destination
+     * @param bufferManager the bufferManager
+     * @param source the source
      */
     public ConnectEventHandler( final EventSink sink,
+                                final BufferManager bufferManager,
                                 final SocketEventSource source )
     {
-        super( sink );
+        super( sink, bufferManager );
+        if( null == source )
+        {
+            throw new NullPointerException( "source" );
+        }
         _source = source;
     }
 
@@ -57,7 +65,8 @@ public class ConnectEventHandler
 
         final ChannelTransport transport =
             new ChannelTransport( channel,
-                                  new UnboundedFifoBuffer( 4 ) );
+                                  new UnboundedFifoBuffer( 4 ),
+                                  getBufferManager() );
         try
         {
             transport.register( _source );
