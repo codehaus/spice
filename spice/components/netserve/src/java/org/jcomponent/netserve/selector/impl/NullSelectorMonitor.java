@@ -69,4 +69,11 @@ public class NullSelectorMonitor
    public void errorClosingSelector( final IOException ioe )
    {
    }
+
+   /**
+    * @see SelectorMonitor#invalidAttachment
+    */
+   public void invalidAttachment( final SelectionKey key )
+   {
+   }
 }

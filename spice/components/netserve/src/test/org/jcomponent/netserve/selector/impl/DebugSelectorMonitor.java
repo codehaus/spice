@@ -47,4 +47,9 @@ class DebugSelectorMonitor
    {
       System.out.println( "errorClosingSelector(" + ioe + ")" );
    }
+
+   public void invalidAttachment( SelectionKey key )
+   {
+      System.out.println( "invalidAttachment(" + key + ")" );
+   }
 }

@@ -14,7 +14,7 @@ import java.nio.channels.SelectionKey;
  * Monitor used to monitor events in the AcceptorManager.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-24 03:18:44 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-24 03:34:02 $
  */
 public interface SelectorMonitor
 {
@@ -65,4 +65,11 @@ public interface SelectorMonitor
      * @param ioe the exception
      */
     void errorClosingSelector( IOException ioe );
+
+    /**
+     * The specified key has an invalid attachment.
+     *
+     * @param key the key
+     */
+    void invalidAttachment( SelectionKey key );
 }

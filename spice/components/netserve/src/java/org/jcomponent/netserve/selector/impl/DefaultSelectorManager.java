@@ -196,19 +196,24 @@ public class DefaultSelectorManager
     * @throws IOException if channel can not be registered
     */
    public SelectionKey registerChannel( final SelectableChannel channel,
-                                        final int ops )
+                                        final int ops,
+                                        final SelectorEventHandler handler,
+                                        final Object userData )
       throws IOException
    {
       if ( null == channel )
       {
          throw new NullPointerException( "channel" );
       }
+      //Handler will be checked for null in entry.
+      final SelectorEntry entry = new SelectorEntry( handler, userData );
+
       channel.configureBlocking( false );
       synchronized ( getSelectorLock() )
       {
          final Selector selector = getSelector();
          selector.wakeup();
-         return channel.register( selector, ops );
+         return channel.register( selector, ops, entry );
       }
    }
 
@@ -242,9 +247,19 @@ public class DefaultSelectorManager
          {
             final SelectionKey key = (SelectionKey) iterator.next();
             iterator.remove();
+            final Object value = key.attachment();
+            if ( null == value || !( value instanceof SelectorEntry ) )
+            {
+               //Cancel keys that have had their
+               //attachments messed with
+               getMonitor().invalidAttachment( key );
+               key.cancel();
+               continue;
+            }
             // The key indexes into the selector so you
             // can retrieve the socket that's ready for I/O
-            getHandler().handleSelectorEvent( key );
+            final SelectorEntry entry = (SelectorEntry) value;
+            entry.getHandler().handleSelectorEvent( key );
          }
       }
 
