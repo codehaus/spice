@@ -8,6 +8,7 @@
 package org.realityforge.configkit;
 
 import java.io.InputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -96,6 +97,20 @@ public final class ConfigValidatorTestCase
         assertTrue( "!issue3.isError()", !issue3.isError() );
         assertTrue( "!issue3.isFatalError()", issue3.isFatalError() );
         assertEquals( "issue3.exception()", spe, issue3.getException() );
+    }
+
+    public void testNullStreamForSchema()
+        throws Exception
+    {
+        try
+        {
+            ConfigValidatorFactory.create( ConfigValidatorFactory.RELAX_NG, (InputStream)null, new NoopEntityResolver() );
+            fail( "Expected Null pointer due to null schema" );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( npe.getMessage(), "inputStream" );
+        }
     }
 
     public void testNullCTorInIssue()
@@ -328,6 +343,17 @@ public final class ConfigValidatorTestCase
         final ConfigValidator configValidator =
             ConfigValidatorFactory.create( new InputSource( inputStream ) );
         doValidate( configValidator );
+    }
+
+    public void testLoadSchemaWithResolver()
+        throws Exception
+    {
+        final InputStream inputStream = getClass().getClassLoader().getResourceAsStream( TestData.SCHEMA );
+        assertNotNull( "ResourcePresent: " + TestData.SCHEMA, inputStream );
+        final EntityResolver resolver = ResolverFactory.createResolver( createClassLoader() );
+        final ConfigValidator validator =
+            ConfigValidatorFactory.create( ConfigValidatorFactory.RELAX_NG, inputStream, resolver );
+        doValidate( validator );
     }
 
     public void testLoadDTD()
@@ -684,6 +710,17 @@ public final class ConfigValidatorTestCase
     static final class NoopContentHandler
         extends DefaultHandler
     {
+    }
+
+    static final class NoopEntityResolver
+        implements EntityResolver
+    {
+        public InputSource resolveEntity( String publicId,
+                                          String systemId )
+            throws SAXException, IOException
+        {
+            return null;
+        }
     }
 }
 
