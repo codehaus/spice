@@ -30,6 +30,7 @@ org.jcomponent.swingactions.configuration.file=/path/to/actionconfig.xml
 	  <p>One can also instantiate directly one of the above ActionManagerFactory classes and call the 
 	  create method with the appropriate configuration parameters.  
 	  The configuration map may contain different resources indexed by the class name:
+	  </p>
       <p>The possible factory classes are:
 		<ul>
 			<li>org.w3c.dom.Element</li>
