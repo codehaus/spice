@@ -11,6 +11,7 @@ package org.realityforge.nativekit;
  * ExecException indicates there was an error executing native process.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-02-12 10:58:29 $
  */
 public final class ExecException
     extends Exception
