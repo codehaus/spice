@@ -26,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-08-24 04:27:02 $
+ * @version $Revision: 1.10 $ $Date: 2003-08-24 04:43:53 $
  */
 public class InfoBuilderTestCase
     extends TestCase
@@ -359,6 +359,29 @@ public class InfoBuilderTestCase
         assertEquals( "field.attributes.length", 0, field.getAttributes().length );
     }
 
+    public void testBuildFieldWitAttributeDeletion()
+        throws Exception
+    {
+        final String name = "myField";
+        final String type = "int";
+        final JavaField javaField = new JavaField();
+        javaField.setType( new Type( type ) );
+        final ArrayList tags = new ArrayList();
+        tags.add( new DocletTag( "deleteme", "" ) );
+        tags.add( new DocletTag( "dna.persist", "" ) );
+        javaField.setTags( tags );
+        javaField.setModifiers( new String[]{"public"} );
+        javaField.setName( name );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final FieldDescriptor field = parser.buildField( javaField, new DeletingAttributeInterceptor() );
+        assertNotNull( "field", field );
+        assertEquals( "field.name", name, field.getName() );
+        assertEquals( "field.type", type, field.getType() );
+        assertEquals( "field.modifiers", Modifier.PUBLIC, field.getModifiers() );
+        assertEquals( "field.attributes.length", 1, field.getAttributes().length );
+        assertEquals( "field.attributes[0].name", "dna.persist", field.getAttributes()[ 0 ].getName() );
+    }
+
     public void testBuildParameter()
         throws Exception
     {
@@ -392,6 +415,34 @@ public class InfoBuilderTestCase
         assertEquals( "method.type", type, method.getReturnType() );
         assertEquals( "method.modifiers", Modifier.PUBLIC, method.getModifiers() );
         assertEquals( "method.parameters.length", 0, method.getParameters().length );
+        assertEquals( "field.attributes.length", 0, method.getAttributes().length );
+    }
+
+    public void testBuildMethodWithAttributeDeletion()
+        throws Exception
+    {
+        final String name = "myField";
+        final String type = "int";
+        final JavaMethod javaMethod = new JavaMethod();
+        javaMethod.setName( name );
+        javaMethod.setReturns( new Type( type ) );
+        javaMethod.setConstructor( false );
+        javaMethod.setExceptions( new Type[ 0 ] );
+        javaMethod.setParameters( new JavaParameter[ 0 ] );
+        javaMethod.setModifiers( new String[]{"public"} );
+        final ArrayList tags = new ArrayList();
+        tags.add( new DocletTag( "deleteme", "" ) );
+        tags.add( new DocletTag( "dna.entry", "" ) );
+        javaMethod.setTags( tags );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final MethodDescriptor method = parser.buildMethod( javaMethod, new DeletingAttributeInterceptor() );
+        assertNotNull( "method", method );
+        assertEquals( "method.name", name, method.getName() );
+        assertEquals( "method.type", type, method.getReturnType() );
+        assertEquals( "method.modifiers", Modifier.PUBLIC, method.getModifiers() );
+        assertEquals( "method.parameters.length", 0, method.getParameters().length );
+        assertEquals( "field.attributes.length", 1, method.getAttributes().length );
+        assertEquals( "field.attributes[0].name", "dna.entry", method.getAttributes()[ 0 ].getName() );
     }
 
     public void testBuildClass()
@@ -411,6 +462,31 @@ public class InfoBuilderTestCase
         assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
         assertEquals( "clazz.modifiers", Modifier.PUBLIC, clazz.getModifiers() );
         assertEquals( "clazz.attributes.length", 0, clazz.getAttributes().length );
+        assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
+        assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
+    }
+
+    public void testBuildClassWithAttributeDeletion()
+        throws Exception
+    {
+        final String name = "MyClass";
+        final JavaClass javaClass = new JavaClass();
+        javaClass.setParent( new MockPackage() );
+        javaClass.setName( name );
+        javaClass.setImplementz( new Type[ 0 ] );
+        javaClass.setInterface( false );
+        javaClass.setModifiers( new String[]{"public"} );
+        final ArrayList tags = new ArrayList();
+        tags.add( new DocletTag( "deleteme", "" ) );
+        tags.add( new DocletTag( "dna.service", "" ) );
+        javaClass.setTags( tags );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final ClassDescriptor clazz = parser.buildClassDescriptor( javaClass, new DeletingAttributeInterceptor() );
+        assertNotNull( "clazz", clazz );
+        assertEquals( "clazz.name", "com.biz." + name, clazz.getName() );
+        assertEquals( "clazz.modifiers", Modifier.PUBLIC, clazz.getModifiers() );
+        assertEquals( "clazz.attributes.length", 1, clazz.getAttributes().length );
+        assertEquals( "clazz.attributes[0].getName()", "dna.service", clazz.getAttributes()[ 0 ].getName() );
         assertEquals( "clazz.fields.length", 0, clazz.getFields().length );
         assertEquals( "clazz.methods.length", 0, clazz.getMethods().length );
     }
