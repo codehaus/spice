@@ -21,7 +21,7 @@ import org.realityforge.threadpool.ThreadPool;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-04-23 03:56:52 $
+ * @version $Revision: 1.6 $ $Date: 2003-04-23 03:57:20 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled
@@ -88,7 +88,7 @@ class ConnectionAcceptor
         m_threadPool = threadPool;
     }
 
-    public void close( final int waitTime )
+    void close( final int waitTime )
     {
         if( getLogger().isInfoEnabled() )
         {
@@ -107,7 +107,7 @@ class ConnectionAcceptor
                 (ConnectionRunner[])m_runners.toArray( new ConnectionRunner[ m_runners.size() ] );
             for( int i = 0; i < runners.length; i++ )
             {
-                runners[ i ].close(waitTime);
+                runners[ i ].close( waitTime );
             }
         }
     }
