@@ -12,7 +12,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SelectableChannel;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -24,7 +23,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2003-10-23 03:23:24 $
+ * @version $Revision: 1.16 $ $Date: 2003-10-23 03:29:02 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -150,9 +149,9 @@ public class NIOAcceptorManager
    /**
     * @see AbstractNIOReactor#handleChannel
     */
-   protected void handleChannel( final SelectableChannel channel )
+   protected void handleChannel( final SelectionKey key )
    {
-      handleChannel( (ServerSocketChannel) channel );
+      handleChannel( (ServerSocketChannel) key.channel() );
    }
 
    /**
