@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Properties;
+
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
@@ -26,7 +27,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-16 10:40:45 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-05 23:55:20 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -43,7 +44,7 @@ public class MetaClassIOBinary
         final DataInputStream data = new DataInputStream( input );
 
         final int version = data.readInt();
-        if( ClassDescriptor.VERSION != version )
+        if ( ClassDescriptor.VERSION != version )
         {
             final String message =
                 "Version mismatch." +
@@ -57,7 +58,7 @@ public class MetaClassIOBinary
 
         final int fieldCount = data.readInt();
         final ArrayList fieldSet = new ArrayList();
-        for( int i = 0; i < fieldCount; i++ )
+        for ( int i = 0; i < fieldCount; i++ )
         {
             final String name = data.readUTF();
             final String type = data.readUTF();
@@ -70,7 +71,7 @@ public class MetaClassIOBinary
 
         final int methodCount = data.readInt();
         final ArrayList methodSet = new ArrayList();
-        for( int i = 0; i < methodCount; i++ )
+        for ( int i = 0; i < methodCount; i++ )
         {
             final String name = data.readUTF();
             final String type = data.readUTF();
@@ -85,9 +86,9 @@ public class MetaClassIOBinary
         }
 
         final FieldDescriptor[] fields =
-            (FieldDescriptor[])fieldSet.toArray( new FieldDescriptor[ fieldSet.size() ] );
+            (FieldDescriptor[]) fieldSet.toArray( new FieldDescriptor[ fieldSet.size() ] );
         final MethodDescriptor[] methods =
-            (MethodDescriptor[])methodSet.toArray( new MethodDescriptor[ methodSet.size() ] );
+            (MethodDescriptor[]) methodSet.toArray( new MethodDescriptor[ methodSet.size() ] );
 
         return new ClassDescriptor( classname, classModifiers,
                                     classAttributes, fields,
@@ -114,7 +115,7 @@ public class MetaClassIOBinary
 
             final FieldDescriptor[] fields = info.getFields();
             data.writeInt( fields.length );
-            for( int i = 0; i < fields.length; i++ )
+            for ( int i = 0; i < fields.length; i++ )
             {
                 final FieldDescriptor field = fields[ i ];
                 data.writeUTF( field.getName() );
@@ -125,7 +126,7 @@ public class MetaClassIOBinary
 
             final MethodDescriptor[] methods = info.getMethods();
             data.writeInt( methods.length );
-            for( int i = 0; i < methods.length; i++ )
+            for ( int i = 0; i < methods.length; i++ )
             {
                 final MethodDescriptor method = methods[ i ];
                 data.writeUTF( method.getName() );
@@ -153,7 +154,7 @@ public class MetaClassIOBinary
     {
         final ArrayList parameters = new ArrayList();
         final int count = data.readInt();
-        for( int i = 0; i < count; i++ )
+        for ( int i = 0; i < count; i++ )
         {
             final String name = data.readUTF();
             final String type = data.readUTF();
@@ -163,7 +164,7 @@ public class MetaClassIOBinary
         }
         final ParameterDescriptor[] parameterDescriptorArray =
             new ParameterDescriptor[ parameters.size() ];
-        return (ParameterDescriptor[])parameters.toArray( parameterDescriptorArray );
+        return (ParameterDescriptor[]) parameters.toArray( parameterDescriptorArray );
     }
 
     private void writeParameters( final DataOutputStream data,
@@ -171,7 +172,7 @@ public class MetaClassIOBinary
         throws IOException
     {
         data.writeInt( parameters.length );
-        for( int i = 0; i < parameters.length; i++ )
+        for ( int i = 0; i < parameters.length; i++ )
         {
             final ParameterDescriptor parameter = parameters[ i ];
             data.writeUTF( parameter.getName() );
@@ -191,16 +192,33 @@ public class MetaClassIOBinary
     {
         final int count = data.readInt();
         final ArrayList attributeSet = new ArrayList();
-        for( int i = 0; i < count; i++ )
+        for ( int i = 0; i < count; i++ )
         {
             final String name = data.readUTF();
             final String value = data.readUTF();
             final Properties properties = readAttributeParameters( data );
-            final Attribute attribute = new Attribute( name, value, properties );
+            Attribute attribute = null;
+
+            final boolean valuePresent = null != value && value.length() > 0;
+            if ( valuePresent &&
+                properties.size() > 0 )
+            {
+                throw new IOException( "Cannot write attributes containing both " +
+                                       "text and parameters." );
+            }
+
+            if ( valuePresent )
+            {
+                attribute = new Attribute( name, value );
+            }
+            else
+            {
+                attribute = new Attribute( name, properties );
+            }
             attributeSet.add( attribute );
         }
 
-        return (Attribute[])attributeSet.toArray( new Attribute[ attributeSet.size() ] );
+        return (Attribute[]) attributeSet.toArray( new Attribute[ attributeSet.size() ] );
     }
 
     /**
@@ -216,7 +234,7 @@ public class MetaClassIOBinary
         final Properties parameters = new Properties();
 
         final int count = data.readInt();
-        for( int i = 0; i < count; i++ )
+        for ( int i = 0; i < count; i++ )
         {
             final String name = data.readUTF();
             final String value = data.readUTF();
@@ -238,12 +256,29 @@ public class MetaClassIOBinary
         throws IOException
     {
         data.writeInt( attributes.length );
-        for( int i = 0; i < attributes.length; i++ )
+        for ( int i = 0; i < attributes.length; i++ )
         {
             final Attribute attribute = attributes[ i ];
             data.writeUTF( attribute.getName() );
-            data.writeUTF( attribute.getValue() );
-            writeAttributeParameters( data, attribute );
+
+            final String value = attribute.getValue();
+            if ( null != value &&
+                null != attribute.getParameters() )
+            {
+                throw new IOException( "Cannot write attributes containing both " +
+                                       "text and parameters." );
+            }
+
+            if ( null != value )
+            {
+                data.writeUTF( value );
+                writeAttributeParameters( data, null );
+            }
+            else
+            {
+                data.writeUTF( "" );
+                writeAttributeParameters( data, attribute );
+            }
         }
     }
 
@@ -258,14 +293,21 @@ public class MetaClassIOBinary
                                            final Attribute attribute )
         throws IOException
     {
-        final String[] names = attribute.getParameterNames();
-        data.writeInt( names.length );
-        for( int i = 0; i < names.length; i++ )
+        if ( null == attribute )
         {
-            final String name = names[ i ];
-            final String value = attribute.getParameter( name );
-            data.writeUTF( name );
-            data.writeUTF( value );
+            data.writeInt( 0 );
+        }
+        else
+        {
+            final String[] names = attribute.getParameterNames();
+            data.writeInt( names.length );
+            for ( int i = 0; i < names.length; i++ )
+            {
+                final String name = names[ i ];
+                final String value = attribute.getParameter( name );
+                data.writeUTF( name );
+                data.writeUTF( value );
+            }
         }
     }
 }
