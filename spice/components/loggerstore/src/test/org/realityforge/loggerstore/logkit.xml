@@ -5,10 +5,10 @@
     </factories>
 
     <categories>
-        <category name="" log-level="DEBUG">
+        <category name="" log-level="INFO">
             <log-target id-ref="FILE1"/>
         </category>
-        <category name="nejney" log-level="DEBUG">
+        <category name="nejney" log-level="INFO">
             <log-target id-ref="FILE2"/>
         </category>
     </categories>
