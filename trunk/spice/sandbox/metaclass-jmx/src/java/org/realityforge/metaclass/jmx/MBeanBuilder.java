@@ -322,6 +322,16 @@ public class MBeanBuilder
         return infos;
     }
 
+    /**
+     * Extract parameter desciption for specified parameter
+     * from specified attributes. If the attributes have a mx.parameter
+     * specified for that attribute then use the description parameter
+     * of attribute otherwise return an empty string.
+     *
+     * @param attributes the attributes
+     * @param name the name of parameter
+     * @return the parameter description
+     */
     private String parseParameterDescription( final Attribute[] attributes,
                                               final String name )
     {
