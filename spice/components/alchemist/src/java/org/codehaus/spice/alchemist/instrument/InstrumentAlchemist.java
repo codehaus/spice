@@ -6,23 +6,22 @@
 package org.codehaus.spice.alchemist.instrument;
 
 import org.apache.excalibur.instrument.InstrumentManager;
-import org.apache.excalibur.instrument.manager.DefaultInstrumentManager;
 
 /**
  * Utility class containing methods to transform Instrument objects.
  * 
  * @author Mauro Talevi
- * @version $Revision: 1.1 $ $Date: 2004-06-13 13:35:13 $
+ * @version $Revision: 1.2 $ $Date: 2004-06-17 22:26:53 $
  */
 public class InstrumentAlchemist
 {
     /**
-     * Convert Excalibur DefaultInstrumentManager to use DNA lifecycle methods
+     * Convert Excalibur InstrumentManager to use DNA lifecycle methods
      * 
-     * @param manager the Excalibur DefaultInstrumentManager
+     * @param manager the Excalibur InstrumentManager
      * @return An InstrumentManager object
      */
-    public static InstrumentManager toDNAInstrumentManager( final DefaultInstrumentManager manager )
+    public static InstrumentManager toDNAInstrumentManager( final InstrumentManager manager )
     {
         return new DNAInstrumentManager(manager);
     }
