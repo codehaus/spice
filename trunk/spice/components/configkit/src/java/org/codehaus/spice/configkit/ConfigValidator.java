@@ -5,46 +5,42 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import org.iso_relax.verifier.Schema;
 import org.iso_relax.verifier.Verifier;
 import org.iso_relax.verifier.VerifierConfigurationException;
 import org.iso_relax.verifier.VerifierFilter;
 import org.w3c.dom.Node;
 import org.xml.sax.ContentHandler;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-import org.xml.sax.EntityResolver;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.ParserConfigurationException;
 
 /**
- * The ConfigValidator is responsible for validating an XML configuration
- * source according to a specified Schema. The schema is defined when the validator
- * is created. Note that the user should get a reference to the validator via the
+ * The ConfigValidator is responsible for validating an XML configuration source
+ * according to a specified Schema. The schema is defined when the validator is
+ * created. Note that the user should get a reference to the validator via the
  * ConfigValidatorFactory.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-04-10 10:56:23 $
+ * @author Peter Donald
+ * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
  */
 public class ConfigValidator
 {
-    /**
-     * The schema that used when validating configuration.
-     */
+    /** The schema that used when validating configuration. */
     private Schema m_schema;
 
-    /**
-     * The entity resolver used by validator if any.
-     */
+    /** The entity resolver used by validator if any. */
     private EntityResolver m_resolver;
 
     /**
@@ -80,7 +76,9 @@ public class ConfigValidator
         {
             throw new NullPointerException( "inputStream" );
         }
-        validate( new InputSource( inputStream ), contentHandler, errorHandler );
+        validate( new InputSource( inputStream ),
+                  contentHandler,
+                  errorHandler );
     }
 
     /**
@@ -90,7 +88,8 @@ public class ConfigValidator
      * @param errorHandler that will be passed any errors. May be null.
      * @throws ValidateException if unable to validate the input
      */
-    public void validate( final InputStream inputStream, final ErrorHandler errorHandler )
+    public void validate( final InputStream inputStream,
+                          final ErrorHandler errorHandler )
         throws ValidateException
     {
         if( null == inputStream )
@@ -327,7 +326,9 @@ public class ConfigValidator
         ValidateException exception = null;
         try
         {
-            doValidate( input, contentHandler, new IssueCollector( issueSet ) );
+            doValidate( input,
+                        contentHandler,
+                        new IssueCollector( issueSet ) );
         }
         catch( final ValidateException ve )
         {

@@ -5,35 +5,32 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
-import junit.framework.TestCase;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
-import java.io.InputStream;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import junit.framework.TestCase;
+import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
-import org.w3c.dom.Comment;
 
 /**
  * Basic unit tests for the PropertyExpander.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class PropertyExpanderTestCase
     extends TestCase
 {
-    private final PropertyExpander m_emptyExpander = new PropertyExpander( PropertyExpander.EMPTY_ON_UNDEFINED );
+    private final PropertyExpander m_emptyExpander = new PropertyExpander(
+        PropertyExpander.EMPTY_ON_UNDEFINED );
     private final PropertyExpander m_exceptExpander = new PropertyExpander();
-    private final PropertyExpander m_leaveExpander = new PropertyExpander( PropertyExpander.LEAVE_UNDEFINED );
-
-    public PropertyExpanderTestCase( final String name )
-    {
-        super( name );
-    }
+    private final PropertyExpander m_leaveExpander = new PropertyExpander(
+        PropertyExpander.LEAVE_UNDEFINED );
 
     public void testStringExpansion()
         throws Exception
@@ -54,13 +51,16 @@ public final class PropertyExpanderTestCase
                       m_emptyExpander.expandValues( "${app.name}x", data ) );
         assertEquals( "Expand with two var",
                       "MyAppMyApp",
-                      m_emptyExpander.expandValues( "${app.name}${app.name}", data ) );
+                      m_emptyExpander.expandValues( "${app.name}${app.name}",
+                                                    data ) );
         assertEquals( "Expand with two var inner text",
                       "MyAppxMyApp",
-                      m_emptyExpander.expandValues( "${app.name}x${app.name}", data ) );
+                      m_emptyExpander.expandValues( "${app.name}x${app.name}",
+                                                    data ) );
         assertEquals( "Expand with two var inner n outer text",
                       "xMyAppxMyAppx",
-                      m_emptyExpander.expandValues( "x${app.name}x${app.name}x", data ) );
+                      m_emptyExpander.expandValues(
+                          "x${app.name}x${app.name}x", data ) );
         assertEquals( "No exist and empty policy",
                       "",
                       m_emptyExpander.expandValues( "${noexist}", data ) );
@@ -116,7 +116,9 @@ public final class PropertyExpanderTestCase
 
         assertEquals( "root/@attr", "MyApp", root.getAttribute( "attr" ) );
         assertEquals( "root/#content", "MyApp", text1.getData() );
-        assertEquals( "root/child/@attr2", "MyApp", child.getAttribute( "attr2" ) );
+        assertEquals( "root/child/@attr2",
+                      "MyApp",
+                      child.getAttribute( "attr2" ) );
         assertEquals( "root/child/#content", "MyApp", text2.getData() );
     }
 
@@ -127,15 +129,20 @@ public final class PropertyExpanderTestCase
         data.put( "app.name", "MyApp" );
 
         final Properties input = new Properties();
-        final InputStream inputStream = getClass().getResourceAsStream( "test/test.properties" );
+        final InputStream inputStream = getClass().getResourceAsStream(
+            "test/test.properties" );
         assertNotNull( "Input data", inputStream );
-        input.load(inputStream );
+        input.load( inputStream );
 
         final Properties output =
             m_emptyExpander.expandValues( input, data );
 
-        assertEquals( "${app.name}.description=Foo", "Foo", output.getProperty( "MyApp.description" ) );
-        assertEquals( "location=${app.name}", "MyApp", output.getProperty( "location" ) );
+        assertEquals( "${app.name}.description=Foo",
+                      "Foo",
+                      output.getProperty( "MyApp.description" ) );
+        assertEquals( "location=${app.name}",
+                      "MyApp",
+                      output.getProperty( "location" ) );
     }
 }
 

@@ -5,42 +5,32 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 import org.xml.sax.SAXParseException;
 
 /**
  * This class records a specific issue that occured during validation.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  * @author <a href="mailto:proyal at apache.org">Peter Royal</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-04 11:13:02 $
+ * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
  */
 public class ValidationIssue
 {
-    /**
-     * Type code for WARNING issues.
-     */
+    /** Type code for WARNING issues. */
     static final int TYPE_WARNING = 1;
 
-    /**
-     * Type code for ERROR issues.
-     */
+    /** Type code for ERROR issues. */
     static final int TYPE_ERROR = 2;
 
-    /**
-     * Type code for FATAL_ERROR issues.
-     */
+    /** Type code for FATAL_ERROR issues. */
     static final int TYPE_FATAL_ERROR = 3;
 
-    /**
-     * The type of the issue (one of TYPE_* constants).
-     */
+    /** The type of the issue (one of TYPE_* constants). */
     private final int m_type;
 
-    /**
-     * The exception that caused issue.
-     */
+    /** The exception that caused issue. */
     private final SAXParseException m_exception;
 
     /**
@@ -49,7 +39,8 @@ public class ValidationIssue
      * @param type the type of issue
      * @param exception the exception that caused issue.
      */
-    public ValidationIssue( final int type, final SAXParseException exception )
+    public ValidationIssue( final int type,
+                            final SAXParseException exception )
     {
         if( null == exception )
         {

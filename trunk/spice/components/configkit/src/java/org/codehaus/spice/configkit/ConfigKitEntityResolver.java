@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,23 +14,18 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * A Class to help to resolve Entitys for items such as DTDs or
- * Schemas.
+ * A Class to help to resolve Entitys for items such as DTDs or Schemas.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-06-27 03:45:56 $
+ * @author Peter Donald
+ * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
  */
 class ConfigKitEntityResolver
     implements EntityResolver
 {
-    /**
-     * The list of DTDs that can be resolved by this class.
-     */
+    /** The list of DTDs that can be resolved by this class. */
     private final EntityInfo[] m_infos;
 
-    /**
-     * The ClassLoader to use when loading resources for DTDs.
-     */
+    /** The ClassLoader to use when loading resources for DTDs. */
     private final ClassLoader m_classLoader;
 
     /**
@@ -49,10 +44,10 @@ class ConfigKitEntityResolver
     }
 
     /**
-     * Resolve an entity in the XML file.
-     * Called by parser to resolve DTDs.
+     * Resolve an entity in the XML file. Called by parser to resolve DTDs.
      */
-    public InputSource resolveEntity( final String publicId, final String systemId )
+    public InputSource resolveEntity( final String publicId,
+                                      final String systemId )
         throws IOException, SAXException
     {
         for( int i = 0; i < m_infos.length; i++ )
@@ -68,9 +63,13 @@ class ConfigKitEntityResolver
                 if( null == inputStream )
                 {
                     final String message =
-                        "Unable to locate resource " + resource +
-                        " for entity with publicId=" + publicId +
-                        " and systemId=" + systemId + ". " +
+                        "Unable to locate resource " +
+                        resource +
+                        " for entity with publicId=" +
+                        publicId +
+                        " and systemId=" +
+                        systemId +
+                        ". " +
                         "Looking in classloader " + classLoader + ".";
                     throw new IOException( message );
                 }
@@ -97,10 +96,9 @@ class ConfigKitEntityResolver
     }
 
     /**
-     * Return CLassLoader to load resource from.
-     * If a ClassLoader is specified in the constructor use that,
-     * else use ContextClassLoader unless that is null in which case
-     * use the current classes ClassLoader.
+     * Return CLassLoader to load resource from. If a ClassLoader is specified
+     * in the constructor use that, else use ContextClassLoader unless that is
+     * null in which case use the current classes ClassLoader.
      */
     private ClassLoader getClassLoader()
     {

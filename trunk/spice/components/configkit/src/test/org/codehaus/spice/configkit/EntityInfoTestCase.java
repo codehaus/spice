@@ -5,26 +5,23 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 import junit.framework.TestCase;
 
 /**
  * Basic unit tests for the info objects.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @author Peter Donald
  */
 public final class EntityInfoTestCase
     extends TestCase
 {
-    public EntityInfoTestCase( final String name )
-    {
-        super( name );
-    }
-
     public void testFullySpecified()
     {
-        doInfoTest( TestData.PUBLIC_ID, TestData.SYSTEM_ID, TestData.RESOURCE );
+        doInfoTest( TestData.PUBLIC_ID,
+                    TestData.SYSTEM_ID,
+                    TestData.RESOURCE );
     }
 
     public void testNullSystemId()
@@ -65,7 +62,9 @@ public final class EntityInfoTestCase
         fail( "Expected Null pointer due to null publicId/systemId" );
     }
 
-    private void doInfoTest( final String publicId, final String systemId, final String resource )
+    private void doInfoTest( final String publicId,
+                             final String systemId,
+                             final String resource )
     {
         final EntityInfo info = new EntityInfo( publicId, systemId, resource );
         assertEquals( "PUBLIC_ID", publicId, info.getPublicId() );

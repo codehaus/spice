@@ -5,40 +5,36 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 import java.io.InputStream;
 import java.net.URL;
 import org.xml.sax.InputSource;
 
 /**
- * Utility class to get ConfigValidator objects for components.
- * See {@link #getComponentConfigValidator} for a detailed
- * explanation about how ConfigValidator objects are loaded.
+ * Utility class to get ConfigValidator objects for components. See {@link
+ * #getComponentConfigValidator} for a detailed explanation about how
+ * ConfigValidator objects are loaded.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-06 12:24:34 $
+ * @author Peter Donald
+ * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
  */
 public class ComponentConfigUtil
 {
-    /**
-     * Postfix added to classname of component to look for schema.
-     */
+    /** Postfix added to classname of component to look for schema. */
     private static final String DEFAULT_LOCATION_POSTFIX = "-schema.xml";
 
     /**
-     * Return the ConfigValidator for specified component.
-     * The component is specified by classname and classloader.
-     * The ConfigValidator is loaded from specified location
-     * and has specified type. If the type is null then ConfigKit
-     * will attempt to guess the type based on schema location.
-     * The location parameter can be relative to the component (ie
-     * FooSchema.xml for class com.biz.Bar will load resource
-     * "/com/biz/FooSchema.xml" from classloader), absolute resource
-     * location in classloader (must start with "/") or null. If the
-     * location is null then it will assume resource name is the same
-     * name as class with the postfix "-schema.xml" added to classname.
-     * If no such resource is located in the ClassLoader then null is
+     * Return the ConfigValidator for specified component. The component is
+     * specified by classname and classloader. The ConfigValidator is loaded
+     * from specified location and has specified type. If the type is null then
+     * ConfigKit will attempt to guess the type based on schema location. The
+     * location parameter can be relative to the component (ie FooSchema.xml for
+     * class com.biz.Bar will load resource "/com/biz/FooSchema.xml" from
+     * classloader), absolute resource location in classloader (must start with
+     * "/") or null. If the location is null then it will assume resource name
+     * is the same name as class with the postfix "-schema.xml" added to
+     * classname. If no such resource is located in the ClassLoader then null is
      * returned.
      *
      * @param classname the classname of component
@@ -48,10 +44,11 @@ public class ComponentConfigUtil
      * @return the ConfigValidator
      * @throws java.lang.Exception if error creating validator
      */
-    public static ConfigValidator getComponentConfigValidator( final String classname,
-                                                               final ClassLoader classLoader,
-                                                               final String location,
-                                                               final String type )
+    public static ConfigValidator getComponentConfigValidator(
+        final String classname,
+        final ClassLoader classLoader,
+        final String location,
+        final String type )
         throws Exception
     {
         if( null == classname )
@@ -76,12 +73,11 @@ public class ComponentConfigUtil
     }
 
     /**
-     * Determine the location of configuration schema for class.
-     * If the specified location is not null then that will
-     * be returned otherwise the location is the resource name
-     * of the with {@link #DEFAULT_LOCATION_POSTFIX} appended
-     * rather than ".class". ie If the classname was "com.biz.Foo"
-     * then the schema location would be at "/com/biz/Foo-schema.xml".
+     * Determine the location of configuration schema for class. If the
+     * specified location is not null then that will be returned otherwise the
+     * location is the resource name of the with {@link #DEFAULT_LOCATION_POSTFIX}
+     * appended rather than ".class". ie If the classname was "com.biz.Foo" then
+     * the schema location would be at "/com/biz/Foo-schema.xml".
      *
      * @param classname the name of the class
      * @param location the specified location of schema
@@ -92,7 +88,8 @@ public class ComponentConfigUtil
     {
         if( null == location )
         {
-            return "/" + classname.replace( '.', '/' ) +
+            return "/" +
+                classname.replace( '.', '/' ) +
                 DEFAULT_LOCATION_POSTFIX;
         }
         else if( location.startsWith( "/" ) )
@@ -125,7 +122,8 @@ public class ComponentConfigUtil
     static InputSource getSchemaInputSource( final String resource,
                                              final ClassLoader classLoader )
     {
-        final InputStream inputStream = classLoader.getResourceAsStream( resource );
+        final InputStream inputStream = classLoader.getResourceAsStream(
+            resource );
         if( null == inputStream )
         {
             return null;

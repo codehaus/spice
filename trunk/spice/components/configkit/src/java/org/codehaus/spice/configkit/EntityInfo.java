@@ -5,29 +5,23 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 /**
  * Holds information about a given Entity.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-27 03:45:56 $
+ * @author Peter Donald
+ * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
  */
 class EntityInfo
 {
-    /**
-     * The public identifier. Null if unknown.
-     */
+    /** The public identifier. Null if unknown. */
     private final String m_publicId;
 
-    /**
-     * The system identifier.  Null if unknown.
-     */
+    /** The system identifier.  Null if unknown. */
     private final String m_systemId;
 
-    /**
-     * The resource name, if a copy of the document is available.
-     */
+    /** The resource name, if a copy of the document is available. */
     private final String m_resource;
 
     EntityInfo( final String publicId,

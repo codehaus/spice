@@ -5,14 +5,13 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.configkit;
+package org.codehaus.spice.configkit;
 
 /**
- * Exception thrown when there is an error validating
- * configuration.
+ * Exception thrown when there is an error validating configuration.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-04 11:13:02 $
+ * @author Peter Donald
+ * @version $Revision: 1.1 $ $Date: 2003-12-03 03:19:28 $
  */
 public class ValidateException
     extends Exception
