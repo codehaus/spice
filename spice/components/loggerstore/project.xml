@@ -36,6 +36,9 @@
             <groupId>excalibur</groupId>
             <artifactId>excalibur-logger</artifactId>
             <version>20030527</version>
+            <properties>
+                <category>runtime</category>
+            </properties>
         </dependency>
         <dependency>
             <id>log4j</id>
