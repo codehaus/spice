@@ -51,6 +51,8 @@ package org.jcomponent.jervlet.blocks.jetty;
 
 import org.jcomponent.jervlet.*;
 import org.mortbay.jetty.Server;
+import org.mortbay.util.Log;
+import org.mortbay.util.LogSink;
 
 import java.io.File;
 import java.net.UnknownHostException;
@@ -84,6 +86,7 @@ public class BeanJettyJervlet extends AbstractJettyJervlet
 
     private HashMap m_webcontexts = new HashMap();
     private RequestLogger requestLogger;
+    private LogSink logSink;
 
     public void setJervletConfig(JervletConfig config) {
         super.config = config;
@@ -101,6 +104,11 @@ public class BeanJettyJervlet extends AbstractJettyJervlet
         this.monitor = jervletMonitor;
     }
 
+    public void setLogSink(LogSink logSink) {
+        this.logSink = logSink;
+    }
+
+
     public void initialize() throws UnknownHostException {
 
         this.jervletContext = new SimpleJervletContext();
@@ -108,10 +116,8 @@ public class BeanJettyJervlet extends AbstractJettyJervlet
         m_server = createHttpServer();
         m_server.addListener( createSocketListener() );
 
-        //TODO
-        //PhoenixLogSink phoenixLogSink = new PhoenixLogSink();
-        //phoenixLogSink.enableLogging( getLogger() );
-        //Log.instance().add( phoenixLogSink );
+        // unsatisfactory as is static
+        Log.instance().add( logSink );
 
         m_server.setRequestLog( new JettyRequestLogAdapter( requestLogger ) );
     }

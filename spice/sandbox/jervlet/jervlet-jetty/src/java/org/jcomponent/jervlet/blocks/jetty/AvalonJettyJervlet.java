@@ -155,9 +155,11 @@ public class AvalonJettyJervlet extends AbstractJettyJervlet
         m_server = createHttpServer();
         m_server.addListener( createSocketListener() );
 
-        PhoenixLogSink phoenixLogSink = new PhoenixLogSink();
-        phoenixLogSink.enableLogging( getLogger() );
-        Log.instance().add( phoenixLogSink );
+        AvalonLogSink logSink = new AvalonLogSink();
+        logSink.enableLogging( getLogger() );
+
+        // unsatisfactory as is static
+        Log.instance().add( logSink );
 
         RequestLogger logger = (RequestLogger)
             m_jervletContext.getServiceManager().lookup( RequestLogger.ROLE );

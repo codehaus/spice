@@ -25,10 +25,6 @@ public class DefaultJervletMonitor implements JervletMonitor {
     }
 
     public void deployingContext(Class reportingClass, String context, String webappUrl, String hostName) {
-//        if( getLogger().isInfoEnabled() )
-//            getLogger().info( "deploying context=" + context + ", webapp="
-//                              + holder.getWebappUrl() + " to host="
-//                              + ( m_hostName == null ? "(All Hosts)" : m_hostName ) );
 
     }
 

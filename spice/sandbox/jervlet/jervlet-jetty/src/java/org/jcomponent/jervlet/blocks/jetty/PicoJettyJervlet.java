@@ -51,6 +51,8 @@ package org.jcomponent.jervlet.blocks.jetty;
 
 import org.jcomponent.jervlet.*;
 import org.mortbay.jetty.Server;
+import org.mortbay.util.LogSink;
+import org.mortbay.util.Log;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.lifecycle.Disposable;
 import org.picocontainer.lifecycle.Startable;
@@ -81,6 +83,7 @@ public class PicoJettyJervlet extends AbstractJettyJervlet
 {
     private final JervletMonitor monitor;
     private final File appRootDir;
+    private final LogSink logSink;
     private final JervletContext jervletContext;
 
     private Server m_server;
@@ -88,19 +91,19 @@ public class PicoJettyJervlet extends AbstractJettyJervlet
     private HashMap m_webcontexts = new HashMap();
 
     public PicoJettyJervlet(JervletConfig config, JervletMonitor monitor, MutablePicoContainer parentContainer,
-                            File appRootDir, RequestLogger requestLogger) throws UnknownHostException {
+                            File appRootDir, RequestLogger requestLogger,
+                            LogSink logSink) throws UnknownHostException {
         super.config = config;
         this.monitor = monitor;
         this.appRootDir = appRootDir;
+        this.logSink = logSink;
         this.jervletContext = new PicoJervletContext(parentContainer);
 
         m_server = createHttpServer();
         m_server.addListener( createSocketListener() );
 
-        //TODO
-        //PhoenixLogSink phoenixLogSink = new PhoenixLogSink();
-        //phoenixLogSink.enableLogging( getLogger() );
-        //Log.instance().add( phoenixLogSink );
+        // unsatisfactory as is static        
+        Log.instance().add( logSink );
 
         m_server.setRequestLog( new JettyRequestLogAdapter( requestLogger ) );
     }
