@@ -131,41 +131,7 @@
     </dependencies>
 
     <build>
-
-        <nagEmailAddress>
-            me@mikehogan.net
-        </nagEmailAddress>
-
+        <nagEmailAddress>me@mikehogan.net</nagEmailAddress>
         <sourceDirectory>src/java</sourceDirectory>
-
-        <unitTestSourceDirectory>tests</unitTestSourceDirectory>
-        <integrationUnitTestSourceDirectory/>
-
-        <aspectSourceDirectory/>
-
-        <!-- Unit test cases -->
-        <unitTest>
-            <includes>
-                <include>**/*TestCase.java</include>
-            </includes>
-        </unitTest>
-
-        <!-- J A R  R E S O U R C E S -->
-        <!-- Resources that are packaged up inside the JAR file -->
-        <resources>
-            <resource>
-                <directory>${basedir}/conf</directory>
-                <includes>
-                    <include>*.properties</include>
-                    <include>*.xml</include>
-                </includes>
-            </resource>
-        </resources>
-
-        <!-- Integration unit test cases -->
-        <integrationUnitTest/>
-
-        <jars>
-        </jars>
     </build>
 </project>
