@@ -322,6 +322,7 @@ public class Connector
             {
                _lastConnectionTime = now;
                getConnection().doConnect();
+               commOccured( null );
                _connectionAttempts = 0;
                _connectionError = null;
                setConnected( true );
