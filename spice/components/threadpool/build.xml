@@ -24,6 +24,15 @@
             </src>
         </javac>
 
+        <copy todir="${target.classes}">
+            <fileset dir="src/test">
+                <exclude name="**/*.java"/>
+            </fileset>
+            <fileset dir="src/java">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+
         <jar jarfile="target/${final.name}.jar"
             excludes="**/package.html"
             basedir="${target.classes}"/>
@@ -35,9 +44,11 @@
 
     <target name="test" description="o Run the test cases" depends="build">
         <mkdir dir="${target.reports}"/>
-	<junit dir="./" printSummary="yes"
-               haltonfailure="true" fork="true" haltonerror="true">
-            <sysproperty key="basedir" value="src/test"/>
+        <property name="target.basedir" file="target/classes"/>
+        <echo message="target.basedir=${target.basedir}"/>
+        <junit dir="./" printSummary="yes"
+            haltonfailure="true" fork="true" haltonerror="true">
+            <sysproperty key="basedir" value="${target.basedir}"/>
             <formatter usefile="true" type="plain"/>
             <formatter usefile="false" type="plain"/>
             <classpath>
