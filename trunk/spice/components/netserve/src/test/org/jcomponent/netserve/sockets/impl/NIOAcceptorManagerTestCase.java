@@ -9,15 +9,23 @@ package org.jcomponent.netserve.sockets.impl;
 
 import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 import java.nio.channels.ServerSocketChannel;
+import java.net.ServerSocket;
+import java.net.InetSocketAddress;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-09 07:37:19 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-09 09:48:19 $
  */
 public class NIOAcceptorManagerTestCase
     extends AbstractAcceptorManagerTestCase
 {
+    private static int c_index;
+
     public void testHandleChannelWithNonExistentEntry()
         throws Exception
     {
@@ -78,6 +86,107 @@ public class NIOAcceptorManagerTestCase
         fail( "Expected to fail due to duplicate connect" );
     }
 
+    public void testAcceptConnections()
+        throws Exception
+    {
+        final SocketAcceptorManager manager = createAcceptorManager();
+        final String name = "name";
+        assertEquals( "isConnected pre connect", false, manager.isConnected( name ) );
+        final ServerSocketChannel channel = ServerSocketChannel.open();
+        try
+        {
+            final ServerSocket socket = channel.socket();
+            socket.setReuseAddress( true );
+            final InetAddress localAddress = InetAddress.getLocalHost();
+            final int port = nextPort();
+            final InetSocketAddress address = new InetSocketAddress( localAddress, port );
+            socket.bind( address );
+            manager.connect( name,
+                             socket,
+                             new ClosingSocketConnectionHandler() );
+            assertEquals( "isConnected pre disconnect", true, manager.isConnected( name ) );
+
+            final Socket clientSocket = new Socket( localAddress, port );
+            final InputStream inputStream = clientSocket.getInputStream();
+            final StringBuffer sb = new StringBuffer();
+            while( sb.length() < ClosingSocketConnectionHandler.MESSAGE.length() )
+            {
+                final int ch = inputStream.read();
+                if( -1 != ch )
+                {
+                    sb.append( (char)ch );
+                }
+            }
+            clientSocket.close();
+            final String message = sb.toString();
+            assertEquals( "message", ClosingSocketConnectionHandler.MESSAGE, message );
+        }
+        finally
+        {
+            shutdownAcceptorManager( manager );
+            channel.close();
+            assertEquals( "isConnected post disconnect", false, manager.isConnected( name ) );
+        }
+    }
+
+    public void testExceptingHandler()
+        throws Exception
+    {
+        final NIOAcceptorManager manager = new NIOAcceptorManager();
+        manager.startupSelector();
+        final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
+        manager.setMonitor( monitor );
+
+        final String name = "name";
+        assertEquals( "isConnected pre connect", false, manager.isConnected( name ) );
+        final ServerSocketChannel channel = ServerSocketChannel.open();
+        try
+        {
+            final ServerSocket socket = channel.socket();
+            socket.setReuseAddress( true );
+            final InetAddress localAddress = InetAddress.getLocalHost();
+            final int port = nextPort();
+            final InetSocketAddress address =
+                new InetSocketAddress( localAddress, port );
+            socket.bind( address );
+            manager.connect( name,
+                             socket,
+                             new ExceptingSocketConnectionHandler() );
+            assertEquals( "isConnected pre disconnect",
+                          true,
+                          manager.isConnected( name ) );
+
+            final Socket clientSocket = new Socket( localAddress, port );
+            final OutputStream outputStream = clientSocket.getOutputStream();
+            outputStream.write( 'a' );
+            outputStream.flush();
+            clientSocket.close();
+
+            try
+            {
+                Thread.sleep( 50 );
+            }
+            catch( InterruptedException e )
+            {
+            }
+
+            assertEquals( "error",
+                          ExceptingSocketConnectionHandler.EXCEPTION,
+                          monitor.getErrorAcceptingConnection() );
+        }
+        finally
+        {
+            shutdownAcceptorManager( manager );
+            channel.close();
+            assertEquals( "isConnected post disconnect", false, manager.isConnected( name ) );
+        }
+    }
+
+    private int nextPort()
+    {
+        return 1400 + c_index++;
+    }
+
     protected SocketAcceptorManager createAcceptorManager()
         throws Exception
     {
@@ -92,3 +201,4 @@ public class NIOAcceptorManagerTestCase
         ( (NIOAcceptorManager)manager ).shutdownSelector();
     }
 }
+
