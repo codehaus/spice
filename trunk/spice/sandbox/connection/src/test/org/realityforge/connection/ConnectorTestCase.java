@@ -1,11 +1,21 @@
 package org.realityforge.connection;
 
+import com.mockobjects.dynamic.Mock;
 import junit.framework.TestCase;
 import org.realityforge.connection.policys.LimitingReconnectPolicy;
 
 public class ConnectorTestCase
    extends TestCase
 {
+   public void testSetPolicy()
+      throws Exception
+   {
+      final Connector connector = new Connector();
+      final LimitingReconnectPolicy policy = new LimitingReconnectPolicy( 1, 1 );
+      connector.setPolicy( policy );
+      assertEquals( "policy", policy, connector.getPolicy() );
+   }
+
    public void testSetNullPolicy()
       throws Exception
    {
@@ -22,13 +32,13 @@ public class ConnectorTestCase
       fail( "Expected to fail due to NPE" );
    }
 
-   public void testSetPolicy()
+   public void testSetMonitor()
       throws Exception
    {
       final Connector connector = new Connector();
-      final LimitingReconnectPolicy policy = new LimitingReconnectPolicy( 1, 1 );
-      connector.setPolicy( policy );
-      assertEquals( "policy", policy, connector.getPolicy() );
+      final NullMonitor monitor = new NullMonitor();
+      connector.setMonitor( monitor );
+      assertEquals( "monitor", monitor, connector.getMonitor() );
    }
 
    public void testSetNullMonitor()
@@ -47,13 +57,15 @@ public class ConnectorTestCase
       fail( "Expected to fail due to NPE" );
    }
 
-   public void testSetMonitor()
+   public void testSetConnection()
       throws Exception
    {
+      final Mock mock = new Mock( ConnectorConnection.class );
+      final ConnectorConnection connection = (ConnectorConnection) mock.proxy();
+
       final Connector connector = new Connector();
-      final NullMonitor monitor = new NullMonitor();
-      connector.setMonitor( monitor );
-      assertEquals( "monitor", monitor, connector.getMonitor() );
+      connector.setConnection( connection );
+      assertEquals( "connection", connection, connector.getConnection() );
    }
 
    public void testSetNullConnection()
