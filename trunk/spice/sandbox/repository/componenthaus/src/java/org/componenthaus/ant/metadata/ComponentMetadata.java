@@ -2,6 +2,7 @@ package org.componenthaus.ant.metadata;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.xml.dom.DomXMLReader;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -10,16 +11,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Collections;
+import java.util.Map;
 
 public class ComponentMetadata {
-    //TODO For now I am going to deal with only one interface, until I figure out what to do with xstream
-    //private InterfaceMetadata [] interfaces; //TODO Now a map because XStream cannot yet deal with Maps
-    private InterfaceMetadata interfaceMetadata = null;
+    private Map interfaces = null;
 
     public ComponentMetadata() {
-        //this.interfaces = new InterfaceMetadata[0];
+        this.interfaces = new HashMap();
     }
 
     public static ComponentMetadata fromXml(File metadataFile) throws IOException, ParserConfigurationException, SAXException {
@@ -39,36 +39,32 @@ public class ComponentMetadata {
     }
 
     public InterfaceMetadata getInterfaceMetadataForName(final String name) {
-        if ( interfaceMetadata.getFullyQualifiedName().equals(name)) {
-            return interfaceMetadata;
-        }
-        return null;
-/*
-        InterfaceMetadata result = null;
-        int index = 0;
-        while ( result == null && index < interfaces.length) {
-            final InterfaceMetadata interfaceMetadata = interfaces[index++];
-            if ( interfaceMetadata.getFullyQualifiedName().equals(name)) {
-                result = interfaceMetadata;
-            }
-        }
-        return result;
-*/
+        return (InterfaceMetadata) interfaces.get(name);
     }
 
     public int numInterfaces() {
-        return interfaceMetadata != null ? 1 : 0;
+        return interfaces.size();
     }
 
     public void addInterface(InterfaceMetadata interfaceMetadata) {
-        this.interfaceMetadata = interfaceMetadata;
-        /*List temp = new ArrayList(Arrays.asList(interfaces));
-        temp.add(interfaceMetadata);
-        interfaces = new InterfaceMetadata[temp.size()];
-        interfaces = (InterfaceMetadata []) temp.toArray(interfaces);*/
+        interfaces.put(interfaceMetadata.getFullyQualifiedName(), interfaceMetadata);
     }
 
     public Iterator getInterfaces() {
-        return Collections.singletonList(interfaceMetadata).iterator();
+        return interfaces.values().iterator();
+    }
+
+    public String toXml() {
+        return ((new XStream()).toXML(this));
+    }
+
+    public boolean equals(Object o) {
+        if (!(o instanceof ComponentMetadata)) {
+            return false;
+        }
+        ComponentMetadata rhs = (ComponentMetadata) o;
+        return new EqualsBuilder()
+                .append(interfaces, rhs.interfaces)
+                .isEquals();
     }
 }

@@ -92,6 +92,7 @@ public class PicoApplicationContext extends AbstractPicoApplicationContext {
         pico.registerComponentImplementation(DefaultSubmissionManager.class);
         pico.registerComponentImplementation(DefaultSubmissionManager.NullSubmissionMonitor.class);
         pico.registerComponentImplementation(CommandRegistryImpl.class);
+        pico.registerComponentImplementation(LuceneSearchService.DefaultLuceneObjectFactory.class);
 
         addSpringStuff();
         //This must be done last, because it reads things from Pico
