@@ -5,16 +5,16 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.threadpool.impl;
+package org.jcomponent.threadpool.impl;
 
 import junit.framework.TestCase;
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.realityforge.threadpool.Executable;
-import org.realityforge.threadpool.ThreadPool;
-import org.realityforge.threadpool.impl.CommonsThreadPool;
-import org.realityforge.threadpool.impl.ThreadPoolEntry;
+import org.jcomponent.threadpool.Executable;
+import org.jcomponent.threadpool.ThreadPool;
+import org.jcomponent.threadpool.impl.CommonsThreadPool;
+import org.jcomponent.threadpool.impl.ThreadPoolEntry;
 import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ConfigValidator;
 import org.realityforge.configkit.ValidateException;
@@ -25,7 +25,7 @@ import java.io.InputStream;
  *  An basic test case for the ThreadPools.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:57 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 18:03:03 $
  */
 public class ThreadPoolTestCase
     extends TestCase

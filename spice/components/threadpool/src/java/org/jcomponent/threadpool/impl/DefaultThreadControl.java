@@ -5,9 +5,9 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.threadpool.impl;
+package org.jcomponent.threadpool.impl;
 
-import org.realityforge.threadpool.ThreadControl;
+import org.jcomponent.threadpool.ThreadControl;
 
 /**
  * Default implementation of ThreadControl interface.
@@ -15,7 +15,7 @@ import org.realityforge.threadpool.ThreadControl;
  * clients of thread pool.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-27 03:45:57 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 18:03:03 $
  */
 final class DefaultThreadControl
     implements ThreadControl

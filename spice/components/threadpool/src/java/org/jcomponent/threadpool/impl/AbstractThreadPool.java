@@ -5,11 +5,11 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.threadpool.impl;
+package org.jcomponent.threadpool.impl;
 
-import org.realityforge.threadpool.ThreadPool;
-import org.realityforge.threadpool.ThreadControl;
-import org.realityforge.threadpool.Executable;
+import org.jcomponent.threadpool.ThreadPool;
+import org.jcomponent.threadpool.ThreadControl;
+import org.jcomponent.threadpool.Executable;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Collections;
@@ -21,7 +21,7 @@ import java.util.Iterator;
  * retrieve and return Threads to the pool.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:57 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 18:03:03 $
  * @phoenix.service type="ThreadPool"
  */
 public abstract class AbstractThreadPool

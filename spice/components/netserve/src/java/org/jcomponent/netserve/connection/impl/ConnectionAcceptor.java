@@ -16,13 +16,13 @@ import java.util.Vector;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.jcomponent.netserve.connection.ConnectionHandler;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
-import org.realityforge.threadpool.ThreadPool;
+import org.jcomponent.threadpool.ThreadPool;
 
 /**
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
+ * @version $Revision: 1.2 $ $Date: 2003-07-13 18:03:53 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled

@@ -9,16 +9,16 @@
  * developed as part of the Apache Avalon project under
  * the Apache 1.1 License.
  */
-package org.realityforge.threadpool.impl;
+package org.jcomponent.threadpool.impl;
 
-import org.realityforge.threadpool.Executable;
-import org.realityforge.threadpool.ThreadControl;
+import org.jcomponent.threadpool.Executable;
+import org.jcomponent.threadpool.ThreadControl;
 
 /**
  * This class extends the Thread class to add recyclable functionalities.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:57 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 18:03:03 $
  */
 public class WorkerThread
     extends Thread

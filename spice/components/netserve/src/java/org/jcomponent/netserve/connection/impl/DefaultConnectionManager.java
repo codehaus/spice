@@ -20,7 +20,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 import org.jcomponent.netserve.connection.ConnectionManager;
-import org.realityforge.threadpool.ThreadPool;
+import org.jcomponent.threadpool.ThreadPool;
 
 /**
  * This component is used to manage serverside network acceptors.
@@ -46,7 +46,7 @@ import org.realityforge.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
+ * @version $Revision: 1.2 $ $Date: 2003-07-13 18:03:53 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */

@@ -5,14 +5,14 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.threadpool;
+package org.jcomponent.threadpool;
 
 /**
  * This interface defines the method through which Threads can
  * be controlled.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-27 03:45:57 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 18:03:03 $
  */
 public interface ThreadControl
 {
