@@ -19,7 +19,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * An event source that generates events based from SelectableChannels.
  *
  * @author Peter Donald
- * @version $Revision: 1.9 $ $Date: 2004-05-17 05:41:50 $
+ * @version $Revision: 1.10 $ $Date: 2004-05-17 06:17:27 $
  */
 public class SelectableChannelEventSource
     extends AbstractEventSource
@@ -47,6 +47,16 @@ public class SelectableChannelEventSource
         open();
     }
 
+    /**
+     * Specify the timeout to use.
+     * Note that this should not be 0 as it can cause a deadlock. If
+     * no events wake up the polling thread and another threads wishes
+     * to request a channel close it is possible that requester will
+     * not be able to aquire lock. In which case it is recomended that
+     * a timeout of 200 or similar is utilized.
+     *
+     * @param selectTimeout the timeout
+     */
     public void setSelectTimeout( final long selectTimeout )
     {
         _selectTimeout = selectTimeout;
