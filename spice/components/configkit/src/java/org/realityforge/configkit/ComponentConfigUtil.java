@@ -20,7 +20,7 @@ import org.xml.sax.InputSource;
  * explanation about how ConfigValidator objects are loaded.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-06 04:35:38 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-06 04:46:58 $
  */
 public class ComponentConfigUtil
 {
@@ -118,8 +118,8 @@ public class ComponentConfigUtil
     * @param classLoader the ClassLoader to load schema from
     * @return the InputSource for schema
     */
-   private static InputSource getSchemaInputSource( final String resource,
-                                                    final ClassLoader classLoader )
+   static InputSource getSchemaInputSource( final String resource,
+                                            final ClassLoader classLoader )
    {
       final URL url = classLoader.getResource( resource );
       if ( null == url )
