@@ -14,7 +14,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-16 06:38:57 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-16 06:53:13 $
  */
 class MockMonitor
     extends DefaultCompilerMonitor
@@ -27,6 +27,13 @@ class MockMonitor
         System.out.println( "errorWritingDescriptor(" + descriptor.getName() + "," + e + ")" );
         m_error = true;
         super.errorWritingDescriptor( descriptor, e );
+    }
+
+    public void errorGeneratingDescriptor( String classname, Throwable t )
+    {
+        System.out.println( "errorGeneratingDescriptor(" + classname + "," + t + ")" );
+        m_error = true;
+        super.errorGeneratingDescriptor( classname, t );
     }
 
     public void missingSourceFile( File file )

@@ -16,7 +16,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * can monitor events that occur during compilation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-16 06:38:57 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-16 06:53:12 $
  */
 public interface CompilerMonitor
 {
@@ -52,4 +52,12 @@ public interface CompilerMonitor
      * @param classes the list of JavaClass objects
      */
     void postFilterJavaClassList( Collection classes );
+
+    /**
+     * Error generating descriptor for specified class.
+     *
+     * @param classname the name of the class
+     * @param t the error
+     */
+    void errorGeneratingDescriptor( String classname, Throwable t );
 }

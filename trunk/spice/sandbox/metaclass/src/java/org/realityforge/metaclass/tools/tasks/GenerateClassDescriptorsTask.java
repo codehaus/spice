@@ -32,7 +32,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
  * A Task to generate Attributes descriptors from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-10-16 06:38:57 $
+ * @version $Revision: 1.12 $ $Date: 2003-10-16 06:53:12 $
  */
 public class GenerateClassDescriptorsTask
     extends Task
@@ -380,6 +380,16 @@ public class GenerateClassDescriptorsTask
         log( "MetaClass Attributes Compiler building " + classes.size() +
              " " + getOutputDescription() + " descriptors.",
              Project.MSG_INFO );
+    }
+
+    /**
+     * @see CompilerMonitor#errorGeneratingDescriptor
+     */
+    public void errorGeneratingDescriptor( final String classname,
+                                           final Throwable t )
+    {
+        log( "Error Generating decriptor for  " + classname +
+             ". Reason: " + t, Project.MSG_ERR );
     }
 
     /**

@@ -33,7 +33,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  * Java Source files with qdox.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-10-16 06:38:57 $
+ * @version $Revision: 1.9 $ $Date: 2003-10-16 06:53:12 $
  */
 public class ClassDescriptorCompiler
 {
@@ -225,9 +225,17 @@ public class ClassDescriptorCompiler
         while( iterator.hasNext() )
         {
             final JavaClass javaClass = (JavaClass)iterator.next();
-            final ClassDescriptor descriptor =
-                c_infoBuilder.buildClassDescriptor( javaClass, interceptors );
-            descriptors.add( descriptor );
+            try
+            {
+                final ClassDescriptor descriptor =
+                    c_infoBuilder.buildClassDescriptor( javaClass, interceptors );
+                descriptors.add( descriptor );
+            }
+            catch( final Throwable t )
+            {
+                final String classname = javaClass.getFullyQualifiedName();
+                m_monitor.errorGeneratingDescriptor( classname, t );
+            }
         }
         return descriptors;
     }

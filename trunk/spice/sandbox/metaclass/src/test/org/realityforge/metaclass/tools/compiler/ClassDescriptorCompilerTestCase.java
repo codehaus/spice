@@ -27,7 +27,7 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-04 09:55:06 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-16 06:53:13 $
  */
 public class ClassDescriptorCompilerTestCase
     extends TestCase
@@ -415,6 +415,47 @@ public class ClassDescriptorCompilerTestCase
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
         assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+    }
+
+    public void testSingleSourceFileWithExceptingInterceptor()
+        throws Exception
+    {
+        final String source =
+            "package com.biz;\n" +
+            "\n" +
+            "/**\n" +
+            " * @anAttribute\n" +
+            " */\n" +
+            "public class MyClass\n" +
+            "{\n" +
+            "}\n";
+
+        final File sourceDirectory = generateDirectory();
+        final File destDirectory = generateDirectory();
+
+        final String sourceFilename =
+            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+        final File sourceFile = new File( sourceFilename );
+        sourceFile.getParentFile().mkdirs();
+        final FileOutputStream output = new FileOutputStream( sourceFile );
+        output.write( source.getBytes() );
+        output.close();
+
+        final ClassDescriptorCompiler compiler = new ClassDescriptorCompiler();
+        compiler.setDestDir( destDirectory );
+        compiler.addSourceFile( sourceFile );
+        final MockMonitor monitor = new MockMonitor();
+        compiler.setMonitor( monitor );
+        compiler.addInterceptor( new ExceptingInterceptor() );
+        compiler.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
+        compiler.setMetaClassIO( new MetaClassIOBinary() );
+        compiler.execute();
+        final String destFilename =
+            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+        final File destFile = new File( destFilename );
+
+        assertTrue( "destFile.exists()", !destFile.exists() );
+        assertTrue( "monitor.isError()", monitor.isError() );
     }
 
     public void testSingleSourceFileWithDeletingInterceptor()
