@@ -10,12 +10,21 @@ package org.realityforge.metaclass.jmx;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-14 00:58:42 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-14 01:08:02 $
  */
 public class TestBean
 {
     private int m_value;
     private int m_otherValue;
+
+    public TestBean()
+    {
+    }
+
+    public TestBean( int value )
+    {
+        m_value = value;
+    }
 
     public int getValue()
     {
