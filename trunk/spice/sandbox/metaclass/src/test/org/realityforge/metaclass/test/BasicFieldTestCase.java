@@ -16,6 +16,7 @@ public class BasicFieldTestCase
     private FieldDescriptor[] _fieldDescriptors;
 
     protected void setUp()
+        throws Exception
     {
         super.setUp();
         try
