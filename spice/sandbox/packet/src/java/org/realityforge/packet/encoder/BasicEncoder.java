@@ -14,7 +14,7 @@ import java.nio.ByteBuffer;
  * A basic encoder that writes packet using simple mechanisms.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-11-11 11:50:53 $
+ * @version $Revision: 1.6 $ $Date: 2003-11-11 12:12:43 $
  */
 public class BasicEncoder
     implements Encoder
@@ -48,25 +48,29 @@ public class BasicEncoder
      */
     public Packet decode( final ByteBuffer input )
     {
-        final int index = input.position();
-        input.position( 0 );
-        if( input.remaining() < SIZEOF_HEADER )
+        final int size = input.limit();
+        if( size < SIZEOF_HEADER )
         {
-            input.position( index );
             return null;
         }
+        final int index = input.position();
+        input.position( 0 );
         final short messageSize = input.getShort();
         final short sequence = input.getShort();
         final int available = input.remaining();
         if( available >= messageSize )
         {
             final ByteBuffer byteBuffer = ByteBuffer.allocate( messageSize );
+            byteBuffer.limit( messageSize );
+            byteBuffer.position( 0 );
             System.arraycopy( input.array(), SIZEOF_HEADER,
                               byteBuffer.array(), 0,
                               messageSize );
             final int end = messageSize + SIZEOF_HEADER;
             input.position( end );
             input.compact();
+            input.position( 0 );
+            input.limit( size - end );
             return new Packet( sequence, 0, byteBuffer );
         }
         else
