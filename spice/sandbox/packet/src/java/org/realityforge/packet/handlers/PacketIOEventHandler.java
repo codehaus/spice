@@ -42,7 +42,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.29 $ $Date: 2004-02-23 04:06:23 $
+ * @version $Revision: 1.30 $ $Date: 2004-03-18 03:34:19 $
  */
 public class PacketIOEventHandler
    extends AbstractDirectedHandler
@@ -205,6 +205,8 @@ public class PacketIOEventHandler
    private void startConnect( final Session session )
       throws IOException
    {
+      //Make sure session is disconnected
+      session.setTransport( null );
       final SocketChannel channel = SocketChannel.open();
       _channelEventSource.registerChannel( channel,
                                            SelectionKey.OP_CONNECT,
@@ -215,7 +217,6 @@ public class PacketIOEventHandler
       {
          session.setConnecting( true );
       }
-
    }
 
    private void handleNack( final Session session,
@@ -371,7 +372,7 @@ public class PacketIOEventHandler
       throws IOException
    {
       final ChannelTransport transport = session.getTransport();
-      if( session.hasTransmittedData() )
+      if( canOutput( transport ) && session.hasTransmittedData() )
       {
          final short sequence = session.getLastPacketTransmitted();
          session.setLastPingTime( System.currentTimeMillis() );
