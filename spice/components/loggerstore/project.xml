@@ -2,8 +2,10 @@
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>LoggerStore</name>
-    <id>spice-loggerstore</id>
+    <groupId>jcomponent</groupId>
+    <id>jcomponent-loggerstore</id>
     <gumpRepositoryId>components</gumpRepositoryId>
+    <package>org.jcomponent.${pom.artifactId.substring(11)}</package>
     <currentVersion>0.5</currentVersion>
     <inceptionYear>2003</inceptionYear>
 

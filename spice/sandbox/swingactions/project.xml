@@ -2,8 +2,10 @@
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>SwingActions</name>
-    <id>spice-swingactions</id>
+    <groupId>jcomponent</groupId>
+    <id>jcomponent-swingactions</id>
     <gumpRepositoryId>components</gumpRepositoryId>
+    <package>org.jcomponent.${pom.artifactId.substring(11)}</package>
     <currentVersion>0.1</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
