@@ -12,6 +12,9 @@ import java.nio.channels.SelectionKey;
 
 /**
  * A Null SelectorMonitor.
+ *
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-12-05 05:39:33 $
  */
 public class NullSelectorMonitor
     implements SelectorMonitor
@@ -20,63 +23,63 @@ public class NullSelectorMonitor
     public static final NullSelectorMonitor MONITOR = new NullSelectorMonitor();
 
     /**
-     * @see SelectorMonitor#selectorStartup
+     * @see SelectorMonitor#selectorStartup()
      */
     public void selectorStartup()
     {
     }
 
     /**
-     * @see SelectorMonitor#enteringSelectorLoop
+     * @see SelectorMonitor#enteringSelectorLoop()
      */
     public void enteringSelectorLoop()
     {
     }
 
     /**
-     * @see SelectorMonitor#enteringSelect
+     * @see SelectorMonitor#enteringSelect()
      */
     public void enteringSelect()
     {
     }
 
     /**
-     * @see SelectorMonitor#selectCompleted
+     * @see SelectorMonitor#selectCompleted(int)
      */
     public void selectCompleted( final int count )
     {
     }
 
     /**
-     * @see SelectorMonitor#handlingSelectEvent
+     * @see SelectorMonitor#handlingSelectEvent(SelectionKey)
      */
     public void handlingSelectEvent( final SelectionKey key )
     {
     }
 
     /**
-     * @see SelectorMonitor#exitingSelectorLoop
+     * @see SelectorMonitor#exitingSelectorLoop()
      */
     public void exitingSelectorLoop()
     {
     }
 
     /**
-     * @see SelectorMonitor#selectorShutdown
+     * @see SelectorMonitor#selectorShutdown()
      */
     public void selectorShutdown()
     {
     }
 
     /**
-     * @see SelectorMonitor#errorClosingSelector
+     * @see SelectorMonitor#errorClosingSelector(IOException)
      */
     public void errorClosingSelector( final IOException ioe )
     {
     }
 
     /**
-     * @see SelectorMonitor#invalidAttachment
+     * @see SelectorMonitor#invalidAttachment(SelectionKey)
      */
     public void invalidAttachment( final SelectionKey key )
     {

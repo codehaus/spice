@@ -1,9 +1,20 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.sca.connector;
 
 import com.mockobjects.dynamic.C;
 import com.mockobjects.dynamic.Mock;
 import junit.framework.TestCase;
 
+/**
+ * @author Peter Donald
+ * @version $Revision: 1.5 $ $Date: 2003-12-05 05:39:34 $
+ */
 public class ConnectorTestCase
     extends TestCase
 {
@@ -286,7 +297,8 @@ public class ConnectorTestCase
 
         final Mock monitorMock = new Mock( ConnectorMonitor.class );
         monitorMock.expect( "attemptingDisconnection", C.NO_ARGS );
-        monitorMock.expect( "errorDisconnecting", C.args( C.eq( exception ) ) );
+        monitorMock.expect( "errorDisconnecting",
+                            C.args( C.eq( exception ) ) );
         final ConnectorMonitor monitor = (ConnectorMonitor)monitorMock.proxy();
 
         final ConnectorConnection connection = (ConnectorConnection)connectorMock.proxy();
@@ -337,7 +349,8 @@ public class ConnectorTestCase
         policyMock.expectAndReturn( "attemptConnection",
                                     C.args( C.eq( 0L ), C.eq( 0 ) ), true );
         policyMock.expectAndReturn( "attemptConnection",
-                                    C.args( C.IS_ANYTHING, C.eq( 1 ) ), false );
+                                    C.args( C.IS_ANYTHING, C.eq( 1 ) ),
+                                    false );
         final ReconnectionPolicy policy = (ReconnectionPolicy)policyMock.proxy();
 
         final ConnectorConnection connection = (ConnectorConnection)connectorMock.proxy();
@@ -411,7 +424,9 @@ public class ConnectorTestCase
 
         final Mock policyMock = new Mock( ReconnectionPolicy.class );
         policyMock.expectAndReturn( "reconnectOnDisconnect", C.NO_ARGS, true );
-        policyMock.expectAndReturn( "attemptConnection", C.anyArgs( 2 ), true );
+        policyMock.expectAndReturn( "attemptConnection",
+                                    C.anyArgs( 2 ),
+                                    true );
 
         final ReconnectionPolicy policy = (ReconnectionPolicy)policyMock.proxy();
 
@@ -448,7 +463,9 @@ public class ConnectorTestCase
         final ConnectorMonitor monitor = (ConnectorMonitor)monitorMock.proxy();
 
         final Mock policyMock = new Mock( ReconnectionPolicy.class );
-        policyMock.expectAndReturn( "reconnectOnDisconnect", C.NO_ARGS, false );
+        policyMock.expectAndReturn( "reconnectOnDisconnect",
+                                    C.NO_ARGS,
+                                    false );
 
         final ReconnectionPolicy policy = (ReconnectionPolicy)policyMock.proxy();
 
@@ -564,7 +581,9 @@ public class ConnectorTestCase
         policyMock.expectAndReturn( "disconnectOnError",
                                     C.args( C.eq( exception ) ), true );
         policyMock.expectAndReturn( "reconnectOnDisconnect", C.NO_ARGS, true );
-        policyMock.expectAndReturn( "attemptConnection", C.anyArgs( 2 ), true );
+        policyMock.expectAndReturn( "attemptConnection",
+                                    C.anyArgs( 2 ),
+                                    true );
         final ReconnectionPolicy policy = (ReconnectionPolicy)policyMock.proxy();
 
         final Connector connector = new Connector();
@@ -594,7 +613,9 @@ public class ConnectorTestCase
         final Mock policyMock = new Mock( ReconnectionPolicy.class );
         policyMock.expectAndReturn( "disconnectOnError",
                                     C.args( C.eq( exception ) ), true );
-        policyMock.expectAndReturn( "reconnectOnDisconnect", C.NO_ARGS, false );
+        policyMock.expectAndReturn( "reconnectOnDisconnect",
+                                    C.NO_ARGS,
+                                    false );
         final ReconnectionPolicy policy = (ReconnectionPolicy)policyMock.proxy();
 
         final Connector connector = new Connector();
@@ -651,7 +672,9 @@ public class ConnectorTestCase
 
         final Mock policyMock = new Mock( PingPolicy.class );
         policyMock.expectAndReturn( "checkPingConnection", C.NO_ARGS, true );
-        policyMock.expectAndReturn( "nextPingCheck", C.NO_ARGS, new Long( 52 ) );
+        policyMock.expectAndReturn( "nextPingCheck",
+                                    C.NO_ARGS,
+                                    new Long( 52 ) );
         final PingPolicy policy = (PingPolicy)policyMock.proxy();
 
         final Mock connMock = new Mock( ConnectorConnection.class );
@@ -684,7 +707,9 @@ public class ConnectorTestCase
 
         final Mock policyMock = new Mock( PingPolicy.class );
         policyMock.expectAndReturn( "checkPingConnection", C.NO_ARGS, false );
-        policyMock.expectAndReturn( "nextPingCheck", C.NO_ARGS, new Long( 52 ) );
+        policyMock.expectAndReturn( "nextPingCheck",
+                                    C.NO_ARGS,
+                                    new Long( 52 ) );
         final PingPolicy policy = (PingPolicy)policyMock.proxy();
 
         connector.setMonitor( monitor );

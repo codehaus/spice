@@ -15,19 +15,22 @@ import java.nio.channels.SelectionKey;
  * Service enabling management of Non-blocking IO Channels. The service will
  * call back the specified handler when one of the specified operations occurs
  * on the channel.
+ *
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-12-05 05:39:33 $
  */
 public interface SelectorManager
 {
     /**
      * Register a channel with selector. Note the user MUST NOT modify the
      * returned SelectionKeys attachment.
-     * 
+     *
      * @param channel the channel
      * @param ops the operations to register
      * @param handler the handler that will be notified on event
      * @param userData the data passed back into the handler
      * @return the SelectionKey
-     * @throws java.io.IOException if channel can not be registered
+     * @throws IOException if channel can not be registered
      */
     SelectionKey registerChannel( SelectableChannel channel,
                                   int ops,

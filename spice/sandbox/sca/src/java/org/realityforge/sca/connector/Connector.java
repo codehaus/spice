@@ -1,65 +1,74 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.sca.connector;
 
 /**
  * The Connector is a base class for connectors. Connectors establish a
  * connection to a resource and attempt to maintain the connection and reconnect
  * when the connection fails.
- * 
+ *
+ * @author Peter Donald
+ * @version $Revision: 1.7 $ $Date: 2003-12-05 05:39:33 $
  * @mx.component
  */
 public class Connector
 {
     /** The associated ping policy for connector. */
-    private PingPolicy _pingPolicy = NeverPingPolicy.POLICY;
+    private PingPolicy m_pingPolicy = NeverPingPolicy.POLICY;
 
     /** The associated reconnection policy for connector. */
-    private ReconnectionPolicy _reconnectPolicy = AlwaysReconnectPolicy.POLICY;
+    private ReconnectionPolicy m_reconnectPolicy = AlwaysReconnectPolicy.POLICY;
 
     /** The associated monitor that receives events about connector. */
-    private ConnectorMonitor _monitor = NullMonitor.MONITOR;
+    private ConnectorMonitor m_monitor = NullMonitor.MONITOR;
 
     /** The underlying connection. */
-    private ConnectorConnection _connection;
+    private ConnectorConnection m_connection;
 
     /** A flag indicating whether the connection is "active". */
-    private boolean _active;
+    private boolean m_active;
 
     /** A flag indicating whether the connection is "connected". */
-    private boolean _connected;
+    private boolean m_connected;
 
     /** Time at which last transmission occured. */
-    private long _lastTxTime;
+    private long m_lastTxTime;
 
     /**
      * The last message transmitted. May be null. Simply used to display status
      * on the web page.
      */
-    private Object _lastTxMessage;
+    private Object m_lastTxMessage;
 
     /** Time at which last receive occured. */
-    private long _lastRxTime;
+    private long m_lastRxTime;
 
     /**
      * The last message received. May be null. Simply used to display status on
      * the web page.
      */
-    private Object _lastRxMessage;
+    private Object m_lastRxMessage;
 
     /** The time the last connection attempt started. */
-    private long _lastConnectionTime;
+    private long m_lastConnectionTime;
 
     /** Number of sequential failed connection attempts. */
-    private int _connectionAttempts;
+    private int m_connectionAttempts;
 
     /** The reason the last conenction attempt failed. */
-    private String _connectionError;
+    private String m_connectionError;
 
     /** The time at which last ping occured. */
-    private long _lastPingTime;
+    private long m_lastPingTime;
 
     /**
      * Specify the ping policy that connector will use.
-     * 
+     *
      * @param pingPolicy the policy
      */
     public void setPingPolicy( final PingPolicy pingPolicy )
@@ -68,12 +77,12 @@ public class Connector
         {
             throw new NullPointerException( "pingPolicy" );
         }
-        _pingPolicy = pingPolicy;
+        m_pingPolicy = pingPolicy;
     }
 
     /**
      * Specify the reconnection policy that connector will use.
-     * 
+     *
      * @param reconnectPolicy the policy
      */
     public void setReconnectPolicy( final ReconnectionPolicy reconnectPolicy )
@@ -82,12 +91,12 @@ public class Connector
         {
             throw new NullPointerException( "reconnectPolicy" );
         }
-        _reconnectPolicy = reconnectPolicy;
+        m_reconnectPolicy = reconnectPolicy;
     }
 
     /**
      * Specify the connection that connector will manage.
-     * 
+     *
      * @param connection the connection
      */
     public void setConnection( final ConnectorConnection connection )
@@ -96,12 +105,12 @@ public class Connector
         {
             throw new NullPointerException( "connection" );
         }
-        _connection = connection;
+        m_connection = connection;
     }
 
     /**
      * Specify the monitor to receive events from connector.
-     * 
+     *
      * @param monitor the monitor
      */
     public void setMonitor( final ConnectorMonitor monitor )
@@ -110,53 +119,53 @@ public class Connector
         {
             throw new NullPointerException( "monitor" );
         }
-        _monitor = monitor;
+        m_monitor = monitor;
     }
 
     /**
      * Method called to indicate transmission occured.
-     * 
+     *
      * @param message the message
      */
     public void transmissionOccured( final Object message )
     {
-        _lastTxTime = System.currentTimeMillis();
-        _lastTxMessage = message;
+        m_lastTxTime = System.currentTimeMillis();
+        m_lastTxMessage = message;
     }
 
     /**
      * Method called to indicate receive occured.
-     * 
+     *
      * @param message the message
      */
     public void receiveOccured( final Object message )
     {
-        _lastRxTime = System.currentTimeMillis();
-        _lastRxMessage = message;
+        m_lastRxTime = System.currentTimeMillis();
+        m_lastRxMessage = message;
     }
 
     /**
      * Method called to indicate bidirectional communication occured.
-     * 
+     *
      * @param message the message
      */
     public void commOccured( final Object message )
     {
         final long now = System.currentTimeMillis();
-        _lastTxTime = now;
-        _lastRxTime = now;
-        _lastRxMessage = message;
-        _lastTxMessage = message;
+        m_lastTxTime = now;
+        m_lastRxTime = now;
+        m_lastRxMessage = message;
+        m_lastTxMessage = message;
     }
 
     /**
      * Method called to failure to communicate.
-     * 
+     *
      * @param t the error
      */
     public void commErrorOccured( final Throwable t )
     {
-        _connectionError = t.toString();
+        m_connectionError = t.toString();
         if( getReconnectPolicy().disconnectOnError( t ) )
         {
             disconnect();
@@ -169,140 +178,140 @@ public class Connector
 
     /**
      * Return the time at which last ping occured.
-     * 
+     *
      * @return the time at which last ping occured.
      * @mx.attribute
      */
     public long getLastPingTime()
     {
-        return _lastPingTime;
+        return m_lastPingTime;
     }
 
     /**
      * Return the time at which last transmission occured.
-     * 
+     *
      * @return the time at which last transmission occured.
      * @mx.attribute
      */
     public long getLastTxTime()
     {
-        return _lastTxTime;
+        return m_lastTxTime;
     }
 
     /**
      * Return the last message transmitted.
-     * 
+     *
      * @return the last message transmitted.
      * @mx.attribute
      */
     public Object getLastTxMessage()
     {
-        return _lastTxMessage;
+        return m_lastTxMessage;
     }
 
     /**
      * Return the time at which last receive occured.
-     * 
+     *
      * @return the time at which last receive occured.
      * @mx.attribute
      */
     public long getLastRxTime()
     {
-        return _lastRxTime;
+        return m_lastRxTime;
     }
 
     /**
      * Return the last message received.
-     * 
+     *
      * @return the last message received.
      * @mx.attribute
      */
     public Object getLastRxMessage()
     {
-        return _lastRxMessage;
+        return m_lastRxMessage;
     }
 
     /**
      * Return true if connector is active.
-     * 
+     *
      * @return true if connector is active.
      * @mx.attribute
      */
     public boolean isActive()
     {
-        return _active;
+        return m_active;
     }
 
     /**
      * Set the flag to indicate if the connector is active or inactive.
-     * 
+     *
      * @param active the flag to indicate if the connector is active or
      * inactive.
      * @mx.attribute
      */
     public void setActive( final boolean active )
     {
-        _active = active;
+        m_active = active;
     }
 
     /**
      * Return true if Connector connected.
-     * 
+     *
      * @return true if Connector connected.
      * @mx.attribute
      */
     public boolean isConnected()
     {
-        return _connected;
+        return m_connected;
     }
 
     /**
      * Set the connected state.
-     * 
+     *
      * @param connected the connected state.
      */
     protected void setConnected( final boolean connected )
     {
-        _connected = connected;
+        m_connected = connected;
     }
 
     /**
      * Return the time the last connection attempt started.
-     * 
+     *
      * @return the time the last connection attempt started.
      * @mx.attribute
      */
     public long getLastConnectionTime()
     {
-        return _lastConnectionTime;
+        return m_lastConnectionTime;
     }
 
     /**
      * Return the number of sequential failed connection attempts.
-     * 
+     *
      * @return the number of sequential failed connection attempts.
      * @mx.attribute
      */
     public int getConnectionAttempts()
     {
-        return _connectionAttempts;
+        return m_connectionAttempts;
     }
 
     /**
      * Return the last connection error. The error could be caused either by
      * connection failure or failure during operation.
-     * 
+     *
      * @return the last connection error
      * @mx.attribute
      */
     public String getConnectionError()
     {
-        return _connectionError;
+        return m_connectionError;
     }
 
     /**
      * Method to make connector establish connection.
-     * 
+     *
      * @mx.operation
      */
     public void connect()
@@ -319,8 +328,8 @@ public class Connector
             while( !isConnected() && isActive() )
             {
                 final boolean connect = getReconnectPolicy().
-                    attemptConnection( _lastConnectionTime,
-                                       _connectionAttempts );
+                    attemptConnection( m_lastConnectionTime,
+                                       m_connectionAttempts );
                 if( !connect )
                 {
                     getMonitor().skippingConnectionAttempt();
@@ -329,19 +338,19 @@ public class Connector
                 getMonitor().attemptingConnection();
                 try
                 {
-                    _lastConnectionTime = now;
+                    m_lastConnectionTime = now;
                     getConnection().doConnect();
-                    _lastPingTime = System.currentTimeMillis();
+                    m_lastPingTime = System.currentTimeMillis();
                     commOccured( null );
-                    _connectionAttempts = 0;
-                    _connectionError = null;
+                    m_connectionAttempts = 0;
+                    m_connectionError = null;
                     setConnected( true );
                     getMonitor().connectionEstablished();
                 }
                 catch( final Throwable t )
                 {
-                    _connectionAttempts++;
-                    _connectionError = t.toString();
+                    m_connectionAttempts++;
+                    m_connectionError = t.toString();
                     getMonitor().errorConnecting( t );
                     performDisconnect();
                 }
@@ -351,7 +360,7 @@ public class Connector
 
     /**
      * Method to disconect Connector.
-     * 
+     *
      * @mx.operation
      */
     public void disconnect()
@@ -385,7 +394,7 @@ public class Connector
     /**
      * Check to see if need to ping connection and if so then perform ping.
      * Return the time that ping should be next checked at.
-     * 
+     *
      * @return the time that ping should be re-checked.
      */
     public long checkPing()
@@ -403,7 +412,7 @@ public class Connector
     /**
      * Attempt to verify Connector is connected. If not connected then the
      * connector will attempt to establish a connection.
-     * 
+     *
      * @return true if connected
      */
     public boolean verifyConnected()
@@ -421,19 +430,19 @@ public class Connector
     /**
      * Attempt to ping connection. By default just calls {@link
      * #validateConnection}.
-     * 
+     *
      * @return true if connected and ping successful.
      */
     public boolean ping()
     {
-        _lastPingTime = System.currentTimeMillis();
+        m_lastPingTime = System.currentTimeMillis();
         return validateConnection();
     }
 
     /**
      * Attempt to verify Connector is connected. If not connected then the
      * connector will attempt to establish a connection.
-     * 
+     *
      * @return true if connected
      */
     public boolean validateConnection()
@@ -465,7 +474,7 @@ public class Connector
         }
         catch( final Throwable t )
         {
-            _connectionError = t.toString();
+            m_connectionError = t.toString();
             getMonitor().errorValidatingConnection( t );
             disconnect();
             if( getReconnectPolicy().reconnectOnDisconnect() )
@@ -478,7 +487,7 @@ public class Connector
     /**
      * Return the object that will be used to synchronization
      * connection/disconnection.
-     * 
+     *
      * @return the sync lock
      */
     protected Object getSyncLock()
@@ -488,45 +497,45 @@ public class Connector
 
     /**
      * Return the ping policy.
-     * 
+     *
      * @return the ping policy.
      */
     protected PingPolicy getPingPolicy()
     {
-        return _pingPolicy;
+        return m_pingPolicy;
     }
 
     /**
      * Return the reconnection policy.
-     * 
+     *
      * @return the reconnection policy.
      */
     protected ReconnectionPolicy getReconnectPolicy()
     {
-        return _reconnectPolicy;
+        return m_reconnectPolicy;
     }
 
     /**
      * Return the monitor.
-     * 
+     *
      * @return the monitor.
      */
     protected ConnectorMonitor getMonitor()
     {
-        return _monitor;
+        return m_monitor;
     }
 
     /**
      * Return the connection.
-     * 
+     *
      * @return the connection
      */
     protected ConnectorConnection getConnection()
     {
-        if( null == _connection )
+        if( null == m_connection )
         {
             throw new NullPointerException( "connection" );
         }
-        return _connection;
+        return m_connection;
     }
 }
