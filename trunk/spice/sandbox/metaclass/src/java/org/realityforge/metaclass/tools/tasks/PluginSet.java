@@ -17,35 +17,42 @@ import org.apache.tools.ant.types.Reference;
 /**
  * An Ant type that represents a set of Plugins.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 06:42:49 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-27 08:12:30 $
  */
-abstract class PluginSet
+public abstract class PluginSet
     extends DataType
 {
-    /**
-     * Set of PluginElement objects.
-     */
+    /** Name for type of elements in set. */
+    private final String m_type;
+
+    /** Set of PluginElement objects. */
     private final ArrayList m_plugins = new ArrayList();
 
-    /**
-     * Set of PluginSet objects.
-     */
+    /** Set of PluginSet objects. */
     private final ArrayList m_sets = new ArrayList();
+
+    /**
+     * Create plugin set for specified type.
+     *
+     * @param type the type
+     */
+    protected PluginSet( final String type )
+    {
+        if( null == type )
+        {
+            throw new NullPointerException( "type" );
+        }
+        m_type = type;
+    }
 
     /**
      * Add a plugin to set.
      *
-     * @param type the type
      * @param element the interceptor definition
      */
-    void addPlugin( final String type,
-                    final PluginElement element )
+    void addPlugin( final PluginElement element )
     {
-        if( null == element.getName() )
-        {
-            throw new BuildException( type + " must have a name" );
-        }
         m_plugins.add( element );
     }
 
@@ -67,6 +74,15 @@ abstract class PluginSet
     Collection toPlugins()
     {
         final Collection result = new ArrayList();
+        final Iterator elements = m_plugins.iterator();
+        while( elements.hasNext() )
+        {
+            final PluginElement element = (PluginElement)elements.next();
+            if( null == element.getName() )
+            {
+                throw new BuildException( m_type + " must have a name" );
+            }
+        }
         result.addAll( m_plugins );
         final Iterator iterator = m_sets.iterator();
         while( iterator.hasNext() )
@@ -78,14 +94,13 @@ abstract class PluginSet
     }
 
     /**
-     * Makes this instance in effect a reference to another PluginSet
-     * instance.
+     * Makes this instance in effect a reference to another PluginSet instance.
      *
-     * <p>You must not set another attribute or nest elements inside
-     * this element if you make it a reference.</p>
+     * <p>You must not set another attribute or nest elements inside this
+     * element if you make it a reference.</p>
      *
      * @param reference the reference to which this instance is associated
-     * @exception BuildException if this instance already has been configured.
+     * @throws BuildException if this instance already has been configured.
      */
     public void setRefid( final Reference reference )
         throws BuildException
