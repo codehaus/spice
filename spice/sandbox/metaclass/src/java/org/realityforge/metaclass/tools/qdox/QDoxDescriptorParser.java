@@ -27,7 +27,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * and building a ClassDescriptor to correspond to the JavaClass
  * object.
  *
- * @version $Revision: 1.13 $ $Date: 2003-08-31 08:08:35 $
+ * @version $Revision: 1.14 $ $Date: 2003-09-28 06:08:10 $
  */
 public class QDoxDescriptorParser
 {
@@ -101,8 +101,10 @@ public class QDoxDescriptorParser
         final Attribute[] attributes =
             interceptor.processClassAttributes( javaClass, originalAttributes );
 
-        final FieldDescriptor[] fields = buildFields( javaClass, interceptor );
-        final MethodDescriptor[] methods = buildMethods( javaClass, interceptor );
+        final FieldDescriptor[] fields =
+            buildFields( javaClass.getFields(), interceptor );
+        final MethodDescriptor[] methods =
+            buildMethods( javaClass.getMethods(), interceptor );
 
         return new ClassDescriptor( classname,
                                     modifiers,
@@ -114,14 +116,13 @@ public class QDoxDescriptorParser
     /**
      * Build a set of MethodDescriptor instances for a JavaClass.
      *
-     * @param javaClass the JavaClass
+     * @param methods the methods
      * @param interceptor the AttributeInterceptor
      * @return the MethodDescriptors
      */
-    private MethodDescriptor[] buildMethods( final JavaClass javaClass,
-                                             final QDoxAttributeInterceptor interceptor )
+    MethodDescriptor[] buildMethods( final JavaMethod[] methods,
+                                     final QDoxAttributeInterceptor interceptor )
     {
-        final JavaMethod[] methods = javaClass.getMethods();
         final MethodDescriptor[] methodDescriptors = new MethodDescriptor[ methods.length ];
         for( int i = 0; i < methods.length; i++ )
         {
@@ -172,7 +173,7 @@ public class QDoxDescriptorParser
      * @param parameters the JavaParameters
      * @return the ParameterDescriptors
      */
-    private ParameterDescriptor[] buildParameters( final JavaParameter[] parameters )
+    ParameterDescriptor[] buildParameters( final JavaParameter[] parameters )
     {
         final ParameterDescriptor[] descriptors =
             new ParameterDescriptor[ parameters.length ];
@@ -199,14 +200,13 @@ public class QDoxDescriptorParser
     /**
      * Build a set of FieldDescriptor instances for a JavaClass.
      *
-     * @param javaClass the JavaClass
+     * @param fields the fields
      * @param interceptor the AttributeInterceptor
      * @return the FieldDescriptors
      */
-    private FieldDescriptor[] buildFields( final JavaClass javaClass,
-                                           final QDoxAttributeInterceptor interceptor )
+    FieldDescriptor[] buildFields( final JavaField[] fields,
+                                   final QDoxAttributeInterceptor interceptor )
     {
-        final JavaField[] fields = javaClass.getFields();
         final FieldDescriptor[] fieldDescriptors = new FieldDescriptor[ fields.length ];
         for( int i = 0; i < fields.length; i++ )
         {
@@ -405,6 +405,11 @@ public class QDoxDescriptorParser
             else if( qualifier.equals( "interface" ) )
             {
                 modifiers |= Modifier.INTERFACE;
+            }
+            else
+            {
+                final String message = "Unknown qualifier: " + qualifier;
+                throw new IllegalArgumentException( message );
             }
         }
         return modifiers;
