@@ -19,7 +19,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-08 08:26:49 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-09 04:01:54 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -34,7 +34,7 @@ public class DefaultAcceptorManager
     /**
      * The monitor that receives notifications of Connection events
      */
-    private AcceptorMonitor m_monitor;
+    private AcceptorMonitor m_monitor = NullAcceptorMonitor.MONITOR;
 
     /**
      * Value that we are to set SO_TIMEOUT to if the user
