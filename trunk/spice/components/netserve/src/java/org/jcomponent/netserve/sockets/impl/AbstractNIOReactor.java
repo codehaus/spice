@@ -173,7 +173,7 @@ public abstract class AbstractNIOReactor
          }
       }
       m_monitor.exitingSelectorLoop();
-      synchronized ( this )
+      synchronized ( getReactorLock() )
       {
          m_selector = null;
          notifyAll();
