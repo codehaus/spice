@@ -40,6 +40,22 @@ public class SelectorManagerTestCase
         fail( "expected to fail with npe" );
     }
 
+    public void testRegisterChannelWithNullChanneld()
+        throws Exception
+    {
+        final DefaultSelectorManager manager = new DefaultSelectorManager();
+        try
+        {
+            manager.registerChannel( null, 0, null, null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.getMessage()", "channel", npe.getMessage() );
+            return;
+        }
+        fail( "expected to fail with npe" );
+    }
+
     public void testStartupAndShutdownSelectorManager()
         throws Exception
     {
