@@ -7,3 +7,4 @@ build.properties
 *.iws
 .project
 .classpath
+*.iml

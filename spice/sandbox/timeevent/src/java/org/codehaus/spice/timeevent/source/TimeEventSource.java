@@ -1,9 +1,5 @@
 package org.codehaus.spice.timeevent.source;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.ListIterator;
 import org.codehaus.spice.event.EventJoin;
 import org.codehaus.spice.event.impl.AbstractEventSource;
 import org.codehaus.spice.timeevent.events.TimeEvent;
@@ -13,22 +9,17 @@ import org.codehaus.spice.timeevent.triggers.TimeTrigger;
  * An EventSource that generates events relating to the passage of time.
  *
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-03-18 03:36:57 $
+ * @version $Revision: 1.4 $ $Date: 2004-03-21 23:32:36 $
  */
 public class TimeEventSource
     extends AbstractEventSource
 {
     /**
-     * The list of SchedulingKey objects in order from earliest to latest.
+     * The PriorityQueue of SchedulingKey objects.
      */
-    private final LinkedList _events = new LinkedList();
+    private final BinaryHeap m_queue = new BinaryHeap( 13, BinaryHeap.MIN_COMPARATOR );
 
     /**
-     * The list of events that need to be rescheduled.
-     */
-    private final ArrayList _eventsTriggered = new ArrayList();
-
-   /**
      * Create EventSource.
      *
      * @param join the join
@@ -49,7 +40,7 @@ public class TimeEventSource
                                      final Object userData )
     {
         final SchedulingKey key =
-            new SchedulingKey( this, trigger, userData );
+            new SchedulingKey( trigger, userData );
         key.updateNextTime( System.currentTimeMillis() );
         schedule( key );
         return key;
@@ -62,35 +53,9 @@ public class TimeEventSource
      */
     protected synchronized void schedule( final SchedulingKey key )
     {
-        final ListIterator iterator = _events.listIterator();
-        while( iterator.hasNext() )
+        if( -1 != key.getNextTime() )
         {
-            final SchedulingKey other = (SchedulingKey)iterator.next();
-            if( key.compareTo( other ) < 0 )
-            {
-                iterator.add( key );
-                return;
-            }
-        }
-        _events.addLast( key );
-    }
-
-    /**
-     * Remove specified key from source.
-     *
-     * @param key the key
-     */
-    synchronized void removeKey( final SchedulingKey key )
-    {
-        final Iterator iterator = _events.iterator();
-        while( iterator.hasNext() )
-        {
-            final SchedulingKey other = (SchedulingKey)iterator.next();
-            if( key == other )
-            {
-                iterator.remove();
-                return;
-            }
+            m_queue.insert( key );
         }
     }
 
@@ -99,6 +64,7 @@ public class TimeEventSource
      */
     protected synchronized void refresh()
     {
+        System.out.println("Refresh time .... in " + Thread.currentThread().getName() );
         final long now = System.currentTimeMillis();
         refreshAt( now );
     }
@@ -110,33 +76,38 @@ public class TimeEventSource
      */
     synchronized void refreshAt( final long now )
     {
-        //_eventsTriggered used so as to avoid creation of new list
-        //every refresh.
-        _eventsTriggered.clear();
-
-        //Rather than using an iterator, access events via get()
-        //as it results in less object allocation
-        final int size = _events.size();
-        for( int i = 0; i < size; i++ )
+        if( m_queue.isEmpty() )
         {
-            final SchedulingKey key = (SchedulingKey)_events.get( i );
-            if( key.getNextTime() <= now )
-            {
-                key.updateNextTime( now );
-                _eventsTriggered.add( key );
-                getJoin().addEvent( new TimeEvent( key ) );
-            }
+            return;
         }
-
-        final int count = _eventsTriggered.size();
-        for( int i = 0; i < count; i++ )
+        else
         {
-            final SchedulingKey key =
-                (SchedulingKey)_eventsTriggered.get( i );
-            _events.remove( key );
-            if( -1 != key.getNextTime() )
+            SchedulingKey key = (SchedulingKey)m_queue.peek();
+            long diff = key.getNextTime() - now;
+            if( diff > 0 )
             {
-                schedule( key );
+                try
+                {
+                    Thread.sleep( diff );
+                }
+                catch( final InterruptedException ie )
+                {
+                    //Ignore
+                }
+            }
+            while( key.getNextTime() <= now )
+            {
+                m_queue.pop();
+                key.updateNextTime( now );
+                getJoin().addEvent( new TimeEvent( key ) );
+                if( m_queue.isEmpty() )
+                {
+                    break;
+                }
+                else
+                {
+                    key = (SchedulingKey)m_queue.peek();
+                }
             }
         }
     }

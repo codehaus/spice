@@ -6,110 +6,120 @@ import org.codehaus.spice.timeevent.triggers.TimeTrigger;
  * The key that the trigger is registered under.
  *
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-02-23 03:52:09 $
+ * @version $Revision: 1.4 $ $Date: 2004-03-21 23:32:36 $
  */
 public class SchedulingKey
-   implements Comparable
+    implements Comparable
 {
-   /**
-    * The TimeEventSource where trigger is registered.
-    */
-   private final TimeEventSource _source;
+    /**
+     * The trigger that determines when fireing occurs.
+     */
+    private final TimeTrigger m_trigger;
 
-   /**
-    * The trigger that determines when fireing occurs.
-    */
-   private final TimeTrigger _trigger;
+    /**
+     * the associated userData.
+     */
+    private final Object m_userData;
 
-   /**
-    * the associated userData.
-    */
-   private final Object _userData;
+    /**
+     * Cached time at which trigger will next fire.
+     */
+    private long m_nextTime;
 
-   /**
-    * Cached time at which trigger will next fire.
-    */
-   private long _nextTime;
+    /**
+     * Flag indicating whether key is valid.
+     */
+    private boolean m_valid;
 
-   /**
-    * Create SchedulingKey.
-    *
-    * @param source the TimeEventSource
-    * @param trigger the TimeTrigger
-    * @param userData the associated userData
-    */
-   public SchedulingKey( final TimeEventSource source,
-                         final TimeTrigger trigger,
-                         final Object userData )
-   {
-      if( null == source )
-      {
-         throw new NullPointerException( "source" );
-      }
-      if( null == trigger )
-      {
-         throw new NullPointerException( "trigger" );
-      }
-      _source = source;
-      _trigger = trigger;
-      _userData = userData;
-   }
+    /**
+     * Create SchedulingKey.
+     *
+     * @param trigger the TimeTrigger
+     * @param userData the associated userData
+     */
+    public SchedulingKey( final TimeTrigger trigger,
+                          final Object userData )
+    {
+        if( null == trigger )
+        {
+            throw new NullPointerException( "trigger" );
+        }
+        m_trigger = trigger;
+        m_userData = userData;
+    }
 
-   /**
-    * Update expected next time after specified moment.
-    *
-    * @param moment the moment
-    */
-   public void updateNextTime( final long moment )
-   {
-      _nextTime = _trigger.getTimeAfter( moment );
-   }
+    /**
+     * Update expected next time after specified moment.
+     *
+     * @param moment the moment
+     */
+    public void updateNextTime( final long moment )
+    {
+        if( isValid() )
+        {
+            m_nextTime = m_trigger.getTimeAfter( moment );
+        }
+    }
 
-   /**
-    * Return the associated userData.
-    *
-    * @return the associated userData.
-    */
-   public Object getUserData()
-   {
-      return _userData;
-   }
+    /**
+     * Return the associated userData.
+     *
+     * @return the associated userData.
+     */
+    public Object getUserData()
+    {
+        return m_userData;
+    }
 
-   /**
-    * Return the next time that the trigger expects to fire.
-    *
-    * @return the next time that the trigger expects to fire.
-    */
-   public long getNextTime()
-   {
-      return _nextTime;
-   }
+    /**
+     * Return the next time that the trigger expects to fire.
+     *
+     * @return the next time that the trigger expects to fire.
+     */
+    public long getNextTime()
+    {
+        return m_nextTime;
+    }
 
-   /**
-    * Cancle the time trigger.
-    */
-   public void cancel()
-   {
-      _source.removeKey( this );
-      _nextTime = -1;
-   }
+    /**
+     * Cancle the time trigger.
+     */
+    public synchronized void cancel()
+    {
+        if( isValid() )
+        {
+            m_valid = false;
+            m_nextTime = -1;
+        }
+    }
 
-   /**
-    * @see Comparable#compareTo(Object)
-    */
-   public int compareTo( final Object object )
-   {
-      final SchedulingKey other = (SchedulingKey)object;
-      return (int)(_nextTime - other._nextTime);
-   }
+    /**
+     * Return true if key is valid.
+     *
+     * @return true if key is valid.
+     */
+    public synchronized boolean isValid()
+    {
+        return m_valid;
+    }
 
-   /**
-    * @see Object#toString()
-    */
-   public String toString()
-   {
-      return "SchedulingKey[" +
-             "ID=" + System.identityHashCode( this ) +
-             ", UserData=" + _userData + "]";
-   }
+    /**
+     * @see Comparable#compareTo(Object)
+     */
+    public int compareTo( final Object object )
+    {
+        final SchedulingKey other = (SchedulingKey)object;
+        return (int)( m_nextTime - other.m_nextTime );
+    }
+
+    /**
+     * @see Object#toString()
+     */
+    public String toString()
+    {
+        return "SchedulingKey[" +
+               "ID=" + System.identityHashCode( this ) +
+               ", IsValid=" + m_valid + "]" +
+               ", UserData=" + m_userData + "]";
+    }
 }

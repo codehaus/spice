@@ -19,7 +19,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * An event source that generates events based from SelectableChannels.
  *
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2004-03-18 03:35:11 $
+ * @version $Revision: 1.7 $ $Date: 2004-03-21 23:32:36 $
  */
 public class SelectableChannelEventSource
     extends AbstractEventSource
@@ -72,6 +72,7 @@ public class SelectableChannelEventSource
             throw new IOException( "_selector == null" );
         }
         channel.configureBlocking( false );
+        _selector.wakeup();
         return channel.register( _selector, ops, userData );
     }
 
@@ -98,29 +99,36 @@ public class SelectableChannelEventSource
     /**
      * @see AbstractEventSource#refresh()
      */
-    protected synchronized void refresh()
+    protected void refresh()
     {
-        if( null == _selector )
+        System.out.println("Refresh chan .... in " + Thread.currentThread().getName() );
+
+        final Selector selector;
+        synchronized( this )
+        {
+            selector = _selector;
+        }
+        if( null == selector )
         {
             return;
         }
         try
         {
-            _selector.selectedKeys().clear();
+            selector.selectedKeys().clear();
             if( 0 > _selectTimeout )
             {
-                _selector.selectNow();
+                selector.selectNow();
             }
             else
             {
-                _selector.select( _selectTimeout );
+                selector.select( _selectTimeout );
             }
         }
         catch( final IOException ioe )
         {
             return;
         }
-        final Set keys = _selector.selectedKeys();
+        final Set keys = selector.selectedKeys();
         final Iterator iterator = keys.iterator();
 
         // Walk through the ready keys collection and process date requests.
