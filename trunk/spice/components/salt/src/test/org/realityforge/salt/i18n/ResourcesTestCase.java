@@ -10,12 +10,13 @@ package org.realityforge.salt.i18n;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-06-13 00:32:44 $
+ * @version $Revision: 1.11 $ $Date: 2003-06-13 00:41:04 $
  */
 public class ResourcesTestCase
     extends TestCase
@@ -286,7 +287,7 @@ public class ResourcesTestCase
                            Locale.getDefault(),
                            MockResourceBundle.class.getClassLoader() );
         MockResourceBundle.addResource( "rez", "a message in a bottle" );
-        assertEquals(  "a message in a bottle", resources.getString( "rez" ) );
+        assertEquals( "a message in a bottle", resources.getString( "rez" ) );
     }
 
     public void testGetStringWithOneArg()
@@ -324,7 +325,82 @@ public class ResourcesTestCase
                            MockResourceBundle.class.getClassLoader() );
         MockResourceBundle.addResource( "rez",
                                         "{0}, {1}, {2}" );
-        assertEquals( "bob to mary",
-                      resources.getString( "rez", "bob", "mary" ) );
+        assertEquals( "bob, mary, jenny",
+                      resources.getString( "rez", "bob", "mary", "jenny" ) );
+    }
+
+    public void testGetStringWith4Args()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez",
+                                        "{0}, {1}, {2}, {3}" );
+        assertEquals( "bob, mary, jenny, peter",
+                      resources.getString( "rez", "bob", "mary", "jenny", "peter" ) );
+    }
+
+    public void testGetStringWith5Args()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez",
+                                        "{0}, {1}, {2}, {3}, {4}" );
+        assertEquals( "bob, mary, jenny, peter, heather",
+                      resources.getString( "rez", "bob", "mary", "jenny", "peter", "heather" ) );
+    }
+
+    public void testGetStringWithMultiArgs()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez",
+                                        "{0}, {1}, {2}, {3}, {4}" );
+        final Object[] args = new Object[]{"bob", "mary", "jenny", "peter", "heather"};
+        assertEquals( "bob, mary, jenny, peter, heather",
+                      resources.format( "rez", args ) );
+    }
+
+    public void testGetNonExistent()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        try
+        {
+            resources.getString( "noExist" );
+            fail( "Expected to be unable to locate resource 'noExist'" );
+        }
+        catch( MissingResourceException e )
+        {
+        }
+    }
+
+    public void testGetBadType()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        MockResourceBundle.addResource( "rez", new Integer( 3 ) );
+        try
+        {
+            resources.getString( "rez" );
+            fail( "Expected to be unable to locate convert 'rez' as it is not a string" );
+        }
+        catch( MissingResourceException e )
+        {
+        }
     }
 }
