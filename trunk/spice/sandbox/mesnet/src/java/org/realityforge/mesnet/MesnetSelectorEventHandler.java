@@ -9,10 +9,11 @@ import java.nio.channels.SocketChannel;
 import java.util.LinkedList;
 import org.realityforge.sca.selector.SelectorEventHandler;
 import org.realityforge.sca.selector.SelectorManager;
+import org.realityforge.packet.protocol.ProtocolConstants;
 
 /**
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-11-10 05:54:18 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-24 04:01:03 $
  */
 public class MesnetSelectorEventHandler
     implements SelectorEventHandler
@@ -28,6 +29,7 @@ public class MesnetSelectorEventHandler
 
     private final SelectorManager _selectorManager;
     private final SessionManager _sessionManager;
+    public static final String AUTH_KEY = "msg.auth";
 
     public MesnetSelectorEventHandler( final SelectorManager selectorManager,
                                     final SessionManager sessionManager )
@@ -77,7 +79,7 @@ public class MesnetSelectorEventHandler
                         {
                             //TODO: Notify about bad magic number
                             sendControlMessage( channel,
-                                                MessageUtils.MESSAGE_BAD_MAGIC );
+                                                ProtocolConstants.S2C_BAD_MAGIC );
                             transport.close();
                             return;
                         }
@@ -90,7 +92,7 @@ public class MesnetSelectorEventHandler
                         session.setStatus( Session.STATUS_CONNECTED );
 
                         _message.putShort( (short)(9 * -1) ); //Size of message & fact it is control
-                        _message.put( MessageUtils.MESSAGE_CONNECTED ); //message
+                        _message.put( ProtocolConstants.S2C_CONNECTED ); //message
                         _message.putLong( id );
                         _message.putLong( auth );
                         writeMessage( _message, channel );
@@ -101,18 +103,18 @@ public class MesnetSelectorEventHandler
                         if( null == session )
                         {
                             sendControlMessage( channel,
-                                                MessageUtils.MESSAGE_BAD_SESSION );
+                                                ProtocolConstants.S2C_BAD_SESSION );
                             transport.close();
                             return;
                         }
 
                         final Long sessionAuth = (Long)
-                            session.getProperty( MessageUtils.AUTH_KEY );
+                            session.getProperty( AUTH_KEY );
                         if( null != sessionAuth &&
                             auth != sessionAuth.longValue() )
                         {
                             sendControlMessage( channel,
-                                                MessageUtils.MESSAGE_BAD_AUTH );
+                                                ProtocolConstants.S2C_BAD_AUTH );
                             transport.close();
                             return;
                         }
@@ -122,7 +124,7 @@ public class MesnetSelectorEventHandler
                             transport.setSession( session );
 
                             sendControlMessage( channel,
-                                                MessageUtils.MESSAGE_ESTABLISHED );
+                                                ProtocolConstants.S2C_CONNECTED );
                         }
                     }
                 }
