@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-05-27 13:07:19 $
+ * @version $Revision: 1.2 $ $Date: 2003-05-28 14:17:06 $
  */
 public class PathMatcherTestCase
     extends TestCase
@@ -189,10 +189,27 @@ public class PathMatcherTestCase
                                 final boolean result )
     {
         final PathMatcher pathMatcher =
-            new PathMatcher( new String[]{includes}, new String[]{excludes} );
-        assertEquals( "Pattern match on data " + data + " with includes " + includes + " and excludes " + excludes,
+            new PathMatcher( new String[]{includes},
+                             new String[]{excludes} );
+        assertEquals( "Pattern match on data " + data +
+                      " with includes " + includes +
+                      " and excludes " + excludes,
                       result,
                       pathMatcher.match( data ) );
+
+        final String data2 = data.replace( '/', '.' );
+        final String includes2 = includes.replace( '/', '.' );
+        final String excludes2 = excludes.replace( '/', '.' );
+        final PathMatcher pathMatcher2 =
+            new PathMatcher( new String[]{includes2},
+                             new String[]{excludes2},
+                             '.' );
+        assertEquals( "Pattern match on data " + data2 +
+                      " with includes " + includes2 +
+                      " and excludes " + excludes2 +
+                      " using '.' separator",
+                      result,
+                      pathMatcher2.match( data2 ) );
     }
 
     private void doTestIncludePattern( final String pattern,
@@ -204,6 +221,17 @@ public class PathMatcherTestCase
         assertEquals( "Pattern match of " + pattern + " on " + data,
                       result,
                       pathMatcher.match( data ) );
+        final String data2 = data.replace( '/', '.' );
+        final String pattern2 = pattern.replace( '/', '.' );
+        final PathMatcher pathMatcher2 =
+            new PathMatcher( new String[]{pattern2},
+                             new String[ 0 ],
+                             '.' );
+        assertEquals( "Pattern match on data " + data2 +
+                      " with includes " + pattern2 +
+                      " using '.' separator",
+                      result,
+                      pathMatcher2.match( data2 ) );
     }
 
     public void testNullIncludes()
