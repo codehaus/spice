@@ -14,7 +14,7 @@
     </menu>
 
 	#parse( "component.menu" )
-	#parse( "components.menu" )
+	#parse( "repository.menu" )
 
   </body>
 </project>
