@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<document>
+    <properties>
+        <title>Download</title>
+    </properties>
+    <body>
+        <section name="Downloading Spice">
+            <p>
+                Spice jars are downloadable from the 
+                <a href="http://spice.sourceforge.net/maven">
+                Spice Maven Repository</a>.
+            </p>
+        </section>
+    </body>
+</document>
