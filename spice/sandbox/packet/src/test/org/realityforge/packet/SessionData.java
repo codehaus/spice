@@ -1,23 +1,23 @@
 package org.realityforge.packet;
 
+import org.codehaus.spice.timeevent.source.SchedulingKey;
 import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-02-03 04:29:53 $
+ * @version $Revision: 1.3 $ $Date: 2004-02-05 04:06:49 $
  */
 class SessionData
 {
     private final Session _session;
-    private final boolean _isPersistent;
+    private SchedulingKey _key;
     private int _sentMessages;
     private int _receivedMessages;
+    private boolean _disconencted;
 
-    SessionData( final Session session,
-                 final boolean persistent )
+    SessionData( final Session session )
     {
         _session = session;
-        _isPersistent = persistent;
     }
 
     public int getSentMessages()
@@ -40,19 +40,29 @@ class SessionData
         _receivedMessages++;
     }
 
-    public int getUnAckedMessages()
-    {
-        return getSession().getTransmitQueue().size();
-    }
-
     public Session getSession()
     {
         return _session;
     }
 
-    public boolean isPersistent()
+    public SchedulingKey getKey()
     {
-        return _isPersistent;
+        return _key;
+    }
+
+    public void setKey( final SchedulingKey key )
+    {
+        _key = key;
+    }
+
+    public boolean isDisconencted()
+    {
+        return _disconencted;
+    }
+
+    public void setDisconencted()
+    {
+        _disconencted = true;
     }
 
     public String toString()
@@ -60,7 +70,8 @@ class SessionData
         return "SessionData[SessionID=" + getSession().getSessionID() +
                ", rx=" + getReceivedMessages() +
                ", tx=" + getSentMessages() +
-               ", un-acked=" + getUnAckedMessages() +
+               ", rxSet=" + getSession().getReceiveQueue().getSequences() +
+               ", txSet=" + getSession().getTransmitQueue().getSequences() +
                "]";
     }
 }
