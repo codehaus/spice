@@ -35,7 +35,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.16 $ $Date: 2004-02-06 03:00:55 $
+ * @version $Revision: 1.17 $ $Date: 2004-02-06 04:04:56 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -289,6 +289,7 @@ public class PacketIOEventHandler
             output( session, "SEND ACK " + processed +
                              " at " + transport.getTxByteCount() );
             sendAck( transport, processed );
+            checkDisconnect( session, transport );
         }
     }
 
@@ -298,9 +299,9 @@ public class PacketIOEventHandler
         final ChannelTransport transport = session.getTransport();
         final short processed = session.getLastPacketProcessed();
         final PacketQueue queue = session.getReceiveQueue();
-        final short received = session.getLastPacketReceived();
+        final short expected = session.getLastPacketExpected();
         final short initial = (short)(processed + 1);
-        for( short i = initial; i <= received; i++ )
+        for( short i = initial; i <= expected; i++ )
         {
             final Packet packet = queue.getPacket( i );
             if( null == packet )
@@ -396,14 +397,18 @@ public class PacketIOEventHandler
     private void handleOutput( final PacketWriteRequestEvent e )
         throws IOException
     {
-        final ChannelTransport transport = e.getSession().getTransport();
+        final Session session = e.getSession();
+        final ChannelTransport transport = session.getTransport();
+        final Packet packet = e.getPacket();
+        session.getTransmitQueue().addPacket( packet );
         if( !canOutput( transport ) )
         {
+            output( session, "QUEUED " + packet.getSequence() );
             return;
         }
         else
         {
-            sendData( transport, e.getPacket() );
+            sendData( transport, packet );
         }
     }
 
@@ -745,7 +750,7 @@ public class PacketIOEventHandler
         {
             final short sequence = TypeIOUtil.readShort( input );
             output( session, "PING " + sequence );
-            session.setLastPacketReceived( sequence );
+            session.setLastPacketExpected( sequence );
             sendNacks( session );
             return true;
         }
@@ -881,7 +886,10 @@ public class PacketIOEventHandler
     {
         final int txQueueSize = session.getTransmitQueue().size();
         final int rxQueueSize = session.getReceiveQueue().size();
-        return 0 == rxQueueSize && 0 == txQueueSize;
+        return 0 == rxQueueSize &&
+               0 == txQueueSize &&
+               session.getLastPacketExpected() <=
+               session.getLastPacketProcessed();
     }
 
     /**
@@ -941,7 +949,6 @@ public class PacketIOEventHandler
         final Session session = (Session)transport.getUserData();
         output( session, "SENT " + packet.getSequence() );
 
-        session.getTransmitQueue().addPacket( packet );
         final TransportOutputStream output = transport.getOutputStream();
         output.write( MessageCodes.DATA );
         TypeIOUtil.writeShort( output, packet.getSequence() );

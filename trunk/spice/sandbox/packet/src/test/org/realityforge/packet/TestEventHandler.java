@@ -20,7 +20,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.9 $ $Date: 2004-02-06 02:34:17 $
+ * @version $Revision: 1.10 $ $Date: 2004-02-06 04:04:56 $
  */
 class TestEventHandler
     extends AbstractDirectedHandler
@@ -78,7 +78,11 @@ class TestEventHandler
         }
         else if( event instanceof SessionInactiveEvent )
         {
-            final String text = "Session Inactive. " + sd;
+            final String text =
+                "Session Inactive. " + sd +
+                " status=" + session.getStatus() +
+                " sd.Connects=" + sd.getConnectionCount() +
+                " connections=" + session.getConnections();
             output( session, text );
         }
         else if( event instanceof SessionConnectEvent )
@@ -129,7 +133,8 @@ class TestEventHandler
             }
             final String text =
                 "Session Completed. " + sd +
-                "." + sessions + " sessions remaining.";
+                "." + sessions + " sessions remaining. ServerSessionIDs=" +
+                TestServer.SESSION_MANAGER.getSessionIDs();
             output( session, text );
         }
     }

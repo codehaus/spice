@@ -8,8 +8,6 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.impl.DefaultEventQueue;
 import org.codehaus.spice.event.impl.EventPump;
@@ -24,7 +22,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2004-02-06 02:34:17 $
+ * @version $Revision: 1.11 $ $Date: 2004-02-06 04:04:56 $
  */
 public class TestServer
 {
@@ -33,7 +31,7 @@ public class TestServer
 
     private static SelectableChannelEventSource c_clientSocketSouce;
     private static final DefaultBufferManager BUFFER_MANAGER = new DefaultBufferManager();
-    private static final DefaultSessionManager SESSION_MANAGER = new DefaultSessionManager();
+    public static final DefaultSessionManager SESSION_MANAGER = new DefaultSessionManager();
 
     public static void main( final String[] args )
         throws Exception
@@ -55,54 +53,43 @@ public class TestServer
         };
         final Thread thread = new Thread( runnable );
         thread.start();
+        thread.setPriority( Thread.NORM_PRIORITY - 1 );
 
-        final HashSet set = new HashSet();
-        final HashSet reconnect = new HashSet();
-        for( int i = 0; i < 1; i++ )
+        final Session[] sessions = new Session[ 33 ];
+        for( int i = 0; i < sessions.length; i++ )
         {
-            set.add( new Session() );
+            sessions[ i ] = new Session();
+            sessions[ i ].setUserData( new SessionData( sessions[ i ] ) );
         }
 
         boolean started = false;
         while( !c_done )
         {
-
-            final Iterator iterator = set.iterator();
-            while( iterator.hasNext() )
+            for( int i = 0; i < sessions.length; i++ )
             {
-                final Session session = (Session)iterator.next();
+                final Session session = sessions[ i ];
+                final SessionData sd = (SessionData)session.getUserData();
                 final int status = session.getStatus();
                 if( Session.STATUS_LOST == status ||
                     Session.STATUS_NOT_CONNECTED == status )
                 {
-                    if( !reconnect.contains( session ) )
+                    if( sd.getConnectionCount() == session.getConnections() )
                     {
                         if( Session.STATUS_LOST == status )
                         {
                             System.out.println( "Re-establish " +
                                                 session.getSessionID() );
                         }
-                        reconnect.add( session );
+                        else
+                        {
+                            System.out.println( "Establish " +
+                                                session.getSessionID() );
+                        }
+                        sd.incConnectionCount();
                         makeClientConnection( session );
                     }
                 }
-                else if( Session.STATUS_DISCONNECTED == status )
-                {
-                    iterator.remove();
-                    reconnect.remove( session );
-                }
-                else
-                {
-                    if( reconnect.contains( session ) )
-                    {
-                        System.out.println(
-                            "Connected " + session.getSessionID() );
-                        reconnect.remove( session );
-                    }
-                }
             }
-
-            Thread.sleep( 20 );
 
             if( SESSION_MANAGER.getSessionCount() > 0 )
             {
@@ -113,7 +100,6 @@ public class TestServer
                 c_done = true;
             }
         }
-        //System.exit( 1 );
     }
 
     private static void makeClientConnection( final Session session )
@@ -263,14 +249,6 @@ public class TestServer
             for( int j = 0; j < pumps.length; j++ )
             {
                 pumps[ j ].refresh();
-                try
-                {
-                    Thread.sleep( 2 );
-                }
-                catch( InterruptedException e )
-                {
-                    e.printStackTrace();
-                }
             }
         }
     }

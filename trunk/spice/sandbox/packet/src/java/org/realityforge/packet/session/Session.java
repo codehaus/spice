@@ -18,7 +18,7 @@ import org.realityforge.packet.events.PacketWriteRequestEvent;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.20 $ $Date: 2004-02-06 02:58:25 $
+ * @version $Revision: 1.21 $ $Date: 2004-02-06 04:04:56 $
  */
 public class Session
 {
@@ -117,6 +117,11 @@ public class Session
     private short _lastPacketReceived;
 
     /**
+     * The sequence of the last packet processed.
+     */
+    private short _lastPacketExpected;
+
+    /**
      * The sequence of the last packet transmitted.
      */
     private short _lastPacketTransmitted;
@@ -138,6 +143,8 @@ public class Session
      * packetProcessed.
      */
     private boolean _needsToSendAck;
+
+    private int _connections;
 
     /**
      * Create Serverside session with specified ID.
@@ -193,6 +200,16 @@ public class Session
             _timeoutKey.cancel();
             _timeoutKey = null;
         }
+    }
+
+    public short getLastPacketExpected()
+    {
+        return _lastPacketExpected;
+    }
+
+    public void setLastPacketExpected( final short lastPacketExpected )
+    {
+        _lastPacketExpected = lastPacketExpected;
     }
 
     public boolean hasTransmittedData()
@@ -413,6 +430,7 @@ public class Session
         _transport = transport;
         if( null != _transport )
         {
+            _connections++;
             setStatus( Session.STATUS_CONNECTED );
             _transport.setUserData( this );
         }
@@ -423,6 +441,11 @@ public class Session
                 setStatus( Session.STATUS_LOST );
             }
         }
+    }
+
+    public int getConnections()
+    {
+        return _connections;
     }
 
     public Object getUserData()
