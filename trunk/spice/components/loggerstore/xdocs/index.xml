@@ -44,6 +44,10 @@ LoggerStore createLoggerStore( Map config ) throws Exception;
 		</p>
      </section>				
 
+	  <section name="Configuration">
+	  	<p>There are several ways to configure the LoggerStore.  
+	  	Click <a href="configuration.html">here</a> for more.</p>
+	  </section>
   </body>
 
 </document>
