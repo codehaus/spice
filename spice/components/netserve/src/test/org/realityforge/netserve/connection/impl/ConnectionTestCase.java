@@ -7,26 +7,26 @@
  */
 package org.realityforge.netserve.connection.impl;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import junit.framework.TestCase;
+import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.realityforge.configkit.ConfigValidator;
 import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ValidateException;
 import org.realityforge.netserve.connection.ConnectionHandlerManager;
 import org.realityforge.netserve.connection.ConnectionManager;
 import org.xml.sax.ErrorHandler;
-import org.apache.avalon.framework.logger.ConsoleLogger;
 
 /**
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-04-23 09:04:44 $
+ * @version $Revision: 1.5 $ $Date: 2003-04-23 09:18:14 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -58,6 +58,59 @@ public class ConnectionTestCase
             fail( "Unexpected validation failure: " + e );
         }
         final ConnectionManager cm = null;
+    }
+
+    public void testNullInCtor()
+        throws Exception
+    {
+        final String name = "test-" + getName() + "-";
+        final ServerSocket serverSocket = getServerSocket();
+        final RandmoizingHandler handlerManager = new RandmoizingHandler();
+        try
+        {
+            try
+            {
+                new ConnectionAcceptor( null,
+                                        serverSocket,
+                                        handlerManager,
+                                        null );
+                fail( "Expected a NPE" );
+            }
+            catch( NullPointerException e )
+            {
+                assertEquals( e.getMessage(), "name" );
+            }
+
+            try
+            {
+                new ConnectionAcceptor( name,
+                                        null,
+                                        handlerManager,
+                                        null );
+                fail( "Expected a NPE" );
+            }
+            catch( NullPointerException e )
+            {
+                assertEquals( e.getMessage(), "serverSocket" );
+            }
+            try
+            {
+                new ConnectionAcceptor( name,
+                                        serverSocket,
+                                        null,
+                                        null );
+                fail( "Expected a NPE" );
+            }
+            catch( NullPointerException e )
+            {
+                assertEquals( e.getMessage(), "handlerManager" );
+            }
+
+        }
+        finally
+        {
+            shutdown( serverSocket );
+        }
     }
 
     public void testHammerServer()
