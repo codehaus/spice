@@ -30,7 +30,7 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.22 $ $Date: 2003-10-29 08:30:43 $
+ * @version $Revision: 1.23 $ $Date: 2003-10-29 10:31:02 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -319,6 +319,60 @@ public class MetaGenerateTaskTestCase
 
         assertTrue( "destFile.exists()", destFile.exists() );
         final MetaClassIOBinary io = new MetaClassIOBinary();
+        final FileInputStream input = new FileInputStream( destFile );
+        final ClassDescriptor descriptor = io.deserializeClass( input );
+        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
+        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+    }
+
+
+    public void testSingleSourceFileAsXML()
+        throws Exception
+    {
+        final String source =
+            "package com.biz;\n" +
+            "\n" +
+            "/**\n" +
+            " * @anAttribute\n" +
+            " */\n" +
+            "public class MyClass\n" +
+            "{\n" +
+            "}\n";
+
+        final File sourceDirectory = generateDirectory();
+        final File destDirectory = generateDirectory();
+        final FileSet fileSet = new FileSet();
+        fileSet.setDir( sourceDirectory );
+        fileSet.setIncludes( "**/*.java" );
+
+        final String sourceFilename =
+            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+        final File sourceFile = new File( sourceFilename );
+        sourceFile.getParentFile().mkdirs();
+        final FileOutputStream output = new FileOutputStream( sourceFile );
+        output.write( source.getBytes() );
+        output.close();
+
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final Project project = new Project();
+        project.setBaseDir( getBaseDirectory() );
+        task.setProject( project );
+        task.setNamespaceTagsOnly( false );
+        final FormatEnum format = new FormatEnum();
+        format.setValue( "xml" );
+        task.setFormat( format );
+        task.setDestDir( destDirectory );
+        task.addFileset( fileSet );
+        task.execute();
+        final String destFilename =
+            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.XML_EXT;
+        final File destFile = new File( destFilename );
+
+        assertTrue( "destFile.exists()", destFile.exists() );
+        final MetaClassIOXml io = new MetaClassIOXml();
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
         assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
