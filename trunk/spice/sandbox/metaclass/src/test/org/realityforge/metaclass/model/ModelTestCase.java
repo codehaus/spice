@@ -13,7 +13,7 @@ import java.util.Properties;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-18 07:18:23 $
+ * @version $Revision: 1.6 $ $Date: 2003-09-28 03:58:01 $
  */
 public class ModelTestCase
     extends TestCase
@@ -354,51 +354,6 @@ public class ModelTestCase
         assertEquals( "descriptor.modifiers", 0, descriptor.getModifiers() );
         assertEquals( "descriptor.getFields().length", 0, descriptor.getFields().length );
         assertEquals( "descriptor.getMethods().length", 0, descriptor.getMethods().length );
-        assertEquals( "descriptor.getAttributes().length", 0, descriptor.getAttributes().length );
-    }
-
-    public void testPackageWithNullName()
-    {
-        try
-        {
-            new PackageDescriptor( null, Attribute.EMPTY_SET );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for name", "name", npe.getMessage() );
-        }
-    }
-
-    public void testPackageWithNullAttributes()
-    {
-        try
-        {
-            new PackageDescriptor( "name", null );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for attributes", "attributes", npe.getMessage() );
-        }
-    }
-
-    public void testPackageWithAttributesContainingNull()
-    {
-        try
-        {
-            new PackageDescriptor( "name", new Attribute[]{null} );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe for attributes[0]", "attributes[0]", npe.getMessage() );
-        }
-    }
-
-    public void testPackageDescriptor()
-    {
-        final PackageDescriptor descriptor =
-            new PackageDescriptor( "name",
-                                 Attribute.EMPTY_SET );
-        assertEquals( "descriptor.name", "name", descriptor.getName() );
         assertEquals( "descriptor.getAttributes().length", 0, descriptor.getAttributes().length );
     }
 }

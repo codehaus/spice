@@ -12,12 +12,11 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
-import org.realityforge.metaclass.model.PackageDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-23 04:49:29 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-28 03:58:01 $
  */
 public class MetaClassIntrospectorTestCase
     extends TestCase
@@ -31,7 +30,7 @@ public class MetaClassIntrospectorTestCase
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
-        final MockAccessor accessor = new MockAccessor( original, null );
+        final MockAccessor accessor = new MockAccessor( original );
         MetaClassIntrospector.setAccessor( accessor );
         MetaClassIntrospector.clearCompleteCache();
 
@@ -49,7 +48,7 @@ public class MetaClassIntrospectorTestCase
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
-        final MockAccessor accessor = new MockAccessor( original, null );
+        final MockAccessor accessor = new MockAccessor( original );
         MetaClassIntrospector.setAccessor( accessor );
         MetaClassIntrospector.clearCompleteCache();
 
@@ -62,78 +61,13 @@ public class MetaClassIntrospectorTestCase
     public void testGetMissingClassDescriptor()
         throws Exception
     {
-        final MockAccessor accessor = new MockAccessor( null, null );
+        final MockAccessor accessor = new MockAccessor( null );
         MetaClassIntrospector.setAccessor( accessor );
         MetaClassIntrospector.clearCompleteCache();
 
         try
         {
             MetaClassIntrospector.getClassDescriptor( MetaClassIntrospectorTestCase.class );
-        }
-        catch( MetaClassException e )
-        {
-            return;
-        }
-        fail( "Expected to cause exception due to access of non existent resource" );
-    }
-
-    public void testGetPackageDescriptorViaClassObject()
-        throws Exception
-    {
-        final PackageDescriptor original =
-            new PackageDescriptor( "org.realityforge.metaclass",
-                                   Attribute.EMPTY_SET );
-        final MockAccessor accessor = new MockAccessor( null, original );
-        MetaClassIntrospector.setAccessor( accessor );
-        MetaClassIntrospector.clearCompleteCache();
-
-        final PackageDescriptor retrieved =
-            MetaClassIntrospector.getPackageDescriptor( MetaClassIntrospectorTestCase.class );
-        assertEquals( "original == retrieved", original, retrieved );
-    }
-
-        public void testGetPackageDescriptorViaClassObjectInDefaultPackage()
-        throws Exception
-    {
-        final PackageDescriptor original =
-            new PackageDescriptor( "",
-                                   Attribute.EMPTY_SET );
-        final MockAccessor accessor = new MockAccessor( null, original );
-        MetaClassIntrospector.setAccessor( accessor );
-        MetaClassIntrospector.clearCompleteCache();
-
-        final Class clazz = Class.forName( "DefaultPackageClass");
-        final PackageDescriptor retrieved =
-            MetaClassIntrospector.getPackageDescriptor( clazz );
-        assertEquals( "original == retrieved", original, retrieved );
-    }
-
-    public void testGetPackageDescriptorViaNameAndClassLoader()
-        throws Exception
-    {
-        final PackageDescriptor original =
-            new PackageDescriptor( "org.realityforge.metaclass",
-                                   Attribute.EMPTY_SET );
-        final MockAccessor accessor = new MockAccessor( null, original );
-        MetaClassIntrospector.setAccessor( accessor );
-        MetaClassIntrospector.clearCompleteCache();
-
-        final PackageDescriptor retrieved = MetaClassIntrospector.
-            getPackageDescriptor( "org.realityforge.metaclass",
-                                  MetaClassIntrospectorTestCase.class.getClassLoader() );
-        assertEquals( "original == retrieved", original, retrieved );
-    }
-
-    public void testGetMissingPackageDescriptor()
-        throws Exception
-    {
-        final MockAccessor accessor = new MockAccessor( null, null );
-        MetaClassIntrospector.setAccessor( accessor );
-        MetaClassIntrospector.clearCompleteCache();
-
-        try
-        {
-            MetaClassIntrospector.getPackageDescriptor( MetaClassIntrospectorTestCase.class );
         }
         catch( MetaClassException e )
         {
@@ -165,7 +99,7 @@ public class MetaClassIntrospectorTestCase
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
-        final MockAccessor accessor = new MockAccessor( original, null );
+        final MockAccessor accessor = new MockAccessor( original );
         MetaClassIntrospector.setAccessor( accessor );
         MetaClassIntrospector.clearCompleteCache();
 
@@ -176,27 +110,6 @@ public class MetaClassIntrospectorTestCase
 
         final ClassDescriptor retrieved2 =
             MetaClassIntrospector.getClassDescriptor( MetaClassIntrospectorTestCase.class );
-        assertEquals( "original == retrieved2", original, retrieved2 );
-        assertEquals( "accessor.getAccessCount()", 1, accessor.getAccessCount() );
-    }
-
-    public void testGetPackageDescriptorFromCache()
-        throws Exception
-    {
-        final PackageDescriptor original =
-            new PackageDescriptor( "org.realityforge.metaclass",
-                                   Attribute.EMPTY_SET );
-        final MockAccessor accessor = new MockAccessor( null, original );
-        MetaClassIntrospector.setAccessor( accessor );
-        MetaClassIntrospector.clearCompleteCache();
-
-        final PackageDescriptor retrieved =
-            MetaClassIntrospector.getPackageDescriptor( MetaClassIntrospectorTestCase.class );
-        assertEquals( "original == retrieved", original, retrieved );
-        assertEquals( "accessor.getAccessCount()", 1, accessor.getAccessCount() );
-
-        final PackageDescriptor retrieved2 =
-            MetaClassIntrospector.getPackageDescriptor( MetaClassIntrospectorTestCase.class );
         assertEquals( "original == retrieved2", original, retrieved2 );
         assertEquals( "accessor.getAccessCount()", 1, accessor.getAccessCount() );
     }

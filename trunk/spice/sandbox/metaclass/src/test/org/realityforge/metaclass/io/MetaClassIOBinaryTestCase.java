@@ -9,8 +9,8 @@ package org.realityforge.metaclass.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.Properties;
@@ -20,12 +20,11 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
-import org.realityforge.metaclass.model.PackageDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2003-08-22 04:03:28 $
+ * @version $Revision: 1.16 $ $Date: 2003-09-28 03:58:01 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -557,48 +556,6 @@ public class MetaClassIOBinaryTestCase
                       0, clazz.getMethods().length );
         assertEquals( "class.fields.length",
                       0, clazz.getFields().length );
-    }
-
-    public void testBinaryIOReadPackage()
-        throws Exception
-    {
-        final String name = "name";
-        final int attributeCount = 0;
-        final byte[] bytes = new byte[]
-        {
-            0, 0, 0, 1, //version
-            0, 4, //length of package name
-            'n', 'a', 'm', 'e',
-            0, 0, 0, 0 //attribute count
-        };
-        final MetaClassIOBinary io = new MetaClassIOBinary();
-        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
-        final PackageDescriptor pkg = io.deserializePackage( in );
-        assertEquals( "pakache.name", name, pkg.getName() );
-        assertEquals( "pakache.attributes.length",
-                      attributeCount, pkg.getAttributes().length );
-    }
-
-    public void testBinaryIOWritePackage()
-        throws Exception
-    {
-        final MetaClassIOBinary io = new MetaClassIOBinary();
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        final DataOutputStream data = new DataOutputStream( out );
-        final String name = "name";
-        final PackageDescriptor info = new PackageDescriptor( name, Attribute.EMPTY_SET );
-        io.serializePackage( data, info );
-        data.flush();
-        final byte[] bytes = out.toByteArray();
-        assertEquals( "length", 14, bytes.length );
-        int offset = 0;
-        assertEquals( "bytes[0-4] = 0", MetaClassIOBinary.VERSION, readInteger( bytes, offset ) );
-        offset += 4;
-        assertEquals( "bytes[" + offset + "] = " + name, name, readString( bytes, offset ) );
-        offset += STRING_HEADER_SIZE + name.length();
-        assertEquals( "bytes[0-4] = 0",
-                      Attribute.EMPTY_SET.length, readInteger( bytes, offset ) );
-        offset += 4;
     }
 
     private int readShort( final byte[] data, final int offset )
