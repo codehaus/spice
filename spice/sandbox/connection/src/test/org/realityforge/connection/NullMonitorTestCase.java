@@ -15,5 +15,6 @@ public class NullMonitorTestCase
       monitor.errorConnecting( null );
       monitor.errorDisconnecting( null );
       monitor.errorValidatingConnection( null );
+      monitor.skippingConnectionAttempt();
    }
 }
