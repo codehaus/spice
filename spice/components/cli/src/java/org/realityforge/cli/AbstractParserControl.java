@@ -11,8 +11,8 @@ package org.realityforge.cli;
  * Class to inherit from so when in future when new controls are added
  * clients will no have to implement them.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-06-27 03:45:15 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2004-03-21 23:45:45 $
  * @since 4.0
  * @see ParserControl
  */

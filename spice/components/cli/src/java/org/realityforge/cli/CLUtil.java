@@ -10,8 +10,8 @@ package org.realityforge.cli;
 /**
  * CLUtil offers basic utility operations for use both internal and external to package.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-06-27 03:45:17 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2004-03-21 23:45:45 $
  * @since 4.0
  * @see CLOptionDescriptor
  */
