@@ -7,14 +7,14 @@
  */
 package org.realityforge.packet.encoder;
 
-import org.realityforge.packet.Packet;
 import java.nio.ByteBuffer;
+import org.realityforge.packet.Packet;
 
 /**
  * The Encoder is responsible for encoding and decoding Packets to ByteBuffers.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-11 04:44:03 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-26 02:14:04 $
  */
 public interface Encoder
 {

@@ -7,21 +7,19 @@
  */
 package org.realityforge.packet.encoder;
 
-import org.realityforge.packet.Packet;
 import java.nio.ByteBuffer;
+import org.realityforge.packet.Packet;
 
 /**
  * A basic encoder that writes packet using simple mechanisms.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-11-11 12:12:43 $
+ * @version $Revision: 1.7 $ $Date: 2003-11-26 02:14:04 $
  */
 public class BasicEncoder
     implements Encoder
 {
-    /**
-     * The number of bytes in packets header.
-     */
+    /** The number of bytes in packets header. */
     static final int SIZEOF_HEADER = 2 + 2;
 
     /**
