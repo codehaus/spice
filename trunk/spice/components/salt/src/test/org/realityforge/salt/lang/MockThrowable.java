@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-06-12 22:37:43 $
+ * @version $Revision: 1.3 $ $Date: 2003-06-12 22:40:03 $
  */
 class MockThrowable
     extends Throwable
@@ -39,7 +39,7 @@ class MockThrowable
         s.write( m_stackTrace );
         if( null != m_cause )
         {
-            s.write( "Caused by: " );
+            s.write( "\nCaused by: " );
             m_cause.doPrintStackTrace( s );
         }
     }
