@@ -26,7 +26,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-04-23 09:27:08 $
+ * @version $Revision: 1.10 $ $Date: 2003-04-23 09:38:33 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -318,6 +318,53 @@ public class ConnectionTestCase
             shutdown( serverSocket );
         }
     }
+
+    public void testExceptingHandlerManager()
+        throws Exception
+    {
+        final ServerSocket serverSocket = getServerSocket();
+        try
+        {
+            final ConnectionAcceptor acceptor =
+                new ConnectionAcceptor( "test-" + getName() + "-",
+                                        serverSocket,
+                                        new ExceptingHandlerManager(),
+                                        null );
+            acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
+            start( acceptor );
+            doClientConnect();
+            acceptor.close( 5, true );
+        }
+        finally
+        {
+            shutdown( serverSocket );
+        }
+    }
+
+    public void testExceptingHandler()
+        throws Exception
+    {
+        final ServerSocket serverSocket = getServerSocket();
+        try
+        {
+            final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
+            chm.addHandler( new ExceptingConnectionHandler() );
+            final ConnectionAcceptor acceptor =
+                new ConnectionAcceptor( "test-" + getName() + "-",
+                                        serverSocket,
+                                        chm,
+                                        null );
+            acceptor.enableLogging( new ConsoleLogger( ConsoleLogger.LEVEL_DISABLED ) );
+            start( acceptor );
+            doClientConnect();
+            acceptor.close( 5, true );
+        }
+        finally
+        {
+            shutdown( serverSocket );
+        }
+    }
+
 
     public void testOverRunForceShutdownNoLogging()
         throws Exception
