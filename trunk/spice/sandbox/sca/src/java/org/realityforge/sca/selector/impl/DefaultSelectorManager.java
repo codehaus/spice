@@ -21,7 +21,7 @@ import org.realityforge.sca.selector.SelectorManager;
  * events on selection.
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2003-12-16 03:30:13 $
+ * @version $Revision: 1.6 $ $Date: 2003-12-16 03:37:18 $
  */
 public class DefaultSelectorManager
     implements SelectorManager, Runnable
@@ -204,38 +204,46 @@ public class DefaultSelectorManager
         // thread has been interrupted, etc.
         while( isRunning() )
         {
-            if( !performSelect() ||
-                !isRunning() )
-            {
-                continue;
-            }
-            final Set keys = getSelector().selectedKeys();
-            final Iterator iterator = keys.iterator();
-
-            // Walk through the ready keys collection and process date requests.
-            while( iterator.hasNext() )
-            {
-                final SelectionKey key = (SelectionKey)iterator.next();
-                iterator.remove();
-                final Object value = key.attachment();
-                if( null == value || !(value instanceof SelectorEntry) )
-                {
-                    //Cancel keys that have had their
-                    //attachments messed with
-                    getMonitor().invalidAttachment( key );
-                    key.cancel();
-                    continue;
-                }
-                // The key indexes into the selector so you
-                // can retrieve the socket that's ready for I/O
-                final SelectorEntry entry = (SelectorEntry)value;
-                entry.getHandler().
-                    handleSelectorEvent( key, entry.getUserData() );
-            }
+            refresh();
         }
 
         getMonitor().exitingSelectorLoop();
         setSelector( null );
+    }
+
+    /**
+     * Perform refresh of underlying Selector. The refresh will attempt to
+     * handle all the selected keys.
+     */
+    public void refresh()
+    {
+        if( !performSelect() || !isRunning() )
+        {
+            return;
+        }
+        final Set keys = getSelector().selectedKeys();
+        final Iterator iterator = keys.iterator();
+
+        // Walk through the ready keys collection and process date requests.
+        while( iterator.hasNext() )
+        {
+            final SelectionKey key = (SelectionKey)iterator.next();
+            iterator.remove();
+            final Object value = key.attachment();
+            if( null == value || !(value instanceof SelectorEntry) )
+            {
+                //Cancel keys that have had their
+                //attachments messed with
+                getMonitor().invalidAttachment( key );
+                key.cancel();
+                continue;
+            }
+            // The key indexes into the selector so you
+            // can retrieve the socket that's ready for I/O
+            final SelectorEntry entry = (SelectorEntry)value;
+            entry.getHandler().
+                handleSelectorEvent( key, entry.getUserData() );
+        }
     }
 
     /**
