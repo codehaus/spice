@@ -21,9 +21,9 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.jcomponent.threadpool.ThreadPool;
 
 /**
- * An implementation of {@link ConnectionManager} which honours the 
+ * An implementation of ConnectionManager which honours the 
  * Avalon framework interfaces.
- * 
+ *
  * <p>A sample configuration for the component is below. Note that on some OS/JVM
  * combinations <tt>soTimeout</tt> must be set to non-0 value or else the ServerSocket will
  * never get out of accept() system call and we wont be able to shutdown the server
@@ -41,7 +41,7 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-08-31 10:37:12 $
+ * @version $Revision: 1.8 $ $Date: 2003-08-31 10:38:29 $
  * @phoenix.component
  * @phoenix.service type="org.jcomponent.netserve.connection.ConnectionManager"
  */
