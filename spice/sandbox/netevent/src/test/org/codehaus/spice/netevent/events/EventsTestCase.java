@@ -12,7 +12,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.9 $ $Date: 2004-01-12 04:12:19 $
+ * @version $Revision: 1.10 $ $Date: 2004-01-16 02:04:21 $
  */
 public class EventsTestCase
     extends TestCase
@@ -30,7 +30,7 @@ public class EventsTestCase
     {
         try
         {
-            new AcceptPossibleEvent( null );
+            new AcceptPossibleEvent( null, new Object() );
         }
         catch( final NullPointerException npe )
         {
@@ -44,7 +44,8 @@ public class EventsTestCase
         throws Exception
     {
         final ServerSocketChannel channel = ServerSocketChannel.open();
-        final AcceptPossibleEvent event = new AcceptPossibleEvent( channel );
+        final AcceptPossibleEvent event = new AcceptPossibleEvent( channel,
+                                                                   new Object() );
 
         assertEquals( "event.getChannel()", channel,
                       event.getChannel() );
@@ -54,10 +55,10 @@ public class EventsTestCase
         throws Exception
     {
         final ServerSocketChannel channel = ServerSocketChannel.open();
-        final AcceptPossibleEvent event = new AcceptPossibleEvent( channel );
+        final AcceptPossibleEvent event = new AcceptPossibleEvent( channel,
+                                                                   new Object() );
 
-        final String expected = "AcceptPossibleEvent[" +
-                                channel.socket().getLocalSocketAddress() + "]";
+        final String expected = "AcceptPossibleEvent[" + channel + "]";
         assertEquals( "event.toString()", expected, event.toString() );
     }
 
