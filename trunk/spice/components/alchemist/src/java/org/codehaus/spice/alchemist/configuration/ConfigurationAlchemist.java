@@ -15,7 +15,7 @@ import org.codehaus.dna.impl.DefaultConfiguration;
  * Utility class containing methods to transform Configuration objects.
  *
  * @author Mauro Talevi
- * @version $Revision: 1.4 $ $Date: 2004-06-20 12:48:45 $
+ * @version $Revision: 1.5 $ $Date: 2004-06-20 13:37:27 $
  */
 public class ConfigurationAlchemist
 {
@@ -30,7 +30,7 @@ public class ConfigurationAlchemist
         if ( null == configuration ) { 
             throw new NullPointerException( "configuration" ); 
         }
-        return new DefaultConfiguration( configuration.getName(), "", configuration.getLocation() );
+        return new DefaultConfiguration( configuration.getName(), configuration.getLocation(), "" );
     }
 
     /**
