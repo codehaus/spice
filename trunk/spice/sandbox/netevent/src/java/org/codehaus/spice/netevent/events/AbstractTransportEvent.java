@@ -14,12 +14,12 @@ import org.codehaus.spice.netevent.transport.TcpTransport;
  * An Event related to a particular transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 04:01:50 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-07 04:05:29 $
  */
 public abstract class AbstractTransportEvent
 {
     /** The transport. */
-    private final TcpTransport _transport;
+    private final TcpTransport m_transport;
 
     /**
      * Create event for specified transport.
@@ -32,7 +32,7 @@ public abstract class AbstractTransportEvent
         {
             throw new NullPointerException( "transport" );
         }
-        _transport = transport;
+        m_transport = transport;
     }
 
     /**
@@ -42,7 +42,7 @@ public abstract class AbstractTransportEvent
      */
     public TcpTransport getTransport()
     {
-        return _transport;
+        return m_transport;
     }
 
     /**
