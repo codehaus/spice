@@ -1,7 +1,6 @@
 package org.codehaus.spice.netevent.events;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import junit.framework.TestCase;
@@ -12,7 +11,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.11 $ $Date: 2004-01-20 05:46:32 $
+ * @version $Revision: 1.12 $ $Date: 2004-01-21 03:44:55 $
  */
 public class EventsTestCase
     extends TestCase
@@ -51,17 +50,6 @@ public class EventsTestCase
                       event.getChannel() );
     }
 
-    public void testToStringOnConnectEvent()
-        throws Exception
-    {
-        final ServerSocketChannel channel = ServerSocketChannel.open();
-        final AcceptPossibleEvent event = new AcceptPossibleEvent( channel,
-                                                                   new Object() );
-
-        final String expected = "AcceptPossibleEvent[" + channel + "]";
-        assertEquals( "event.toString()", expected, event.toString() );
-    }
-
     public void testNull_ioe_PassedIntoCtor_of_IOError()
         throws Exception
     {
@@ -88,34 +76,5 @@ public class EventsTestCase
         final WriteErrorEvent event = new WriteErrorEvent( transport, ioe );
 
         assertEquals( "event.getIoe()", ioe, event.getIoe() );
-    }
-
-    public void testToStringOnReadIOErrorEvent()
-        throws Exception
-    {
-        final SocketChannel channel = SocketChannel.open();
-        final ChannelTransport transport = newTransport( channel );
-        final IOException ioe = new IOException( "X" );
-        final ReadErrorEvent event = new ReadErrorEvent( transport, ioe );
-
-        final String expected =
-            "ReadErrorEvent[java.io.IOException: X error connected to " +
-            channel + "]";
-        assertEquals( "event.toString()", expected, event.toString() );
-    }
-
-    public void testToStringOnReadEvent()
-        throws Exception
-    {
-        final SocketChannel channel = SocketChannel.open();
-        final ChannelTransport transport = newTransport( channel );
-        final ByteBuffer buffer = ByteBuffer.allocate( 4 );
-        buffer.limit( 4 );
-        buffer.position( 4 );
-        final ReadEvent event = new ReadEvent( transport, buffer );
-
-        final String expected =
-            "ReadEvent[count=4 " + channel + "]";
-        assertEquals( "event.toString()", expected, event.toString() );
     }
 }
