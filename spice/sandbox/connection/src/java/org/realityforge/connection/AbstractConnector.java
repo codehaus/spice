@@ -1,6 +1,5 @@
 package org.realityforge.connection;
 
-
 /**
  * The AbstractConnector is a base class for connectors.
  * Connectors establish a connection to a resource
