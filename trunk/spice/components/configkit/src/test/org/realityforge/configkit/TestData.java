@@ -11,13 +11,21 @@ package org.realityforge.configkit;
  * Data for unit tests.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-03-11 09:17:55 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-04 11:10:32 $
  */
 class TestData
 {
     static final String PUBLIC_ID = "-//PHOENIX/Assembly DTD Version 1.0//EN";
     static final String SYSTEM_ID = "http://jakarta.apache.org/phoenix/assembly_1_0.dtd";
     static final String RESOURCE = "org/realityforge/configkit/test/empty.txt";
+    static final String SCHEMA = "org/realityforge/configkit/test/relax-schema.xml";
+    static final String XML_DATA = "org/realityforge/configkit/test/data1.xml";
+    static final String XML_DATA2 = RESOURCE;
+    static final String XML_DATA3 = "org/realityforge/configkit/test/data2.xml";
+
+    static final String SCHEMA_PUBLIC_ID = "-//TEST/Blah DTD Version 1.0//EN";
+    static final String SCHEMA_SYSTEM_ID = "http://www.realityforge.org/test/test.xml";
 
     static final EntityInfo INFO = new EntityInfo( PUBLIC_ID, SYSTEM_ID, RESOURCE );
+    static final String CATALOG_JAR = "aTestCatalog.jar";
 }
