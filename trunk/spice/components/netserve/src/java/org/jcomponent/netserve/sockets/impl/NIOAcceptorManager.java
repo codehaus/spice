@@ -25,7 +25,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-10-09 09:57:28 $
+ * @version $Revision: 1.10 $ $Date: 2003-10-10 02:30:04 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -94,7 +94,6 @@ public class NIOAcceptorManager
         synchronized( this )
         {
             m_selector = Selector.open();
-            m_running = true;
         }
         startThread();
     }
@@ -106,6 +105,10 @@ public class NIOAcceptorManager
     {
         final Thread thread = new Thread( this, "NIOAcceptorManager" );
         thread.start();
+        while( !m_running )
+        {
+            Thread.yield();
+        }
     }
 
     /**
@@ -113,6 +116,7 @@ public class NIOAcceptorManager
      */
     public void shutdownSelector()
     {
+        //TODO: NOte that we are shutting down server
         synchronized( this )
         {
             m_running = false;
@@ -260,22 +264,16 @@ public class NIOAcceptorManager
      */
     public void run()
     {
+        m_running = true;
         // Here's where everything happens. The select method will
         // return when any operations registered above have occurred, the
         // thread has been interrupted, etc.
         while( isRunning() )
         {
-            // Someone is ready for I/O, get the ready keys
-            try
+            if( !performSelect() ||
+                !isRunning() )
             {
-                if( 0 == m_selector.select( m_timeout ) )
-                {
-                    continue;
-                }
-            }
-            catch( final Exception e )
-            {
-                //Ignore
+                break;
             }
 
             final Set keys = m_selector.selectedKeys();
@@ -293,11 +291,37 @@ public class NIOAcceptorManager
                 handleChannel( channel );
             }
         }
-        m_selector = null;
+        //TODO: Note that we have exited receive loop
         synchronized( this )
         {
+            m_selector = null;
             notifyAll();
         }
+    }
+
+    /**
+     * Perform select operation and return true if
+     * successful and connections present.
+     *
+     * @return true if select resulted in keys being present
+     */
+    private boolean performSelect()
+    {
+        try
+        {
+            //TODO: NOte that we are entering select
+            final int count = m_selector.select( m_timeout );
+            //TODO: Note we are done with select
+            if( 0 != count )
+            {
+                return true;
+            }
+        }
+        catch( final Exception e )
+        {
+            //Ignore
+        }
+        return false;
     }
 
     /**
@@ -321,6 +345,7 @@ public class NIOAcceptorManager
         try
         {
             final Socket socket = channel.accept().socket();
+            //TODO: Note we are handling connection
             handler.handleConnection( socket );
         }
         catch( final IOException ioe )
