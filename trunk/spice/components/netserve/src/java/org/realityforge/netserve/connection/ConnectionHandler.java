@@ -14,8 +14,8 @@ import java.net.Socket;
 /**
  * Implement this interface to process incoming socket connections.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-23 01:34:15 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 01:34:37 $
  */
 public interface ConnectionHandler
 {

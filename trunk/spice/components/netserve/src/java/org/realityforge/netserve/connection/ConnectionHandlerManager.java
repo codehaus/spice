@@ -10,8 +10,8 @@ package org.realityforge.netserve.connection;
 /**
  * This manages creation and destruction of ConnectionHandler objects.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-23 01:35:01 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 01:35:30 $
  */
 public interface ConnectionHandlerManager
 {
