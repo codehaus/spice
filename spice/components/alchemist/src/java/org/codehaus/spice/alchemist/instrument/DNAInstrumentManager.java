@@ -25,7 +25,7 @@ import org.codehaus.spice.alchemist.logger.LoggerAlchemist;
  * 
  * @author Johan Sjoberg
  * @author Mauro Talevi
- * @version $Revision: 1.3 $ $Date: 2004-06-19 17:51:35 $
+ * @version $Revision: 1.4 $ $Date: 2004-06-20 12:48:45 $
  */
 public class DNAInstrumentManager implements InstrumentManager, LogEnabled,
         Configurable, Active {
@@ -50,9 +50,11 @@ public class DNAInstrumentManager implements InstrumentManager, LogEnabled,
      * @see LogEnabled#enableLogging(Logger)
      */
     public void enableLogging( Logger logger ) {
-        if ( LoggerAlchemist.isAvalonLogEnabled( _manager ) ) {
+        try {
             LoggerAlchemist.toAvalonLogEnabled( _manager ).enableLogging(
                     LoggerAlchemist.toAvalonLogger( logger ) );
+        } catch ( IllegalArgumentException e ) {
+            // The manager is not Avalon LogEnabled            
         }
     }
 
@@ -77,7 +79,7 @@ public class DNAInstrumentManager implements InstrumentManager, LogEnabled,
         try {
             ActivityAlchemist.toAvalonInitializable( _manager ).initialize();
         } catch ( IllegalArgumentException e ){
-            // _manager is not Avalon Initialisable
+            // The manager is not Avalon Initialisable
         }
     }
 
@@ -88,7 +90,7 @@ public class DNAInstrumentManager implements InstrumentManager, LogEnabled,
         try {
             ActivityAlchemist.toAvalonDisposable( _manager ).dispose();
         } catch ( IllegalArgumentException e ){
-            // _manager is not Avalon Disposable
+            // The manager is not Avalon Disposable
         }
     }
 

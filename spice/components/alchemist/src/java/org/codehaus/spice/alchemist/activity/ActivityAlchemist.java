@@ -7,11 +7,13 @@
  */
 package org.codehaus.spice.alchemist.activity;
 
+import org.codehaus.dna.Active;
+
 /**
  * Utility class containing methods to transform Activity objects.
  * 
  * @author Mauro Talevi
- * @version $Revision: 1.1 $ $Date: 2004-06-17 22:27:22 $
+ * @version $Revision: 1.2 $ $Date: 2004-06-20 12:48:45 $
  */
 public class ActivityAlchemist {
 
@@ -24,6 +26,21 @@ public class ActivityAlchemist {
      */
     public static boolean isAvalonInitializable( final Object object ){
         if ( object instanceof org.apache.avalon.framework.activity.Initializable )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines if an object is DNA Active
+     *  
+     * @param object the Object to check
+     * @return A boolean <code>true</code> if the object is an instance of
+     * 		   {@link Active}
+     */
+    public static boolean isDNAActive( final Object object ){
+        if ( object instanceof Active )
         {
             return true;
         }
@@ -79,4 +96,20 @@ public class ActivityAlchemist {
         throw new IllegalArgumentException( message );
     }
 
+    /**
+     * Casts an object to DNA Active if possible.
+     * 
+     * @param object the Object to cast
+     * @return A {@link Active} 
+     * @throws IllegalArgumentException if not DNA Active.
+     */
+    public static Active toDNAActive( final Object object ){
+        if ( isDNAActive( object ) )
+        {
+            return (Active)object; 
+        }
+        final String message = ( object != null ? object.getClass().getName() : "Object" )
+        						+ " is not DNA Active";
+        throw new IllegalArgumentException( message );
+    }
 }
