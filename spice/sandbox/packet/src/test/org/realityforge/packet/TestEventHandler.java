@@ -20,7 +20,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2004-02-05 05:57:28 $
+ * @version $Revision: 1.9 $ $Date: 2004-02-06 02:34:17 $
  */
 class TestEventHandler
     extends AbstractDirectedHandler
@@ -176,8 +176,9 @@ class TestEventHandler
 
     private void transmitData( final Session session )
     {
-        final int transmitCount =
-            Math.abs( RANDOM.nextInt() % 16 * 1024 );
+        //final int transmitCount =
+        //    Math.abs( RANDOM.nextInt() % 16 * 1024 );
+        final int transmitCount = 4;
         final ByteBuffer buffer =
             _bufferManager.aquireBuffer( transmitCount );
 

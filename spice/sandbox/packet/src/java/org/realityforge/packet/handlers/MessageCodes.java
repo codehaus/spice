@@ -2,7 +2,7 @@ package org.realityforge.packet.handlers;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-02-03 05:08:54 $
+ * @version $Revision: 1.3 $ $Date: 2004-02-06 02:34:17 $
  */
 public interface MessageCodes
 {
@@ -51,4 +51,10 @@ public interface MessageCodes
      * byte) - One of ERROR_* constants.
      */
     byte ERROR = 7;
+
+    /**
+     * Message transmitted to keep connection alive. Sequence follows (as short)
+     * of last message transmitted.
+     */
+    byte PING = 8;
 }

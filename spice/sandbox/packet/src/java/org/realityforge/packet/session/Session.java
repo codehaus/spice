@@ -18,7 +18,7 @@ import org.realityforge.packet.events.PacketWriteRequestEvent;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.18 $ $Date: 2004-02-05 05:57:28 $
+ * @version $Revision: 1.19 $ $Date: 2004-02-06 02:34:17 $
  */
 public class Session
 {
@@ -87,7 +87,12 @@ public class Session
     /**
      * Flag indicating whether the session has received any data.
      */
-    private boolean _dataProcessed;
+    private boolean _hasReceivedData;
+
+    /**
+     * Flag indicating whether the session has received any data.
+     */
+    private boolean _hasTransmittedData;
 
     /**
      * Flag indicating whether the session will be disconencted when last
@@ -184,6 +189,11 @@ public class Session
         }
     }
 
+    public boolean hasTransmittedData()
+    {
+        return _hasTransmittedData;
+    }
+
     public boolean isDisconnectRequested()
     {
         return _disconnectRequested;
@@ -219,9 +229,9 @@ public class Session
         _lastPacketReceived = lastPacketReceived;
     }
 
-    public boolean isDataProcessed()
+    public boolean hasReceivedData()
     {
-        return _dataProcessed;
+        return _hasReceivedData;
     }
 
     /**
@@ -241,7 +251,7 @@ public class Session
      */
     public void setLastPacketProcessed( final short lastPacketProcessed )
     {
-        _dataProcessed = true;
+        _hasReceivedData = true;
         _lastPacketProcessed = lastPacketProcessed;
     }
 
@@ -343,6 +353,11 @@ public class Session
         return _rxQueue;
     }
 
+    public short getLastPacketTransmitted()
+    {
+        return _lastPacketTransmitted;
+    }
+
     public boolean sendPacket( final ByteBuffer buffer )
     {
         if( isPendingDisconnect() || isDisconnectRequested() )
@@ -353,8 +368,7 @@ public class Session
         {
             final Packet packet =
                 new Packet( ++_lastPacketTransmitted, 0, buffer );
-            System.out.println( (isClient() ? "PACK CL" : "PACK SV") +
-                                ": Queuing a packet: " + packet );
+            _hasTransmittedData = true;
             final PacketWriteRequestEvent ev =
                 new PacketWriteRequestEvent( this, packet );
             _sink.addEvent( ev );

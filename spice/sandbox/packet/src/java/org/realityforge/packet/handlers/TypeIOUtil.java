@@ -7,7 +7,7 @@ import java.io.OutputStream;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-16 06:41:37 $
+ * @version $Revision: 1.3 $ $Date: 2004-02-06 02:34:17 $
  */
 public class TypeIOUtil
 {
@@ -82,5 +82,4 @@ public class TypeIOUtil
         }
         return value;
     }
-
 }
