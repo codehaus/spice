@@ -14,7 +14,7 @@ import com.thoughtworks.qdox.model.JavaClass;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-22 06:26:11 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 05:26:10 $
  */
 class MockPackage implements JavaClassParent
 {
@@ -28,7 +28,7 @@ class MockPackage implements JavaClassParent
         return null;
     }
 
-    public void addClass( JavaClass javaClass )
+    public void addClass( final JavaClass javaClass )
     {
     }
 

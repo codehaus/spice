@@ -15,19 +15,19 @@ import com.thoughtworks.qdox.model.JavaMethod;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-24 04:44:54 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 05:26:34 $
  */
 class RewritingAttributeInterceptor
     extends DefaultQDoxAttributeInterceptor
 {
-    public Attribute processClassAttribute( JavaClass clazz,
-                                            Attribute attribute )
+    public Attribute processClassAttribute( final JavaClass clazz,
+                                            final Attribute attribute )
     {
         return processAttribute( attribute );
     }
 
-    public Attribute processFieldAttribute( JavaField field,
-                                            Attribute attribute )
+    public Attribute processFieldAttribute( final JavaField field,
+                                            final Attribute attribute )
     {
         return processAttribute( attribute );
     }
@@ -38,7 +38,7 @@ class RewritingAttributeInterceptor
         return processAttribute( attribute );
     }
 
-    private Attribute processAttribute( Attribute attribute )
+    private Attribute processAttribute( final Attribute attribute )
     {
         if( attribute.getName().startsWith( "rewriteme" ) )
         {

@@ -15,25 +15,25 @@ import com.thoughtworks.qdox.model.JavaMethod;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-24 04:50:22 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-31 05:26:22 $
  */
 class ReplacingAttributeInterceptor
     extends DefaultQDoxAttributeInterceptor
 {
-    public Attribute[] processClassAttributes( JavaClass clazz,
-                                               Attribute[] attributes )
+    public Attribute[] processClassAttributes( final JavaClass clazz,
+                                               final Attribute[] attributes )
     {
         return Attribute.EMPTY_SET;
     }
 
-    public Attribute[] processFieldAttributes( JavaField field,
-                                               Attribute[] attributes )
+    public Attribute[] processFieldAttributes( final JavaField field,
+                                               final Attribute[] attributes )
     {
         return Attribute.EMPTY_SET;
     }
 
-    public Attribute[] processMethodAttributes( JavaMethod method,
-                                                Attribute[] attributes )
+    public Attribute[] processMethodAttributes( final JavaMethod method,
+                                                final Attribute[] attributes )
     {
         return Attribute.EMPTY_SET;
     }
