@@ -14,12 +14,12 @@ import java.nio.channels.ServerSocketChannel;
  * An Event indicating that ServerSocket can accept a connection.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-07 04:07:31 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-07 04:08:13 $
  */
 public class ConnectEvent
 {
     /** The ServerSocketChannel. */
-    private final ServerSocketChannel _serverSocketChannel;
+    private final ServerSocketChannel m_serverSocketChannel;
 
     /**
      * Create event for channel.
@@ -32,7 +32,7 @@ public class ConnectEvent
         {
             throw new NullPointerException( "channel" );
         }
-        _serverSocketChannel = channel;
+        m_serverSocketChannel = channel;
     }
 
     /**
@@ -42,7 +42,7 @@ public class ConnectEvent
      */
     public ServerSocketChannel getServerSocketChannel()
     {
-        return _serverSocketChannel;
+        return m_serverSocketChannel;
     }
 
     /**
@@ -51,7 +51,7 @@ public class ConnectEvent
     public String toString()
     {
         final SocketAddress address =
-            _serverSocketChannel.socket().getLocalSocketAddress();
+            m_serverSocketChannel.socket().getLocalSocketAddress();
         return getClass().getName() + "[" + address + "]";
     }
 }
