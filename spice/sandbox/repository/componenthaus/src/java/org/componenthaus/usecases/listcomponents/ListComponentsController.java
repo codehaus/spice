@@ -12,6 +12,7 @@ import java.util.Collection;
 
 public class ListComponentsController extends AbstractController {
     private final ComponentRepository repository;
+    final static String MODEL_NAME = "components";
 
     public ListComponentsController(ComponentRepository repository) {
         this.repository = repository;
@@ -19,6 +20,6 @@ public class ListComponentsController extends AbstractController {
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         final Collection modelObject = repository.listComponents();
-        return new ModelAndView("listComponentsView","components",modelObject);
+        return new ModelAndView("listComponentsView",MODEL_NAME,modelObject);
     }
 }

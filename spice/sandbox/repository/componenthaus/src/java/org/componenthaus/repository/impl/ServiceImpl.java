@@ -1,11 +1,10 @@
 package org.componenthaus.repository.impl;
 
-import org.componenthaus.repository.api.Service;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.componenthaus.repository.api.Service;
 
-import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.List;
 
 class ServiceImpl implements Service {
     private String name = null;
@@ -47,19 +46,6 @@ class ServiceImpl implements Service {
 
     public String getFullyQualifiedName() {
         return fullyQualifiedName;
-    }
-
-    public String getAuthorsCSV() {
-        final StringBuffer result = new StringBuffer();
-        int count = 0;
-        for(Iterator i=authors.iterator();i.hasNext();) {
-            if ( count > 0) {
-                result.append(", ");
-            }
-            result.append(i.next());
-            count++;
-        }
-        return result.toString();
     }
 
     public List getAuthors() {

@@ -7,6 +7,12 @@
     <inceptionYear>2003</inceptionYear>
     <package>org.componenthaus</package>
 
+    <description>
+        A website and a community centered around  component based development.
+
+        Try it &lt;a href="http://64.4.141.60/componenthaus/welcome.htm"&gt; here &lt;/a&gt;
+    </description>
+
     <developers>
         <developer>
             <name>Mike Hogan</name>
@@ -194,4 +200,11 @@
             </resources>
         </unitTest>
     </build>
+
+    <reports>
+        <report>maven-jxr-plugin</report>
+        <report>maven-javadoc-plugin</report>
+        <report>maven-junit-report-plugin</report>
+        <report>maven-clover-plugin</report>
+    </reports>
 </project>

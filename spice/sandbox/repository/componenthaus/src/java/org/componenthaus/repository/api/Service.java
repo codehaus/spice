@@ -11,7 +11,7 @@ public interface Service {
     String getName();
     String getVersion();
     String getFullyQualifiedName();
-    String getAuthorsCSV();
+
     List getAuthors();
     String getOneLineDescription();
     String getFullDescription();
