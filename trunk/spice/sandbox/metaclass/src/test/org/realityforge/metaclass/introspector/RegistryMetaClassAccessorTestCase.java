@@ -8,15 +8,15 @@
 package org.realityforge.metaclass.introspector;
 
 import junit.framework.TestCase;
-import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-26 11:32:20 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-26 11:35:53 $
  */
 public class RegistryMetaClassAccessorTestCase
     extends TestCase
@@ -114,5 +114,21 @@ public class RegistryMetaClassAccessorTestCase
             return;
         }
         fail( "Expected to fail due to null classLoader passed into RegisterDescriptor" );
+    }
+
+    public void testRegisterDescriptorUnderSecurityManager()
+        throws Exception
+    {
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( "MyClass2",
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        final RegistryMetaClassAccessor accessor = new RegistryMetaClassAccessor();
+        final ClassLoader classLoader = getClass().getClassLoader();
+        accessor.registerDescriptor( descriptor, classLoader );
+        final ClassDescriptor result =
+            accessor.getClassDescriptor( "MyClass2", classLoader );
+        assertEquals( "descriptor", descriptor, result );
     }
 }

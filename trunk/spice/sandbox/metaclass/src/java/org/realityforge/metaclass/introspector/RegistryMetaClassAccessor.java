@@ -19,11 +19,17 @@ import java.util.WeakHashMap;
  * objects that have been explicitly registered with accessor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-26 11:32:20 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-26 11:35:53 $
  */
 public class RegistryMetaClassAccessor
     implements MetaClassAccessor
 {
+    /**
+     * Permission needed to register descriptor.
+     */
+    private static final RuntimePermission REGISTER_DESCRIPTOR_PERMISSION =
+        new RuntimePermission( "metaclass.registry.registerDescriptor" );
+
     /**
      * The registry containing ClassLoader --> DataMap mapping.
      * Where the DataMap contains a classname --> ClassDescriptor
@@ -64,6 +70,12 @@ public class RegistryMetaClassAccessor
         if( null == classLoader )
         {
             throw new NullPointerException( "classLoader" );
+        }
+
+        final SecurityManager sm = System.getSecurityManager();
+        if( null != sm )
+        {
+            sm.checkPermission( REGISTER_DESCRIPTOR_PERMISSION );
         }
         final Map map = getClassLoaderMap( classLoader );
         map.put( descriptor.getName(), descriptor );
