@@ -7,10 +7,13 @@
  */
 package org.realityforge.loggerstore;
 
+import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.logger.LogKitLogger;
+import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.log.Hierarchy;
+import org.apache.log.LogTarget;
+import org.apache.log.util.Closeable;
 
 /**
  * <p>LogKitLoggerStore extends AbstractLoggerStore to provide the implementation
@@ -21,8 +24,8 @@ import org.apache.log.Hierarchy;
 public class LogKitLoggerStore
     extends AbstractLoggerStore
 {
-    /** The Logger Hierarchy  */
-    private final Hierarchy m_hierarchy;
+    /** The LoggerManager */
+    private final LogKitLoggerManager m_manager;
 
     /**
      * Creates a <code>LogKitLoggerStore</code> using the configuration configuration
@@ -33,9 +36,10 @@ public class LogKitLoggerStore
     public LogKitLoggerStore( final Configuration configuration )
         throws Exception
     {
-        m_hierarchy = new Hierarchy();
-        HierarchyUtil.configure( configuration, m_hierarchy );
-        setRootLogger( new LogKitLogger( m_hierarchy.getRootLogger() ) );
+        m_manager = new LogKitLoggerManager( new Hierarchy() );
+        m_manager.contextualize( new DefaultContext() );
+        m_manager.configure( configuration );
+        setRootLogger( m_manager.getDefaultLogger() );
     }
 
     /**
@@ -43,7 +47,7 @@ public class LogKitLoggerStore
      */
     protected Logger createLogger( final String name )
     {
-        return new LogKitLogger( m_hierarchy.getLoggerFor( name ) );
+        return m_manager.getLoggerForCategory( name );
     }
 
     /**
@@ -51,6 +55,17 @@ public class LogKitLoggerStore
      */
     public void close()
     {
-        HierarchyUtil.closeLogTargets( m_hierarchy );
+        final String[] names = getCategoryNames();
+        for ( int i = 0; i < names.length; i++ )
+        {
+            final LogTarget[] targets = m_manager.getLogTargets( names[i] );
+            for ( int j = 0; j < targets.length; j++ ) 
+            {
+                if ( targets[j] instanceof Closeable )
+                {
+                    ((Closeable)targets[j]).close();
+                }
+            }
+        }
     }
 }
