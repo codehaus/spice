@@ -16,7 +16,7 @@ import org.jcomponent.netserve.connection.impl.AcceptorMonitor;
  * A noop monitor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-28 00:51:06 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-28 00:51:40 $
  */
 public class NullAcceptorMonitor
     implements AcceptorMonitor
@@ -29,35 +29,40 @@ public class NullAcceptorMonitor
     /**
      * @see AcceptorMonitor#acceptorCreated
      */
-    public void acceptorCreated( String name, ServerSocket serverSocket )
+    public void acceptorCreated( final String name,
+                                 final ServerSocket serverSocket )
     {
     }
 
     /**
      * @see AcceptorMonitor#acceptorClosing
      */
-    public void acceptorClosing( String name, ServerSocket serverSocket )
+    public void acceptorClosing( final String name,
+                                 final ServerSocket serverSocket )
     {
     }
 
     /**
      * @see AcceptorMonitor#serverSocketListening
      */
-    public void serverSocketListening( String name, ServerSocket serverSocket )
+    public void serverSocketListening( final String name,
+                                       final ServerSocket serverSocket )
     {
     }
 
     /**
      * @see AcceptorMonitor#errorAcceptingConnection
      */
-    public void errorAcceptingConnection( String name, IOException ioe )
+    public void errorAcceptingConnection( final String name,
+                                          final IOException ioe )
     {
     }
 
     /**
      * @see AcceptorMonitor#errorClosingServerSocket
      */
-    public void errorClosingServerSocket( String name, IOException ioe )
+    public void errorClosingServerSocket( final String name,
+                                          final IOException ioe )
     {
     }
 }
