@@ -20,7 +20,7 @@ import java.util.Properties;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.4 $ $Date: 2003-05-24 22:18:27 $
+ * @version $Revision: 1.5 $ $Date: 2003-05-24 22:44:59 $
  */
 public class InitialLoggerStoreFactory
     implements LoggerStoreFactory
@@ -30,7 +30,7 @@ public class InitialLoggerStoreFactory
      * initial LoggerStoreFactory. If not specified will attempt to use
      * the ConsoleLoggerStoreFactory.
      */
-    public static final String INITIAL_FACTORY = LoggerStoreFactory.class.getName() + ".factory";
+    public static final String INITIAL_FACTORY = "org.realityforge.loggerstore.factory";
 
     /**
      * The name of properties file loaded from ClassLoader. This property
