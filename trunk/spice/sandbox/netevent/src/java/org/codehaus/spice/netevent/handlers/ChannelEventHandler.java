@@ -19,7 +19,7 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2004-01-15 05:51:04 $
+ * @version $Revision: 1.8 $ $Date: 2004-01-15 06:12:25 $
  */
 public class ChannelEventHandler
     extends AbstractEventHandler
@@ -39,7 +39,8 @@ public class ChannelEventHandler
     {
         _closeHandler = new CloseEventHandler( target );
         _acceptHandler = new AcceptEventHandler( queue );
-        _connectHandler = new ConnectEventHandler( target,
+        _connectHandler = new ConnectEventHandler( queue,
+                                                   target,
                                                    bufferManager,
                                                    source );
         _readHandler = new ReadEventHandler( queue, bufferManager );

@@ -14,12 +14,13 @@ import org.codehaus.spice.event.impl.DefaultEventQueue;
 import org.codehaus.spice.event.impl.EventPump;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
 import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
+import org.codehaus.spice.netevent.handlers.ChannelEventHandler;
 import org.codehaus.spice.netevent.selector.SocketEventSource;
 import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-15 05:56:35 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-15 06:12:25 $
  */
 public class TestServer
 {
@@ -33,11 +34,13 @@ public class TestServer
             new DefaultSelectorManager();
         selectorManager.setRunning( true );
         selectorManager.setSelector( Selector.open() );
-        final DefaultEventQueue queue =
+        final DefaultEventQueue queue1 =
+            new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
+        final DefaultEventQueue queue2 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
         final SocketEventSource source =
-            new SocketEventSource( selectorManager, queue );
+            new SocketEventSource( selectorManager, queue1 );
 
         final ServerSocketChannel channel = ServerSocketChannel.open();
         channel.socket().bind( new InetSocketAddress( 1980 ) );
@@ -48,17 +51,22 @@ public class TestServer
         final DefaultBufferManager bufferManager =
             new DefaultBufferManager();
 
-        final TestSocketEventHandler handler =
-            new TestSocketEventHandler( source, queue, bufferManager );
+        final ChannelEventHandler handler1 =
+            new ChannelEventHandler( source, queue1, queue2, bufferManager );
 
-        final EventPump pump1 = new EventPump( source, handler );
+        final TestSocketEventHandler handler2 = new TestSocketEventHandler();
+
+        final EventPump pump1 = new EventPump( source, handler1 );
+        pump1.setBatchSize( 10 );
+
+        final EventPump pump2 = new EventPump( queue2, handler2 );
         pump1.setBatchSize( 10 );
 
         final Runnable runnable = new Runnable()
         {
             public void run()
             {
-                doPump( new EventPump[]{pump1} );
+                doPump( new EventPump[]{pump1, pump2} );
             }
         };
         final Thread thread = new Thread( runnable );

@@ -2,36 +2,26 @@ package org.codehaus.spice.netevent;
 
 import java.io.IOException;
 import java.nio.channels.SocketChannel;
+import org.codehaus.spice.event.AbstractEventHandler;
 import org.codehaus.spice.event.EventHandler;
-import org.codehaus.spice.event.EventSink;
-import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.ChannelClosedEvent;
 import org.codehaus.spice.netevent.events.ConnectEvent;
-import org.codehaus.spice.netevent.handlers.ChannelEventHandler;
-import org.codehaus.spice.netevent.selector.SocketEventSource;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 import org.codehaus.spice.netevent.transport.TransportOutputStream;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2004-01-15 05:56:35 $
+ * @version $Revision: 1.8 $ $Date: 2004-01-15 06:12:25 $
  */
 class TestSocketEventHandler
-    extends ChannelEventHandler
+    extends AbstractEventHandler
 {
-    public TestSocketEventHandler( final SocketEventSource source,
-                                   final EventSink queue,
-                                   final BufferManager bufferManager )
-    {
-        super( source, queue, queue, bufferManager );
-    }
-
     /**
      * @see EventHandler#handleEvent(Object)
      */
     public void handleEvent( final Object event )
     {
-        //System.out.println( "event = " + event );
+        //System.out.println( "TTTTTTTTTTTTT: " + event );
         if( event instanceof ChannelClosedEvent )
         {
             final ChannelClosedEvent ce = (ChannelClosedEvent)event;
@@ -63,7 +53,5 @@ class TestSocketEventHandler
                 ioe.printStackTrace();
             }
         }
-
-        super.handleEvent( event );
     }
 }

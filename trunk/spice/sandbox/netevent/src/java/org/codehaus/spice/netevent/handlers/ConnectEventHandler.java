@@ -24,13 +24,16 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2004-01-12 04:58:14 $
+ * @version $Revision: 1.8 $ $Date: 2004-01-15 06:12:25 $
  */
 public class ConnectEventHandler
     extends AbstractIOEventHandler
 {
     /** Handler to pass events on to. */
     private final SocketEventSource _source;
+
+    /** Handler to pass high-level events on to. */
+    private final EventSink _target;
 
     /**
      * Create handler with specified destination sink.
@@ -40,14 +43,20 @@ public class ConnectEventHandler
      * @param source the source
      */
     public ConnectEventHandler( final EventSink sink,
+                                final EventSink target,
                                 final BufferManager bufferManager,
                                 final SocketEventSource source )
     {
         super( sink, bufferManager );
+        if( null == target )
+        {
+            throw new NullPointerException( "target" );
+        }
         if( null == source )
         {
             throw new NullPointerException( "source" );
         }
+        _target = target;
         _source = source;
     }
 
@@ -72,7 +81,7 @@ public class ConnectEventHandler
         {
             transport.register( _source );
             final ConnectEvent response = new ConnectEvent( transport );
-            getSink().addEvent( response );
+            _target.addEvent( response );
         }
         catch( final IOException ioe )
         {
