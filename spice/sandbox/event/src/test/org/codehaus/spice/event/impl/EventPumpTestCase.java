@@ -8,7 +8,7 @@ import org.jmock.Mock;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-16 02:03:12 $
+ * @version $Revision: 1.2 $ $Date: 2004-02-11 04:01:13 $
  */
 public class EventPumpTestCase
     extends TestCase
@@ -74,7 +74,7 @@ public class EventPumpTestCase
         final EventHandler handler = (EventHandler)mockHandler.proxy();
 
         final EventPump pump = new EventPump( source, handler );
-        assertEquals( "batchSize", 0, pump.getBatchSize() );
+        assertEquals( "batchSize", Integer.MAX_VALUE, pump.getBatchSize() );
         pump.setBatchSize( 15 );
         assertEquals( "batchSize", 15, pump.getBatchSize() );
 
