@@ -25,7 +25,7 @@ import java.beans.PropertyDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-10-14 00:50:23 $
+ * @version $Revision: 1.14 $ $Date: 2003-10-14 00:56:24 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -597,5 +597,83 @@ public class MBeanBuilderTestCase
         final ModelMBeanAttributeInfo attribute =
             builder.extractAttribute( descriptor );
         assertNull( "attribute", attribute );
+    }
+
+    public void testExtractAttributeInfoFromNoWriterProperty()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Method readerMethod =
+            TestBean.class.getMethod( "getValue", new Class[ 0 ] );
+        final PropertyDescriptor descriptor =
+            new PropertyDescriptor( "value", readerMethod, null );
+
+        final Attribute[] attributesSansDescription =
+            new Attribute[]{new Attribute( "mx.attribute" )};
+        final MethodDescriptor reader =
+            new MethodDescriptor( "getValue",
+                                  "int",
+                                  0,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  attributesSansDescription );
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( TestBean.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{reader} );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final ModelMBeanAttributeInfo attribute =
+            builder.extractAttribute( descriptor );
+        assertNotNull( "attribute", attribute );
+        assertEquals( "name", "value", attribute.getName() );
+        assertEquals( "isReadable", true, attribute.isReadable() );
+        assertEquals( "isWritable", false, attribute.isWritable() );
+        assertEquals( "description", "", attribute.getDescription() );
+        assertEquals( "returnType", "int", attribute.getType() );
+        assertEquals( "currencyTimeLimit", new Integer( 1 ),
+                      attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
+    }
+
+    public void testExtractAttributeInfoFromNoReaderProperty()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Method writerMethod =
+            TestBean.class.getMethod( "setValue", new Class[]{Integer.TYPE} );
+        final PropertyDescriptor descriptor =
+            new PropertyDescriptor( "value", null, writerMethod );
+
+        final Attribute[] attributesSansDescription =
+            new Attribute[]{new Attribute( "mx.attribute" )};
+        final MethodDescriptor writer =
+            new MethodDescriptor( "setValue",
+                                  "",
+                                  0,
+                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  attributesSansDescription );
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( TestBean.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{writer} );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final ModelMBeanAttributeInfo attribute =
+            builder.extractAttribute( descriptor );
+        assertNotNull( "attribute", attribute );
+        assertEquals( "name", "value", attribute.getName() );
+        assertEquals( "isReadable", false, attribute.isReadable() );
+        assertEquals( "isWritable", true, attribute.isWritable() );
+        assertEquals( "description", "", attribute.getDescription() );
+        assertEquals( "returnType", "int", attribute.getType() );
+        assertEquals( "currencyTimeLimit", new Integer( 1 ),
+                      attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
     }
 }
