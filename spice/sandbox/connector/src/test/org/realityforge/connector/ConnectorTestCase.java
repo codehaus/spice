@@ -440,7 +440,6 @@ public class ConnectorTestCase
       monitorMock.verify();
    }
 
-
    public void testValidateConnectionOnNonVerified()
       throws Exception
    {
@@ -468,5 +467,117 @@ public class ConnectorTestCase
       connectorMock.verify();
       monitorMock.verify();
       policyMock.verify();
+   }
+
+   public void testPing()
+      throws Exception
+   {
+      final Mock connectorMock = new Mock( ConnectorConnection.class );
+      connectorMock.expect( "doValidateConnection", C.NO_ARGS );
+      final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
+
+      final Mock monitorMock = new Mock( ConnectorMonitor.class );
+      monitorMock.expect( "attemptingValidation", C.NO_ARGS );
+      final ConnectorMonitor monitor = (ConnectorMonitor) monitorMock.proxy();
+
+      final Connector connector = new Connector();
+      connector.setConnection( connection );
+      connector.setMonitor( monitor );
+
+      connector.setActive( true );
+      connector.setConnected( true );
+      connector.validateConnection();
+
+      assertEquals( "isConnected", true, connector.isConnected() );
+
+      connectorMock.verify();
+      monitorMock.verify();
+   }
+
+   public void testCommErrorOccuredAndDisconnectAndReconnect()
+      throws Exception
+   {
+      final Exception exception = new Exception();
+
+      final Mock connectorMock = new Mock( ConnectorConnection.class );
+      connectorMock.expect( "doDisconnect", C.NO_ARGS );
+      connectorMock.expect( "doConnect", C.NO_ARGS );
+      final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
+
+      final Mock policyMock = new Mock( ReconnectionPolicy.class );
+      policyMock.expectAndReturn( "disconnectOnError", C.args( C.eq( exception ) ), true );
+      policyMock.expectAndReturn( "reconnectOnDisconnect", C.NO_ARGS, true );
+      policyMock.expectAndReturn( "attemptConnection", C.anyArgs( 2 ), true );
+      final ReconnectionPolicy policy = (ReconnectionPolicy) policyMock.proxy();
+
+      final Connector connector = new Connector();
+      connector.setConnection( connection );
+      connector.setPolicy( policy );
+
+      connector.setActive( true );
+      connector.setConnected( true );
+
+      connector.commErrorOccured( exception );
+
+      assertEquals( "isConnected", true, connector.isConnected() );
+
+      connectorMock.verify();
+      policyMock.verify();
+   }
+
+   public void testCommErrorOccuredAndDisconnect()
+      throws Exception
+   {
+      final Exception exception = new Exception();
+
+      final Mock connectorMock = new Mock( ConnectorConnection.class );
+      connectorMock.expect( "doDisconnect", C.NO_ARGS );
+      final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
+
+      final Mock policyMock = new Mock( ReconnectionPolicy.class );
+      policyMock.expectAndReturn( "disconnectOnError", C.args( C.eq( exception ) ), true );
+      policyMock.expectAndReturn( "reconnectOnDisconnect", C.NO_ARGS, false );
+      final ReconnectionPolicy policy = (ReconnectionPolicy) policyMock.proxy();
+
+      final Connector connector = new Connector();
+      connector.setConnection( connection );
+      connector.setPolicy( policy );
+
+      connector.setActive( true );
+      connector.setConnected( true );
+
+      connector.commErrorOccured( exception );
+
+      assertEquals( "isConnected", false, connector.isConnected() );
+
+      connectorMock.verify();
+      policyMock.verify();
+   }
+
+   public void testCommErrorOccuredAndNoDisconnect()
+      throws Exception
+   {
+      final Exception exception = new Exception();
+
+      final Mock connectorMock = new Mock( ConnectorConnection.class );
+      final ConnectorConnection connection = (ConnectorConnection) connectorMock.proxy();
+
+      final Mock policyMock = new Mock( ReconnectionPolicy.class );
+      policyMock.expectAndReturn( "disconnectOnError", C.args( C.eq( exception ) ), false );
+      final ReconnectionPolicy policy = (ReconnectionPolicy) policyMock.proxy();
+
+      final Connector connector = new Connector();
+      connector.setConnection( connection );
+      connector.setPolicy( policy );
+
+      connector.setActive( true );
+      connector.setConnected( true );
+
+      connector.commErrorOccured( exception );
+
+      assertEquals( "isConnected", true, connector.isConnected() );
+
+      policyMock.verify();
+      connectorMock.verify();
    }
 }
