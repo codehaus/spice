@@ -29,12 +29,15 @@
             <!-- Use SNAPSHOT version until logkit-1.2.1 is released -->
         </dependency>
         <dependency>
-            <id>excalibur-i18n</id>
+            <groupId>excalibur</groupId>
+            <artifactId>excalibur-i18n</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <id>excalibur-logger</id>
-            <version>1.0</version>
+            <groupId>excalibur</groupId>
+            <artifactId>excalibur-logger</artifactId>
+            <version>SNAPSHOT</version>
+            <!-- Use SNAPSHOT version until excalibur-logger-1.0.2 is released -->
         </dependency>
         <dependency>
             <id>log4j</id>
