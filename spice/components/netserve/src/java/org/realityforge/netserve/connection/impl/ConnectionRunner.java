@@ -12,18 +12,32 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.realityforge.netserve.connection.ConnectionHandler;
 
 /**
- * 
+ * This class is responsible for handling a single connection.
+ *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-23 03:07:33 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 03:09:48 $
  */
 class ConnectionRunner
     extends AbstractLogEnabled
     implements Runnable
 {
+    /**
+     * The name of the connection. Uniquely identifies
+     * connection but only used for debugging purposes.
+     */
     private final String m_name;
+
+    /**
+     * The socket that is being handled.
+     */
     private final Socket m_socket;
-    private final ConnectionAcceptor m_acceptor;
+
+    /**
+     * The handler that will be run on the socket.
+     */
     private final ConnectionHandler m_handler;
+
+    private final ConnectionAcceptor m_acceptor;
     private Thread m_thread;
 
     ConnectionRunner( final String name,
