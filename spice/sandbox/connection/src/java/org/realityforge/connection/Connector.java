@@ -383,21 +383,32 @@ public class Connector
          }
          else
          {
-            try
-            {
-               getConnection().validateConnection();
-            }
-            catch ( final Throwable t )
-            {
-               _connectionError = t.toString();
-               getMonitor().errorValidatingConnection( t );
-               disconnect();
-               if ( getPolicy().reconnectOnDisconnect() )
-               {
-                  connect();
-               }
-            }
+            doValidateConnection();
             return isConnected();
+         }
+      }
+   }
+
+   /**
+    * Utility method that actully does the work
+    * of validating connection. If an error
+    * occurs the connection will be disconnected
+    * and the error recorded.
+    */
+   void doValidateConnection()
+   {
+      try
+      {
+         getConnection().validateConnection();
+      }
+      catch ( final Throwable t )
+      {
+         _connectionError = t.toString();
+         getMonitor().errorValidatingConnection( t );
+         disconnect();
+         if ( getPolicy().reconnectOnDisconnect() )
+         {
+            connect();
          }
       }
    }
