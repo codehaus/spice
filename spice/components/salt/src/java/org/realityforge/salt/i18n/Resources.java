@@ -13,7 +13,6 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.MissingResourceException;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 /**
@@ -21,16 +20,10 @@ import java.util.ResourceBundle;
  * and other common resources from a ResourceBundle.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-05-28 12:37:27 $
+ * @version $Revision: 1.4 $ $Date: 2003-06-12 23:28:09 $
 */
 public class Resources
 {
-    /**
-     * A Random number generator that we use to select string message
-     * when there is multiple strings available.
-     */
-    private static final Random RANDOM = new Random();
-
     /**
      * Local of Resources.
      */
@@ -740,12 +733,6 @@ public class Resources
         if( object instanceof String )
         {
             return (String)object;
-        }
-        else if( object instanceof String[] )
-        {
-            //if string array then randomly pick one
-            final String[] strings = (String[])object;
-            return strings[ RANDOM.nextInt( strings.length ) ];
         }
         else
         {
