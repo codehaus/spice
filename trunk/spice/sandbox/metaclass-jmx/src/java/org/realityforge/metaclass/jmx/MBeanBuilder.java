@@ -47,8 +47,7 @@ public class MBeanBuilder
     public Object buildMBean( final Object value )
         throws Exception
     {
-        final Class type = value.getClass();
-        final ModelMBeanInfo mBeanInfo = buildMBeanInfo( type );
+        final ModelMBeanInfo mBeanInfo = buildMBeanInfo( value.getClass() );
         if( null == mBeanInfo )
         {
             return null;
