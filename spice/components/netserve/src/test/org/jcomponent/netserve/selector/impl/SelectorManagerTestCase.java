@@ -111,7 +111,6 @@ public class SelectorManagerTestCase
     public void testSimpleConnect()
         throws Exception
     {
-
         final ServerSocketChannel channel = ServerSocketChannel.open();
         channel.socket().setReuseAddress( true );
         final InetAddress localAddress = InetAddress.getLocalHost();
