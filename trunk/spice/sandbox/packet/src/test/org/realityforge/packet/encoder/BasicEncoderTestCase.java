@@ -14,7 +14,7 @@ import org.realityforge.packet.Packet;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-11-11 11:29:51 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-11 11:39:30 $
  */
 public class BasicEncoderTestCase
     extends TestCase
@@ -56,7 +56,7 @@ public class BasicEncoderTestCase
         throws Exception
     {
         final int sequence = 2;
-        
+
         final ByteBuffer data = ByteBuffer.allocate( 5 );
         data.clear();
         data.put( (byte)'B' );
@@ -73,5 +73,38 @@ public class BasicEncoderTestCase
         output.position( 48 );
         final boolean result = encoder.encode( packet, output );
         assertEquals( "encoded?", false, result );
+    }
+
+    public void testDecodePacketThatHeaderNoPresent()
+        throws Exception
+    {
+        final ByteBuffer input = ByteBuffer.allocate( 40 );
+        input.clear();
+        input.limit( 3 );
+        input.position( 2 );
+
+        final BasicEncoder encoder = new BasicEncoder();
+        final Packet packet = encoder.decode( input );
+        assertEquals( "packet?", null, packet );
+        assertEquals( "input.position()", 2, input.position() );
+        assertEquals( "input.limit()", 3, input.limit() );
+    }
+
+    public void testDecodePacketThatDataNoPresent()
+        throws Exception
+    {
+        final ByteBuffer input = ByteBuffer.allocate( 40 );
+        input.clear();
+        input.limit( 10 );
+        input.position( 0 );
+        input.putShort( (short)7 );
+        input.putShort( (short)23 );
+        input.position( 2 );
+
+        final BasicEncoder encoder = new BasicEncoder();
+        final Packet packet = encoder.decode( input );
+        assertEquals( "packet", null, packet );
+        assertEquals( "input.position()", 2, input.position() );
+        assertEquals( "input.limit()", 10, input.limit() );
     }
 }
