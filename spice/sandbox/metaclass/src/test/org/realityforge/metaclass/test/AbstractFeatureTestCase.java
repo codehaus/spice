@@ -7,6 +7,8 @@
  */
 package org.realityforge.metaclass.test;
 
+import java.util.Arrays;
+
 import junit.framework.TestCase;
 import org.realityforge.metaclass.MetaClassIntrospector;
 import org.realityforge.metaclass.model.Attribute;
@@ -19,7 +21,7 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  */
 public abstract class AbstractFeatureTestCase
     extends TestCase
-    implements EmptyClassTestDataConstants, BasicClassTestDataConstants
+    implements BasicClassTestDataConstants
 {
     private ClassDescriptor _classDescriptor;
 
@@ -27,6 +29,7 @@ public abstract class AbstractFeatureTestCase
      * Set up before test.
      */
     protected void setUp()
+        throws Exception
     {
         try
         {
@@ -92,7 +95,7 @@ public abstract class AbstractFeatureTestCase
                 for( int i = 0; i < expectedAttributes.length; i++ )
                 {
                     final Attribute attribute = expectedAttributes[ i ];
-                    failMessage.append( i + " = " + attribute + "\n" );
+                    failMessage.append( i + " = " + attribute.getName() + "/" + attribute.getValue() + "/" + Arrays.asList( attribute.getParameterNames() ) + "\n" );
                 }
             }
 
@@ -107,7 +110,7 @@ public abstract class AbstractFeatureTestCase
                 for( int i = 0; i < attributes.length; i++ )
                 {
                     final Attribute attribute = attributes[ i ];
-                    failMessage.append( i + " = " + attribute + "\n" );
+                    failMessage.append( i + " = " + attribute.getName() + "/" + attribute.getValue() + "/" + Arrays.asList( attribute.getParameterNames() ) + "\n" );
                 }
             }
 

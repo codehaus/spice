@@ -7,6 +7,8 @@
  */
 package org.realityforge.metaclass.test;
 
+import java.lang.reflect.Field;
+
 import org.realityforge.metaclass.Attributes;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.FieldDescriptor;
@@ -17,6 +19,7 @@ public class BasicFieldAttributesTestCase
     private FieldDescriptor[] _fieldDescriptors;
 
     protected void setUp()
+        throws Exception
     {
         super.setUp();
         try
@@ -45,23 +48,16 @@ public class BasicFieldAttributesTestCase
     }
 
     public void testGetAttributes()
+        throws Exception
     {
-        try
-        {
-            final Class aClass = Class.forName( CLASS_NAME );
-            final Attribute[] attributes =
-                Attributes.getAttributes( aClass.getDeclaredField( FIELD_NAMES[ 1 ] ) );
-            for( int i = 0; i < FIELD_ATTRIBUTES.length; i++ )
-            {
-                final Attribute[] expectedAttributes = FIELD_ATTRIBUTES[ i ];
-                checkAttributesMatchExpected( expectedAttributes, attributes,
-                                              "getAttributes" );
-            }
-        }
-        catch( Exception e )
-        {
-            fail( e.getMessage() );
-        }
+        final Class aClass = Class.forName( CLASS_NAME );
+        final Field declaredField = aClass.getDeclaredField( FIELD_NAMES[ 1 ] );
+        final Attribute[] attributes =
+            Attributes.getAttributes( declaredField );
+        assertEquals( "Attributes.length", 1, attributes.length);
+        checkAttributesMatchExpected( new Attribute[]{FIELD_1_TAG_0},
+                                      attributes,
+                                      "getAttributes" );
     }
 
     public void testGetNamedAttributes()

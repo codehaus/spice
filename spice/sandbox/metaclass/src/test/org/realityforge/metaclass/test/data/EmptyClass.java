@@ -12,6 +12,6 @@ package org.realityforge.metaclass.test.data;
  * is run on.
  * Please update all relevant test compare data (constants within tests) if you change this class.
  */
-class EmptyClass
+public class EmptyClass
 {
 }

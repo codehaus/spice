@@ -19,6 +19,7 @@ public class BasicMethodAttributesTestCase
     private MethodDescriptor[] _methodDescriptors;
 
     protected void setUp()
+        throws Exception
     {
         super.setUp();
         try

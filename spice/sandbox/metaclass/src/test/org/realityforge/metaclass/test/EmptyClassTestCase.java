@@ -7,27 +7,37 @@
  */
 package org.realityforge.metaclass.test;
 
+import java.lang.reflect.Modifier;
+
 import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.MetaClassIntrospector;
+import org.realityforge.metaclass.test.data.EmptyClass;
 
 public class EmptyClassTestCase
-    extends AbstractFeatureTestCase
+   extends AbstractFeatureTestCase
 {
-    public void testGetName()
-    {
-        assertEquals( CLASS_NAME,
-                      getClassDescriptor().getName() );
-    }
+   protected void setUp()
+      throws Exception
+   {
+      setClassDescriptor( MetaClassIntrospector.getClassDescriptor( EmptyClass.class ) );
+   }
 
-    public void testGetModifiers()
-    {
-        assertEquals( CLASS_MODIFIER,
-                      getClassDescriptor().getModifiers() );
-    }
+   public void testGetName()
+   {
+      assertEquals( "org.realityforge.metaclass.test.data.EmptyClass",
+                    getClassDescriptor().getName() );
+   }
 
-    public void testGetAttributes()
-    {
-        final Attribute[] attributes = getClassDescriptor().getAttributes();
-        checkAttributesMatchExpected( CLASS_ATTRIBUTES, attributes,
-                                      "Class: getAttributes" );
-    }
+   public void testGetModifiers()
+   {
+      assertEquals( Modifier.PUBLIC,
+                    getClassDescriptor().getModifiers() );
+   }
+
+   public void testGetAttributes()
+   {
+      final Attribute[] attributes = getClassDescriptor().getAttributes();
+      checkAttributesMatchExpected( Attribute.EMPTY_SET, attributes,
+                                    "Class: getAttributes" );
+   }
 }
