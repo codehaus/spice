@@ -27,7 +27,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * and building a ClassDescriptor to correspond to the JavaClass
  * object.
  *
- * @version $Revision: 1.11 $ $Date: 2003-08-24 04:27:01 $
+ * @version $Revision: 1.12 $ $Date: 2003-08-31 05:54:26 $
  */
 public class QDoxDescriptorParser
 {
@@ -36,6 +36,7 @@ public class QDoxDescriptorParser
      * before the start of key.
      */
     private static final int PARSE_KEY_START = 0;
+
     /**
      * Constant indicating parse state is
      * parsing the key.
@@ -299,7 +300,6 @@ public class QDoxDescriptorParser
     Attribute buildAttribute( final DocletTag tag )
     {
         final String name = tag.getName();
-
         final String value = tag.getValue();
         if( null == value || "".equals( value.trim() ) )
         {
