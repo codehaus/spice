@@ -8,6 +8,12 @@ import java.nio.channels.ClosedChannelException;
 import java.util.Set;
 import java.util.Iterator;
 
+/**
+ * The AbstractNIOReactor offers a base class
+ * that makes it easy to write a reactor for NIO
+ * channels. The Channels have to be SelectableChannels
+ * but have no other requirements.
+ */
 public abstract class AbstractNIOReactor
    implements Runnable
 {
