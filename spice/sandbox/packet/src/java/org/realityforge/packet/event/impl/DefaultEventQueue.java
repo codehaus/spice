@@ -8,7 +8,7 @@ import org.realityforge.packet.event.impl.collections.Buffer;
  * An event queue that acts as a Source and Sink of events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-05 02:15:16 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-05 02:16:14 $
  */
 public class DefaultEventQueue
     implements EventSource, EventSink
@@ -35,14 +35,17 @@ public class DefaultEventQueue
      */
     public Object getEvent()
     {
-        final int size = getBuffer().size();
-        if( size > 0 )
+        synchronized( getSyncLock() )
         {
-            return getBuffer().pop();
-        }
-        else
-        {
-            return null;
+            final int size = getBuffer().size();
+            if( size > 0 )
+            {
+                return getBuffer().pop();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 
@@ -51,15 +54,18 @@ public class DefaultEventQueue
      */
     public Object[] getEvents( final int count )
     {
-        final Buffer buffer = getBuffer();
-        final int size = buffer.size();
-        final int resultCount = Math.min( size, count );
-        final Object[] objects = new Object[ resultCount ];
-        for( int i = 0; i < objects.length; i++ )
+        synchronized( getSyncLock() )
         {
-            objects[ i ] = buffer.pop();
+            final Buffer buffer = getBuffer();
+            final int size = buffer.size();
+            final int resultCount = Math.min( size, count );
+            final Object[] objects = new Object[ resultCount ];
+            for( int i = 0; i < objects.length; i++ )
+            {
+                objects[ i ] = buffer.pop();
+            }
+            return objects;
         }
-        return objects;
     }
 
     /**
@@ -67,7 +73,10 @@ public class DefaultEventQueue
      */
     public boolean addEvent( final Object event )
     {
-        return getBuffer().add( event );
+        synchronized( getSyncLock() )
+        {
+            return getBuffer().add( event );
+        }
     }
 
     /**
@@ -75,7 +84,10 @@ public class DefaultEventQueue
      */
     public boolean addEvents( final Object[] events )
     {
-        return getBuffer().addAll( events );
+        synchronized( getSyncLock() )
+        {
+            return getBuffer().addAll( events );
+        }
     }
 
     /**
@@ -84,7 +96,7 @@ public class DefaultEventQueue
      */
     public Object getSyncLock()
     {
-        return _buffer;
+        return getBuffer();
     }
 
     /**
