@@ -12,9 +12,8 @@ import junit.framework.TestCase;
 import org.apache.tools.ant.types.FileSet;
 
 /**
- *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 01:19:17 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-27 08:19:51 $
  */
 public class PluginElementTestCase
     extends TestCase
@@ -42,8 +41,8 @@ public class PluginElementTestCase
         final FileSet set2 = new FileSet();
         set1.setDir( new File( "set1" ) );
         set2.setDir( new File( "set2" ) );
-        element.addClasspath( set1 );
-        element.addClasspath( set2 );
+        element.createClasspath().addFileset( set1 );
+        element.createClasspath().addFileset( set2 );
         assertNotNull( element.getPath() );
     }
 }
