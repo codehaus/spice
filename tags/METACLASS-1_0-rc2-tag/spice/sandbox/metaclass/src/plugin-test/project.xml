@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+    <extend>${basedir}/../../project.xml</extend>
+    <id>test-metaclass-tools-plugin</id>
+    <name>Test project for MetaClass Tools Plugin</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>spice</groupId>
+            <artifactId>spice-metaclass-plugin</artifactId>
+            <version>${pom.currentVersion}</version>
+            <type>plugin</type>
+        </dependency>
+    </dependencies>
+
+</project>
