@@ -4,7 +4,7 @@
     <name>Spice ThreadPool</name>
     <id>spice-threadpool</id>
     <package>org.codehaus.spice.threadpool</package>
-    <currentVersion>1.1-dev</currentVersion>
+    <currentVersion>1.1-b1</currentVersion>
 
     <shortDescription>ThreadPool component</shortDescription>
 
@@ -38,12 +38,12 @@
         <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-api</artifactId>
-            <version>1.1-rc4-dev</version>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-impl</artifactId>
-            <version>1.1-rc4-dev</version>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <id>commons-pool</id>

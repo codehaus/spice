@@ -4,7 +4,7 @@
     <name>Spice Netserve</name>
     <id>spice-netserve</id>
     <package>org.codehaus.spice.netserve</package>
-    <currentVersion>1.1-dev</currentVersion>
+    <currentVersion>1.1-b1</currentVersion>
     <inceptionYear>1999</inceptionYear>
 
     <shortDescription>Netserve is set of utility components for creating a Network Server.</shortDescription>
@@ -37,17 +37,17 @@
         <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-api</artifactId>
-            <version>1.1-rc4-dev</version>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-impl</artifactId>
-            <version>1.1-rc4-dev</version>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>dna</groupId>
             <artifactId>maven-dna-plugin</artifactId>
-            <version>1.1-rc4-dev</version>
+            <version>1.1</version>
             <type>plugin</type>
         </dependency>
         <dependency>
