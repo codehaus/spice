@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-09 03:21:08 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-09 03:53:21 $
  */
 class BlockingServerSocket
     extends ServerSocket
@@ -48,6 +48,7 @@ class BlockingServerSocket
                 catch( InterruptedException e )
                 {
                 }
+                notifyAll();
             }
         }
         return SOCKET;

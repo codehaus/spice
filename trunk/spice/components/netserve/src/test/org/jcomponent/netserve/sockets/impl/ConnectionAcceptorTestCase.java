@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-09 02:36:00 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-09 03:53:21 $
  */
 public class ConnectionAcceptorTestCase
     extends TestCase
@@ -185,6 +185,60 @@ public class ConnectionAcceptorTestCase
         assertTrue( "1 < monitor.getListenCount", 1 < monitor.getListenCount() );
 
         acceptor.close();
+        thread.join();
+    }
+
+    public void testNormalHandlerAccept()
+        throws Exception
+    {
+        final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
+        final BlockingServerSocket serverSocket = new BlockingServerSocket();
+        final MockSocketConnectionHandler handler = new MockSocketConnectionHandler();
+        final ConnectionAcceptor acceptor =
+            new ConnectionAcceptor( "name",
+                                    serverSocket,
+                                    handler,
+                                    monitor );
+        final Thread thread = startAcceptor( acceptor );
+        waitUntilStarted( acceptor );
+        waitUntilListening( monitor );
+        serverSocket.unlock();
+        try
+        {
+            Thread.sleep( 30 );
+        }
+        catch( final InterruptedException e )
+        {
+        }
+        assertEquals( "handler.getSocket()",
+                      BlockingServerSocket.SOCKET,
+                      handler.getSocket() );
+        acceptor.close();
+        serverSocket.unlock();
+        thread.join();
+    }
+
+    public void testAcceptAfterClose()
+        throws Exception
+    {
+        final RecordingAcceptorMonitor monitor = new RecordingAcceptorMonitor();
+        final BlockingServerSocket serverSocket = new BlockingServerSocket();
+        final MockSocketConnectionHandler handler = new MockSocketConnectionHandler();
+        final ConnectionAcceptor acceptor =
+            new ConnectionAcceptor( "name",
+                                    serverSocket,
+                                    handler,
+                                    monitor );
+        final Thread thread = startAcceptor( acceptor );
+        waitUntilStarted( acceptor );
+        waitUntilListening( monitor );
+        acceptor.close();
+        serverSocket.unlock();
+        waitUntilListening( monitor );
+        assertEquals( "handler.getSocket()",
+                      null,
+                      handler.getSocket() );
+        serverSocket.unlock();
         thread.join();
     }
 
