@@ -118,12 +118,28 @@ public final class EnumSet
       return code.intValue();
    }
 
+   /**
+    * Create an EnumSet for specified Class including all
+    * integer constants. A shortcut for
+    * <tt>createFrom( clazz, "(.*)" )</tt>.
+    *
+    * @param clazz the class to extract constants from
+    * @return the created EnumSet
+    */
    public static EnumSet createFrom( final Class clazz )
-
    {
       return createFrom( clazz, "(.*)" );
    }
 
+   /**
+    * Create an EnumSet for specified Class including all
+    * integer constants that match specified pattern. A
+    * shortcut for <tt>createFrom( clazz, "(.*)", true )</tt>.
+    *
+    * @param clazz the class to extract constants from
+    * @param match the pattern that constants must match
+    * @return the created EnumSet
+    */
    public static EnumSet createFrom( final Class clazz,
                                      final String match )
 
@@ -131,6 +147,16 @@ public final class EnumSet
       return createFrom( clazz, match, true );
    }
 
+   /**
+    * Create an EnumSet for specified Class including all
+    * integer constants that match specified pattern and scanning
+    * superclass if deep is true.
+    *
+    * @param clazz the class to extract constants from
+    * @param match the pattern that constants must match
+    * @param deep if true will scan all parent classes to locate constants
+    * @return the created EnumSet
+    */
    public static EnumSet createFrom( final Class clazz,
                                      final String match,
                                      final boolean deep )
