@@ -21,7 +21,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-13 06:56:51 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-13 06:59:47 $
  */
 public class SessionInputEventHandler
     extends AbstractDirectedHandler
@@ -115,13 +115,10 @@ public class SessionInputEventHandler
                     disconnectTransport( transport,
                                          Protocol.ERROR_BAD_SESSION );
                 }
-                else
+                else if( session.getAuthID() != authID )
                 {
-                    if( session.getAuthID() != authID )
-                    {
-                        disconnectTransport( transport,
-                                             Protocol.ERROR_BAD_AUTH );
-                    }
+                    disconnectTransport( transport,
+                                         Protocol.ERROR_BAD_AUTH );
                 }
             }
         }
