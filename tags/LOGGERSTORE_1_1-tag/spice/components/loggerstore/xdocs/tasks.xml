@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <title>Tasks</title>
+  </properties>
+
+  <body>
+    <section name="Tasks">
+      <p>
+      </p>
+
+		<subsection name="TODO">
+		  <p>
+			<ul>
+			  <li>
+			  </li>
+			</ul>
+		  </p>
+	  	</subsection>
+    </section>
+
+  </body>
+</document>
