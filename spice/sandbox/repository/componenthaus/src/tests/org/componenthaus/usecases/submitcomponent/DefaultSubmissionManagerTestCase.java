@@ -1,9 +1,9 @@
 package org.componenthaus.usecases.submitcomponent;
 
 import junit.framework.TestCase;
-import org.componenthaus.repository.impl.ComponentFactory;
 import org.componenthaus.repository.api.Component;
-import org.componenthaus.tests.MockPrevalentSystem;
+import org.componenthaus.repository.impl.ComponentFactory;
+import org.componenthaus.tests.MockPrevayler;
 import org.componenthaus.util.file.FileManagerImpl;
 
 import java.io.File;
@@ -43,7 +43,7 @@ public class DefaultSubmissionManagerTestCase extends TestCase {
     public void testHandlesSubmissionCorrectly() throws Exception {
         mockCommandRegistry.setupExpectedSubmitComponentCalls(1);
         mockCommandRegistry.setupExpectedRegisterDownloadableCalls(1);
-        final DefaultSubmissionManager manager = new DefaultSubmissionManager(mockCommandRegistry,new ComponentFactory(), new FileManagerImpl(),monitor,new MockPrevalentSystem());
+        final DefaultSubmissionManager manager = new DefaultSubmissionManager(mockCommandRegistry,new ComponentFactory(), new FileManagerImpl(),monitor,new MockPrevayler());
         manager.submit(TestFiles.validComponentSubmission());
         mockCommandRegistry.verify();
     }

@@ -61,6 +61,7 @@ public class RepositoryImpl extends AbstractPrevalentSystem implements Component
     }
 
     public void registerDownloadable(String componentId, File downloadable) {
+        System.out.println("Registering downloadable " + downloadable.getAbsolutePath() + " against component id " + componentId);
         downloadables.put(componentId,downloadable);
     }
 
