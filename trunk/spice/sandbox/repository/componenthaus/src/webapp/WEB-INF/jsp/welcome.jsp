@@ -2,7 +2,8 @@
 
 <H2>Welcome</H2>
 <A href="<c:url value="/submitComponent.action"/>">Submit a component</A></br>
-<A href="<c:url value="/listComponents.action"/>">List all components</A>
+<A href="<c:url value="/listComponents.action"/>">List all components</A></br>
+<A href="<c:url value="/searchComponents.action"/>">Search components</A></br>
 
 <pre>
 

@@ -43,6 +43,13 @@
             </properties>
         </dependency>
         <dependency>
+            <id>lucene</id>
+            <version>1.2</version>
+            <properties>
+                <war.bundle.jar>true</war.bundle.jar>
+            </properties>
+        </dependency>
+        <dependency>
             <id>commons-beanutils</id>
             <version>1.6.1</version>
             <properties>
