@@ -12,9 +12,9 @@ import com.thoughtworks.qdox.model.JavaClass;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-31 08:35:00 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 08:35:13 $
  */
-public class DeletingFilter
+class DeletingFilter
     implements JavaClassFilter
 {
     public JavaClass filterClass( JavaClass javaClass )
