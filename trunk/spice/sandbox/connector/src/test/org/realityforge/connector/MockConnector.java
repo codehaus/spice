@@ -5,11 +5,12 @@ class MockConnector
 {
    private final long _lastTxTime;
    private final long _lastRxTime;
-   private final long _lastPingTime;
+   private long _lastPingTime;
+   private int _pingCount;
 
-   public MockConnector( final long lastTxTime,
-                         final long lastRxTime,
-                         final long lastPingTime )
+   MockConnector( final long lastTxTime,
+                  final long lastRxTime,
+                  final long lastPingTime )
    {
       _lastTxTime = lastTxTime;
       _lastRxTime = lastRxTime;
@@ -29,5 +30,17 @@ class MockConnector
    public long getLastRxTime()
    {
       return _lastRxTime;
+   }
+
+   public boolean ping()
+   {
+      _lastPingTime = System.currentTimeMillis();
+      _pingCount++;
+      return true;
+   }
+
+   int getPingCount()
+   {
+      return _pingCount;
    }
 }
