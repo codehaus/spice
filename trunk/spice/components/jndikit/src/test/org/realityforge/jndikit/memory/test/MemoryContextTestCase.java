@@ -20,11 +20,6 @@ public class MemoryContextTestCase
      */
     private static int c_id = 0;
 
-    /**
-     * The root context.
-     */
-    private Context m_root;
-
     public MemoryContextTestCase( final String name )
     {
         super( name );
@@ -33,13 +28,8 @@ public class MemoryContextTestCase
     protected void setUp() throws Exception
     {
         final MemoryInitialContextFactory factory = new MemoryInitialContextFactory();
-        m_root = factory.getInitialContext( new Hashtable() );
-        m_context = m_root.createSubcontext( "test" + c_id++ );
-    }
-
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
-        m_root.close();
+        final Context root = factory.getInitialContext( new Hashtable() );
+        setRoot( root );
+        setContext( root.createSubcontext( "test" + c_id++ ) );
     }
 }
