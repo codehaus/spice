@@ -15,7 +15,7 @@ import org.realityforge.netserve.connection.ConnectionHandler;
  * This class is responsible for handling a single connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-04-23 03:20:29 $
+ * @version $Revision: 1.5 $ $Date: 2003-04-23 03:21:22 $
  */
 class ConnectionRunner
     extends AbstractLogEnabled
@@ -81,7 +81,7 @@ class ConnectionRunner
         m_handler = handler;
     }
 
-    synchronized void close()
+    synchronized void close( final int waitTime )
     {
         if( !m_done )
         {
@@ -91,7 +91,7 @@ class ConnectionRunner
                 m_thread = null;
             }
 
-            //wait till done is true?
+            //wait "waitTime" or untill done is true?
             m_done = true;
         }
     }
