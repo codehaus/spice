@@ -8,6 +8,7 @@
 package org.jcomponent.threadpool.impl;
 
 import org.jcontainer.dna.AbstractLogEnabled;
+import org.jcomponent.threadpool.ThreadPoolMonitor;
 
 /**
  * Implementation of ThreadPoolMonitor which logs event with DNA logger.

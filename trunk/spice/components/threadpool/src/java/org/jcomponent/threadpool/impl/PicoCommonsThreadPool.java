@@ -8,13 +8,14 @@
 package org.jcomponent.threadpool.impl;
 
 import org.apache.commons.pool.impl.GenericObjectPool;
+import org.jcomponent.threadpool.ThreadPoolMonitor;
 
 /**
  * The PicoCommonsThreadPool wraps the CommonsThreadPool for
  * Pico-compatible systems.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-09-02 08:07:29 $
+ * @version $Revision: 1.8 $ $Date: 2003-11-08 11:10:26 $
  */
 public class PicoCommonsThreadPool
     extends CommonsThreadPool

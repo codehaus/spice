@@ -7,6 +7,8 @@
  */
  package org.jcomponent.threadpool.impl;
 
+import org.jcomponent.threadpool.ThreadPoolMonitor;
+
 /**
  * No-op implementation of ThreadPoolMonitor.
  * 

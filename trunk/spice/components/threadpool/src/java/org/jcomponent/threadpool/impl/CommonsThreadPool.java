@@ -10,6 +10,7 @@ package org.jcomponent.threadpool.impl;
 import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.jcomponent.threadpool.ThreadPool;
+import org.jcomponent.threadpool.ThreadPoolMonitor;
 
 /**
  * The CommonsThreadPool is a component that provides a basic
@@ -27,7 +28,7 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-08-31 00:50:23 $
+ * @version $Revision: 1.8 $ $Date: 2003-11-08 11:10:26 $
  */
 public class CommonsThreadPool
     extends AbstractThreadPool
