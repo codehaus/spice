@@ -72,7 +72,7 @@
     <postGoal name="dist:prepare-bin-filesystem">
         <attainGoal name="generateReadme"/>
         <copy todir="${maven.dist.bin.assembly.dir}">
-            <fileset dir="..">
+            <fileset dir="../..">
                 <include name="LICENSE.txt"/>
             </fileset>
         </copy>
