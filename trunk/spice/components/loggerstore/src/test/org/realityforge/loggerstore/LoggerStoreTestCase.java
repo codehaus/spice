@@ -83,6 +83,14 @@ public class LoggerStoreTestCase
         runLoggerTest( "jdk14", store, ConsoleLogger.LEVEL_DISABLED );
     }
 
+    public void testJDK14ConfigurationNoLog()
+        throws Exception
+    {
+        final LoggerStore store =
+            new Jdk14LoggerStore( getResource( "logging.properties" ) );
+        runLoggerTest( "jdk14", store );
+    }
+
     public void testLogKitConfiguration()
         throws Exception
     {
@@ -99,6 +107,15 @@ public class LoggerStoreTestCase
         final LoggerStore store =
             new LogKitLoggerStore( builder.build( getResource( "logkit.xml" ) ) );
         runLoggerTest( "logkit", store, ConsoleLogger.LEVEL_DISABLED );
+    }
+
+    public void testLogKitConfigurationNoLog()
+        throws Exception
+    {
+        final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
+        final LoggerStore store =
+            new LogKitLoggerStore( builder.build( getResource( "logkit.xml" ) ) );
+        runLoggerTest( "logkit", store );
     }
 
     public void testLog4JElementConfiguration()
@@ -119,6 +136,15 @@ public class LoggerStoreTestCase
         runLoggerTest( "log4j-xml", store, ConsoleLogger.LEVEL_DISABLED );
     }
 
+    public void testLog4JElementConfigurationNoLog()
+        throws Exception
+    {
+        final LoggerStore store =
+            new Log4JLoggerStore( buildElement( getResource( "log4j.xml" ),
+                                                new org.apache.log4j.xml.Log4jEntityResolver(), null ) );
+        runLoggerTest( "log4j-xml", store );
+    }
+
     public void testLog4JInputStreamConfiguration()
         throws Exception
     {
@@ -133,6 +159,14 @@ public class LoggerStoreTestCase
         final LoggerStore store =
             new Log4JLoggerStore( getResource( "log4j.xml" ) );
         runLoggerTest( "log4j-xml", store, ConsoleLogger.LEVEL_DISABLED );
+    }
+
+    public void testLog4JInputStreamConfigurationNoLog()
+        throws Exception
+    {
+        final LoggerStore store =
+            new Log4JLoggerStore( getResource( "log4j.xml" ) );
+        runLoggerTest( "log4j-xml", store );
     }
 
     public void testLog4JPropertiesConfiguration()
@@ -155,6 +189,16 @@ public class LoggerStoreTestCase
         runLoggerTest( "log4j-properties", store, ConsoleLogger.LEVEL_DISABLED );
     }
 
+    public void testLog4JPropertiesConfigurationNoLog()
+        throws Exception
+    {
+        final Properties properties = new Properties();
+        properties.load( getResource( "log4j.properties" ) );
+        final LoggerStore store =
+            new Log4JLoggerStore( properties );
+        runLoggerTest( "log4j-properties", store );
+    }
+
     protected final InputStream getResource( final String name )
     {
         return getClass().getResourceAsStream( name );
@@ -166,6 +210,13 @@ public class LoggerStoreTestCase
         throws Exception
     {
         ContainerUtil.enableLogging( store, new ConsoleLogger( level ) );
+        runLoggerTest( filename, store );
+    }
+
+    private void runLoggerTest( final String filename,
+                                final LoggerStore store )
+        throws Exception
+    {
         BufferedReader reader = null;
         try
         {
@@ -175,6 +226,17 @@ public class LoggerStoreTestCase
             final Logger noExistLogger = store.getLogger( "no-exist" );
             assertNotNull( "noExistLogger for " + filename, noExistLogger );
             noExistLogger.info( MESSAGE2 );
+
+            try
+            {
+                store.getLogger( null );
+                fail( "Expected a NullPointerException when passing " +
+                      "null in for getLogger parameter" );
+            }
+            catch( final NullPointerException npe )
+            {
+                assertEquals( "NullPointer message", "name", npe.getMessage() );
+            }
 
             final File logFile = new File( m_logsDir, filename + ".log" );
             assertTrue( "Checking LogFile Exists: " + filename, logFile.exists() );
