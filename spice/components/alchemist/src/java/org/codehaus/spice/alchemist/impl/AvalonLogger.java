@@ -22,7 +22,7 @@ import org.apache.avalon.framework.logger.Logger;
  *   <li>fatalError ==&gt; error</li>
  * </ul>
  *
- * @version $Revision: 1.2 $ $Date: 2004-04-18 22:59:05 $
+ * @version $Revision: 1.1 $ $Date: 2004-04-24 11:23:32 $
  */
 public class AvalonLogger
     implements Logger

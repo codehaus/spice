@@ -15,7 +15,7 @@ import org.codehaus.dna.Logger;
  * Utility class containing methods to transform Logger objects.
  *
  * @author Mauro Talevi
- * @version $Revision: 1.3 $ $Date: 2004-04-18 22:59:05 $
+ * @version $Revision: 1.1 $ $Date: 2004-04-24 11:23:32 $
  */
 public class LoggerAlchemist
 {

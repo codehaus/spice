@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>Alchemist</name>
     <id>spice-alchemist</id>    
-    <gumpRepositoryId>sandbox</gumpRepositoryId>
+    <gumpRepositoryId>components</gumpRepositoryId>
     <package>org.codehaus.spice.alchemist</package>
     <currentVersion>1.1-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
