@@ -11,7 +11,7 @@ package org.realityforge.configkit;
  * Data for unit tests.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-04 11:10:32 $
+ * @version $Revision: 1.3 $ $Date: 2003-04-05 09:41:16 $
  */
 class TestData
 {
@@ -19,6 +19,8 @@ class TestData
     static final String SYSTEM_ID = "http://jakarta.apache.org/phoenix/assembly_1_0.dtd";
     static final String RESOURCE = "org/realityforge/configkit/test/empty.txt";
     static final String SCHEMA = "org/realityforge/configkit/test/relax-schema.xml";
+    static final String DTD = "org/realityforge/configkit/test/assembly.dtd";
+    static final String ASSEMBLY_DATA = "org/realityforge/configkit/test/assembly1.xml";
     static final String XML_DATA = "org/realityforge/configkit/test/data1.xml";
     static final String XML_DATA2 = RESOURCE;
     static final String XML_DATA3 = "org/realityforge/configkit/test/data2.xml";
