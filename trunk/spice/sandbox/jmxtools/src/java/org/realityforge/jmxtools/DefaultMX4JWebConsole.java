@@ -1,11 +1,10 @@
 package org.realityforge.jmxtools;
 
-import java.io.File;
 import java.util.ArrayList;
 import javax.management.Attribute;
 import javax.management.MBeanServer;
-import javax.management.ObjectName;
 import javax.management.MBeanServerFactory;
+import javax.management.ObjectName;
 
 import org.jcontainer.dna.AbstractLogEnabled;
 import org.jcontainer.dna.Active;
@@ -18,7 +17,6 @@ import org.jcontainer.dna.ResourceLocator;
 
 /**
  * @dna.component
- * @mx.component
  */
 public class DefaultMX4JWebConsole
    extends AbstractLogEnabled
@@ -33,7 +31,6 @@ public class DefaultMX4JWebConsole
 
    private static final String DEFAULT_ADDRESS = "0.0.0.0";
    private static final int DEFAULT_PORT = 8080;
-
 
    private static final String[] ADD_AUTH_PARAM_TYPES = new String[]{String.class.getName(), String.class.getName()};
 
@@ -60,7 +57,7 @@ public class DefaultMX4JWebConsole
    }
 
    /**
-    * @dna.configuration
+    * @dna.configuration location="DefaultMX4JWebConsole-schema.dtd"
     */
    public void configure( final Configuration configuration )
       throws ConfigurationException
@@ -157,7 +154,6 @@ public class DefaultMX4JWebConsole
       _processorName = new ObjectName( "Http:name=XSLTProcessor" );
       _mBeanServer.createMBean( "mx4j.adaptor.http.XSLTProcessor", _processorName, null );
       _mBeanServer.setAttribute( _processorName, new Attribute( "UseCache", new Boolean( false ) ) );
-      _mBeanServer.setAttribute( _processorName, new Attribute( "File", ".." + File.separator + "xsl" ) );
       _mBeanServer.setAttribute( _httpName, new Attribute( "ProcessorName", _processorName ) );
    }
 
@@ -178,5 +174,15 @@ public class DefaultMX4JWebConsole
       {
          _mBeanServer.unregisterMBean( _processorName );
       }
+   }
+
+   protected final ObjectName getHttpName()
+   {
+      return _httpName;
+   }
+
+   protected final ObjectName getProcessorName()
+   {
+      return _processorName;
    }
 }
