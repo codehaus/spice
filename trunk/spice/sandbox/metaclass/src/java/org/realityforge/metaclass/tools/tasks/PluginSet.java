@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.DataType;
 import org.apache.tools.ant.types.Reference;
 
@@ -18,7 +19,7 @@ import org.apache.tools.ant.types.Reference;
  * An Ant type that represents a set of Plugins.
  *
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-11-27 08:12:30 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-29 09:28:02 $
  */
 public abstract class PluginSet
     extends DataType
@@ -112,6 +113,7 @@ public abstract class PluginSet
         // change this to get the objects from the other reference
         final Object object =
             reference.getReferencedObject( getProject() );
+        log( "Referencing " + object, Project.MSG_DEBUG );
         final Class clazz = getClass();
         if( clazz.isInstance( object ) )
         {
