@@ -59,4 +59,11 @@ public class NullMonitor
    public void skippingConnectionAttempt()
    {
    }
+
+   /**
+    * @see ConnectorMonitor#attemptingDisconnection
+    */
+   public void attemptingDisconnection()
+   {
+   }
 }

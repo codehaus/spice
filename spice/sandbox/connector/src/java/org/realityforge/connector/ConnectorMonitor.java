@@ -51,4 +51,10 @@ public interface ConnectorMonitor
     * this point in time.
     */
    void skippingConnectionAttempt();
+
+   /**
+    * Notify monitor that Connection is being
+    * disconnected.
+    */
+   void attemptingDisconnection();
 }
