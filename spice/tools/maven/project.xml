@@ -12,8 +12,9 @@
         <url>http://sourceforge.net/projects/spice</url>
         <logo>http://sourceforge.net/sflogo.php?group_id=67448&amp;type=5</logo>
     </organization>
-    <package>org.realityforge.${pom.artifactId.substring(6)}</package>
 
+	<groupId>spice</groupId>
+    <package>org.realityforge.${pom.artifactId.substring(6)}</package>
     <url>http://spice.sourceforge.net/${pom.artifactId.substring(6)}</url>
     <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=67448</issueTrackingUrl>
 
