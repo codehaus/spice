@@ -18,13 +18,14 @@ import org.codehaus.spice.netevent.events.ConnectEvent;
 import org.codehaus.spice.netevent.events.ConnectPossibleEvent;
 import org.codehaus.spice.netevent.selector.SocketEventSource;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
+import org.realityforge.packet.session.Session;
 
 /**
  * Handler for Connecting a socket (which means creating a transport and
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-16 00:19:32 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-18 22:44:25 $
  */
 public class ClientConnectEventHandler
     extends AbstractIOEventHandler
@@ -79,7 +80,14 @@ public class ClientConnectEventHandler
                                   getSink() );
         try
         {
-            transport.setUserData( ce.getUserData() );
+            final Object userData = ce.getUserData();
+            transport.setUserData( userData );
+            if( userData instanceof Session )
+            {
+                final Session session = (Session)userData;
+                session.setTransport( transport );
+            }
+
             channel.finishConnect();
             transport.register( _source );
             final ConnectEvent response = new ConnectEvent( transport );
