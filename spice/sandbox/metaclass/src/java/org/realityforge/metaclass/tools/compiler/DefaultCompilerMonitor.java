@@ -15,17 +15,13 @@ import org.realityforge.metaclass.model.ClassDescriptor;
  * The default no-op implementation of compiler monitor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-16 06:38:57 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-16 06:53:12 $
  */
 public class DefaultCompilerMonitor
     implements CompilerMonitor
 {
     /**
-     * Method called when there was an error
-     * writing ClassDescriptor object.
-     *
-     * @param descriptor the ClassDescriptor object
-     * @param e the Exception
+     * @see CompilerMonitor#errorWritingDescriptor
      */
     public void errorWritingDescriptor( final ClassDescriptor descriptor,
                                         final Exception e )
@@ -33,32 +29,30 @@ public class DefaultCompilerMonitor
     }
 
     /**
-     * Method called when a specified
-     * source file does not exist.
-     *
-     * @param file the source file
+     * @see CompilerMonitor#missingSourceFile
      */
     public void missingSourceFile( final File file )
     {
     }
 
     /**
-     * Called to notify the monitor about the list of JavaClass
-     * objects loaded from the source files.
-     *
-     * @param classes the list of JavaClass objects
+     * @see CompilerMonitor#javaClassObjectsLoaded
      */
     public void javaClassObjectsLoaded( final Collection classes )
     {
     }
 
     /**
-     * Called to notify the monitor about the list of JavaClass
-     * objects that still remain after filtering.
-     *
-     * @param classes the list of JavaClass objects
+     * @see CompilerMonitor#postFilterJavaClassList
      */
     public void postFilterJavaClassList( final Collection classes )
+    {
+    }
+
+    /**
+     * @see CompilerMonitor#errorGeneratingDescriptor
+     */
+    public void errorGeneratingDescriptor( String classname, Throwable t )
     {
     }
 }
