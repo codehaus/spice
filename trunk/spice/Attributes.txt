@@ -1,4 +1,4 @@
-    $Id: Attributes.txt,v 1.3 2002-11-27 11:12:00 donaldp Exp $
+    $Id: Attributes.txt,v 1.4 2002-12-01 04:08:08 donaldp Exp $
 
                  Metadata for Avalon Framework
 
@@ -46,7 +46,7 @@ characteristeric of the metadata and must be treated as such. Optionally we may
 support blending of metadata based on primary key of different elements (see 
 XDoclet for further examples) however this may not necessarily be worth the effort.
 
-Metadata must also be able to be validated against som sort schema. However as the 
+Metadata must also be able to be validated against some sort schema. However as the 
 metadata is extensible it must take into account that unknown elements may not be 
 validated but all known elements hsould be able to be validated.
 
@@ -57,3 +57,43 @@ in a container that supports persistence. However a component that has metadata
 suggesting security constraints can still run if the container does not understand
 (or comply with) the security metadata.
 
+There are several different mechanisms that can be used to support attaching metadata
+to artefacts but the best would be to support runtime retrieval of javadoc-like elements
+in a way similar to C#'s attributes. Each attribute has a name and 0 or more parameters. 
+It is also possible to have "simple" attributes that just have a name and contain text.
+
+Flat metadata (ie key-value pairs) makes it difficult to represent a single fact with
+a single metadata element. For example, to represent the fact that the current component 
+requires a service of type "org.apache.MyService" and uses the key "my-service" to look 
+it up you would need to enode multiple facts into vale of key-value pair or else have 
+multiple metadata elements. ie
+
+avalon.dependency.1.key=my-service
+avalon.dependency.1.type=org.apache.MyService
+avalon.dependency.2.key=my-other-service
+avalon.dependency.2.type=org.apache.MyOtherService
+
+or
+
+avalon.dependency=my-service/org.apache.MyService
+avalon.dependency=my-other-service/org.apache.MyOtherService
+
+Where with attributes you can represent each facty as a single metadata element but 
+not have be forced to interpret the value field. ie
+
+avalon.dependency[ key=my-service,        type=org.apache.MyService      ]
+avalon.dependency[ key=my-other-service,  type=org.apache.MyOtherService ]
+
+Richer metadata frameworks could be used but the vast majority are general purpose 
+metadata systems and thus overly complex for our needs.
+
+However there is currently a lot of work being done on this in the wider community.
+In par5ticular XDoclet2 is bringing together a lot of this and working with 
+jakarta-commons and qdox peeps to get the best of the best. I suggest we don't 
+actually implement runtime extraction of these attributes but instead wait to see 
+what they come up with.
+
+If our needs aren't satisfied when we start to actually require this stuff then we 
+can rewrite it but until there is a real need we can just keep it on hold. However
+our higher level component model should take into account this representation format
+and use a similar format even if they are different classes.
