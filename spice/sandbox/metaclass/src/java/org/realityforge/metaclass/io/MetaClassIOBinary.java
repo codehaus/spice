@@ -21,19 +21,17 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 
 /**
- * This is a utility class that writes out a Attributes object
- * to a stream using binary format outlined in documentation.
- *
+ * This is a utility class that writes out a Attributes object to a stream using
+ * binary format outlined in documentation.
+ * 
  * @author Peter Donald
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.20 $ $Date: 2003-11-27 08:09:53 $
+ * @version $Revision: 1.21 $ $Date: 2003-12-08 00:55:02 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
 {
-    /**
-     * The current version of Attributes object.
-     */
+    /** The current version of Attributes object. */
     static final int VERSION = 2;
 
     /**
@@ -61,7 +59,8 @@ public class MetaClassIOBinary
     /**
      * @see MetaClassIO#serializeClass
      */
-    public void serializeClass( final OutputStream output, final ClassDescriptor info )
+    public void serializeClass( final OutputStream output,
+                                final ClassDescriptor info )
         throws IOException
     {
         final DataOutputStream data = new DataOutputStream( output );
@@ -81,7 +80,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out a set of fields.
-     *
+     * 
      * @param data the output stream
      * @param fields the fields
      * @throws IOException if unable to write fields
@@ -100,7 +99,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out a field.
-     *
+     * 
      * @param data the output stream
      * @param field the field
      * @throws IOException if unable to write field
@@ -116,7 +115,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out a set of methods.
-     *
+     * 
      * @param data the output stream
      * @param methods the methods
      * @throws IOException if unable to write methods
@@ -135,7 +134,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out a method.
-     *
+     * 
      * @param data the output stream
      * @param method the method
      * @throws IOException if unable to write method
@@ -152,7 +151,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a set of methods.
-     *
+     * 
      * @param data the input
      * @return the methods
      * @throws IOException if unable to read methods
@@ -160,9 +159,13 @@ public class MetaClassIOBinary
     MethodDescriptor[] readMethods( final DataInputStream data )
         throws IOException
     {
-        final int methodCount = data.readInt();
+        final int count = data.readInt();
+        if( 0 == count )
+        {
+            return MethodDescriptor.EMPTY_SET;
+        }
         final ArrayList methodSet = new ArrayList();
-        for( int i = 0; i < methodCount; i++ )
+        for( int i = 0; i < count; i++ )
         {
             methodSet.add( readMethod( data ) );
         }
@@ -173,7 +176,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a method.
-     *
+     * 
      * @param data the input
      * @return the method
      * @throws IOException if unable to read method
@@ -195,16 +198,22 @@ public class MetaClassIOBinary
 
     /**
      * Read in a set of fields.
-     *
+     * 
      * @param data the input
      * @return the fields
      * @throws IOException if unable to read fields
      */
-    FieldDescriptor[] readFields( final DataInputStream data ) throws IOException
+    FieldDescriptor[] readFields( final DataInputStream data )
+        throws IOException
     {
-        final int fieldCount = data.readInt();
+        final int count = data.readInt();
+        if( 0 == count )
+        {
+            return FieldDescriptor.EMPTY_SET;
+        }
+
         final ArrayList fieldSet = new ArrayList();
-        for( int i = 0; i < fieldCount; i++ )
+        for( int i = 0; i < count; i++ )
         {
             fieldSet.add( readField( data ) );
         }
@@ -214,7 +223,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a field.
-     *
+     * 
      * @param data the input
      * @return the field
      * @throws IOException if unable to read field
@@ -230,7 +239,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a set of method parameters.
-     *
+     * 
      * @param data the input
      * @return the method parameters
      * @throws IOException if unable to read parameters
@@ -238,20 +247,26 @@ public class MetaClassIOBinary
     ParameterDescriptor[] readParameters( final DataInputStream data )
         throws IOException
     {
-        final ArrayList parameters = new ArrayList();
         final int count = data.readInt();
+        if( 0 == count )
+        {
+            return ParameterDescriptor.EMPTY_SET;
+        }
+
+        final ArrayList parameters = new ArrayList();
         for( int i = 0; i < count; i++ )
         {
             parameters.add( readParameter( data ) );
         }
         final ParameterDescriptor[] parameterDescriptorArray =
             new ParameterDescriptor[ parameters.size() ];
-        return (ParameterDescriptor[])parameters.toArray( parameterDescriptorArray );
+        return (ParameterDescriptor[])parameters.toArray(
+            parameterDescriptorArray );
     }
 
     /**
      * Read in a method parameter.
-     *
+     * 
      * @param data the input
      * @return the method parameter
      * @throws IOException if unable to read parameter
@@ -266,7 +281,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out a set of method parameters.
-     *
+     * 
      * @param data the output stream
      * @param parameters the method parameters
      * @throws IOException if unable to write parameters
@@ -285,7 +300,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out a method parameter.
-     *
+     * 
      * @param data the output stream
      * @param parameter the method parameter
      * @throws IOException if unable to write parameter
@@ -300,7 +315,7 @@ public class MetaClassIOBinary
 
     /**
      * Read in a set of attributes.
-     *
+     * 
      * @param data the input stream
      * @return the attributes
      * @throws IOException if unable to read attributes
@@ -309,13 +324,16 @@ public class MetaClassIOBinary
         throws IOException
     {
         final int count = data.readInt();
+        if( 0 == count )
+        {
+            return Attribute.EMPTY_SET;
+        }
         final ArrayList attributeSet = new ArrayList();
         for( int i = 0; i < count; i++ )
         {
             final String name = data.readUTF();
             final String value = data.readUTF();
             final Properties properties = readAttributeParameters( data );
-            Attribute attribute = null;
 
             final boolean valuePresent = null != value && value.length() > 0;
             if( valuePresent &&
@@ -327,6 +345,7 @@ public class MetaClassIOBinary
                 throw new IOException( message );
             }
 
+            final Attribute attribute;
             if( valuePresent )
             {
                 attribute = new Attribute( name, value );
@@ -338,12 +357,13 @@ public class MetaClassIOBinary
             attributeSet.add( attribute );
         }
 
-        return (Attribute[])attributeSet.toArray( new Attribute[ attributeSet.size() ] );
+        return (Attribute[])attributeSet.toArray(
+            new Attribute[ attributeSet.size() ] );
     }
 
     /**
      * Read in a set of attribute parameters.
-     *
+     * 
      * @param data the input
      * @return the parameters
      * @throws IOException if unable to read attribute parameters
@@ -366,7 +386,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out the specified attributes.
-     *
+     * 
      * @param data the output
      * @param attributes the attributes
      * @throws IOException if unable to write attributes
@@ -397,7 +417,7 @@ public class MetaClassIOBinary
 
     /**
      * Write out the parameters of an attribute.
-     *
+     * 
      * @param data the output
      * @param attribute the attribute
      * @throws IOException if unable to write attribute parameters
@@ -425,9 +445,9 @@ public class MetaClassIOBinary
     }
 
     /**
-     * Read version header of descriptor to make sure it is something
-     * we can handle and if not throw an exception.
-     *
+     * Read version header of descriptor to make sure it is something we can
+     * handle and if not throw an exception.
+     * 
      * @param data the input stream
      * @throws IOException if unable to handle version
      */
