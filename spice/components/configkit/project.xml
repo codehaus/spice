@@ -21,6 +21,16 @@
             <name>1.1</name>
             <tag>CONFIGKIT_1_1-tag</tag>
         </version>
+        <version>
+            <id>1.1.1</id>
+            <name>1.1.1</name>
+            <tag>CONFIGKIT_1_1_1-tag</tag>
+        </version>
+        <version>
+            <id>1.1.2</id>
+            <name>1.1.2</name>
+            <tag>CONFIGKIT_1_1_2-tag</tag>
+        </version>
     </versions>
 
     <dependencies>
