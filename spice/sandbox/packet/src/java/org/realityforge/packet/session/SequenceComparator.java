@@ -7,7 +7,7 @@ import org.realityforge.packet.Packet;
  * Comparator for sorting packets by sequence number.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-14 01:29:02 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-23 05:48:15 $
  */
 class SequenceComparator
     implements Comparator
@@ -22,6 +22,6 @@ class SequenceComparator
         final Packet p1 = (Packet)o1;
         final Packet p2 = (Packet)o2;
 
-        return p2.getSequence() - p1.getSequence();
+        return p1.getSequence() - p2.getSequence();
     }
 }
