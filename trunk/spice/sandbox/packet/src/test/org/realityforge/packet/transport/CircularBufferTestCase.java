@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-12-05 06:57:12 $
+ * @version $Revision: 1.4 $ $Date: 2003-12-09 00:59:43 $
  */
 public class CircularBufferTestCase
     extends TestCase
@@ -88,7 +88,7 @@ public class CircularBufferTestCase
                       buffer.isWrappedBuffer() );
     }
 
-    public void testWrappedBuffer()
+    public void testWriteWrappedBuffer()
         throws Exception
     {
         final CircularBuffer buffer = new CircularBuffer( 55 );
@@ -101,6 +101,23 @@ public class CircularBufferTestCase
         assertEquals( "buffer.getStart()", 40, buffer.getStart() );
         assertEquals( "buffer.getEnd()", 15, buffer.getEnd() );
         assertEquals( "buffer.isWrappedBuffer()", true,
+                      buffer.isWrappedBuffer() );
+    }
+
+    public void testReadWrappedBuffer()
+        throws Exception
+    {
+        final CircularBuffer buffer = new CircularBuffer( 55 );
+        buffer.writeBytes( 50 );
+        buffer.readBytes( 50 );
+        buffer.writeBytes( 20 );
+        buffer.readBytes( 10 );
+        assertEquals( "buffer.getAvailable()", 10, buffer.getAvailable() );
+        assertEquals( "buffer.getCapacity()", 55, buffer.getCapacity() );
+        assertEquals( "buffer.getSpace()", 45, buffer.getSpace() );
+        assertEquals( "buffer.getStart()", 5, buffer.getStart() );
+        assertEquals( "buffer.getEnd()", 15, buffer.getEnd() );
+        assertEquals( "buffer.isWrappedBuffer()", false,
                       buffer.isWrappedBuffer() );
     }
 
