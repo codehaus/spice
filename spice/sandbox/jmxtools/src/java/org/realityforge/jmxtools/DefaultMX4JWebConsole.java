@@ -14,6 +14,7 @@ import org.jcontainer.dna.Configuration;
 import org.jcontainer.dna.ConfigurationException;
 import org.jcontainer.dna.MissingResourceException;
 import org.jcontainer.dna.ResourceLocator;
+import mx4j.adaptor.http.HttpCommandProcessor;
 
 /**
  * @dna.component
@@ -33,6 +34,7 @@ public class DefaultMX4JWebConsole
    private static final int DEFAULT_PORT = 8080;
 
    private static final String[] ADD_AUTH_PARAM_TYPES = new String[]{String.class.getName(), String.class.getName()};
+   private static final String[] ADD_PROCESSOR_PARAM_TYPES = new String[]{String.class.getName(), HttpCommandProcessor.class.getName()};
 
    private MBeanServer _mBeanServer;
 
@@ -176,6 +178,16 @@ public class DefaultMX4JWebConsole
       }
    }
 
+   protected final void addCommandProcessor( final String name,
+                                             final HttpCommandProcessor processor )
+      throws Exception
+   {
+      getmBeanServer().invoke( getHttpName(),
+                               "addCommandProcessor",
+                               new Object[]{name, processor},
+                               ADD_PROCESSOR_PARAM_TYPES );
+   }
+
    protected final ObjectName getHttpName()
    {
       return _httpName;
@@ -184,5 +196,10 @@ public class DefaultMX4JWebConsole
    protected final ObjectName getProcessorName()
    {
       return _processorName;
+   }
+
+   protected final MBeanServer getmBeanServer()
+   {
+      return _mBeanServer;
    }
 }
