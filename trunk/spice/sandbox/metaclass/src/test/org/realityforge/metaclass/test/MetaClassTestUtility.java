@@ -9,10 +9,6 @@ package org.realityforge.metaclass.test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Properties;
 import org.realityforge.metaclass.Attributes;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
@@ -23,7 +19,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.7 $ $Date: 2003-08-15 08:39:40 $
+ * @version $Revision: 1.8 $ $Date: 2003-08-18 08:03:50 $
  */
 public final class MetaClassTestUtility
 {
@@ -216,94 +212,46 @@ public final class MetaClassTestUtility
             return ( null == one && null == two );
         }
 
-        boolean valid = true;
-
         final String nameOne = one.getName();
         final String nameTwo = two.getName();
-        if( null == nameTwo || null == nameOne )
+        if( !nameOne.equals( nameTwo ) )
         {
-            if( null != nameTwo || null != nameOne )
-            {
-                valid = false;
-            }
+            return false;
         }
 
-        if( valid )
+        final String valueOne = one.getValue();
+        final String valueTwo = two.getValue();
+        if( null == valueTwo || null == valueOne )
         {
-            final String valueOne = one.getValue();
-            final String valueTwo = two.getValue();
-            if( null == valueTwo || null == valueOne )
+            if( null != valueTwo || null != valueOne )
             {
-                if( null != valueTwo || null != valueOne )
-                {
-                    valid = false;
-                }
-            }
-            else
-            {
-                if( !valueOne.equals( valueTwo ) )
-                {
-                    valid = false;
-                }
+                return false;
             }
         }
-
-        if( valid )
+        else if( !valueOne.equals( valueTwo ) )
         {
-            final Properties parametersOne = one.getParameters();
-            final Properties parametersTwo = two.getParameters();
-            if( null == parametersTwo || null == parametersOne )
+            return false;
+        }
+        if( one.getParameterCount() != two.getParameterCount() )
+        {
+            return false;
+        }
+        else
+        {
+            final String[] names = one.getParameterNames();
+            for( int i = 0; i < names.length; i++ )
             {
-                if( null != parametersTwo || null != parametersOne )
+                final String name = names[ i ];
+                final String oneValue = one.getParameter( name );
+                final String twoValue = two.getParameter( name );
+                if( !oneValue.equals( twoValue ) )
                 {
-                    valid = false;
-                }
-            }
-            else
-            {
-                final Enumeration keySetOne = parametersOne.keys();
-                final Enumeration keySetTwo = parametersTwo.keys();
-                while( keySetOne.hasMoreElements() )
-                {
-                    final Object oOne = keySetOne.nextElement();
-                    if( keySetTwo.hasMoreElements() )
-                    {
-                        final Object oTwo = keySetTwo.nextElement();
-                        if( oOne instanceof String )
-                        {
-                            final String stringOne = (String)oOne;
-                            final String stringTwo = (String)oTwo;
-                            if( !stringOne.equals( stringTwo ) )
-                            {
-                                valid = false;
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        valid = false;
-                        break;
-                    }
-                }
-
-                final Collection valuesOne = parametersOne.values();
-                final Collection valuesTwo = parametersTwo.values();
-                final Iterator iteratorTwo = valuesTwo.iterator();
-                for( final Iterator iteratorOne = valuesOne.iterator(); iteratorOne.hasNext(); )
-                {
-                    final String stringOne = (String)iteratorOne.next();
-                    final String stringTwo = (String)iteratorTwo.next();
-                    if( !stringOne.equals( stringTwo ) )
-                    {
-                        valid = false;
-                        break;
-                    }
+                    return false;
                 }
             }
         }
 
-        return valid;
+        return true;
     }
 
     public static Attribute[] getAttributesForMethodOrConstructor( final String className,
