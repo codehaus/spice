@@ -13,11 +13,19 @@ import java.nio.channels.ServerSocketChannel;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-09 07:11:45 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-09 07:37:19 $
  */
 public class NIOAcceptorManagerTestCase
     extends AbstractAcceptorManagerTestCase
 {
+    public void testHandleChannelWithNonExistentEntry()
+        throws Exception
+    {
+        final NIOAcceptorManager manager = new NIOAcceptorManager();
+        final ServerSocketChannel channel = ServerSocketChannel.open();
+        manager.handleChannel( channel );
+    }
+
     public void testStartupAndShutdown()
         throws Exception
     {
