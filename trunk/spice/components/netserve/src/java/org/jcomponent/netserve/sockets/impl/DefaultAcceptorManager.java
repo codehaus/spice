@@ -14,12 +14,18 @@ import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 import org.jcomponent.netserve.sockets.SocketConnectionHandler;
 
 /**
- * Abstract implementation of {@link SocketAcceptorManager} that uses
+ * Default implementation of {@link SocketAcceptorManager} that uses
  * a thread per acceptor approach.
+ *
+ * <p>Note that on some OS/JVM combinations <tt>soTimeout</tt> must
+ * be set to non-0 value or else the ServerSocket will never get out
+ * of accept() system call and we wont be able to shutdown the server
+ * socket properly. However it can introduce performance problems if
+ * constantly timing out. </p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.10 $ $Date: 2003-10-09 05:58:14 $
+ * @version $Revision: 1.11 $ $Date: 2003-10-14 04:22:25 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
