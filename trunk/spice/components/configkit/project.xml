@@ -51,7 +51,7 @@
         </dependency>
         <dependency>
             <id>xsdlib</id>
-            <version>20020414</version>
+            <version>20030225</version>
             <properties>
                 <category>runtime</category>
             </properties>
