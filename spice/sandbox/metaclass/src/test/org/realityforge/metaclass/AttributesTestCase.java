@@ -19,7 +19,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-09-01 04:37:57 $
+ * @version $Revision: 1.8 $ $Date: 2003-09-28 03:58:01 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -128,7 +128,7 @@ public class AttributesTestCase
                                  attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
-        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
         MetaClassIntrospector.clearCompleteCache();
         final Attribute[] results =
             Attributes.getAttributes( AttributesTestCase.class );
@@ -150,7 +150,7 @@ public class AttributesTestCase
                                  attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
-        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
         MetaClassIntrospector.clearCompleteCache();
 
         final Attribute[] results =
@@ -172,7 +172,7 @@ public class AttributesTestCase
                                  attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
-        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
         MetaClassIntrospector.clearCompleteCache();
 
         final Attribute result =
@@ -198,7 +198,7 @@ public class AttributesTestCase
                                  Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{fieldDescriptor},
                                  MethodDescriptor.EMPTY_SET );
-        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
         MetaClassIntrospector.clearCompleteCache();
         final Attribute[] results = Attributes.getAttributes( field );
         assertEquals( "attributes.length", 2, results.length );
@@ -225,7 +225,7 @@ public class AttributesTestCase
                                  Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{fieldDescriptor},
                                  MethodDescriptor.EMPTY_SET );
-        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
         MetaClassIntrospector.clearCompleteCache();
         final Attribute[] results =
             Attributes.getAttributes( field, name );
@@ -252,7 +252,7 @@ public class AttributesTestCase
                                  Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{fieldDescriptor},
                                  MethodDescriptor.EMPTY_SET );
-        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
         MetaClassIntrospector.clearCompleteCache();
 
         final Attribute result =
@@ -285,7 +285,7 @@ public class AttributesTestCase
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
-        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
         MetaClassIntrospector.clearCompleteCache();
         final Attribute[] results = Attributes.getAttributes( method );
         assertEquals( "attributes.length", 2, results.length );
@@ -320,7 +320,7 @@ public class AttributesTestCase
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
-        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
         MetaClassIntrospector.clearCompleteCache();
         final Attribute[] results =
             Attributes.getAttributes( method, name );
@@ -354,7 +354,7 @@ public class AttributesTestCase
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
-        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
         MetaClassIntrospector.clearCompleteCache();
 
         final Attribute result =

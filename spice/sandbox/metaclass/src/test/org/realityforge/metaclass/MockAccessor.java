@@ -9,25 +9,21 @@ package org.realityforge.metaclass;
 
 import org.realityforge.metaclass.io.MetaClassAccessor;
 import org.realityforge.metaclass.model.ClassDescriptor;
-import org.realityforge.metaclass.model.PackageDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-23 04:34:29 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-28 03:58:01 $
  */
 class MockAccessor
     implements MetaClassAccessor
 {
     private final ClassDescriptor m_classDescriptor;
-    private final PackageDescriptor m_packageDescriptor;
     private int m_accessCount;
 
-    public MockAccessor( final ClassDescriptor classDescriptor,
-                         final PackageDescriptor packageDescriptor )
+    public MockAccessor( final ClassDescriptor classDescriptor )
     {
         m_classDescriptor = classDescriptor;
-        m_packageDescriptor = packageDescriptor;
     }
 
     public ClassDescriptor getClassDescriptor( String classname,
@@ -42,21 +38,6 @@ class MockAccessor
         else
         {
             throw new MetaClassException( "Missing " + classname );
-        }
-    }
-
-    public PackageDescriptor getPackageDescriptor( String name,
-                                                   ClassLoader classLoader )
-        throws MetaClassException
-    {
-        m_accessCount++;
-        if( null != m_packageDescriptor && name.equals( m_packageDescriptor.getName() ) )
-        {
-            return m_packageDescriptor;
-        }
-        else
-        {
-            throw new MetaClassException( "Missing " + name );
         }
     }
 
