@@ -1,7 +1,7 @@
 /*
 
  ============================================================================
-                   The RealityForge Software License, Version 1.1
+                     The Spice Software License, Version 1.1
  ============================================================================
 
  Copyright (C) 2000-2002 The Spice Group. All rights reserved.
@@ -22,12 +22,12 @@
     Alternately, this  acknowledgment may  appear in the software itself,  if
     and wherever such third-party acknowledgments normally appear.
 
- 4. The names "Spice" and "RealityForge Group" must not be used to endorse or
+ 4. The names "Spice" and "Spice Group" must not be used to endorse or
     promote products derived from this  software without  prior written
     permission. For written permission, please contact help@realityforge.org.
 
- 5. Products  derived from this software may not  be called "RealityForge", nor
-    may "RealityForge" appear  in their name,  without prior written permission
+ 5. Products  derived from this software may not  be called "Spice", nor
+    may "Spice" appear  in their name,  without prior written permission
     of The Spice Group.
 
  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES,
