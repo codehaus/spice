@@ -11,7 +11,7 @@
     <goal name="generateNavigation">
         <mkdir dir="target"/>
         <j:file name="target/navigation.xml" prettyPrint="true">
-            <naproject name="Spice" href="spice.sf.net">
+            <naproject name="Spice" href="spice.sourceforge.net">
                 <title>Spice</title>
                 <body>
                     <menu name="Overview">
