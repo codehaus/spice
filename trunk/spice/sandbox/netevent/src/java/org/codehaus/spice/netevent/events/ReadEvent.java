@@ -14,7 +14,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Event indicating events were read.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-20 01:08:30 $
+ * @version $Revision: 1.5 $ $Date: 2004-01-20 05:19:26 $
  */
 public class ReadEvent
     extends AbstractTransportEvent
@@ -54,9 +54,7 @@ public class ReadEvent
      */
     protected String getEventDescription()
     {
-        return
-            getBuffer().limit() +
-            " bytes to " +
-            super.getEventDescription();
+        final int count = getBuffer().limit();
+        return "count=" + count + " " + super.getEventDescription();
     }
 }
