@@ -20,7 +20,7 @@ import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-12 04:12:19 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-16 02:03:49 $
  */
 public class ChannelTransportTestCase
     extends TestCase
@@ -136,7 +136,9 @@ public class ChannelTransportTestCase
         final Buffer writeBuffer = transport.getTransmitBuffer();
         writeBuffer.add( new Object() );
         assertEquals( "SelectOps",
-                      SelectionKey.OP_WRITE | SelectionKey.OP_READ,
+                      SelectionKey.OP_WRITE |
+                      SelectionKey.OP_READ |
+                      SelectionKey.OP_CONNECT,
                       transport.getSelectOps() );
     }
 
@@ -149,7 +151,8 @@ public class ChannelTransportTestCase
                                   new DefaultBufferManager(),
                                   new NullEventSink() );
         assertEquals( "SelectOps",
-                      SelectionKey.OP_READ,
+                      SelectionKey.OP_READ |
+                      SelectionKey.OP_CONNECT,
                       transport.getSelectOps() );
     }
 }
