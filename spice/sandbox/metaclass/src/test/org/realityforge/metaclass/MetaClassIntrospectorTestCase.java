@@ -16,11 +16,16 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-09-28 04:41:15 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-04 00:31:10 $
  */
 public class MetaClassIntrospectorTestCase
     extends TestCase
 {
+    public void testInstantiateMetaClassIntrospectorClass()
+    {
+        assertNotNull( "attributes", new MetaClassIntrospector() );
+    }
+
     public void testGetClassDescriptorViaClassObject()
         throws Exception
     {
