@@ -8,7 +8,8 @@
 package org.jcomponent.swingactions;
 
 import java.io.InputStream;
-import org.w3c.dom.Element;
+
+import org.jcomponent.swingactions.reader.ConfigReader;
 
 /**
  * XMLActionManager is an implementation of <code>ActionManager</code> which
@@ -19,11 +20,12 @@ import org.w3c.dom.Element;
 public class XMLActionManager
     extends AbstractActionManager
 {
-    public XMLActionManager( final Element element )
-    {
-    }
+    final ConfigReader reader;
 
-    public XMLActionManager( final InputStream resource )
+    public XMLActionManager( final InputStream resource ) 
+        throws Exception
     {
+        reader = new ConfigReader();
+        reader.parse( resource );
     }
 }
