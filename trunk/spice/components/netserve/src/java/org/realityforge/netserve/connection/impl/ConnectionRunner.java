@@ -15,7 +15,7 @@ import org.realityforge.netserve.connection.ConnectionHandler;
  * This class is responsible for handling a single connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-04-23 03:14:24 $
+ * @version $Revision: 1.4 $ $Date: 2003-04-23 03:20:29 $
  */
 class ConnectionRunner
     extends AbstractLogEnabled
@@ -82,7 +82,6 @@ class ConnectionRunner
     }
 
     synchronized void close()
-        throws Exception
     {
         if( !m_done )
         {
