@@ -9,33 +9,21 @@ package org.jcomponent.netserve.sockets.impl;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
-import java.net.ServerSocket;
 import java.net.Socket;
-import org.jcomponent.netserve.sockets.SocketConnectionHandler;
 
 /**
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-09 01:49:15 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-09 05:57:36 $
  */
 class ConnectionAcceptor
     implements Runnable
 {
     /**
-     * The name of the connection.
+     * The configuration for acceptor.
      */
-    private final String m_name;
-
-    /**
-     * The ServerSocket that we are accepting connections from.
-     */
-    private final ServerSocket m_serverSocket;
-
-    /**
-     * The ConnectionHandlerManager that we create ConnectionHandlers from.
-     */
-    private final SocketConnectionHandler m_handler;
+    private final AcceptorConfig m_config;
 
     /**
      * The AcceptorMonitor for event notification.
@@ -52,36 +40,24 @@ class ConnectionAcceptor
     /**
      * Create the acceptor.
      *
-     * @param name the name that connection was registered using
-     * @param serverSocket the ServerSocket that used to accept connections
-     * @param handler the handler for new connections
+     * @param config the config for acceptor
+     * @param monitor the monitor
      */
-    ConnectionAcceptor( final String name,
-                        final ServerSocket serverSocket,
-                        final SocketConnectionHandler handler,
+    ConnectionAcceptor( final AcceptorConfig config,
                         final AcceptorMonitor monitor )
     {
-        if( null == name )
+        if( null == config )
         {
-            throw new NullPointerException( "name" );
-        }
-        if( null == serverSocket )
-        {
-            throw new NullPointerException( "serverSocket" );
-        }
-        if( null == handler )
-        {
-            throw new NullPointerException( "handler" );
+            throw new NullPointerException( "config" );
         }
         if( null == monitor )
         {
             throw new NullPointerException( "monitor" );
         }
-        m_name = name;
-        m_serverSocket = serverSocket;
-        m_handler = handler;
+        m_config = config;
         m_monitor = monitor;
-        m_monitor.acceptorCreated( m_name, m_serverSocket );
+        m_monitor.acceptorCreated( m_config.getName(),
+                                   m_config.getServerSocket() );
     }
 
     /**
@@ -93,7 +69,8 @@ class ConnectionAcceptor
         {
             if( null != m_thread )
             {
-                m_monitor.acceptorClosing( m_name, m_serverSocket );
+                m_monitor.acceptorClosing( m_config.getName(),
+                                           m_config.getServerSocket() );
                 m_thread.interrupt();
                 m_thread = null;
             }
@@ -112,13 +89,14 @@ class ConnectionAcceptor
         }
         while( isRunning() )
         {
-            m_monitor.serverSocketListening( m_name, m_serverSocket );
+            m_monitor.serverSocketListening( m_config.getName(),
+                                             m_config.getServerSocket() );
             try
             {
-                final Socket socket = m_serverSocket.accept();
+                final Socket socket = m_config.getServerSocket().accept();
                 if( isRunning() )
                 {
-                    m_handler.handleConnection( socket );
+                    m_config.getHandler().handleConnection( socket );
                 }
                 else
                 {
@@ -138,7 +116,7 @@ class ConnectionAcceptor
             }
             catch( final IOException ioe )
             {
-                m_monitor.errorAcceptingConnection( m_name, ioe );
+                m_monitor.errorAcceptingConnection( m_config.getName(), ioe );
             }
         }
 
@@ -152,11 +130,11 @@ class ConnectionAcceptor
     {
         try
         {
-            m_serverSocket.close();
+            m_config.getServerSocket().close();
         }
         catch( final IOException ioe )
         {
-            m_monitor.errorClosingServerSocket( m_name, ioe );
+            m_monitor.errorClosingServerSocket( m_config.getName(), ioe );
         }
     }
 
