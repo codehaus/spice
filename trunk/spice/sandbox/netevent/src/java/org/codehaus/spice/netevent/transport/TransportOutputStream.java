@@ -1,17 +1,19 @@
 package org.codehaus.spice.netevent.transport;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.buffers.BufferManager;
+import org.codehaus.spice.netevent.events.CloseChannelRequestEvent;
 import org.codehaus.spice.netevent.events.OutputDataPresentEvent;
 
 /**
  * An output stream that will send chunks of data via transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-12 04:12:19 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-12 23:57:37 $
  */
 public class TransportOutputStream
     extends OutputStream
@@ -30,6 +32,9 @@ public class TransportOutputStream
 
     /** The current byte buffer that is written to. May be null. */
     private ByteBuffer _buffer;
+
+    /** The flag indicating whether stream is closed. */
+    private boolean _closed;
 
     /**
      * Create output stream.
@@ -71,6 +76,10 @@ public class TransportOutputStream
     public synchronized void write( final int data )
         throws IOException
     {
+        if( _closed )
+        {
+            throw new EOFException();
+        }
         ByteBuffer buffer = getBuffer();
         if( 0 == buffer.remaining() )
         {
@@ -100,7 +109,7 @@ public class TransportOutputStream
     }
 
     /**
-     * @see OutputStream#close()
+     * @see OutputStream#flush()
      */
     public synchronized void flush()
         throws IOException
@@ -112,5 +121,16 @@ public class TransportOutputStream
             _sink.addEvent( new OutputDataPresentEvent( _transport ) );
             _buffer = null;
         }
+    }
+
+    /**
+     * @see OutputStream#close()
+     */
+    public void close()
+        throws IOException
+    {
+        flush();
+        _closed = true;
+        _sink.addEvent( new CloseChannelRequestEvent( _transport ) );
     }
 }
