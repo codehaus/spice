@@ -7,12 +7,14 @@
  */
 package org.realityforge.loggerstore;
 
-import junit.framework.TestCase;
-import org.apache.avalon.framework.logger.Logger;
 import java.io.InputStream;
 
+import junit.framework.TestCase;
+
+import org.apache.avalon.framework.logger.Logger;
+
 /**
- *  Test case for Log4JLoggerStore
+ *  Test case for LoggerStore
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
@@ -37,27 +39,34 @@ public class LoggerStoreTestCase
         throws Exception
     {
         final LoggerStore store =
-            new LogKitLoggerStore( getResource( "logkit.xml" ) );
+            new LogKitLoggerStore( Configurator.buildConfiguration( getResource( "logkit.xml" ) ) );
         runLoggerTest( "LogKit", store );
     }
 
+    public void testLog4JElementConfiguration()
+        throws Exception
+    {
+        final LoggerStore store =
+            new Log4JLoggerStore( Configurator.buildElement( getResource( "log4j.xml" )  ) );
+        runLoggerTest( "Log4jElement", store );
+    }
+    
+    public void testLog4JInputStreamConfiguration()
+        throws Exception
+    {
+        final LoggerStore store =
+            new Log4JLoggerStore( getResource( "log4j.xml" ) );
+        runLoggerTest( "Log4jInputStream", store );
+    }
+    
     public void testLog4JPropertiesConfiguration()
         throws Exception
     {
         final LoggerStore store =
-            new Log4JLoggerStore( LoggerStoreFactory.PROPERTIES,
-                                  getResource( "log4j.properties" ) );
+            new Log4JLoggerStore( Configurator.buildProperties( getResource( "log4j.properties" ) ) );
         runLoggerTest( "Log4jProperties", store );
     }
-
-    public void testLog4JXMLConfiguration()
-        throws Exception
-    {
-        final LoggerStore store =
-            new Log4JLoggerStore( LoggerStoreFactory.XML, getResource( "log4j.xml" ) );
-        runLoggerTest( "Log4jXML", store );
-    }
-
+    
     protected final InputStream getResource( final String name )
     {
         return getClass().getResourceAsStream( name );

@@ -21,9 +21,14 @@ public class Log4JLoggerStoreFactory
 {
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
-     * The configuration Map must contain an object keyed on <code>LoggerStoreFactory.CONFIGURATION</code>
-     * containing either a <code>Properties</code> object
-     *
+     * The configuration Map must contain:
+     * <ol> 
+     * <li> <code>InputStream</code> object keyed on <code>LoggerStoreFactory.CONFIGURATION</code>
+     * encoding the configuration resource</li>
+     * <li> a <code>LoggerStoreFactory.CONFIGURATION_TYPE</code>
+     * containing  the configuration type - either <code>LoggerStoreFactory.PROPERTIES</code> 
+     * or <code>LoggerStoreFactory.XML</code></li>
+     * </ol>
      * @param config the Map of parameters for the configuration of the store
      * @return the LoggerStore
      * @throws Exception if unable to create the LoggerStore
@@ -37,7 +42,14 @@ public class Log4JLoggerStoreFactory
             String type = (String)config.get( CONFIGURATION_TYPE );
             if( type != null )
             {
-                return new Log4JLoggerStore( type, resource );
+                if( type.equals( LoggerStoreFactory.PROPERTIES ) )
+                {
+                    return new Log4JLoggerStore( Configurator.buildProperties( resource ) );
+                }
+                else if( type.equals( LoggerStoreFactory.XML ) )
+                {
+                    return new Log4JLoggerStore( resource );
+                }
             }
         }
         throw new Exception( "Invalid configuration" );

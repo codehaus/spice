@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE log4j:configuration SYSTEM "file:log4j.dtd">
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <log4j:configuration debug="true" xmlns:log4j="http://jakarta.apache.org/log4j/">
         
@@ -12,7 +12,7 @@
   
     <category name="org.realityforge.loggerstore">
         <priority value="DEBUG"/>
-        <appender-ref ref="ROLLING_FILE"/>
+        <appender-ref ref="XML_ROLLING_FILE"/>
     </category>
 
     <root>
