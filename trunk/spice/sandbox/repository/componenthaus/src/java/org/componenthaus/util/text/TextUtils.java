@@ -18,12 +18,10 @@ public class TextUtils {
     }
 
     public static String fmt(String text, final String lineBreak) {
-        System.out.println("text in is " + text);
         final StringBuffer result = new StringBuffer();
         while ( text != null ) {
             if ( text.length() >= columnCount ) {
                 final String chunk = getChunk(text);
-                System.out.println("Chunk is " + chunk);
                 result.append(chunk).append(lineBreak);
                 text = text.substring(chunk.length()).trim();
             } else {

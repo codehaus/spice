@@ -58,7 +58,6 @@ public class RepositoryImpl extends AbstractPrevalentSystem implements Component
     private void handlePlugs(ServiceImplementation impl) {
         for(Iterator i=impl.getPlugs().iterator();i.hasNext();) {
             final Component plug = (Component) i.next();
-            System.out.println("Recursively adding component " + plug);
             add(plug);
         }
     }

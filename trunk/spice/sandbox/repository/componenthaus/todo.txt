@@ -1,18 +1,26 @@
- * aspico integration, so we can have type 3 IoC
+ * aspico integration, so we can have type 3 IoC.  Forget aspico - make a pico-style spring beanfactory.
  * test cases, before we get out of control
  * take version number from maven pom
  * take dependency jars from maven pom
- * fix search engine indexing problem - last component only indexed
  * better search results page
- * remote System.out.printlns
  * Federation
  * Live XPath query/reporting of component model
  * Acceptable UI - gulp!
- * Menubar on each page
  * Console on each page, displaying result of last significant action (use monitor and tiles)
  * Add Submit date to component
  * Access control (for write actions)
  * Users and user management
- * CSS style sheets
  * Support multiple components in a single source tree (same jar I guess).
  * Rework the component details page.  Yes, link to impls, but display what a user has to do to use the impl
+ * JMX integration into the heart of the app
+ * Investigate Beanshell integration, for debugging problems while live
+
+Done
+
+October 5th
+ * fix search engine indexing problem - last component only indexed
+ * remove System.out.printlns
+
+October 4th
+ * Menubar on each page
+ * CSS style sheets

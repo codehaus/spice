@@ -11,15 +11,18 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public class LuceneSearchService implements SearchService {
+    private static final String INDEX_FILE_PATH = "index";
+
+    //This is impossible to unit test as IndexWriter is final
     public void index(String componentId, String componentDescription) throws SearchService.Exception {
         IndexWriter writer = null;
         try {
-            writer = new IndexWriter("index", new StandardAnalyzer(), true);
+            writer = new IndexWriter(INDEX_FILE_PATH, new StandardAnalyzer(), !indexExists());
             final Document document = new Document();
             document.add(Field.Text("id", componentId));
             document.add(Field.Text("contents", componentDescription));
@@ -27,28 +30,31 @@ public class LuceneSearchService implements SearchService {
             writer.optimize();
             writer.close();
         } catch (IOException e) {
-            throw new SearchService.Exception("Exception update Lucene index", e);
+            throw new SearchService.Exception("Exception updating Lucene index", e);
         }
-        System.out.println("Component indexed " + componentId + " with desc " + componentDescription);
     }
 
-    public Collection search(final String query) throws SearchService.Exception {
-        final Collection result = new ArrayList();
+    private boolean indexExists() {
+        return new File(INDEX_FILE_PATH).exists();
+    }
+
+    //This is impossible to unit test as Hits is final, and the constructor is package protected
+    public int search(final String query, int beginIndex, final int endIndex, final List collector) throws SearchService.Exception {
+        int numHits = 0;
         try {
-            Searcher searcher = new IndexSearcher("index");
-            Analyzer analyzer = new StandardAnalyzer();
-            Query q = QueryParser.parse(query, "contents", analyzer);
-            Hits hits = searcher.search(q);
-            System.out.println("Num hits = " + hits.length());
-            for(int i=0;i<hits.length();i++) {
-                final Document doc = hits.doc(i);
-                final String id = doc.get("id");
-                System.out.println("Found hit in component id " + id);
-                result.add(id);
+            final Searcher searcher = new IndexSearcher(INDEX_FILE_PATH);
+            final Analyzer analyzer = new StandardAnalyzer();
+            final Query q = QueryParser.parse(query, "contents", analyzer);
+            final Hits hits = searcher.search(q);
+            numHits = hits.length();
+            while (beginIndex <= endIndex && beginIndex < numHits) {
+                final Document doc = hits.doc(beginIndex++);
+                collector.add(doc.get("id"));
             }
         } catch (java.lang.Exception e) {
             throw new SearchService.Exception("Exception performing Lucene search",e);
         }
-        return result;
+        return numHits;
     }
+
 }

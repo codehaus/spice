@@ -9,7 +9,6 @@ import java.io.IOException;
 
 public class JalopyCodeFormatter implements CodeFormatter {
     public String format(String in) throws CodeFormatter.Exception {
-        System.out.println("Attempting to format " + in);
         Jalopy jalopy = new Jalopy();
         File tempFile = null;
         final StringBuffer output = new StringBuffer();

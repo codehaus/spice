@@ -1,8 +1,17 @@
 <%@ include file="../../includes.jsp" %>
 
- <c:forEach items="${results}" var="result">
-  <c:url var="viewDetailsUrl" value="componentDetails.action" >
-    <c:param name="id" value="${result}" />
-  </c:url>
-  Component id <c:out value="${result}"/> <a href="<c:out value="${viewDetailsUrl}"/>">here</a>.<br>
-</c:forEach>
+<span class="description_text">
+Results <c:out value="${beginIndex}"/> to <c:out value="${endIndex}"/> of <c:out value="${totalMatches}"/></br>
+
+<table border="0">
+    <c:forEach items="${results}" var="result">
+    <c:url var="viewDetailsUrl" value="componentDetails.action" >
+        <c:param name="id" value="${result.id}" />
+    </c:url>
+    <tr>
+        <td><a href="<c:out value="${viewDetailsUrl}"/>" class="description_text"><c:out value="${result.name}"/></a></td>
+        <td class="description_text"><c:out value="${result.oneLineDescription}"/></td>
+    </tr>
+    </c:forEach>
+</table>
+</span>

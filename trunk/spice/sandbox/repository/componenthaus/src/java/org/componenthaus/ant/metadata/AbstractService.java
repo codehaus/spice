@@ -49,7 +49,6 @@ public abstract class AbstractService {
     }
 
     public void addAuthor(final String author) {
-        System.out.println("Calling add author");
         authors.add(author);
     }
 
