@@ -10,8 +10,8 @@ package org.realityforge.metaclass.tools.tasks;
 /**
  * Task to add one InterceptorSet to another.
  *
- * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 10:00:38 $
+ * @author Peter Donald
+ * @version $Revision: 1.2 $ $Date: 2003-11-27 08:16:02 $
  */
 public class AddToInterceptorSetTask
     extends AddToPluginSetTask
