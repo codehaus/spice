@@ -14,13 +14,13 @@
     <package>org.codehaus.spice.${pom.artifactId.substring(6)}</package>
     <url>http://spice.codehaus.org/</url>
     <siteAddress>spice.codehaus.org</siteAddress>
-    <siteDirectory>/www/spice.codehaus.org/${pom.artifactId.substring(6)}/</siteDirectory>
+    <siteDirectory>/home/projects/spice/public_html/${pom.artifactId.substring(6)}</siteDirectory>
     <distributionSite>spice.codehaus.org</distributionSite>
-    <distributionDirectory>/www/dist.codehaus.org</distributionDirectory>
+    <distributionDirectory>/home/projects/spice/dist</distributionDirectory>
     <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10140</issueTrackingUrl>
 
     <repository>
-        <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:spice</connection>
+        <connection>scm:cvs:pserver:anonymous@cvs.spice.codehaus.org:/home/projects/spice/scm:spice</connection>
         <url>http://cvs.spice.codehaus.org/</url>
     </repository>
 
