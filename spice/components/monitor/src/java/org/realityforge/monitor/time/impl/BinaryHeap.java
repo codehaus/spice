@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
  * A BinaryHeap implementation of PriorityQueue.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-04-25 05:39:57 $
+ * @version $Revision: 1.8 $ $Date: 2003-04-25 05:42:52 $
  */
 final class BinaryHeap
 {
@@ -90,6 +90,11 @@ final class BinaryHeap
      */
     public void insert( final Comparable element )
     {
+        if( null == element )
+        {
+            throw new NullPointerException( "element" );
+        }
+
         if( isFull() )
         {
             grow();
