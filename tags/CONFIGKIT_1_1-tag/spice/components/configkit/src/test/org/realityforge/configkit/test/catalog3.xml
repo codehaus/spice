@@ -1,0 +1,4 @@
+<catalog version="1.0">
+    <entity systemId="http://jakarta.apache.org/phoenix/assembly_1_0.dtd"
+        resource="org/apache/avalon/phoenix/tools/assembly.dtd"/>
+</catalog>
