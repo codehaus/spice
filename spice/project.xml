@@ -16,7 +16,7 @@
     <siteAddress>spice.codehaus.org</siteAddress>
     <siteDirectory>/home/projects/spice/public_html/${pom.artifactId.substring(6)}</siteDirectory>
     <distributionSite>spice.codehaus.org</distributionSite>
-    <distributionDirectory>/home/projects/spice/dist</distributionDirectory>
+    <distributionDirectory>/dist</distributionDirectory>
     <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10140</issueTrackingUrl>
 
     <repository>
