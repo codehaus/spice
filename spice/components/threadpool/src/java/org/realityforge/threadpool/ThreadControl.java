@@ -11,8 +11,8 @@ package org.realityforge.threadpool;
  * This interface defines the method through which Threads can
  * be controlled.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-03-01 03:08:15 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-06-27 03:45:57 $
  */
 public interface ThreadControl
 {

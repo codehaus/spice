@@ -18,10 +18,10 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.NullLogger;
 
 /**
- *  Test case for LoggerStore 
+ *  Test case for LoggerStore
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  */
 public class LoggerStoreTestCase
     extends AbstractTestCase
@@ -62,7 +62,7 @@ public class LoggerStoreTestCase
             new ConsoleLoggerStore( ConsoleLogger.LEVEL_DEBUG );
         performConsoleTest( store, ConsoleLogger.LEVEL_DISABLED );
     }
- 
+
 
     // LogKitLoggerStore tests
     public void testLogKitExcaliburConfiguration()
@@ -114,7 +114,7 @@ public class LoggerStoreTestCase
             new LogKitLoggerStore( loggerManager, null, null, builder.build( getResource( "logkit-excalibur.xml" ) ) );
         runLoggerTest( "logkit-excalibur", store );
     }
-  
+
     public void testLogKitExcaliburConfigurationNoManager()
         throws Exception
     {
@@ -128,7 +128,7 @@ public class LoggerStoreTestCase
         {
         }
     }
-    
+
     public void testLogKitExcaliburConfigurationInvalidManager()
         throws Exception
     {
@@ -144,7 +144,7 @@ public class LoggerStoreTestCase
         {
         }
     }
-    
+
     // Log4JLoggerStore tests
     public void testLog4JElementConfiguration()
         throws Exception

@@ -13,9 +13,9 @@ package org.realityforge.cli;
 /**
  * Token handles tokenizing the CLI arguments
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:bloritsch@apache.org">Berin Loritsch</a>
- * @version $Revision: 1.2 $ $Date: 2003-03-17 18:39:43 $
+ * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:17 $
  * @since 4.0
  */
 class Token

@@ -12,8 +12,8 @@ package org.realityforge.threadpool;
  * some work. In many respects it is similar to Runnable except that it
  * also allows an application to throw a non-Runtime Exception.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-04 11:44:06 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:57 $
  */
 public interface Executable
 {

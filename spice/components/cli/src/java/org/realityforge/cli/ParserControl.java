@@ -10,8 +10,8 @@ package org.realityforge.cli;
 /**
  * ParserControl is used to control particular behaviour of the parser.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-03-25 02:48:49 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.5 $ $Date: 2003-06-27 03:45:17 $
  * @since 4.0
  * @see AbstractParserControl
  */

@@ -16,8 +16,8 @@ import org.apache.oro.text.regex.Perl5Matcher;
  * Utility class for scanning a filesystem and matching a
  * particular set of include and exclude patterns ala ant.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-05-28 14:16:53 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:57 $
  */
 public class PathMatcher
 {

@@ -18,7 +18,7 @@ import org.apache.avalon.framework.logger.Logger;
  * the close() method indicating that the logger hierarchy should also be shutdown. </p>
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  */
 public interface LoggerStore
 {

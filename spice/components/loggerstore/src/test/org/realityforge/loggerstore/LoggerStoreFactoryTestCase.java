@@ -23,7 +23,7 @@ import org.w3c.dom.Element;
  *  Test case for LoggerStoreFactory
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  */
 public class LoggerStoreFactoryTestCase
     extends AbstractTestCase
@@ -129,7 +129,7 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(), 
+        config.put( Configuration.class.getName(),
                     builder.build( getResource( "logkit-excalibur.xml" ) ) );
         config.put( Logger.class.getName(), new NullLogger() );
 
@@ -137,16 +137,16 @@ public class LoggerStoreFactoryTestCase
                         ConsoleLogger.LEVEL_INFO,
                         config,
                         "logkit-excalibur" );
-    }                
-    
+    }
+
     public void testLogKitLoggerStoreFactoryWithConfigurationAndLoggerManager()
             throws Exception
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(), 
+        config.put( Configuration.class.getName(),
                     builder.build( getResource( "logkit-simple.xml" ) ) );
-        config.put( LogKitLoggerStoreFactory.LOGGER_MANAGER, 
+        config.put( LogKitLoggerStoreFactory.LOGGER_MANAGER,
                     SimpleLogKitManager.class.getName() );
 
         runFactoryTest( new LogKitLoggerStoreFactory(),
@@ -165,13 +165,13 @@ public class LoggerStoreFactoryTestCase
                                    "logkit-excalibur",
                                    config );
     }
-    
+
     public void testLogKitLoggerStoreFactoryWithStreamsAndLoggerManager()
         throws Exception
     {
-                                   
+
         final HashMap config = new HashMap();
-        config.put( LogKitLoggerStoreFactory.LOGGER_MANAGER, 
+        config.put( LogKitLoggerStoreFactory.LOGGER_MANAGER,
                     SimpleLogKitManager.class.getName() );
         runStreamBasedFactoryTest( "logkit-simple.xml",
                                    new LogKitLoggerStoreFactory(),
@@ -179,7 +179,7 @@ public class LoggerStoreFactoryTestCase
                                    "logkit-simple",
                                    config );
     }
-    
+
     public void testExcaliburLogKitLoggerStoreFactoryInvalidInput()
         throws Exception
     {
@@ -191,7 +191,7 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(), 
+        config.put( Configuration.class.getName(),
                     builder.build( getResource( "logkit-excalibur.xml" ) ) );
         config.put( Logger.class.getName(), new NullLogger() );
 
@@ -222,7 +222,7 @@ public class LoggerStoreFactoryTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final HashMap config = new HashMap();
-        config.put( Configuration.class.getName(), 
+        config.put( Configuration.class.getName(),
                     builder.build( getResource( "logkit-simple.xml" ) ) );
         config.put( Logger.class.getName(), new NullLogger() );
 
@@ -242,7 +242,7 @@ public class LoggerStoreFactoryTestCase
                                    "logkit-simple",
                                    config );
     }
-    
+
     // Log4JLoggerStoreFactory tests
     public void testPropertyLog4jLoggerStoreFactoryInvalidInput()
         throws Exception
@@ -255,7 +255,7 @@ public class LoggerStoreFactoryTestCase
     {
         runInvalidInputData( new DOMLog4JLoggerStoreFactory() );
     }
-    
+
     public void testLog4jLoggerStoreFactoryWithProperties()
         throws Exception
     {

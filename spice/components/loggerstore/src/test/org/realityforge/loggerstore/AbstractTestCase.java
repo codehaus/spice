@@ -30,7 +30,7 @@ import org.xml.sax.InputSource;
  * AbstactLoggerStoreTestCase
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  */
 public class AbstractTestCase
     extends TestCase

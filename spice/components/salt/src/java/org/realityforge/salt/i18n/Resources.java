@@ -19,8 +19,8 @@ import java.util.ResourceBundle;
  * A class to simplify extracting localized strings, icons
  * and other common resources from a ResourceBundle.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-06-13 01:05:50 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.9 $ $Date: 2003-06-27 03:45:57 $
  */
 public class Resources
 {

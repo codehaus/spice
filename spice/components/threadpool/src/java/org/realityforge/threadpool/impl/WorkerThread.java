@@ -17,8 +17,8 @@ import org.realityforge.threadpool.ThreadControl;
 /**
  * This class extends the Thread class to add recyclable functionalities.
  *
- * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-04 13:37:55 $
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.3 $ $Date: 2003-06-27 03:45:57 $
  */
 public class WorkerThread
     extends Thread
