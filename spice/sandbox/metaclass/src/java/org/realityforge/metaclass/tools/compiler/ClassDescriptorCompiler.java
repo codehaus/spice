@@ -30,7 +30,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  * Java Source files with qdox.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-04 09:54:40 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-04 10:31:01 $
  */
 public class ClassDescriptorCompiler
 {
@@ -287,6 +287,7 @@ public class ClassDescriptorCompiler
      * Return the set of classes that will actually be serialized
      * and have not been filtered out.
      *
+     * @param input the list of input classes to filter
      * @return list of classes to serialize
      */
     private List filterJavaClassObjects( final List input )
