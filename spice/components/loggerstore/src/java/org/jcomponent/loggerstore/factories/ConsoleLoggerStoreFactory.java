@@ -9,15 +9,15 @@ package org.jcomponent.loggerstore.factories;
 
 import java.util.Map;
 
-import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.jcomponent.loggerstore.LoggerStore;
-import org.jcomponent.loggerstore.stores.*;
+import org.jcomponent.loggerstore.stores.ConsoleLoggerStore;
+import org.jcontainer.dna.impl.ConsoleLogger;
 
 /**
  * This is a basic factory for ConsoleLoggerStore.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-18 09:14:29 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-18 11:52:22 $
  */
 public class ConsoleLoggerStoreFactory
     extends AbstractLoggerStoreFactory

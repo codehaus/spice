@@ -10,8 +10,8 @@ package org.jcomponent.loggerstore.stores;
 import java.io.InputStream;
 import java.util.logging.LogManager;
 
-import org.apache.avalon.framework.logger.Jdk14Logger;
-import org.apache.avalon.framework.logger.Logger;
+import org.jcontainer.dna.Logger;
+import org.jcontainer.dna.impl.Jdk14Logger;
 
 /**
  * Jdk14LoggerStore extends AbstractLoggerStore to provide the implementation

@@ -13,9 +13,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.jcomponent.loggerstore.LoggerStore;
 import org.jcomponent.loggerstore.LoggerStoreFactory;
+import org.jcontainer.dna.AbstractLogEnabled;
 
 /**
  * The abstract class that makes it easy to create LoggerStoreFactory
@@ -23,7 +23,7 @@ import org.jcomponent.loggerstore.LoggerStoreFactory;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-18 09:14:29 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-18 11:52:22 $
  */
 public abstract class AbstractLoggerStoreFactory
     extends AbstractLogEnabled

@@ -10,8 +10,8 @@ package org.jcomponent.loggerstore.stores;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.avalon.framework.logger.Log4JLogger;
-import org.apache.avalon.framework.logger.Logger;
+import org.jcontainer.dna.Logger;
+import org.jcontainer.dna.impl.Log4JLogger;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.spi.LoggerRepository;

@@ -8,19 +8,24 @@
     <package>org.jcomponent.${pom.artifactId.substring(11)}</package>
     <siteDirectory>/home/groups/s/sp/spice/htdocs/${pom.artifactId.substring(11)}</siteDirectory>
     <distributionDirectory>/home/groups/s/sp/spice/htdocs/maven/${groupId}</distributionDirectory>
-    <currentVersion>1.0-b1</currentVersion>
+    <currentVersion>1.0-b2-dev</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
-    <shortDescription>Component for storing a set of Avalon Loggers.</shortDescription>
+    <shortDescription>Component for storing a set of DNA Loggers.</shortDescription>
 
     <description>
-        Component for storing an Avalon Logger hierarchy, abstracting
+        Component for storing a DNA Logger hierarchy, abstracting
         the underlying logger implementation and configuration mechanims.
         ie Avalon LogKit, Log4J or JDK14 Loggers are possible implementations
         managed by this toolkit.
     </description>
 
     <versions>
+        <version>
+            <id>1.0-b2-dev</id>
+            <name>1.0-b2-dev</name>
+            <tag>HEAD</tag>
+        </version>
         <version>
             <id>1.0-b1</id>
             <name>1.0-b1</name>
@@ -43,6 +48,16 @@
             <groupId>avalon</groupId>
             <artifactId>avalon-logkit</artifactId>
             <version>20030527</version>
+        </dependency>
+        <dependency>
+            <groupId>dna</groupId>
+            <artifactId>dna-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>dna</groupId>
+            <artifactId>dna-impl</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>excalibur</groupId>
