@@ -18,7 +18,7 @@
         <dependency>
             <groupId>avalon</groupId>
             <artifactId>avalon-framework</artifactId>
-            <version>4.1.4</version>
+            <version>20030713</version>
         </dependency>
         <dependency>
             <groupId>avalon</groupId>
