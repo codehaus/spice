@@ -1,4 +1,4 @@
-package org.componenthaus.usecases.downloadcomponent;
+package org.componenthaus.usecases.common;
 
 import javax.servlet.ServletException;
 
