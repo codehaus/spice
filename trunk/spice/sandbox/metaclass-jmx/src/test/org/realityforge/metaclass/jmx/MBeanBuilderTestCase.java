@@ -17,7 +17,6 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.introspector.MetaClassIntrospector;
-import org.jcontainer.loom.info.TestBean;
 import java.util.Properties;
 import java.lang.reflect.Method;
 import java.lang.reflect.Constructor;
@@ -26,7 +25,7 @@ import java.beans.PropertyDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-10-14 00:36:53 $
+ * @version $Revision: 1.11 $ $Date: 2003-10-14 00:42:59 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -226,7 +225,7 @@ public class MBeanBuilderTestCase
         assertEquals( "infos.length", 0, infos.length );
     }
 
-    public void testExtractOperationFromNonOperation()
+    public void testExtractOperationInfoFromNonOperation()
         throws Exception
     {
         final MBeanBuilder builder = new MBeanBuilder();
@@ -242,13 +241,13 @@ public class MBeanBuilderTestCase
         assertNull( "operation", operation );
     }
 
-    public void testExtractOperationFromOperation()
+    public void testExtractOperationInfoFromOperation()
         throws Exception
     {
         final MBeanBuilder builder = new MBeanBuilder();
         final Class c = MBeanBuilderTestCase.class;
         final Method method =
-            c.getMethod( "testExtractOperationFromNonOperation",
+            c.getMethod( "testExtractOperationInfoFromNonOperation",
                          new Class[ 0 ] );
         final java.beans.MethodDescriptor descriptor =
             new java.beans.MethodDescriptor( method );
@@ -292,7 +291,7 @@ public class MBeanBuilderTestCase
         final MBeanBuilder builder = new MBeanBuilder();
         final Class c = MBeanBuilderTestCase.class;
         final Method method =
-            c.getMethod( "testExtractOperationFromNonOperation",
+            c.getMethod( "testExtractOperationInfoFromNonOperation",
                          new Class[ 0 ] );
         final Method method2 =
             c.getMethod( "testExtractOperations",
@@ -329,7 +328,7 @@ public class MBeanBuilderTestCase
         assertEquals( "operation count", 1, helper.getOperations().length );
     }
 
-    public void testExtractAttributeFromNonAttribute()
+    public void testExtractAttributeInfoFromNonAttribute()
         throws Exception
     {
         final MBeanBuilder builder = new MBeanBuilder();
@@ -341,5 +340,48 @@ public class MBeanBuilderTestCase
         final ModelMBeanAttributeInfo attribute =
             builder.extractAttribute( descriptor );
         assertNull( "attribute", attribute );
+    }
+
+    public void testExtractAttributeInfoFromAttributeWhereReaderSpecifiesDescription()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final PropertyDescriptor descriptor =
+            new PropertyDescriptor( "value", TestBean.class );
+
+        final Properties parameters = new Properties();
+        parameters.setProperty( "description", "Magical Mystery Tour!" );
+        final Attribute[] attributes =
+            new Attribute[]{new Attribute( "mx.attribute", parameters )};
+        final MethodDescriptor reader =
+            new MethodDescriptor( "getValue",
+                                  "int",
+                                  0,
+                                  ParameterDescriptor.EMPTY_SET,
+                                  attributes );
+        final MethodDescriptor writer =
+            new MethodDescriptor( "setValue",
+                                  "",
+                                  0,
+                                  new ParameterDescriptor[]{new ParameterDescriptor( "value", "int" )},
+                                  attributes );
+        final ClassDescriptor classDescriptor =
+            new ClassDescriptor( TestBean.class.getName(),
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 new MethodDescriptor[]{reader, writer} );
+        final MockAccessor accessor = new MockAccessor( classDescriptor );
+        MetaClassIntrospector.clearCompleteCache();
+        MetaClassIntrospector.setAccessor( accessor );
+
+        final ModelMBeanAttributeInfo attribute =
+            builder.extractAttribute( descriptor );
+        assertNotNull( "attribute", attribute );
+        assertEquals( "name", "value", attribute.getName() );
+        assertEquals( "description", "Magical Mystery Tour!", attribute.getDescription() );
+        assertEquals( "returnType", "int", attribute.getType() );
+        assertEquals( "currencyTimeLimit", new Integer( 1 ),
+                      attribute.getDescriptor().getFieldValue( "currencyTimeLimit" ) );
     }
 }
