@@ -140,14 +140,14 @@ public final class EnumSet
      * shortcut for <tt>createFrom( clazz, "(.*)", true )</tt>.
      *
      * @param clazz the class to extract constants from
-     * @param match the pattern that constants must match
+     * @param patternString the pattern that constants must match
      * @return the created EnumSet
      */
     public static EnumSet createFrom( final Class clazz,
-                                      final String match )
+                                      final String patternString )
 
     {
-        return createFrom( clazz, match, true );
+        return createFrom( clazz, patternString, true );
     }
 
     /**
