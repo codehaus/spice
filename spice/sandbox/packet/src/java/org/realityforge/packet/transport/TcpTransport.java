@@ -15,7 +15,7 @@ import java.nio.channels.SocketChannel;
  * An underlying transport layer that uses TCP/IP.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-11-26 02:14:04 $
+ * @version $Revision: 1.4 $ $Date: 2003-11-26 04:34:02 $
  */
 public class TcpTransport
 {
@@ -82,11 +82,11 @@ public class TcpTransport
         int ops = 0;
         if( m_writeBuffer.getAvailable() > 0 )
         {
-            ops = SelectionKey.OP_WRITE;
+            ops |= SelectionKey.OP_WRITE;
         }
         if( m_readBuffer.getSpace() > 0 )
         {
-            ops = SelectionKey.OP_READ;
+            ops |= SelectionKey.OP_READ;
         }
         return ops;
     }
@@ -126,6 +126,7 @@ public class TcpTransport
      */
     public void close()
     {
+        m_key = null;
         if( m_channel.isOpen() )
         {
             try
