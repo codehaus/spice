@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
+    <name>MetaClass</name>
+    <id>spice-metaclass-jmx</id>
+    <currentVersion>1.0</currentVersion>
+    <gumpRepositoryId>sandbox</gumpRepositoryId>
+    <inceptionYear>2003</inceptionYear>
+
+    <shortDescription>Expose objects as MBeans using MetaClass MetaData</shortDescription>
+
+    <description>
+        Expose objects as MBeans using MetaClass MetaData.
+    </description>
+
+    <developers>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <email>peter@realityforge.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+10</timezone>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <id>qdox</id>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <id>ant</id>
+            <version>1.5.2</version>
+        </dependency>
+    </dependencies>
+</project>
