@@ -14,47 +14,10 @@ import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 
-import java.lang.reflect.Modifier;
-import java.util.Properties;
-
 public class BasicMethodTestCase
     extends AbstractFeatureTestCase
+    implements BasicClassTestDataConstants
 {
-    private static final String CLASS_NAME = "org.realityforge.metaclass.test.data.BasicClass";
-    private static final int NUM_METHODS = 4;
-
-    private static final String[] NAMES =
-        {
-            "BasicClass",
-            "getPrivateString",
-            "setPrivateString",
-            "aPrivateMethod"
-        };
-    private static final int[] EXPECTED_MODIFIERS =
-        {
-            Modifier.PUBLIC,
-            Modifier.PUBLIC,
-            Modifier.PROTECTED,
-            Modifier.PRIVATE
-        };
-    private static final String[] EXPECTED_RETURN_TYPES =
-        {
-            "",
-            "java.lang.String",
-            "void",
-            "void"
-        };
-    private static final ParameterDescriptor[][] EXPECTED_PARAMETERS =
-        {
-            new ParameterDescriptor[ 0 ],
-            new ParameterDescriptor[ 0 ],
-            {
-                new ParameterDescriptor( "aPrivateString", "java.lang.String" )
-            },
-            new ParameterDescriptor[ 0 ]
-        };
-    private Attribute[][] _expectedAttributes;
-
     private MethodDescriptor[] _methodDescriptors;
 
     public BasicMethodTestCase()
@@ -84,24 +47,6 @@ public class BasicMethodTestCase
         try
         {
             _methodDescriptors = getClassDescriptor().getMethods();
-
-            _expectedAttributes = new Attribute[ NUM_METHODS ][];
-            _expectedAttributes[ 0 ] = new Attribute[]{};
-            _expectedAttributes[ 1 ] = new Attribute[]
-            {
-                new Attribute( "return", "the private string" )
-            };
-            _expectedAttributes[ 2 ] = new Attribute[]
-            {
-                new Attribute( "param", "aPrivateString" )
-            };
-
-            final Properties parameters = new Properties();
-            parameters.put( "1", "2" );
-            _expectedAttributes[ 3 ] = new Attribute[]
-            {
-                new Attribute( "stuff", parameters )
-            };
         }
         catch ( final Exception e )
         {
@@ -133,8 +78,7 @@ public class BasicMethodTestCase
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
-            assertEquals( NAMES[ i ], methodDescriptor.getName() );
-
+            assertEquals( METHOD_NAMES[ i ], methodDescriptor.getName() );
         }
     }
 
@@ -144,7 +88,7 @@ public class BasicMethodTestCase
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
-            assertEquals( EXPECTED_MODIFIERS[ i ], methodDescriptor.getModifiers() );
+            assertEquals( METHOD_MODIFIERS[ i ], methodDescriptor.getModifiers() );
         }
     }
 
@@ -154,7 +98,7 @@ public class BasicMethodTestCase
         {
             final MethodDescriptor methodDescriptor = _methodDescriptors[ i ];
             assertNotNull( methodDescriptor );
-            assertEquals( EXPECTED_RETURN_TYPES[ i ], methodDescriptor.getReturnType() );
+            assertEquals( METHOD_RETURN_TYPES[ i ], methodDescriptor.getReturnType() );
         }
     }
 
@@ -166,8 +110,8 @@ public class BasicMethodTestCase
             assertNotNull( methodDescriptor );
             final ParameterDescriptor[] parameters = methodDescriptor.getParameters();
             assertNotNull( parameters );
-            assertTrue( org.realityforge.metaclass.test.MetaClassTestUtility.areContentsEqual( EXPECTED_PARAMETERS[ i ],
-                                                                                               parameters ) );
+            assertTrue( MetaClassTestUtility.areContentsEqual( METHOD_PARAMETERS[ i ],
+                                                               parameters ) );
         }
     }
 
@@ -179,9 +123,9 @@ public class BasicMethodTestCase
             assertNotNull( methodDescriptor );
 
             final Attribute[] attributes = methodDescriptor.getAttributes();
-            if ( i < _expectedAttributes.length )
+            if ( i < METHOD_ATTRIBUTES.length )
             {
-                checkAttributesMatchExpected( _expectedAttributes[ i ], attributes,
+                checkAttributesMatchExpected( METHOD_ATTRIBUTES[ i ], attributes,
                                               "Method: getAttributes" + i );
             }
         }

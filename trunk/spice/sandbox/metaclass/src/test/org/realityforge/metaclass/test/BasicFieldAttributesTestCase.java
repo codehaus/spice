@@ -14,30 +14,10 @@ import org.realityforge.metaclass.Attributes;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.FieldDescriptor;
 
-import java.util.Properties;
-
 public class BasicFieldAttributesTestCase
     extends AbstractFeatureTestCase
+    implements BasicClassTestDataConstants
 {
-    private static final String CLASS_NAME = "org.realityforge.metaclass.test.data.BasicClass";
-    private static final String[] NAMES =
-        {
-            "A_CONSTANT_STRING",
-            "_aPublicInt",
-            "_aProtectedDouble",
-            "_aPrivateString"
-        };
-    private static final String VALUE_FIELD_NAME = NAMES[ 0 ];
-    private static final String VALUE_ATTRIBUTE_NAME = "haha";
-    private static final String PARAMETERS_FIELD_NAME = NAMES[ 1 ];
-    private static final String PARAMETERS_ATTRIBUTE_NAME = "hoho";
-    private static final int NUM_FIELDS = 4;
-
-    private Attribute[][] _expectedAttributes;
-    private Attribute[] _expectedNamedAttributes;
-    private Attribute _expectedNamedValueAttribute;
-    private Attribute _expectedNamedParametersAttribute;
-
     private FieldDescriptor[] _fieldDescriptors;
 
     public BasicFieldAttributesTestCase()
@@ -67,29 +47,6 @@ public class BasicFieldAttributesTestCase
         try
         {
             _fieldDescriptors = getClassDescriptor().getFields();
-
-            _expectedNamedValueAttribute = new Attribute( "haha", "this is javadoc for a field" );
-
-            final Properties parameters = new Properties();
-            parameters.put( "parameters", "true" );
-            _expectedNamedParametersAttribute = new Attribute( "hoho", parameters );
-
-            _expectedNamedAttributes = new Attribute[]
-            {
-                _expectedNamedValueAttribute
-            };
-
-            _expectedAttributes = new Attribute[ NUM_FIELDS ][];
-            _expectedAttributes[ 0 ] = new Attribute[]
-            {
-                _expectedNamedValueAttribute
-            };
-            _expectedAttributes[ 1 ] = new Attribute[]
-            {
-                _expectedNamedParametersAttribute
-            };
-            _expectedAttributes[ 2 ] = new Attribute[]{};
-            _expectedAttributes[ 3 ] = new Attribute[]{};
         }
         catch ( final Exception e )
         {
@@ -121,10 +78,10 @@ public class BasicFieldAttributesTestCase
         {
             final Class aClass = Class.forName( CLASS_NAME );
             final Attribute[] attributes =
-                Attributes.getAttributes( aClass.getDeclaredField( PARAMETERS_FIELD_NAME ) );
-            for ( int i = 0; i < _expectedAttributes.length; i++ )
+                Attributes.getAttributes( aClass.getDeclaredField( FIELD_NAMES[ 1 ] ) );
+            for ( int i = 0; i < FIELD_ATTRIBUTES.length; i++ )
             {
-                final Attribute[] expectedAttributes = _expectedAttributes[ i ];
+                final Attribute[] expectedAttributes = FIELD_ATTRIBUTES[ i ];
                 checkAttributesMatchExpected( expectedAttributes, attributes,
                                               "getAttributes" );
             }
@@ -141,9 +98,9 @@ public class BasicFieldAttributesTestCase
         {
             final Class aClass = Class.forName( CLASS_NAME );
             final Attribute[] attributes =
-                Attributes.getAttributes( aClass.getDeclaredField( PARAMETERS_FIELD_NAME ),
-                                          VALUE_ATTRIBUTE_NAME );
-            checkAttributesMatchExpected( _expectedNamedAttributes, attributes,
+                Attributes.getAttributes( aClass.getDeclaredField( FIELD_NAMES[ 0 ] ),
+                                          FIELD_0_TAG_0_NAME );
+            checkAttributesMatchExpected( FIELD_0_ATTRIBUTES_NAMED_TAG_0, attributes,
                                           "getNamedAttributes" );
         }
         catch ( Exception e )
@@ -158,13 +115,13 @@ public class BasicFieldAttributesTestCase
         {
             final Class aClass = Class.forName( CLASS_NAME );
             final Attribute attribute =
-                Attributes.getAttribute( aClass.getDeclaredField( VALUE_FIELD_NAME ),
-                                         VALUE_ATTRIBUTE_NAME );
-            if ( !MetaClassTestUtility.areAttributesEqual( _expectedNamedValueAttribute,
+                Attributes.getAttribute( aClass.getDeclaredField( FIELD_NAMES[ 0 ] ),
+                                         FIELD_0_TAG_0_NAME );
+            if ( !MetaClassTestUtility.areAttributesEqual( FIELD_0_TAG_0,
                                                            attribute ) )
             {
                 fail( "getNamedValueAttribute: Attributes not equal:\n" +
-                      _expectedNamedValueAttribute + " != " + attribute );
+                      FIELD_0_TAG_0 + " != " + attribute );
             }
         }
         catch ( Exception e )
@@ -179,13 +136,13 @@ public class BasicFieldAttributesTestCase
         {
             final Class aClass = Class.forName( CLASS_NAME );
             final Attribute attribute =
-                Attributes.getAttribute( aClass.getDeclaredField( PARAMETERS_FIELD_NAME ),
-                                         PARAMETERS_ATTRIBUTE_NAME );
-            if ( !MetaClassTestUtility.areAttributesEqual( _expectedNamedParametersAttribute,
+                Attributes.getAttribute( aClass.getDeclaredField( FIELD_NAMES[ 1 ] ),
+                                         FIELD_1_TAG_0_NAME );
+            if ( !MetaClassTestUtility.areAttributesEqual( FIELD_1_TAG_0,
                                                            attribute ) )
             {
                 fail( "getNamedParametersAttribute: Attributes not equal:\n" +
-                      _expectedNamedParametersAttribute + " != " + attribute );
+                      FIELD_1_TAG_0 + " != " + attribute );
             }
         }
         catch ( Exception e )

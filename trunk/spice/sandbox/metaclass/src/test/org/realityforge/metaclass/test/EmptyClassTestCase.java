@@ -14,13 +14,8 @@ import org.realityforge.metaclass.model.Attribute;
 
 public class EmptyClassTestCase
     extends AbstractFeatureTestCase
+    implements EmptyClassTestDataConstants
 {
-    private static final String CLASS_NAME = "org.realityforge.metaclass.test.data.EmptyClass";
-
-    // there seems not to be a Modifier.NONE
-    private static final int EXPECTED_MODIFIER = 0;
-    private Attribute[] _expectedAttributes;
-
     public EmptyClassTestCase()
     {
         super( "EmptyClass", CLASS_NAME );
@@ -39,23 +34,6 @@ public class EmptyClassTestCase
         TestRunner.run( suite() );
     }
 
-    /**
-     * Set up before test.
-     */
-    protected void setUp()
-    {
-        super.setUp();
-        try
-        {
-            _expectedAttributes = new Attribute[]{};
-        }
-        catch( final Exception e )
-        {
-            e.printStackTrace();
-            fail( e.getMessage() );
-        }
-    }
-
     public void testGetName()
     {
         assertEquals( CLASS_NAME,
@@ -64,14 +42,14 @@ public class EmptyClassTestCase
 
     public void testGetModifiers()
     {
-        assertEquals( EXPECTED_MODIFIER,
+        assertEquals( CLASS_MODIFIER,
                       getClassDescriptor().getModifiers() );
     }
 
     public void testGetAttributes()
     {
         final Attribute[] attributes = getClassDescriptor().getAttributes();
-        checkAttributesMatchExpected( _expectedAttributes, attributes,
+        checkAttributesMatchExpected( CLASS_ATTRIBUTES, attributes,
                                       "Class: getAttributes" );
     }
 }

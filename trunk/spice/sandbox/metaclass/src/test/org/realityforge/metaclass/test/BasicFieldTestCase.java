@@ -13,38 +13,10 @@ import junit.textui.TestRunner;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.FieldDescriptor;
 
-import java.lang.reflect.Modifier;
-import java.util.Properties;
-
 public class BasicFieldTestCase
     extends AbstractFeatureTestCase
+    implements BasicClassTestDataConstants
 {
-    private static final String CLASS_NAME = "org.realityforge.metaclass.test.data.BasicClass";
-    private static final int NUM_FIELDS = 4;
-
-    private static final String[] NAMES =
-        {
-            "A_CONSTANT_STRING",
-            "_aPublicInt",
-            "_aProtectedDouble",
-            "_aPrivateString"
-        };
-    private static final String[] TYPES =
-        {
-            "java.lang.String",
-            "int",
-            "double",
-            "java.lang.String"
-        };
-    private static final int[] MODIFIERS =
-        {
-            Modifier.PUBLIC + Modifier.STATIC + Modifier.FINAL,
-            Modifier.PUBLIC,
-            Modifier.PROTECTED,
-            Modifier.PRIVATE
-        };
-    private Attribute[][] _expectedAttributes;
-
     private FieldDescriptor[] _fieldDescriptors;
 
     public BasicFieldTestCase()
@@ -74,21 +46,6 @@ public class BasicFieldTestCase
         try
         {
             _fieldDescriptors = getClassDescriptor().getFields();
-
-            final Properties parameters = new Properties();
-            parameters.put( "parameters", "true" );
-
-            _expectedAttributes = new Attribute[ NUM_FIELDS ][];
-            _expectedAttributes[ 0 ] = new Attribute[]
-            {
-                new Attribute( "haha", "this is javadoc for a field" )
-            };
-            _expectedAttributes[ 1 ] = new Attribute[]
-            {
-                new Attribute( "hoho", parameters )
-            };
-            _expectedAttributes[ 2 ] = new Attribute[]{};
-            _expectedAttributes[ 3 ] = new Attribute[]{};
         }
         catch ( final Exception e )
         {
@@ -120,7 +77,7 @@ public class BasicFieldTestCase
         {
             final FieldDescriptor fieldDescriptor = _fieldDescriptors[ i ];
             assertNotNull( fieldDescriptor );
-            assertEquals( NAMES[ i ], fieldDescriptor.getName() );
+            assertEquals( FIELD_NAMES[ i ], fieldDescriptor.getName() );
         }
     }
 
@@ -130,7 +87,7 @@ public class BasicFieldTestCase
         {
             final FieldDescriptor fieldDescriptor = _fieldDescriptors[ i ];
             assertNotNull( fieldDescriptor );
-            assertEquals( TYPES[ i ], fieldDescriptor.getType() );
+            assertEquals( FIELD_TYPES[ i ], fieldDescriptor.getType() );
         }
     }
 
@@ -140,7 +97,7 @@ public class BasicFieldTestCase
         {
             final FieldDescriptor fieldDescriptor = _fieldDescriptors[ i ];
             assertNotNull( fieldDescriptor );
-            assertEquals( MODIFIERS[ i ], fieldDescriptor.getModifiers() );
+            assertEquals( FIELD_MODIFIERS[ i ], fieldDescriptor.getModifiers() );
         }
     }
 
@@ -152,8 +109,8 @@ public class BasicFieldTestCase
             assertNotNull( fieldDescriptor );
 
             final Attribute[] attributes = fieldDescriptor.getAttributes();
-            final Attribute[] expectedAttributes = _expectedAttributes[ i ];
-            if ( i < _expectedAttributes.length )
+            final Attribute[] expectedAttributes = FIELD_ATTRIBUTES[ i ];
+            if ( i < FIELD_ATTRIBUTES.length )
             {
                 checkAttributesMatchExpected( expectedAttributes, attributes,
                                               "Field: getAttributes" + i );
