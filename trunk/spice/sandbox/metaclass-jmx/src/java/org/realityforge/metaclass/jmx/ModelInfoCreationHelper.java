@@ -22,7 +22,7 @@ import javax.management.modelmbean.ModelMBeanOperationInfo;
  * and then at completion calls toModelMBean.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-13 10:05:01 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-14 00:25:15 $
  */
 public class ModelInfoCreationHelper
 {
@@ -155,23 +155,55 @@ public class ModelInfoCreationHelper
         {
             throw new NullPointerException( "description" );
         }
-        final ModelMBeanAttributeInfo[] attributes =
-            (ModelMBeanAttributeInfo[])m_attributes.
-            toArray( new ModelMBeanAttributeInfo[ m_attributes.size() ] );
-        final ModelMBeanConstructorInfo[] constructors =
-            (ModelMBeanConstructorInfo[])m_constructors.
-            toArray( new ModelMBeanConstructorInfo[ m_constructors.size() ] );
-        final ModelMBeanOperationInfo[] operations =
-            (ModelMBeanOperationInfo[])m_operations.
-            toArray( new ModelMBeanOperationInfo[ m_operations.size() ] );
-        final ModelMBeanNotificationInfo[] notifications =
-            (ModelMBeanNotificationInfo[])m_notifications.
-            toArray( new ModelMBeanNotificationInfo[ m_notifications.size() ] );
         return new ModelMBeanInfoSupport( m_classname,
                                           m_description,
-                                          attributes,
-                                          constructors,
-                                          operations,
-                                          notifications );
+                                          getAttributes(),
+                                          getConstructors(),
+                                          getOperations(),
+                                          getNotifications() );
+    }
+
+    /**
+     * Return the set of notification infos.
+     *
+     * @return the infos
+     */
+    public ModelMBeanNotificationInfo[] getNotifications()
+    {
+        return (ModelMBeanNotificationInfo[])m_notifications.
+            toArray( new ModelMBeanNotificationInfo[ m_notifications.size() ] );
+    }
+
+    /**
+     * Return the set of operation infos.
+     *
+     * @return the infos
+     */
+    public ModelMBeanOperationInfo[] getOperations()
+    {
+        return (ModelMBeanOperationInfo[])m_operations.
+            toArray( new ModelMBeanOperationInfo[ m_operations.size() ] );
+    }
+
+    /**
+     * Return the set of constructor infos.
+     *
+     * @return the infos
+     */
+    public ModelMBeanConstructorInfo[] getConstructors()
+    {
+        return (ModelMBeanConstructorInfo[])m_constructors.
+            toArray( new ModelMBeanConstructorInfo[ m_constructors.size() ] );
+    }
+
+    /**
+     * Return the set of attribute infos.
+     *
+     * @return the infos
+     */
+    public ModelMBeanAttributeInfo[] getAttributes()
+    {
+        return (ModelMBeanAttributeInfo[])m_attributes.
+            toArray( new ModelMBeanAttributeInfo[ m_attributes.size() ] );
     }
 }
