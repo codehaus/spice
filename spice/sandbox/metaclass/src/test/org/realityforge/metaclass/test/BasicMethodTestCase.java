@@ -13,7 +13,6 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 
 public class BasicMethodTestCase
     extends AbstractFeatureTestCase
-    implements BasicClassTestDataConstants
 {
     private MethodDescriptor[] _methodDescriptors;
 
