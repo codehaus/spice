@@ -22,7 +22,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2003-10-28 13:26:54 $
+ * @version $Revision: 1.17 $ $Date: 2003-10-28 13:34:22 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -236,6 +236,7 @@ public class AttributesTestCase
         final FieldDescriptor fieldDescriptor =
             new FieldDescriptor( field.getName(),
                                  field.getType().getName(),
+                                 attributes,
                                  attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
@@ -280,6 +281,7 @@ public class AttributesTestCase
         final FieldDescriptor fieldDescriptor =
             new FieldDescriptor( field.getName(),
                                  field.getType().getName(),
+                                 attributes,
                                  attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
@@ -316,6 +318,7 @@ public class AttributesTestCase
         final FieldDescriptor fieldDescriptor =
             new FieldDescriptor( field.getName(),
                                  field.getType().getName(),
+                                 attributes,
                                  attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
@@ -461,6 +464,7 @@ public class AttributesTestCase
         final FieldDescriptor fieldDescriptor =
             new FieldDescriptor( "ignoreMe",
                                  "java.lang.String",
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),

@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 11:23:18 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-28 13:34:22 $
  */
 public class FieldDescriptorTestCase
     extends TestCase
@@ -21,7 +21,7 @@ public class FieldDescriptorTestCase
         throws Exception
     {
         final FieldDescriptor descriptor =
-            new FieldDescriptor( "x", "int", Attribute.EMPTY_SET );
+            new FieldDescriptor( "x", "int", Attribute.EMPTY_SET, Attribute.EMPTY_SET );
         assertEquals( "name", "x", descriptor.getName() );
         assertEquals( "type", "int", descriptor.getType() );
     }
@@ -31,7 +31,7 @@ public class FieldDescriptorTestCase
     {
         try
         {
-            new FieldDescriptor( null, "int", Attribute.EMPTY_SET );
+            new FieldDescriptor( null, "int", Attribute.EMPTY_SET, Attribute.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {
@@ -46,7 +46,7 @@ public class FieldDescriptorTestCase
     {
         try
         {
-            new FieldDescriptor( "blah", null, Attribute.EMPTY_SET );
+            new FieldDescriptor( "blah", null, Attribute.EMPTY_SET, Attribute.EMPTY_SET );
         }
         catch( final NullPointerException npe )
         {

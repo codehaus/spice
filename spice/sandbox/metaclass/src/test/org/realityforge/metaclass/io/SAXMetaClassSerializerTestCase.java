@@ -160,7 +160,7 @@ public class SAXMetaClassSerializerTestCase
         final SAXMetaClassSerializer serializer = new SAXMetaClassSerializer();
         final FieldDescriptor[] fields = new FieldDescriptor[]
         {
-            new FieldDescriptor( name, type, Attribute.EMPTY_SET )
+            new FieldDescriptor( name, type, Attribute.EMPTY_SET, Attribute.EMPTY_SET )
         };
         serializer.serializeFields( handler, fields );
 

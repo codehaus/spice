@@ -23,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.19 $ $Date: 2003-10-28 13:26:54 $
+ * @version $Revision: 1.20 $ $Date: 2003-10-28 13:34:22 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -351,7 +351,11 @@ public class MetaClassIOBinaryTestCase
         final DataOutputStream data = new DataOutputStream( out );
         final String name = "name";
         final String type = "aType";
-        final FieldDescriptor descriptor = new FieldDescriptor( name, type, Attribute.EMPTY_SET );
+        final FieldDescriptor descriptor =
+            new FieldDescriptor( name,
+                                 type,
+                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET );
         io.writeFields( data, new FieldDescriptor[]{descriptor} );
         data.flush();
         final byte[] bytes = out.toByteArray();
@@ -497,6 +501,7 @@ public class MetaClassIOBinaryTestCase
         final FieldDescriptor field =
             new FieldDescriptor( "m_field",
                                  "int",
+                                 attributes, 
                                  attributes );
         final MethodDescriptor method =
             new MethodDescriptor( "doMagic",
