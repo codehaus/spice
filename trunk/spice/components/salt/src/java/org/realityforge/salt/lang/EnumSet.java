@@ -44,7 +44,9 @@ import java.util.regex.Pattern;
  * }
  * </pre>
  *
- * <p>The above example will create two EnumSets for the class.
+ * <p>The above example will create two EnumSets for the class. The first EnumSet
+ * includes the enums {NOCLIP=0,BACK=1,FRONT=2} and the seconds includes the
+ * enums {SIN=0,COS=1,MOD=2}</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  */
