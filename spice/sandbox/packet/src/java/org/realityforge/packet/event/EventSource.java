@@ -9,16 +9,16 @@ package org.realityforge.packet.event;
 
 /**
  * The EventSource represents a source of events.
- *
+ * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-12-05 06:57:11 $
+ * @version $Revision: 1.4 $ $Date: 2003-12-09 03:11:46 $
  */
 public interface EventSource
 {
     /**
      * Return next event from source. Returning null indicates that there are no
      * events at this stage.
-     *
+     * 
      * @return the event or null
      */
     Object getEvent();
@@ -26,7 +26,7 @@ public interface EventSource
     /**
      * Return a set of events from source. The maximum number of events returned
      * is specified by the count parameter.
-     *
+     * 
      * @param count the maximum number of events returned
      * @return the set of events
      */
@@ -35,8 +35,8 @@ public interface EventSource
     /**
      * Return the underlying object that is synchronized upon if synchronization
      * is necessary.
-     *
+     * 
      * @return the lock object
      */
-    Object getSyncLock();
+    Object getSourceLock();
 }

@@ -13,9 +13,9 @@ import org.realityforge.packet.event.EventValve;
 /**
  * The ValveControlledSink passes events onto a destination sink unless they are
  * filtered out by a valve.
- *
+ * 
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2003-12-09 01:54:07 $
+ * @version $Revision: 1.8 $ $Date: 2003-12-09 03:11:46 $
  */
 public class ValveControlledSink
     implements EventSink
@@ -28,7 +28,7 @@ public class ValveControlledSink
 
     /**
      * Create valved sink terminating on specified sink with specified valve.
-     *
+     * 
      * @param sink the sink
      * @param valve the valve
      */
@@ -78,10 +78,10 @@ public class ValveControlledSink
     }
 
     /**
-     * @see EventSink#getSyncLock()
+     * @see EventSink#getSinkLock()
      */
-    public Object getSyncLock()
+    public Object getSinkLock()
     {
-        return m_sink.getSyncLock();
+        return m_sink.getSinkLock();
     }
 }
