@@ -1,17 +1,20 @@
 package org.codehaus.spice.netevent;
 
+import java.io.IOException;
 import java.nio.channels.SocketChannel;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.ChannelClosedEvent;
+import org.codehaus.spice.netevent.events.ConnectEvent;
 import org.codehaus.spice.netevent.handlers.ChannelEventHandler;
 import org.codehaus.spice.netevent.selector.SocketEventSource;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
+import org.codehaus.spice.netevent.transport.TransportOutputStream;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-12 04:12:19 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-12 05:06:12 $
  */
 class TestSocketEventHandler
     extends ChannelEventHandler
@@ -28,9 +31,7 @@ class TestSocketEventHandler
      */
     public void handleEvent( final Object event )
     {
-        /*
-        System.out.println( "event = " + event );
-        */
+        //System.out.println( "event = " + event );
         if( event instanceof ChannelClosedEvent )
         {
             final ChannelClosedEvent ce = (ChannelClosedEvent)event;
@@ -41,6 +42,24 @@ class TestSocketEventHandler
                 "Received " + transport.getInputStream().available() +
                 "B via " + port;
             System.out.println( message );
+        }
+        else if( event instanceof ConnectEvent )
+        {
+            final ConnectEvent ce = (ConnectEvent)event;
+            final TransportOutputStream outputStream =
+                ce.getTransport().getOutputStream();
+            try
+            {
+                outputStream.write( 'H' );
+                outputStream.write( 'E' );
+                outputStream.write( 'L' );
+                outputStream.write( 'O' );
+                outputStream.flush();
+            }
+            catch( final IOException ioe )
+            {
+                ioe.printStackTrace();
+            }
         }
 
         super.handleEvent( event );

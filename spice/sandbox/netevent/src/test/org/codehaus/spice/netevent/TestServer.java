@@ -1,5 +1,7 @@
 package org.codehaus.spice.netevent;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -17,7 +19,7 @@ import org.realityforge.sca.selector.impl.DefaultSelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-09 00:54:15 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-12 05:06:12 $
  */
 public class TestServer
 {
@@ -66,30 +68,67 @@ public class TestServer
         {
             Thread.sleep( 10 );
             final Socket socket = new Socket( InetAddress.getLocalHost(), 1980 );
-            final int count = Math.abs( RANDOM.nextInt() % 16 * 1024 );
-            final int port = socket.getLocalPort();
-            System.out.println( "Sending " + count + "B via " + port );
-            final OutputStream outputStream = socket.getOutputStream();
-            for( int i = 0; i < count; i++ )
+
+            writeOutput( socket );
+            final Runnable reader = new Runnable()
             {
-                outputStream.write( '.' );
-            }
-            outputStream.flush();
-            outputStream.close();
+                public void run()
+                {
+                    readInput( socket );
+                }
+            };
+            final Thread inputThread = new Thread( reader );
+            inputThread.start();
         }
         System.exit( 1 );
     }
 
+    private static void writeOutput( final Socket socket )
+        throws IOException
+    {
+        final int count = Math.abs( RANDOM.nextInt() % 16 * 1024 );
+        System.out.println(
+            "Sending " + count + "B via " + socket.getLocalPort() );
+        final OutputStream outputStream = socket.getOutputStream();
+        for( int i = 0; i < count; i++ )
+        {
+            outputStream.write( '.' );
+        }
+        outputStream.flush();
+    }
+
+    private static void readInput( final Socket socket )
+    {
+        try
+        {
+            final InputStream inputStream = socket.getInputStream();
+            final StringBuffer sb = new StringBuffer();
+            for( int i = 0; i < 4; i++ )
+            {
+                final int ch = inputStream.read();
+                sb.append( (char)ch );
+            }
+            System.out.println(
+                "Response received " + sb + " via " + socket.getLocalPort() );
+
+            socket.close();
+        }
+        catch( IOException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
     private static void doPump( final EventPump[] pumps )
     {
-        for( int i = 0; i < 1000; i++ )
+        for( int i = 0; i < 200; i++ )
         {
             for( int j = 0; j < pumps.length; j++ )
             {
                 pumps[ j ].refresh();
                 try
                 {
-                    Thread.sleep( 5 );
+                    Thread.sleep( 2 );
                 }
                 catch( InterruptedException e )
                 {
