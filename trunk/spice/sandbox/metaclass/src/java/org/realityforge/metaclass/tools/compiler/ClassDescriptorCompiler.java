@@ -30,7 +30,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  * Java Source files with qdox.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-04 09:23:18 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-04 09:43:28 $
  */
 public class ClassDescriptorCompiler
 {
@@ -176,16 +176,6 @@ public class ClassDescriptorCompiler
     public String getExtension()
     {
         return m_extension;
-    }
-
-    /**
-     * Return the destination directory for generated files.
-     *
-     * @return the destination directory for generated files.
-     */
-    public File getDestDir()
-    {
-        return m_destDir;
     }
 
     /**
