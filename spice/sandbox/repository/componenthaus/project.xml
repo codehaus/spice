@@ -20,7 +20,7 @@
             <id>spring</id>
             <version>1.0M1</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
@@ -39,77 +39,77 @@
             <id>commons-logging</id>
             <version>1.0.2</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
             <id>lucene</id>
             <version>1.2</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
             <id>commons-beanutils</id>
             <version>1.6.1</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
             <id>commons-digester</id>
             <version>1.5</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
             <id>commons-lang</id>
             <version>1.0.1</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
             <id>commons-collections</id>
             <version>2.1</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
             <id>commons-betwixt</id>
             <version>1.0-alpha-1</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
             <id>commons-fileupload</id>
             <version>1.0</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
             <id>log4j</id>
             <version>1.2.8</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
             <id>jta</id>
             <version>1.0.1B</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
             <id>jstl</id>
             <version>1.0.2</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
@@ -117,7 +117,7 @@
             <artifactId>standard</artifactId>
             <version>1.0.2</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
         <dependency>
@@ -125,7 +125,7 @@
             <artifactId>prevayler</artifactId>
             <version>1.02.001</version>
             <properties>
-                <war.bundle.jar>true</war.bundle.jar>
+                <war.bundle>true</war.bundle>
             </properties>
         </dependency>
     </dependencies>
