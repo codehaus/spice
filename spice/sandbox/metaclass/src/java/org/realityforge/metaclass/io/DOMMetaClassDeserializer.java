@@ -25,7 +25,7 @@ import org.w3c.dom.Document;
  * representation Element.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.10 $ $Date: 2003-11-01 00:04:35 $
+ * @version $Revision: 1.11 $ $Date: 2003-11-01 00:14:36 $
  */
 public class DOMMetaClassDeserializer
 {
@@ -343,7 +343,7 @@ public class DOMMetaClassDeserializer
                 "and parameters (" + parameters + ").";
             throw new Exception( message );
         }
-        if( null == value )
+        if( 0 == value.length() )
         {
             return new Attribute( name, parameters );
         }
