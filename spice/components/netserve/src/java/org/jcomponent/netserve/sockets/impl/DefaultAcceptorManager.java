@@ -19,7 +19,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-09 04:01:54 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-09 04:03:31 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -142,6 +142,7 @@ public class DefaultAcceptorManager
      * to gracefully shutdown.
      *
      * @param name the name of connection
+     * @throws IllegalArgumentException if no connection with specified name
      */
     public void disconnect( final String name )
     {
