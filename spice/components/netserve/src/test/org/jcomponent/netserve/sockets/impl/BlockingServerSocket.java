@@ -14,12 +14,12 @@ import java.io.IOException;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-09 03:53:21 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-24 04:22:42 $
  */
 class BlockingServerSocket
     extends ServerSocket
 {
-    static final MockSocket SOCKET = new MockSocket();
+    static final Socket SOCKET = new Socket();
 
     private int m_lockCount;
     private int m_acceptCount;
