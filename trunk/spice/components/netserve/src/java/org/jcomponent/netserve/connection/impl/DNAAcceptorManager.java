@@ -4,6 +4,8 @@ import org.jcontainer.dna.Configuration;
 import org.jcontainer.dna.ConfigurationException;
 import org.jcontainer.dna.Active;
 import org.jcontainer.dna.Configurable;
+import org.jcontainer.dna.LogEnabled;
+import org.jcontainer.dna.Logger;
 import org.jcomponent.netserve.connection.impl.DefaultAcceptorManager;
 
 /**
@@ -19,15 +21,23 @@ import org.jcomponent.netserve.connection.impl.DefaultAcceptorManager;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-27 05:26:55 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-28 00:32:58 $
  * @dna.component
  * @dna.service type="org.jcomponent.netserve.connection.SocketAcceptorManager"
  * @see org.jcomponent.netserve.connection.impl.DefaultAcceptorManager
  */
 public class DNAAcceptorManager
    extends DefaultAcceptorManager
-   implements Configurable, Active
+   implements LogEnabled, Configurable, Active
 {
+   /**
+    * @dna.logger
+    */
+   public void enableLogging( final Logger logger )
+   {
+      setMonitor( new DNAAcceptorMonitor( logger ) );
+   }
+
    /**
     * @dna.configuration type="http://relaxng.org/ns/structure/1.0"
     *    location="AcceptorManager-schema.xml"
