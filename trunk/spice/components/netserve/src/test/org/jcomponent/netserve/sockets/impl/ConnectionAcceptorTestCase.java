@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-09 02:25:19 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-09 02:36:00 $
  */
 public class ConnectionAcceptorTestCase
     extends TestCase
@@ -150,19 +150,9 @@ public class ConnectionAcceptorTestCase
         assertEquals( "getErrorAcceptingConnection pre-shutdownServerSocket()",
                       null,
                       monitor.getErrorAcceptingConnection() );
-        acceptor.shutdownServerSocket();
-
         final Thread thread = startAcceptor( acceptor );
         waitUntilStarted( acceptor );
-
-        //Sleep enough so that exception can be thrown
-        try
-        {
-            Thread.sleep( 30 );
-        }
-        catch( final InterruptedException e )
-        {
-        }
+        waitUntilListening( monitor );
 
         assertEquals( "getErrorAcceptingConnection post-shutdownServerSocket()",
                       ExceptOnAcceptServerSocket.ERROR_EXCEPTION,
@@ -171,7 +161,6 @@ public class ConnectionAcceptorTestCase
         acceptor.close();
         thread.join();
     }
-
 
     public void testInteruptOnAccept()
         throws Exception
@@ -182,15 +171,10 @@ public class ConnectionAcceptorTestCase
                                     new ExceptOnAcceptServerSocket( true ),
                                     new MockSocketConnectionHandler(),
                                     monitor );
-        assertEquals( "getErrorAcceptingConnection pre-shutdownServerSocket()",
-                      null,
-                      monitor.getErrorAcceptingConnection() );
-        acceptor.shutdownServerSocket();
-
         final Thread thread = startAcceptor( acceptor );
         waitUntilStarted( acceptor );
+        waitUntilListening( monitor );
 
-        //Sleep enough so that exception can be thrown
         try
         {
             Thread.sleep( 30 );
@@ -198,15 +182,25 @@ public class ConnectionAcceptorTestCase
         catch( final InterruptedException e )
         {
         }
-
-        assertEquals( "getErrorAcceptingConnection post-shutdownServerSocket()",
-                      ExceptOnAcceptServerSocket.INTERRUPTED_EXCEPTION,
-                      monitor.getErrorAcceptingConnection() );
+        assertTrue( "1 < monitor.getListenCount", 1 < monitor.getListenCount() );
 
         acceptor.close();
         thread.join();
     }
 
+    private void waitUntilListening( final RecordingAcceptorMonitor monitor )
+    {
+        while( 0 == monitor.getListenCount() )
+        {
+            try
+            {
+                Thread.sleep( 30 );
+            }
+            catch( final InterruptedException e )
+            {
+            }
+        }
+    }
 
     private Thread startAcceptor( final ConnectionAcceptor acceptor )
     {
