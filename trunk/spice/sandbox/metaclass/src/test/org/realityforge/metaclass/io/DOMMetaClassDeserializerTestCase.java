@@ -23,7 +23,7 @@ import java.util.Properties;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-11-01 00:52:45 $
+ * @version $Revision: 1.8 $ $Date: 2003-11-01 00:55:00 $
  */
 public class DOMMetaClassDeserializerTestCase
     extends TestCase
@@ -131,6 +131,9 @@ public class DOMMetaClassDeserializerTestCase
         final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
         final Document document = createDocument();
         final Element root = document.createElement( MetaClassIOXml.ATTRIBUTES_ELEMENT );
+        final Comment comment1 =
+            document.createComment( "This comment brought to you by Comments-R-Us" );
+        root.appendChild( comment1 );
         final Element element = document.createElement( MetaClassIOXml.ATTRIBUTE_ELEMENT );
         root.appendChild( element );
         element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myAttribute" );
@@ -147,6 +150,9 @@ public class DOMMetaClassDeserializerTestCase
         final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
         final Document document = createDocument();
         final Element root = document.createElement( MetaClassIOXml.ATTRIBUTES_ELEMENT );
+        final Comment comment1 =
+            document.createComment( "This comment brought to you by Comments-R-Us" );
+        root.appendChild( comment1 );
         final Element element = document.createElement( MetaClassIOXml.ATTRIBUTE_ELEMENT );
         root.appendChild( element );
         element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myAttribute" );
@@ -185,6 +191,9 @@ public class DOMMetaClassDeserializerTestCase
         final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
         final Document document = createDocument();
         final Element root = document.createElement( MetaClassIOXml.ATTRIBUTES_ELEMENT );
+        final Comment comment1 =
+            document.createComment( "This comment brought to you by Comments-R-Us" );
+        root.appendChild( comment1 );
         final Element element = document.createElement( MetaClassIOXml.ATTRIBUTE_ELEMENT );
         root.appendChild( element );
         element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myAttribute" );
@@ -207,6 +216,9 @@ public class DOMMetaClassDeserializerTestCase
         final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
         final Document document = createDocument();
         final Element root = document.createElement( MetaClassIOXml.ATTRIBUTES_ELEMENT );
+        final Comment comment1 =
+            document.createComment( "This comment brought to you by Comments-R-Us" );
+        root.appendChild( comment1 );
         final Element element = document.createElement( MetaClassIOXml.ATTRIBUTE_ELEMENT );
         root.appendChild( element );
         final Text text = document.createTextNode( "Part1" );
@@ -229,6 +241,9 @@ public class DOMMetaClassDeserializerTestCase
         final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
         final Document document = createDocument();
         final Element root = document.createElement( MetaClassIOXml.FIELDS_ELEMENT );
+        final Comment comment1 =
+            document.createComment( "This comment brought to you by Comments-R-Us" );
+        root.appendChild( comment1 );
         final Element element = document.createElement( MetaClassIOXml.FIELD_ELEMENT );
         root.appendChild( element );
         element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myField" );
@@ -255,6 +270,9 @@ public class DOMMetaClassDeserializerTestCase
         final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
         final Document document = createDocument();
         final Element root = document.createElement( MetaClassIOXml.PARAMETERS_ELEMENT );
+        final Comment comment1 =
+            document.createComment( "This comment brought to you by Comments-R-Us" );
+        root.appendChild( comment1 );
         final Element element = document.createElement( MetaClassIOXml.PARAMETER_ELEMENT );
         root.appendChild( element );
         element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myParam" );
@@ -271,6 +289,10 @@ public class DOMMetaClassDeserializerTestCase
         final DOMMetaClassDeserializer deserializer = new DOMMetaClassDeserializer();
         final Document document = createDocument();
         final Element root = document.createElement( MetaClassIOXml.METHODS_ELEMENT );
+        final Comment comment1 =
+            document.createComment( "This comment brought to you by Comments-R-Us" );
+        root.appendChild( comment1 );
+
         final Element element = document.createElement( MetaClassIOXml.METHOD_ELEMENT );
         root.appendChild( element );
         element.setAttribute( MetaClassIOXml.NAME_ATTRIBUTE, "myMethod" );
