@@ -85,7 +85,7 @@
         <depend project="jakarta-ant" inherit="runtime"/>
         <depend project="junit"/>
         <depend project="xml-xerces"/>
-        <depend project="excalibur-i18n" runtime="true"/>
+        <depend project="spice-salt" runtime="true"/>
         <work nested="components/converter/target/classes"/>
         <work nested="components/converter/target/test-classes"/>
 
