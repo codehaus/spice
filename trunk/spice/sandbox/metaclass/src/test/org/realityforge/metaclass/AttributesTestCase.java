@@ -9,11 +9,14 @@ package org.realityforge.metaclass;
 
 import junit.framework.TestCase;
 import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.model.FieldDescriptor;
+import org.realityforge.metaclass.model.MethodDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-23 05:04:23 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-23 05:13:39 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -102,5 +105,70 @@ public class AttributesTestCase
         assertEquals( "attributes.length", 2, results.length );
         assertEquals( "attributes[ 0 ]", attribute1, results[ 0 ] );
         assertEquals( "attributes[ 1 ]", attribute2, results[ 1 ] );
+    }
+
+    public void testGetAttributesForClass()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( name );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 attributes,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.clearCompleteCache();
+        final Attribute[] results =
+            Attributes.getAttributes( AttributesTestCase.class );
+        assertEquals( "attributes.length", 2, results.length );
+        assertEquals( "attributes[ 0 ]", attribute1, results[ 0 ] );
+        assertEquals( "attributes[ 1 ]", attribute2, results[ 1 ] );
+    }
+
+    public void testGetAttributesForClassWithName()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( "bleh" );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 attributes,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.clearCompleteCache();
+
+        final Attribute[] results =
+            Attributes.getAttributes( AttributesTestCase.class, name );
+        assertEquals( "attributes.length", 1, results.length );
+        assertEquals( "attributes[ 0 ]", attribute1, results[ 0 ] );
+    }
+
+    public void testGetAttributeForClassWithName()
+    {
+        final String name = "name";
+        final Attribute attribute1 = new Attribute( name );
+        final Attribute attribute2 = new Attribute( "bleh" );
+        final Attribute[] attributes = new Attribute[]{attribute1, attribute2};
+
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( AttributesTestCase.class.getName(),
+                                 0,
+                                 attributes,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        MetaClassIntrospector.setAccessor( new MockAccessor( descriptor, null ) );
+        MetaClassIntrospector.clearCompleteCache();
+        
+        final Attribute result =
+            Attributes.getAttribute( AttributesTestCase.class, name );
+        assertEquals( "attribute", attribute1, result );
     }
 }
