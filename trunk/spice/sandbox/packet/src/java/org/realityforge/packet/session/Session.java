@@ -18,7 +18,7 @@ import org.realityforge.packet.events.PacketWriteRequestEvent;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.16 $ $Date: 2004-02-03 06:34:04 $
+ * @version $Revision: 1.17 $ $Date: 2004-02-05 04:08:16 $
  */
 public class Session
 {
@@ -88,6 +88,12 @@ public class Session
      * Flag indicating whether the session has received any data.
      */
     private boolean _dataProcessed;
+
+    /**
+     * Flag indicating whether the session will be disconencted when last
+     * messages transmitted.
+     */
+    private boolean _disconnectRequested;
 
     /**
      * Flag indicating whether the session will be disconencted when last
@@ -176,6 +182,16 @@ public class Session
             _timeoutKey.cancel();
             _timeoutKey = null;
         }
+    }
+
+    public boolean isDisconnectRequested()
+    {
+        return _disconnectRequested;
+    }
+
+    public void setDisconnectRequested()
+    {
+        _disconnectRequested = true;
     }
 
     public boolean isPendingDisconnect()
@@ -332,14 +348,14 @@ public class Session
         return _txQueue;
     }
 
-    public PacketQueue getRxQueue()
+    public PacketQueue getReceiveQueue()
     {
         return _rxQueue;
     }
 
     public boolean sendPacket( final ByteBuffer buffer )
     {
-        if( isPendingDisconnect() )
+        if( isPendingDisconnect() || isDisconnectRequested() )
         {
             return false;
         }
