@@ -6,7 +6,7 @@
         <attainGoal name="clover"/>
         <mkdir dir="${maven.docs.dest}"/>
         <copy todir="${maven.docs.dest}">
-            <fileset dir="${basedir}/../tools/site" filtering="no">
+            <fileset dir="${basedir}/../../tools/site" filtering="no">
                 <include name="images/*.gif"/>
             </fileset>
         </copy>
@@ -45,7 +45,7 @@
             <style
                 in="target/navigation.xml"
                 out="${maven.docs.src}/navigation.xml"
-                style="../tools/navigation.xsl"/>
+                style="../../tools/navigation.xsl"/>
         </j:if>
     </goal>
 

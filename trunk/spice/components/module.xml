@@ -106,7 +106,7 @@
 
     <!-- Ugly hackity project as qdox is not gumpified -->
     <project name="spice-qdox">
-        <jar name="tools/lib/qdox-1.0.jar"/>
+        <jar name="../tools/lib/qdox-1.0.jar"/>
     </project>
 
     <project name="spice-xinvoke">
