@@ -19,6 +19,7 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <work nested="components/cli/target/classes"/>
+        <work nested="components/cli/target/test-classes"/>
 
         <home nested="components/cli"/>
         <jar name="target/cli-@@DATE@@.jar"/>
@@ -38,6 +39,7 @@
         <depend project="xml-xerces"/>
         <depend project="excalibur-i18n" />
         <work nested="components/converter/target/classes"/>
+        <work nested="components/converter/target/test-classes"/>
 
         <home nested="components/converter"/>
         <jar name="target/converter-@@DATE@@.jar"/>
@@ -56,6 +58,7 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <work nested="components/configkit/target/classes"/>
+        <work nested="components/configkit/target/test-classes"/>
 
         <home nested="components/configkit"/>
         <jar name="target/configkit-@@DATE@@.jar"/>
@@ -74,6 +77,7 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <work nested="components/jndikit/target/classes"/>
+        <work nested="components/jndikit/target/test-classes"/>
 
         <home nested="components/jndikit"/>
         <jar name="target/jndikit-@@DATE@@.jar"/>
@@ -93,6 +97,7 @@
         <depend project="spice-qdox"/>
         <depend project="xml-xerces"/>
         <work nested="components/metaclass/target/classes"/>
+        <work nested="components/metaclass/target/test-classes"/>
 
         <home nested="components/metaclass"/>
         <jar name="target/metaclass-@@DATE@@.jar"/>
@@ -113,6 +118,7 @@
         <depend project="excalibur-i18n"/>
         <depend project="jakarta-avalon"/>
         <work nested="components/nativekit/target/classes"/>
+        <work nested="components/nativekit/target/test-classes"/>
 
         <home nested="components/nativekit"/>
         <jar name="target/nativekit-@@DATE@@.jar"/>
@@ -136,6 +142,7 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <work nested="components/threadpool/target/classes"/>
+        <work nested="components/threadpool/target/test-classes"/>
 
         <home nested="components/threadpool"/>
         <jar name="target/threadpool-@@DATE@@.jar"/>
@@ -156,6 +163,7 @@
         <depend project="jakarta-avalon"/>
         <depend project="jakarta-oro"/>
         <work nested="components/xinvoke/target/classes"/>
+        <work nested="components/xinvoke/target/test-classes"/>
 
         <home nested="components/xinvoke"/>
         <jar name="target/xinvoke-@@DATE@@.jar"/>
