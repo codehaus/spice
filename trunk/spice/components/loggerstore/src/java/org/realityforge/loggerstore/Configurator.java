@@ -24,17 +24,17 @@ public class Configurator
     /**
      * Constant used to define LogKit Logger type
      */
-    public static final String LOGKIT = LogKitLoggerStoreFactory.class.getName();
+    public static final String LOGKIT = "logkit";
 
     /**
      * Constant used to define Log4J Logger type
      */
-    public static final String LOG4J = Log4JLoggerStoreFactory.class.getName();
+    public static final String LOG4J = "log4j";
 
     /**
      * Constant used to define JDK14 Logger type
      */
-    public static final String JDK14 = Jdk14LoggerStoreFactory.class.getName();
+    public static final String JDK14 = "jdk14";
 
     /**
      * Create and configure a {@link LoggerStore} from a specified
