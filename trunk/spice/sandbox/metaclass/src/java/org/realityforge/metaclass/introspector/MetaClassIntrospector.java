@@ -5,21 +5,19 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.metaclass;
+package org.realityforge.metaclass.introspector;
 
 import java.util.Map;
 import java.util.WeakHashMap;
-import org.realityforge.metaclass.io.DefaultMetaClassAccessor;
-import org.realityforge.metaclass.io.MetaClassAccessor;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
- * This class is responsible for loading and caching the {@link ClassDescriptor}
+ * This class is responsible for loading and caching the {@link org.realityforge.metaclass.model.ClassDescriptor}
  * objects for corresponding java classes. It serves a similar purpose as the
  * {@link java.beans.Introspector} class does for Java Beans.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-10-03 13:33:16 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-04 00:47:48 $
  */
 public final class MetaClassIntrospector
 {
@@ -55,10 +53,10 @@ public final class MetaClassIntrospector
      * to make the Introspector re-analyze existing Class objects.
      *
      * <p>Note that the caller must have been granted the
-     * "metaclass.clearCompleteCache" {@link RuntimePermission} or
+     * "metaclass.clearCompleteCache" {@link java.lang.RuntimePermission} or
      * else a security exception will be thrown.</p>
      *
-     * @throws SecurityException if the caller does not have
+     * @throws java.lang.SecurityException if the caller does not have
      *                           permission to clear cache
      */
     public static synchronized void clearCompleteCache()
@@ -76,11 +74,11 @@ public final class MetaClassIntrospector
      * ClassDescriptor objects.
      *
      * <p>Note that the caller must have been granted the
-     * "metaclass.setAccessor" {@link RuntimePermission} or
+     * "metaclass.setAccessor" {@link java.lang.RuntimePermission} or
      * else a security exception will be thrown.</p>
      *
      * @param accessor the MetaClassAccessor
-     * @throws SecurityException if the caller does not have
+     * @throws java.lang.SecurityException if the caller does not have
      *                           permission to clear cache
      */
     public static void setAccessor( final MetaClassAccessor accessor )
@@ -98,11 +96,11 @@ public final class MetaClassIntrospector
     }
 
     /**
-     * Return a {@link ClassDescriptor} for specified class.
+     * Return a {@link org.realityforge.metaclass.model.ClassDescriptor} for specified class.
      *
-     * @param clazz the class to {@link ClassDescriptor} for
-     * @return the newly created {@link ClassDescriptor}
-     * @throws MetaClassException if unable to create {@link ClassDescriptor}
+     * @param clazz the class to {@link org.realityforge.metaclass.model.ClassDescriptor} for
+     * @return the newly created {@link org.realityforge.metaclass.model.ClassDescriptor}
+     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to create {@link org.realityforge.metaclass.model.ClassDescriptor}
      */
     public static ClassDescriptor getClassDescriptor( final Class clazz )
         throws MetaClassException
@@ -111,12 +109,12 @@ public final class MetaClassIntrospector
     }
 
     /**
-     * Return a {@link ClassDescriptor} for specified class.
+     * Return a {@link org.realityforge.metaclass.model.ClassDescriptor} for specified class.
      *
-     * @param classname the classname to get {@link ClassDescriptor} for
+     * @param classname the classname to get {@link org.realityforge.metaclass.model.ClassDescriptor} for
      * @param classLoader the classLoader to use
-     * @return the newly created {@link ClassDescriptor}
-     * @throws MetaClassException if unable to create {@link ClassDescriptor}
+     * @return the newly created {@link org.realityforge.metaclass.model.ClassDescriptor}
+     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to create {@link org.realityforge.metaclass.model.ClassDescriptor}
      */
     public static ClassDescriptor getClassDescriptor( final String classname,
                                                       final ClassLoader classLoader )

@@ -5,14 +5,14 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.metaclass;
+package org.realityforge.metaclass.introspector;
 
 /**
  * Exception if unable to locate MetaClass data
  * for a particular class.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-15 08:40:00 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-04 00:47:48 $
  */
 public class MetaClassException
     extends Exception

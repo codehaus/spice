@@ -14,8 +14,8 @@ import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaParameter;
 import com.thoughtworks.qdox.model.Type;
 import java.lang.reflect.Modifier;
-import java.util.Properties;
 import java.util.ArrayList;
+import java.util.Properties;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
@@ -27,7 +27,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * and building a ClassDescriptor to correspond to the JavaClass
  * object.
  *
- * @version $Revision: 1.15 $ $Date: 2003-10-03 13:44:25 $
+ * @version $Revision: 1.16 $ $Date: 2003-10-04 00:47:48 $
  */
 public class QDoxDescriptorParser
 {

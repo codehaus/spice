@@ -7,15 +7,15 @@
  */
 package org.realityforge.metaclass.tools.qdox;
 
-import org.realityforge.metaclass.model.Attribute;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
+import org.realityforge.metaclass.model.Attribute;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-31 07:57:15 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-04 00:47:49 $
  */
 public class DeletingAttributeInterceptor
     extends DefaultQDoxAttributeInterceptor

@@ -38,6 +38,16 @@
                     methods attributes. This bug was also fixed for
                     constructors that had the same number of parameters.
                 </li>
+                <li>
+                    Moved the following classes into the package
+                    <tt>org.realityforge.metaclass.introspector</tt> so that
+                    now all the packages have clean dependency lines and there
+                    is no circular dependencies. The classes moved included;
+                    <tt>org.realityforge.metaclass.MetaClassIntrospector</tt>,
+                    <tt>org.realityforge.metaclass.MetaClassException</tt>,
+                    <tt>org.realityforge.metaclass.io.DefaultMetaClassAccessor</tt>
+                    and <tt>org.realityforge.metaclass.io.MetaClassAccessor</tt>.
+                </li>
             </ul>
         </section>
     </body>

@@ -7,13 +7,13 @@
  */
 package org.realityforge.metaclass.model;
 
-import junit.framework.TestCase;
 import java.util.Properties;
+import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-09-28 03:58:01 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-04 00:47:49 $
  */
 public class ModelTestCase
     extends TestCase

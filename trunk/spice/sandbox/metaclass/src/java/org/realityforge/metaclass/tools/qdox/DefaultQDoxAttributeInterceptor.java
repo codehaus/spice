@@ -7,17 +7,17 @@
  */
 package org.realityforge.metaclass.tools.qdox;
 
-import org.realityforge.metaclass.model.Attribute;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
+import org.realityforge.metaclass.model.Attribute;
 
 /**
  * A base implementation of QDoxAttributeInterceptor that
  * just returns original values parsed from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-24 04:13:15 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-04 00:47:48 $
  */
 public class DefaultQDoxAttributeInterceptor
     implements QDoxAttributeInterceptor
