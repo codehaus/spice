@@ -17,15 +17,14 @@ import org.w3c.dom.Element;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 11:51:41 $
+ * @version $Revision: 1.2 $ $Date: 2003-07-24 23:37:04 $
  */
 public class DOMLog4JLoggerStoreFactory
     extends AbstractLoggerStoreFactory
 {
- 
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
-     * 
+     *
      * @param config the Map of parameters for the configuration of the store
      * @return the LoggerStore
      * @throws Exception if unable to create the LoggerStore
@@ -38,7 +37,7 @@ public class DOMLog4JLoggerStoreFactory
         {
             return new Log4JLoggerStore( element );
         }
- 
+
         final InputStream resource = getInputStream( config );
         if( null != resource )
         {
@@ -46,5 +45,4 @@ public class DOMLog4JLoggerStoreFactory
         }
         return missingConfiguration();
     }
-
 }
