@@ -1,4 +1,4 @@
-    $Id: AvalonRoadmap.txt,v 1.3 2002-11-26 05:13:22 donaldp Exp $
+    $Id: AvalonRoadmap.txt,v 1.4 2002-11-26 06:10:00 donaldp Exp $
 
                      Roadmap for development of 
                         Avalon Framework
@@ -50,5 +50,28 @@ containers but if a container does implement richer type semantics they should b
 able to implement it using this model. This means that containers such as 
 ECM/Fortress can still exist sans support and users such as Cocoon can continue to
 work without breaking backwards compatability.
+
+The next thing that we need to do is to define a packaging format for our resources.
+This means defining a way to list the set of components/classes/resources exported
+from a library. We also need to define relationships between libraries. ie Library A
+may require Library B and may enhance Library C. We must also be able to associate 
+metadata with librarys. This metadata must also be extensible so that it can contain 
+arbitary metadata to support future needs such as;
+ * library display name
+ * documentation pointers
+ * license details
+ etc
+
+Given the above it would now be possible to share the components between the containers 
+that supported rich metadata for components. It would also enable sharing of librarys of 
+such components. 
+
+Note that there has been no mention of changing current practices wrt the interaction
+between the container and the component. The above steps serve only to represent the 
+existing component usage patterns and make no effort to change or modify semantics such 
+as;
+* Usage of Selectors
+* Usage of typed Contexts
+* Usage of array/map dependencies
 
 [1] Martin Fowler, Complexity/Flexability Interview - http://www.artima.com/intv/flexplex.html
