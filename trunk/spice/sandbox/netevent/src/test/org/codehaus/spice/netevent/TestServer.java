@@ -13,11 +13,11 @@ import org.codehaus.spice.event.impl.EventPump;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
 import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
 import org.codehaus.spice.netevent.handlers.ChannelEventHandler;
-import org.codehaus.spice.netevent.selector.SelectableChannelEventSource;
+import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.9 $ $Date: 2004-01-22 02:40:33 $
+ * @version $Revision: 1.10 $ $Date: 2004-01-22 02:43:36 $
  */
 public class TestServer
 {

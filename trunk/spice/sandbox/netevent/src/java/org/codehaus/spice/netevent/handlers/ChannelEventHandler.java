@@ -13,14 +13,14 @@ import org.codehaus.spice.netevent.events.OutputDataPresentEvent;
 import org.codehaus.spice.netevent.events.ReadEvent;
 import org.codehaus.spice.netevent.events.ReadPossibleEvent;
 import org.codehaus.spice.netevent.events.WritePossibleEvent;
-import org.codehaus.spice.netevent.selector.SelectableChannelEventSource;
+import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 
 /**
  * An event handler that is capable of handling any of the standard channel
  * events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2004-01-22 02:40:33 $
+ * @version $Revision: 1.11 $ $Date: 2004-01-22 02:43:36 $
  */
 public class ChannelEventHandler
     extends AbstractEventHandler

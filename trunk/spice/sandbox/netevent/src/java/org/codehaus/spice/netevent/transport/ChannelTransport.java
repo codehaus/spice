@@ -15,13 +15,13 @@ import java.nio.channels.spi.AbstractSelectableChannel;
 import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.event.impl.collections.Buffer;
 import org.codehaus.spice.netevent.buffers.BufferManager;
-import org.codehaus.spice.netevent.selector.SelectableChannelEventSource;
+import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 
 /**
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.14 $ $Date: 2004-01-22 02:40:33 $
+ * @version $Revision: 1.15 $ $Date: 2004-01-22 02:43:36 $
  */
 public class ChannelTransport
 {
@@ -46,7 +46,7 @@ public class ChannelTransport
     private final TransportOutputStream m_outputStream;
 
     /**
-     * The key used to register channel in selector.
+     * The key used to register channel in source.
      */
     private SelectionKey m_key;
 
