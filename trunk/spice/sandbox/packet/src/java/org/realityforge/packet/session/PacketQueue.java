@@ -11,7 +11,7 @@ import org.realityforge.packet.handlers.Protocol;
  * A queue of packets for session.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-02-03 06:34:04 $
+ * @version $Revision: 1.5 $ $Date: 2004-02-05 03:53:44 $
  */
 public class PacketQueue
 {
@@ -75,8 +75,11 @@ public class PacketQueue
         {
             throw new NullPointerException( "packet" );
         }
-        _packets.add( packet );
-        Collections.sort( _packets, SequenceComparator.COMPARATOR );
+        if( !_packets.contains( packet ) )
+        {
+            _packets.add( packet );
+            Collections.sort( _packets, SequenceComparator.COMPARATOR );
+        }
     }
 
     /**
@@ -125,6 +128,19 @@ public class PacketQueue
             }
         }
         return null;
+    }
+
+    public synchronized List getSequences()
+    {
+        final ArrayList result = new ArrayList();
+        final int size = _packets.size();
+        for( int i = 0; i < size; i++ )
+        {
+            final Packet packet = (Packet)_packets.get( i );
+            final short seq = packet.getSequence();
+            result.add( new Short( seq ) );
+        }
+        return result;
     }
 
     public String toString()
