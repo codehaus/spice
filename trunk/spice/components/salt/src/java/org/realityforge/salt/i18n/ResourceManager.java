@@ -14,14 +14,45 @@ import java.util.Map;
  * Manager for resources.
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-05-28 12:28:43 $
+ * @version $Revision: 1.3 $ $Date: 2003-05-28 12:29:59 $
  */
 public class ResourceManager
 {
     /**
+     * Permission needed to clear complete cache.
+     */
+    private static final RuntimePermission CLEAR_CACHE_PERMISSION =
+        new RuntimePermission( "i18n.clearCompleteCache" );
+
+    /**
      * Map of names onto Resources.
      */
     private final static Map c_resources = new HashMap();
+
+    /**
+     * Clear the cache of all resources currently loaded into the
+     * system. This method is useful if you need to dump the complete
+     * cache and because part of the application is reloading and
+     * thus the resources may need to be reloaded.
+     *
+     * <p>Note that the caller must have been granted the
+     * "i18n.clearCompleteCache" {@link RuntimePermission} or
+     * else a security exception will be thrown.</p>
+     *
+     * @throws SecurityException if the caller does not have
+     *                           permission to clear cache
+     */
+    public synchronized static final void clearResourceCache()
+        throws SecurityException
+    {
+        final SecurityManager sm = System.getSecurityManager();
+        if( null != sm )
+        {
+            sm.checkPermission( CLEAR_CACHE_PERMISSION );
+        }
+
+        c_resources.clear();
+    }
 
     /**
      * Retrieve resource with specified basename.
