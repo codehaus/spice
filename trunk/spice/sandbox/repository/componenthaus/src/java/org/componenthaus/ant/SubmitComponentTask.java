@@ -14,6 +14,8 @@ import org.componenthaus.ant.metadata.ComponentDefinition;
 import org.componenthaus.ant.metadata.ComponentImplementation;
 import org.componenthaus.ant.metadata.ComponentMetadata;
 import org.componenthaus.ant.metadata.Resource;
+import org.componenthaus.ant.plugs.JavadocBuilderFactory;
+import org.componenthaus.ant.plugs.JavadocBuilderFactoryImpl;
 import org.componenthaus.util.text.TextUtils;
 import org.componenthaus.util.file.FileManager;
 import org.componenthaus.util.file.FileManagerImpl;
@@ -31,7 +33,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.nio.channels.FileChannel;
 
-public class ComponentHausSubmitTask extends Task {
+public class SubmitComponentTask extends Task {
+    private JavadocBuilderFactory javadocBuilderFactory = new JavadocBuilderFactoryImpl();
     private FileManager fileManager = new FileManagerImpl();
     private String serviceInterface = null;
     private String staging = null;
@@ -46,7 +49,7 @@ public class ComponentHausSubmitTask extends Task {
         notNull(serviceInterface, "serviceInterface");
         notNull(staging, "staging");
         notNull(source, "source");
-        notNull(source, "binary");
+        notNull(binary, "binary");
         assertDirExists(staging);
         assertDirExists(source);
         assertFileExists(binary);
@@ -79,7 +82,7 @@ public class ComponentHausSubmitTask extends Task {
     }
 
     private void compileMetadata() throws IOException {
-        final JavaDocBuilder builder = new JavaDocBuilder();
+        final JavaDocBuilder builder = javadocBuilderFactory.createBuilder();
         builder.addSourceTree(new File(source));
         final JavaSource[] sources = builder.getSources();
         final JavaClass serviceInterfaceClass = getServiceInterfaceClass(sources);
@@ -92,8 +95,17 @@ public class ComponentHausSubmitTask extends Task {
         writeComponentMetaData(componentMetadata);
     }
 
+    public void setJavadocBuilderFactory(JavadocBuilderFactory javadocBuilderFactory) {
+        this.javadocBuilderFactory = javadocBuilderFactory;
+    }
+
     private void assertFileExists(String name) {
-        File f = new File(name);
+        //Question, whether to put the exists() method on filemanager.
+        //Because unit testing this involves setting up a mock file manager
+        //and a mock file.  This kind of thing results in a combinatorial
+        //explosion.  Hiding this kind of thing behind an interface makes
+        //unit testing easier.  But it is 'right' in this case.
+        final File f = fileManager.newFile(name);
         if (!f.exists()) {
             throw new BuildException("File " + name + " does not exist");
         }
@@ -327,5 +339,9 @@ public class ComponentHausSubmitTask extends Task {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public void setFileManager(FileManager fileManager) {
+        this.fileManager = fileManager;
     }
 }

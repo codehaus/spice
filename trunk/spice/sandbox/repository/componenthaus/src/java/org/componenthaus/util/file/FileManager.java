@@ -11,4 +11,5 @@ public interface FileManager {
     String basename(String path);
     void copy(File from, OutputStream to) throws IOException;
     String asString(File f) throws IOException;
+    File newFile(String fileName);
 }

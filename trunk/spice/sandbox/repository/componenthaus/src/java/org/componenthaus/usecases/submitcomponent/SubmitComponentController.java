@@ -86,6 +86,7 @@ public class SubmitComponentController extends SimpleFormController implements I
         }
     }
 
+
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object o, BindException e) throws ServletException, IOException {
         if (bootstrapException != null) {
             throw bootstrapException;
@@ -110,6 +111,7 @@ public class SubmitComponentController extends SimpleFormController implements I
                 }
             }
         }
+        response.setContentType("text/html");
         return new ModelAndView("welcomeView");
     }
 
