@@ -8,16 +8,22 @@
 package org.realityforge.metaclass.tools.tasks;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import junit.framework.TestCase;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
+import org.realityforge.metaclass.io.DefaultMetaClassAccessor;
+import org.realityforge.metaclass.io.MetaClassIOBinary;
+import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-24 01:23:16 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-24 02:03:55 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -99,6 +105,55 @@ public class MetaGenerateTaskTestCase
         task.execute();
 
         assertEquals( "generated dirs", 0, destDirectory.listFiles().length );
+    }
+
+    public void testSingleSourceFile()
+        throws Exception
+    {
+        final String source =
+            "package com.biz;" +
+            "" +
+            "/**" +
+            " * @anAttribute" +
+            " */" +
+            "public class MyClass" +
+            "{" +
+            "}";
+
+        final File sourceDirectory = generateDirectory();
+        final File destDirectory = generateDirectory();
+        final FileSet fileSet = new FileSet();
+        fileSet.setDir( sourceDirectory );
+
+        final String sourceFilename =
+            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+        final File sourceFile = new File( sourceFilename );
+        sourceFile.getParentFile().mkdirs();
+        final FileOutputStream output = new FileOutputStream( sourceFile );
+        output.write( source.getBytes() );
+        output.close();
+
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        final Project project = new Project();
+        project.setBaseDir( getBaseDirectory() );
+        task.setProject( project );
+        task.setDestDir( destDirectory );
+        task.addFileset( fileSet );
+        task.execute();
+        final String destFilename =
+            destDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass" + DefaultMetaClassAccessor.BINARY_EXT;
+        final File destFile = new File( destFilename );
+
+        assertTrue( "destFile.exists()", destFile.exists() );
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final FileInputStream input = new FileInputStream( destFile );
+        final ClassDescriptor descriptor = io.deserializeClass( input );
+        assertEquals( "descriptor.name", "com.biz.MyClass", descriptor.getName() );
+        assertEquals( "descriptor.modifiers", Modifier.PUBLIC, descriptor.getModifiers() );
+        assertEquals( "descriptor.attributes.length", 1, descriptor.getAttributes().length );
+        assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
+        assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
+        assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
     }
 
     private static final File generateDirectory()
