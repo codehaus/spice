@@ -7,9 +7,9 @@
  */
 package org.realityforge.loggerstore;
 
+import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.logger.LogKitLogger;
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.log.Hierarchy;
 
 /**
