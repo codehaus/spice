@@ -26,7 +26,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-04-23 09:26:45 $
+ * @version $Revision: 1.9 $ $Date: 2003-04-23 09:27:08 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -83,7 +83,6 @@ public class ConnectionTestCase
                     }
                     catch( IOException ioe )
                     {
-                        ioe.printStackTrace();
                     }
                 }
             }
