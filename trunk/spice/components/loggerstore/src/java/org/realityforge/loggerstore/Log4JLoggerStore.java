@@ -28,7 +28,7 @@ public class Log4JLoggerStore
     extends AbstractLoggerStore
 {
     /** The logger repository */
-    private LoggerRepository m_repository;
+    private final LoggerRepository m_repository;
 
     /**
      * Creates a <code>Log4JLoggerStore</code> using the configuration resource
@@ -44,7 +44,7 @@ public class Log4JLoggerStore
         configurator.doConfigure( resource, m_repository );
         setRootLogger( new Log4JLogger( m_repository.getRootLogger() ) );
     }
-    
+
     /**
      * Creates a <code>Log4JLoggerStore</code> using the configuration resource
      * @param resource the InputStream encoding the configuration resource
@@ -59,7 +59,7 @@ public class Log4JLoggerStore
         configurator.doConfigure( resource, m_repository );
         setRootLogger( new Log4JLogger( m_repository.getRootLogger() ) );
     }
-    
+
     /**
      * Creates a <code>Log4JLoggerStore</code> using the configuration resource
      * @param resource the Properties encoding the configuration resource
@@ -74,7 +74,7 @@ public class Log4JLoggerStore
         configurator.doConfigure( resource, m_repository );
         setRootLogger( new Log4JLogger( m_repository.getRootLogger() ) );
     }
-    
+
     /**
      *  Creates new Log4JLogger for the given category.
      */
@@ -90,5 +90,4 @@ public class Log4JLoggerStore
     {
         m_repository.shutdown();
     }
-
 }
