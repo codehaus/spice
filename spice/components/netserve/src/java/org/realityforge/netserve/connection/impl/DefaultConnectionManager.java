@@ -28,7 +28,7 @@ import org.realityforge.threadpool.ThreadPool;
  * to ConnectionHandler instances to handle the connection.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-04-23 04:21:32 $
+ * @version $Revision: 1.4 $ $Date: 2003-04-23 04:24:37 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
@@ -36,7 +36,17 @@ public class DefaultConnectionManager
     extends AbstractLogEnabled
     implements ConnectionManager, Serviceable, Disposable
 {
-    private final Map m_connections = new Hashtable();
+    /**
+     * The map of name->acceptor.
+     */
+    private final Map m_acceptors = new Hashtable();
+
+    /**
+     * The ThreadPool dependency that will be used to initiate
+     * connections if clients do not specify threadPool. Is an
+     * optional dependency and if not specified a new thread will
+     * be instantiated as is needed.  
+     */
     private ThreadPool m_threadpool;
 
     /**
@@ -44,7 +54,7 @@ public class DefaultConnectionManager
      *
      * @param manager the manager to retrieve services from
      * @throws ServiceException if unable to aquire ThreadPool
-     * @phoenix.service type="ThreadPool" optional="true"
+     * @phoenix.dependency type="ThreadPool" optional="true"
      */
     public void service( final ServiceManager manager )
         throws ServiceException
@@ -57,7 +67,7 @@ public class DefaultConnectionManager
 
     public void dispose()
     {
-        final String[] names = (String[])m_connections.keySet().toArray( new String[ 0 ] );
+        final String[] names = (String[])m_acceptors.keySet().toArray( new String[ 0 ] );
         for( int i = 0; i < names.length; i++ )
         {
             try
@@ -129,7 +139,7 @@ public class DefaultConnectionManager
     public void disconnect( final String name, final boolean tearDown )
         throws Exception
     {
-        final ConnectionAcceptor acceptor = (ConnectionAcceptor)m_connections.remove( name );
+        final ConnectionAcceptor acceptor = (ConnectionAcceptor)m_acceptors.remove( name );
             if( null == acceptor )
             {
                 final String message = "No connection with name " + name;
@@ -171,16 +181,16 @@ public class DefaultConnectionManager
         final ConnectionAcceptor runner = new ConnectionAcceptor( name, socket, handlerManager, threadPool );
         setupLogger( runner );
 
-        synchronized( m_connections )
+        synchronized( m_acceptors )
         {
-            if( null != m_connections.get( name ) )
+            if( null != m_acceptors.get( name ) )
             {
                 final String message =
                     "Connection already exists with name " + name;
                 throw new IllegalArgumentException( message );
             }
 
-            m_connections.put( name, runner );
+            m_acceptors.put( name, runner );
         }
 
         if( null != threadPool )
