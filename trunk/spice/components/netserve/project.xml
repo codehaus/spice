@@ -4,7 +4,7 @@
     <name>Spice Netserve</name>
     <id>spice-netserve</id>
     <package>org.codehaus.spice.netserve</package>
-    <currentVersion>1.1-b1</currentVersion>
+    <currentVersion>1.1-b2</currentVersion>
     <inceptionYear>1999</inceptionYear>
 
     <shortDescription>Netserve is set of utility components for creating a Network Server.</shortDescription>
@@ -16,6 +16,11 @@
     </description>
     
 	<versions>
+        <version>
+            <id>1.1-b2</id>
+            <name>1.1-b2</name>
+            <tag>NETSERVE_1_1_b2-tag</tag>
+        </version>
         <version>
             <id>1.1-b1</id>
             <name>1.1-b1</name>
