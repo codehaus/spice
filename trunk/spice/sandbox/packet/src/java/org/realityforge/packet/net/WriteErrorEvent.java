@@ -8,13 +8,13 @@
 package org.realityforge.packet.net;
 
 import java.io.IOException;
-import org.realityforge.packet.transport.TcpTransport;
+import org.realityforge.packet.net.transport.TcpTransport;
 
 /**
  * Event indicating a write error occured.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:46 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-07 02:40:43 $
  */
 public class WriteErrorEvent
     extends IOErrorEvent

@@ -19,8 +19,8 @@ import org.realityforge.packet.net.ReadErrorEvent;
 import org.realityforge.packet.net.ReadEvent;
 import org.realityforge.packet.net.WriteErrorEvent;
 import org.realityforge.packet.net.WriteEvent;
-import org.realityforge.packet.transport.CircularBuffer;
-import org.realityforge.packet.transport.TcpTransport;
+import org.realityforge.packet.net.transport.CircularBuffer;
+import org.realityforge.packet.net.transport.TcpTransport;
 import org.realityforge.sca.selector.SelectorEventHandler;
 
 /**
@@ -28,7 +28,7 @@ import org.realityforge.sca.selector.SelectorEventHandler;
  * corresponding events to pass onto an EventSink.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:46 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-07 02:40:44 $
  */
 public class SocketSelectorEventHandler
     implements SelectorEventHandler

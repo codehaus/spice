@@ -8,14 +8,14 @@ import org.realityforge.packet.net.CloseEvent;
 import org.realityforge.packet.net.ConnectEvent;
 import org.realityforge.packet.net.IOErrorEvent;
 import org.realityforge.packet.net.ReadEvent;
-import org.realityforge.packet.transport.CircularBuffer;
-import org.realityforge.packet.transport.TcpTransport;
+import org.realityforge.packet.net.transport.CircularBuffer;
+import org.realityforge.packet.net.transport.TcpTransport;
 import org.realityforge.sca.selector.SelectorEventHandler;
 import org.realityforge.sca.selector.SelectorManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:47 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-07 02:40:44 $
  */
 class SocketEventHandler
     extends AbstractEventHandler

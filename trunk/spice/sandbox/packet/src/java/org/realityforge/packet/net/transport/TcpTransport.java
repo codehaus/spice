@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.packet.transport;
+package org.realityforge.packet.net.transport;
 
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
@@ -17,7 +17,7 @@ import org.realityforge.sca.selector.SelectorManager;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2003-12-17 06:11:40 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-07 02:40:44 $
  */
 public class TcpTransport
 {

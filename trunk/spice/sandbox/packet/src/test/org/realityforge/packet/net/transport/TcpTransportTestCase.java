@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.packet.transport;
+package org.realityforge.packet.net.transport;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-12-17 06:11:40 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-07 02:40:44 $
  */
 public class TcpTransportTestCase
     extends TestCase

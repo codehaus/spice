@@ -8,13 +8,13 @@
 package org.realityforge.packet.net;
 
 import java.net.SocketAddress;
-import org.realityforge.packet.transport.TcpTransport;
+import org.realityforge.packet.net.transport.TcpTransport;
 
 /**
  * Event indicating IO occured.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 01:42:46 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-07 02:40:43 $
  */
 public abstract class IOEvent
     extends AbstractTransportEvent
