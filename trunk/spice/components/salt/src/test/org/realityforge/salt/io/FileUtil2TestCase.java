@@ -11,13 +11,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
+import java.net.URL;
 
 import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-25 04:22:32 $
+ * @version $Revision: 1.4 $ $Date: 2003-09-13 09:42:05 $
  */
 public class FileUtil2TestCase
    extends TestCase
@@ -161,6 +162,68 @@ public class FileUtil2TestCase
       assertTrue( "!dir.exists()", !dir.exists() );
       assertTrue( "!file.exists()", !file.exists() );
    }
+
+   public void testFileEquals()
+      throws Exception
+   {
+      final File dir = genTestDirectory();
+      final File source = genFile( dir, 2 );
+      assertTrue( "File equals", FileUtil.contentEquals( source, source ) );
+   }
+
+   public void testURLToFile()
+      throws Exception
+   {
+      final File dir = genTestDirectory();
+      final File file = genFile( dir, 1 );
+      assertEquals( "URL to File", file, FileUtil.toFile( file.toURL() ));
+      assertNull( "URL to File", FileUtil.toFile( new URL("http://somedomain.tld/path") ));
+   }
+
+   public void testFilesToURLs()
+      throws Exception
+   {
+      final File dir = genTestDirectory();
+      final File file1 = genFile( dir, 1 );
+      final File file2 = genFile( dir, 2 );
+      final File[] files = new File[] { file1, file2 };
+      final URL[] urls = FileUtil.toURLs( files );
+      for ( int i = 0; i < files.length; i++ )
+      {
+          assertEquals( "File to URL: " + i, files[i].toURL(), urls[i] );
+      }  
+   }
+   
+   public void testRemoveExtension()
+      throws Exception
+   {
+       assertEquals( "Remove extension", "foo", FileUtil.removeExtension( "foo.txt") );
+       assertEquals( "Remove extension", "a/b/c", FileUtil.removeExtension( "a/b/c.jpg") );
+       assertEquals( "Remove extension", "a/b/c", FileUtil.removeExtension( "a/b/c") );
+   }
+
+   public void testGetExtension()
+      throws Exception
+   {
+       assertEquals( "Get extension", "txt", FileUtil.getExtension( "foo.txt") );
+       assertEquals( "Get extension", "jpg", FileUtil.getExtension( "a/b/c.jpg") );
+       assertEquals( "Get extension", "", FileUtil.getExtension( "a/b/c") );
+   }
+
+   public void testRemovePath()
+      throws Exception
+   {
+       assertEquals( "Remove path", "foo.txt", FileUtil.removePath( "foo.txt") );
+       assertEquals( "Remove path", "c.jpg", FileUtil.removePath( "a/b/c.jpg") );
+   }
+
+   public void testGetPath()
+      throws Exception
+   {
+       assertEquals( "Get path", "", FileUtil.getPath( "foo.txt") );
+       assertEquals( "Get path", "a/b", FileUtil.getPath( "a/b/c.jpg") );
+   }
+
 
    private File genTestDirectory()
       throws IOException
