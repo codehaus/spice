@@ -1,13 +1,14 @@
 package org.realityforge.metaclass.tools.qdox;
 
+import java.lang.reflect.Modifier;
+import java.util.Properties;
+
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaParameter;
 import com.thoughtworks.qdox.model.Type;
-import java.lang.reflect.Modifier;
-import java.util.Properties;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
@@ -16,230 +17,209 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 
 public class QDoxDescriptorParser
 {
-    public ClassDescriptor buildClassDescriptor( final JavaClass javaClass )
-    {
-        final String classname = javaClass.getFullyQualifiedName();
+   private final AttributeParser _attributeParser = createAttributeParser();
 
-        // get class modifiers
-        final int classModifiers = convertModifiersToInt( javaClass.getModifiers() );
+   private AttributeParser createAttributeParser()
+   {
+      try
+      {
+         return new Jdk14AttributeParser();
+      }
+      catch ( Exception e )
+      {
+         return new OROAttributeParser();
+      }
+   }
 
-        // get class attributes
-        final Attribute[] classAttributes = convertTagsToAttributes( javaClass.getTags() );
+   public ClassDescriptor buildClassDescriptor( final JavaClass javaClass )
+   {
+      final String classname = javaClass.getFullyQualifiedName();
+      final int modifiers = parseModifiers( javaClass.getModifiers() );
+      final Attribute[] attributes = buildAttributes( javaClass.getTags() );
+      final FieldDescriptor[] fields = buildFields( javaClass );
+      final MethodDescriptor[] methods = buildMethods( javaClass );
 
-        // get fields
-        final FieldDescriptor[] fieldDescriptors = getFields( javaClass );
+      return new ClassDescriptor( classname,
+                                  modifiers,
+                                  attributes,
+                                  fields,
+                                  methods );
+   }
 
-        // get methods
-        final MethodDescriptor[] methodDescriptors = getMethods( javaClass );
+   private MethodDescriptor[] buildMethods( final JavaClass javaClass )
+   {
+      final JavaMethod[] methods = javaClass.getMethods();
+      final MethodDescriptor[] methodDescriptors = new MethodDescriptor[ methods.length ];
+      for ( int i = 0; i < methods.length; i++ )
+      {
+         methodDescriptors[ i ] = buildMethod( methods[ i ] );
+      }
+      return methodDescriptors;
+   }
 
-        return new ClassDescriptor( classname,
-                                    classModifiers,
-                                    classAttributes,
-                                    fieldDescriptors,
-                                    methodDescriptors );
-    }
+   private MethodDescriptor buildMethod( final JavaMethod method )
+   {
+      final String name = method.getName();
+      final Type returns = method.getReturns();
+      final String type;
+      if ( null != returns )
+      {
+         type = returns.getValue();
+      }
+      else
+      {
+         type = "";
+      }
 
-    private MethodDescriptor[] getMethods( final JavaClass javaClass )
-    {
-        final JavaMethod[] methods = javaClass.getMethods();
-        final MethodDescriptor[] methodDescriptors = new MethodDescriptor[ methods.length ];
-        for( int i = 0; i < methods.length; i++ )
-        {
-            final JavaMethod method = methods[ i ];
-            if( null != method )
-            {
-                final String name = method.getName();
-                final Type returns = method.getReturns();
-                final String type;
-                if( null != returns )
-                {
-                    type = returns.getValue();
-                }
-                else
-                {
-                    type = "";
-                }
+      final int modifiers = parseModifiers( method.getModifiers() );
+      final Attribute[] attributes = buildAttributes( method.getTags() );
+      final ParameterDescriptor[] parameters =
+         buildParameters( method.getParameters() );
 
-                // get method classModifiers
-                final int methodModifiers =
-                    convertModifiersToInt( method.getModifiers() );
+      return new MethodDescriptor( name,
+                                   type,
+                                   modifiers,
+                                   parameters,
+                                   attributes );
+   }
 
-                // get method parameters
-                final ParameterDescriptor[] methodParameters =
-                    parametersToDescriptors( method.getParameters() );
+   private ParameterDescriptor[] buildParameters( final JavaParameter[] parameters )
+   {
+      final ParameterDescriptor[] descriptors =
+         new ParameterDescriptor[ parameters.length ];
+      for ( int i = 0; i < parameters.length; i++ )
+      {
+         final JavaParameter parameter = parameters[ i ];
+         final String name = parameter.getName();
+         final String value = parameter.getType().getValue();
+         descriptors[ i ] = new ParameterDescriptor( name, value );
+      }
+      return descriptors;
+   }
 
-                // get method attributes
-                final Attribute[] methodAttributes = convertTagsToAttributes( method.getTags() );
-                methodDescriptors[ i ] = new MethodDescriptor( name,
-                                                               type,
-                                                               methodModifiers,
-                                                               methodParameters,
-                                                               methodAttributes );
-            }
-        }
-        return methodDescriptors;
-    }
+   private FieldDescriptor[] buildFields( final JavaClass javaClass )
+   {
+      final JavaField[] fields = javaClass.getFields();
+      final FieldDescriptor[] fieldDescriptors = new FieldDescriptor[ fields.length ];
+      for ( int i = 0; i < fields.length; i++ )
+      {
+         fieldDescriptors[ i ] = buildField( fields[ i ] );
+      }
+      return fieldDescriptors;
+   }
 
-    private FieldDescriptor[] getFields( final JavaClass javaClass )
-    {
-        final JavaField[] fields = javaClass.getFields();
-        final FieldDescriptor[] fieldDescriptors = new FieldDescriptor[ fields.length ];
-        for( int i = 0; i < fields.length; i++ )
-        {
-            final JavaField field = fields[ i ];
-            if( null != field )
-            {
-                final String name = field.getName();
-                final String type = field.getType().getValue();
+   private FieldDescriptor buildField( final JavaField field )
+   {
+      final String name = field.getName();
+      final String type = field.getType().getValue();
+      final int modifiers = parseModifiers( field.getModifiers() );
+      final Attribute[] attributes = buildAttributes( field.getTags() );
+      return new FieldDescriptor( name,
+                                  type,
+                                  modifiers,
+                                  attributes );
+   }
 
-                // get field classModifiers
-                final int fieldModifiers = convertModifiersToInt( field.getModifiers() );
+   private Attribute[] buildAttributes( final DocletTag[] tags )
+   {
+      final Attribute[] attributes = new Attribute[ tags.length ];
+      for ( int i = 0; i < tags.length; i++ )
+      {
+         attributes[ i ] = buildAttribute( tags[ i ] );
+      }
+      return attributes;
+   }
 
-                // get field attributes
-                final Attribute[] fieldTags = convertTagsToAttributes( field.getTags() );
-                fieldDescriptors[ i ] = new FieldDescriptor( name,
-                                                             type,
-                                                             fieldModifiers,
-                                                             fieldTags );
-            }
-        }
-        return fieldDescriptors;
-    }
+   private Attribute buildAttribute( final DocletTag tag )
+   {
+      final String name = tag.getName();
 
-    private Attribute[] convertTagsToAttributes( final DocletTag[] tags )
-    {
-        final Attribute[] attributes = new Attribute[ tags.length ];
-        for( int i = 0; i < tags.length; i++ )
-        {
-            final DocletTag tag = tags[ i ];
-            final String name = tag.getName();
+      final String value = tag.getValue();
+      if ( null == value || "".equals( value.trim() ) )
+      {
+         return new Attribute( name );
+      }
 
-            final Properties properties = new Properties();
-            boolean validProperties = false;
+      final String[] paramSpans =
+         _attributeParser.parseValueIntoParameterSpans( value );
+      if ( null == paramSpans )
+      {
+         return new Attribute( name, value );
+      }
+      else
+      {
+         final Properties properties = new Properties();
+         for ( int i = 0; i < paramSpans.length; i++ )
+         {
+            final String param = paramSpans[ i ];
 
-            final String value = tag.getValue();
-            String validParameter = getValidParameter( value );
-            if( null != validParameter )
-            {
-                final String[] contents = value.split( "=" );
-                final String tagName = contents[ 0 ];
-                properties.setProperty( tagName, validParameter );
-                validProperties = true;
-            }
+            //index should never be -1
+            final int index = param.indexOf( "=" );
+            final String paramKey = param.substring( 0, index );
+            final String paramValue =
+               param.substring( index + 1 + 1, param.length() - 1 );
+            properties.setProperty( paramKey, paramValue );
+         }
+         return new Attribute( name, properties );
+      }
+   }
 
-            final String[] parameters = tag.getParameters();
-            for( int j = 0; j < parameters.length && validProperties == true; j++ )
-            {
-                final String parameter = parameters[ j ];
-                validParameter = getValidParameter( parameter );
-                if( null != validParameter )
-                {
-                    final String[] contents = parameter.split( "=" );
-                    final String tagName = contents[ 0 ];
-                    properties.setProperty( tagName, validParameter );
-                    validProperties = true;
-                }
-            }
-
-            if( validProperties )
-            {
-                attributes[ i ] = new Attribute( name, properties );
-            }
-            else
-            {
-                attributes[ i ] = new Attribute( name, value );
-            }
-        }
-        return attributes;
-    }
-
-    private String getValidParameter( final String string )
-    {
-        String[] contents = string.split( "=" );
-        if( contents.length == 2 )
-        {
-            final String value = contents[ 1 ];
-            if( value.length() > 2 &&
-                value.startsWith( "\"" ) &&
-                value.endsWith( "\"" ) )
-            {
-                return value.substring( 1, value.length() - 1 );
-            }
-        }
-
-        return null;
-    }
-
-    private int convertModifiersToInt( final String[] modifiers )
-    {
-        int result = 0;
-        for( int k = 0; k < modifiers.length; k++ )
-        {
-            final String s = modifiers[ k ].toLowerCase().trim();
-            if( s.equals( "public" ) )
-            {
-                result |= Modifier.PUBLIC;
-            }
-            else if( s.equals( "protected" ) )
-            {
-                result |= Modifier.PROTECTED;
-            }
-            else if( s.equals( "private" ) )
-            {
-                result |= Modifier.PRIVATE;
-            }
-            else if( s.equals( "abstract" ) )
-            {
-                result |= Modifier.ABSTRACT;
-            }
-            else if( s.equals( "static" ) )
-            {
-                result |= Modifier.STATIC;
-            }
-            else if( s.equals( "final" ) )
-            {
-                result |= Modifier.FINAL;
-            }
-            else if( s.equals( "transient" ) )
-            {
-                result |= Modifier.TRANSIENT;
-            }
-            else if( s.equals( "volatile" ) )
-            {
-                result |= Modifier.VOLATILE;
-            }
-            else if( s.equals( "synchronized" ) )
-            {
-                result |= Modifier.SYNCHRONIZED;
-            }
-            else if( s.equals( "native" ) )
-            {
-                result |= Modifier.NATIVE;
-            }
-            else if( s.equals( "strictfp" ) )
-            {
-                result |= Modifier.STRICT;
-            }
-            else if( s.equals( "interface" ) )
-            {
-                result |= Modifier.INTERFACE;
-            }
-        }
-        return result;
-    }
-
-    private ParameterDescriptor[] parametersToDescriptors( final JavaParameter[] parameters )
-    {
-        final ParameterDescriptor[] parameterDescriptors =
-            new ParameterDescriptor[ parameters.length ];
-        for( int i = 0; i < parameters.length; i++ )
-        {
-            final JavaParameter parameter = parameters[ i ];
-            final String name = parameter.getName();
-            final String value = parameter.getType().getValue();
-            final ParameterDescriptor parameterDescriptor = new ParameterDescriptor( name, value );
-            parameterDescriptors[ i ] = parameterDescriptor;
-        }
-        return parameterDescriptors;
-    }
+   private int parseModifiers( final String[] qualifiers )
+   {
+      int modifiers = 0;
+      for ( int i = 0; i < qualifiers.length; i++ )
+      {
+         final String qualifier =
+            qualifiers[ i ].toLowerCase().trim();
+         if ( qualifier.equals( "public" ) )
+         {
+            modifiers |= Modifier.PUBLIC;
+         }
+         else if ( qualifier.equals( "protected" ) )
+         {
+            modifiers |= Modifier.PROTECTED;
+         }
+         else if ( qualifier.equals( "private" ) )
+         {
+            modifiers |= Modifier.PRIVATE;
+         }
+         else if ( qualifier.equals( "abstract" ) )
+         {
+            modifiers |= Modifier.ABSTRACT;
+         }
+         else if ( qualifier.equals( "static" ) )
+         {
+            modifiers |= Modifier.STATIC;
+         }
+         else if ( qualifier.equals( "final" ) )
+         {
+            modifiers |= Modifier.FINAL;
+         }
+         else if ( qualifier.equals( "transient" ) )
+         {
+            modifiers |= Modifier.TRANSIENT;
+         }
+         else if ( qualifier.equals( "volatile" ) )
+         {
+            modifiers |= Modifier.VOLATILE;
+         }
+         else if ( qualifier.equals( "synchronized" ) )
+         {
+            modifiers |= Modifier.SYNCHRONIZED;
+         }
+         else if ( qualifier.equals( "native" ) )
+         {
+            modifiers |= Modifier.NATIVE;
+         }
+         else if ( qualifier.equals( "strictfp" ) )
+         {
+            modifiers |= Modifier.STRICT;
+         }
+         else if ( qualifier.equals( "interface" ) )
+         {
+            modifiers |= Modifier.INTERFACE;
+         }
+      }
+      return modifiers;
+   }
 }
