@@ -9,11 +9,12 @@ package org.realityforge.metaclass.tools.compiler;
 
 import org.realityforge.metaclass.model.ClassDescriptor;
 import java.io.File;
+import java.util.List;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 06:58:43 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-04 09:28:16 $
  */
 class MockMonitor
     extends DefaultCompilerMonitor
@@ -23,16 +24,28 @@ class MockMonitor
     public void errorWritingDescriptor( ClassDescriptor descriptor,
                                         Exception e )
     {
+        System.out.println( "errorWritingDescriptor(" + descriptor.getName() + "," + e + ")" );
         m_error = true;
     }
 
     public void missingSourceFile( File file )
     {
+        System.out.println( "missingSourceFile(" + file + ")" );
         m_error = true;
     }
 
     public boolean isError()
     {
         return m_error;
+    }
+
+    public void javaClassObjectsLoaded( List classes )
+    {
+        System.out.println( "javaClassObjectsLoaded(" + classes + ")" );
+    }
+
+    public void postFilterJavaClassList( List classes )
+    {
+        System.out.println( "postFilterJavaClassList(" + classes + ")" );
     }
 }
