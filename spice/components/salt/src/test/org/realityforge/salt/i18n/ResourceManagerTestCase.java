@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.6 $ $Date: 2003-06-13 01:50:43 $
+ * @version $Revision: 1.7 $ $Date: 2003-06-13 01:51:06 $
  */
 public class ResourceManagerTestCase
     extends TestCase
@@ -40,7 +40,7 @@ public class ResourceManagerTestCase
     public void testGetPackageResourcesFromDefaultPackage()
         throws Exception
     {
-        final Class clazz = Class.forName( "DummyClass");
+        final Class clazz = Class.forName( "DummyClass" );
         final Resources resources =
             ResourceManager.getPackageResources( clazz );
         assertNotNull( "resources", resources );
@@ -75,10 +75,10 @@ public class ResourceManagerTestCase
     {
         final Resources resources =
             ResourceManager.getBaseResources( MockResourceBundle.class.getName(),
-                                          ResourceManagerTestCase.class.getClassLoader() );
+                                              ResourceManagerTestCase.class.getClassLoader() );
         assertNotNull( "resources", resources );
         MockResourceBundle.cleanResourceSet();
-        MockResourceBundle.addResource( "test", "test");
+        MockResourceBundle.addResource( "test", "test" );
         assertEquals( "test value", "test", resources.getString( "test" ) );
     }
 
