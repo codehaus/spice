@@ -26,8 +26,6 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 
 public class MBeanBuilder
 {
-    private static final String OBJECT_REFERNECE_RESOURCE_TYPE = "ObjectReference";
-
     private static final String MX_COMPONENT_CONSTANT = "mx.component";
 
     private static final String MX_CONSTRUCTOR_CONSTANT = "mx.constructor";
@@ -55,9 +53,7 @@ public class MBeanBuilder
         {
             return null;
         }
-        final WrapperModelMBean mBean = new WrapperModelMBean( mBeanInfo );
-        mBean.setManagedResource( value, OBJECT_REFERNECE_RESOURCE_TYPE );
-        return mBean;
+        return new WrapperModelMBean( mBeanInfo, value );
     }
 
     public ModelMBeanInfo buildMBeanInfo( final Class type )
