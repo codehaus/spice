@@ -1,12 +1,17 @@
 package org.realityforge.connection;
 
 
-
 /**
  * @mx.component
  */
 public abstract class AbstractConnector
 {
+   /**
+    * The associated monitor that receives
+    * events about connector.
+    */
+   private ConnectorMonitor _monitor;
+
    /**
     * A flag indicating whether the connection
     * is "active".
@@ -56,6 +61,16 @@ public abstract class AbstractConnector
     * The reason the last conenction attempt failed.
     */
    private String _connectionFailureReason;
+
+   /**
+    * Specify the monitor to receive events from connector.
+    *
+    * @param monitor the monitor
+    */
+   public void setMonitor( ConnectorMonitor monitor )
+   {
+      _monitor = monitor;
+   }
 
    /**
     * Method called to indicate transmission occured.
@@ -224,27 +239,30 @@ public abstract class AbstractConnector
 
       synchronized ( getSyncLock() )
       {
-         if( isConnected() )
+         if ( isConnected() )
          {
             disconnect();
          }
 
          while ( !isConnected() && isActive() )
          {
-            //TODO: Starting connnection event - is that ok? else return
+            if ( !_monitor.attemptingConnection() )
+            {
+               return;
+            }
             try
             {
                _lastConnectionTime = now;
                doConnect();
                _connectionAttempts = 0;
                _connectionFailureReason = null;
-               //TODO: Connnection started event
+               _monitor.connectionEstablished();
             }
             catch ( final Throwable t )
             {
                _connectionAttempts++;
                _connectionFailureReason = t.toString();
-               //TODO: Connnection start error event - continue connecting or return?
+               _monitor.errorConnecting( t );
             }
          }
       }
@@ -257,9 +275,9 @@ public abstract class AbstractConnector
     */
    public void disconnect()
    {
-      synchronized( getSyncLock() )
+      synchronized ( getSyncLock() )
       {
-         if( isConnected() )
+         if ( isConnected() )
          {
             _connected = false;
             try
@@ -268,7 +286,7 @@ public abstract class AbstractConnector
             }
             catch ( final Throwable t )
             {
-               //TODO: Error disconnecting
+               _monitor.errorDisconnecting( t );
             }
          }
       }
