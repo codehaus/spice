@@ -15,7 +15,7 @@ import org.realityforge.netserve.connection.ConnectionHandler;
  * This class is responsible for handling a single connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-04-23 09:22:12 $
+ * @version $Revision: 1.10 $ $Date: 2003-04-23 14:03:19 $
  */
 class ConnectionRunner
     extends AbstractLogEnabled
@@ -130,10 +130,12 @@ class ConnectionRunner
      */
     public void run()
     {
-        m_done = false;
-        try
+        synchronized( this )
         {
             m_thread = Thread.currentThread();
+        }
+        try
+        {
             debugBanner( true );
             m_handler.handleConnection( m_socket );
             debugBanner( false );
@@ -205,7 +207,7 @@ class ConnectionRunner
     /**
      * Shutdown runner.
      */
-    private void shutdown()
+    private synchronized void shutdown()
     {
         m_done = true;
         m_thread = null;
