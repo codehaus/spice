@@ -24,26 +24,81 @@ import org.realityforge.metaclass.introspector.MetaClassException;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ParameterDescriptor;
 
+/**
+ * Utility class to create ModelMBeanInfo objects from classes
+ * annotated with MetaClass attributes. See documentation for
+ * description of valid attributes.
+ */
 public class MBeanBuilder
 {
+    /**
+     * Constant for class annotation tag.
+     */
     private static final String MX_COMPONENT_CONSTANT = "mx.component";
 
+    /**
+     * Constant for constructor annotation tag.
+     */
     private static final String MX_CONSTRUCTOR_CONSTANT = "mx.constructor";
+
+    /**
+     * Constant for method annotation tag.
+     */
     private static final String MX_OPERATION_CONSTANT = "mx.operation";
+
+    /**
+     * Constant for getter/setter annotation tag.
+     */
     private static final String MX_ATTRIBUTE_CONSTANT = "mx.attribute";
 
+    /**
+     * Constant for annotation of ctor or method parameters.
+     */
     private static final String MX_PARAMETER_CONSTANT = "mx.parameter";
 
+    /**
+     * Constant for parameter name holding description.
+     */
     private static final String DESCRIPTION_KEY_CONSTANT = "description";
+
+    /**
+     * Constant for parameter name holding method impact.
+     */
     private static final String IMPACT_KEY_CONSTANT = "impact";
+
+    /**
+     * Constant for parameter name holding name of method/ctor parameters.
+     */
     private static final String NAME_KEY_CONSTANT = "name";
 
+    /**
+     * Constant for empty string to avoid gratuitous creation.
+     */
     private static final String EMPTY_STRING = "";
 
+    /**
+     * Constant string for INFO impact.
+     */
     private static final String IMPACT_INFO = "INFO";
+
+    /**
+     * Constant string for ACTION impact.
+     */
     private static final String IMPACT_ACTION = "ACTION";
+
+    /**
+     * Constant string for ACTION_INFO impact.
+     */
     private static final String IMPACT_ACTION_INFO = "ACTION_INFO";
 
+    /**
+     * Create a ModelMBeanInfo object for specified class if
+     * class is annotated.
+     *
+     * @param type the class
+     * @return the ModelMBeanInfo
+     * @throws Exception if unable to get BeanInfo for specified type
+     */
     public ModelMBeanInfo buildMBeanInfo( final Class type )
         throws Exception
     {
