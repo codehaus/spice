@@ -3,7 +3,7 @@
 # this script is in the public domain
 
 # update these projects
-PROJECTS="classman cli configkit converter salt jndikit ../sandbox/metaclass ../sandbox/metaschema threadpool ../sandbox/xinvoke"
+PROJECTS="configkit salt jndikit ../sandbox/metaclass threadpool"
 MULTI_PROCESS="no"
 ANT_COMMAND="maven site:generate site:deploy"
 
