@@ -9,13 +9,13 @@ package org.codehaus.spice.alchemist;
 
 import org.codehaus.spice.alchemist.impl.AvalonLogger;
 import org.codehaus.spice.alchemist.impl.DNALogger;
-import org.jcontainer.dna.Logger;
+import org.codehaus.dna.Logger;
 
 /**
  * Utility class containing methods to transform Logger objects.
  *
  * @author Mauro Talevi
- * @version $Revision: 1.2 $ $Date: 2004-02-28 21:13:23 $
+ * @version $Revision: 1.3 $ $Date: 2004-04-18 22:59:05 $
  */
 public class LoggerAlchemist
 {

@@ -7,8 +7,8 @@
  */
 package org.codehaus.spice.loggerstore.stores;
 
-import org.jcontainer.dna.Logger;
-import org.jcontainer.dna.impl.ConsoleLogger;
+import org.codehaus.dna.Logger;
+import org.codehaus.dna.impl.ConsoleLogger;
 
 /**
  * ConsoleLoggerStore extends AbstractLoggerStore to provide the implementation

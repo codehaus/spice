@@ -7,7 +7,7 @@
  */
 package org.codehaus.spice.alchemist.impl;
 
-import org.jcontainer.dna.Logger;
+import org.codehaus.dna.Logger;
 
 /**
  * DNA Logger facade implementation for the Avalon Logger.
@@ -22,7 +22,7 @@ import org.jcontainer.dna.Logger;
  *   <li>error ==&gt; error</li>
  * </ul>
  *
- * @version $Revision: 1.1 $ $Date: 2003-11-20 11:01:20 $
+ * @version $Revision: 1.2 $ $Date: 2004-04-18 22:59:05 $
  */
 public class DNALogger
     implements Logger

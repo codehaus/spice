@@ -13,8 +13,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.spi.LoggerRepository;
 import org.apache.log4j.xml.DOMConfigurator;
-import org.jcontainer.dna.Logger;
-import org.jcontainer.dna.impl.Log4JLogger;
+import org.codehaus.dna.Logger;
+import org.codehaus.dna.impl.Log4JLogger;
 import org.w3c.dom.Element;
 
 /**
