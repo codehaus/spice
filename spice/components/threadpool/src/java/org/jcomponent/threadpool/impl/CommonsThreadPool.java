@@ -7,16 +7,10 @@
  */
 package org.jcomponent.threadpool.impl;
 
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.LogEnabled;
-import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.jcomponent.threadpool.ThreadPool;
+import org.jcomponent.threadpool.ThreadPoolMonitor;
 
 /**
  * The CommonsThreadPool is a component that provides a basic
@@ -34,12 +28,12 @@ import org.jcomponent.threadpool.ThreadPool;
  * </pre>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-27 19:10:42 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-29 07:24:25 $
  * @phoenix.service type="ThreadPool"
  */
 public class CommonsThreadPool
     extends AbstractThreadPool
-    implements ThreadPool, LogEnabled, Configurable, Initializable, Disposable, PoolableObjectFactory
+    implements ThreadPool, PoolableObjectFactory
 {
     /**
      * The configuration 'struct' for our object pool.
@@ -51,67 +45,19 @@ public class CommonsThreadPool
      */
     private GenericObjectPool m_pool;
 
-    /**
-     * The logger for component.
-     */
-    private Logger m_logger;
-
-    /**
+   /**
      * Flag indicating whether component is disposed.
      * If it is disposed it should not try to repool workers.
      */
     private boolean m_disposed;
 
     /**
-     * Set the logger for component.
-     *
-     * @param logger the logger for component.
+     * The monitor that receives notifications of
+     * changes in pool.
      */
-    public void enableLogging( final Logger logger )
-    {
-        m_logger = logger;
-    }
+    private ThreadPoolMonitor m_monitor;
 
-    /**
-     * Configure the pool. See class javadocs for example.
-     *
-     * @param configuration the configuration object
-     * @throws ConfigurationException if malformed configuration
-     * @phoenix.configuration
-     *    type="http://relaxng.org/ns/structure/1.0"
-     *    location="CommonsThreadPool-schema.xml"
-     */
-    public void configure( final Configuration configuration )
-        throws ConfigurationException
-    {
-        final String name =
-            configuration.getChild( "name" ).getValue();
-        setName( name );
-        final int priority =
-            configuration.getChild( "priority" ).getValueAsInteger( Thread.NORM_PRIORITY );
-        setPriority( priority );
-        final boolean isDaemon =
-            configuration.getChild( "is-daemon" ).getValueAsBoolean( false );
-        setDaemon( isDaemon );
-
-        final boolean limit =
-            configuration.getChild( "resource-limiting" ).getValueAsBoolean( false );
-        if( limit )
-        {
-            m_config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_BLOCK;
-        }
-        else
-        {
-            m_config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_GROW;
-        }
-
-        m_config.maxActive =
-            configuration.getChild( "max-threads" ).getValueAsInteger( 10 );
-        m_config.maxIdle = configuration.getChild( "max-idle" ).
-            getValueAsInteger( m_config.maxActive / 2 );
-    }
-
-    /**
+   /**
      * Initialize the underlying pool.
      *
      * @throws Exception if error occurs creating pool
@@ -120,14 +66,11 @@ public class CommonsThreadPool
         throws Exception
     {
         setThreadGroup( Thread.currentThread().getThreadGroup() );
-        if( m_logger.isInfoEnabled() )
-        {
-            m_logger.info( "Creating a new ThreadPool " + getName() +
-                           "(priority=" + getPriority() +
-                           ",isDaemon=" + isDaemon() + ") with " +
-                           "max-threads=" + m_config.maxActive + " and " +
-                           "max-idle=" + m_config.maxIdle );
-        }
+        m_monitor.newThreadPool( getName(),
+                                 getPriority(),
+                                 isDaemon(),
+                                 m_config.maxActive,
+                                 m_config.maxIdle );
         m_pool = new GenericObjectPool( this, m_config );
         setDisposeTime( 100 );
     }
@@ -143,9 +86,10 @@ public class CommonsThreadPool
         {
             m_pool.close();
         }
-        catch( Exception e )
+        catch( final Exception e )
         {
-            m_logger.error( "Error closing pool: " + e, e );
+            final String message = "Error closing pool: " + e;
+            m_monitor.unexpectedError( message, e );
         }
     }
 
@@ -159,18 +103,12 @@ public class CommonsThreadPool
         try
         {
             final WorkerThread worker = (WorkerThread)m_pool.borrowObject();
-            if( m_logger.isDebugEnabled() )
-            {
-                m_logger.debug( "Retrieved thread from pool: " + worker.getName() );
-            }
+            m_monitor.threadRetrieved( worker );
             return worker;
         }
-        catch( Exception e )
+        catch( final Exception e )
         {
-            if( m_logger.isWarnEnabled() )
-            {
-                m_logger.warn( "Error retrieving thread from pool: " + e, e );
-            }
+            m_monitor.unexpectedError( "Retrieving thread from pool", e );
             return createWorker();
         }
     }
@@ -184,31 +122,25 @@ public class CommonsThreadPool
     {
         if( m_disposed )
         {
-            if( m_logger.isDebugEnabled() )
-            {
-                m_logger.debug( "Ignoring attempt to return worker to " +
-                                "disposed pool: " + worker.getName() +
-                                ". Attempting dispose of worker." );
-            }
+            final String message =
+               "Ignoring attempt to return worker to " +
+               "disposed pool: " + worker.getName() +
+               ". Attempting dispose of worker.";
+            m_monitor.unexpectedError( message, null );
             destroyWorker( worker );
             return;
         }
 
-        if( m_logger.isDebugEnabled() )
-        {
-            m_logger.debug( "Returning thread to pool: " + worker.getName() );
-        }
-
+        m_monitor.threadReturned( worker );
         try
         {
             m_pool.returnObject( worker );
         }
-        catch( Exception e )
+        catch( final Exception e )
         {
-            if( m_logger.isWarnEnabled() )
-            {
-                m_logger.warn( "Error returning thread to pool: " + e, e );
-            }
+           final String message =
+              "Returning '" + worker.getName() + "' To Pool";
+            m_monitor.unexpectedError( message, e );
         }
     }
 
@@ -220,10 +152,7 @@ public class CommonsThreadPool
     protected WorkerThread createWorker()
     {
         final WorkerThread worker = super.createWorker();
-        if( m_logger.isDebugEnabled() )
-        {
-            m_logger.debug( "Created thread: " + worker.getName() );
-        }
+        m_monitor.threadCreated( worker );
         return worker;
     }
 
@@ -234,10 +163,7 @@ public class CommonsThreadPool
      */
     protected void destroyWorker( final WorkerThread worker )
     {
-        if( m_logger.isDebugEnabled() )
-        {
-            m_logger.debug( "Disposing thread: " + worker.getName() );
-        }
+        m_monitor.threadDisposing( worker );
         super.destroyWorker( worker );
     }
 
@@ -285,5 +211,25 @@ public class CommonsThreadPool
      */
     public void passivateObject( final Object worker )
     {
+    }
+
+    /**
+     * Return the configuration object for Commons Pool.
+     *
+     * @return the configuration object for Commons Pool.
+     */
+    protected final GenericObjectPool.Config getCommonsConfig()
+    {
+        return m_config;
+    }
+
+    /**
+     * Set the Monitor to use to notify of changes in the Pool.
+     *
+     * @param monitor the Monitor to use to notify of changes in the Pool.
+     */
+    protected final void setMonitor( final ThreadPoolMonitor monitor )
+    {
+        m_monitor = monitor;
     }
 }
