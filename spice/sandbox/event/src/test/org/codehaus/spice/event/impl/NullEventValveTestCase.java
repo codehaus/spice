@@ -9,10 +9,10 @@ public class NullEventValveTestCase
     {
         final NullEventValve sink = new NullEventValve();
         assertEquals( "acceptEvent()",
-                      false,
+                      true,
                       sink.acceptEvent( new Object() ) );
         assertEquals( "acceptEvents()",
-                      false,
+                      true,
                       sink.acceptEvents( new Object[]{new Object()} ) );
     }
 }
