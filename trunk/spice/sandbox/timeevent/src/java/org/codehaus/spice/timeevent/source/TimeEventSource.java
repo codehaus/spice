@@ -13,7 +13,7 @@ import org.codehaus.spice.timeevent.triggers.TimeTrigger;
  * An EventSource that generates events relating to the passage of time.
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-22 04:16:49 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-27 04:11:21 $
  */
 public class TimeEventSource
     extends AbstractEventSource
@@ -45,6 +45,7 @@ public class TimeEventSource
     {
         final SchedulingKey key =
             new SchedulingKey( this, trigger, userData );
+        key.updateNextTime( System.currentTimeMillis() );
         schedule( key );
         return key;
     }
