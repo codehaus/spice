@@ -24,7 +24,7 @@ import java.io.Serializable;
  * about method.</p>
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-15 06:53:32 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-16 00:35:27 $
  */
 public final class MethodDescriptor
     extends FeatureDescriptor
@@ -72,6 +72,13 @@ public final class MethodDescriptor
         if( null == parameters )
         {
             throw new NullPointerException( "parameters" );
+        }
+        for( int i = 0; i < parameters.length; i++ )
+        {
+            if( null == parameters[ i ] )
+            {
+                throw new NullPointerException( "parameters[" + i + "]" );
+            }
         }
 
         _name = name;
