@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-06-12 23:04:09 $
+ * @version $Revision: 1.10 $ $Date: 2003-06-12 23:08:47 $
  */
 public class ExceptionUtilTestCase
     extends TestCase
@@ -237,4 +237,34 @@ public class ExceptionUtilTestCase
                       trace );
     }
 
+    public void testPrintStackTraceWithLowerLimitOnLeafException()
+    {
+        final MockThrowable throwable = new MockThrowable( "s1", null, TRACE1 );
+        final String trace = ExceptionUtil.printStackTrace( throwable, 2, true );
+        assertEquals( "printStackTrace", TRACE1_LINE1 + NL + TRACE1_LINE2 + NL, trace );
+    }
+
+    public void testPrintStackTraceWithLowerLimitOnOneLevelDeepException()
+    {
+        final MockThrowable throwable2 = new MockThrowable( "s2", null, TRACE2 );
+        final MockThrowable throwable = new MockThrowable( "s1", throwable2, TRACE1 );
+        final String trace = ExceptionUtil.printStackTrace( throwable, 2, true );
+        assertEquals( "printStackTrace", TRACE1_LINE1 + NL + TRACE1_LINE2 + NL +
+                                         ExceptionUtil.SEPARATOR +
+                                         TRACE2_LINE1 + NL + TRACE2_LINE2 + NL, trace );
+    }
+
+    public void testPrintStackTraceWithLowerLimitOnManyLevelDeepException()
+    {
+        final MockThrowable throwable3 = new MockThrowable( "s3", null, TRACE3 );
+        final MockThrowable throwable2 = new MockThrowable( "s2", throwable3, TRACE2 );
+        final MockThrowable throwable = new MockThrowable( "s1", throwable2, TRACE1 );
+        final String trace = ExceptionUtil.printStackTrace( throwable, 2, true );
+        assertEquals( "printStackTrace", TRACE1_LINE1 + NL + TRACE1_LINE2 + NL +
+                                         ExceptionUtil.SEPARATOR +
+                                         TRACE2_LINE1 + NL + TRACE2_LINE2 + NL +
+                                         ExceptionUtil.SEPARATOR +
+                                         TRACE3_LINE1 + NL + TRACE3_LINE2 + NL,
+                      trace );
+    }
 }
