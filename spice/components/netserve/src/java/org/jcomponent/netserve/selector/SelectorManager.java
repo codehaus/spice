@@ -199,8 +199,12 @@ public class SelectorManager
          throw new NullPointerException( "channel" );
       }
       channel.configureBlocking( false );
-      m_selector.wakeup();
-      return channel.register( getSelector(), ops );
+      synchronized ( getSelectorLock() )
+      {
+         final Selector selector = getSelector();
+         selector.wakeup();
+         return channel.register( selector, ops );
+      }
    }
 
    /**
@@ -220,8 +224,10 @@ public class SelectorManager
          if ( !performSelect() ||
             !isRunning() )
          {
-            Thread.yield();
-            continue;
+            synchronized ( getSelectorLock() )
+            {
+               continue;
+            }
          }
          final Set keys = getSelector().selectedKeys();
          final Iterator iterator = keys.iterator();
