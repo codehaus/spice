@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<grammar
+    xmlns="http://relaxng.org/ns/structure/1.0"
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
+    xmlns:a="http://jakarta.apache.org/phoenix/schema-annotations/1.0">
+    <start>
+        <element name="root">
+            <choice>
+                <element name="data-sources">
+                    <oneOrMore>
+                        <ref name="datasource"/>
+                    </oneOrMore>
+                </element>
+                <oneOrMore>
+                    <ref name="datasource"/>
+                </oneOrMore>
+            </choice>
+        </element>
+    </start>
+
+    <define name="datasource" combine="choice">
+        <a:description>JDBC Data Source</a:description>
+        <element name="data-source">
+            <attribute name="name"/>
+            <attribute name="class">
+                <value>org.apache.avalon.excalibur.datasource.JdbcDataSource</value>
+            </attribute>
+            <interleave>
+                <element name="pool-controller">
+                    <attribute name="min">
+                        <data type="integer">
+                            <param name="minInclusive">1</param>
+                        </data>
+                    </attribute>
+                    <attribute name="max">
+                        <data type="integer">
+                            <param name="minInclusive">1</param>
+                        </data>
+                    </attribute>
+                    <optional>
+                        <attribute name="connection-class"/>
+                        <element name="keep-alive">
+                            <text/>
+                        </element>
+                    </optional>
+                </element>
+                <element name="auto-commit">
+                    <data type="boolean"/>
+                </element>
+                <element name="driver">
+                    <text/>
+                </element>
+                <element name="dburl">
+                    <text/>
+                </element>
+                <optional>
+                    <element name="user">
+                        <text/>
+                    </element>
+                    <element name="password">
+                        <text/>
+                    </element>
+                </optional>
+            </interleave>
+        </element>
+    </define>
+</grammar>

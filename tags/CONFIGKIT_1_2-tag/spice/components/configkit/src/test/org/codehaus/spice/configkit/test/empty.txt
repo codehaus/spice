@@ -1,0 +1,1 @@
+This serves no purpose other than to provide data that can be loaded via resovler.
