@@ -11,32 +11,38 @@
     <!--<logo>/images/${pom.artifactId.substring(6)}.gif</logo>-->
 
     <organization>
-        <name>SourceForge.net</name>
-        <url>http://sourceforge.net/projects/spice</url>
-        <logo>http://sourceforge.net/sflogo.php?group_id=67448&amp;type=5</logo>
+        <name>codehaus</name>
+        <url>http://codehaus.org</url>
+        <logo>http://codehaus.org/codehaus-small.gif</logo>
     </organization>
 
     <shortDescription>Main Spice Website</shortDescription>
     <description>Main Spice Website</description>
 
-    <url>http://spice.sourceforge.net/</url>
-    <siteAddress>spice.sf.net</siteAddress>
+    <url>http://spice.codehaus.org/</url>
+    <siteAddress>spice.codehaus.org</siteAddress>
     <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10140</issueTrackingUrl>
 
-    <siteDirectory>/home/groups/s/sp/spice/htdocs/</siteDirectory>
+    <siteDirectory>/www/spice.codehaus.org/</siteDirectory>
 
     <mailingLists>
         <mailingList>
+            <name>Spice Users List</name>
+            <subscribe>spice-user-request@lists.codehaus.org</subscribe>
+            <unsubscribe>spice-user-request@lists.codehaus.org</unsubscribe>
+            <archive>http://lists.codehaus.org/pipermail/spice-user/</archive>
+        </mailingList>
+        <mailingList>
             <name>Spice Developers List</name>
-            <subscribe>spice-devel-request@lists.sourceforge.net</subscribe>
-            <unsubscribe>spice-devel-request@lists.sourceforge.net</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum=spice-devel</archive>
+            <subscribe>spice-dev-request@lists.codehaus.org</subscribe>
+            <unsubscribe>spice-dev-request@lists.codehaus.org</unsubscribe>
+            <archive>http://lists.codehaus.org/pipermail/spice-dev/</archive>
         </mailingList>
         <mailingList>
             <name>Spice CVS Commits List</name>
-            <subscribe>spice-cvs-request@lists.sourceforge.net</subscribe>
-            <unsubscribe>spice-cvs-request@lists.sourceforge.net</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum=spice-cvs</archive>
+            <subscribe>spice-scm-request@lists.codehaus.org</subscribe>
+            <unsubscribe>spice-scm-request@lists.codehaus.org</unsubscribe>
+            <archive>http://lists.codehaus.org/pipermail/spice-scm/</archive>
         </mailingList>
     </mailingLists>
 
@@ -86,7 +92,7 @@
         <developer>
             <name>Peter Royal</name>
             <id>proyal</id>
-            <email>proyal at users.sourceforge.net</email>
+            <email>peter.royal at pobox.com</email>
             <roles>
                 <role>Developer</role>
             </roles>
@@ -102,6 +108,6 @@
     </developers>
 
     <build>
-        <nagEmailAddress>spice-devel@lists.sourceforge.net</nagEmailAddress>
+        <nagEmailAddress>spice-dev@lists.codehaus.org</nagEmailAddress>
     </build>
 </project>
