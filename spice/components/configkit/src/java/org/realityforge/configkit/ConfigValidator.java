@@ -33,7 +33,7 @@ import javax.xml.parsers.ParserConfigurationException;
  * ConfigValidatorFactory.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-04-05 10:47:12 $
+ * @version $Revision: 1.5 $ $Date: 2003-04-07 11:01:44 $
  */
 public class ConfigValidator
 {
@@ -360,11 +360,17 @@ public class ConfigValidator
 
             final Verifier verifier = m_schema.newVerifier();
             verifier.setErrorHandler( errorHandler );
-            verifier.setEntityResolver( m_resolver );
+            if( null != m_resolver )
+            {
+                verifier.setEntityResolver( m_resolver );
+            }
             final VerifierFilter filter = verifier.getVerifierFilter();
             filter.setParent( reader );
             filter.setContentHandler( contentHandler );
-            filter.setEntityResolver( m_resolver );
+            if( null != m_resolver )
+            {
+                filter.setEntityResolver( m_resolver );
+            }
             filter.parse( input );
 
             if( !filter.isValid() )
