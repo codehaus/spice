@@ -23,7 +23,7 @@ import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.17 $ $Date: 2004-02-05 04:01:35 $
+ * @version $Revision: 1.18 $ $Date: 2004-02-06 00:49:49 $
  */
 public class ChannelTransport
 {
@@ -189,9 +189,9 @@ public class ChannelTransport
         return _rxByteCount;
     }
 
-    public void incRxByteCount( final long rxByteCount )
+    public void incRxByteCount()
     {
-        _rxByteCount += rxByteCount;
+        _rxByteCount++;
     }
 
     public void setRxByteCount( final long rxByteCount )
@@ -199,9 +199,9 @@ public class ChannelTransport
         _rxByteCount = rxByteCount;
     }
 
-    public void incTxByteCount( final long txByteCount )
+    public void incTxByteCount()
     {
-        _txByteCount += txByteCount;
+        _txByteCount++;
     }
 
     public long getTxByteCount()
