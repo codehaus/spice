@@ -19,13 +19,16 @@ import org.apache.tools.ant.types.FileSet;
 import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.ClassDescriptor;
+import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.FieldDescriptor;
+import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.tools.compiler.JavaClassFilter;
 import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.17 $ $Date: 2003-10-04 10:12:32 $
+ * @version $Revision: 1.18 $ $Date: 2003-10-04 10:29:42 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -358,6 +361,110 @@ public class MetaGenerateTaskTestCase
         assertEquals( "descriptor.attributes[0].name", "anAttribute", descriptor.getAttributes()[ 0 ].getName() );
         assertEquals( "descriptor.methods.length", 0, descriptor.getMethods().length );
         assertEquals( "descriptor.fields.length", 0, descriptor.getFields().length );
+    }
+
+    public void testErrorWritingDescriptor()
+        throws Exception
+    {
+        final String source =
+            "package com.biz;\n" +
+            "\n" +
+            "/**\n" +
+            " * @anAttribute\n" +
+            " */\n" +
+            "public class MyClass\n" +
+            "{\n" +
+            "}\n";
+
+        final Project project = new Project();
+
+        final File sourceDirectory = generateDirectory();
+        final File destDirectory = generateDirectory();
+        final FileSet fileSet = new FileSet();
+        fileSet.setProject( project );
+        fileSet.setDir( sourceDirectory );
+        fileSet.setIncludes( "**/*.java" );
+
+        final String sourceFilename =
+            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+        final File sourceFile = new File( sourceFilename );
+        sourceFile.getParentFile().mkdirs();
+        final FileOutputStream output = new FileOutputStream( sourceFile );
+        output.write( source.getBytes() );
+        output.close();
+
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        project.setBaseDir( getBaseDirectory() );
+        task.setProject( project );
+        task.setDestDir( destDirectory );
+        task.addFileset( fileSet );
+        final ClassDescriptor descriptor =
+            new ClassDescriptor( "test",
+                                 0,
+                                 Attribute.EMPTY_SET,
+                                 FieldDescriptor.EMPTY_SET,
+                                 MethodDescriptor.EMPTY_SET );
+        task.errorWritingDescriptor( descriptor, new Exception() );
+        try
+        {
+            task.execute();
+        }
+        catch( BuildException e )
+        {
+            final String message = "Error generating ClassDescriptors";
+            assertEquals( message, e.getMessage() );
+            return;
+        }
+        fail( "Expected to fail executing task" );
+    }
+
+    public void testMissingFile()
+        throws Exception
+    {
+        final String source =
+            "package com.biz;\n" +
+            "\n" +
+            "/**\n" +
+            " * @anAttribute\n" +
+            " */\n" +
+            "public class MyClass\n" +
+            "{\n" +
+            "}\n";
+
+        final Project project = new Project();
+
+        final File sourceDirectory = generateDirectory();
+        final File destDirectory = generateDirectory();
+        final FileSet fileSet = new FileSet();
+        fileSet.setProject( project );
+        fileSet.setDir( sourceDirectory );
+        fileSet.setIncludes( "**/*.java" );
+
+        final String sourceFilename =
+            sourceDirectory + File.separator + "com" + File.separator + "biz" + File.separator + "MyClass.java";
+        final File sourceFile = new File( sourceFilename );
+        sourceFile.getParentFile().mkdirs();
+        final FileOutputStream output = new FileOutputStream( sourceFile );
+        output.write( source.getBytes() );
+        output.close();
+
+        final MockMetaGenerateTask task = new MockMetaGenerateTask();
+        project.setBaseDir( getBaseDirectory() );
+        task.setProject( project );
+        task.setDestDir( destDirectory );
+        task.addFileset( fileSet );
+        task.missingSourceFile( new File( "." ) );
+        try
+        {
+            task.execute();
+        }
+        catch( BuildException e )
+        {
+            final String message = "Error generating ClassDescriptors";
+            assertEquals( message, e.getMessage() );
+            return;
+        }
+        fail( "Expected to fail executing task" );
     }
 
     public void testSingleSourceFileWithPassThroughInterceptor()
