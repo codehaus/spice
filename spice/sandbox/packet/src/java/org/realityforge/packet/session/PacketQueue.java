@@ -11,16 +11,24 @@ import org.realityforge.packet.handlers.Protocol;
  * A queue of packets for session.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-14 03:03:57 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-21 23:47:51 $
  */
 public class PacketQueue
 {
-
-    /** List of attributes associated with session. */
+    /**
+     * List of attributes associated with session.
+     */
     private final List _packets = new ArrayList();
 
-    /** List of attributes associated with session. */
-    private final List _nacks = new ArrayList();
+    /**
+     * Return the number of packets in queue.
+     *
+     * @return the number of packets in queue.
+     */
+    public synchronized int size()
+    {
+        return _packets.size();
+    }
 
     /**
      * Look at packet at head of queue.
@@ -121,5 +129,4 @@ public class PacketQueue
         }
         return null;
     }
-
 }
