@@ -11,15 +11,16 @@ import org.codehaus.spice.netevent.events.ChannelClosedEvent;
 import org.codehaus.spice.netevent.events.ConnectEvent;
 import org.codehaus.spice.netevent.events.InputDataPresentEvent;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
+import org.codehaus.spice.netevent.transport.MultiBufferInputStream;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-16 03:19:09 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-19 06:57:39 $
  */
 class TestEventHandler
     extends AbstractEventHandler
 {
-    private static final byte[] DATA = new byte[]{'B', 'E', 'E', 'R'};
+    private static final byte[] DATA = new byte[]{'B', 'E', 'E', 'R', ' '};
 
     private static final Random RANDOM = new Random();
 
@@ -59,8 +60,25 @@ class TestEventHandler
         {
             final ChannelClosedEvent ce = (ChannelClosedEvent)event;
             final ChannelTransport transport = ce.getTransport();
-            final int available = transport.getInputStream().available();
-            output( transport, "Received " + available );
+            final MultiBufferInputStream in = transport.getInputStream();
+            final int available = in.available();
+
+            final int count = Math.min( 15, available );
+            final StringBuffer sb = new StringBuffer();
+            try
+            {
+                for( int i = 0; i < count; i++ )
+                {
+                    sb.append( (char)in.read() );
+                }
+            }
+            catch( IOException e )
+            {
+                e.printStackTrace();
+            }
+
+            output( transport, "Received " + available + " Sample: " + sb );
+
         }
         else if( event instanceof ConnectEvent )
         {
