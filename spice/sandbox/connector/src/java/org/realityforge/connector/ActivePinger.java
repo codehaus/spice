@@ -23,6 +23,11 @@ public class ActivePinger
    private boolean _started;
 
    /**
+    * Flag indicating whether the pinger has ended.
+    */
+   private boolean _ended;
+
+   /**
     * Create pinger for specified connector.
     *
     * @param connector the connector
@@ -42,9 +47,11 @@ public class ActivePinger
     */
    public synchronized void deactivate()
    {
-      while ( isActive() )
+      Thread thread = _thread;
+      _thread = null;
+      while ( !_ended )
       {
-         _thread.interrupt();
+         thread.interrupt();
          try
          {
             wait();
@@ -67,16 +74,6 @@ public class ActivePinger
    }
 
    /**
-    * Return true if pinger is active.
-    *
-    * @return true if pinger is active.
-    */
-   private synchronized boolean isActive()
-   {
-      return null != _thread;
-   }
-
-   /**
     * Main pinging loop.
     */
    public void run()
@@ -87,7 +84,7 @@ public class ActivePinger
          _thread = Thread.currentThread();
       }
 
-      while ( isActive() )
+      while ( null != _thread )
       {
          final long now = _connector.checkPing();
          try
@@ -102,7 +99,7 @@ public class ActivePinger
 
       synchronized ( this )
       {
-         _thread = null;
+         _ended = true;
          notifyAll();
       }
    }
