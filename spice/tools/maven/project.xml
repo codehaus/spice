@@ -107,8 +107,9 @@
     
     <dependencies>
   	  <dependency>
-    	 <id>commons-jelly+tags-velocity</id>
-      	 <version>SNAPSHOT</version>
+    	 <groupId>commons-jelly</groupId>
+    	 <artifactId>commons-jelly-tags-velocity</artifactId>
+      	 <version>20030303.205659</version>
       </dependency>
 	  <dependency>
     	 <id>velocity</id>
