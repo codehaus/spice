@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/jcomponent-project.xml</extend>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>ThreadPool</name>
     <groupId>jcomponent</groupId>
     <id>jcomponent-threadpool</id>
