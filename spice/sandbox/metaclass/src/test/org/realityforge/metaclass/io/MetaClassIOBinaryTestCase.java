@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.DataInputStream;
+import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.Properties;
 import junit.framework.TestCase;
@@ -23,7 +24,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-08-22 03:29:43 $
+ * @version $Revision: 1.13 $ $Date: 2003-08-22 03:34:30 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -370,7 +371,6 @@ public class MetaClassIOBinaryTestCase
         assertEquals( "fields.length", 0, fields.length );
     }
 
-
     public void testBinaryIOReadMethods()
         throws Exception
     {
@@ -500,6 +500,33 @@ public class MetaClassIOBinaryTestCase
 
         final ByteArrayInputStream in = new ByteArrayInputStream( out.toByteArray() );
         io.deserializeClass( in );
+    }
+
+    public void testBinaryIOReadClassWithBadVersion()
+        throws Exception
+    {
+        final byte[] bytes = new byte[]
+        {
+            'd', 'e', 'a', 'd', //bad version
+            0, 4, //length of classname
+            'n', 'a', 'm', 'e',
+            0, 0, 0, 0, //modifiers
+            0, 0, 0, 0, //attribute count
+            0, 0, 0, 0, //field count
+            0, 0, 0, 0 //method count
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
+        try
+        {
+            io.deserializeClass( in );
+        }
+        catch( IOException ioe )
+        {
+            //expect version mis match
+            return;
+        }
+        fail( "Expected to fail reading descriptor as it has the wrong version" );
     }
 
     private int readShort( final byte[] data, final int offset )
