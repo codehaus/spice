@@ -1,27 +1,23 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../project.xml</extend>
-    <name>Spice LoggerStore</name>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
+    <name>LoggerStore</name>
     <id>spice-loggerstore</id>
+    <gumpRepositoryId>components</gumpRepositoryId>
     <package>org.codehaus.spice.loggerstore</package>
-    <currentVersion>1.1-dev</currentVersion>
+    <currentVersion>1.0</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
-    <shortDescription>LoggerStore is a component for storing a set of DNA Loggers.</shortDescription>
+    <shortDescription>Component for storing a set of DNA Loggers.</shortDescription>
 
     <description>
-        LoggerStore is a component for storing a DNA Logger hierarchy, abstracting
+        Component for storing a DNA Logger hierarchy, abstracting
         the underlying logger implementation and configuration mechanims.
         ie Avalon LogKit, Log4J or JDK14 Loggers are possible implementations
         managed by this toolkit.
     </description>
 
     <versions>
-        <version>
-            <id>1.1</id>
-            <name>1.1</name>
-            <tag>LOGGERSTORE_1_1-tag</tag>
-        </version>
         <version>
             <id>1.0</id>
             <name>1.0</name>
@@ -58,12 +54,12 @@
         <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-api</artifactId>
-            <version>1.1-rc4-dev</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>dna</groupId>
             <artifactId>dna-impl</artifactId>
-            <version>1.1-rc4-dev</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>excalibur</groupId>
@@ -85,7 +81,7 @@
         <dependency>
             <groupId>spice</groupId>
             <artifactId>spice-alchemist</artifactId>
-            <version>1.1-dev</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <id>log4j</id>

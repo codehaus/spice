@@ -7,7 +7,7 @@
  */
 package org.codehaus.spice.loggerstore;
 
-import org.codehaus.dna.Logger;
+import org.jcontainer.dna.Logger;
 
 /**
  * <p>LoggerStore represents the logging hierarchy for a Logger, as defined by

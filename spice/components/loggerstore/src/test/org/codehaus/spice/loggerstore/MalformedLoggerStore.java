@@ -8,11 +8,11 @@
 package org.codehaus.spice.loggerstore;
 
 import org.codehaus.spice.loggerstore.stores.AbstractLoggerStore;
-import org.codehaus.dna.Logger;
+import org.jcontainer.dna.Logger;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-04-18 22:59:38 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:02 $
  */
 class MalformedLoggerStore
     extends AbstractLoggerStore
