@@ -7,26 +7,26 @@
  */
 package org.codehaus.spice.netevent.events;
 
-import java.net.SocketAddress;
-import org.codehaus.spice.netevent.transport.TcpTransport;
+import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * An Event related to a particular transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-07 04:05:29 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-08 03:41:13 $
  */
 public abstract class AbstractTransportEvent
+    extends AbstractEvent
 {
     /** The transport. */
-    private final TcpTransport m_transport;
+    private final ChannelTransport m_transport;
 
     /**
      * Create event for specified transport.
      * 
      * @param transport the transport
      */
-    public AbstractTransportEvent( final TcpTransport transport )
+    public AbstractTransportEvent( final ChannelTransport transport )
     {
         if( null == transport )
         {
@@ -40,18 +40,18 @@ public abstract class AbstractTransportEvent
      * 
      * @return the transport.
      */
-    public TcpTransport getTransport()
+    public ChannelTransport getTransport()
     {
         return m_transport;
     }
 
     /**
-     * @see Object#toString()
+     * Return the description of event.
+     * 
+     * @return the description of event.
      */
-    public String toString()
+    protected String getEventDescription()
     {
-        final SocketAddress address =
-            getTransport().getChannel().socket().getRemoteSocketAddress();
-        return getClass().getName() + "[" + address + "]";
+        return String.valueOf( getTransport().getChannel() );
     }
 }

@@ -7,23 +7,23 @@
  */
 package org.codehaus.spice.netevent.events;
 
-import org.codehaus.spice.netevent.transport.TcpTransport;
+import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
- * An Event indicating that the otherside of connection has Closed.
+ * Event indicating that it is possible to read from the socket.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 04:01:50 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-08 03:41:13 $
  */
-public class CloseEvent
+public class ChannelClosedEvent
     extends AbstractTransportEvent
 {
     /**
-     * Create event for transport.
+     * Create Event.
      * 
      * @param transport the transport
      */
-    public CloseEvent( final TcpTransport transport )
+    public ChannelClosedEvent( final ChannelTransport transport )
     {
         super( transport );
     }

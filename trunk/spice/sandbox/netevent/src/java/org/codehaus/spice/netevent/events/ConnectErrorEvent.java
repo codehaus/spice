@@ -7,24 +7,27 @@
  */
 package org.codehaus.spice.netevent.events;
 
+import java.io.IOException;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
- * Event indicating that it is possible to read from the socket.
+ * An Event indicating a read error.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:13 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-08 03:41:13 $
  */
-public class ReadPossibleEvent
-    extends AbstractTransportEvent
+public class ConnectErrorEvent
+    extends IOErrorEvent
 {
     /**
-     * Create Event.
+     * Create event.
      * 
      * @param transport the transport
+     * @param ioe the error
      */
-    public ReadPossibleEvent( final ChannelTransport transport )
+    public ConnectErrorEvent( final ChannelTransport transport,
+                              final IOException ioe )
     {
-        super( transport );
+        super( transport, ioe );
     }
 }

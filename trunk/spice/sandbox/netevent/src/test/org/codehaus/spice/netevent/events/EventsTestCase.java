@@ -1,53 +1,47 @@
 package org.codehaus.spice.netevent.events;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import junit.framework.TestCase;
-import org.codehaus.spice.netevent.transport.TcpTransport;
+import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
+import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-07 04:33:00 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-08 03:41:14 $
  */
 public class EventsTestCase
     extends TestCase
 {
-    public void testNullPassedIntoAbstractTransportEventCtor()
-        throws Exception
-    {
-        try
-        {
-            new CloseEvent( null );
-        }
-        catch( final NullPointerException npe )
-        {
-            assertEquals( "npe.getMessage()", "transport", npe.getMessage() );
-            return;
-        }
-        fail( "Expected to get a npe for null passed into ctor" );
-    }
-
     public void testTransportPassedAbstractTransportEvent()
         throws Exception
     {
         final SocketChannel channel = SocketChannel.open();
-        final TcpTransport transport = new TcpTransport( channel, 1, 1 );
+        final ChannelTransport transport = newTransport( channel );
         final BufferOverflowEvent event =
             new BufferOverflowEvent( transport );
 
         assertEquals( "event.getTransport()", transport, event.getTransport() );
     }
 
+    private ChannelTransport newTransport( final SocketChannel channel )
+    {
+        return new ChannelTransport( channel,
+                                     new UnboundedFifoBuffer( 1 ),
+                                     new UnboundedFifoBuffer( 1 ) );
+    }
+
     public void testToStringOnAbstractTransportEvent()
         throws Exception
     {
         final SocketChannel channel = SocketChannel.open();
-        final TcpTransport transport = new TcpTransport( channel, 1, 1 );
+        final ChannelTransport transport = newTransport( channel );
         final BufferUnderflowEvent event =
             new BufferUnderflowEvent( transport );
 
-        final String expected = "org.codehaus.spice.netevent.events.BufferUnderflowEvent[null]";
+        final String expected = "BufferUnderflowEvent[" + channel + "]";
         assertEquals( "event.toString()", expected, event.toString() );
     }
 
@@ -56,7 +50,7 @@ public class EventsTestCase
     {
         try
         {
-            new ConnectEvent( null );
+            new AcceptPossibleEvent( null );
         }
         catch( final NullPointerException npe )
         {
@@ -70,19 +64,20 @@ public class EventsTestCase
         throws Exception
     {
         final ServerSocketChannel channel = ServerSocketChannel.open();
-        final ConnectEvent event = new ConnectEvent( channel );
+        final AcceptPossibleEvent event = new AcceptPossibleEvent( channel );
 
-        assertEquals( "event.getServerSocketChannel()", channel,
-                      event.getServerSocketChannel() );
+        assertEquals( "event.getChannel()", channel,
+                      event.getChannel() );
     }
 
     public void testToStringOnConnectEvent()
         throws Exception
     {
         final ServerSocketChannel channel = ServerSocketChannel.open();
-        final ConnectEvent event = new ConnectEvent( channel );
+        final AcceptPossibleEvent event = new AcceptPossibleEvent( channel );
 
-        final String expected = "org.codehaus.spice.netevent.events.ConnectEvent[null]";
+        final String expected = "AcceptPossibleEvent[" +
+                                channel.socket().getLocalSocketAddress() + "]";
         assertEquals( "event.toString()", expected, event.toString() );
     }
 
@@ -90,7 +85,7 @@ public class EventsTestCase
         throws Exception
     {
         final SocketChannel channel = SocketChannel.open();
-        final TcpTransport transport = new TcpTransport( channel, 1, 1 );
+        final ChannelTransport transport = newTransport( channel );
         try
         {
             new ReadErrorEvent( transport, null );
@@ -107,7 +102,7 @@ public class EventsTestCase
         throws Exception
     {
         final SocketChannel channel = SocketChannel.open();
-        final TcpTransport transport = new TcpTransport( channel, 1, 1 );
+        final ChannelTransport transport = newTransport( channel );
         final IOException ioe = new IOException( "X" );
         final WriteErrorEvent event = new WriteErrorEvent( transport, ioe );
 
@@ -118,38 +113,28 @@ public class EventsTestCase
         throws Exception
     {
         final SocketChannel channel = SocketChannel.open();
-        final TcpTransport transport = new TcpTransport( channel, 1, 1 );
+        final ChannelTransport transport = newTransport( channel );
         final IOException ioe = new IOException( "X" );
         final ReadErrorEvent event = new ReadErrorEvent( transport, ioe );
 
         final String expected =
-            "org.codehaus.spice.netevent.events." +
-            "ReadErrorEvent[java.io.IOException: X error connected to null]";
+            "ReadErrorEvent[java.io.IOException: X error connected to " +
+            channel + "]";
         assertEquals( "event.toString()", expected, event.toString() );
-    }
-
-    public void testGetCountOnWriteEvent()
-        throws Exception
-    {
-        final SocketChannel channel = SocketChannel.open();
-        final TcpTransport transport = new TcpTransport( channel, 1, 1 );
-        final int count = 4;
-        final WriteEvent event = new WriteEvent( transport, count );
-
-        assertEquals( "event.getCount()", count, event.getCount() );
     }
 
     public void testToStringOnReadEvent()
         throws Exception
     {
         final SocketChannel channel = SocketChannel.open();
-        final TcpTransport transport = new TcpTransport( channel, 1, 1 );
-        final int count = 4;
-        final ReadEvent event = new ReadEvent( transport, count );
+        final ChannelTransport transport = newTransport( channel );
+        final ByteBuffer buffer = ByteBuffer.allocate( 4 );
+        buffer.limit( 4 );
+        buffer.position( 0 );
+        final ReadEvent event = new ReadEvent( transport, buffer );
 
         final String expected =
-            "org.codehaus.spice.netevent.events." +
-            "ReadEvent[4 bytes to null]";
+            "ReadEvent[4 bytes to " + channel + "]";
         assertEquals( "event.toString()", expected, event.toString() );
     }
 }

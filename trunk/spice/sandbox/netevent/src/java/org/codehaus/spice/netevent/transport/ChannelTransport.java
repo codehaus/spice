@@ -8,49 +8,61 @@
 package org.codehaus.spice.netevent.transport;
 
 import java.io.IOException;
+import java.nio.channels.Channel;
 import java.nio.channels.SelectionKey;
-import java.nio.channels.SocketChannel;
-import org.realityforge.sca.selector.SelectorEventHandler;
-import org.realityforge.sca.selector.SelectorManager;
+import java.nio.channels.spi.AbstractSelectableChannel;
+import org.codehaus.spice.event.impl.collections.Buffer;
+import org.codehaus.spice.netevent.selector.SocketEventSource;
 
 /**
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 03:25:08 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-08 03:41:14 $
  */
-public class TcpTransport
+public class ChannelTransport
 {
+    /** The associated channel. */
+    private final Channel m_channel;
+
+    /** The buffer used to store incoming data. */
+    private final Buffer m_receiveBuffer;
+
+    /** The buffer used to store outgoing data. */
+    private final Buffer m_transmitBuffer;
+
     /** The key used to register channel in selector. */
     private SelectionKey m_key;
 
-    /** The associated channel. */
-    private final SocketChannel m_channel;
-
-    /** The buffer used to store incoming data. */
-    private final CircularBuffer m_receiveBuffer;
-
-    /** The buffer used to store outgoing data. */
-    private final CircularBuffer m_transmitBuffer;
+    /** The associated user data. */
+    private Object m_userData;
 
     /**
      * Create transport.
      * 
      * @param channel the underlying channel
-     * @param receiveBufferSize the size of the read buffer
-     * @param transmitBufferSize the size of the write buffer
+     * @param receiveBuffer the receive buffer
+     * @param transmitBuffer the transmit buffer
      */
-    public TcpTransport( final SocketChannel channel,
-                         final int receiveBufferSize,
-                         final int transmitBufferSize )
+    public ChannelTransport( final Channel channel,
+                             final Buffer receiveBuffer,
+                             final Buffer transmitBuffer )
     {
         if( null == channel )
         {
             throw new NullPointerException( "channel" );
         }
+        if( null == receiveBuffer )
+        {
+            throw new NullPointerException( "receiveBuffer" );
+        }
+        if( null == transmitBuffer )
+        {
+            throw new NullPointerException( "transmitBuffer" );
+        }
         m_channel = channel;
-        m_receiveBuffer = new CircularBuffer( receiveBufferSize );
-        m_transmitBuffer = new CircularBuffer( transmitBufferSize );
+        m_receiveBuffer = receiveBuffer;
+        m_transmitBuffer = transmitBuffer;
     }
 
     /**
@@ -64,6 +76,26 @@ public class TcpTransport
     }
 
     /**
+     * Return the user data associated with transport.
+     * 
+     * @return the user data associated with transport.
+     */
+    public Object getUserData()
+    {
+        return m_userData;
+    }
+
+    /**
+     * Set the user data associated with transport.
+     * 
+     * @param userData the user data associated with transport.
+     */
+    public void setUserData( final Object userData )
+    {
+        m_userData = userData;
+    }
+
+    /**
      * Return the operations transport can is waiting on. The value is the AND
      * of {@link SelectionKey#OP_WRITE} and {@link SelectionKey#OP_READ} masks.
      * 
@@ -71,14 +103,10 @@ public class TcpTransport
      */
     public int getSelectOps()
     {
-        int ops = 0;
-        if( getTransmitBuffer().getAvailable() > 0 )
+        int ops = SelectionKey.OP_READ;
+        if( getTransmitBuffer().size() > 0 )
         {
             ops |= SelectionKey.OP_WRITE;
-        }
-        if( getReceiveBuffer().getSpace() > 0 )
-        {
-            ops |= SelectionKey.OP_READ;
         }
         return ops;
     }
@@ -88,7 +116,7 @@ public class TcpTransport
      * 
      * @return the channel
      */
-    public SocketChannel getChannel()
+    public Channel getChannel()
     {
         return m_channel;
     }
@@ -98,7 +126,7 @@ public class TcpTransport
      * 
      * @return the read buffer.
      */
-    public CircularBuffer getReceiveBuffer()
+    public Buffer getReceiveBuffer()
     {
         return m_receiveBuffer;
     }
@@ -108,7 +136,7 @@ public class TcpTransport
      * 
      * @return the write buffer.
      */
-    public CircularBuffer getTransmitBuffer()
+    public Buffer getTransmitBuffer()
     {
         return m_transmitBuffer;
     }
@@ -117,19 +145,16 @@ public class TcpTransport
      * Register this transport with specified managger and using specified
      * EventHandler.
      * 
-     * @param selectorManager the manager.
-     * @param eventHandler the eventHandler
+     * @param source the source.
      */
-    public void register( final SelectorManager selectorManager,
-                          final SelectorEventHandler eventHandler )
+    public void register( final SocketEventSource source )
         throws IOException
     {
-        final SelectionKey key =
-            selectorManager.registerChannel( getChannel(),
-                                             getSelectOps(),
-                                             eventHandler,
-                                             this );
-        m_key = key;
+        final AbstractSelectableChannel channel =
+            (AbstractSelectableChannel)getChannel();
+        m_key = source.registerChannel( channel,
+                                        getSelectOps(),
+                                        this );
     }
 
     /**

@@ -7,13 +7,13 @@
  */
 package org.codehaus.spice.netevent.events;
 
-import org.codehaus.spice.netevent.transport.TcpTransport;
+import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
  * An Event indicating that there was a buffer overflow.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 04:01:50 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-08 03:41:13 $
  */
 public class BufferOverflowEvent
     extends AbstractTransportEvent
@@ -23,7 +23,7 @@ public class BufferOverflowEvent
      * 
      * @param transport the transport
      */
-    public BufferOverflowEvent( final TcpTransport transport )
+    public BufferOverflowEvent( final ChannelTransport transport )
     {
         super( transport );
     }
