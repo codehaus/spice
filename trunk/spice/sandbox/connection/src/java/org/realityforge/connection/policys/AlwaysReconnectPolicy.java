@@ -28,7 +28,7 @@ public class AlwaysReconnectPolicy
     */
    public boolean disconnectOnError( final Throwable t )
    {
-      return false;
+      return true;
    }
 
    /**
