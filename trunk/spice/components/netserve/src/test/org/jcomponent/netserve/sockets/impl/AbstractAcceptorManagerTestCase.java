@@ -13,7 +13,7 @@ import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-09 07:01:51 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-09 07:09:48 $
  */
 public abstract class AbstractAcceptorManagerTestCase
     extends TestCase
@@ -70,34 +70,6 @@ public abstract class AbstractAcceptorManagerTestCase
             return;
         }
         fail( "expected NPE due to null handler in connect" );
-    }
-
-    public void testDuplicateConnect()
-        throws Exception
-    {
-        final SocketAcceptorManager manager = createAcceptorManager();
-        final String name = "name";
-        assertEquals( "isConnected pre connect", false, manager.isConnected( name ) );
-        manager.connect( name,
-                         new ExceptOnAcceptServerSocket( true ),
-                         new MockSocketConnectionHandler() );
-        assertEquals( "isConnected pre disconnect", true, manager.isConnected( name ) );
-        try
-        {
-            manager.connect( name,
-                             new ExceptOnAcceptServerSocket( true ),
-                             new MockSocketConnectionHandler() );
-        }
-        catch( final IllegalArgumentException iae )
-        {
-            return;
-        }
-        finally
-        {
-            shutdownAcceptorManager( manager );
-            assertEquals( "isConnected post disconnect", false, manager.isConnected( name ) );
-        }
-        fail( "Expected to fail due to duplicate connect" );
     }
 
     protected abstract SocketAcceptorManager createAcceptorManager() throws Exception;
