@@ -60,6 +60,11 @@ public class RegisteringMetaClassAccessor
    }
 }
 ]]></source>
+            <p>
+                The developer could also develope alternative accessors
+                if the developer wanted to load metadata from databases,
+                directory servers or other alternative data sources.
+            </p>
         </section>
     </body>
 
