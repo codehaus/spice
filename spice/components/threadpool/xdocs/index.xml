@@ -50,7 +50,7 @@
             </p>
             <p>
                <a href="apidocs/org/jcomponent/threadpool/impl/PicoCommonsThreadPool.html">
-                  PicoConnectionManager</a> provides an implementation of the
+                  PicoCommonsThreadPool</a> provides an implementation of the
                <a href="apidocs/org/jcomponent/threadpool/ThreadPool.html">
                   ThreadPool</a> interface which is
                   <img src="http://www.picocontainer.org/images/pico-compatible.png" alt="Pico-compatible"/>.
