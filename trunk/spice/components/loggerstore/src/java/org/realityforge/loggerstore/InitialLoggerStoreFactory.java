@@ -20,7 +20,7 @@ import java.io.InputStream;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.2 $ $Date: 2003-05-24 22:10:05 $
+ * @version $Revision: 1.3 $ $Date: 2003-05-24 22:14:41 $
  */
 public class InitialLoggerStoreFactory
     implements LoggerStoreFactory
@@ -39,6 +39,15 @@ public class InitialLoggerStoreFactory
      */
     public static final String DEFAULT_PROPERTIES = "META-INF/spice/loggerstore.properties";
 
+    /**
+     * Create LoggerStore by first determining the correct LoggerStoreFactory
+     * to use and then delegating to that factory. See Class Javadocs for the
+     * process of locating LoggerStore.
+     *
+     * @param config the input configuration
+     * @return the LoggerStore
+     * @throws Exception if unable to create the LoggerStore for any reason.
+     */
     public LoggerStore createLoggerStore( final Map config )
         throws Exception
     {
@@ -56,6 +65,14 @@ public class InitialLoggerStoreFactory
         return factory.createLoggerStore( data );
     }
 
+    /**
+     * Retrieve the classloader from data map. If no classloader is specified
+     * then use ContextClassLoader. If ContextClassLoader not specified then
+     * use ClassLoader that loaded this class.
+     *
+     * @param data the configuration data
+     * @return a ClassLoader
+     */
     private ClassLoader getClassLoader( final Map data )
     {
         ClassLoader loader = (ClassLoader)data.get( ClassLoader.class.getName() );
@@ -70,6 +87,14 @@ public class InitialLoggerStoreFactory
         return loader;
     }
 
+    /**
+     * Load the default properties for LoggerStoreFactory.
+     *
+     * @param initial the input data
+     * @param classLoader the classLoader to load properties files from
+     * @return the new configuration data
+     * @throws Exception if unable to load properties
+     */
     private Map loadDefaultConfig( final Map initial,
                                    final ClassLoader classLoader )
         throws Exception
@@ -97,8 +122,8 @@ public class InitialLoggerStoreFactory
      * @param type the type of the Logger to use.
      * @return the created {@link LoggerStoreFactory}
      */
-    private static LoggerStoreFactory createLoggerStoreFactory( final String type,
-                                                                final ClassLoader classLoader )
+    private LoggerStoreFactory createLoggerStoreFactory( final String type,
+                                                         final ClassLoader classLoader )
     {
         String classname = type;
         if( null == classname )
