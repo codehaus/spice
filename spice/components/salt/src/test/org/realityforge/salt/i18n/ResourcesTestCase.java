@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2003-06-13 01:20:00 $
+ * @version $Revision: 1.16 $ $Date: 2003-06-13 01:22:12 $
  */
 public class ResourcesTestCase
     extends TestCase
@@ -500,6 +500,18 @@ public class ResourcesTestCase
                            Locale.getDefault(),
                            MockResourceBundle.class.getClassLoader() );
         final String string = resources.format( "noExist", "blah" );
+        assertTrue( "Non existent resource starts with 'Unknown resource'",
+                    string.startsWith( "Unknown resource" ) );
+    }
+
+    public void testGetNonExistentWithMultipleArgs()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        final String string = resources.format( "noExist", "blah", "blee" );
         assertTrue( "Non existent resource starts with 'Unknown resource'",
                     string.startsWith( "Unknown resource" ) );
     }
