@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.logger.Jdk14Logger;
 import org.codehaus.dna.Configuration;
+import org.codehaus.dna.ConfigurationException;
 import org.codehaus.dna.impl.DefaultConfiguration;
 import org.codehaus.spice.alchemist.logger.DNALogger;
 import org.codehaus.spice.alchemist.logger.MockLogger;
@@ -22,7 +23,7 @@ public class DNAInstrumentManagerTestCase extends TestCase {
             new DNAInstrumentManager( null );
             fail("Expected NPE");
         } catch ( NullPointerException e ) {
-            assertEquals( "e.getMessage()", "manager", e.getMessage() );
+            assertEquals( "NPE message", "manager", e.getMessage() );
         }
     }
 
@@ -33,7 +34,7 @@ public class DNAInstrumentManagerTestCase extends TestCase {
         assertEquals( "registerInstrumentable()", "registerInstrumentable", avalonManager.getMethodCalled() );               
     }
 
-    public void testDNALifecycleMethodsWithAvalonManager() throws Exception {
+    public void testLifecycleWithAvalonManager() throws Exception {
         MockAvalonInstrumentManager mockManager = new MockAvalonInstrumentManager();
         DNAInstrumentManager dnaManager = new DNAInstrumentManager( mockManager );
         dnaManager.initialize();
@@ -46,7 +47,7 @@ public class DNAInstrumentManagerTestCase extends TestCase {
         assertEquals( "dispose()", "dispose", mockManager.getMethodCalled() );               
     }
 
-    public void testDNALifecycleMethodsWithNonAvalonManager() throws Exception {
+    public void testLifecycleWithNonAvalonManager() throws Exception {
         MockDNAInstrumentManager mockManager = new MockDNAInstrumentManager();
         DNAInstrumentManager dnaManager = new DNAInstrumentManager( mockManager );
         dnaManager.initialize();
@@ -59,8 +60,18 @@ public class DNAInstrumentManagerTestCase extends TestCase {
         assertNull( "dispose()", mockManager.getMethodCalled() );               
     }
     
+    public void testConfigureWithNonConfigurableAvalonManager() throws Exception {
+        DNAInstrumentManager dnaManager = new DNAInstrumentManager( new NonConfigurableMockAvalonInstrumentManager() );
+        try {
+            dnaManager.configure( createDNAConfiguration() );
+            fail( "Expected ConfigurationException" );
+        } catch ( ConfigurationException e ) {
+            assertEquals( "NPE message", "Not Configurable", e.getMessage() );
+        }
+    }
+    
     private Configuration createDNAConfiguration() {
-        return new DefaultConfiguration("","","");
+        return new DefaultConfiguration( "", "", "" );
     }
 
     private DNALogger createDNALogger()
