@@ -44,6 +44,7 @@
                         </links>
                         <menu name="Overview">
                             <item name="Introduction" href="/index.html"/>
+                            <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
                         </menu>
                     </body>
                 </naproject>
@@ -57,6 +58,10 @@
                 prettyPrint="true"/>
         </j:if>
     </goal>
+
+    <preGoal name="checkstyle:check-license-file">
+        <copy file="../../tools/checkstyle/LICENSE-header.txt" todir="target"/>
+    </preGoal>
 
     <postGoal name="dist:prepare-bin-filesystem">
         <attainGoal name="generateReadme"/>
