@@ -8,25 +8,21 @@
 package org.realityforge.loggerstore;
 
 import java.io.InputStream;
+import org.apache.log.Hierarchy;
 import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.context.DefaultContext;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.LogKitLogger;
-import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 
 /**
  * <p>LogKitLoggerStore extends AbstractLoggerStore to provide the implementation
  * specific to the LogKit logger. </p>
  * 
- * <p>LogKitLoggerStore is currently a facade for the Excalibur LogKitLoggerManager
- * which allows the configuration of the LogKit.</p>
- *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
 public class LogKitLoggerStore extends AbstractLoggerStore
 {
-    /** The LogKitLoggerManager used for create and configure LogKit Loggers */
-    private LogKitLoggerManager m_manager;
+    /** The Logger Hierarchy  */
+    private Hierarchy m_hierarchy;
     
     /**
      * Creates a <code>LogKitLoggerStore</code> using the configuration resource
@@ -38,10 +34,10 @@ public class LogKitLoggerStore extends AbstractLoggerStore
     public LogKitLoggerStore( final InputStream resource )
         throws Exception
     {
-        m_manager = new LogKitLoggerManager();
-        m_manager.contextualize( new DefaultContext() );
-        m_manager.configure( Configurator.buildConfiguration( resource ) );
-        setRootLogger( m_manager.getDefaultLogger() );
+        m_hierarchy = new Hierarchy();
+        HierarchyUtil.configure( Configurator.buildConfiguration( resource ),
+                                 m_hierarchy );
+        setRootLogger( new LogKitLogger( m_hierarchy.getRootLogger() ) );
     }
 
     /** 
@@ -49,7 +45,7 @@ public class LogKitLoggerStore extends AbstractLoggerStore
      */
     protected Logger createLogger( final String categoryName ) 
     {
-        return m_manager.getLoggerForCategory( categoryName );
+        return new LogKitLogger( m_hierarchy.getLoggerFor( categoryName ) );
     }
 
     /** 
@@ -57,6 +53,7 @@ public class LogKitLoggerStore extends AbstractLoggerStore
      */
     public void close()
     {
+        HierarchyUtil.closeLogTargets( m_hierarchy );
     }
 
 }
