@@ -11,15 +11,16 @@ package org.realityforge.packet.event;
  * The Source represents a source of events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2003-11-28 05:00:38 $
+ * @version $Revision: 1.1 $ $Date: 2003-11-28 05:00:38 $
  */
-public interface Source
+public interface BatchSource
 {
     /**
-     * Return next event from source. Returning null indicates that there are no
-     * events at this stage.
+     * Return a set of events from source. The maximum number of events returned
+     * is specified by the count parameter.
      * 
-     * @return the event or null
+     * @param count the maximum number of events returned
+     * @return the set of events
      */
-    Object getEvent();
+    Object[] getEvents( int count );
 }

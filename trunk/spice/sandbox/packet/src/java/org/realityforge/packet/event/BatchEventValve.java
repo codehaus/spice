@@ -8,19 +8,18 @@
 package org.realityforge.packet.event;
 
 /**
- * A Sink represents the destination for events.
+ * The valve controls the flow events into a sink.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2003-11-28 05:00:38 $
+ * @version $Revision: 1.1 $ $Date: 2003-11-28 05:00:38 $
  */
-public interface Sink
+public interface BatchEventValve
 {
     /**
-     * Attempt to add an event to the sink. Return false if unable to add
-     * event.
+     * Return true if events should be accepted.
      * 
-     * @param event the event
-     * @return false if unable to add event.
+     * @param events the events
+     * @return true if events should be accepted.
      */
-    boolean addEvent( Object event );
+    boolean acceptEvents( Object[] events );
 }
