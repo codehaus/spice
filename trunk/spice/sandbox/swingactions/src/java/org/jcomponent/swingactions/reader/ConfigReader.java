@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.digester.Digester;
+import org.jcomponent.swingactions.metadata.ActionGroupsMetaData;
 import org.jcomponent.swingactions.metadata.ActionMetaData;
 import org.jcomponent.swingactions.metadata.ActionSetMetaData;
 import org.jcomponent.swingactions.metadata.GroupActionMetaData;
@@ -84,7 +85,7 @@ public class ConfigReader {
      * Returns the set of actions parsed
      * @return the ActionSetMetaData
      */
-    public ActionSetMetaData getActionSetMetaData()
+    public ActionSetMetaData getActionSet()
     {
         final ActionMetaData[] actions = 
             (ActionMetaData[])m_actions.values().toArray(new ActionMetaData[ m_actions.size() ] );
@@ -92,10 +93,25 @@ public class ConfigReader {
     }
 
     /**
+     * Returns the groups of actions parsed
+     * @return the ActionGroupsMetaData
+     */
+    public ActionGroupsMetaData getActionGroups()
+    {
+        final String[] groupIds = getActionGroupIds();
+        final ActionSetMetaData[] actionSets = new ActionSetMetaData[ groupIds.length ];
+        for ( int i = 0; i < groupIds.length; i++ )
+        {
+            actionSets[ i ] = getActionGroup( groupIds[ i ] );
+        }
+        return new ActionGroupsMetaData( groupIds, actionSets );
+    }
+
+    /**
      * Returns the action group Ids 
      * @return the array of ids of groups
      */
-    public String[] getActionGroupIds()
+    private String[] getActionGroupIds()
     {
         final Set groupKeys  = m_groups.keySet();
         return (String[])groupKeys.toArray(new String[ groupKeys.size() ] );
@@ -106,7 +122,7 @@ public class ConfigReader {
      * @param groupId the Id of the group
      * @return the ActionSetMetaData
      */
-    public ActionSetMetaData getActionGroupMetaData( final String groupId )
+    private ActionSetMetaData getActionGroup( final String groupId )
     {
         final Set groupActions = (Set)m_groups.get( groupId );       
         final ActionMetaData[] actions = 
