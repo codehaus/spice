@@ -346,7 +346,7 @@ public class MBeanBuilder
      * @param impact the impact string
      * @return the impact code
      */
-    private int parseImpact( final String impact )
+    int parseImpact( final String impact )
     {
         if( IMPACT_INFO.equals( impact ) )
         {
