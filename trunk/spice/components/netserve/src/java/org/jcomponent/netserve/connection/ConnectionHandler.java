@@ -15,7 +15,7 @@ import java.net.Socket;
  * Implement this interface to process incoming socket connections.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:14 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-08 01:39:38 $
  */
 public interface ConnectionHandler
 {
@@ -24,8 +24,8 @@ public interface ConnectionHandler
      * close the <tt>connection</tt>, the caller will do that.
      *
      * @param connection the connection
-     * @exception IOException if an error reading from socket occurs
-     * @exception ProtocolException if an error handling connection occurs
+     * @throws IOException if an error reading from socket occurs
+     * @throws ProtocolException if an error handling connection occurs
      */
     void handleConnection( Socket connection )
         throws IOException, ProtocolException;
