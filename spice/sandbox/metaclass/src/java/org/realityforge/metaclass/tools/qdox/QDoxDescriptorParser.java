@@ -15,6 +15,7 @@ import com.thoughtworks.qdox.model.JavaParameter;
 import com.thoughtworks.qdox.model.Type;
 import java.lang.reflect.Modifier;
 import java.util.Properties;
+import java.util.ArrayList;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
@@ -26,7 +27,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * and building a ClassDescriptor to correspond to the JavaClass
  * object.
  *
- * @version $Revision: 1.10 $ $Date: 2003-08-22 06:08:33 $
+ * @version $Revision: 1.11 $ $Date: 2003-08-24 04:27:01 $
  */
 public class QDoxDescriptorParser
 {
@@ -63,15 +64,20 @@ public class QDoxDescriptorParser
      * Build a ClassDescriptor for a JavaClass.
      *
      * @param javaClass the JavaClass
+     * @param interceptor the AttributeInterceptor
      * @return the ClassDescriptor
      */
-    public ClassDescriptor buildClassDescriptor( final JavaClass javaClass )
+    public ClassDescriptor buildClassDescriptor( final JavaClass javaClass,
+                                                 final QDoxAttributeInterceptor interceptor )
     {
         final String classname = javaClass.getFullyQualifiedName();
         final int modifiers = parseModifiers( javaClass.getModifiers() );
-        final Attribute[] attributes = buildAttributes( javaClass.getTags() );
-        final FieldDescriptor[] fields = buildFields( javaClass );
-        final MethodDescriptor[] methods = buildMethods( javaClass );
+        final Attribute[] originalAttributes = buildAttributes( javaClass, interceptor );
+        final Attribute[] attributes =
+            interceptor.processClassAttributes( javaClass, originalAttributes );
+
+        final FieldDescriptor[] fields = buildFields( javaClass, interceptor );
+        final MethodDescriptor[] methods = buildMethods( javaClass, interceptor );
 
         return new ClassDescriptor( classname,
                                     modifiers,
@@ -84,15 +90,17 @@ public class QDoxDescriptorParser
      * Build a set of MethodDescriptor instances for a JavaClass.
      *
      * @param javaClass the JavaClass
+     * @param interceptor the AttributeInterceptor
      * @return the MethodDescriptors
      */
-    private MethodDescriptor[] buildMethods( final JavaClass javaClass )
+    private MethodDescriptor[] buildMethods( final JavaClass javaClass,
+                                             final QDoxAttributeInterceptor interceptor )
     {
         final JavaMethod[] methods = javaClass.getMethods();
         final MethodDescriptor[] methodDescriptors = new MethodDescriptor[ methods.length ];
         for( int i = 0; i < methods.length; i++ )
         {
-            methodDescriptors[ i ] = buildMethod( methods[ i ] );
+            methodDescriptors[ i ] = buildMethod( methods[ i ], interceptor );
         }
         return methodDescriptors;
     }
@@ -101,9 +109,11 @@ public class QDoxDescriptorParser
      * Build a MethodDescriptor for a JavaMethod.
      *
      * @param method the JavaMethod
+     * @param interceptor the AttributeInterceptor
      * @return the MethodDescriptor
      */
-    MethodDescriptor buildMethod( final JavaMethod method )
+    MethodDescriptor buildMethod( final JavaMethod method,
+                                  final QDoxAttributeInterceptor interceptor )
     {
         final String name = method.getName();
         final Type returns = method.getReturns();
@@ -118,7 +128,9 @@ public class QDoxDescriptorParser
         }
 
         final int modifiers = parseModifiers( method.getModifiers() );
-        final Attribute[] attributes = buildAttributes( method.getTags() );
+        final Attribute[] originalAttributes = buildAttributes( method, interceptor );
+        final Attribute[] attributes =
+            interceptor.processMethodAttributes( method, originalAttributes );
         final ParameterDescriptor[] parameters =
             buildParameters( method.getParameters() );
 
@@ -163,15 +175,17 @@ public class QDoxDescriptorParser
      * Build a set of FieldDescriptor instances for a JavaClass.
      *
      * @param javaClass the JavaClass
+     * @param interceptor the AttributeInterceptor
      * @return the FieldDescriptors
      */
-    private FieldDescriptor[] buildFields( final JavaClass javaClass )
+    private FieldDescriptor[] buildFields( final JavaClass javaClass,
+                                           final QDoxAttributeInterceptor interceptor )
     {
         final JavaField[] fields = javaClass.getFields();
         final FieldDescriptor[] fieldDescriptors = new FieldDescriptor[ fields.length ];
         for( int i = 0; i < fields.length; i++ )
         {
-            fieldDescriptors[ i ] = buildField( fields[ i ] );
+            fieldDescriptors[ i ] = buildField( fields[ i ], interceptor );
         }
         return fieldDescriptors;
     }
@@ -180,14 +194,18 @@ public class QDoxDescriptorParser
      * Build a set of FieldDescriptor instances for a JavaField.
      *
      * @param field the JavaField
+     * @param interceptor the AttributeInterceptor
      * @return the FieldDescriptor
      */
-    FieldDescriptor buildField( final JavaField field )
+    FieldDescriptor buildField( final JavaField field,
+                                final QDoxAttributeInterceptor interceptor )
     {
         final String name = field.getName();
         final String type = field.getType().getValue();
         final int modifiers = parseModifiers( field.getModifiers() );
-        final Attribute[] attributes = buildAttributes( field.getTags() );
+        final Attribute[] originalAttributes = buildAttributes( field, interceptor );
+        final Attribute[] attributes =
+            interceptor.processFieldAttributes( field, originalAttributes );
         return new FieldDescriptor( name,
                                     type,
                                     modifiers,
@@ -195,20 +213,81 @@ public class QDoxDescriptorParser
     }
 
     /**
-     * Build a set of Attribute instances from a
-     * set QDox DocletTag instances.
+     * Build a set of Attribute instances for a JavaClass.
+     * Use Interceptor to process tags during construction.
      *
-     * @param tags the DocletTag instances
+     * @param javaClass the JavaClass
+     * @param interceptor the AttributeInterceptor
      * @return the Attributes
      */
-    private Attribute[] buildAttributes( final DocletTag[] tags )
+    private Attribute[] buildAttributes( final JavaClass javaClass,
+                                         final QDoxAttributeInterceptor interceptor )
     {
-        final Attribute[] attributes = new Attribute[ tags.length ];
+        final ArrayList attributes = new ArrayList();
+        final DocletTag[] tags = javaClass.getTags();
         for( int i = 0; i < tags.length; i++ )
         {
-            attributes[ i ] = buildAttribute( tags[ i ] );
+            final Attribute originalAttribute = buildAttribute( tags[ i ] );
+            final Attribute attribute =
+                interceptor.processClassAttribute( javaClass, originalAttribute );
+            if( null != attribute )
+            {
+                attributes.add( attribute );
+            }
         }
-        return attributes;
+        return (Attribute[])attributes.toArray( new Attribute[ attributes.size() ] );
+    }
+
+    /**
+     * Build a set of Attribute instances for a JavaMethod.
+     * Use Interceptor to process tags during construction.
+     *
+     * @param method the JavaMethod
+     * @param interceptor the AttributeInterceptor
+     * @return the Attributes
+     */
+    private Attribute[] buildAttributes( final JavaMethod method,
+                                         final QDoxAttributeInterceptor interceptor )
+    {
+        final ArrayList attributes = new ArrayList();
+        final DocletTag[] tags = method.getTags();
+        for( int i = 0; i < tags.length; i++ )
+        {
+            final Attribute originalAttribute = buildAttribute( tags[ i ] );
+            final Attribute attribute =
+                interceptor.processMethodAttribute( method, originalAttribute );
+            if( null != attribute )
+            {
+                attributes.add( attribute );
+            }
+        }
+        return (Attribute[])attributes.toArray( new Attribute[ attributes.size() ] );
+    }
+
+    /**
+     * Build a set of Attribute instances for a JavaField.
+     * Use Interceptor to process tags during construction.
+     *
+     * @param field the JavaField
+     * @param interceptor the AttributeInterceptor
+     * @return the Attributes
+     */
+    private Attribute[] buildAttributes( final JavaField field,
+                                         final QDoxAttributeInterceptor interceptor )
+    {
+        final ArrayList attributes = new ArrayList();
+        final DocletTag[] tags = field.getTags();
+        for( int i = 0; i < tags.length; i++ )
+        {
+            final Attribute originalAttribute = buildAttribute( tags[ i ] );
+            final Attribute attribute =
+                interceptor.processFieldAttribute( field, originalAttribute );
+            if( null != attribute )
+            {
+                attributes.add( attribute );
+            }
+        }
+        return (Attribute[])attributes.toArray( new Attribute[ attributes.size() ] );
     }
 
     /**

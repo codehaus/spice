@@ -19,13 +19,14 @@ import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
+import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 
 /**
  * A Task to generate Attributes descriptors from source files.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.13 $ $Date: 2003-08-24 02:15:01 $
+ * @version $Revision: 1.14 $ $Date: 2003-08-24 04:27:01 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -66,6 +67,12 @@ public class MetaGenerateTask
     private static final QDoxDescriptorParser c_infoBuilder = new QDoxDescriptorParser();
 
     /**
+     * The interceptor used to process source files.
+     * Defaults to a noop interceptor.
+     */
+    private DefaultQDoxAttributeInterceptor m_interceptor = new DefaultQDoxAttributeInterceptor();
+
+    /**
      * Set the destination directory for generated files.
      *
      * @param destDir the destination directory for generated files.
@@ -91,7 +98,7 @@ public class MetaGenerateTask
     public void execute()
     {
         final String message =
-            "Writing Attributes descriptors as " +
+            "Writing MetaClass descriptors as " +
             getOutputDescription() + ".";
         log( message );
 
@@ -101,7 +108,7 @@ public class MetaGenerateTask
         try
         {
             writeClassDescriptors();
-            log( "MetaData generation done." );
+            log( "MetaClass Descriptor generation done." );
         }
         catch( final IOException ioe )
         {
@@ -140,7 +147,7 @@ public class MetaGenerateTask
                 continue;
             }
 
-            writeClassDescriptor( c_infoBuilder.buildClassDescriptor( javaClass ) );
+            writeClassDescriptor( c_infoBuilder.buildClassDescriptor( javaClass, m_interceptor ) );
         }
     }
 
