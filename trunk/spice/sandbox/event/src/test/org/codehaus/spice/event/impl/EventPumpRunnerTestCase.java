@@ -1,16 +1,16 @@
 package org.codehaus.spice.event.impl;
 
 import junit.framework.TestCase;
+import org.codehaus.spice.event.DummyEventHandler;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-16 02:03:12 $
+ * @version $Revision: 1.2 $ $Date: 2004-04-19 08:05:35 $
  */
 public class EventPumpRunnerTestCase
     extends TestCase
 {
-    public void testNull_eventPumps_PassedIntoCtor()
-        throws Exception
+    public void testNull_eventPumps_PassedIntoCtor() throws Exception
     {
         try
         {
@@ -24,8 +24,7 @@ public class EventPumpRunnerTestCase
         fail( "Expected a NPE when passing eventPumps into Ctor" );
     }
 
-    public void testNull_eventPumps_ElementPassedIntoCtor()
-        throws Exception
+    public void testNull_eventPumps_ElementPassedIntoCtor() throws Exception
     {
         try
         {
@@ -33,23 +32,22 @@ public class EventPumpRunnerTestCase
         }
         catch( final NullPointerException npe )
         {
-            assertEquals( "npe.getMessage()", "eventPumps[0]",
+            assertEquals( "npe.getMessage()",
+                          "eventPumps[0]",
                           npe.getMessage() );
             return;
         }
         fail( "Expected a NPE when passing eventPumps[0] into Ctor" );
     }
 
-    public void testCreation()
-        throws Exception
+    public void testCreation() throws Exception
     {
         final EventPump[] eventPumps = new EventPump[ 0 ];
         final EventPumpRunner runner = new EventPumpRunner( eventPumps );
         assertEquals( "runner._eventPumps", eventPumps, runner._eventPumps );
     }
 
-    public void testStartThenDeactivate()
-        throws Exception
+    public void testStartThenDeactivate() throws Exception
     {
         final EventPump[] eventPumps = new EventPump[ 0 ];
         final EventPumpRunner runner = new EventPumpRunner( eventPumps );
@@ -67,11 +65,10 @@ public class EventPumpRunnerTestCase
         assertEquals( "runner._active", false, runner._active );
     }
 
-    public void testSimpleRun()
-        throws Exception
+    public void testSimpleRun() throws Exception
     {
-        final org.codehaus.spice.event.impl.DummyEventHandler eventHandler = new org.codehaus.spice.event.impl.DummyEventHandler();
-        final org.codehaus.spice.event.impl.DummyEventSource source = new org.codehaus.spice.event.impl.DummyEventSource();
+        final DummyEventHandler eventHandler = new DummyEventHandler();
+        final DummyEventSource source = new DummyEventSource();
         final EventPump pump = new EventPump( source, eventHandler );
         final EventPump[] eventPumps = new EventPump[]{pump};
         final EventPumpRunner runner = new EventPumpRunner( eventPumps );
