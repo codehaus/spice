@@ -77,6 +77,11 @@ public class Connector
    private String _connectionError;
 
    /**
+    * The time at which last ping occured.
+    */
+   private long _pingTime;
+
+   /**
     * Specify the reconnection policy that connector will use.
     *
     * @param policy the policy
@@ -169,6 +174,17 @@ public class Connector
             connect();
          }
       }
+   }
+
+   /**
+    * Return the time at which last ping occured.
+    *
+    * @return the time at which last ping occured.
+    * @mx.attribute
+    */
+   public long getPingTime()
+   {
+      return _pingTime;
    }
 
    /**
@@ -322,6 +338,7 @@ public class Connector
             {
                _lastConnectionTime = now;
                getConnection().doConnect();
+               _pingTime = System.currentTimeMillis();
                commOccured( null );
                _connectionAttempts = 0;
                _connectionError = null;
@@ -390,6 +407,7 @@ public class Connector
     */
    public boolean ping()
    {
+      _pingTime = System.currentTimeMillis();
       return validateConnection();
    }
 

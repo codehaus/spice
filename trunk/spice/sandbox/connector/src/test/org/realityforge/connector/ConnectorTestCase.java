@@ -109,7 +109,7 @@ public class ConnectorTestCase
       assertEquals( "message", null, connector.getLastTxMessage() );
       connector.transmissionOccured( message );
       final long now = System.currentTimeMillis();
-      assertEquals( "time", now, connector.getLastTxTime(), 500.0 );
+      assertEqualTime( "time", now, connector.getLastTxTime() );
       assertEquals( "message", message, connector.getLastTxMessage() );
    }
 
@@ -122,7 +122,7 @@ public class ConnectorTestCase
       assertEquals( "message", null, connector.getLastRxMessage() );
       connector.receiveOccured( message );
       final long now = System.currentTimeMillis();
-      assertEquals( "time", now, connector.getLastRxTime(), 500.0 );
+      assertEqualTime( "time", now, connector.getLastRxTime() );
       assertEquals( "message", message, connector.getLastRxMessage() );
    }
 
@@ -137,7 +137,7 @@ public class ConnectorTestCase
       assertEquals( "tx message", null, connector.getLastTxMessage() );
       connector.commOccured( message );
       final long now = System.currentTimeMillis();
-      assertEquals( "time", now, connector.getLastRxTime(), 500.0 );
+      assertEqualTime( "time", now, connector.getLastRxTime() );
       assertEquals( "tx vs rx time", connector.getLastTxTime(), connector.getLastRxTime() );
       assertEquals( "rx message", message, connector.getLastRxMessage() );
       assertEquals( "tx message", message, connector.getLastTxMessage() );
@@ -159,7 +159,14 @@ public class ConnectorTestCase
       assertEquals( "isConnected pre connect", false, connector.isConnected() );
       connector.connect();
       final long now = System.currentTimeMillis();
-      assertEquals( "getLastConnectionTime", now, connector.getLastConnectionTime(), 500.0 );
+
+      assertEqualTime( "getPingTime", now, connector.getPingTime() );
+
+      assertEquals( "getLastRxMessage", null, connector.getLastRxMessage() );
+      assertEquals( "getLastTxMessage", null, connector.getLastTxMessage() );
+      assertEqualTime( "getLastRxTime", now, connector.getLastRxTime() );
+      assertEqualTime( "getLastTxTime", now, connector.getLastTxTime() );
+      assertEqualTime( "getLastConnectionTime", now, connector.getLastConnectionTime() );
       assertEquals( "isConnected post connect", true, connector.isConnected() );
       assertEquals( "getConnectionAttempts", 0, connector.getConnectionAttempts() );
       assertEquals( "getConnectionError", null, connector.getConnectionError() );
@@ -185,7 +192,12 @@ public class ConnectorTestCase
       connector.connect();
       final long now = System.currentTimeMillis();
 
-      assertEquals( "getLastConnectionTime", now, connector.getLastConnectionTime(), 500.0 );
+      assertEqualTime( "getPingTime", now, connector.getPingTime() );
+      assertEqualTime( "getLastConnectionTime", now, connector.getLastConnectionTime() );
+      assertEquals( "getLastRxMessage", null, connector.getLastRxMessage() );
+      assertEquals( "getLastTxMessage", null, connector.getLastTxMessage() );
+      assertEqualTime( "getLastRxTime", now, connector.getLastRxTime() );
+      assertEqualTime( "getLastTxTime", now, connector.getLastTxTime() );
       assertEquals( "isConnected post connect", true, connector.isConnected() );
       assertEquals( "getConnectionAttempts", 0, connector.getConnectionAttempts() );
       assertEquals( "getConnectionError", null, connector.getConnectionError() );
@@ -488,6 +500,8 @@ public class ConnectorTestCase
       connector.setConnected( true );
       connector.ping();
 
+      final long now = System.currentTimeMillis();
+      assertEqualTime( "getPingTime", now, connector.getPingTime() );
       assertEquals( "isConnected", true, connector.isConnected() );
 
       connectorMock.verify();
@@ -579,5 +593,10 @@ public class ConnectorTestCase
 
       policyMock.verify();
       connectorMock.verify();
+   }
+
+   private void assertEqualTime( final String description, final long expected, final long actual )
+   {
+      assertEquals( description, expected, actual, 500.0 );
    }
 }
