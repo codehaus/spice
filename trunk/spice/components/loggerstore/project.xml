@@ -4,8 +4,8 @@
     <name>LoggerStore</name>
     <id>spice-loggerstore</id>
     <gumpRepositoryId>components</gumpRepositoryId>
-    <package>org.jcomponent.loggerstore</package>
-    <currentVersion>1.0-b2</currentVersion>
+    <package>org.codehaus.spice.loggerstore</package>
+    <currentVersion>1.0-b3</currentVersion>
     <inceptionYear>2003</inceptionYear>
 
     <shortDescription>Component for storing a set of DNA Loggers.</shortDescription>

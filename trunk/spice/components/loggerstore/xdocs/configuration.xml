@@ -44,17 +44,17 @@ return factory.createLoggerStore( new HashMap() );
 	  The loggerstore.properties file contains the LoggerStore factory implementation class name and the 
 	  path the the configuration resource.  For example:
 	  <source>
-org.jcomponent.loggerstore.factory=org.jcomponent.loggerstore.factories.ExcaliburLogKitLoggerStoreFactory
-org.jcomponent.loggerstore.file=/path/to/logconfig.xml
+org.codehaus.spice.loggerstore.factory=org.codehaus.spice.loggerstore.factories.ExcaliburLogKitLoggerStoreFactory
+org.codehaus.spice.loggerstore.file=/path/to/logconfig.xml
 	  </source>
 	  </p> 
       <p>The possible factory classes are:
 		<ul>
-			<li>org.jcomponent.loggerstore.factories.ExcaliburLogKitLoggerStoreFactory</li>
-			<li>org.jcomponent.loggerstore.factories.SimpleLogKitLoggerStoreFactory</li>
-			<li>org.jcomponent.loggerstore.factories.DOMLog4JLoggerStoreFactory</li>
-			<li>org.jcomponent.loggerstore.factories.PropertyLog4JLoggerStoreFactory</li>
-			<li>org.jcomponent.loggerstore.factories.JDK14LoggerStoreFactory</li>
+			<li>org.codehaus.spice.loggerstore.factories.ExcaliburLogKitLoggerStoreFactory</li>
+			<li>org.codehaus.spice.loggerstore.factories.SimpleLogKitLoggerStoreFactory</li>
+			<li>org.codehaus.spice.loggerstore.factories.DOMLog4JLoggerStoreFactory</li>
+			<li>org.codehaus.spice.loggerstore.factories.PropertyLog4JLoggerStoreFactory</li>
+			<li>org.codehaus.spice.loggerstore.factories.JDK14LoggerStoreFactory</li>
 	    </ul>
       </p>  
 	  </section>
