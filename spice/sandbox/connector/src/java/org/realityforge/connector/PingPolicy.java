@@ -4,7 +4,7 @@ package org.realityforge.connector;
  * Callback used to determine whether
  * to ping a Connection.
  */
-public interface PingChecker
+public interface PingPolicy
 {
    /**
     * Return true if need to ping connection.
