@@ -9,6 +9,12 @@ public abstract class AbstractConnector
    private boolean _active;
 
    /**
+    * A flag indicating whether the connection
+    * is "connected".
+    */
+   private boolean _connected;
+
+   /**
     * Time at which last transmission occured.
     */
    private long _lastTxTime;
@@ -124,5 +130,25 @@ public abstract class AbstractConnector
    public void setActive( final boolean active )
    {
       _active = active;
+   }
+
+   /**
+    * Return true if Connector connected.
+    *
+    * @return true if Connector connected.
+    */
+   public boolean isConnected()
+   {
+      return _connected;
+   }
+
+   /**
+    * Set the connected state.
+    *
+    * @param connected the connected state.
+    */
+   protected void setConnected( final boolean connected )
+   {
+      _connected = connected;
    }
 }
