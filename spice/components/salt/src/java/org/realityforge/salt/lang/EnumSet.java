@@ -203,7 +203,7 @@ public final class EnumSet
                 throw new IllegalStateException( message );
             }
 
-            if( matcher.contains( patternString, pattern ) )
+            if( matcher.contains( name, pattern ) )
             {
                 final MatchResult match = matcher.getMatch();
                 final int count = match.groups();
