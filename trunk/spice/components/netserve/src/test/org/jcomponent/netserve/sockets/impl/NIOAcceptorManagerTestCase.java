@@ -20,7 +20,7 @@ import java.util.Random;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.9 $ $Date: 2003-10-10 04:05:40 $
+ * @version $Revision: 1.10 $ $Date: 2003-10-14 04:16:41 $
  */
 public class NIOAcceptorManagerTestCase
     extends AbstractAcceptorManagerTestCase
@@ -170,7 +170,13 @@ public class NIOAcceptorManagerTestCase
             assertEquals( "isConnected pre disconnect",
                           true,
                           m_manager.isConnected( name ) );
-
+            try
+            {
+                Thread.sleep( 250 );
+            }
+            catch( InterruptedException e )
+            {
+            }
             final Socket clientSocket = new Socket( localAddress, port );
             final OutputStream outputStream = clientSocket.getOutputStream();
             outputStream.write( 'a' );
