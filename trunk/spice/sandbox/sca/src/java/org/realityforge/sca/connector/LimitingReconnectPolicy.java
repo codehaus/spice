@@ -1,12 +1,22 @@
+/*
+ * Copyright (C) The Spice Group. All rights reserved.
+ *
+ * This software is published under the terms of the Spice
+ * Software License version 1.1, a copy of which has been included
+ * with this distribution in the LICENSE.txt file.
+ */
 package org.realityforge.sca.connector;
 
 /**
  * A Policy that will always attempt to limit the number of connection attempts
  * in a period of time.
- * 
+ *
  * <p>After N connection attempts it will force a delay of T between successive
  * connection attempts. This is an attempt not to overload the resource being
  * connected to.</p>
+ *
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003-12-05 05:39:33 $
  */
 public class LimitingReconnectPolicy
     implements ReconnectionPolicy
@@ -19,7 +29,7 @@ public class LimitingReconnectPolicy
 
     /**
      * Create a policy instance.
-     * 
+     *
      * @param attempts the number of attempts before the delay is enabled.
      * @param delay the delay
      */

@@ -11,13 +11,16 @@ import java.nio.channels.SelectionKey;
 
 /**
  * Interface implemente to receive events from a Selector.
+ *
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-12-05 05:39:33 $
  */
 public interface SelectorEventHandler
 {
     /**
      * Method that receives events from selector. The user MUST NOT modify or
      * access the keys attachment.
-     * 
+     *
      * @param key the SelectionKey
      * @param userData the data user specified when registering listener
      */

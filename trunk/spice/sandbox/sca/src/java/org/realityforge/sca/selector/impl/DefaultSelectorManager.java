@@ -19,6 +19,9 @@ import org.realityforge.sca.selector.SelectorManager;
 /**
  * The SelectorManager makes it easy to start a selector in a thread and receive
  * events on selection.
+ *
+ * @author Peter Donald
+ * @version $Revision: 1.4 $ $Date: 2003-12-05 05:39:33 $
  */
 public class DefaultSelectorManager
     implements SelectorManager, Runnable
@@ -37,7 +40,7 @@ public class DefaultSelectorManager
 
     /**
      * Set the SelectorMonitor that receives events when changes occur.
-     * 
+     *
      * @param monitor the SelectorMonitor.
      */
     public void setMonitor( final SelectorMonitor monitor )
@@ -51,7 +54,7 @@ public class DefaultSelectorManager
 
     /**
      * Set the timeout on the selector.
-     * 
+     *
      * @param timeout the timeout.
      */
     public void setTimeout( final int timeout )
@@ -61,8 +64,8 @@ public class DefaultSelectorManager
 
     /**
      * Initialize the selector to monitor accept attempts.
-     * 
-     * @throws java.io.IOException if unable to initialize selector
+     *
+     * @throws IOException if unable to initialize selector
      */
     public void startup()
         throws IOException
@@ -151,7 +154,7 @@ public class DefaultSelectorManager
 
     /**
      * Return true if the selector is manager is running.
-     * 
+     *
      * @return true if the selector is manager is running.
      */
     public boolean isRunning()
@@ -218,7 +221,7 @@ public class DefaultSelectorManager
                 final SelectionKey key = (SelectionKey)iterator.next();
                 iterator.remove();
                 final Object value = key.attachment();
-                if( null == value || !(value instanceof SelectorEntry) )
+                if( null == value || !( value instanceof SelectorEntry ) )
                 {
                     //Cancel keys that have had their
                     //attachments messed with
@@ -241,7 +244,7 @@ public class DefaultSelectorManager
     /**
      * Perform select operation and return true if successful and connections
      * present.
-     * 
+     *
      * @return true if select resulted in keys being present
      */
     private boolean performSelect()
@@ -265,7 +268,7 @@ public class DefaultSelectorManager
 
     /**
      * Return the lock used to synchronize access to selector.
-     * 
+     *
      * @return the lock used to synchronize access to selector.
      */
     protected Object getSelectorLock()
@@ -275,7 +278,7 @@ public class DefaultSelectorManager
 
     /**
      * Set the selector associated with reactor.
-     * 
+     *
      * @param selector the selector associated with reactor.
      */
     protected void setSelector( final Selector selector )
@@ -289,7 +292,7 @@ public class DefaultSelectorManager
 
     /**
      * Return the selector associated with reactor.
-     * 
+     *
      * @return the selector associated with reactor.
      */
     protected Selector getSelector()
@@ -306,7 +309,7 @@ public class DefaultSelectorManager
 
     /**
      * Return the monitor associated with manager.
-     * 
+     *
      * @return the monitor associated with manager.
      */
     protected SelectorMonitor getMonitor()
@@ -316,7 +319,7 @@ public class DefaultSelectorManager
 
     /**
      * Set the flag to specify whether th Reactor is running.
-     * 
+     *
      * @param running the flag to specify whether th Reactor is running
      */
     protected void setRunning( final boolean running )
@@ -329,7 +332,7 @@ public class DefaultSelectorManager
 
     /**
      * Return the name of thread that Selector will run in.
-     * 
+     *
      * @return the name of thread that Selector will run in.
      */
     protected String getThreadName()

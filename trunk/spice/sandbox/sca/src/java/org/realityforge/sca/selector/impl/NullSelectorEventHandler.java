@@ -12,6 +12,9 @@ import org.realityforge.sca.selector.SelectorEventHandler;
 
 /**
  * Basic implementation of SelectorEventHandler that does nothing.
+ *
+ * @author Peter Donald
+ * @version $Revision: 1.3 $ $Date: 2003-12-05 05:39:33 $
  */
 public class NullSelectorEventHandler
     implements SelectorEventHandler
@@ -20,7 +23,7 @@ public class NullSelectorEventHandler
     public static final NullSelectorEventHandler HANDLER = new NullSelectorEventHandler();
 
     /**
-     * @see SelectorEventHandler#handleSelectorEvent
+     * @see SelectorEventHandler#handleSelectorEvent(SelectionKey, Object)
      */
     public void handleSelectorEvent( final SelectionKey key,
                                      final Object userData )
