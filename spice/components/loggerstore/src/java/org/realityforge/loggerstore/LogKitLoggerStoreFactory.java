@@ -20,22 +20,13 @@ import org.apache.avalon.framework.context.Context;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-05-27 07:54:35 $
+ * @version $Revision: 1.8 $ $Date: 2003-05-27 21:19:50 $
  */
 public class LogKitLoggerStoreFactory
     extends AbstractLoggerStoreFactory
 {
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
-     * The configuration Map must contain:
-     * <ol>
-     * <li> <code>InputStream</code> object keyed on <code>LoggerStoreFactory.CONFIGURATION</code>
-     * encoding the configuration resource</li>
-     * <li> a <code>LoggerStoreFactory.CONFIGURATION_TYPE</code>
-     * containing  the configuration type - currently only <code>LoggerStoreFactory.XML</code>
-     * is supported
-     * </li>
-     * </ol>
      *
      * @param config the Map of parameters for the configuration of the store
      * @return the LoggerStore
