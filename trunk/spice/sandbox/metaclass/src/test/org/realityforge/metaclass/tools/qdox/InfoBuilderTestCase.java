@@ -9,14 +9,18 @@ package org.realityforge.metaclass.tools.qdox;
 
 import junit.framework.TestCase;
 import java.util.Properties;
+import java.util.ArrayList;
 import java.lang.reflect.Modifier;
 import com.thoughtworks.qdox.model.DocletTag;
+import com.thoughtworks.qdox.model.JavaField;
+import com.thoughtworks.qdox.model.Type;
 import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.FieldDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-22 06:02:16 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-22 06:06:57 $
  */
 public class InfoBuilderTestCase
     extends TestCase
@@ -328,5 +332,24 @@ public class InfoBuilderTestCase
                       1, attribute.getParameterCount() );
         assertEquals( "attribute.parameter('key')",
                       "value", attribute.getParameter( "key" ) );
+    }
+
+    public void testBuildField()
+        throws Exception
+    {
+        final String name = "myField";
+        final String type = "int";
+        final JavaField javaField = new JavaField();
+        javaField.setType( new Type( type ) );
+        javaField.setTags( new ArrayList() );
+        javaField.setModifiers( new String[]{"public"} );
+        javaField.setName( name );
+        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
+        final FieldDescriptor field = parser.buildField( javaField );
+        assertNotNull( "field", field );
+        assertEquals( "field.name", name, field.getName() );
+        assertEquals( "field.type", type, field.getType() );
+        assertEquals( "field.modifiers", Modifier.PUBLIC, field.getModifiers() );
+        assertEquals( "field.attributes.length", 0, field.getAttributes().length );
     }
 }
