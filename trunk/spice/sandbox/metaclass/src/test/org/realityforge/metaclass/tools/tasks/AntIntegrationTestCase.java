@@ -12,14 +12,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import junit.framework.TestCase;
+import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
+import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-12-11 08:41:51 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-16 02:11:22 $
  */
 public class AntIntegrationTestCase
     extends TestCase
@@ -41,12 +43,12 @@ public class AntIntegrationTestCase
         final File destDirectory = generateDirectory();
 
         final String sourceFilename = sourceDirectory +
-            File.separator +
-            "com" +
-            File.separator +
-            "biz" +
-            File.separator +
-            "MyAntIntegrationClass.java";
+                                      File.separator +
+                                      "com" +
+                                      File.separator +
+                                      "biz" +
+                                      File.separator +
+                                      "MyAntIntegrationClass.java";
         final File sourceFile = new File( sourceFilename );
         sourceFile.getParentFile().mkdirs();
         final FileOutputStream output = new FileOutputStream( sourceFile );
@@ -107,7 +109,7 @@ public class AntIntegrationTestCase
         final File destFile = new File( destFilename );
 
         assertTrue( "destFile.exists()", destFile.exists() );
-        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final MetaClassIO io = MetaClassIOBinary.IO;
         final FileInputStream input = new FileInputStream( destFile );
         final ClassDescriptor descriptor = io.deserializeClass( input );
         assertEquals( "descriptor.name",
@@ -132,6 +134,11 @@ public class AntIntegrationTestCase
         final Project project = new Project();
         project.init();
         project.setUserProperty( "ant.file", file.getAbsolutePath() );
+        final DefaultLogger logger = new DefaultLogger();
+        logger.setOutputPrintStream( System.out );
+        logger.setErrorPrintStream( System.out );
+        logger.setMessageOutputLevel( Project.MSG_INFO );
+        project.addBuildListener( logger );
         ProjectHelper.configureProject( project, file );
         return project;
     }
