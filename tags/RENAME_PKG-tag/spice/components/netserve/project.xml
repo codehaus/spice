@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
+    <name>Netserve</name>
+    <id>spice-netserve</id>
+    <gumpRepositoryId>components</gumpRepositoryId>
+    <package>org.jcomponent.netserve</package>
+    <currentVersion>0.7</currentVersion>
+    <inceptionYear>1999</inceptionYear>
+
+    <shortDescription>Components useful for creating a Network Server.</shortDescription>
+
+    <description>
+        Components useful for creating a Network Server. This includes an abstraction
+        for creating sockets, an implementation of the Acceptor/Connector pattern from
+        ACE for both stream based and packet based connections, etc.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>mockobjects</groupId>
+            <artifactId>mockobjects-core</artifactId>
+            <version>0.09</version>
+        </dependency>
+        <dependency>
+            <groupId>avalon</groupId>
+            <artifactId>avalon-framework</artifactId>
+            <version>4.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>dna</groupId>
+            <artifactId>dna-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>dna</groupId>
+            <artifactId>dna-impl</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>jcomponent</groupId>
+           	<artifactId>jcomponent-threadpool</artifactId>
+            <version>1.0</version>
+            <properties>
+                <category>runtime</category>
+            </properties>
+        </dependency>
+        <dependency> <!-- for threadpool -->
+            <id>commons-pool</id>
+            <version>20030623.172700</version>
+            <properties>
+                <category>runtime</category>
+            </properties>
+        </dependency>
+        <dependency><!-- for commons-pool -->
+            <id>commons-collections</id>
+            <version>2.0</version>
+            <properties>
+                <category>runtime</category>
+            </properties>
+        </dependency>
+        <dependency> <!-- for unit testing the schema validation -->
+            <groupId>spice</groupId>
+           	<artifactId>spice-configkit</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency><!-- for spice-configkit -->
+            <id>isorelax</id>
+            <version>20020414</version>
+        </dependency>
+        <dependency><!-- for spice-configkit -->
+            <id>msv</id>
+            <version>20020414</version>
+        </dependency>
+        <dependency><!-- for spice-configkit -->
+            <id>xsdlib</id>
+            <version>20030225</version>
+        </dependency>
+        <dependency><!-- for spice-configkit -->
+            <id>relaxngDatatype</id>
+            <version>20020414</version>
+        </dependency>
+    </dependencies>
+
+    <developers>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <email>peter at realityforge.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Mauro Talevi</name>
+            <id>maurotalevi</id>
+            <email>mauro.talevi at aquilonia.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+</project>

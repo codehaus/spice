@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<document>
+   <properties>
+      <title>ThreadPool</title>
+      <author>Mauro Talevi</author>
+   </properties>
+   <body>
+      <section name="Introduction">
+         <p>
+            ThreadPool is a utility component that provides the user with ability to
+            pool threads. The toolkit also provides easy mechanisms for users to
+            customize the thread environment before and after it executes the work
+            on the pooled threads.
+         </p>
+         <p>
+            All Spice jars are held in the 
+            <a href="http://spice.sf.net/maven">http://spice.sf.net/maven</a> 
+            repository for Maven usage.
+         </p>
+      </section>
+      <section name="Multi-Container support">
+         <p>
+            ThreadPool implementations are designed to support deployment in different
+            containers or frameworks, while honouring the same API.
+         </p>
+         <subsection name="Avalon Framework">
+            <p>
+               <a href="http://avalon.apache.org/framework">Avalon Framework</a>
+               supports type-1 Inversion of Control (IoC).
+            </p>
+            <p>
+               <a href="apidocs/org/jcomponent/threadpool/impl/AvalonCommonsThreadPool.html">
+                  AvalonCommonsThreadPool</a> provides an implementation of the
+               <a href="apidocs/org/jcomponent/threadpool/ThreadPool.html">
+                  ThreadPool</a> interface which is Avalon-compatible.
+            </p>
+         </subsection>
+         <subsection name="DNA Framework">
+            <p>
+               <a href="http://dna.jcontainer.org">DNA Framework</a>
+               supports type-1 Inversion of Control (IoC).
+            </p>
+            <p>
+               <a href="apidocs/org/jcomponent/threadpool/impl/DNACommonsThreadPool.html">
+                  DNACommonsThreadPool</a> provides an implementation of the
+               <a href="apidocs/org/jcomponent/threadpool/ThreadPool.html">
+                  ThreadPool</a> interface which is DNA-compatible.
+            </p>
+         </subsection>
+         <subsection name="Pico Container">
+            <p>
+               <a href="http://picocontainer.org">Pico Container</a>
+               supports type-3 IoC.
+            </p>
+            <p>
+               <a href="apidocs/org/jcomponent/threadpool/impl/PicoCommonsThreadPool.html">
+                  PicoCommonsThreadPool</a> provides an implementation of the
+               <a href="apidocs/org/jcomponent/threadpool/ThreadPool.html">
+                  ThreadPool</a> interface which is
+                  <img src="http://www.picocontainer.org/images/pico-compatible.png" alt="Pico-compatible"/>.
+            </p>
+         </subsection>
+      </section>
+   </body>
+</document>
