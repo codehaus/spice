@@ -30,14 +30,14 @@
     </preGoal>
 
     <goal name="generateNavigation">
-        <echo message="Generating documentation"/>
-        <mkdir dir="xdocs"/>
+        <mkdir dir="target/generated-xdocs"/>
         <available
             file="xdocs/navigation.xml"
             type="file"
             property="navigationAvailable"/>
 
         <j:if test="${navigationAvailable != 'true'}">
+            <echo message="Generating Navigation"/>
             <j:file name="target/navigation.xml" omitXmlDeclaration="true">
                 <naproject name="${pom.name}">
                     <title>${pom.name}</title>
@@ -53,7 +53,7 @@
             </j:file>
             <doc:jslFile
                 input="target/navigation.xml"
-                output="xdocs/navigation.xml"
+                output="target/generated-xdocs/navigation.xml"
                 stylesheet="../../tools/navigation.jsl"
                 omitXmlDeclaration="true"
                 outputMode="xml"
