@@ -1,5 +1,22 @@
 <?xml version="1.0"?>
-<project default="jar:install">
+<project
+   xmlns:ant="jelly:ant"
+   default="jar:install">
+
+   <preGoal name="jar:jar">
+      <ant:taskdef name="metagenerate"
+         classname="org.realityforge.metaclass.tools.tasks.GenerateClassDescriptorsTask">
+         <ant:classpath>
+            <ant:path refid="maven.dependency.classpath"/>
+         </ant:classpath>
+      </ant:taskdef>
+      <metagenerate destDir="target/classes">
+         <ant:fileset dir="src/java">
+            <ant:include name="org/realityforge/connector/Connector.java"/>
+         </ant:fileset>
+      </metagenerate>
+   </preGoal>
+
 </project>
 
 

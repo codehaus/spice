@@ -1,35 +1,48 @@
 <?xml version="1.0"?>
 <project>
-    <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>Connector Framework</name>
-    <id>spice-connector</id>
-    <currentVersion>1.0</currentVersion>
-    <inceptionYear>2003</inceptionYear>
+   <extend>${basedir}/../../tools/maven/project.xml</extend>
+   <name>Connector Framework</name>
+   <id>spice-connector</id>
+   <currentVersion>1.0</currentVersion>
+   <inceptionYear>2003</inceptionYear>
 
-    <shortDescription>Connector Framework</shortDescription>
+   <shortDescription>Connector Framework</shortDescription>
 
-    <description>
-        Connector Framework.
-    </description>
+   <description>
+      Connector Framework.
+   </description>
 
-    <developers>
-        <developer>
-            <name>Peter Donald</name>
-            <id>donaldp</id>
-            <email>peter@realityforge.org</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-            <timezone>+10</timezone>
-        </developer>
-    </developers>
+   <developers>
+      <developer>
+         <name>Peter Donald</name>
+         <id>donaldp</id>
+         <email>peter@realityforge.org</email>
+         <roles>
+            <role>Developer</role>
+         </roles>
+         <timezone>+10</timezone>
+      </developer>
+   </developers>
 
-    <dependencies>
-        <dependency>
-            <groupId>mockobjects</groupId>
-            <artifactId>mockobjects-core</artifactId>
-            <version>0.09</version>
-        </dependency>
-    </dependencies>
+   <dependencies>
+      <dependency>
+         <groupId>mockobjects</groupId>
+         <artifactId>mockobjects-core</artifactId>
+         <version>0.09</version>
+      </dependency>
+      <dependency>
+         <groupId>spice</groupId>
+         <artifactId>spice-metaclass</artifactId>
+         <version>20031005.002435</version>
+      </dependency>
+      <dependency>
+         <!--
+           Tool for pre-processing and generation
+           of attributes
+         -->
+         <id>qdox</id>
+         <version>1.1</version>
+      </dependency>
+   </dependencies>
 
 </project>
