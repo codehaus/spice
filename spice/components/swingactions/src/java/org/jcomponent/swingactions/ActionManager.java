@@ -22,43 +22,43 @@ import javax.swing.Action;
  */
 public interface ActionManager
 {
-   /**
-    * Adds an ActionListener which handles a given Action
-    *
-    * @param actionId the Id of the Action
-    * @param handler the ActionListener which handles the Action
-    */
-   void addHandler( Object actionId, ActionListener handler );
+    /**
+     * Adds an ActionListener which handles a given Action
+     *
+     * @param actionId the Id of the Action
+     * @param handler the ActionListener which handles the Action
+     */
+    void addHandler( Object actionId, ActionListener handler );
 
-   /**
-    * Enables or disables an Action
-    *
-    * @param actionId the Id of the Action
-    * @param enabled the boolean flag -
-    *    <code>true</code> if Action is enabled
-    */
-   void enableAction( Object actionId, boolean enabled );
+    /**
+     * Enables or disables an Action
+     *
+     * @param actionId the Id of the Action
+     * @param enabled the boolean flag -
+     *    <code>true</code> if Action is enabled
+     */
+    void enableAction( Object actionId, boolean enabled );
 
-   /**
-    * Returns the Action registered with the ActionManager
-    *
-    * @param actionId the Id of the Action
-    */
-   Action getAction( Object actionId )
-      throws NoSuchElementException;
+    /**
+     * Returns the Action registered with the ActionManager
+     *
+     * @param actionId the Id of the Action
+     */
+    Action getAction( Object actionId )
+        throws NoSuchElementException;
 
-   /**
-    * Returns all the Actions registered with the
-    * ActionManager
-    */
-   Action[] getActions();
+    /**
+     * Returns all the Actions registered with the
+     * ActionManager
+     */
+    Action[] getActions();
 
-   /**
-    * Fires ActionEvent wihch will be handled by
-    * the registered handlers.
-    *
-    * @param actionId the Id of the Action being executed
-    * @param actionEvent the ActionEvent being fired
-    */
-   void fireActionEvent( Object actionId, ActionEvent actionEvent );
+    /**
+     * Fires ActionEvent wihch will be handled by
+     * the registered handlers.
+     *
+     * @param actionId the Id of the Action being executed
+     * @param actionEvent the ActionEvent being fired
+     */
+    void fireActionEvent( Object actionId, ActionEvent actionEvent );
 }
