@@ -11,19 +11,51 @@ import java.net.ServerSocket;
 import java.io.IOException;
 
 /**
+ * Monitor used to monitor events in the AcceptorManager.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-08 05:11:40 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-08 08:23:46 $
  */
 public interface AcceptorMonitor
 {
+    /**
+     * Aceptor create with name for specified socket.
+     *
+     * @param name the acceptor name
+     * @param serverSocket the socket
+     */
     void acceptorCreated( String name, ServerSocket serverSocket );
 
+    /**
+     * About to close down acceptor and stop listening for
+     * connections.
+     *
+     * @param name the acceptor name
+     * @param serverSocket the socket
+     */
     void acceptorClosing( String name, ServerSocket serverSocket );
 
+    /**
+     * Listening for connection attempts in acceptor.
+     *
+     * @param name the acceptor name
+     * @param serverSocket the socket
+     */
     void serverSocketListening( String name, ServerSocket serverSocket );
 
+    /**
+     * There was an error accepting client connections.
+     *
+     * @param name the name of acceptor
+     * @param ioe the exception
+     */
     void errorAcceptingConnection( String name, IOException ioe );
 
+    /**
+     * There was an error closing server socket.
+     *
+     * @param name the name of acceptor
+     * @param ioe the exception
+     */
     void errorClosingServerSocket( String name, IOException ioe );
 }
