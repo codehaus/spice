@@ -35,7 +35,7 @@ import org.realityforge.metaclass.tools.packer.ClassDescriptorPacker;
  * Java Source files with qdox.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-11-18 23:06:21 $
+ * @version $Revision: 1.14 $ $Date: 2003-11-20 10:57:26 $
  */
 public class ClassDescriptorCompiler
 {
@@ -236,7 +236,7 @@ public class ClassDescriptorCompiler
         m_monitor.postBuildDescriptorsList( descriptors );
 
         final Set output = compactClassDescriptors( descriptors );
-        m_monitor.postCompactDescriptorsList( descriptors );
+        m_monitor.postCompactDescriptorsList( output );
 
         writeClassDescriptors( output );
     }
