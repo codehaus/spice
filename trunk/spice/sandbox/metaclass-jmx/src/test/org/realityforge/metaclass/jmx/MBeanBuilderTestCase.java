@@ -11,12 +11,13 @@ import junit.framework.TestCase;
 import javax.management.modelmbean.ModelMBeanOperationInfo;
 import javax.management.MBeanParameterInfo;
 import org.realityforge.metaclass.model.Attribute;
+import org.realityforge.metaclass.model.ParameterDescriptor;
 import java.util.Properties;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-13 23:43:37 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-13 23:48:54 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -105,8 +106,33 @@ public class MBeanBuilderTestCase
         assertEquals( "infos[0].type", "int", infos[ 0 ].getType() );
         assertEquals( "infos[0].description", "", infos[ 0 ].getDescription() );
         assertEquals( "infos[0].name", "", infos[ 0 ].getName() );
-        assertEquals( "infos[1].type", "int", infos[ 1 ].getType() );
-        assertEquals( "infos[1].description", "java.lang.String", infos[ 1 ].getDescription() );
+        assertEquals( "infos[1].type", "java.lang.String", infos[ 1 ].getType() );
+        assertEquals( "infos[1].description", "", infos[ 1 ].getDescription() );
         assertEquals( "infos[1].name", "", infos[ 1 ].getName() );
+    }
+
+    public void testBuildParametersFromMetaData()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final String name = "param1";
+        final Properties parameters = new Properties();
+        parameters.setProperty( "name", name );
+        parameters.setProperty( "description", "Blah!" );
+        final Attribute[] attributes =
+            new Attribute[]{new Attribute( "mx.parameter", parameters )};
+        final ParameterDescriptor descriptor1 = new ParameterDescriptor( "param1", "int" );
+        final ParameterDescriptor descriptor2 = new ParameterDescriptor( "param2", "java.lang.String" );
+        final ParameterDescriptor[] descriptors =
+            new ParameterDescriptor[]{descriptor1, descriptor2};
+        final MBeanParameterInfo[] infos =
+            builder.buildParametersFromMetaData( attributes, descriptors );
+        assertEquals( "infos.length", 2, infos.length );
+        assertEquals( "infos[0].type", "int", infos[ 0 ].getType() );
+        assertEquals( "infos[0].description", "Blah!", infos[ 0 ].getDescription() );
+        assertEquals( "infos[0].name", "param1", infos[ 0 ].getName() );
+        assertEquals( "infos[1].type", "java.lang.String", infos[ 1 ].getType() );
+        assertEquals( "infos[1].description", "", infos[ 1 ].getDescription() );
+        assertEquals( "infos[1].name", "param2", infos[ 1 ].getName() );
     }
 }
