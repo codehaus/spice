@@ -2,7 +2,7 @@ package org.realityforge.packet.handlers;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-02-03 05:08:01 $
+ * @version $Revision: 1.2 $ $Date: 2004-02-03 05:08:54 $
  */
 public interface MessageCodes
 {
@@ -50,5 +50,5 @@ public interface MessageCodes
      * Message indicating client or server is disconnecting. Reason follows (as
      * byte) - One of ERROR_* constants.
      */
-    byte ERROR = 4;
+    byte ERROR = 7;
 }
