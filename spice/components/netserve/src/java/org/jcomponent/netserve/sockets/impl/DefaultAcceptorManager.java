@@ -25,9 +25,7 @@ import org.jcomponent.netserve.sockets.SocketAcceptorManager;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.14 $ $Date: 2003-10-24 09:47:30 $
- * @dna.component
- * @dna.service type="SocketAcceptorManager"
+ * @version $Revision: 1.15 $ $Date: 2003-10-27 05:13:29 $
  */
 public class DefaultAcceptorManager
     implements SocketAcceptorManager
@@ -83,7 +81,7 @@ public class DefaultAcceptorManager
      *
      * @param shutdownTimeout the timeout
      */
-    public void setShutdownTimeout( int shutdownTimeout )
+    public void setShutdownTimeout( final int shutdownTimeout )
     {
         m_shutdownTimeout = shutdownTimeout;
     }
