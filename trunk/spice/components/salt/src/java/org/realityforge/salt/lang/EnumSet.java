@@ -55,12 +55,12 @@ public final class EnumSet
    /**
     * A map of name to integer code.
     */
-   private final Map _nameMap = new HashMap();
+   private final Map m_nameMap = new HashMap();
 
    /**
     * A map of integer code to name.
     */
-   private final Map _codeMap = new HashMap();
+   private final Map m_codeMap = new HashMap();
 
    /**
     * Return a read-only set of names in the EnumSet.
@@ -69,7 +69,7 @@ public final class EnumSet
     */
    public final Set getNames()
    {
-      return Collections.unmodifiableSet( _nameMap.keySet() );
+      return Collections.unmodifiableSet( m_nameMap.keySet() );
    }
 
    /**
@@ -79,7 +79,7 @@ public final class EnumSet
     */
    public final Set getCodes()
    {
-      return Collections.unmodifiableSet( _codeMap.keySet() );
+      return Collections.unmodifiableSet( m_codeMap.keySet() );
    }
 
    /**
@@ -91,7 +91,7 @@ public final class EnumSet
     */
    public final String getNameFor( final int code )
    {
-      final String name = (String) _codeMap.get( new Integer( code ) );
+      final String name = (String) m_codeMap.get( new Integer( code ) );
       if ( null == name )
       {
          final String message = "Unknown code " + code;
@@ -109,7 +109,7 @@ public final class EnumSet
     */
    public final int getCodeFor( final String name )
    {
-      final Integer code = (Integer) _nameMap.get( name );
+      final Integer code = (Integer) m_nameMap.get( name );
       if ( null == code )
       {
          final String message = "Unknown name " + name;
@@ -237,7 +237,7 @@ public final class EnumSet
     */
    private void add( final String name, final int code )
    {
-      _nameMap.put( name, new Integer( code ) );
-      _codeMap.put( new Integer( code ), name );
+      m_nameMap.put( name, new Integer( code ) );
+      m_codeMap.put( new Integer( code ), name );
    }
 }
