@@ -9,6 +9,7 @@ package org.realityforge.configkit;
 
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Properties;
 import javax.xml.parsers.FactoryConfigurationError;
 import junit.framework.TestCase;
 import org.xml.sax.EntityResolver;
@@ -23,6 +24,7 @@ public final class ResolverFactoryTestCase
     extends TestCase
 {
     private static final String CATALOG_JAR = "aTestCatalog.jar";
+    private static final String PARSER_KEY = "javax.xml.parsers.SAXParserFactory";
 
     public ResolverFactoryTestCase( final String name )
     {
@@ -49,8 +51,8 @@ public final class ResolverFactoryTestCase
     public void testBadParser()
     {
         final ClassLoader classLoader = createClassLoader();
-        final String oldValue = System.getProperty( "javax.xml.parsers.SAXParserFactory" );
-        System.setProperty( "javax.xml.parsers.SAXParserFactory", "Non-existent-parser" );
+        final String oldValue = System.getProperty( PARSER_KEY );
+        System.setProperty( PARSER_KEY, "Non-existent-parser" );
         try
         {
             ResolverFactory.createResolver( classLoader );
@@ -64,10 +66,17 @@ public final class ResolverFactoryTestCase
         }
         finally
         {
-            System.setProperty( "javax.xml.parsers.SAXParserFactory", oldValue );
+            final Properties properties = System.getProperties();
+            if( null == oldValue )
+            {
+                properties.remove( PARSER_KEY );
+            }
+            else
+            {
+                properties.setProperty( PARSER_KEY, oldValue );
+            }
         }
     }
-
 
     public void testLoadPublicFromJar()
     {
@@ -115,4 +124,3 @@ public final class ResolverFactoryTestCase
         return new URLClassLoader( new URL[]{url} );
     }
 }
-
