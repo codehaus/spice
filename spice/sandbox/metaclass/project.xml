@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>MetaClass</name>
     <id>spice-metaclass</id>
-    <currentVersion>1.0</currentVersion>
+    <currentVersion>1.0-rc1</currentVersion>
     <gumpRepositoryId>sandbox</gumpRepositoryId>
     <inceptionYear>2003</inceptionYear>
 
