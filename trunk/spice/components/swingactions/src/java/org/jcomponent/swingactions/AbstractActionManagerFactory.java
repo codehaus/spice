@@ -34,8 +34,7 @@ public abstract class AbstractActionManagerFactory
    public ActionManager createActionManager( final Map config )
       throws Exception
    {
-      final ActionManager manager = doCreateActionManager( config );
-      return manager;
+      return doCreateActionManager( config );
    }
 
    protected abstract ActionManager doCreateActionManager( Map config )
