@@ -15,7 +15,7 @@ import org.realityforge.netserve.connection.ConnectionHandler;
  * This class is responsible for handling a single connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-04-23 03:50:27 $
+ * @version $Revision: 1.8 $ $Date: 2003-04-23 04:47:13 $
  */
 class ConnectionRunner
     extends AbstractLogEnabled
@@ -96,8 +96,10 @@ class ConnectionRunner
      *
      * @param waitTime the time to wait when attempting to gracefully
      *                 shutdown connection. 0 means wait indefinetly
+     * @param forceShutdown true if when we timeout we should forcefully
+     *                      shutdown connection
      */
-    synchronized void close( final int waitTime )
+    synchronized void close( final int waitTime, final boolean forceShutdown )
     {
         if( !m_done )
         {
@@ -106,7 +108,20 @@ class ConnectionRunner
                 m_thread.interrupt();
             }
 
-            //wait "waitTime" or until m_done is true?
+            //wait "waitTime" or until m_done is true
+            try
+            {
+                wait( waitTime );
+            }
+            catch( InterruptedException e )
+            {
+            }
+
+            //Do we need to forcefully shut the conenction down?
+            if( !m_done && forceShutdown )
+            {
+                shutdown();
+            }
         }
     }
 
@@ -131,9 +146,11 @@ class ConnectionRunner
         }
         finally
         {
-            m_done = true;
-            m_thread = null;
-            m_acceptor.disposeRunner( this );
+            shutdown();
+            synchronized( this )
+            {
+                notifyAll();
+            }
         }
     }
 
@@ -183,5 +200,15 @@ class ConnectionRunner
     public String toString()
     {
         return m_name;
+    }
+
+    /**
+     * Shutdown runner.
+     */
+    private void shutdown()
+    {
+        m_done = true;
+        m_thread = null;
+        m_acceptor.disposeRunner( this );
     }
 }
