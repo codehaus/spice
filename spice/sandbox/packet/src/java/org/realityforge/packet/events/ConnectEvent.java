@@ -7,31 +7,31 @@
  */
 package org.realityforge.packet.events;
 
-import java.nio.channels.SocketChannel;
+import java.nio.channels.ServerSocketChannel;
 
 /**
- * An Event indicating that specified Socket was connected.
+ * An Event indicating that ServerSocket can accept a connection.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2003-12-17 00:20:44 $
+ * @version $Revision: 1.2 $ $Date: 2003-12-17 04:50:27 $
  */
 public class ConnectEvent
 {
-    /** The connected spocket channel. */
-    private final SocketChannel _socketChannel;
+    /** The ServerSocketChannel. */
+    private final ServerSocketChannel _serverSocketChannel;
 
     /**
      * Create event for channel.
      * 
-     * @param socketChannel the channel.
+     * @param channel the channel.
      */
-    public ConnectEvent( final SocketChannel socketChannel )
+    public ConnectEvent( final ServerSocketChannel channel )
     {
-        if( null == socketChannel )
+        if( null == channel )
         {
-            throw new NullPointerException( "socketChannel" );
+            throw new NullPointerException( "channel" );
         }
-        _socketChannel = socketChannel;
+        _serverSocketChannel = channel;
     }
 
     /**
@@ -39,8 +39,8 @@ public class ConnectEvent
      * 
      * @return the socket channel.
      */
-    public SocketChannel getSocketChannel()
+    public ServerSocketChannel getServerSocketChannel()
     {
-        return _socketChannel;
+        return _serverSocketChannel;
     }
 }
