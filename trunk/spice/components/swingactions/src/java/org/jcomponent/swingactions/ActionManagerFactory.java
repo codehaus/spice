@@ -20,25 +20,25 @@ import java.util.Map;
  */
 public interface ActionManagerFactory
 {
-   /**
-    * The URL_LOCATION key.  Used to define the URL where the configuration
-    * for ActionManager can be found.
-    */
-   String URL_LOCATION = "org.jcomponent.swingactions.configuration.url";
+    /**
+     * The URL_LOCATION key.  Used to define the URL where the configuration
+     * for ActionManager can be found.
+     */
+    String URL_LOCATION = "org.jcomponent.swingactions.configuration.url";
 
-   /**
-    * The FILE_LOCATION key.  Used to define the FILE where the configuration
-    * for ActionManager can be found.
-    */
-   String FILE_LOCATION = "org.jcomponent.swingactions.configuration.file";
+    /**
+     * The FILE_LOCATION key.  Used to define the FILE where the configuration
+     * for ActionManager can be found.
+     */
+    String FILE_LOCATION = "org.jcomponent.swingactions.configuration.file";
 
-   /**
-    * Creates a ActionManager from a given set of configuration parameters.
-    *
-    * @param config the Map of parameters for the configuration of the store
-    * @return the ActionManager
-    * @throws Exception if unable to create the ActionManager
-    */
-   ActionManager createActionManager( Map config )
-      throws Exception;
+    /**
+     * Creates a ActionManager from a given set of configuration parameters.
+     *
+     * @param config the Map of parameters for the configuration of the store
+     * @return the ActionManager
+     * @throws Exception if unable to create the ActionManager
+     */
+    ActionManager createActionManager( Map config )
+        throws Exception;
 }

@@ -8,7 +8,6 @@
 package org.jcomponent.swingactions;
 
 import java.io.InputStream;
-
 import org.w3c.dom.Element;
 
 /**
@@ -18,13 +17,13 @@ import org.w3c.dom.Element;
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
 public class XMLActionManager
-   extends AbstractActionManager
+    extends AbstractActionManager
 {
-   public XMLActionManager( final Element element )
-   {
-   }
+    public XMLActionManager( final Element element )
+    {
+    }
 
-   public XMLActionManager( final InputStream resource )
-   {
-   }
+    public XMLActionManager( final InputStream resource )
+    {
+    }
 }

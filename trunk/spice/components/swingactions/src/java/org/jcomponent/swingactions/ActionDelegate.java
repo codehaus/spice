@@ -21,62 +21,62 @@ import javax.swing.event.EventListenerList;
  */
 class ActionDelegate
 {
-   /** List of all the ActionListeners */
-   private EventListenerList m_listeners;
+    /** List of all the ActionListeners */
+    private EventListenerList m_listeners;
 
-   /**
-    * Add a ActionListener to the listener list.
-    * The listener is registered for all properties.
-    *
-    * @param listener  The ActionListener to be added
-    */
-   public synchronized void addActionListener( final ActionListener listener )
-   {
-      if ( m_listeners == null )
-      {
-         m_listeners = new EventListenerList();
-      }
-      m_listeners.add( ActionListener.class, listener );
-   }
+    /**
+     * Add a ActionListener to the listener list.
+     * The listener is registered for all properties.
+     *
+     * @param listener  The ActionListener to be added
+     */
+    public synchronized void addActionListener( final ActionListener listener )
+    {
+        if( m_listeners == null )
+        {
+            m_listeners = new EventListenerList();
+        }
+        m_listeners.add( ActionListener.class, listener );
+    }
 
-   /**
-    * Remove a ActionListener from the listener list.
-    * This removes a ActionListener that was registered for all actions.
-    *
-    * @param listener  The ActionListener to be removed
-    */
-   public synchronized void removeActionListener( final ActionListener listener )
-   {
-      if ( m_listeners == null )
-      {
-         return;
-      }
-      m_listeners.remove( ActionListener.class, listener );
-   }
+    /**
+     * Remove a ActionListener from the listener list.
+     * This removes a ActionListener that was registered for all actions.
+     *
+     * @param listener  The ActionListener to be removed
+     */
+    public synchronized void removeActionListener( final ActionListener listener )
+    {
+        if( m_listeners == null )
+        {
+            return;
+        }
+        m_listeners.remove( ActionListener.class, listener );
+    }
 
-   /**
-    * Returns the array of registers listeners
-    */
-   public synchronized ActionListener[] getListeners()
-   {
-      if ( m_listeners == null )
-      {
-         return new ActionListener[]{};
-      }
-      return (ActionListener[]) m_listeners.getListeners( ActionListener.class );
-   }
+    /**
+     * Returns the array of registers listeners
+     */
+    public synchronized ActionListener[] getListeners()
+    {
+        if( m_listeners == null )
+        {
+            return new ActionListener[]{};
+        }
+        return (ActionListener[])m_listeners.getListeners( ActionListener.class );
+    }
 
-   /**
-    * Fire an ActionEvent to any registered listeners.
-    *
-    * @param event  The ActionEvent
-    */
-   public void fireActionEvent( ActionEvent event )
-   {
-      final ActionListener[] targets = getListeners();
-      for ( int i = 0; i < targets.length; i++ )
-      {
-         targets[ i ].actionPerformed( event );
-      }
-   }
+    /**
+     * Fire an ActionEvent to any registered listeners.
+     *
+     * @param event  The ActionEvent
+     */
+    public void fireActionEvent( ActionEvent event )
+    {
+        final ActionListener[] targets = getListeners();
+        for( int i = 0; i < targets.length; i++ )
+        {
+            targets[ i ].actionPerformed( event );
+        }
+    }
 }

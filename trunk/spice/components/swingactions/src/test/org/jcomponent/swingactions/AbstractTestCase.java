@@ -15,7 +15,6 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
-
 import junit.framework.TestCase;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,13 +45,10 @@ public class AbstractTestCase
         actionsDir.mkdirs();
     }
 
-
     protected final InputStream getResource( final String name )
     {
         return getClass().getResourceAsStream( name );
     }
-
-
 
     /**
      *  Builds an Element from a resource
@@ -63,8 +59,8 @@ public class AbstractTestCase
      *                  or <code>null</code> if none required
      */
     protected static Element buildElement( final InputStream resource,
-                                         final EntityResolver resolver,
-                                         final String systemId )
+                                           final EntityResolver resolver,
+                                           final String systemId )
         throws Exception
     {
         DocumentBuilderFactory dbf = null;
@@ -101,7 +97,6 @@ public class AbstractTestCase
         }
     }
 
-
     protected void runInvalidInputData( final ActionManagerFactory factory )
     {
         try
@@ -115,10 +110,10 @@ public class AbstractTestCase
     }
 
     protected void runStreamBasedFactoryTest( final String inputFile,
-                                            final ActionManagerFactory factory,
-                                            final int level,
-                                            final String outputFile,
-                                            final HashMap inputData )
+                                              final ActionManagerFactory factory,
+                                              final int level,
+                                              final String outputFile,
+                                              final HashMap inputData )
         throws Exception
     {
         //URL Should in file: format
