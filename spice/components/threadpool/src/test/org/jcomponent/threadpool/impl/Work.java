@@ -13,7 +13,7 @@ import org.jcomponent.threadpool.Executable;
  * A bit of work used during testing.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 18:03:03 $
+ * @version $Revision: 1.2 $ $Date: 2003-09-01 00:26:07 $
  */
 class Work
     implements Runnable, Executable
@@ -51,6 +51,7 @@ class Work
             doWork();
             if( null != m_exception )
             {
+                m_exception.fillInStackTrace();
                 if( m_exception instanceof Exception )
                 {
                     throw (Exception)m_exception;
