@@ -40,7 +40,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.10 $ $Date: 2004-01-29 05:48:23 $
+ * @version $Revision: 1.11 $ $Date: 2004-02-02 01:33:57 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -125,7 +125,7 @@ public class PacketIOEventHandler
         }
         else if( event instanceof PacketReadEvent )
         {
-            final PacketReadEvent  e = (PacketReadEvent )event;
+            final PacketReadEvent e = (PacketReadEvent)event;
             handlePacketReadEvent( e.getSession(), e.getPacket() );
         }
         else if( event instanceof TimeEvent )
@@ -172,8 +172,7 @@ public class PacketIOEventHandler
         final Session session = ce.getSession();
         final PacketQueue queue = session.getMessageQueue();
         queue.ack( sequence );
-        if( session.isPendingDisconnect() &&
-            0 == queue.size() )
+        if( session.isPendingDisconnect() )
         {
             final SessionDisconnectRequestEvent response =
                 new SessionDisconnectRequestEvent( session );
@@ -234,6 +233,11 @@ public class PacketIOEventHandler
         {
             handleDisconnect( transport, Protocol.ERROR_NONE );
         }
+        disconnectSession( session );
+    }
+
+    private void disconnectSession( final Session session )
+    {
         session.setStatus( Session.STATUS_DISCONNECTED );
         _sessionManager.deleteSession( session );
         _target.addEvent( new SessionDisconnectEvent( session ) );
@@ -354,7 +358,6 @@ public class PacketIOEventHandler
         catch( final IOException ioe )
         {
         }
-        closeTransport( transport );
     }
 
     private void closeTransport( final ChannelTransport transport )
@@ -829,14 +832,13 @@ public class PacketIOEventHandler
             signalDisconnectTransport( transport, reason,
                                        getSink() );
             final Session session = (Session)transport.getUserData();
-            System.out.println( "receiveDisconnect" );
-            System.out.println( "reason = " + reason );
-            System.out.println( "session = " + session );
-            if( null != session )
+            if( null != session && Protocol.ERROR_NONE == reason )
             {
                 session.setPendingDisconnect();
+                disconnectSession( session );
             }
-            return true;
+            closeTransport( transport );
+            return false;
         }
     }
 
