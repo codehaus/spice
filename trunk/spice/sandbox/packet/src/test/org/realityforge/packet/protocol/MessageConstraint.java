@@ -7,12 +7,12 @@
  */
 package org.realityforge.packet.protocol;
 
-import com.mockobjects.constraint.Constraint;
 import java.nio.ByteBuffer;
+import org.jmock.Constraint;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-12-05 06:57:12 $
+ * @version $Revision: 1.3 $ $Date: 2003-12-09 01:54:07 $
  */
 class MessageConstraint
     implements Constraint

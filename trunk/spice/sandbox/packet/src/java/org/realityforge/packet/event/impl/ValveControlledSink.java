@@ -15,16 +15,16 @@ import org.realityforge.packet.event.EventValve;
  * filtered out by a valve.
  *
  * @author Peter Donald
- * @version $Revision: 1.6 $ $Date: 2003-12-05 06:57:11 $
+ * @version $Revision: 1.7 $ $Date: 2003-12-09 01:54:07 $
  */
 public class ValveControlledSink
     implements EventSink
 {
     /** The destination sink. */
-    private final EventSink _sink;
+    final EventSink m_sink;
 
     /** The valve that controls whether event passed onto sink. */
-    private final EventValve _valve;
+    final EventValve m_valve;
 
     /**
      * Create valved sink terminating on specified sink with specified valve.
@@ -43,8 +43,8 @@ public class ValveControlledSink
         {
             throw new NullPointerException( "valve" );
         }
-        _sink = sink;
-        _valve = valve;
+        m_sink = sink;
+        m_valve = valve;
     }
 
     /**
@@ -52,13 +52,13 @@ public class ValveControlledSink
      */
     public boolean addEvent( final Object event )
     {
-        if( !_valve.acceptEvent( event ) )
+        if( !m_valve.acceptEvent( event ) )
         {
             return false;
         }
         else
         {
-            return _sink.addEvent( event );
+            return m_sink.addEvent( event );
         }
     }
 
@@ -67,13 +67,13 @@ public class ValveControlledSink
      */
     public boolean addEvents( final Object[] events )
     {
-        if( !_valve.acceptEvents( events ) )
+        if( !m_valve.acceptEvents( events ) )
         {
             return false;
         }
         else
         {
-            return _sink.addEvents( events );
+            return m_sink.addEvents( events );
         }
     }
 
@@ -82,6 +82,6 @@ public class ValveControlledSink
      */
     public Object getSyncLock()
     {
-        return _sink.getSyncLock();
+        return m_sink.getSyncLock();
     }
 }
