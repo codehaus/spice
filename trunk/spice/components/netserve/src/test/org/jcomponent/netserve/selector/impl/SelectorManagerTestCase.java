@@ -180,7 +180,10 @@ public class SelectorManagerTestCase
       assertEquals( "isRunning post start", true, manager.isRunning() );
       assertNotNull( "getSelector post start", manager.getSelector() );
 
-      manager.registerChannel( channel, SelectionKey.OP_ACCEPT );
+      manager.registerChannel( channel,
+                               SelectionKey.OP_ACCEPT,
+                               new HelloSelectorEventHandler(),
+                               null );
 
       final Socket clientSocket = new Socket( localAddress, port );
       System.out.print( "Socket Connecting" );
