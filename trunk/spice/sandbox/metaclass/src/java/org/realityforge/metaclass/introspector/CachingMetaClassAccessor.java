@@ -6,13 +6,13 @@ import java.util.WeakHashMap;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
- * Map backed MetaClassRegistry implementation.
+ * Caching MetaClassAccessor implementation.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 06:18:43 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-28 06:40:56 $
  */
-public class DefaultMetaClassRegistry
-   implements MetaClassRegistry
+public class CachingMetaClassAccessor
+   implements MetaClassAccessor
 {
    /**
     * Class used to access the MetaData.
@@ -25,7 +25,7 @@ public class DefaultMetaClassRegistry
     * turn stores info for particular classes in
     * classloader.
     */
-   private final Map c_cache = new WeakHashMap();
+   private final Map m_cache = new WeakHashMap();
 
    /**
     * Set the MetaClassAccessor to use to locate
@@ -43,12 +43,28 @@ public class DefaultMetaClassRegistry
    }
 
    /**
-    * @see MetaClassRegistry#getClassDescriptor
+    * Remove all descriptors from registry.
+    */
+   public void clear()
+   {
+      m_cache.clear();
+   }
+
+   /**
+    * @see MetaClassAccessor#getClassDescriptor
     */
    public ClassDescriptor getClassDescriptor( final String classname,
                                               final ClassLoader classLoader )
       throws MetaClassException
    {
+      if ( null == classname )
+      {
+         throw new NullPointerException( "classname" );
+      }
+      if ( null == classLoader )
+      {
+         throw new NullPointerException( "classLoader" );
+      }
       final Map cache = getClassLoaderCache( classLoader );
       ClassDescriptor descriptor = (ClassDescriptor) cache.get( classname );
       if ( null != descriptor )
@@ -64,11 +80,22 @@ public class DefaultMetaClassRegistry
    }
 
    /**
-    * @see MetaClassRegistry#registerDescriptor
+    * Register specified descriptor and associated with specified ClassLoader.
+    *
+    * @param descriptor the descriptor
+    * @param classLoader the ClassLoader
     */
    public void registerDescriptor( final ClassDescriptor descriptor,
                                    final ClassLoader classLoader )
    {
+      if ( null == descriptor )
+      {
+         throw new NullPointerException( "descriptor" );
+      }
+      if ( null == classLoader )
+      {
+         throw new NullPointerException( "classLoader" );
+      }
       final Map cache = getClassLoaderCache( classLoader );
       cache.put( descriptor.getName(), descriptor );
    }
@@ -81,13 +108,12 @@ public class DefaultMetaClassRegistry
     */
    private synchronized Map getClassLoaderCache( final ClassLoader classLoader )
    {
-      Map map = (Map) c_cache.get( classLoader );
+      Map map = (Map) m_cache.get( classLoader );
       if ( null == map )
       {
          map = new WeakHashMap();
-         c_cache.put( classLoader, map );
+         m_cache.put( classLoader, map );
       }
       return map;
    }
-
 }
