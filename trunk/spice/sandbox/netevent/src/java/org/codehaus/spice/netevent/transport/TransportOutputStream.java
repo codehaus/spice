@@ -13,7 +13,7 @@ import org.codehaus.spice.netevent.events.OutputDataPresentEvent;
  * An output stream that will send chunks of data via transport.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-12 23:57:37 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-15 05:55:44 $
  */
 public class TransportOutputStream
     extends OutputStream
@@ -112,7 +112,6 @@ public class TransportOutputStream
      * @see OutputStream#flush()
      */
     public synchronized void flush()
-        throws IOException
     {
         if( null != _buffer )
         {
@@ -127,10 +126,12 @@ public class TransportOutputStream
      * @see OutputStream#close()
      */
     public void close()
-        throws IOException
     {
-        flush();
-        _closed = true;
-        _sink.addEvent( new CloseChannelRequestEvent( _transport ) );
+        if( !_closed )
+        {
+            flush();
+            _closed = true;
+            _sink.addEvent( new CloseChannelRequestEvent( _transport ) );
+        }
     }
 }
