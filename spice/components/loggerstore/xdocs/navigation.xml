@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Spice LoggerStore">
+
+  <title>Spice LoggerStore</title>
+
+  <body>
+    <menu name="Overview">
+      <item name="LoggerStore"              href="/index.html"/>
+      <item name="Configuration"            href="/configuration.html"/>
+    </menu>
+  </body>
+</project>
