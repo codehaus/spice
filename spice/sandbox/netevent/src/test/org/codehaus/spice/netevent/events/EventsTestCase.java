@@ -1,12 +1,13 @@
 package org.codehaus.spice.netevent.events;
 
+import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import junit.framework.TestCase;
 import org.codehaus.spice.netevent.transport.TcpTransport;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-07 04:02:38 $
+ * @version $Revision: 1.2 $ $Date: 2004-01-07 04:13:36 $
  */
 public class EventsTestCase
     extends TestCase
@@ -46,6 +47,41 @@ public class EventsTestCase
             new BufferUnderflowEvent( transport );
 
         final String expected = "org.codehaus.spice.netevent.events.BufferUnderflowEvent[null]";
+        assertEquals( "event.toString()", expected, event.toString() );
+    }
+
+    public void testNull_channel_PassedIntoCtor()
+        throws Exception
+    {
+        try
+        {
+            new ConnectEvent( null );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( "npe.getMessage()", "channel", npe.getMessage() );
+            return;
+        }
+        fail( "Expected a NPE when passing channel into Ctor" );
+    }
+
+    public void testGetServerSocketChannelOnConnectEvent()
+        throws Exception
+    {
+        final ServerSocketChannel channel = ServerSocketChannel.open();
+        final ConnectEvent event = new ConnectEvent( channel );
+
+        assertEquals( "event.getServerSocketChannel()", channel,
+                      event.getServerSocketChannel() );
+    }
+
+    public void testToStringOnConnectEvent()
+        throws Exception
+    {
+        final ServerSocketChannel channel = ServerSocketChannel.open();
+        final ConnectEvent event = new ConnectEvent( channel );
+
+        final String expected = "org.codehaus.spice.netevent.events.ConnectEvent[null]";
         assertEquals( "event.toString()", expected, event.toString() );
     }
 }
