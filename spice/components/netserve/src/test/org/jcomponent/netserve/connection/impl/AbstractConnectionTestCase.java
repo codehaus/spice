@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
 import junit.framework.TestCase;
-
 import org.jcomponent.netserve.connection.ConnectionManager;
+import org.jcomponent.netserve.sockets.SocketAcceptorManager;
+import org.jcomponent.netserve.sockets.impl.DefaultAcceptorManager;
 import org.realityforge.configkit.ConfigValidator;
 import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ValidateException;
@@ -31,7 +31,7 @@ import org.xml.sax.ErrorHandler;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-31 10:07:43 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-14 04:12:18 $
  */
 public abstract class AbstractConnectionTestCase
     extends TestCase
@@ -65,20 +65,8 @@ public abstract class AbstractConnectionTestCase
         0, 0, 0, 0, 0, 0, 0, 0
     };
 
-    /**
-     * Delay used to try and trick OS into unbinding socket.
-     */
-    private static final int PRECREATE_DELAY =
-        Integer.parseInt( System.getProperty( "netserve.precreate.delay", "100" ) );
-
     private ConnectionMonitor m_monitor;
     private Set m_sockets = new HashSet();
-
-    public AbstractConnectionTestCase( final String name )
-    {
-        super( name );
-    }
-
 
     protected void tearDown() throws Exception
     {
@@ -91,7 +79,6 @@ public abstract class AbstractConnectionTestCase
             shutdown( serverSocket );
         }
     }
-
 
     public void testSchemaValidation()
         throws Exception
@@ -116,7 +103,8 @@ public abstract class AbstractConnectionTestCase
     public void testDoNothingConnectionManager()
         throws Exception
     {
-        final ConnectionManager cm = createConnectionManager( true, 50, true, 200 );
+        final ConnectionManager cm =
+            createConnectionManager( true, new DefaultAcceptorManager(), true, 200 );
         try
         {
             //do nothing
@@ -133,26 +121,18 @@ public abstract class AbstractConnectionTestCase
         for( int i = 0; i < TEST_COUNT; i++ )
         {
             doConnectionManagerTests( i );
-
-            //need to sleep a bit so that OS can recover bound socket
-            System.gc();
-            System.gc();
-            try
-            {
-                Thread.sleep( 200 );
-            }
-            catch( InterruptedException e )
-            {
-            }
         }
     }
 
     private void doConnectionManagerTests( int i ) throws Exception
     {
-        final ConnectionManager cm = createConnectionManager( ADD_TP[ i ],
-                                               SO_TIMEOUT[ i ],
-                                               FORCE_SHUTDOWN[ i ],
-                                               SHUTDOWN_TIMEOUT[ i ] );
+        final DefaultAcceptorManager acceptorManager = new DefaultAcceptorManager();
+        acceptorManager.setSoTimeout( SO_TIMEOUT[ i ] );
+        final ConnectionManager cm =
+            createConnectionManager( ADD_TP[ i ],
+                                     acceptorManager,
+                                     FORCE_SHUTDOWN[ i ],
+                                     SHUTDOWN_TIMEOUT[ i ] );
         try
         {
             runConnectionManagerTests( cm );
@@ -163,7 +143,8 @@ public abstract class AbstractConnectionTestCase
         }
     }
 
-    private void runConnectionManagerTests( final ConnectionManager cm ) throws Exception
+    private void runConnectionManagerTests( final ConnectionManager cm )
+        throws Exception
     {
         final RandomizingHandler handler = new RandomizingHandler();
         cm.connect( "a", getServerSocket(), handler );
@@ -216,7 +197,6 @@ public abstract class AbstractConnectionTestCase
         cm.disconnect( "q", true );
     }
 
-
     public void testNullInCtor()
         throws Exception
     {
@@ -239,7 +219,11 @@ public abstract class AbstractConnectionTestCase
                     acceptLoop( serverSocket );
                 }
             };
-            startAndWait( runnable );
+
+            final Thread thread = new Thread( runnable );
+            thread.start();
+            Thread.sleep( 50 );
+
             socket = new Socket( HOST, PORT );
 
             try
@@ -373,13 +357,10 @@ public abstract class AbstractConnectionTestCase
         final ServerSocket serverSocket = getServerSocket();
         try
         {
-            final ConnectionAcceptor acceptor =
-                new ConnectionAcceptor( "test-" + getName() + "-",
-                                        serverSocket,
-                                        new RandomizingHandler(),
-                                        m_monitor,
-                                        null );
-            start( acceptor );
+            final ConnectionManager cm =
+                createConnectionManager( true, new DefaultAcceptorManager(), false, 0 );
+
+            cm.connect( getName(), serverSocket, new RandomizingHandler() );
 
             final ArrayList list = new ArrayList();
             for( int i = 0; i < 1000; i++ )
@@ -398,7 +379,7 @@ public abstract class AbstractConnectionTestCase
                 {
                 }
             }
-            acceptor.close( 0, false );
+            disposeConnectionManager( cm );
         }
         finally
         {
@@ -414,15 +395,12 @@ public abstract class AbstractConnectionTestCase
         {
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
             chm.addHandler( new DelayingConnectionHandler( 200 ) );
-            final ConnectionAcceptor acceptor =
-                new ConnectionAcceptor( "test-" + getName() + "-",
-                                        serverSocket,
-                                        chm,
-                                        m_monitor,
-                                        null );
-            startAndWait( acceptor );
+
+            final ConnectionManager cm =
+                createConnectionManager( true, new DefaultAcceptorManager(), false, 200 );
+            cm.connect( getName(), serverSocket, chm );
             doClientConnect();
-            acceptor.close( 0, false );
+            cm.disconnect( getName(), false );
         }
         finally
         {
@@ -456,37 +434,6 @@ public abstract class AbstractConnectionTestCase
         }
     }
 
-    public void testOverRunCleanShutdownNoLogging()
-        throws Exception
-    {
-        final ServerSocket serverSocket = getServerSocket();
-        try
-        {
-            final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
-            chm.addHandler( new DelayingConnectionHandler( 200 ) );
-            final ConnectionAcceptor acceptor =
-                new ConnectionAcceptor( "test-" + getName() + "-",
-                                        serverSocket,
-                                        chm,
-                                        m_monitor,
-                                        new TestThreadPool() );
-            startAndWait( acceptor );
-            doClientConnect();
-            acceptor.close( 0, false );
-        }
-        finally
-        {
-            shutdown( serverSocket );
-        }
-    }
-
-    private void startAndWait( final Runnable runnable )
-        throws InterruptedException
-    {
-        start( runnable );
-        Thread.sleep( 50 );
-    }
-
     public void testOverRunForceShutdown()
         throws Exception
     {
@@ -495,86 +442,11 @@ public abstract class AbstractConnectionTestCase
         {
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
             chm.addHandler( new DelayingConnectionHandler( 200 ) );
-            final ConnectionAcceptor acceptor =
-                new ConnectionAcceptor( "test-" + getName() + "-",
-                                        serverSocket,
-                                        chm,
-                                        m_monitor,
-                                        new TestThreadPool() );
-            startAndWait( acceptor );
+            final ConnectionManager cm =
+                createConnectionManager( true, new DefaultAcceptorManager(), false, 200 );
+            cm.connect( getName(), serverSocket, chm );
             doClientConnect();
-            acceptor.close( 5, true );
-        }
-        finally
-        {
-            shutdown( serverSocket );
-        }
-    }
-
-    public void testExceptingHandlerManager()
-        throws Exception
-    {
-        final ServerSocket serverSocket = getServerSocket();
-        try
-        {
-            final ConnectionAcceptor acceptor =
-                new ConnectionAcceptor( "test-" + getName() + "-",
-                                        serverSocket,
-                                        new ExceptingHandlerManager(),
-                                        m_monitor,
-                                        null );
-            startAndWait( acceptor );
-            doClientConnect();
-            acceptor.close( 5, true );
-        }
-        finally
-        {
-            shutdown( serverSocket );
-        }
-    }
-
-    public void testExceptingHandler()
-        throws Exception
-    {
-        final ServerSocket serverSocket = getServerSocket();
-        try
-        {
-            final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
-            chm.addHandler( new ExceptingConnectionHandler() );
-            final ConnectionAcceptor acceptor =
-                new ConnectionAcceptor( "test-" + getName() + "-",
-                                        serverSocket,
-                                        chm,
-                                        m_monitor,
-                                        null );
-            startAndWait( acceptor );
-            doClientConnect();
-            acceptor.close( 5, true );
-        }
-        finally
-        {
-            shutdown( serverSocket );
-        }
-    }
-
-    public void testOverRunForceShutdownNoLogging()
-        throws Exception
-    {
-        final ServerSocket serverSocket = getServerSocket();
-        try
-        {
-            final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
-            chm.addHandler( new DelayingConnectionHandler( 200 ) );
-            final ConnectionMonitor monitor = createConnectionMonitorNoLogging();
-            final ConnectionAcceptor acceptor =
-                new ConnectionAcceptor( "test-" + getName() + "-",
-                                        serverSocket,
-                                        chm,
-                                        monitor,
-                                        null );
-            startAndWait( acceptor );
-            doClientConnect();
-            acceptor.close( 5, true );
+            cm.disconnect( getName(), true );
         }
         finally
         {
@@ -589,16 +461,11 @@ public abstract class AbstractConnectionTestCase
         try
         {
             final TestConnectionHandlerManager chm = new TestConnectionHandlerManager();
-            final ConnectionMonitor monitor = createConnectionMonitorNoLogging();
-            final ConnectionAcceptor acceptor =
-                new ConnectionAcceptor( "test-" + getName() + "-",
-                                        serverSocket,
-                                        chm,
-                                        monitor,
-                                        null );
-            startAndWait( acceptor );
+            final ConnectionManager cm =
+                createConnectionManager( true, new DefaultAcceptorManager(), false, 5 );
+            cm.connect( getName(), serverSocket, chm );
             doClientConnect();
-            acceptor.close( 5, true );
+            cm.disconnect( getName(), true );
         }
         finally
         {
@@ -615,16 +482,10 @@ public abstract class AbstractConnectionTestCase
     {
         try
         {
-            Thread.sleep( PRECREATE_DELAY );
-        }
-        catch( InterruptedException e )
-        {
-        }
-        try
-        {
             final ServerSocket serverSocket = new ServerSocket( port, 5, HOST );
             m_sockets.add( serverSocket );
             serverSocket.setSoTimeout( 50 );
+            serverSocket.setReuseAddress( true );
             return serverSocket;
         }
         catch( IOException ioe )
@@ -633,12 +494,6 @@ public abstract class AbstractConnectionTestCase
             ioe.printStackTrace( System.out );
             throw ioe;
         }
-    }
-
-    private void start( final Runnable acceptor )
-    {
-        final Thread thread = new Thread( acceptor );
-        thread.start();
     }
 
     protected void shutdown( final ServerSocket serverSocket )
@@ -675,7 +530,10 @@ public abstract class AbstractConnectionTestCase
         m_monitor = monitor;
     }
 
-    protected abstract ConnectionManager createConnectionManager( boolean addThreadPool, final int soTimeoutVal, final boolean forceShutdown, final int shutdownTimeout ) 
+    protected abstract ConnectionManager createConnectionManager( boolean addThreadPool,
+                                                                  final SocketAcceptorManager acceptorManager,
+                                                                  final boolean forceShutdown,
+                                                                  final int shutdownTimeout )
         throws Exception;
 
     protected abstract ConnectionMonitor createConnectionMonitor();
@@ -684,5 +542,4 @@ public abstract class AbstractConnectionTestCase
 
     protected abstract void disposeConnectionManager( final ConnectionManager cm )
         throws Exception;
-
 }
