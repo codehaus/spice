@@ -1,7 +1,6 @@
 package org.jcomponent.netserve.connection.handlers;
 
 import java.io.IOException;
-import java.net.ProtocolException;
 import java.net.Socket;
 import org.jcomponent.netserve.connection.ConnectionHandler;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
@@ -37,10 +36,8 @@ public abstract class DefaultRequestHandler
      * Handle a connection.
      *
      * @param socket the socket
-     * @throws IOException if an error occurs
      */
     public void handleConnection( Socket socket )
-        throws IOException, ProtocolException
     {
         performRequest( socket );
     }

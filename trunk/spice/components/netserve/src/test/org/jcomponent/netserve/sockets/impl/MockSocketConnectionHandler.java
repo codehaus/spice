@@ -7,23 +7,20 @@
  */
 package org.jcomponent.netserve.sockets.impl;
 
-import java.io.IOException;
 import java.net.Socket;
-
 import org.jcomponent.netserve.connection.ConnectionHandler;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-24 04:27:55 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-24 08:05:23 $
  */
 class MockSocketConnectionHandler
     implements ConnectionHandler
 {
     private Socket m_socket;
 
-    public void handleConnection( Socket connection )
-        throws IOException
+    public void handleConnection( final Socket connection )
     {
         m_socket = connection;
     }

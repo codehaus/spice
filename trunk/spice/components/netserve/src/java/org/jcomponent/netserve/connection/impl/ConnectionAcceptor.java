@@ -20,7 +20,7 @@ import org.jcomponent.threadpool.ThreadPool;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-24 07:59:42 $
+ * @version $Revision: 1.8 $ $Date: 2003-10-24 08:05:22 $
  */
 class ConnectionAcceptor
     implements ConnectionHandler
@@ -175,7 +175,6 @@ class ConnectionAcceptor
      * @param socket the socket
      */
     public void handleConnection( final Socket socket )
-        throws IOException
     {
         final ConnectionHandler handler;
         try

@@ -7,18 +7,15 @@
  */
 package org.jcomponent.netserve.connection.impl;
 
-import java.io.IOException;
-import java.net.ProtocolException;
 import java.net.Socket;
 import java.util.Random;
-
 import org.jcomponent.netserve.connection.ConnectionHandler;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-31 09:33:55 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-24 08:05:22 $
  */
 class RandomizingHandler
     implements ConnectionHandlerManager, ConnectionHandler
@@ -36,7 +33,6 @@ class RandomizingHandler
     }
 
     public void handleConnection( Socket connection )
-        throws IOException, ProtocolException
     {
         try
         {
