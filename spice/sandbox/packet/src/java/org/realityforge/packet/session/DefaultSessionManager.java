@@ -15,15 +15,19 @@ import java.util.Random;
  * A basic in memory SessionManager implementation.
  * 
  * @author Peter Donald
- * @version $Revision: 1.4 $ $Date: 2004-01-20 06:05:04 $
+ * @version $Revision: 1.5 $ $Date: 2004-02-03 04:08:29 $
  */
 public class DefaultSessionManager
     implements SessionManager
 {
-    /** generator for authentication IDs. */
+    /**
+     * generator for authentication IDs.
+     */
     private final Random _generator = new Random();
 
-    /** Map of sessionIDs to sessions. */
+    /**
+     * Map of sessionIDs to sessions.
+     */
     private final Map _sessions = new HashMap();
 
     /**
@@ -38,6 +42,14 @@ public class DefaultSessionManager
     public Session findSession( final long id )
     {
         return (Session)_sessions.get( new Long( id ) );
+    }
+
+    /**
+     * @see SessionManager#getSessionCount()
+     */
+    public int getSessionCount()
+    {
+        return _sessions.size();
     }
 
     /**
