@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+     This is the SwingActions test configuration file 
+-->
+
+<swingactions>
+
+  <!-- Action set -->
+  <action-set>
+    <action id="action-1" 
+    	    name="Action 1" 
+    	    shortDescription="Action 1 Short Desc" 
+    	    longDescription="Action 1 Long Desc"
+    	    smallIcon="/path/to/icon/action1-small.gif"
+    	    largeIcon="/path/to/icon/action1-large.gif"
+			commandKey=""
+			mnemonicKey="'1'"
+			acceleratorKey="CTRL-1"/>
+    <action id="action-2" 
+    	    name="Action 2" 
+    	    shortDescription="Action 2 Short Desc" 
+    	    longDescription="Action 2 Long Desc"
+    	    smallIcon="/path/to/icon/action2-small.gif"
+    	    largeIcon="/path/to/icon/action2-large.gif"
+			commandKey=""
+			mnemonicKey="'2'"
+			acceleratorKey="CTRL-2"/>
+    <action id="action-3" 
+    	    name="Action 3" 
+    	    shortDescription="Action 3 Short Desc" 
+    	    longDescription="Action 3 Long Desc"
+    	    smallIcon="/path/to/icon/action3-small.gif"
+    	    largeIcon="/path/to/icon/action3-large.gif"
+			commandKey=""
+			mnemonicKey="'3'"
+			acceleratorKey="CTRL-3"/>
+    <action id="action-4" 
+    	    name="Action 4" 
+    	    shortDescription="Action 4 Short Desc" 
+    	    longDescription="Action 4 Long Desc"
+    	    smallIcon="/path/to/icon/action4-small.gif"
+    	    largeIcon="/path/to/icon/action4-large.gif"
+			commandKey=""
+			mnemonicKey="'4'"
+			acceleratorKey="CTRL-4"/>
+	
+	<action-group id="group-1">
+    	<action id="action-1" groupOrder="1" name="Name of Action 1"/> 
+    	<action id="action-2" groupOrder="2" smallIcon="/path/to/group/icon/action2-small.gif"/> 
+	</action-group>
+	<action-group id="group-2">
+    	<action id="action-3" groupOrder="2" shortDescription="Action 3 Short Desc in group-2"/> 
+    	<separator/>
+    	<action id="action-4" groupOrder="1" mnemonicKey="'M'"/> 
+	</action-group>
+
+  </action-set>
+
+
+</swingactions>

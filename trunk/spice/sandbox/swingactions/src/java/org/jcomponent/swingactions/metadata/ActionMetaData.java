@@ -43,7 +43,7 @@ public class ActionMetaData
     private static final String[] MANDATORY_KEYS = new String[] { ID, NAME };
 
     /** The map holding the metadata */
-    private final Map m_data;
+    protected final Map m_data;
 
     /**
      * Constructs ActionMetaData object
@@ -78,16 +78,25 @@ public class ActionMetaData
     }
 
     /**
+     *  Returns the array of mandatory keys
+     */
+    protected String[] getMandatoryKeys()
+    {
+        return MANDATORY_KEYS;
+    }
+    
+    /**
      *  Checks data for null entries in mandatory entries
      *  @throws NullPointerException
      */
     private void checkData()
     {
-        for ( int i = 0; i < MANDATORY_KEYS.length; i++ )
+        final String[] mandatoryKeys = getMandatoryKeys();
+        for ( int i = 0; i < mandatoryKeys.length; i++ )
         {
-            if ( m_data.get( MANDATORY_KEYS[i] ) == null )
+            if ( m_data.get( mandatoryKeys[i] ) == null )
             {
-                throw new NullPointerException( MANDATORY_KEYS[i] );
+                throw new NullPointerException( mandatoryKeys[i] );
             }
             
         }
