@@ -17,7 +17,7 @@ import java.util.HashMap;
  *
  * @author <a href="mailto:peter at apache.org">Peter Donald</a>
  * @author <a href="mailto:colus at apache.org">Eung-ju Park</a>
- * @version $Revision: 1.8 $ $Date: 2003-05-29 03:27:26 $
+ * @version $Revision: 1.9 $ $Date: 2003-06-13 01:36:53 $
  */
 public class ResourceManager
 {
@@ -25,7 +25,7 @@ public class ResourceManager
      * Postfix appended to base names to get names of Resource
      * files.
      */
-    private static final String POSTFIX = ".Resources";
+    private static final String POSTFIX = "Resources";
 
     /**
      * Permission needed to clear complete cache.
