@@ -7,19 +7,26 @@
  */
 package org.jcomponent.netserve.connection.handlers;
 
-import org.jcomponent.netserve.connection.ConnectionHandler;
-import java.net.Socket;
 import java.io.IOException;
+import java.net.Socket;
+import java.util.HashSet;
+import java.util.Set;
+import org.jcomponent.netserve.connection.ConnectionHandler;
 
 /**
  * Abstract base class for request handlers.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-25 22:29:49 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-26 01:04:18 $
  */
 public abstract class AbstractRequestHandler
     implements ConnectionHandler
 {
+    /**
+     * The set of active requests.
+     */
+    private final Set m_activeRequests = new HashSet();
+
     /**
      * Handle a connection.
      *
@@ -31,6 +38,45 @@ public abstract class AbstractRequestHandler
     }
 
     /**
+     * @see ConnectionHandler#shutdown
+     */
+    public void shutdown( final long timeout )
+    {
+        final Thread[] threads;
+        synchronized( this )
+        {
+            threads = (Thread[])m_activeRequests.
+                toArray( new Thread[ m_activeRequests.size() ] );
+        }
+        for( int i = 0; i < threads.length; i++ )
+        {
+            final Thread thread = threads[ i ];
+            thread.interrupt();
+        }
+        final long now = System.currentTimeMillis();
+        final long then = now + timeout;
+
+        while( System.currentTimeMillis() < then || 0 == timeout )
+        {
+            synchronized( this )
+            {
+                if( 0 == m_activeRequests.size() )
+                {
+                    return;
+                }
+                try
+                {
+                    wait( timeout );
+                }
+                catch( final InterruptedException ie )
+                {
+                    //Ignore
+                }
+            }
+        }
+    }
+
+    /**
      * Perform the request for socket by delegating to
      * underlying handler.
      *
@@ -38,6 +84,10 @@ public abstract class AbstractRequestHandler
      */
     protected void performRequest( final Socket socket )
     {
+        synchronized( this )
+        {
+            m_activeRequests.add( Thread.currentThread() );
+        }
         setupThreadName( socket );
         try
         {
@@ -50,6 +100,11 @@ public abstract class AbstractRequestHandler
         finally
         {
             endConnection( socket );
+            synchronized( this )
+            {
+                m_activeRequests.remove( Thread.currentThread() );
+                notifyAll();
+            }
         }
     }
 

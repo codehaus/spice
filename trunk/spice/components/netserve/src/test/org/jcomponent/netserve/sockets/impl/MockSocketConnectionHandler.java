@@ -8,21 +8,22 @@
 package org.jcomponent.netserve.sockets.impl;
 
 import java.net.Socket;
-import org.jcomponent.netserve.connection.ConnectionHandler;
+import org.jcomponent.netserve.connection.handlers.AbstractRequestHandler;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-24 08:05:23 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-26 01:04:18 $
  */
 class MockSocketConnectionHandler
-    implements ConnectionHandler
+    extends AbstractRequestHandler
 {
     private Socket m_socket;
 
-    public void handleConnection( final Socket connection )
+    protected void doPerformRequest( Socket socket )
+        throws Exception
     {
-        m_socket = connection;
+        m_socket = socket;
     }
 
     Socket getSocket()

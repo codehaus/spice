@@ -13,15 +13,24 @@ import java.net.Socket;
  * Implement this interface to process incoming socket connections.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-24 08:05:20 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-26 01:04:18 $
  */
 public interface ConnectionHandler
 {
     /**
-     * Processes connections as they occur. The handler should not
-     * close the <tt>connection</tt>, the caller will do that.
+     * Processes connections as they occur.
      *
-     * @param connection the connection
+     * @param socket the socket
      */
-    void handleConnection( Socket connection );
+    void handleConnection( Socket socket );
+
+    /**
+     * Shutdown the handler and any requests currently being handled.
+     * The timeout specifies the time to wait while shutting
+     * down request handlers. A timeout of 0 indicates that
+     * should wait indefinetly.
+     *
+     * @param timeout the timeout
+     */
+    void shutdown( long timeout );
 }
