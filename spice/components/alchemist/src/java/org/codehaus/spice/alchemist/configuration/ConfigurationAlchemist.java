@@ -15,7 +15,8 @@ import org.codehaus.dna.impl.DefaultConfiguration;
  * Utility class containing methods to transform Configuration objects.
  *
  * @author Mauro Talevi
- * @version $Revision: 1.5 $ $Date: 2004-06-20 13:37:27 $
+ * @author Peter Donald
+ * @version $Revision: 1.6 $ $Date: 2004-06-20 14:03:58 $
  */
 public class ConfigurationAlchemist
 {
@@ -30,7 +31,27 @@ public class ConfigurationAlchemist
         if ( null == configuration ) { 
             throw new NullPointerException( "configuration" ); 
         }
-        return new DefaultConfiguration( configuration.getName(), configuration.getLocation(), "" );
+		final DefaultConfiguration result = new DefaultConfiguration(
+                configuration.getName(), configuration.getLocation(), "");
+        final String[] names = configuration.getAttributeNames();
+        for ( int i = 0; i < names.length; i++ ) 
+        {
+            final String name = names[i];
+            final String value = configuration.getAttribute( name, null );
+            result.setAttribute( name, value );
+        }
+        final org.apache.avalon.framework.configuration.Configuration[] children = configuration.getChildren();
+        for ( int i = 0; i < children.length; i++ )
+        {
+            final Configuration child = toDNAConfiguration( children[i] );
+            result.addChild( child );
+        }
+        final String value = configuration.getValue( null );
+        if ( null != value ) 
+        {
+            result.setValue( value );
+        }
+        return result;
     }
 
     /**
@@ -44,7 +65,27 @@ public class ConfigurationAlchemist
         if ( null == configuration ) { 
             throw new NullPointerException( "configuration" ); 
         }
-        return new org.apache.avalon.framework.configuration.DefaultConfiguration( configuration.getName(), configuration.getLocation() );
+		final org.apache.avalon.framework.configuration.DefaultConfiguration result = new org.apache.avalon.framework.configuration.DefaultConfiguration(
+                configuration.getName(), configuration.getLocation() );
+        final String[] names = configuration.getAttributeNames();
+        for ( int i = 0; i < names.length; i++ ) 
+        {
+            final String name = names[i];
+            final String value = configuration.getAttribute( name, null );
+            result.setAttribute( name, value );
+        }
+        final Configuration[] children = configuration.getChildren();
+        for ( int i = 0; i < children.length; i++ )
+        {
+            final org.apache.avalon.framework.configuration.Configuration child = toAvalonConfiguration( children[i] );
+            result.addChild( child );
+        }
+        final String value = configuration.getValue( null );
+        if ( null != value ) 
+        {
+            result.setValue( value );
+        }
+        return result;
     }
     
     /**
@@ -52,7 +93,7 @@ public class ConfigurationAlchemist
      * 
      * @param object the Object to check
      * @return A boolean <code>true</code> if the object is an instance of
-     * 		   {@link org.apache.avalon.framework.configuration.Configurable}
+     *         {@link org.apache.avalon.framework.configuration.Configurable}
      */
     public static boolean isAvalonConfigurable( final Object object ){
         if ( object instanceof org.apache.avalon.framework.configuration.Configurable )
