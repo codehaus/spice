@@ -1,4 +1,4 @@
-package org.realityforge.connector;
+package org.realityforge.sca.connector;
 
 /**
  * A Policy that will always attempt to limit
@@ -37,7 +37,7 @@ public class LimitingReconnectPolicy
    }
 
    /**
-    * @see org.realityforge.connector.ReconnectionPolicy#attemptConnection
+    * @see org.realityforge.sca.connector.ReconnectionPolicy#attemptConnection
     */
    public boolean attemptConnection( final long lastConnectionAttempt,
                                      final int connectionAttempts )
@@ -55,7 +55,7 @@ public class LimitingReconnectPolicy
    }
 
    /**
-    * @see org.realityforge.connector.ReconnectionPolicy#disconnectOnError
+    * @see org.realityforge.sca.connector.ReconnectionPolicy#disconnectOnError
     */
    public boolean disconnectOnError( final Throwable t )
    {
@@ -63,7 +63,7 @@ public class LimitingReconnectPolicy
    }
 
    /**
-    * @see org.realityforge.connector.ReconnectionPolicy#reconnectOnDisconnect
+    * @see org.realityforge.sca.connector.ReconnectionPolicy#reconnectOnDisconnect
     */
    public boolean reconnectOnDisconnect()
    {

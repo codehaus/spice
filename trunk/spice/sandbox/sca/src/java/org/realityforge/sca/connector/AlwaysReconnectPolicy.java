@@ -1,4 +1,4 @@
-package org.realityforge.connector;
+package org.realityforge.sca.connector;
 
 /**
  * A Policy that will always attempt to reconnect
@@ -13,7 +13,7 @@ public class AlwaysReconnectPolicy
    public static final AlwaysReconnectPolicy POLICY = new AlwaysReconnectPolicy();
 
    /**
-    * @see org.realityforge.connector.ReconnectionPolicy#attemptConnection
+    * @see org.realityforge.sca.connector.ReconnectionPolicy#attemptConnection
     */
    public boolean attemptConnection( final long lastConnectionAttempt,
                                      final int connectionAttempts )
@@ -22,7 +22,7 @@ public class AlwaysReconnectPolicy
    }
 
    /**
-    * @see org.realityforge.connector.ReconnectionPolicy#disconnectOnError
+    * @see org.realityforge.sca.connector.ReconnectionPolicy#disconnectOnError
     */
    public boolean disconnectOnError( final Throwable t )
    {
@@ -30,7 +30,7 @@ public class AlwaysReconnectPolicy
    }
 
    /**
-    * @see org.realityforge.connector.ReconnectionPolicy#reconnectOnDisconnect
+    * @see org.realityforge.sca.connector.ReconnectionPolicy#reconnectOnDisconnect
     */
    public boolean reconnectOnDisconnect()
    {
