@@ -6,7 +6,7 @@
     </description>
 
     <cvs repository="sourceforge" host-prefix="cvs.spice"
-        module="spice-lib" dir="spice"/>
+        module="spice" dir="spice"/>
 
     <project name="spice-converter">
         <package>org.realityforge.converter</package>
