@@ -8,11 +8,12 @@
 package org.jcomponent.loggerstore;
 
 import org.apache.avalon.framework.logger.Logger;
+import org.jcomponent.loggerstore.stores.AbstractLoggerStore;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 11:51:40 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-18 09:14:30 $
  */
 class MalformedLoggerStore
     extends AbstractLoggerStore

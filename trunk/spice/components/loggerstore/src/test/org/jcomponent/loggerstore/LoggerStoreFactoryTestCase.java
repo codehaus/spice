@@ -17,6 +17,14 @@ import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 import org.apache.avalon.framework.logger.NullLogger;
+import org.jcomponent.loggerstore.factories.ConsoleLoggerStoreFactory;
+import org.jcomponent.loggerstore.factories.DOMLog4JLoggerStoreFactory;
+import org.jcomponent.loggerstore.factories.ExcaliburLogKitLoggerStoreFactory;
+import org.jcomponent.loggerstore.factories.InitialLoggerStoreFactory;
+import org.jcomponent.loggerstore.factories.Jdk14LoggerStoreFactory;
+import org.jcomponent.loggerstore.factories.LogKitLoggerStoreFactory;
+import org.jcomponent.loggerstore.factories.PropertyLog4JLoggerStoreFactory;
+import org.jcomponent.loggerstore.factories.SimpleLogKitLoggerStoreFactory;
 import org.w3c.dom.Element;
 
 /**

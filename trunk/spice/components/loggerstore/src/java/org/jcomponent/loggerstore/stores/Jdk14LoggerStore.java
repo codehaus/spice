@@ -5,10 +5,11 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.jcomponent.loggerstore;
+package org.jcomponent.loggerstore.stores;
 
 import java.io.InputStream;
 import java.util.logging.LogManager;
+
 import org.apache.avalon.framework.logger.Jdk14Logger;
 import org.apache.avalon.framework.logger.Logger;
 

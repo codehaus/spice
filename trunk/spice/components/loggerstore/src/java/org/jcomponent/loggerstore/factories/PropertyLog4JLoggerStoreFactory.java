@@ -5,11 +5,14 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.jcomponent.loggerstore;
+package org.jcomponent.loggerstore.factories;
 
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
+
+import org.jcomponent.loggerstore.LoggerStore;
+import org.jcomponent.loggerstore.stores.*;
 
 /**
  * PropertyLog4JLoggerStoreFactory is an implementation of LoggerStoreFactory
@@ -17,7 +20,7 @@ import java.util.Properties;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-07-13 11:51:41 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-18 09:14:29 $
  */
 public class PropertyLog4JLoggerStoreFactory
     extends AbstractLoggerStoreFactory
