@@ -4,7 +4,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-23 06:51:24 $
+ * @version $Revision: 1.2 $ $Date: 2004-02-03 04:29:53 $
  */
 class SessionData
 {
@@ -42,7 +42,7 @@ class SessionData
 
     public int getUnAckedMessages()
     {
-        return getSession().getMessageQueue().size();
+        return getSession().getTransmitQueue().size();
     }
 
     public Session getSession()
