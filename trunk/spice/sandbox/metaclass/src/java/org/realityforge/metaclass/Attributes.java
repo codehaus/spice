@@ -44,7 +44,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * ClassDescriptor for class) then either an empty array
  * or a null will be returned depending on the method.</p>
  *
- * @version $Revision: 1.4 $ $Date: 2003-09-01 04:37:57 $
+ * @version $Revision: 1.5 $ $Date: 2003-09-01 04:40:46 $
  */
 public class Attributes
 {
@@ -355,10 +355,10 @@ public class Attributes
      *
      * @param field the field
      * @return the FieldDescriptor
-     * @throws Exception if unable to locate FieldDescriptor for Field
+     * @throws MetaClassException if unable to locate FieldDescriptor for Field
      */
     public static FieldDescriptor getField( final Field field )
-        throws Exception
+        throws MetaClassException
     {
         final FieldDescriptor[] fields =
             getClassInfo( field.getDeclaringClass() ).getFields();
@@ -370,7 +370,7 @@ public class Attributes
                 return candidate;
             }
         }
-        throw new Exception();
+        throw new MetaClassException( "No FieldDescriptor matching " + field );
     }
 
     /**
@@ -378,10 +378,10 @@ public class Attributes
      *
      * @param method the method
      * @return the MethodDescriptor
-     * @throws Exception if unable to locate MethodDescriptor for Method
+     * @throws MetaClassException if unable to locate MethodDescriptor for Method
      */
     public static MethodDescriptor getMethod( final Method method )
-        throws Exception
+        throws MetaClassException
     {
         final MethodDescriptor[] methods =
             getClassInfo( method.getDeclaringClass() ).getMethods();
@@ -404,7 +404,7 @@ public class Attributes
                 return candidate;
             }
         }
-        throw new Exception();
+        throw new MetaClassException( "No MethodDescriptor matching " + method );
     }
 
     /**
@@ -412,10 +412,10 @@ public class Attributes
      *
      * @param constructor the Constructor
      * @return the MethodDescriptor
-     * @throws Exception if unable to locate MethodDescriptor for Constructor
+     * @throws MetaClassException if unable to locate MethodDescriptor for Constructor
      */
     public static MethodDescriptor getConstructor( final Constructor constructor )
-        throws Exception
+        throws MetaClassException
     {
         final MethodDescriptor[] methods =
             getClassInfo( constructor.getDeclaringClass() ).getMethods();
@@ -438,7 +438,7 @@ public class Attributes
                 return candidate;
             }
         }
-        throw new Exception();
+        throw new MetaClassException( "No MethodDescriptor matching " + constructor );
     }
 
     /**
@@ -446,10 +446,10 @@ public class Attributes
      *
      * @param clazz the class
      * @return the ClassDescriptor
-     * @throws Exception if unable to get ClassDescriptor
+     * @throws MetaClassException if unable to get ClassDescriptor
      */
     private static ClassDescriptor getClassInfo( final Class clazz )
-        throws Exception
+        throws MetaClassException
     {
         return MetaClassIntrospector.getClassDescriptor( clazz );
     }
