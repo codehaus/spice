@@ -52,9 +52,8 @@
     </define:taglib>
 
     <preGoal name="xdoc:copy-user-resources">
-        <ant:mkdir dir="${basedir}/xdocs/style"/>
         <ant:copy file="${basedir}/../../tools/site/project.css"
-            todir="${basedir}/xdocs/style"/>
+                 todir="target/docs/style"/>
     </preGoal>
 
     <goal name="test-deps">
@@ -98,12 +97,12 @@
                     <title>${pom.name}</title>
                     <body>
                         <links>
-                            <item name="Home" href="/index.html"/>
+                            <item name="Home" href="../index.html"/>
                         </links>
                         <menu name="Overview">
                             <item name="Home" href="../index.html"/>
                             <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
-		                    <item name="Components" href="../index.html" collapse="true">
+		                    <item name="Components" href="index.html" collapse="true">
     		                    <ant:fileScanner var="components">
         		                    <fileset dir="${basedir}/../../components">
             		                    <include name="*/project.xml"/>
