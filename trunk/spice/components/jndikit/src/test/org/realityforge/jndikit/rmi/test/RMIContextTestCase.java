@@ -17,14 +17,14 @@ import org.realityforge.jndikit.test.AbstractContextTestCase;
  * Unit test for RMI context
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class RMIContextTestCase
     extends AbstractContextTestCase
 {
     private static int c_id = 0;
     private static int c_instanceCount = 0;
-    private static Main c_server = new Main();
+    private static Main c_server = new Main( true, 1977 );
     private static Thread c_serverThread;
     private static boolean c_setUp = false;
 
