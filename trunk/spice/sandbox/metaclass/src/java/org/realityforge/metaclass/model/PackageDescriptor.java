@@ -14,7 +14,7 @@ import java.io.Serializable;
  * the name of the package and associated attributes.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-22 04:30:15 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-25 13:12:45 $
  */
 public class PackageDescriptor
     implements Serializable
@@ -22,12 +22,12 @@ public class PackageDescriptor
     /**
      * The name of the package.
      */
-    private final String _name;
+    private final String m_name;
 
     /**
      * The arbitrary set of Attributes associated with Package.
      */
-    private final Attribute[] _attributes;
+    private final Attribute[] m_attributes;
 
     /**
      * Create a PackageDescriptor with specified name and attributes.
@@ -54,8 +54,8 @@ public class PackageDescriptor
             }
         }
 
-        _name = name;
-        _attributes = attributes;
+        m_name = name;
+        m_attributes = attributes;
     }
 
     /**
@@ -65,7 +65,7 @@ public class PackageDescriptor
      */
     public String getName()
     {
-        return _name;
+        return m_name;
     }
 
     /**
@@ -75,6 +75,6 @@ public class PackageDescriptor
      */
     public Attribute[] getAttributes()
     {
-        return _attributes;
+        return m_attributes;
     }
 }

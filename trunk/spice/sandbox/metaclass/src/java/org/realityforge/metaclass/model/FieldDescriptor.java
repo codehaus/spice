@@ -24,7 +24,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.4 $ $Date: 2003-08-16 00:47:03 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-25 13:12:45 $
  */
 public final class FieldDescriptor
     extends FeatureDescriptor
@@ -38,12 +38,12 @@ public final class FieldDescriptor
     /**
      * The name of the field.
      */
-    private final String _name;
+    private final String m_name;
 
     /**
      * The type of the field.
      */
-    private final String _type;
+    private final String m_type;
 
     /**
      * Create a descriptor for a field.
@@ -68,8 +68,8 @@ public final class FieldDescriptor
             throw new NullPointerException( "type" );
         }
 
-        _name = name;
-        _type = type;
+        m_name = name;
+        m_type = type;
     }
 
     /**
@@ -79,7 +79,7 @@ public final class FieldDescriptor
      */
     public String getName()
     {
-        return _name;
+        return m_name;
     }
 
     /**
@@ -89,6 +89,6 @@ public final class FieldDescriptor
      */
     public String getType()
     {
-        return _type;
+        return m_type;
     }
 }

@@ -18,7 +18,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.5 $ $Date: 2003-08-18 07:18:22 $
+ * @version $Revision: 1.6 $ $Date: 2003-08-25 13:12:45 $
  */
 public abstract class FeatureDescriptor
     implements Serializable
@@ -26,13 +26,13 @@ public abstract class FeatureDescriptor
     /**
      * The arbitrary set of Attributes associated with feature.
      */
-    private final Attribute[] _attributes;
+    private final Attribute[] m_attributes;
 
     /**
      * The modifiers for this particular feature as defined
      * in {@link java.lang.reflect.Modifier}.
      */
-    private final int _modifiers;
+    private final int m_modifiers;
 
     /**
      * Create a FeatureDescriptor with specific set of attributes.
@@ -54,8 +54,8 @@ public abstract class FeatureDescriptor
             }
         }
 
-        _attributes = attributes;
-        _modifiers = modifiers;
+        m_attributes = attributes;
+        m_modifiers = modifiers;
     }
 
     /**
@@ -65,7 +65,7 @@ public abstract class FeatureDescriptor
      */
     public Attribute[] getAttributes()
     {
-        return _attributes;
+        return m_attributes;
     }
 
     /**
@@ -77,6 +77,6 @@ public abstract class FeatureDescriptor
      */
     public int getModifiers()
     {
-        return _modifiers;
+        return m_modifiers;
     }
 }
