@@ -13,12 +13,13 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
 import org.codehaus.spice.timeevent.source.SchedulingKey;
 import org.realityforge.packet.Packet;
 import org.realityforge.packet.events.PacketWriteRequestEvent;
+import org.realityforge.packet.events.SessionDisconnectRequestEvent;
 
 /**
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.21 $ $Date: 2004-02-06 04:04:56 $
+ * @version $Revision: 1.22 $ $Date: 2004-02-09 04:50:16 $
  */
 public class Session
 {
@@ -180,6 +181,33 @@ public class Session
         _sessionID = sessionID;
         _authID = authID;
         _client = client;
+    }
+
+    public synchronized void close()
+    {
+        requestShutdown();
+
+        while( true )
+        {
+            if( STATUS_DISCONNECTED == _status )
+            {
+                return;
+            }
+            try
+            {
+                wait();
+            }
+            catch( InterruptedException e )
+            {
+            }
+        }
+    }
+
+    public void requestShutdown()
+    {
+        final SessionDisconnectRequestEvent sdr =
+            new SessionDisconnectRequestEvent( this );
+        _sink.addEvent( sdr );
     }
 
     public void setSink( final EventSink sink )
@@ -347,11 +375,12 @@ public class Session
      * 
      * @param status the status.
      */
-    public void setStatus( final int status )
+    public synchronized void setStatus( final int status )
     {
         _status = status;
         _timeOfLastStatusChange = System.currentTimeMillis();
         cancelTimeout();
+        notifyAll();
     }
 
     /**
