@@ -6,9 +6,9 @@
     <body>
         <section name="Downloading Spice">
             <p>
-                Spice jars are downloadable from the 
-                <a href="http://spice.sourceforge.net/maven">
-                Spice Maven Repository</a>.
+                Spice artifacts are downloadable from the 
+                <a href="http://dist.codehaus.org/spice">
+                Codehaus Distribution Server</a>.
             </p>
         </section>
     </body>
