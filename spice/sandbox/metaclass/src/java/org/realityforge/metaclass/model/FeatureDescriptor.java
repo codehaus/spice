@@ -18,7 +18,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.10 $ $Date: 2003-10-28 11:17:32 $
+ * @version $Revision: 1.11 $ $Date: 2003-10-28 13:19:01 $
  */
 public abstract class FeatureDescriptor
     implements Serializable
@@ -37,6 +37,7 @@ public abstract class FeatureDescriptor
      * Create a FeatureDescriptor with specific set of attributes.
      *
      * @param attributes the attributes
+     * @param declaredAttributes the declared attributes
      */
     protected FeatureDescriptor( final Attribute[] declaredAttributes,
                                  final Attribute[] attributes )
