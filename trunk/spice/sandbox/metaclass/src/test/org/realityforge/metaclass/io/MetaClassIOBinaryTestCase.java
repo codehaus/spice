@@ -22,7 +22,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-22 02:40:34 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-22 02:41:25 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -189,7 +189,12 @@ public class MetaClassIOBinaryTestCase
         return new String( data, offset + STRING_HEADER_SIZE, count );
     }
 
-    private void outputArray( final byte[] bytes )
+    /**
+     * Method during test development to output array contents.
+     *
+     * @param bytes the byte array
+     */
+    protected final void outputArray( final byte[] bytes )
     {
         outputArrayAsInts( bytes );
         outputArrayAsChars( bytes );
