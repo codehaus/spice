@@ -167,7 +167,7 @@ public class SelectorManager
     * called after this method to make sure all
     * resources are deallocated.
     */
-   protected void setInactive()
+   public void setInactive()
    {
       setRunning( false );
    }
