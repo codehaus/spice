@@ -61,10 +61,38 @@ public class SelectorManagerTestCase
       final SelectorManager manager = new SelectorManager();
       manager.setTimeout( 400 );
       assertEquals( "isRunning pre start", false, manager.isRunning() );
+      assertNullSelector( manager );
       manager.startup();
       assertEquals( "isRunning post start", true, manager.isRunning() );
+      assertNotNull( "getSelector post start", manager.getSelector() );
       Thread.sleep( 150 );
       manager.shutdown();
+      assertNullSelector( manager );
       assertEquals( "isRunning post shutdown", false, manager.isRunning() );
+   }
+
+   public void testShutdownSelectorManagerWithoutStatrup()
+      throws Exception
+   {
+      final SelectorManager manager = new SelectorManager();
+      manager.setTimeout( 400 );
+      assertEquals( "isRunning pre shutdown", false, manager.isRunning() );
+      assertNullSelector( manager );
+      manager.shutdown();
+      assertNullSelector( manager );
+      assertEquals( "isRunning post shutdown", false, manager.isRunning() );
+   }
+
+   private void assertNullSelector( final SelectorManager manager )
+   {
+      try
+      {
+         manager.getSelector();
+         fail( "Expected NPE in getSelector" );
+      }
+      catch ( final NullPointerException npe )
+      {
+         assertEquals( "getMessage()", "selector", npe.getMessage() );
+      }
    }
 }
