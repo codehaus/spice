@@ -20,7 +20,7 @@ import java.util.Properties;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.6 $ $Date: 2003-05-26 10:28:42 $
+ * @version $Revision: 1.7 $ $Date: 2003-06-02 20:09:15 $
  */
 public class InitialLoggerStoreFactory
     implements LoggerStoreFactory
@@ -81,7 +81,7 @@ public class InitialLoggerStoreFactory
             loader = Thread.currentThread().getContextClassLoader();
             if( null == loader )
             {
-                loader = Configurator.class.getClassLoader();
+                loader = InitialLoggerStoreFactory.class.getClassLoader();
             }
         }
         return loader;
