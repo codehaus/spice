@@ -23,7 +23,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-08-22 03:00:20 $
+ * @version $Revision: 1.9 $ $Date: 2003-08-22 03:03:19 $
  */
 public class MetaClassIOBinaryTestCase
     extends TestCase
@@ -238,6 +238,28 @@ public class MetaClassIOBinaryTestCase
         offset += STRING_HEADER_SIZE + type.length();
     }
 
+    public void testBinaryIOReadParameters()
+        throws Exception
+    {
+        final String name = "name";
+        final String type = "type";
+        final byte[] bytes = new byte[]
+        {
+            0, 0, 0, 1, //length
+            0, 4, //length of name
+            'n', 'a', 'm', 'e',
+            0, 4, //length of type
+            't', 'y', 'p', 'e'
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
+        final DataInputStream data = new DataInputStream( in );
+        final ParameterDescriptor[] parameters = io.readParameters( data );
+        assertEquals( "parameters.length", 1, parameters.length );
+        assertEquals( "parameters[0].name", name, parameters[ 0 ].getName() );
+        assertEquals( "parameters[0].type", type, parameters[ 0 ].getType() );
+    }
+
     public void testBinaryIOWriteZeroParameters()
         throws Exception
     {
@@ -249,6 +271,20 @@ public class MetaClassIOBinaryTestCase
         final byte[] bytes = out.toByteArray();
         assertEquals( "length", 4, bytes.length );
         assertEquals( "bytes[0-4] = 0", 0, readInteger( bytes, 0 ) );
+    }
+
+    public void testBinaryIOReadZeroParameters()
+        throws Exception
+    {
+        final byte[] bytes = new byte[]
+        {
+            0, 0, 0, 0 //length
+        };
+        final MetaClassIOBinary io = new MetaClassIOBinary();
+        final ByteArrayInputStream in = new ByteArrayInputStream( bytes );
+        final DataInputStream data = new DataInputStream( in );
+        final ParameterDescriptor[] parameters = io.readParameters( data );
+        assertEquals( "parameters.length", 0, parameters.length );
     }
 
     public void testBinaryIOWriteRead()
