@@ -26,7 +26,7 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-22 09:19:42 $
+ * @version $Revision: 1.8 $ $Date: 2003-10-28 05:33:06 $
  */
 public class ClassDescriptorCompilerTestCase
     extends TestCase
@@ -173,6 +173,7 @@ public class ClassDescriptorCompilerTestCase
         task.setMonitor( mockMonitor );
         task.setExtension( DefaultMetaClassAccessor.BINARY_EXT );
         task.setMetaClassIO( new MockIO() );
+        task.setDestDir( generateDirectory() );
         final ClassDescriptor descriptor =
             new ClassDescriptor( "test",
                                  Attribute.EMPTY_SET,
