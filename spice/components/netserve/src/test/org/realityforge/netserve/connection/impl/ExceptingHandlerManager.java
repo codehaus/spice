@@ -13,9 +13,9 @@ import org.realityforge.netserve.connection.ConnectionHandler;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-23 09:37:17 $
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 11:31:08 $
  */
-public class ExceptingHandlerManager implements ConnectionHandlerManager
+class ExceptingHandlerManager implements ConnectionHandlerManager
 {
     public ConnectionHandler aquireHandler()
         throws Exception
