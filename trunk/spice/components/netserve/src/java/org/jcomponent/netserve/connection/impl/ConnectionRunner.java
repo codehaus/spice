@@ -14,7 +14,7 @@ import org.jcomponent.netserve.connection.ConnectionHandler;
  * This class is responsible for handling a single connection.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-08-29 19:12:58 $
+ * @version $Revision: 1.3 $ $Date: 2003-08-31 02:18:53 $
  */
 class ConnectionRunner
     implements Runnable
@@ -174,16 +174,17 @@ class ConnectionRunner
     private void debugBanner( final boolean starting )
     {
 
-        if ( starting )
+        if( starting )
         {
-            m_monitor.connectionStarting( m_name, 
+            m_monitor.connectionStarting( m_name,
                                           m_socket.getInetAddress().getHostAddress() );
-        } else 
+        }
+        else
         {
             m_monitor.connectionEnding( m_name,
                                         m_socket.getInetAddress().getHostAddress() );
         }
-            
+
     }
 
     /**

@@ -9,7 +9,7 @@ package org.jcomponent.netserve.connection.impl;
 
 /**
  * Noop implementation of ConnectionMonitor.
- * 
+ *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
 class NullConnectionMonitor
@@ -23,8 +23,9 @@ class NullConnectionMonitor
     public void acceptorCreated( final ConnectionAcceptor acceptor )
     {
     }
+
     public void acceptorDisconnected( final ConnectionAcceptor acceptor,
-                                        boolean tearDown)
+                                      boolean tearDown )
     {
     }
 
@@ -51,7 +52,7 @@ class NullConnectionMonitor
     public void runnerDisposing( final ConnectionRunner runner )
     {
     }
-    
+
     public void serverSocketClosing( final String name )
     {
     }
@@ -60,8 +61,8 @@ class NullConnectionMonitor
     {
     }
 
-    public void unexpectedError( final String message, 
-                                  final Throwable t )
+    public void unexpectedError( final String message,
+                                 final Throwable t )
     {
     }
 
