@@ -19,7 +19,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.5 $ $Date: 2003-10-09 04:03:31 $
+ * @version $Revision: 1.6 $ $Date: 2003-10-09 04:06:34 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -118,7 +118,7 @@ public class DefaultAcceptorManager
         final ConnectionAcceptor acceptor;
         synchronized( m_acceptors )
         {
-            if( m_acceptors.containsKey( name ) )
+            if( isConnected( name ) )
             {
                 final String message =
                     "Connection already exists with name " + name;
@@ -135,11 +135,13 @@ public class DefaultAcceptorManager
         thread.start();
     }
 
+    public boolean isConnected( final String name )
+    {
+        return m_acceptors.containsKey( name );
+    }
+
     /**
-     * This shuts down all handlers and the associated ServerSocket.
-     * If tearDown is true then it will forcefully shutdown all connections and try
-     * to return as soon as possible. Otherwise it will wait for each handler
-     * to gracefully shutdown.
+     * This shuts down the acceptor and the associated ServerSocket.
      *
      * @param name the name of connection
      * @throws IllegalArgumentException if no connection with specified name
