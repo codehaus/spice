@@ -22,9 +22,9 @@ import org.codehaus.spice.loggerstore.stores.LogKitLoggerStore;
  * LogKitLoggerStoreFactory is an implementation of LoggerStoreFactory for the
  * LogKit Logger.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:01 $
+ * @version $Revision: 1.3 $ $Date: 2004-02-28 21:13:22 $
  */
 public class LogKitLoggerStoreFactory
     extends AbstractLoggerStoreFactory

@@ -20,8 +20,8 @@ import org.jcontainer.dna.impl.ContainerUtil;
  * The DNACommonsThreadPool wraps the CommonsThreadPool for
  * DNA-compatible systems.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 00:23:44 $
+ * @author Mauro Talevi
+ * @version $Revision: 1.2 $ $Date: 2004-02-28 21:13:23 $
  * @dna.service type="ThreadPool"
  */
 public class DNACommonsThreadPool

@@ -16,7 +16,7 @@ import org.jcontainer.dna.impl.Jdk14Logger;
  * Jdk14LoggerStore extends AbstractLoggerStore to provide the implementation
  * specific to the JDK14 logger.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class Jdk14LoggerStore
     extends AbstractLoggerStore

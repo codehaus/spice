@@ -24,7 +24,7 @@ import org.jcomponent.swingactions.metadata.SeparatorActionMetaData;
  * ConfigReader is a helper class used by the digester to store 
  * the configuration objects as they are created when parsing the XML file.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class ConfigReader {
     

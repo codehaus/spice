@@ -14,7 +14,7 @@ import org.jcontainer.dna.impl.ConsoleLogger;
  * ConsoleLoggerStore extends AbstractLoggerStore to provide the implementation
  * specific that just writes to console.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class ConsoleLoggerStore
     extends AbstractLoggerStore

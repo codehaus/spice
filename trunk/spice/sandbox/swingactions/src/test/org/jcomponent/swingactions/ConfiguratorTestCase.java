@@ -11,7 +11,7 @@ package org.jcomponent.swingactions;
 /**
  *  Test case for Configurator
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  */
 public class ConfiguratorTestCase

@@ -21,7 +21,7 @@ import org.w3c.dom.Element;
  * Log4JLoggerStore extends AbstractLoggerStore to provide the implementation
  * specific to the Log4J logger.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class Log4JLoggerStore
     extends AbstractLoggerStore

@@ -16,7 +16,7 @@ import java.util.Map;
  * may be overridden when part of the group.  
  * Only the id of the action may not be changed.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class GroupActionMetaData extends ActionMetaData
 {

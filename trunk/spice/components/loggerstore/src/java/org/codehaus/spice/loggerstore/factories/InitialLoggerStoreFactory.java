@@ -21,8 +21,8 @@ import org.codehaus.spice.loggerstore.LoggerStoreFactory;
  * their LoggerStore when the type is configurable.
  *
  * @author Peter Donald
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.2 $ $Date: 2003-12-03 06:32:01 $
+ * @author Mauro Talevi
+ * @version $Revision: 1.3 $ $Date: 2004-02-28 21:13:22 $
  */
 public class InitialLoggerStoreFactory
     implements LoggerStoreFactory

@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 /**
  * AbstactTestCase
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class AbstractTestCase
     extends TestCase

@@ -10,7 +10,7 @@ package org.jcomponent.swingactions.metadata;
 /**
  * Defines the metadata of groups of actions
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class ActionGroupsMetaData
 {

@@ -13,7 +13,7 @@ import org.codehaus.spice.threadpool.ThreadPoolMonitor;
 /**
  * Implementation of ThreadPoolMonitor which logs event with DNA logger.
  * 
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 class DNAThreadPoolMonitor
    extends AbstractLogEnabled

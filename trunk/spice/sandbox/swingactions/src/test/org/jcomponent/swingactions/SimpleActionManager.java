@@ -11,7 +11,7 @@ package org.jcomponent.swingactions;
  * SimpleActionManager is an implementation of <code>ActionManager</code> which
  * supports no configuration
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class SimpleActionManager
     extends AbstractActionManager

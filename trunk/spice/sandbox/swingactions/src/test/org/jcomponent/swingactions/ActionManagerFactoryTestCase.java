@@ -12,7 +12,7 @@ import java.util.HashMap;
 /**
  *  Test case for ActionManagerFactory
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  */
 public class ActionManagerFactoryTestCase

@@ -22,7 +22,7 @@ import org.codehaus.spice.loggerstore.factories.SimpleLogKitLoggerStoreFactory;
  * Log4J and JDK14 Loggers are supported. In the case of Log4J, both DOM and
  * Property configuration types are supported.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class Configurator
 {

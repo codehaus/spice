@@ -18,7 +18,7 @@ import javax.swing.ActionMap;
  * <p>ActionActionManager is an abstract implementation of <code>ActionManager</code> which
  * is common to all configurations.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public abstract class AbstractActionManager
     implements ActionManager

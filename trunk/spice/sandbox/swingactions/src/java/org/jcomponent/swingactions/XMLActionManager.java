@@ -20,7 +20,7 @@ import org.jcomponent.swingactions.reader.ConfigReader;
  * XMLActionManager is an implementation of <code>ActionManager</code> which
  * supports configuration via XML.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class XMLActionManager
     extends AbstractActionManager

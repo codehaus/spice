@@ -12,7 +12,7 @@ import org.jcontainer.dna.impl.ConsoleLogger;
 /**
  * Test case for Configurator
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  * @author Peter Donald
  */
 public class ConfiguratorTestCase

@@ -16,7 +16,7 @@ import org.codehaus.spice.loggerstore.LoggerStore;
  * ExcaliburLogKitLoggerStoreFactory specialises the LogKitLoggerStoreFactory to
  * use the Excalibur LogKitLoggerManager.
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public class ExcaliburLogKitLoggerStoreFactory
     extends LogKitLoggerStoreFactory

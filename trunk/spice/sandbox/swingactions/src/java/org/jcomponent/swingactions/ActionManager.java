@@ -18,7 +18,7 @@ import javax.swing.Action;
  * which will tipically be <code>String</code> or a <code>Class</code>,
  * but may be any <code>Object</code> key.</p>
  *
- * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
+ * @author Mauro Talevi
  */
 public interface ActionManager
 {
