@@ -7,9 +7,7 @@
  */
 package org.realityforge.loggerstore;
 
-import org.apache.avalon.excalibur.logger.LogKitLoggerManager;
 import org.apache.avalon.excalibur.logger.LoggerManager;
-import org.apache.avalon.excalibur.logger.SimpleLogKitManager;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.container.ContainerUtil;
 import org.apache.avalon.framework.context.Context;
@@ -27,10 +25,10 @@ public class LogKitLoggerStore
     extends AbstractLoggerStore
 {
     /** The Logger Manager */
-    private LoggerManager m_loggerManager;
+    private final LoggerManager m_loggerManager;
 
     /**
-     * Creates a <code>LogKitLoggerStore</code> using the given configuration 
+     * Creates a <code>LogKitLoggerStore</code> using the given configuration
      *
      * @param loggerManager the LoggerManager used to configure the store
      * @param logger the Logger to logEnable the LoggerManager
@@ -44,8 +42,12 @@ public class LogKitLoggerStore
                               final Configuration configuration )
         throws Exception
     {
+        if( null == loggerManager )
+        {
+            throw new NullPointerException( "loggerManager" );
+        }
         m_loggerManager = loggerManager;
-        checkLoggerManager();
+
         if( null != logger )
         {
             ContainerUtil.enableLogging( m_loggerManager, logger );
@@ -86,25 +88,6 @@ public class LogKitLoggerStore
         }
         catch( Exception e )
         {
-        }
-    }
-
-    /**
-     *  Checks the validity of the LoggerManager
-     *  @throws Exception if invalid
-     */
-    private void checkLoggerManager() throws Exception
-    {
-        if ( m_loggerManager == null) 
-        {
-            throw new NullPointerException( "loggerManager" );
-        }
-        final boolean valid  = 
-               (  m_loggerManager instanceof LogKitLoggerManager
-               || m_loggerManager instanceof SimpleLogKitManager ); 
-        if ( !valid )
-        {
-            throw new IllegalArgumentException( "loggerManager" );
         }
     }
 }
