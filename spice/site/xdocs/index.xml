@@ -7,10 +7,30 @@
     </properties>
 
     <body>
-        <section name="Spice">
-            <p>
-                Spice is a project that does stuff and goes places.
+        <section name="Introduction">
+            <p>Spice is a repository of Components which support 
+            Component Oriented Programming (COP) paradigms - in particular, the 
+            Inversion of Control (IoC) design pattern.  
             </p>
+            <p> 
+            Our aim is to developed components that are:
+            <ul>
+            	<li>highly reusable - leveraging on IoC </li>
+            	<li>deployable both in client and server containers</li>
+            	<li>well tested - with high unit test coverage </li>
+            </ul>
+            </p>
+        </section>
+        <section name="Containers">
+            <p>The Components are designed to be deployed in several containers.
+            </p>
+        	<subsection name="Avalon Phoenix">
+        	 	<p>The Avalon Phoenix container (<a href="http://avalon.apache.org/phoenix">http://avalon.apache.org/phoenix</a>) 
+        	 	has an established tradition of COP. </p> 
+        	</subsection>
+        	<subsection name="PicoContainer">
+        	 	<p>The new kid on the block - see <a href="http://picocontainer.org">http://picocontainer.org</a> for all the gory details.</p>
+        	</subsection>
         </section>
     </body>
 </document>
