@@ -14,7 +14,7 @@ import org.codehaus.spice.timeevent.source.SchedulingKey;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.13 $ $Date: 2004-01-29 05:48:23 $
+ * @version $Revision: 1.14 $ $Date: 2004-02-02 01:28:58 $
  */
 public class Session
 {
@@ -82,8 +82,8 @@ public class Session
     private boolean _client;
 
     /**
-     * Flag indicating whether the session will be disconencted when
-     * last messages transmitted.
+     * Flag indicating whether the session will be disconencted when last
+     * messages transmitted.
      */
     private boolean _pendingDisconnect;
 
@@ -162,7 +162,6 @@ public class Session
 
     public void setPendingDisconnect()
     {
-        System.out.println( "setPendingDisconnect" );
         _pendingDisconnect = true;
     }
 
