@@ -25,7 +25,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.11 $ $Date: 2003-10-10 02:47:23 $
+ * @version $Revision: 1.12 $ $Date: 2003-10-10 03:51:53 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -283,7 +283,7 @@ public class NIOAcceptorManager
             if( !performSelect() ||
                 !isRunning() )
             {
-                break;
+                continue;
             }
 
             final Set keys = m_selector.selectedKeys();
