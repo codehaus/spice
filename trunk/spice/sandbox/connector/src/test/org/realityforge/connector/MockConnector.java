@@ -5,12 +5,20 @@ class MockConnector
 {
    private final long _lastTxTime;
    private final long _lastRxTime;
+   private final long _lastPingTime;
 
    public MockConnector( final long lastTxTime,
-                         final long lastRxTime )
+                         final long lastRxTime,
+                         final long lastPingTime )
    {
       _lastTxTime = lastTxTime;
       _lastRxTime = lastRxTime;
+      _lastPingTime = lastPingTime;
+   }
+
+   public long getLastPingTime()
+   {
+      return _lastPingTime;
    }
 
    public long getLastTxTime()
