@@ -19,6 +19,8 @@ import javax.xml.parsers.FactoryConfigurationError;
 import junit.framework.TestCase;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.container.ContainerUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.EntityResolver;
@@ -47,13 +49,14 @@ public class LoggerStoreTestCase
     {
         m_logsDir = new File( "logs/" );
         m_logsDir.mkdirs();
-/*
-        final File[] files = m_logsDir.listFiles();
-        for( int i = 0; i < files.length; i++ )
-        {
-            files[ i ].delete();
-        }
-*/
+    }
+
+    public void testConsoleLoggerStore()
+        throws Exception
+    {
+        final LoggerStore store =
+            new ConsoleLoggerStore( ConsoleLogger.LEVEL_DEBUG );
+        runLoggerTest( "jdk14", store );
     }
 
     public void testJDK14Configuration()
@@ -109,6 +112,9 @@ public class LoggerStoreTestCase
                                   final LoggerStore store )
         throws Exception
     {
+        ContainerUtil.enableLogging( store,
+                                     new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG ) );
+
         BufferedReader reader = null;
         try
         {
