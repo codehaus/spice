@@ -7,6 +7,7 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.AcceptEvent;
 import org.codehaus.spice.netevent.events.AcceptPossibleEvent;
 import org.codehaus.spice.netevent.events.CloseChannelRequestEvent;
+import org.codehaus.spice.netevent.events.ConnectPossibleEvent;
 import org.codehaus.spice.netevent.events.IOErrorEvent;
 import org.codehaus.spice.netevent.events.OutputDataPresentEvent;
 import org.codehaus.spice.netevent.events.ReadEvent;
@@ -19,7 +20,7 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * events.
  * 
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2004-01-15 06:12:25 $
+ * @version $Revision: 1.9 $ $Date: 2004-01-16 00:21:32 $
  */
 public class ChannelEventHandler
     extends AbstractEventHandler
@@ -30,6 +31,7 @@ public class ChannelEventHandler
     private final ReadEventHandler _readHandler;
     private final WriteEventHandler _writeHandler;
     private final AcceptEventHandler _acceptHandler;
+    private final ClientConnectEventHandler _clientConnectHandler;
     private final ConnectEventHandler _connectHandler;
 
     public ChannelEventHandler( final SocketEventSource source,
@@ -47,6 +49,10 @@ public class ChannelEventHandler
         _writeHandler = new WriteEventHandler( queue, bufferManager );
         _inputHandler = new InputDataEventHandler( target );
         _outputHandler = new OutputDataEventHandler( queue );
+        _clientConnectHandler = new ClientConnectEventHandler( queue,
+                                                               target,
+                                                               bufferManager,
+                                                               source );
     }
 
     /**
@@ -58,6 +64,10 @@ public class ChannelEventHandler
             event instanceof IOErrorEvent )
         {
             _closeHandler.handleEvent( event );
+        }
+        else if( event instanceof ConnectPossibleEvent )
+        {
+            _clientConnectHandler.handleEvent( event );
         }
         else if( event instanceof AcceptPossibleEvent )
         {
