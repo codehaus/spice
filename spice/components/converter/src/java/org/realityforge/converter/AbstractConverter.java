@@ -7,14 +7,14 @@
  */
 package org.realityforge.converter;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
+import org.realityforge.salt.i18n.Resources;
+import org.realityforge.salt.i18n.ResourceManager;
 
 /**
  * Instances of this interface are used to convert between different types.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-04-04 11:27:21 $
+ * @version $Revision: 1.5 $ $Date: 2003-08-05 05:16:15 $
  */
 public abstract class AbstractConverter
     implements Converter
@@ -85,14 +85,14 @@ public abstract class AbstractConverter
         if( m_destination != destination )
         {
             final String message =
-                REZ.getString( "bad-destination.error", destination.getName(), m_destination );
+                REZ.format( "bad-destination.error", destination.getName(), m_destination );
             throw new IllegalArgumentException( message );
         }
 
         if( !m_source.isInstance( original ) )
         {
             final String message =
-                REZ.getString( "bad-instance.error", original, m_source.getName() );
+                REZ.format( "bad-instance.error", original, m_source.getName() );
             throw new IllegalArgumentException( message );
         }
 
@@ -113,11 +113,11 @@ public abstract class AbstractConverter
         else
         {
             final String message =
-                REZ.getString( "no-convert.error",
-                               m_source.getName(),
-                               m_destination.getName(),
-                               value,
-                               throwable );
+                REZ.format( "no-convert.error",
+                            m_source.getName(),
+                            m_destination.getName(),
+                            value,
+                            throwable );
             throw new ConverterException( message );
         }
     }
