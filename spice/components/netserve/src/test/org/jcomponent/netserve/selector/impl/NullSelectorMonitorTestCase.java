@@ -17,5 +17,6 @@ public class NullSelectorMonitorTestCase
         monitor.selectorStartup();
         monitor.selectorShutdown();
         monitor.selectCompleted( 2 );
+        monitor.invalidAttachment( null );
     }
 }
