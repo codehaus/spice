@@ -35,7 +35,7 @@ import org.realityforge.packet.session.SessionManager;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.17 $ $Date: 2004-02-06 04:04:56 $
+ * @version $Revision: 1.18 $ $Date: 2004-02-06 04:08:08 $
  */
 public class PacketIOEventHandler
     extends AbstractDirectedHandler
@@ -170,7 +170,7 @@ public class PacketIOEventHandler
     private void handleNack( final Session session,
                              final short sequence )
     {
-        output( session, "RECEIVED NACK " + sequence );
+        //output( session, "RECEIVED NACK " + sequence );
         final Packet packet =
             session.getTransmitQueue().getPacket( sequence );
         if( null == packet )
@@ -264,8 +264,7 @@ public class PacketIOEventHandler
         if( session.hasTransmittedData() )
         {
             final short sequence = session.getLastPacketTransmitted();
-            output( session, "SEND PING " + sequence +
-                             " at " + transport.getTxByteCount() );
+            //output( session, "SEND PING " + sequence );
             ensureValidSession( transport );
             if( canOutput( transport ) )
             {
@@ -286,8 +285,7 @@ public class PacketIOEventHandler
         {
             final short processed = session.getLastPacketProcessed();
             session.acked();
-            output( session, "SEND ACK " + processed +
-                             " at " + transport.getTxByteCount() );
+            //output( session, "SEND ACK " + processed );
             sendAck( transport, processed );
             checkDisconnect( session, transport );
         }
@@ -306,8 +304,7 @@ public class PacketIOEventHandler
             final Packet packet = queue.getPacket( i );
             if( null == packet )
             {
-                output( session, "SEND NACK " + i +
-                                 " at " + transport.getTxByteCount() );
+                //output( session, "SEND NACK " + i );
                 sendNack( transport, i );
             }
         }
@@ -403,7 +400,7 @@ public class PacketIOEventHandler
         session.getTransmitQueue().addPacket( packet );
         if( !canOutput( transport ) )
         {
-            output( session, "QUEUED " + packet.getSequence() );
+            //output( session, "QUEUED " + packet.getSequence() );
             return;
         }
         else
@@ -749,7 +746,7 @@ public class PacketIOEventHandler
         else
         {
             final short sequence = TypeIOUtil.readShort( input );
-            output( session, "PING " + sequence );
+            //output( session, "PING " + sequence );
             session.setLastPacketExpected( sequence );
             sendNacks( session );
             return true;
@@ -777,7 +774,7 @@ public class PacketIOEventHandler
         else
         {
             final short sequence = TypeIOUtil.readShort( input );
-            output( session, "RECEIVE ACK " + sequence );
+            //output( session, "RECEIVE ACK " + sequence );
             final List acked =
                 session.getTransmitQueue().ack( sequence );
 
@@ -947,7 +944,7 @@ public class PacketIOEventHandler
     {
         ensureValidSession( transport );
         final Session session = (Session)transport.getUserData();
-        output( session, "SENT " + packet.getSequence() );
+        //output( session, "SENT " + packet.getSequence() );
 
         final TransportOutputStream output = transport.getOutputStream();
         output.write( MessageCodes.DATA );
@@ -1001,8 +998,7 @@ public class PacketIOEventHandler
 
             buffer.flip();
 
-            output( (Session)transport.getUserData(),
-                    "RECEIVED " + sequence );
+            //output( (Session)transport.getUserData(), "RECEIVED " + sequence );
 
             final Session session = (Session)transport.getUserData();
             final Packet packet = new Packet( sequence, 0, buffer );
@@ -1025,7 +1021,7 @@ public class PacketIOEventHandler
         if( sequence <= session.getLastPacketProcessed() )
         {
             //Discarding packet as it has already been processed on this side
-            output( session, "DISCARDING DUPLICATE " + sequence );
+            //output( session, "DISCARDING DUPLICATE " + sequence );
             return;
         }
 
