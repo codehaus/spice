@@ -17,7 +17,7 @@ import org.jcomponent.netserve.sockets.NullSelectorEventHandler;
  * channels. The Channels have to be SelectableChannels
  * but have no other requirements.
  */
-public abstract class AbstractNIOReactor
+public class AbstractNIOReactor
    implements Runnable
 {
    /**
@@ -291,11 +291,4 @@ public abstract class AbstractNIOReactor
    {
       return channel.register( getSelector(), ops );
    }
-
-   /**
-    * Implement method to handle events from selector.
-    *
-    * @param key the SelectionKey
-    */
-   protected abstract void handleChannel( SelectionKey key );
 }
