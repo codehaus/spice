@@ -19,7 +19,7 @@ import org.xml.sax.InputSource;
  * objects to validate configuration according to specified schemas.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-04 23:27:22 $
+ * @version $Revision: 1.3 $ $Date: 2003-04-05 09:40:45 $
  */
 public final class ConfigValidatorFactory
 {
@@ -90,7 +90,7 @@ public final class ConfigValidatorFactory
             throw new Exception( message );
         }
 
-        return create( schemaType, inputSource );
+        return create( schemaType, inputSource, resolver );
     }
 
     /**
@@ -131,6 +131,31 @@ public final class ConfigValidatorFactory
     }
 
     /**
+     * Create a ConfigValidator with specified type. The schema is loaded
+     * from specified stream.
+     *
+     * @param schemaType the type of the schema.
+     *        (Usually a URL such as "http://relaxng.org/ns/structure/1.0")
+     * @param inputStream the stream to load schema from
+     * @param resolver a resolver used to resolve entitys for input data
+     * @return the ConfigValidatorthat conforms to input
+     * @throws Exception if unable to create validator
+     */
+    public static ConfigValidator create( final String schemaType,
+                                          final InputStream inputStream,
+                                          final EntityResolver resolver )
+        throws Exception
+    {
+        if( null == inputStream )
+        {
+            throw new NullPointerException( "inputStream" );
+        }
+
+        final InputSource inputSource = new InputSource( inputStream );
+        return create( schemaType, inputSource, resolver );
+    }
+
+    /**
      * Create a ConfigValidator and guess Schema type. The schema is loaded
      * from specified source.
      *
@@ -141,7 +166,23 @@ public final class ConfigValidatorFactory
     public static ConfigValidator create( final InputSource inputSource )
         throws Exception
     {
-        return create( null, inputSource );
+        return create( null, inputSource, null );
+    }
+
+    /**
+     * Create a ConfigValidator and guess Schema type. The schema is loaded
+     * from specified source.
+     *
+     * @param inputSource the source to load schema from
+     * @param resolver a resolver used to resolve entitys for input data
+     * @return the ConfigValidatorthat conforms to input
+     * @throws Exception if unable to create validator
+     */
+    public static ConfigValidator create( final InputSource inputSource,
+                                          final EntityResolver resolver )
+        throws Exception
+    {
+        return create( null, inputSource, resolver );
     }
 
     /**
@@ -158,13 +199,33 @@ public final class ConfigValidatorFactory
                                           final InputSource inputSource )
         throws Exception
     {
+        return create( schemaType, inputSource, null );
+    }
+
+    /**
+     * Create a ConfigValidator with specified type. The schema is loaded
+     * from specified source. Also specified is entity resolver used when
+     * loading files to validate.
+     *
+     * @param schemaType the type of the schema.
+     *        (Usually a URL such as "http://relaxng.org/ns/structure/1.0")
+     * @param inputSource the source to load schema from
+     * @param entityResolver a resolver used to resolve entitys for input data
+     * @return the ConfigValidatorthat conforms to input
+     * @throws Exception if unable to create validator
+     */
+    public static ConfigValidator create( final String schemaType,
+                                          final InputSource inputSource,
+                                          final EntityResolver entityResolver )
+        throws Exception
+    {
         if( null == inputSource )
         {
             throw new NullPointerException( "inputSource" );
         }
         final VerifierFactory factory = createFactory( schemaType );
         final Schema schema = factory.compileSchema( inputSource );
-        return new ConfigValidator( schema );
+        return new ConfigValidator( schema, entityResolver );
     }
 
     /**
