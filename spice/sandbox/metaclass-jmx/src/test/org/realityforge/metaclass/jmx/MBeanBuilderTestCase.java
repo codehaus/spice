@@ -9,13 +9,14 @@ package org.realityforge.metaclass.jmx;
 
 import junit.framework.TestCase;
 import javax.management.modelmbean.ModelMBeanOperationInfo;
+import javax.management.MBeanParameterInfo;
 import org.realityforge.metaclass.model.Attribute;
 import java.util.Properties;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-13 23:39:45 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-13 23:43:37 $
  */
 public class MBeanBuilderTestCase
     extends TestCase
@@ -93,4 +94,19 @@ public class MBeanBuilderTestCase
         assertEquals( "Blah!", description );
     }
 
+    public void testBuildParametersViaReflection()
+        throws Exception
+    {
+        final MBeanBuilder builder = new MBeanBuilder();
+        final Class[] types = new Class[]{Integer.TYPE, String.class};
+        final MBeanParameterInfo[] infos =
+            builder.buildParametersViaReflection( types );
+        assertEquals( "infos.length", 2, infos.length );
+        assertEquals( "infos[0].type", "int", infos[ 0 ].getType() );
+        assertEquals( "infos[0].description", "", infos[ 0 ].getDescription() );
+        assertEquals( "infos[0].name", "", infos[ 0 ].getName() );
+        assertEquals( "infos[1].type", "int", infos[ 1 ].getType() );
+        assertEquals( "infos[1].description", "java.lang.String", infos[ 1 ].getDescription() );
+        assertEquals( "infos[1].name", "", infos[ 1 ].getName() );
+    }
 }
