@@ -15,7 +15,7 @@ import org.apache.tools.ant.types.Reference;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-20 06:42:50 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-20 10:00:39 $
  */
 public class PluginSetTestCase
     extends TestCase
@@ -74,7 +74,8 @@ public class PluginSetTestCase
         final FilterSet set = new FilterSet();
         set.addFilter( element );
         final FilterSet parent = new FilterSet();
-        final MockProject project = new MockProject( set );
+        final MockProject project = new MockProject();
+        project.bindReference( "bar", set );
         parent.setProject( project );
         parent.setRefid( new Reference( "bar" ) );
 
@@ -89,7 +90,8 @@ public class PluginSetTestCase
         throws Exception
     {
         final FilterSet parent = new FilterSet();
-        final MockProject project = new MockProject( new Object() );
+        final MockProject project = new MockProject();
+        project.bindReference( "bar", new Object() );
         parent.setProject( project );
         try
         {
@@ -111,7 +113,8 @@ public class PluginSetTestCase
         element.setName( "foo" );
         parent.addInterceptor( element );
         parent.addInterceptorSet( new InterceptorSet() );
-        final MockProject project = new MockProject( new Object() );
+        final MockProject project = new MockProject();
+        project.bindReference( "bar", new InterceptorSet() );
         parent.setProject( project );
         try
         {
