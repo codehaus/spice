@@ -16,7 +16,7 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
 import org.codehaus.spice.netevent.events.ConnectErrorEvent;
 import org.codehaus.spice.netevent.events.ConnectEvent;
 import org.codehaus.spice.netevent.events.ConnectPossibleEvent;
-import org.codehaus.spice.netevent.selector.SocketEventSource;
+import org.codehaus.spice.netevent.selector.SelectableChannelEventSource;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
 /**
@@ -24,15 +24,19 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * registering it for events).
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-19 03:28:08 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-22 02:40:33 $
  */
 public class ClientConnectEventHandler
     extends AbstractIOEventHandler
 {
-    /** Handler to pass events on to. */
-    private final SocketEventSource _source;
+    /**
+     * Handler to pass events on to.
+     */
+    private final SelectableChannelEventSource _source;
 
-    /** Handler to pass high-level events on to. */
+    /**
+     * Handler to pass high-level events on to.
+     */
     private final EventSink _target;
 
     /**
@@ -45,7 +49,7 @@ public class ClientConnectEventHandler
     public ClientConnectEventHandler( final EventSink sink,
                                       final EventSink target,
                                       final BufferManager bufferManager,
-                                      final SocketEventSource source )
+                                      final SelectableChannelEventSource source )
     {
         super( sink, bufferManager );
         if( null == target )
