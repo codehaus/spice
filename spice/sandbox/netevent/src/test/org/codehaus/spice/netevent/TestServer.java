@@ -13,16 +13,16 @@ import org.codehaus.spice.event.impl.EventPump;
 import org.codehaus.spice.event.impl.collections.UnboundedFifoBuffer;
 import org.codehaus.spice.netevent.buffers.DefaultBufferManager;
 import org.codehaus.spice.netevent.handlers.ChannelEventHandler;
-import org.codehaus.spice.netevent.selector.SocketEventSource;
+import org.codehaus.spice.netevent.selector.SelectableChannelEventSource;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2004-01-21 23:44:58 $
+ * @version $Revision: 1.9 $ $Date: 2004-01-22 02:40:33 $
  */
 public class TestServer
 {
     private static boolean c_done;
-    private static SocketEventSource c_clientSocketSouce;
+    private static SelectableChannelEventSource c_clientSocketSouce;
 
     public static void main( final String[] args )
         throws Exception
@@ -68,7 +68,8 @@ public class TestServer
         final DefaultEventQueue queue2 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
-        final SocketEventSource source1 = new SocketEventSource( queue1 );
+        final SelectableChannelEventSource source1 = new SelectableChannelEventSource(
+            queue1 );
 
         final ServerSocketChannel channel = ServerSocketChannel.open();
         channel.socket().bind( new InetSocketAddress( 1980 ) );
@@ -102,7 +103,7 @@ public class TestServer
         final DefaultEventQueue queue2 =
             new DefaultEventQueue( new UnboundedFifoBuffer( 15 ) );
 
-        c_clientSocketSouce = new SocketEventSource( queue1 );
+        c_clientSocketSouce = new SelectableChannelEventSource( queue1 );
 
         final DefaultBufferManager bufferManager = new DefaultBufferManager();
 

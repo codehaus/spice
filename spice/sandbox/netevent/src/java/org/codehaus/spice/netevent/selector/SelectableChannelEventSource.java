@@ -19,9 +19,9 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * An event source that generates events based from SelectableChannels.
  *
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-22 02:38:24 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-22 02:40:33 $
  */
-public class SocketEventSource
+public class SelectableChannelEventSource
     extends AbstractEventSource
 {
     /**
@@ -35,7 +35,7 @@ public class SocketEventSource
      * @param join the join
      * @throws IOException if error creating source.
      */
-    public SocketEventSource( final EventJoin join )
+    public SelectableChannelEventSource( final EventJoin join )
         throws IOException
     {
         super( join );
