@@ -11,7 +11,7 @@ package org.realityforge.netserve.connection;
  * This manages creation and destruction of ConnectionHandler objects.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-23 01:35:30 $
+ * @version $Revision: 1.3 $ $Date: 2003-04-23 01:35:46 $
  */
 public interface ConnectionHandlerManager
 {
@@ -35,6 +35,5 @@ public interface ConnectionHandlerManager
      * @param handler the ConnectionHandler
      */
     void releaseHandler( ConnectionHandler handler );
-
 }
 
