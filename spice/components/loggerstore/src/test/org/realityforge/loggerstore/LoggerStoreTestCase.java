@@ -253,5 +253,6 @@ public class LoggerStoreTestCase
         final Logger noExistLogger = store.getLogger( "no-exist" );
         assertNotNull( "noExistLogger for console", noExistLogger );
         noExistLogger.info( MESSAGE2 );
+        store.close();
     }
 }
