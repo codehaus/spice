@@ -1,4 +1,4 @@
-package org.jcomponent.netserve.selector;
+package org.jcomponent.netserve.selector.impl;
 
 import java.io.IOException;
 import java.nio.channels.SelectableChannel;
@@ -6,6 +6,10 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.jcomponent.netserve.selector.impl.NullSelectorEventHandler;
+import org.jcomponent.netserve.selector.impl.NullSelectorMonitor;
+import org.jcomponent.netserve.selector.SelectorEventHandler;
 
 /**
  * The SelectorManager makes it easy to start a selector
@@ -80,7 +84,7 @@ public class SelectorManager
    /**
     * Initialize the selector to monitor accept attempts.
     *
-    * @throws IOException if unable to initialize selector
+    * @throws java.io.IOException if unable to initialize selector
     */
    public void startup()
       throws IOException
@@ -188,7 +192,7 @@ public class SelectorManager
     * @param channel the channel
     * @param ops the operations to register
     * @return the SelectionKey
-    * @throws IOException if channel can not be registered
+    * @throws java.io.IOException if channel can not be registered
     */
    public SelectionKey registerChannel( final SelectableChannel channel,
                                         final int ops )

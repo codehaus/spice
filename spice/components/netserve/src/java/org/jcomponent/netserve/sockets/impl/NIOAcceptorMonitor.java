@@ -11,13 +11,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.IOException;
 
-import org.jcomponent.netserve.selector.SelectorMonitor;
+import org.jcomponent.netserve.selector.impl.SelectorMonitor;
 
 /**
  * Monitor used to monitor events in the AcceptorManager.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-23 06:34:19 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-24 03:18:44 $
  */
 public interface NIOAcceptorMonitor
    extends SelectorMonitor

@@ -11,13 +11,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.IOException;
 
-import org.jcomponent.netserve.selector.NullSelectorMonitor;
+import org.jcomponent.netserve.selector.impl.NullSelectorMonitor;
 
 /**
  * A noop monitor.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-23 05:07:42 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-24 03:18:44 $
  */
 public class NullNIOAcceptorMonitor
    extends NullSelectorMonitor

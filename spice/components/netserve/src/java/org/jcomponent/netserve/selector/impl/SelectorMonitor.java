@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.jcomponent.netserve.selector;
+package org.jcomponent.netserve.selector.impl;
 
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
@@ -14,7 +14,7 @@ import java.nio.channels.SelectionKey;
  * Monitor used to monitor events in the AcceptorManager.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-23 05:51:53 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-24 03:18:44 $
  */
 public interface SelectorMonitor
 {

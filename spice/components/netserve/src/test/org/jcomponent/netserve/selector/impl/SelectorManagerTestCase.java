@@ -1,4 +1,4 @@
-package org.jcomponent.netserve.selector;
+package org.jcomponent.netserve.selector.impl;
 
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -12,6 +12,12 @@ import java.util.Random;
 import com.mockobjects.dynamic.C;
 import com.mockobjects.dynamic.Mock;
 import junit.framework.TestCase;
+import org.jcomponent.netserve.selector.impl.NullSelectorEventHandler;
+import org.jcomponent.netserve.selector.impl.NullSelectorMonitor;
+import org.jcomponent.netserve.selector.impl.SelectorManager;
+import org.jcomponent.netserve.selector.impl.SelectorMonitor;
+import org.jcomponent.netserve.selector.impl.HelloSelectorEventHandler;
+import org.jcomponent.netserve.selector.impl.MockSelector;
 
 public class SelectorManagerTestCase
    extends TestCase

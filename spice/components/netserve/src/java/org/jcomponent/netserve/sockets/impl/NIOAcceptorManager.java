@@ -17,7 +17,7 @@ import java.util.Map;
 
 import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 import org.jcomponent.netserve.sockets.SocketConnectionHandler;
-import org.jcomponent.netserve.selector.SelectorManager;
+import org.jcomponent.netserve.selector.impl.SelectorManager;
 import org.jcomponent.netserve.selector.SelectorEventHandler;
 
 /**
@@ -25,7 +25,7 @@ import org.jcomponent.netserve.selector.SelectorEventHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.21 $ $Date: 2003-10-23 07:18:43 $
+ * @version $Revision: 1.22 $ $Date: 2003-10-24 03:18:44 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
