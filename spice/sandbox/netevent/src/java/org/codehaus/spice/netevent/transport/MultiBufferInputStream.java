@@ -16,21 +16,29 @@ import org.codehaus.spice.netevent.events.CloseChannelRequestEvent;
  * specified in the constructor.
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-16 06:38:40 $
+ * @version $Revision: 1.6 $ $Date: 2004-02-05 03:56:32 $
  */
 public class MultiBufferInputStream
     extends InputStream
 {
-    /** The BufferManager to return Buffers to after they have been read. */
+    /**
+     * The BufferManager to return Buffers to after they have been read.
+     */
     private final BufferManager _bufferManager;
 
-    /** The underlying transport that this stream is linked to. */
+    /**
+     * The underlying transport that this stream is linked to.
+     */
     private final ChannelTransport _transport;
 
-    /** The sink ythat write requests are sent to. */
+    /**
+     * The sink ythat write requests are sent to.
+     */
     private final EventSink _sink;
 
-    /** thye list of ByteBuffers. */
+    /**
+     * thye list of ByteBuffers.
+     */
     private final LinkedList _buffers = new LinkedList();
 
     /**
@@ -45,14 +53,25 @@ public class MultiBufferInputStream
      */
     private int _markBufferIndex = -1;
 
-    /** The amount of data required before mark can be removed. */
+    /**
+     * The amount of data required before mark can be removed.
+     */
     private int _markDataRemaining = -1;
 
-    /** Flag set to true when close occurs after last buffer is cleared. */
+    /**
+     * Flag set to true when close occurs after last buffer is cleared.
+     */
     private boolean _closePending;
 
-    /** Flag set to true when stream actually closed. */
+    /**
+     * Flag set to true when stream actually closed.
+     */
     private boolean _closed;
+
+    /**
+     * The number of bytes read at mark.
+     */
+    private long _markByteCount;
 
     /**
      * Create Stream that returns buffers to specified manager.
@@ -166,6 +185,7 @@ public class MultiBufferInputStream
                     (ByteBuffer)_buffers.get( _currentBuffer );
                 if( buffer.remaining() > 0 )
                 {
+                    _transport.incRxByteCount( 1 );
                     return buffer.get() & 0xff;
                 }
                 else if( _currentBuffer + 1 != _buffers.size() )
@@ -213,6 +233,7 @@ public class MultiBufferInputStream
             clearMark();
         }
         _markDataRemaining = readlimit;
+        _markByteCount = _transport.getRxByteCount();
         if( _currentBuffer >= 0 )
         {
             final ByteBuffer buffer = (ByteBuffer)_buffers.get( 0 );
@@ -245,6 +266,7 @@ public class MultiBufferInputStream
                 _currentBuffer = 0;
             }
             _markBufferIndex = -1;
+            _transport.setRxByteCount( _markByteCount );
         }
         else
         {
@@ -293,6 +315,7 @@ public class MultiBufferInputStream
         else
         {
             _markBufferIndex = -1;
+            _transport.setRxByteCount( _markByteCount );
             final Iterator iterator = _buffers.iterator();
             while( iterator.hasNext() && _currentBuffer > 0 )
             {
