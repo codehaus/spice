@@ -13,12 +13,12 @@ import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-09 07:35:24 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-10 02:25:59 $
  */
 public abstract class AbstractAcceptorManagerTestCase
     extends TestCase
 {
-        public void testDisconnectNonExistent()
+    public void testDisconnectNonExistent()
         throws Exception
     {
         final SocketAcceptorManager manager = createAcceptorManager();
@@ -29,6 +29,10 @@ public abstract class AbstractAcceptorManagerTestCase
         catch( IllegalArgumentException iae )
         {
             return;
+        }
+        finally
+        {
+            shutdownAcceptorManager( manager );
         }
         fail( "Expected to fail to disconnect non existent acceptor" );
     }
@@ -48,6 +52,10 @@ public abstract class AbstractAcceptorManagerTestCase
             assertEquals( "npe.message", "name", npe.getMessage() );
             return;
         }
+        finally
+        {
+            shutdownAcceptorManager( manager );
+        }
         fail( "expected NPE due to null name in connect" );
     }
 
@@ -66,6 +74,10 @@ public abstract class AbstractAcceptorManagerTestCase
             assertEquals( "npe.message", "socket", npe.getMessage() );
             return;
         }
+        finally
+        {
+            shutdownAcceptorManager( manager );
+        }
         fail( "expected NPE due to null socket in connect" );
     }
 
@@ -83,6 +95,10 @@ public abstract class AbstractAcceptorManagerTestCase
         {
             assertEquals( "npe.message", "handler", npe.getMessage() );
             return;
+        }
+        finally
+        {
+            shutdownAcceptorManager( manager );
         }
         fail( "expected NPE due to null handler in connect" );
     }
