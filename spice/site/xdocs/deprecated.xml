@@ -11,6 +11,13 @@
                 Several Spice components have reached the end of their
                 lifecycle. This page documents the deprecated components.
             </p>
+            <subsection name="ClassMan">
+                <p>
+                    The ClassMan component was migrated to the
+                    <a href="http://loom.jcontainer.org/">Loom</a> project as
+                    that is the only consumer of the component.
+                </p>
+            </subsection>
             <subsection name="CLI">
                 <p>
                     The CLI component has been deprecated in favour the more
@@ -23,9 +30,16 @@
                     </a>.
                 </p>
             </subsection>
+            <subsection name="Extension">
+                <p>
+                    The Extension component was migrated to the
+                    <a href="http://loom.jcontainer.org/">Loom</a> project as
+                    that is the only consumer of the component.
+                </p>
+            </subsection>
             <subsection name="XML Policy">
                 <p>
-                    The XML Policy was migrated to the
+                    The XML Policy component was migrated to the
                     <a href="http://loom.jcontainer.org/">Loom</a> project as
                     that is the only consumer of the component.
                 </p>
