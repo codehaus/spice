@@ -21,7 +21,7 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.11 $ $Date: 2004-01-21 03:25:05 $
+ * @version $Revision: 1.12 $ $Date: 2004-01-21 03:44:55 $
  */
 public class ChannelTransport
 {
@@ -252,11 +252,18 @@ public class ChannelTransport
         }
     }
 
+    public int getId()
+    {
+        return hashCode();
+    }
+
     /**
      * @see Object#toString()
      */
     public String toString()
     {
-        return "[id=" + hashCode() + "," + String.valueOf( m_channel ) + "]";
+        return "[id=" + getId() + ", channel=" +
+               String.valueOf( getChannel() ) +
+               "]";
     }
 }
