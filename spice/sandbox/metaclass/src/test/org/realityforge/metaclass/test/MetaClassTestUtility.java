@@ -11,13 +11,14 @@ import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.MethodDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
 import org.realityforge.metaclass.model.ParameterDescriptor;
+import org.realityforge.metaclass.model.Attribute;
 
 import java.util.Vector;
 
 /**
  *
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.1 $ $Date: 2003-06-05 04:43:35 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-05 23:46:47 $
  */
 public final class MetaClassTestUtility
 {
@@ -114,6 +115,10 @@ public final class MetaClassTestUtility
         {
             return areParameterDescriptorsEqual( (ParameterDescriptor) o, (ParameterDescriptor) p );
         }
+        else if ( o instanceof Attribute && p instanceof Attribute )
+        {
+            return areAttributesEqual( (Attribute) o, (Attribute) p );
+        }
 
         if ( o.getClass().getName().equals( p.getClass().getName() ) )
         {
@@ -128,9 +133,9 @@ public final class MetaClassTestUtility
     {
         return two.getName().equals( one.getName() ) &&
             two.getModifiers() == one.getModifiers() &&
-            MetaClassTestUtility.areContentsEqual( two.getAttributes(), one.getAttributes() ) &&
-            MetaClassTestUtility.areContentsEqual( two.getFields(), one.getFields() ) &&
-            MetaClassTestUtility.areContentsEqual( two.getMethods(), one.getMethods() );
+            areContentsEqual( two.getAttributes(), one.getAttributes() ) &&
+            areContentsEqual( two.getFields(), one.getFields() ) &&
+            areContentsEqual( two.getMethods(), one.getMethods() );
     }
 
     public static boolean areMethodDescriptorsEqual( final MethodDescriptor one,
@@ -138,9 +143,9 @@ public final class MetaClassTestUtility
     {
         return two.getName().equals( one.getName() ) &&
             two.getModifiers() == one.getModifiers() &&
-            MetaClassTestUtility.areContentsEqual( two.getAttributes(), one.getAttributes() ) &&
+            areContentsEqual( two.getAttributes(), one.getAttributes() ) &&
             two.getReturnType().equals( one.getReturnType() ) &&
-            MetaClassTestUtility.areContentsEqual( two.getParameters(), one.getParameters() );
+            areContentsEqual( two.getParameters(), one.getParameters() );
     }
 
     public static boolean areFieldDescriptorsEqual( final FieldDescriptor one,
@@ -148,7 +153,7 @@ public final class MetaClassTestUtility
     {
         return two.getName().equals( one.getName() ) &&
             two.getModifiers() == one.getModifiers() &&
-            MetaClassTestUtility.areContentsEqual( two.getAttributes(), one.getAttributes() ) &&
+            areContentsEqual( two.getAttributes(), one.getAttributes() ) &&
             two.getType().equals( one.getType() );
     }
 
@@ -157,5 +162,10 @@ public final class MetaClassTestUtility
     {
         return two.getName().equals( one.getName() ) &&
             two.getType().equals( one.getType() );
+    }
+
+    public static boolean areAttributesEqual( final Attribute one, final Attribute two )
+    {
+        return two.getName().equals( one.getName() );
     }
 }
