@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.netserve.connection.impl;
+package org.jcomponent.netserve.connection.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,8 +24,8 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.realityforge.configkit.ConfigValidator;
 import org.realityforge.configkit.ConfigValidatorFactory;
 import org.realityforge.configkit.ValidateException;
-import org.realityforge.netserve.connection.ConnectionHandlerManager;
-import org.realityforge.netserve.connection.ConnectionManager;
+import org.jcomponent.netserve.connection.ConnectionHandlerManager;
+import org.jcomponent.netserve.connection.ConnectionManager;
 import org.realityforge.threadpool.ThreadPool;
 import org.xml.sax.ErrorHandler;
 
@@ -33,7 +33,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.18 $ $Date: 2003-05-03 03:02:32 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
  */
 public class ConnectionTestCase
     extends TestCase

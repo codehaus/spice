@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.netserve.sockets;
+package org.jcomponent.netserve.sockets;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -18,7 +18,7 @@ import java.net.Socket;
  * However clients just care that they return sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-23 01:33:29 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
  */
 public interface SocketFactory
 {

@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.netserve.connection.impl;
+package org.jcomponent.netserve.connection.impl;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -14,15 +14,15 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.realityforge.netserve.connection.ConnectionHandler;
-import org.realityforge.netserve.connection.ConnectionHandlerManager;
+import org.jcomponent.netserve.connection.ConnectionHandler;
+import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 import org.realityforge.threadpool.ThreadPool;
 
 /**
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.20 $ $Date: 2003-04-23 14:16:50 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:13 $
  */
 class ConnectionAcceptor
     extends AbstractLogEnabled

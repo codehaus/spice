@@ -5,18 +5,18 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.netserve.sockets.impl;
+package org.jcomponent.netserve.sockets.impl;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import org.realityforge.netserve.sockets.SocketFactory;
+import org.jcomponent.netserve.sockets.SocketFactory;
 
 /**
  * A SocketFactory that creates vanilla sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-04-23 01:32:44 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:14 $
  * @phoenix.component
  * @phoenix.service type="SocketFactory"
  */

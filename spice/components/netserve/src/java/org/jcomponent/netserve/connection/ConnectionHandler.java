@@ -5,7 +5,7 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.netserve.connection;
+package org.jcomponent.netserve.connection;
 
 import java.io.IOException;
 import java.net.ProtocolException;
@@ -15,7 +15,7 @@ import java.net.Socket;
  * Implement this interface to process incoming socket connections.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-04-23 01:34:37 $
+ * @version $Revision: 1.1 $ $Date: 2003-07-13 17:55:14 $
  */
 public interface ConnectionHandler
 {
