@@ -9,7 +9,8 @@
     <body>
         <section name="MetaClass Guide">
             <p>
-                This is the MetaClass Guide. It is broken into three sections;
+                This is the MetaClass Guide. It is broken into the following
+                sections;
             </p>
             <ul>
                 <li><a href="model.html">Attribute Model</a></li>
