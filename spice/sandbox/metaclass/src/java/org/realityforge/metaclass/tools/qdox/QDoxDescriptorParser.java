@@ -13,7 +13,6 @@ import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaParameter;
 import com.thoughtworks.qdox.model.Type;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Properties;
 import org.realityforge.metaclass.model.Attribute;
@@ -27,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * and building a ClassDescriptor to correspond to the JavaClass
  * object.
  *
- * @version $Revision: 1.17 $ $Date: 2003-10-22 09:19:41 $
+ * @version $Revision: 1.18 $ $Date: 2003-10-28 13:26:54 $
  */
 public class QDoxDescriptorParser
 {
@@ -96,7 +95,6 @@ public class QDoxDescriptorParser
                                                  final QDoxAttributeInterceptor interceptor )
     {
         final String classname = javaClass.getFullyQualifiedName();
-        final int modifiers = parseModifiers( javaClass.getModifiers() );
         final Attribute[] originalAttributes = buildAttributes( javaClass, interceptor );
         final Attribute[] attributes =
             interceptor.processClassAttributes( javaClass, originalAttributes );
@@ -107,6 +105,7 @@ public class QDoxDescriptorParser
             buildMethods( javaClass.getMethods(), interceptor );
 
         return new ClassDescriptor( classname,
+                                    attributes,
                                     attributes,
                                     fields,
                                     methods );
@@ -152,7 +151,6 @@ public class QDoxDescriptorParser
             type = "";
         }
 
-        final int modifiers = parseModifiers( method.getModifiers() );
         final Attribute[] originalAttributes = buildAttributes( method, interceptor );
         final Attribute[] attributes =
             interceptor.processMethodAttributes( method, originalAttributes );
@@ -225,7 +223,6 @@ public class QDoxDescriptorParser
     {
         final String name = field.getName();
         final String type = field.getType().getValue();
-        final int modifiers = parseModifiers( field.getModifiers() );
         final Attribute[] originalAttributes = buildAttributes( field, interceptor );
         final Attribute[] attributes =
             interceptor.processFieldAttributes( field, originalAttributes );
@@ -336,80 +333,6 @@ public class QDoxDescriptorParser
         {
             return new Attribute( name, parameters );
         }
-    }
-
-    /**
-     * Extract a Modifier bit-fields from an array of qualifiers.
-     * The qualifiers are strings such as "public", "private",
-     * "abstract", "final" etc and these are translated into their
-     * equivelents constants in {@link Modifier}. These constants
-     * are then |'ed together and returned.
-     *
-     * @param qualifiers the qualifier strings
-     * @return the modifier bit array
-     */
-    int parseModifiers( final String[] qualifiers )
-    {
-        int modifiers = 0;
-        for( int i = 0; i < qualifiers.length; i++ )
-        {
-            final String qualifier =
-                qualifiers[ i ].toLowerCase().trim();
-            if( qualifier.equals( "public" ) )
-            {
-                modifiers |= Modifier.PUBLIC;
-            }
-            else if( qualifier.equals( "protected" ) )
-            {
-                modifiers |= Modifier.PROTECTED;
-            }
-            else if( qualifier.equals( "private" ) )
-            {
-                modifiers |= Modifier.PRIVATE;
-            }
-            else if( qualifier.equals( "abstract" ) )
-            {
-                modifiers |= Modifier.ABSTRACT;
-            }
-            else if( qualifier.equals( "static" ) )
-            {
-                modifiers |= Modifier.STATIC;
-            }
-            else if( qualifier.equals( "final" ) )
-            {
-                modifiers |= Modifier.FINAL;
-            }
-            else if( qualifier.equals( "transient" ) )
-            {
-                modifiers |= Modifier.TRANSIENT;
-            }
-            else if( qualifier.equals( "volatile" ) )
-            {
-                modifiers |= Modifier.VOLATILE;
-            }
-            else if( qualifier.equals( "synchronized" ) )
-            {
-                modifiers |= Modifier.SYNCHRONIZED;
-            }
-            else if( qualifier.equals( "native" ) )
-            {
-                modifiers |= Modifier.NATIVE;
-            }
-            else if( qualifier.equals( "strictfp" ) )
-            {
-                modifiers |= Modifier.STRICT;
-            }
-            else if( qualifier.equals( "interface" ) )
-            {
-                modifiers |= Modifier.INTERFACE;
-            }
-            else
-            {
-                final String message = "Unknown qualifier: " + qualifier;
-                throw new IllegalArgumentException( message );
-            }
-        }
-        return modifiers;
     }
 
     /**

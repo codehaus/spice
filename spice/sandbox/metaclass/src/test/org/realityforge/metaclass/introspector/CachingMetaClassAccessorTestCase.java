@@ -16,7 +16,7 @@ import org.realityforge.metaclass.model.MethodDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-28 08:19:32 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-28 13:26:54 $
  */
 public class CachingMetaClassAccessorTestCase
     extends TestCase
@@ -78,6 +78,7 @@ public class CachingMetaClassAccessorTestCase
         final ClassDescriptor descriptor =
             new ClassDescriptor( "MyClass",
                                  Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
         final ClassLoader classLoader = getClass().getClassLoader();
@@ -92,6 +93,7 @@ public class CachingMetaClassAccessorTestCase
         final CachingMetaClassAccessor accessor = new CachingMetaClassAccessor();
         final ClassDescriptor descriptor =
             new ClassDescriptor( "MyClass",
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -120,10 +122,12 @@ public class CachingMetaClassAccessorTestCase
         final ClassDescriptor descriptor1 =
             new ClassDescriptor( "MyClass",
                                  Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
         final ClassDescriptor descriptor2 =
             new ClassDescriptor( "MyClass2",
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -159,6 +163,7 @@ public class CachingMetaClassAccessorTestCase
     {
         final ClassDescriptor descriptor =
             new ClassDescriptor( "MyClass2",
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );

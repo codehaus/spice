@@ -13,7 +13,6 @@ import com.thoughtworks.qdox.model.JavaField;
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaParameter;
 import com.thoughtworks.qdox.model.Type;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Properties;
 import junit.framework.TestCase;
@@ -26,7 +25,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-22 09:19:42 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-28 13:26:55 $
  */
 public class QDoxDescriptorParserTestCase
     extends TestCase
@@ -186,148 +185,6 @@ public class QDoxDescriptorParserTestCase
         final QDoxDescriptorParser parser = new QDoxDescriptorParser();
         final Properties parameters = parser.parseValueIntoParameters( value );
         assertNull( "parameters", parameters );
-    }
-
-    public void testParseEmptyModifiers()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", 0, modifiers );
-    }
-
-    public void testParseModifier_public()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"public"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.PUBLIC, modifiers );
-    }
-
-    public void testParseModifier_protected()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"protected"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.PROTECTED, modifiers );
-    }
-
-    public void testParseModifier_private()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"private"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.PRIVATE, modifiers );
-    }
-
-    public void testParseModifier_static()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"static"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.STATIC, modifiers );
-    }
-
-    public void testParseModifier_strict()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"strictfp"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.STRICT, modifiers );
-    }
-
-    public void testParseModifier_interface()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"interface"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.INTERFACE, modifiers );
-    }
-
-    public void testParseModifier_synchronized()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"synchronized"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.SYNCHRONIZED, modifiers );
-    }
-
-    public void testParseModifier_native()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"native"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.NATIVE, modifiers );
-    }
-
-    public void testParseModifier_transient()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"transient"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.TRANSIENT, modifiers );
-    }
-
-    public void testParseModifier_final()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"final"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.FINAL, modifiers );
-    }
-
-    public void testParseModifier_abstract()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"abstract"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.ABSTRACT, modifiers );
-    }
-
-    public void testParseModifier_volatile()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"volatile"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.VOLATILE, modifiers );
-    }
-
-    public void testParseModifier_volatile_public()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"volatile", "public"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        final int modifiers = parser.parseModifiers( qualifiers );
-        assertEquals( "modifiers", Modifier.VOLATILE | Modifier.PUBLIC, modifiers );
-    }
-
-    public void testParseUnknownModifier()
-        throws Exception
-    {
-        final String[] qualifiers = new String[]{"unknown"};
-        final QDoxDescriptorParser parser = new QDoxDescriptorParser();
-        try
-        {
-            parser.parseModifiers( qualifiers );
-        }
-        catch( IllegalArgumentException iae )
-        {
-            return;
-        }
-        fail( "Expected to fail parsing unknown modifier" );
     }
 
     public void testBuildAttributeWithNullQDoxValue()

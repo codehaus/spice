@@ -27,7 +27,7 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.20 $ $Date: 2003-10-26 11:59:42 $
+ * @version $Revision: 1.21 $ $Date: 2003-10-28 13:26:55 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase
@@ -405,6 +405,7 @@ public class MetaGenerateTaskTestCase
         task.addFileset( fileSet );
         final ClassDescriptor descriptor =
             new ClassDescriptor( "test",
+                                 Attribute.EMPTY_SET, 
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );

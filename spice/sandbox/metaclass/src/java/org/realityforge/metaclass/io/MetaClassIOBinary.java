@@ -26,7 +26,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.15 $ $Date: 2003-10-22 09:19:41 $
+ * @version $Revision: 1.16 $ $Date: 2003-10-28 13:26:54 $
  */
 public class MetaClassIOBinary
     implements MetaClassIO
@@ -56,7 +56,9 @@ public class MetaClassIOBinary
 
         return
             new ClassDescriptor( classname,
-                                 classAttributes, fields,
+                                 classAttributes,
+                                 classAttributes,
+                                 fields,
                                  methods );
     }
 

@@ -22,7 +22,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.15 $ $Date: 2003-10-28 08:15:02 $
+ * @version $Revision: 1.16 $ $Date: 2003-10-28 13:26:54 $
  */
 public class AttributesTestCase
     extends TestCase
@@ -144,7 +144,7 @@ public class AttributesTestCase
 
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 attributes,
+                                 attributes, attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -184,7 +184,7 @@ public class AttributesTestCase
 
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 attributes,
+                                 attributes, attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -215,7 +215,7 @@ public class AttributesTestCase
 
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 attributes,
+                                 attributes, attributes,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -239,7 +239,7 @@ public class AttributesTestCase
                                  attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{fieldDescriptor},
                                  MethodDescriptor.EMPTY_SET );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -283,7 +283,7 @@ public class AttributesTestCase
                                  attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{fieldDescriptor},
                                  MethodDescriptor.EMPTY_SET );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -319,7 +319,7 @@ public class AttributesTestCase
                                  attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{fieldDescriptor},
                                  MethodDescriptor.EMPTY_SET );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -359,7 +359,7 @@ public class AttributesTestCase
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -402,7 +402,7 @@ public class AttributesTestCase
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -445,7 +445,7 @@ public class AttributesTestCase
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -464,7 +464,7 @@ public class AttributesTestCase
                                  Attribute.EMPTY_SET );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{fieldDescriptor},
                                  MethodDescriptor.EMPTY_SET );
         final Field field = AttributesTestCase.class.getDeclaredFields()[ 0 ];
@@ -492,7 +492,7 @@ public class AttributesTestCase
                                   Attribute.EMPTY_SET );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
         final Method method = AttributesTestCase.class.getDeclaredMethods()[ 0 ];
@@ -520,7 +520,7 @@ public class AttributesTestCase
                                   Attribute.EMPTY_SET );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
         final Constructor constructor = AttributesTestCase.class.getDeclaredConstructors()[ 0 ];
@@ -570,7 +570,7 @@ public class AttributesTestCase
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -617,7 +617,7 @@ public class AttributesTestCase
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -662,7 +662,7 @@ public class AttributesTestCase
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -704,7 +704,7 @@ public class AttributesTestCase
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -734,7 +734,7 @@ public class AttributesTestCase
                                   attributes );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );
@@ -757,7 +757,7 @@ public class AttributesTestCase
                                   Attribute.EMPTY_SET );
         final ClassDescriptor descriptor =
             new ClassDescriptor( AttributesTestCase.class.getName(),
-                                 Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET, Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{methodDescriptor} );
         MetaClassIntrospector.setAccessor( new MockAccessor( descriptor ) );

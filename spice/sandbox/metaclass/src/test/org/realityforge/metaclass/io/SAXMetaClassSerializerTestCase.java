@@ -186,6 +186,7 @@ public class SAXMetaClassSerializerTestCase
         final ClassDescriptor descriptor =
             new ClassDescriptor( type,
                                  Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
         serializer.serializeClass( handler, descriptor );
@@ -213,6 +214,7 @@ public class SAXMetaClassSerializerTestCase
         final SAXMetaClassSerializer serializer = new SAXMetaClassSerializer();
         final ClassDescriptor descriptor =
             new ClassDescriptor( type,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );

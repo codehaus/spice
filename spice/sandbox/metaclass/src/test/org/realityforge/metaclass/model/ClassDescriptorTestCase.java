@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-28 11:37:25 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-28 13:26:55 $
  */
 public class ClassDescriptorTestCase
     extends TestCase
@@ -23,6 +23,7 @@ public class ClassDescriptorTestCase
         try
         {
             new ClassDescriptor( null,
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
@@ -42,6 +43,7 @@ public class ClassDescriptorTestCase
         {
             new ClassDescriptor( "MyClass",
                                  Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET,
                                  null,
                                  MethodDescriptor.EMPTY_SET );
         }
@@ -59,6 +61,7 @@ public class ClassDescriptorTestCase
         try
         {
             new ClassDescriptor( "MyClass",
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  new FieldDescriptor[]{null},
                                  MethodDescriptor.EMPTY_SET );
@@ -78,6 +81,7 @@ public class ClassDescriptorTestCase
         {
             new ClassDescriptor( "MyClass",
                                  Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  null );
         }
@@ -96,6 +100,7 @@ public class ClassDescriptorTestCase
         {
             new ClassDescriptor( "MyClass",
                                  Attribute.EMPTY_SET,
+                                 Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  new MethodDescriptor[]{null} );
         }
@@ -112,6 +117,7 @@ public class ClassDescriptorTestCase
     {
         final ClassDescriptor descriptor =
             new ClassDescriptor( "X",
+                                 Attribute.EMPTY_SET,
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );

@@ -26,7 +26,7 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-10-28 05:33:06 $
+ * @version $Revision: 1.9 $ $Date: 2003-10-28 13:26:55 $
  */
 public class ClassDescriptorCompilerTestCase
     extends TestCase
@@ -176,6 +176,7 @@ public class ClassDescriptorCompilerTestCase
         task.setDestDir( generateDirectory() );
         final ClassDescriptor descriptor =
             new ClassDescriptor( "test",
+                                 Attribute.EMPTY_SET, 
                                  Attribute.EMPTY_SET,
                                  FieldDescriptor.EMPTY_SET,
                                  MethodDescriptor.EMPTY_SET );
