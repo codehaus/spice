@@ -31,9 +31,9 @@ import org.realityforge.metaclass.tools.qdox.QDoxAttributeInterceptor;
 
 /**
  * A Task to generate Attributes descriptors from source files.
- *
+ * 
  * @author Peter Donald
- * @version $Revision: 1.20 $ $Date: 2003-12-11 08:41:50 $
+ * @version $Revision: 1.21 $ $Date: 2004-01-16 02:07:29 $
  */
 public class GenerateClassDescriptorsTask
     extends Task
@@ -52,7 +52,7 @@ public class GenerateClassDescriptorsTask
     private File m_destDir;
 
     /** Variable that indicates the output type. See above constants. */
-    private int m_format = BINARY_TYPE;
+    private int m_format = CLASS_TYPE;
 
     /** Flag indicating whether the compacter should methods with no attributes. */
     private boolean m_keepEmptyMethods = false;
@@ -77,7 +77,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Setup project for task.
-     *
+     * 
      * @param project the project
      */
     public void setProject( final Project project )
@@ -89,7 +89,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Add a filter definition that will create filter to process metadata.
-     *
+     * 
      * @param element the filter definition
      */
     public void addFilter( final PluginElement element )
@@ -99,7 +99,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Add a filter definition set.
-     *
+     * 
      * @param set a filter definition set.
      */
     public void addFilterSet( final FilterSet set )
@@ -110,7 +110,7 @@ public class GenerateClassDescriptorsTask
     /**
      * Add an interceptor definition that will create interceptor to process
      * metadata.
-     *
+     * 
      * @param element the interceptor definition
      */
     public void addInterceptor( final PluginElement element )
@@ -120,7 +120,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Add an interceptor definition set.
-     *
+     * 
      * @param set the interceptor set
      */
     public void addInterceptorSet( final InterceptorSet set )
@@ -130,7 +130,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Add fileset to list of files to be processed.
-     *
+     * 
      * @param fileSet fileset to list of files to be processed.
      */
     public void addFileset( final FileSet fileSet )
@@ -140,7 +140,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Set the destination directory for generated files.
-     *
+     * 
      * @param destDir the destination directory for generated files.
      */
     public void setDestDir( final File destDir )
@@ -150,7 +150,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Specify the output format. Must be one of xml or serialized.
-     *
+     * 
      * @param format the output format
      */
     public void setFormat( final FormatEnum format )
@@ -160,7 +160,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Set flag indicating whether Compacter should keep empty methods.
-     *
+     * 
      * @param keepEmptyMethods the flag
      */
     public void setKeepEmptyMethods( final boolean keepEmptyMethods )
@@ -170,7 +170,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Set the flag whether non-namespaced tags are filtered out.
-     *
+     * 
      * @param namespaceTagsOnly true to filter out non-namespaced tags
      */
     public void setNamespaceTagsOnly( final boolean namespaceTagsOnly )
@@ -231,7 +231,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Add all files contained in fileset to compilers file list.
-     *
+     * 
      * @param fileSet the fileset
      */
     private void appendFileSetToCompiler( final FileSet fileSet )
@@ -310,7 +310,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Create an instance of a plugin object.
-     *
+     * 
      * @param element the plugin def
      * @param type the expected type
      * @param description the description of type
@@ -342,9 +342,9 @@ public class GenerateClassDescriptorsTask
         catch( final Exception e )
         {
             final String message = "Error creating " +
-                description +
-                " " +
-                name;
+                                   description +
+                                   " " +
+                                   name;
             log( message );
             throw new BuildException( message, e );
         }
@@ -352,7 +352,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Create Loader for PLuginElement.
-     *
+     * 
      * @param element the element
      * @return the loader
      */
@@ -372,7 +372,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Return a description of output format to print as debug message.
-     *
+     * 
      * @return the output formats descriptive name
      */
     final String getOutputDescription()
@@ -389,7 +389,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Print error message and flag task as having failed.
-     *
+     * 
      * @param descriptor the descriptor
      * @param e the exception
      */
@@ -404,7 +404,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Print error message and flag task as having failed.
-     *
+     * 
      * @param file the source file
      */
     public void missingSourceFile( final File file )
@@ -435,7 +435,7 @@ public class GenerateClassDescriptorsTask
     /**
      * @see CompilerMonitor#postBuildDescriptorsList
      */
-    public void postBuildDescriptorsList( Collection descriptors )
+    public void postBuildDescriptorsList( final Collection descriptors )
     {
     }
 
@@ -465,7 +465,7 @@ public class GenerateClassDescriptorsTask
 
     /**
      * Return the Compiler used to create descriptors.
-     *
+     * 
      * @return the Compiler used to create descriptors.
      */
     protected final ClassDescriptorCompiler getCompiler()
