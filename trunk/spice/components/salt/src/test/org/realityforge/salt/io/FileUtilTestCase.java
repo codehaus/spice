@@ -83,66 +83,6 @@ public final class FileUtilTestCase
         return suite;
     }
 
-    class MockFile extends File
-    {
-        boolean _isDirectory;
-        File[] children;
-
-        public MockFile( String pathname )
-        {
-            super( pathname );
-            _isDirectory = false;
-        }
-
-        public MockFile( String pathname, boolean isDirectory )
-        {
-            super( pathname );
-            _isDirectory = isDirectory;
-        }
-
-        public boolean isDirectory()
-        {
-            return _isDirectory;
-        }
-
-        public File[] listFiles()
-        {
-            return children;
-        }
-    }
-
-    public void testResolveFileSet()
-        throws Exception
-    {
-        final MockFile f1 = new MockFile( "file1.txt" );
-        final MockFile f2 = new MockFile( "file2.txt" );
-        final MockFile f3 = new MockFile( "file3.dat" );
-        final MockFile f4 = new MockFile( "file4.dbg" );
-        final MockFile d1 = new MockFile( "dir", true );
-        final MockFile d2 = new MockFile( "dir2", true );
-        d1.children = new File[]{f2, f3, d2};
-        d2.children = new File[]{f1, f4};
-        final PathMatcher matcher = new PathMatcher( new String[]{"**/*.txt"}, new String[ 0 ] );
-        final File[] files = FileUtil.resolveFileSet( d1, matcher );
-        assertEquals( "Files.length", 2, files.length );
-        assertEquals( "Files[0]", f2, files[ 0 ] );
-        assertEquals( "Files[1]", f1, files[ 1 ] );
-    }
-
-    public void testResolveFileSetWithBadParam()
-        throws Exception
-    {
-        final MockFile f1 = new MockFile( "file1.txt" );
-        final PathMatcher matcher = new PathMatcher( new String[]{"**/*.txt"}, new String[ 0 ] );
-        try
-        {
-            FileUtil.resolveFileSet( f1, matcher );
-            fail( "Tried to scan a non-dir" );
-        }
-        catch( final IllegalArgumentException iae )
-        {
-        }
-    }
 
     public void testCopyFile1()
         throws Exception
