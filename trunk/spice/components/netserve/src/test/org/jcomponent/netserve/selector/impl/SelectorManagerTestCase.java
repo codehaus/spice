@@ -176,7 +176,7 @@ public class SelectorManagerTestCase
         assertEquals( "message",
                       new String( HelloSelectorEventHandler.MESSAGE ),
                       sb.toString() );
-
+        Thread.sleep( 50 );
         manager.shutdown();
         assertNullSelector( manager );
         assertEquals( "isRunning post shutdown", false, manager.isRunning() );
