@@ -28,6 +28,9 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * Utility class to create ModelMBeanInfo objects from classes
  * annotated with MetaClass attributes. See documentation for
  * description of valid attributes.
+ *
+ * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
+ * @version $Revision: 1.32 $ $Date: 2003-10-14 01:27:21 $
  */
 public class MBeanBuilder
 {
