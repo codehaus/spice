@@ -19,7 +19,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.6 $ $Date: 2003-10-09 04:06:34 $
+ * @version $Revision: 1.7 $ $Date: 2003-10-09 04:07:57 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -135,7 +135,13 @@ public class DefaultAcceptorManager
         thread.start();
     }
 
-    public boolean isConnected( final String name )
+    /**
+     * Return true if acceptor with specified name exists.
+     *
+     * @param name the name
+     * @return true if acceptor with specified name exists.
+     */
+    public synchronized boolean isConnected( final String name )
     {
         return m_acceptors.containsKey( name );
     }
