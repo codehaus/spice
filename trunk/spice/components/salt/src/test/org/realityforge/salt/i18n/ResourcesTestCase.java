@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.13 $ $Date: 2003-06-13 00:51:17 $
+ * @version $Revision: 1.14 $ $Date: 2003-06-13 01:05:50 $
  */
 public class ResourcesTestCase
     extends TestCase
@@ -290,7 +290,17 @@ public class ResourcesTestCase
         assertEquals( "a message in a bottle", resources.getString( "rez" ) );
     }
 
-    public void testGetStringWithOneArg()
+    public void testStringWithDefault()
+        throws Exception
+    {
+        final Resources resources =
+            new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
+                           Locale.getDefault(),
+                           MockResourceBundle.class.getClassLoader() );
+        assertEquals( "boo", resources.getString( "rez", "boo" ) );
+    }
+
+    public void testFormatStringWithOneArg()
         throws Exception
     {
         final Resources resources =
@@ -300,10 +310,10 @@ public class ResourcesTestCase
         MockResourceBundle.addResource( "rez",
                                         "a message in a bottle said {0}" );
         assertEquals( "a message in a bottle said bob",
-                      resources.getString( "rez", "bob" ) );
+                      resources.format( "rez", "bob" ) );
     }
 
-    public void testGetStringWith2Args()
+    public void testFormatStringWith2Args()
         throws Exception
     {
         final Resources resources =
@@ -313,10 +323,10 @@ public class ResourcesTestCase
         MockResourceBundle.addResource( "rez",
                                         "a message in a bottle said {0} to {1}" );
         assertEquals( "a message in a bottle said bob to mary",
-                      resources.getString( "rez", "bob", "mary" ) );
+                      resources.format( "rez", "bob", "mary" ) );
     }
 
-    public void testGetStringWith3Args()
+    public void testFormatStringWith3Args()
         throws Exception
     {
         final Resources resources =
@@ -326,10 +336,10 @@ public class ResourcesTestCase
         MockResourceBundle.addResource( "rez",
                                         "{0}, {1}, {2}" );
         assertEquals( "bob, mary, jenny",
-                      resources.getString( "rez", "bob", "mary", "jenny" ) );
+                      resources.format( "rez", "bob", "mary", "jenny" ) );
     }
 
-    public void testGetStringWith4Args()
+    public void testFormatStringWith4Args()
         throws Exception
     {
         final Resources resources =
@@ -339,10 +349,10 @@ public class ResourcesTestCase
         MockResourceBundle.addResource( "rez",
                                         "{0}, {1}, {2}, {3}" );
         assertEquals( "bob, mary, jenny, peter",
-                      resources.getString( "rez", "bob", "mary", "jenny", "peter" ) );
+                      resources.format( "rez", "bob", "mary", "jenny", "peter" ) );
     }
 
-    public void testGetStringWith5Args()
+    public void testFormatStringWith5Args()
         throws Exception
     {
         final Resources resources =
@@ -352,10 +362,10 @@ public class ResourcesTestCase
         MockResourceBundle.addResource( "rez",
                                         "{0}, {1}, {2}, {3}, {4}" );
         assertEquals( "bob, mary, jenny, peter, heather",
-                      resources.getString( "rez", "bob", "mary", "jenny", "peter", "heather" ) );
+                      resources.format( "rez", "bob", "mary", "jenny", "peter", "heather" ) );
     }
 
-    public void testGetStringWithMultiArgs()
+    public void testFormatStringWithMultiArgs()
         throws Exception
     {
         final Resources resources =
@@ -376,7 +386,7 @@ public class ResourcesTestCase
             new Resources( "org.realityforge.salt.i18n.MockResourceBundle",
                            Locale.getDefault(),
                            MockResourceBundle.class.getClassLoader() );
-        final String string = resources.getString( "noExist", "blah" );
+        final String string = resources.format( "noExist", "blah" );
         assertTrue( "Non existent resource starts with 'Unknown resource'",
                     string.startsWith( "Unknown resource" ) );
     }
