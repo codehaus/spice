@@ -174,12 +174,18 @@ public class LoggerStoreFactoryTestCase
                                    new HashMap() );
     }
 
-    public void testLog4jLoggerStoreFactoryInvalidInput()
+    public void testPropertyLog4jLoggerStoreFactoryInvalidInput()
         throws Exception
     {
         runInvalidInputData( new PropertyLog4JLoggerStoreFactory() );
     }
 
+    public void testDOMLog4jLoggerStoreFactoryInvalidInput()
+        throws Exception
+    {
+        runInvalidInputData( new DOMLog4JLoggerStoreFactory() );
+    }
+    
     public void testLog4jLoggerStoreFactoryWithProperties()
         throws Exception
     {
