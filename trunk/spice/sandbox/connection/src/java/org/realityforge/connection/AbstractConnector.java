@@ -40,6 +40,22 @@ public abstract class AbstractConnector
    private Object _lastRxMessage;
 
    /**
+    * The time the last connection attempt started.
+    */
+   private long _lastConnectionTime;
+
+   /**
+    * Number of sequential failed connection
+    * attempts.
+    */
+   private int _connectionAttempts;
+
+   /**
+    * The reason the last conenction attempt failed.
+    */
+   private String _connectionFailureReason;
+
+   /**
     * Method called to indicate transmission occured.
     *
     * @param message the message
