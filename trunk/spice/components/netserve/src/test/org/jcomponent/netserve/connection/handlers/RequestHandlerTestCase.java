@@ -13,7 +13,7 @@ import java.net.Socket;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-29 03:00:14 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-29 03:26:56 $
  */
 public class RequestHandlerTestCase
     extends TestCase
@@ -59,5 +59,73 @@ public class RequestHandlerTestCase
         assertEquals( "getErrorClosingConnectionThrowable",
                       ExceptingRequestHandler.EXCEPTION,
                       handler.getErrorHandlingConnectionThrowable() );
+    }
+
+    public void testShutdownWhileThreadStillGoingButInteruptible()
+        throws Exception
+    {
+        final DelayingRequestHandler handler = new DelayingRequestHandler( 2000, true );
+        final Socket socket = new Socket();
+        final Runnable runnable = new Runnable()
+        {
+            public void run()
+            {
+                handler.handleConnection( socket );
+            }
+        };
+        final Thread thread = new Thread( runnable );
+        thread.start();
+        Thread.sleep( 50 );
+
+        handler.shutdown( 50 );
+        assertEquals( "isShutdown", true, handler.isShutdown() );
+        assertEquals( "isExited", true, handler.isExited() );
+        assertEquals( "isExitDueToInterrupt", true, handler.isExitDueToInterrupt() );
+    }
+
+    public void testShutdownWhileThreadStillGoingAndNotInteruptible()
+        throws Exception
+    {
+        final DelayingRequestHandler handler =
+            new DelayingRequestHandler( 2000, false );
+        final Socket socket = new Socket();
+        final Runnable runnable = new Runnable()
+        {
+            public void run()
+            {
+                handler.handleConnection( socket );
+            }
+        };
+        final Thread thread = new Thread( runnable );
+        thread.start();
+        Thread.sleep( 50 );
+
+        handler.shutdown( 50 );
+        assertEquals( "isShutdown", true, handler.isShutdown() );
+        assertEquals( "isExited", false, handler.isExited() );
+        assertEquals( "isExitDueToInterrupt", false, handler.isExitDueToInterrupt() );
+    }
+
+    public void testShutdownWhileThreadStillGoingAndWaitIndefinetly()
+        throws Exception
+    {
+        final DelayingRequestHandler handler =
+            new DelayingRequestHandler( 200, false );
+        final Socket socket = new Socket();
+        final Runnable runnable = new Runnable()
+        {
+            public void run()
+            {
+                handler.handleConnection( socket );
+            }
+        };
+        final Thread thread = new Thread( runnable );
+        thread.start();
+        Thread.sleep( 50 );
+
+        handler.shutdown( 0 );
+        assertEquals( "isShutdown", true, handler.isShutdown() );
+        assertEquals( "isExited", true, handler.isExited() );
+        assertEquals( "isExitDueToInterrupt", false, handler.isExitDueToInterrupt() );
     }
 }
