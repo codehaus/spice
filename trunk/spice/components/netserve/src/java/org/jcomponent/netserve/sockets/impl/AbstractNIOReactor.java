@@ -60,7 +60,7 @@ public abstract class AbstractNIOReactor
    public void startupSelector()
       throws IOException
    {
-      synchronized ( getReactorLock() )
+      synchronized ( getSelectorLock() )
       {
          setSelector( Selector.open() );
       }
@@ -86,7 +86,7 @@ public abstract class AbstractNIOReactor
    public void shutdownSelector()
    {
       m_monitor.selectorShutdown();
-      synchronized ( getReactorLock() )
+      synchronized ( getSelectorLock() )
       {
          final Selector selector = getSelector();
          if ( null != selector )
@@ -104,7 +104,7 @@ public abstract class AbstractNIOReactor
       }
       while ( null != getSelector() )
       {
-         synchronized ( getReactorLock() )
+         synchronized ( getSelectorLock() )
          {
             try
             {
@@ -125,7 +125,7 @@ public abstract class AbstractNIOReactor
     */
    protected void setRunning( final boolean running )
    {
-      synchronized ( getReactorLock() )
+      synchronized ( getSelectorLock() )
       {
          m_running = running;
       }
@@ -138,7 +138,7 @@ public abstract class AbstractNIOReactor
     */
    public boolean isRunning()
    {
-      synchronized ( getReactorLock() )
+      synchronized ( getSelectorLock() )
       {
          return m_running;
       }
@@ -174,7 +174,7 @@ public abstract class AbstractNIOReactor
          }
       }
       m_monitor.exitingSelectorLoop();
-      synchronized ( getReactorLock() )
+      synchronized ( getSelectorLock() )
       {
          setSelector( null );
          notifyAll();
@@ -211,7 +211,7 @@ public abstract class AbstractNIOReactor
     *
     * @return the lock used to synchronize access to selector.
     */
-   protected Object getReactorLock()
+   protected Object getSelectorLock()
    {
       return this;
    }
@@ -233,7 +233,7 @@ public abstract class AbstractNIOReactor
     */
    protected Selector getSelector()
    {
-      synchronized ( getReactorLock() )
+      synchronized ( getSelectorLock() )
       {
          if ( null == m_selector )
          {
