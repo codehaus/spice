@@ -12,6 +12,7 @@ import org.jcontainer.dna.impl.ContainerUtil;
 import org.jcontainer.dna.impl.ConsoleLogger;
 import org.jcontainer.dna.impl.DefaultResourceLocator;
 import org.jcomponent.netserve.connection.ConnectionManager;
+import org.jcomponent.netserve.sockets.SocketAcceptorManager;
 import org.jcomponent.threadpool.ThreadPool;
 
 /**
@@ -19,22 +20,20 @@ import org.jcomponent.threadpool.ThreadPool;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-09-21 12:43:12 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-14 04:12:18 $
  */
-public class DNAConnectionTestCase
+public class DNAConnectionTestCase_Old
     extends AbstractConnectionTestCase
 {
-    public DNAConnectionTestCase( final String name )
-    {
-        super( name );
-    }
-
     protected void setUp() throws Exception
     {
         setMonitor( createConnectionMonitor() );
     }
 
-    protected ConnectionManager createConnectionManager( boolean addThreadPool, final int soTimeoutVal, final boolean forceShutdown, final int shutdownTimeout )
+    protected ConnectionManager createConnectionManager( boolean addThreadPool,
+                                                         final SocketAcceptorManager acceptorManager,
+                                                         final boolean forceShutdown,
+                                                         final int shutdownTimeout )
         throws Exception
     {
         final ConsoleLogger logger = new ConsoleLogger( ConsoleLogger.LEVEL_NONE );
@@ -44,10 +43,11 @@ public class DNAConnectionTestCase
         {
             locator.put( ThreadPool.class.getName(), new TestThreadPool() );
         }
+        locator.put( SocketAcceptorManager.class.getName(), acceptorManager );
 
         final DefaultConfiguration config = new DefaultConfiguration( "root", "", "" );
         final DefaultConfiguration soTimeoutConfig = new DefaultConfiguration( "soTimeout", "", "" );
-        soTimeoutConfig.setValue( String.valueOf( soTimeoutVal ) );
+        soTimeoutConfig.setValue( String.valueOf( acceptorManager ) );
         config.addChild( soTimeoutConfig );
         final DefaultConfiguration forceShutdownConfig =
             new DefaultConfiguration( "forceShutdown", "", "" );
@@ -72,6 +72,7 @@ public class DNAConnectionTestCase
         ContainerUtil.enableLogging( monitor, new ConsoleLogger() );
         return monitor;
     }
+
     protected ConnectionMonitor createConnectionMonitorNoLogging()
     {
         final DNAConnectionMonitor monitor = new DNAConnectionMonitor();
