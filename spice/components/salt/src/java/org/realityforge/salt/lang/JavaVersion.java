@@ -11,7 +11,7 @@ package org.realityforge.salt.lang;
  * Type safe wrapper class for Java Version enums.
  *
  * @author <a href="mailto:peter@apache.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-06-08 01:14:43 $
+ * @version $Revision: 1.2 $ $Date: 2003-06-08 01:38:27 $
  */
 public final class JavaVersion
 {
@@ -58,13 +58,13 @@ public final class JavaVersion
     }
 
     /**
-     * Return true if the specified version is less than or equal to current version.
+     * Return true if the version object is is less than or equal to specified version.
      *
-     * @return true if the specified version is less than or equal to current version.
+     * @return true if the version object is is less than or equal to specified version.
      */
     public boolean isLessThanOrEqual( final JavaVersion version )
     {
-        return m_code > version.m_code;
+        return m_code <= version.m_code;
     }
 
     /**
