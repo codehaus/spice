@@ -13,7 +13,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
-
 import org.jcomponent.netserve.connection.ConnectionHandler;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 import org.jcomponent.threadpool.ThreadPool;
@@ -22,7 +21,7 @@ import org.jcomponent.threadpool.ThreadPool;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-29 19:12:58 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-31 02:18:53 $
  */
 class ConnectionAcceptor
     implements Runnable
@@ -280,7 +279,7 @@ class ConnectionAcceptor
             }
             final String message =
                 "Unable to create ConnectionHandler due to: " + e;
-            m_monitor.unexpectedError( message, e);
+            m_monitor.unexpectedError( message, e );
             return;
         }
 

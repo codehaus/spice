@@ -10,7 +10,6 @@ package org.jcomponent.netserve.connection.impl;
 import java.net.ServerSocket;
 import java.util.Hashtable;
 import java.util.Map;
-
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 import org.jcomponent.netserve.connection.ConnectionManager;
 import org.jcomponent.threadpool.ThreadPool;
@@ -34,7 +33,7 @@ import org.jcomponent.threadpool.ThreadPool;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-29 19:12:58 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 02:18:53 $
  * @phoenix.component
  * @phoenix.service type="ConnectionManager"
  */
@@ -79,17 +78,16 @@ public class AbstractConnectionManager
      */
     private int m_soTimeout;
 
-
     /**
      * Constructor
      */
-    protected AbstractConnectionManager( )
+    protected AbstractConnectionManager()
     {
         this( new NullConnectionMonitor(),
-               null,
-               1000, 
-               false, 
-               0);
+              null,
+              1000,
+              false,
+              0 );
     }
 
     /**
@@ -101,10 +99,10 @@ public class AbstractConnectionManager
      * @param shutdownTimeout
      */
     protected AbstractConnectionManager( final ConnectionMonitor monitor,
-                                          final ThreadPool defaultThreadPool,
-                                          final int soTimeout, 
-                                          final boolean forceShutdown,
-                                          final int shutdownTimeout )
+                                         final ThreadPool defaultThreadPool,
+                                         final int soTimeout,
+                                         final boolean forceShutdown,
+                                         final int shutdownTimeout )
     {
         m_monitor = monitor;
         m_defaultThreadPool = defaultThreadPool;
@@ -113,19 +111,23 @@ public class AbstractConnectionManager
         m_shutdownTimeout = shutdownTimeout;
     }
 
-    protected void setShutdownTimeout( final int shutdownTimeout ){
+    protected void setShutdownTimeout( final int shutdownTimeout )
+    {
         m_shutdownTimeout = shutdownTimeout;
     }
- 
-    protected void setForceShutdown( final boolean forceShutdown ){
+
+    protected void setForceShutdown( final boolean forceShutdown )
+    {
         m_forceShutdown = forceShutdown;
     }
 
-    protected void setSoTimeout( final int soTimeout ){
+    protected void setSoTimeout( final int soTimeout )
+    {
         m_soTimeout = soTimeout;
     }
 
-    protected void setDefaultThreadPool( final ThreadPool threadPool ){
+    protected void setDefaultThreadPool( final ThreadPool threadPool )
+    {
         m_defaultThreadPool = threadPool;
     }
 
@@ -248,9 +250,9 @@ public class AbstractConnectionManager
      * @throws Exception if unable to setup socket properly
      */
     protected void doConnect( final String name,
-                                final ServerSocket socket,
-                                final ConnectionHandlerManager handlerManager,
-                                final ThreadPool threadPool )
+                              final ServerSocket socket,
+                              final ConnectionHandlerManager handlerManager,
+                              final ThreadPool threadPool )
         throws Exception
     {
         if( null == name )

@@ -11,7 +11,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Implementation of ConnectionMonitor which logs event with the Avalon logger.
- * 
+ *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  */
 class AvalonConnectionMonitor
@@ -30,20 +30,21 @@ class AvalonConnectionMonitor
 
     public void acceptorCreated( final ConnectionAcceptor acceptor )
     {
-        if (getLogger().isInfoEnabled())
+        if( getLogger().isInfoEnabled() )
         {
             final String message = "Creating Acceptor " + acceptor + ".";
-            getLogger().info(message);
+            getLogger().info( message );
         }
     }
+
     public void acceptorDisconnected( final ConnectionAcceptor acceptor,
-                                        boolean tearDown)
+                                      boolean tearDown )
     {
-        if (getLogger().isInfoEnabled())
+        if( getLogger().isInfoEnabled() )
         {
             final String message =
                 "Disconnecting Acceptor " + acceptor + ". tearDown=" + tearDown;
-            getLogger().info(message);
+            getLogger().info( message );
         }
     }
 
@@ -60,7 +61,7 @@ class AvalonConnectionMonitor
     {
         if( getLogger().isDebugEnabled() )
         {
-            final String message = 
+            final String message =
                 "Ending connection '" + name + "' on " + hostAddress + ".";
             getLogger().debug( message );
         }
@@ -70,7 +71,7 @@ class AvalonConnectionMonitor
     {
         if( getLogger().isDebugEnabled() )
         {
-            final String message = 
+            final String message =
                 "Starting connection '" + name + "' on " + hostAddress + ".";
             getLogger().debug( message );
         }
@@ -103,14 +104,14 @@ class AvalonConnectionMonitor
             getLogger().debug( message );
         }
     }
-    
+
     public void serverSocketClosing( final String name )
     {
         if( getLogger().isDebugEnabled() )
         {
             final String message = "Closing ServerSocket " + name + ".";
             getLogger().debug( message );
-        }        
+        }
     }
 
     public void serverSocketListening( final String name )
@@ -120,15 +121,15 @@ class AvalonConnectionMonitor
             final String message =
                 "About to call accept() on ServerSocket '" + name + "'.";
             getLogger().debug( message );
-        }        
+        }
     }
 
-    public void unexpectedError( final String message, 
-                                  final Throwable t )
+    public void unexpectedError( final String message,
+                                 final Throwable t )
     {
-        if (getLogger().isWarnEnabled())
+        if( getLogger().isWarnEnabled() )
         {
-            getLogger().warn("Unexpected Error (" + message + ")", t);
+            getLogger().warn( "Unexpected Error (" + message + ")", t );
         }
     }
 
