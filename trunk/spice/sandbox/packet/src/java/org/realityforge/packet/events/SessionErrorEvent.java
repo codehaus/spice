@@ -6,16 +6,11 @@ import org.realityforge.packet.session.Session;
  * Event indicating connect occured for session.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-02-18 02:33:38 $
+ * @version $Revision: 1.2 $ $Date: 2004-02-23 04:06:23 $
  */
 public class SessionErrorEvent
    extends AbstractSessionEvent
 {
-   /**
-    * Message indicating No Error.
-    */
-   public static final byte ERROR_NONE = 0;
-
    /**
     * Message indicating that there stream header was invalid.
     */
@@ -40,16 +35,6 @@ public class SessionErrorEvent
     * Message indicating unknown message code.
     */
    public static final byte ERROR_BAD_MESSAGE = 5;
-
-   /**
-    * Message indicating unknown message code.
-    */
-   public static final byte ERROR_NO_SEQUENCE = 6;
-
-   /**
-    * Message indicating IO Error.
-    */
-   public static final byte ERROR_IO_ERROR = 7;
 
    /**
     * Message indicating local session has been disconnected.

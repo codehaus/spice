@@ -23,7 +23,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.15 $ $Date: 2004-02-18 02:33:38 $
+ * @version $Revision: 1.16 $ $Date: 2004-02-23 04:06:24 $
  */
 class TestEventHandler
    extends AbstractDirectedHandler
@@ -61,24 +61,24 @@ class TestEventHandler
 
       final AbstractSessionEvent se = (AbstractSessionEvent)event;
       final Session session = se.getSession();
-      final String desc = describeSession( session );
 
       if( event instanceof DataPacketReadyEvent )
       {
-         //final DataPacketReadyEvent e = (DataPacketReadyEvent)event;
-         //output( session, "Received " + e.getPacket().getData().limit() );
+         final DataPacketReadyEvent e = (DataPacketReadyEvent)event;
+         final Packet packet = e.getPacket();
+         output( session, "Received packet " + packet.getSequence() );
          performLogic( session );
       }
       else if( event instanceof SessionActiveEvent )
       {
-         final String text = "Session Active. " + desc;
+         final String text = "Session Active.";
          output( session, text );
          performLogic( session );
       }
       else if( event instanceof SessionInactiveEvent )
       {
          final String text =
-            "Session Inactive. " + desc +
+            "Session Inactive." +
             " status=" + session.getStatus() +
             " isConnecting=" + session.isConnecting() +
             " connections=" + session.getConnections();
@@ -94,7 +94,9 @@ class TestEventHandler
          {
             _clientSessions.add( session );
          }
-         final String text = "Session Started. " + desc;
+         session.setUserData( new TestSessionData( session ) );
+
+         final String text = "Session Started.";
          output( session, text );
       }
       else if( event instanceof SessionDisconnectEvent )
@@ -109,10 +111,8 @@ class TestEventHandler
             sessions = _clientSessions;
          }
          sessions.remove( session );
-
          final String text =
-            "Session Completed. " + desc +
-            "." + sessions.size() + " sessions remaining. " +
+            "Session Completed. " + sessions.size() + " sessions remaining. " +
             "Sessions=" + toIDs( sessions );
          output( session, text );
       }
@@ -140,14 +140,20 @@ class TestEventHandler
       {
          return;
       }
-      final int receivedMessages = session.getLastPacketProcessed();
-      final long dropOn = session.getSessionID() % 5;
-      if( receivedMessages == 5 )
+      final int lastPacketProcessed = session.getLastPacketProcessed();
+      final short lastPacketTransmitted = session.getLastPacketTransmitted();
+      final long dropOn = session.getSessionID() % TestServer.MESSAGE_COUNT;
+      if( lastPacketProcessed == TestServer.MESSAGE_COUNT &&
+          lastPacketTransmitted == TestServer.MESSAGE_COUNT )
       {
-         session.requestShutdown();
+         if( !session.isInShutdown() )
+         {
+            output( session, "----------------- SHUTDOWN SESSION" );
+            session.requestShutdown();
+         }
       }
       else if( null != session.getTransport() &&
-               receivedMessages == dropOn &&
+               lastPacketProcessed == dropOn &&
                1 == session.getConnections() &&
                session.isClient() )
       {
@@ -164,12 +170,12 @@ class TestEventHandler
 
    private void transmitData( final Session session )
    {
-      if( session.getLastPacketTransmitted() == 5 )
+      if( session.getLastPacketTransmitted() == TestServer.MESSAGE_COUNT )
       {
          return;
       }
       final int transmitCount =
-         Math.abs( RANDOM.nextInt() % 16 * 1024 * 5 );
+         Math.abs( RANDOM.nextInt() % 16 * TestServer.TX_SIZE_FACTOR );
       final ByteBuffer buffer =
          _bufferManager.aquireBuffer( transmitCount );
 
@@ -180,8 +186,14 @@ class TestEventHandler
       }
       buffer.flip();
 
+      output( session, "----------------- SEND DATA" );
       if( !session.sendPacket( buffer ) )
       {
+         final String text =
+            "----------------- FAILED TO SEND DATA. " +
+            " pendingDisconnect=" + session.isPendingDisconnect() +
+            " disconnectRequested=" + session.isDisconnectRequested();
+         output( session, text );
          _bufferManager.releaseBuffer( buffer );
       }
    }
@@ -198,8 +210,10 @@ class TestEventHandler
 
    private void output( final Session session, final String text )
    {
+      final String desc = describeSession( session );
       final String message =
-         _header + " (" + session.getSessionID() + "): " + text;
+         _header + " (" + session.getSessionID() + "): " + text +
+         " " + desc;
       System.out.println( message );
    }
 }
