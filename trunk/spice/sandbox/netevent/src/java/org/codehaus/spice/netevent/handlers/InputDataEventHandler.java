@@ -3,7 +3,7 @@ package org.codehaus.spice.netevent.handlers;
 import java.nio.ByteBuffer;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.EventSink;
-import org.codehaus.spice.netevent.events.DataPresentEvent;
+import org.codehaus.spice.netevent.events.InputDataPresentEvent;
 import org.codehaus.spice.netevent.events.ReadEvent;
 import org.codehaus.spice.netevent.transport.ChannelTransport;
 
@@ -11,9 +11,9 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * Stuff data into stream and send resultent event.
  * 
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-01-12 02:32:41 $
+ * @version $Revision: 1.1 $ $Date: 2004-01-12 02:42:19 $
  */
-public class DataEventHandler
+public class InputDataEventHandler
     extends AbstractDirectedHandler
 {
     /**
@@ -21,7 +21,7 @@ public class DataEventHandler
      * 
      * @param sink the destination
      */
-    public DataEventHandler( final EventSink sink )
+    public InputDataEventHandler( final EventSink sink )
     {
         super( sink );
     }
@@ -36,6 +36,6 @@ public class DataEventHandler
         final ByteBuffer buffer = re.getBuffer();
         buffer.flip();
         transport.getReceivedData().addBuffer( buffer );
-        getSink().addEvent( new DataPresentEvent( transport ) );
+        getSink().addEvent( new InputDataPresentEvent( transport ) );
     }
 }
