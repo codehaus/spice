@@ -7,7 +7,6 @@
  */
 package org.realityforge.converter.lib;
 
-import java.math.BigDecimal;
 import org.realityforge.converter.AbstractConverter;
 import org.realityforge.converter.ConverterException;
 
@@ -16,7 +15,7 @@ import org.realityforge.converter.ConverterException;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003-05-24 23:52:36 $
+ * @version $Revision: 1.6 $ $Date: 2003-05-24 23:55:43 $
  */
 public class ObjectToStringConverter
     extends AbstractConverter
