@@ -25,7 +25,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * to monitor several server sockets.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-10-09 09:53:05 $
+ * @version $Revision: 1.9 $ $Date: 2003-10-09 09:57:28 $
  * @dna.component
  * @dna.service type="SocketAcceptorManager"
  */
@@ -289,11 +289,8 @@ public class NIOAcceptorManager
                 // The key indexes into the selector so you
                 // can retrieve the socket that's ready for I/O
 
-                if( key.isValid() )
-                {
-                    final ServerSocketChannel channel = (ServerSocketChannel)key.channel();
-                    handleChannel( channel );
-                }
+                final ServerSocketChannel channel = (ServerSocketChannel)key.channel();
+                handleChannel( channel );
             }
         }
         m_selector = null;
