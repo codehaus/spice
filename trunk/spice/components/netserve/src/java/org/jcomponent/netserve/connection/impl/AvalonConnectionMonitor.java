@@ -17,7 +17,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-08 07:40:45 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-24 07:59:42 $
  */
 class AvalonConnectionMonitor
     extends AbstractLogEnabled
@@ -120,7 +120,7 @@ class AvalonConnectionMonitor
     }
 
     public void disposingHandler( final String name,
-                                 final Socket socket )
+                                  final Socket socket )
     {
         if( getLogger().isDebugEnabled() )
         {

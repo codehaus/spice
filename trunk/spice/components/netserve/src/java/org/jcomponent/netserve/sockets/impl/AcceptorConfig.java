@@ -8,14 +8,13 @@
 package org.jcomponent.netserve.sockets.impl;
 
 import java.net.ServerSocket;
-
 import org.jcomponent.netserve.connection.ConnectionHandler;
 
 /**
  * A utility class that contains acceptor configuration.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-24 04:27:55 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-24 07:59:43 $
  */
 class AcceptorConfig
 {
@@ -42,8 +41,8 @@ class AcceptorConfig
      * @param handler the handler for new connections
      */
     AcceptorConfig( final String name,
-                        final ServerSocket serverSocket,
-                        final ConnectionHandler handler )
+                    final ServerSocket serverSocket,
+                    final ConnectionHandler handler )
     {
         if( null == name )
         {

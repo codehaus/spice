@@ -7,8 +7,8 @@
  */
 package org.jcomponent.netserve.connection.impl;
 
-import org.jcomponent.threadpool.ThreadPool;
 import org.jcomponent.netserve.sockets.SocketAcceptorManager;
+import org.jcomponent.threadpool.ThreadPool;
 import org.jcontainer.dna.Active;
 import org.jcontainer.dna.Composable;
 import org.jcontainer.dna.Configurable;
@@ -38,7 +38,7 @@ import org.jcontainer.dna.impl.ContainerUtil;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-14 04:23:58 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-24 07:59:42 $
  * @dna.component
  * @dna.service type="org.jcomponent.netserve.connection.ConnectionManager"
  */

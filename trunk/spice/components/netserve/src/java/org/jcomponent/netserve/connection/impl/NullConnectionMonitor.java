@@ -7,16 +7,16 @@
  */
 package org.jcomponent.netserve.connection.impl;
 
-import java.net.Socket;
-import java.net.ServerSocket;
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  * Noop implementation of ConnectionMonitor.
  *
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-08 07:41:12 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-24 07:59:42 $
  */
 class NullConnectionMonitor
     implements ConnectionMonitor

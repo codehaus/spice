@@ -12,8 +12,8 @@ import java.util.Hashtable;
 import java.util.Map;
 import org.jcomponent.netserve.connection.ConnectionHandlerManager;
 import org.jcomponent.netserve.connection.ConnectionManager;
-import org.jcomponent.netserve.sockets.impl.DefaultAcceptorManager;
 import org.jcomponent.netserve.sockets.SocketAcceptorManager;
+import org.jcomponent.netserve.sockets.impl.DefaultAcceptorManager;
 import org.jcomponent.threadpool.ThreadPool;
 
 /**
@@ -22,7 +22,7 @@ import org.jcomponent.threadpool.ThreadPool;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:mauro.talevi at aquilonia.org">Mauro Talevi</a>
- * @version $Revision: 1.7 $ $Date: 2003-10-14 04:12:43 $
+ * @version $Revision: 1.8 $ $Date: 2003-10-24 07:59:42 $
  * @dna.component
  * @dna.service type="ConnectionManager"
  */
