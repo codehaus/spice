@@ -3,7 +3,7 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>XInvoke</name>
     <id>xinvoke</id>
-    <groupId>components</groupId>
+    <gumpRepositoryId>components</gumpRepositoryId>
 
     <shortDescription>Easy to use interceptor toolkit</shortDescription>
 
