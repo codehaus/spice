@@ -29,7 +29,7 @@ import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.16 $ $Date: 2003-08-31 05:24:45 $
+ * @version $Revision: 1.17 $ $Date: 2003-08-31 05:55:02 $
  */
 public class MetaGenerateTask
     extends AbstractQdoxTask
@@ -100,18 +100,12 @@ public class MetaGenerateTask
      */
     public void execute()
     {
-        final String message =
-            "Writing MetaClass descriptors as " +
-            getOutputDescription() + ".";
-        log( message );
-
         validate();
 
         super.execute();
         try
         {
             processSourceFiles();
-            log( "MetaClass Descriptor generation done." );
         }
         catch( final IOException ioe )
         {
@@ -141,7 +135,8 @@ public class MetaGenerateTask
         throws IOException
     {
         final List classes = collectClassesToSerialize();
-        log( "MetaClass Attributes Compiler compiling " + classes.size() + " files." );
+        log( "MetaClass Attributes Compiler compiling " + classes.size() +
+             " classes and writing as " + getOutputDescription() + "." );
 
         final List descriptors = buildClassDescriptors( classes );
 
