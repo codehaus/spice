@@ -10,6 +10,7 @@
     default="jar:jar">
 
     <j:set var="spice.tool.dir" value="${basedir}/../../tools"/>
+    <j:set var="generateNavigation" value="true"/>
 
     <define:taglib uri="spice:archive">
         <define:tag name="copy-runtime-deps">
@@ -90,18 +91,30 @@
             type="file"
             property="navigationAvailable"/>
 
-        <j:if test="${navigationAvailable != 'true'}">
+        <j:if test="${generateNavigation == 'true'}">
             <ant:echo message="Generating Navigation"/>
             <j:file name="target/navigation.xml" omitXmlDeclaration="true">
                 <naproject name="${pom.name}">
                     <title>${pom.name}</title>
                     <body>
                         <links>
-                            <item name="Spice" href="http://spice.sourceforge.net/"/>
+                            <item name="Home" href="http://spice.sourceforge.net/"/>
                         </links>
                         <menu name="Overview">
-                            <item name="Introduction" href="/index.html"/>
+                            <item name="Home" href="/index.html"/>
                             <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
+		                    <item name="Components" href="/index.html" collapse="true">
+    		                    <ant:fileScanner var="components">
+        		                    <fileset dir="${basedir}/../../components">
+            		                    <include name="*/project.xml"/>
+                		            </fileset>
+                    		    </ant:fileScanner>
+                        		<j:forEach items="${components.iterator()}" var="component">
+                            		<maven:pom projectDescriptor="${component}" var="cPOM"/>
+                            		<item name="${cPOM.name}"
+                                		href="/${component.parentFile.name}/index.html"/>
+                        		</j:forEach>
+                    		</item>
                         </menu>
                     </body>
                 </naproject>
