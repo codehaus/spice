@@ -8,7 +8,7 @@
     xmlns:ant="jelly:ant"
     xmlns:archive="spice:archive"
     xmlns:velocity="jelly:org.apache.commons.jelly.tags.velocity.VelocityTagLibrary"
-    default="jar:jar">
+    default="jar:install">
 
     <j:set var="spice.tool.dir" value="${basedir}/../../tools"/>
 
@@ -96,7 +96,7 @@
                 <ant:include name="*.menu"/>
             </ant:fileset>
         </ant:copy>
-        <!-- This component's menu -->
+        <!-- Component menu -->
         <ant:available
             file="target/templates/component.menu"
             type="file"
@@ -108,18 +108,18 @@
         			prettyPrint="true"/>
 		</j:if>
 		
-		<!-- All components' menu -->
-        <j:file name="target/templates/components.menu" 
+		<!-- Repository menu -->
+        <j:file name="target/templates/repository.menu" 
         		omitXmlDeclaration="true" 
         		prettyPrint="true">
-            <menu name="Components">
-   		                    <ant:fileScanner var="components">
-   		                    <fileset dir="${basedir}/../../components">
-   		                    <include name="*/project.xml"/>
+            <menu name="Repository">
+                <ant:fileScanner var="components">
+	                <fileset dir="${basedir}/../../components">
+   	                    <include name="*/project.xml"/>
    		            </fileset>
        		    </ant:fileScanner>
-   		                    <ant:fileScanner var="sandbox">
-   		                    <fileset dir="${basedir}/../../sandbox">
+   	            <ant:fileScanner var="sandbox">
+   	                <fileset dir="${basedir}/../../sandbox">
    		                    <include name="*/project.xml"/>
    		            </fileset>
        		    </ant:fileScanner>
