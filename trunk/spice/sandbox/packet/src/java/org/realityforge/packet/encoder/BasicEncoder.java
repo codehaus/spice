@@ -14,7 +14,7 @@ import java.nio.ByteBuffer;
  * A basic encoder that writes packet using simple mechanisms.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-11-11 11:18:50 $
+ * @version $Revision: 1.3 $ $Date: 2003-11-11 11:24:22 $
  */
 public class BasicEncoder
     implements Encoder
@@ -30,7 +30,7 @@ public class BasicEncoder
     public boolean encode( final Packet packet,
                            final ByteBuffer output )
     {
-        final int space = output.capacity() - output.limit();
+        final int space = output.limit() - output.position();
         final ByteBuffer data = packet.getData();
         final int size = data.limit();
         if( space < SIZEOF_HEADER + size )
