@@ -7,8 +7,6 @@ import java.nio.channels.Selector;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.jcomponent.netserve.selector.impl.NullSelectorEventHandler;
-import org.jcomponent.netserve.selector.impl.NullSelectorMonitor;
 import org.jcomponent.netserve.selector.SelectorEventHandler;
 
 /**
@@ -22,11 +20,6 @@ public class DefaultSelectorManager
     * The monitor that receives notifications of Connection events
     */
    private SelectorMonitor m_monitor = NullSelectorMonitor.MONITOR;
-
-   /**
-    * The handler for selector events.
-    */
-   private SelectorEventHandler m_handler = NullSelectorEventHandler.HANDLER;
 
    /**
     * Selector used to monitor for accepts.
@@ -55,20 +48,6 @@ public class DefaultSelectorManager
          throw new NullPointerException( "monitor" );
       }
       m_monitor = monitor;
-   }
-
-   /**
-    * Set the SelectorEventHandler to handle selection events.
-    *
-    * @param handler the SelectorEventHandler
-    */
-   public void setHandler( final SelectorEventHandler handler )
-   {
-      if ( null == handler )
-      {
-         throw new NullPointerException( "handler" );
-      }
-      m_handler = handler;
    }
 
    /**
@@ -341,16 +320,6 @@ public class DefaultSelectorManager
    protected SelectorMonitor getMonitor()
    {
       return m_monitor;
-   }
-
-   /**
-    * Return the handler associated with manager.
-    *
-    * @return the handler associated with manager.
-    */
-   SelectorEventHandler getHandler()
-   {
-      return m_handler;
    }
 
    /**
