@@ -101,9 +101,9 @@
                             <item name="Home" href="/index.html"/>
                         </links>
                         <menu name="Overview">
-                            <item name="Home" href="/index.html"/>
+                            <item name="Home" href="../index.html"/>
                             <item name="Downloads" href="http://sourceforge.net/project/showfiles.php?group_id=67448"/>
-		                    <item name="Components" href="/index.html" collapse="true">
+		                    <item name="Components" href="../index.html" collapse="true">
     		                    <ant:fileScanner var="components">
         		                    <fileset dir="${basedir}/../../components">
             		                    <include name="*/project.xml"/>
@@ -112,7 +112,7 @@
                         		<j:forEach items="${components.iterator()}" var="component">
                             		<maven:pom projectDescriptor="${component}" var="cPOM"/>
                             		<item name="${cPOM.name}"
-                                		href="/${component.parentFile.name}/index.html"/>
+                                		href="../${component.parentFile.name}/index.html"/>
                         		</j:forEach>
                     		</item>
                         </menu>
