@@ -17,7 +17,7 @@ import org.jcomponent.netserve.sockets.SocketConnectionHandler;
  * A helper class that manages acceptor for a single ServerSocket.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-09 01:49:04 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-09 01:49:15 $
  */
 class ConnectionAcceptor
     implements Runnable
@@ -148,7 +148,7 @@ class ConnectionAcceptor
     /**
      * Utility method to shutdown serverSocket.
      */
-    private synchronized void shutdownServerSocket()
+    synchronized void shutdownServerSocket()
     {
         try
         {
