@@ -13,16 +13,11 @@ import org.realityforge.metaclass.io.MetaClassIO;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-10-04 08:55:47 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-04 09:55:21 $
  */
 class MockClassDescriptorCompiler
     extends ClassDescriptorCompiler
 {
-    public String getExtension()
-    {
-        return super.getExtension();
-    }
-
     public MetaClassIO getMetaClassIO()
     {
         return super.getMetaClassIO();
