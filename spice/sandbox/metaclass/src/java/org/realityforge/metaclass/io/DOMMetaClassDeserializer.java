@@ -20,12 +20,21 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Attr;
 
 /**
+ * Utility class to build a ClassDescriptor from a DOM
+ * representation Element.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.8 $ $Date: 2003-10-31 23:58:43 $
+ * @version $Revision: 1.9 $ $Date: 2003-11-01 00:03:08 $
  */
 public class DOMMetaClassDeserializer
 {
+    /**
+     * Build a ClassDescriptor from element.
+     *
+     * @param element the element
+     * @return the ClassDescriptor
+     * @throws Exception if element malformed
+     */
     public ClassDescriptor buildClassDescriptor( final Element element )
         throws Exception
     {
@@ -66,6 +75,13 @@ public class DOMMetaClassDeserializer
                                     methods );
     }
 
+    /**
+     * Build a set of methods from element.
+     *
+     * @param element the element
+     * @return the methods
+     * @throws Exception if element malformed
+     */
     MethodDescriptor[] buildMethods( final Element element )
         throws Exception
     {
@@ -89,6 +105,13 @@ public class DOMMetaClassDeserializer
             toArray( new MethodDescriptor[ methods.size() ] );
     }
 
+    /**
+     * Build a method from element.
+     *
+     * @param element the element
+     * @return the method
+     * @throws Exception if element malformed
+     */
     MethodDescriptor buildMethod( final Element element )
         throws Exception
     {
@@ -122,6 +145,13 @@ public class DOMMetaClassDeserializer
         return new MethodDescriptor( name, type, parameters, attributes, attributes );
     }
 
+    /**
+     * Build a set of method parameters from element.
+     *
+     * @param element the element
+     * @return the method parameters
+     * @throws Exception if element malformed
+     */
     ParameterDescriptor[] buildParameters( Element element )
         throws Exception
     {
@@ -146,6 +176,13 @@ public class DOMMetaClassDeserializer
             toArray( new ParameterDescriptor[ parameters.size() ] );
     }
 
+    /**
+     * Build a method parameter from element.
+     *
+     * @param element the element
+     * @return the method parameter
+     * @throws Exception if element malformed
+     */
     ParameterDescriptor buildParameter( final Element element )
         throws Exception
     {
@@ -158,6 +195,13 @@ public class DOMMetaClassDeserializer
         return new ParameterDescriptor( name, type );
     }
 
+    /**
+     * Build a set of fields from element.
+     *
+     * @param element the element
+     * @return the fields
+     * @throws Exception if element malformed
+     */
     FieldDescriptor[] buildFields( final Element element )
         throws Exception
     {
@@ -181,6 +225,13 @@ public class DOMMetaClassDeserializer
             toArray( new FieldDescriptor[ fields.size() ] );
     }
 
+    /**
+     * Build a field from element.
+     *
+     * @param element the element
+     * @return the field
+     * @throws Exception if element malformed
+     */
     FieldDescriptor buildField( final Element element )
         throws Exception
     {
@@ -204,6 +255,13 @@ public class DOMMetaClassDeserializer
         return new FieldDescriptor( name, type, attributes, attributes );
     }
 
+    /**
+     * Build a set of attributes from element.
+     *
+     * @param element the element
+     * @return the attributes
+     * @throws Exception if element malformed
+     */
     Attribute[] buildAttributes( final Element element )
         throws Exception
     {
@@ -227,6 +285,13 @@ public class DOMMetaClassDeserializer
             toArray( new Attribute[ attributes.size() ] );
     }
 
+    /**
+     * Build attribute from specified element.
+     *
+     * @param element the element
+     * @return the attribute
+     * @throws Exception if element malformed
+     */
     Attribute buildAttribute( final Element element )
         throws Exception
     {
@@ -274,6 +339,13 @@ public class DOMMetaClassDeserializer
         }
     }
 
+    /**
+     * Build a parameter from element and add to specified parameters.
+     *
+     * @param element the element
+     * @param parameters the parameters
+     * @throws Exception if element malformed
+     */
     void buildParam( final Element element,
                      final Properties parameters )
         throws Exception
