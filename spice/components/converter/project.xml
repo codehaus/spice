@@ -2,9 +2,10 @@
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>Converter</name>
-    <id>converter</id>
+    <id>spice-converter</id>
     <gumpRepositoryId>components</gumpRepositoryId>
     <currentVersion>0.9.1</currentVersion>
+    <inceptionYear>2000</inceptionYear>
 
     <shortDescription>Convert objects of one type to another type</shortDescription>
 
