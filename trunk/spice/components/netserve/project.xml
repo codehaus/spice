@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../tools/maven/project.xml</extend>
+    <name>Netserve</name>
+    <id>spice-netserve</id>
+    <gumpRepositoryId>components</gumpRepositoryId>
+    <currentVersion>0.7</currentVersion>
+    <inceptionYear>1999</inceptionYear>
+
+    <shortDescription>Components useful for creating a Network Server.</shortDescription>
+
+    <description>
+        Components useful for creating a Network Server. This includes an abstraction
+        for creating sockets, an implementation of the Acceptor/Connector pattern from
+        ACE for both stream based and packet based connections, etc.
+    </description>
+
+    <developers>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <email>peter at apache.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+</project>
