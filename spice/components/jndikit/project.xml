@@ -3,7 +3,6 @@
     <extend>${basedir}/../../tools/maven/project.xml</extend>
     <name>JNDI Kit</name>
     <id>spice-jndikit</id>
-    <gumpRepositoryId>components</gumpRepositoryId>
     <inceptionYear>1999</inceptionYear>
     <currentVersion>1.1</currentVersion>
     <package>org.codehaus.spice.jndikit</package>
@@ -26,14 +25,12 @@
         </developer>
     </developers>
 
-
     <reports>
         <report>maven-jdepend-plugin</report>
         <report>maven-checkstyle-plugin</report>
         <report>maven-javadoc-plugin</report>
         <report>maven-jxr-plugin</report>
         <report>maven-junit-report-plugin</report>
-	<!--<report>maven-clover-plugin</report>-->
         <report>maven-license-plugin</report>
     </reports>
 </project>
