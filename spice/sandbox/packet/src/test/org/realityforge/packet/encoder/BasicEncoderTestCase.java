@@ -14,7 +14,7 @@ import org.realityforge.packet.Packet;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-11-11 11:24:33 $
+ * @version $Revision: 1.2 $ $Date: 2003-11-11 11:29:51 $
  */
 public class BasicEncoderTestCase
     extends TestCase
@@ -50,5 +50,28 @@ public class BasicEncoderTestCase
         assertEquals( "output.getShort( 28 )", 'i', output.get( 28 ) );
         assertEquals( "output.getShort( 29 )", 'n', output.get( 29 ) );
         assertEquals( "output.getShort( 30 )", 'g', output.get( 30 ) );
+    }
+
+    public void testEncodePacketThatNoFit()
+        throws Exception
+    {
+        final int sequence = 2;
+        
+        final ByteBuffer data = ByteBuffer.allocate( 5 );
+        data.clear();
+        data.put( (byte)'B' );
+        data.put( (byte)'i' );
+        data.put( (byte)'n' );
+        data.put( (byte)'g' );
+        data.flip();
+        data.position( sequence );
+
+        final Packet packet = new Packet( (short)sequence, 0, data );
+        final BasicEncoder encoder = new BasicEncoder();
+
+        final ByteBuffer output = ByteBuffer.allocate( 50 );
+        output.position( 48 );
+        final boolean result = encoder.encode( packet, output );
+        assertEquals( "encoded?", false, result );
     }
 }
