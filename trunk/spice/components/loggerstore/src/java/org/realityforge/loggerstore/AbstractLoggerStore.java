@@ -129,7 +129,7 @@ public abstract class AbstractLoggerStore
         Logger logger = (Logger)m_loggers.get( name );
         if( null != logger )
         {
-            if( m_logger.isDebugEnabled() )
+            if( null != m_logger && m_logger.isDebugEnabled() )
             {
                 final String message = "Retrieved Logger named: " + name;
                 m_logger.debug( message );
