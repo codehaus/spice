@@ -34,7 +34,7 @@ import org.xml.sax.ErrorHandler;
  * TestCase for {@link ConnectionHandlerManager} and {@link ConnectionManager}.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.16 $ $Date: 2003-04-23 14:15:43 $
+ * @version $Revision: 1.17 $ $Date: 2003-05-01 10:33:48 $
  */
 public class ConnectionTestCase
     extends TestCase
@@ -72,7 +72,7 @@ public class ConnectionTestCase
     /**
      * Delay used to try and trick OS into unbinding socket.
      */
-    private static final int PRECREATE_DELAY = 100;
+    private static final int PRECREATE_DELAY = Integer.parseInt( System.getProperty( "netserve.precreate.delay", "100" ) );
 
     public ConnectionTestCase( final String name )
     {
