@@ -135,8 +135,11 @@ public class SelectorManagerTestCase
         final InetSocketAddress address = new InetSocketAddress( localAddress, port );
         channel.socket().bind( address );
         System.out.println( "address = " + address );
-        //Wait for binding to go through
-        Thread.sleep( 200 );
+        while ( !channel.socket().isBound() )
+        {
+           System.out.print( "." );
+           Thread.yield();
+        }
 
         final Mock mockMonitor = new Mock( SelectorMonitor.class );
 
@@ -210,8 +213,11 @@ public class SelectorManagerTestCase
         final int port = Math.abs( random.nextInt() % 5000 ) + 1024;
         final InetSocketAddress address = new InetSocketAddress( localAddress, port );
         channel.socket().bind( address );
-        //Wait for binding to go through
-        Thread.sleep( 200 );
+        while ( !channel.socket().isBound() )
+        {
+           System.out.print( "." );
+           Thread.yield();
+        }
 
         final Mock mockMonitor = new Mock( SelectorMonitor.class );
 
@@ -274,8 +280,11 @@ public class SelectorManagerTestCase
         final InetSocketAddress address = new InetSocketAddress( localAddress, port );
         channel.socket().bind( address );
         System.out.println( "address = " + address );
-        //Wait for binding to go through
-        Thread.sleep( 200 );
+        while ( !channel.socket().isBound() )
+        {
+           System.out.print( "." );
+           Thread.yield();
+        }
 
         final Mock mockMonitor = new Mock( SelectorMonitor.class );
 
