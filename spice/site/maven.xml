@@ -44,10 +44,4 @@
              prettyPrint="true"/>
     </goal>
 
-    <postGoal name="site:deploy">
-        <exec dir="." executable="${maven.ssh.executable}">
-            <arg line="${pom.siteAddress} -l ${maven.username} 'cd ${maven.homepage};chmod -R g+u . *'"/>
-        </exec>
-    </postGoal>
-
 </project>
