@@ -24,12 +24,17 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.3 $ $Date: 2003-08-15 06:53:32 $
+ * @version $Revision: 1.4 $ $Date: 2003-08-16 00:47:03 $
  */
 public final class FieldDescriptor
     extends FeatureDescriptor
     implements Serializable
 {
+    /**
+     * Constant for empty set of fields.
+     */
+    public static final FieldDescriptor[] EMPTY_SET = new FieldDescriptor[ 0 ];
+
     /**
      * The name of the field.
      */
