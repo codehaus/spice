@@ -11,15 +11,17 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import junit.framework.TestCase;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.w3c.dom.Node;
-import org.w3c.dom.Document;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Basic unit tests for the info objects.
@@ -31,6 +33,7 @@ public final class ConfigValidatorTestCase
     implements ErrorHandler
 {
     private static final boolean DEBUG = false;
+    private static final ContentHandler HANDLER = new NoopContentHandler();
 
     public ConfigValidatorTestCase( final String name )
     {
@@ -159,6 +162,26 @@ public final class ConfigValidatorTestCase
         catch( final NullPointerException npe )
         {
             assertEquals( npe.getMessage(), "schema" );
+        }
+    }
+
+    public void testNullHandler()
+        throws Exception
+    {
+        try
+        {
+            final ConfigValidator validator =
+                ConfigValidatorFactory.create( TestData.SCHEMA_PUBLIC_ID,
+                                               TestData.SCHEMA_SYSTEM_ID,
+                                               createClassLoader() );
+            final InputStream inputStream = getClass().getClassLoader().getResourceAsStream( TestData.SCHEMA );
+            assertNotNull( "ResourcePresent: " + TestData.CATALOG_JAR, inputStream );
+            validator.validate( inputStream, null, null );
+            fail( "Expected Null pointer due to null contentHandler" );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( npe.getMessage(), "contentHandler" );
         }
     }
 
@@ -333,18 +356,33 @@ public final class ConfigValidatorTestCase
         ValidationResult result = null;
         InputStream dataStream = null;
         final ClassLoader classLoader = getClass().getClassLoader();
+
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA );
         configValidator.validate( dataStream, this );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA );
+        configValidator.validate( dataStream, HANDLER, this );
+
+        dataStream = classLoader.getResourceAsStream( TestData.XML_DATA );
         result = configValidator.validate( dataStream );
+        verifyResult( result, true );
+
+        dataStream = classLoader.getResourceAsStream( TestData.XML_DATA );
+        result = configValidator.validate( dataStream, HANDLER );
         verifyResult( result, true );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA );
         configValidator.validate( new InputSource( dataStream ), this );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA );
+        configValidator.validate( new InputSource( dataStream ), HANDLER, this );
+
+        dataStream = classLoader.getResourceAsStream( TestData.XML_DATA );
         result = configValidator.validate( new InputSource( dataStream ) );
+        verifyResult( result, true );
+
+        dataStream = classLoader.getResourceAsStream( TestData.XML_DATA );
+        result = configValidator.validate( new InputSource( dataStream ), HANDLER );
         verifyResult( result, true );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA2 );
@@ -358,7 +396,21 @@ public final class ConfigValidatorTestCase
         }
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA2 );
+        try
+        {
+            configValidator.validate( dataStream, HANDLER, this );
+            fail( "Expected fail to not being xml" );
+        }
+        catch( ValidateException e )
+        {
+        }
+
+        dataStream = classLoader.getResourceAsStream( TestData.XML_DATA2 );
         result = configValidator.validate( dataStream );
+        verifyResult( result, false );
+
+        dataStream = classLoader.getResourceAsStream( TestData.XML_DATA2 );
+        result = configValidator.validate( dataStream, HANDLER );
         verifyResult( result, false );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA2 );
@@ -370,8 +422,23 @@ public final class ConfigValidatorTestCase
         catch( ValidateException e )
         {
         }
+
+        dataStream = classLoader.getResourceAsStream( TestData.XML_DATA2 );
+        try
+        {
+            configValidator.validate( new InputSource( dataStream ), HANDLER, this );
+            fail( "Expected fail to not being xml" );
+        }
+        catch( ValidateException e )
+        {
+        }
+
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA2 );
         result = configValidator.validate( new InputSource( dataStream ) );
+        verifyResult( result, false );
+
+        dataStream = classLoader.getResourceAsStream( TestData.XML_DATA2 );
+        result = configValidator.validate( new InputSource( dataStream ), HANDLER );
         verifyResult( result, false );
 
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA3 );
@@ -383,8 +450,23 @@ public final class ConfigValidatorTestCase
         catch( ValidateException e )
         {
         }
+
+        dataStream = classLoader.getResourceAsStream( TestData.XML_DATA3 );
+        try
+        {
+            configValidator.validate( dataStream, HANDLER, this );
+            fail( "Expected fail to not conforming" );
+        }
+        catch( ValidateException e )
+        {
+        }
+
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA3 );
         result = configValidator.validate( dataStream );
+        verifyResult( result, false );
+
+        dataStream = classLoader.getResourceAsStream( TestData.XML_DATA3 );
+        result = configValidator.validate( dataStream, HANDLER );
         verifyResult( result, false );
 
         try
@@ -395,8 +477,22 @@ public final class ConfigValidatorTestCase
         catch( ValidateException e )
         {
         }
+
+        try
+        {
+            configValidator.validate( new InputSource( dataStream ), HANDLER, this );
+            fail( "Expected fail to not conforming" );
+        }
+        catch( ValidateException e )
+        {
+        }
+
         dataStream = classLoader.getResourceAsStream( TestData.XML_DATA3 );
         result = configValidator.validate( new InputSource( dataStream ) );
+        verifyResult( result, false );
+
+        dataStream = classLoader.getResourceAsStream( TestData.XML_DATA3 );
+        result = configValidator.validate( new InputSource( dataStream ), HANDLER );
         verifyResult( result, false );
 
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -436,6 +532,16 @@ public final class ConfigValidatorTestCase
 
         try
         {
+            configValidator.validate( (InputStream)null, HANDLER, this );
+            fail( "Expected Null pointer due to null input" );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( npe.getMessage(), "inputStream" );
+        }
+
+        try
+        {
             configValidator.validate( (InputStream)null, this );
             fail( "Expected Null pointer due to null input" );
         }
@@ -456,6 +562,16 @@ public final class ConfigValidatorTestCase
 
         try
         {
+            configValidator.validate( (InputStream)null, HANDLER );
+            fail( "Expected Null pointer due to null input" );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( npe.getMessage(), "inputStream" );
+        }
+
+        try
+        {
             configValidator.validate( (InputSource)null, this );
             fail( "Expected Null pointer due to null input" );
         }
@@ -466,7 +582,27 @@ public final class ConfigValidatorTestCase
 
         try
         {
+            configValidator.validate( (InputSource)null, HANDLER, this );
+            fail( "Expected Null pointer due to null input" );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( npe.getMessage(), "source" );
+        }
+
+        try
+        {
             configValidator.validate( (InputSource)null );
+            fail( "Expected Null pointer due to null input" );
+        }
+        catch( final NullPointerException npe )
+        {
+            assertEquals( npe.getMessage(), "source" );
+        }
+
+        try
+        {
+            configValidator.validate( (InputSource)null, HANDLER );
             fail( "Expected Null pointer due to null input" );
         }
         catch( final NullPointerException npe )
@@ -524,6 +660,11 @@ public final class ConfigValidatorTestCase
             System.out.println( "ConfigValidatorTestCase.fatalError" );
             System.out.println( "exception = " + exception );
         }
+    }
+
+    static final class NoopContentHandler
+        extends DefaultHandler
+    {
     }
 }
 
