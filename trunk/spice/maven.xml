@@ -5,6 +5,16 @@
         <attainGoal name="build"/>
     </goal>
 
+    <goal name="clean-all">
+        <echo message="Cleaning Components Repository"/>
+        <maven:reactor
+            basedir="${basedir}"
+            includes="components/*/project.xml,site/project.xml"
+            goals="clean"
+            banner="Cleaning"
+            ignoreFailures="false"/>
+    </goal>
+
     <goal name="build">
         <echo message="Building Components Repository"/>
         <maven:reactor
@@ -18,8 +28,8 @@
     <goal name="site">
         <maven:reactor
             basedir="${basedir}"
-            includes="components/*/project.xml"
-            goals="clean,site:deploy"
+            includes="components/*/project.xml,site/project.xml"
+            goals="clean,site:generate,site:deploy"
             banner="Deploying Site"
             ignoreFailures="true"/>
     </goal>
