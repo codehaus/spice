@@ -7,7 +7,7 @@ import org.codehaus.spice.event.EventSource;
  * retrieve events from the underlying EventSource.
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $ $Date: 2004-03-11 04:40:14 $
+ * @version $Revision: 1.2 $ $Date: 2004-03-18 03:39:50 $
  */
 public class BlockingEventSource
    implements EventSource
@@ -37,7 +37,7 @@ public class BlockingEventSource
    public Object getEvent()
    {
       final Object lock = getSourceLock();
-      Object result = null;
+      Object result = _source.getEvent();
       while( null == result )
       {
          synchronized( lock )
@@ -54,8 +54,8 @@ public class BlockingEventSource
    public Object[] getEvents( final int count )
    {
       final Object lock = getSourceLock();
-      Object[] results = null;
-      while( null == results || 0 == results.length )
+      Object[] results = _source.getEvents( count );
+      while( 0 == results.length )
       {
          synchronized( lock )
          {
