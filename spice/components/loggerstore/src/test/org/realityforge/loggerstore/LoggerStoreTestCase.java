@@ -254,7 +254,7 @@ public class LoggerStoreTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( builder.build( getResource( "logkit.xml" ) ) );
+            new LogKitLoggerStore( null, null, builder.build( getResource( "logkit.xml" ) ) );
         runLoggerTest( "logkit", store, ConsoleLogger.LEVEL_DEBUG );
     }
 
@@ -263,7 +263,7 @@ public class LoggerStoreTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( builder.build( getResource( "logkit.xml" ) ) );
+            new LogKitLoggerStore( null, null, builder.build( getResource( "logkit.xml" ) ) );
         runLoggerTest( "logkit", store, ConsoleLogger.LEVEL_DISABLED );
     }
 
@@ -272,7 +272,7 @@ public class LoggerStoreTestCase
     {
         final DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
         final LoggerStore store =
-            new LogKitLoggerStore( builder.build( getResource( "logkit.xml" ) ) );
+            new LogKitLoggerStore( null, null, builder.build( getResource( "logkit.xml" ) ) );
         runLoggerTest( "logkit", store );
     }
 
