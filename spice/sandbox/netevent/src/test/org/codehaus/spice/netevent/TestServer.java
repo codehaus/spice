@@ -17,7 +17,7 @@ import org.codehaus.spice.netevent.source.SelectableChannelEventSource;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.11 $ $Date: 2004-01-23 05:42:52 $
+ * @version $Revision: 1.12 $ $Date: 2004-02-10 00:54:50 $
  */
 public class TestServer
 {
@@ -49,7 +49,6 @@ public class TestServer
         {
             Thread.sleep( 50 );
             final SocketChannel channel = SocketChannel.open();
-            channel.configureBlocking( false );
             c_clientSocketSouce.registerChannel( channel,
                                                  SelectionKey.OP_CONNECT,
                                                  null );
