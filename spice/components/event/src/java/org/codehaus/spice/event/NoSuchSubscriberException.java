@@ -10,7 +10,7 @@ package org.codehaus.spice.event;
 /**
  * @author <a href="mailto:peter.royal@pobox.com">peter royal</a>
  */
-public class NoSuchSubscriberException extends Exception
+public class NoSuchSubscriberException extends RuntimeException
 {
     public NoSuchSubscriberException()
     {
