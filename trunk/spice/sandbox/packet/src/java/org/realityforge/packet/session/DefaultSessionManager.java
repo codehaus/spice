@@ -15,7 +15,7 @@ import java.util.Random;
  * A basic in memory SessionManager implementation.
  * 
  * @author Peter Donald
- * @version $Revision: 1.3 $ $Date: 2004-01-19 05:54:06 $
+ * @version $Revision: 1.4 $ $Date: 2004-01-20 06:05:04 $
  */
 public class DefaultSessionManager
     implements SessionManager

@@ -15,7 +15,7 @@ import org.codehaus.spice.netevent.transport.ChannelTransport;
  * The session object for Client.
  * 
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2004-01-16 06:48:00 $
+ * @version $Revision: 1.9 $ $Date: 2004-01-20 06:05:04 $
  */
 public class Session
 {
@@ -244,7 +244,8 @@ public class Session
         if( null != _transport )
         {
             _transport.setUserData( null );
-            _transport.close();
+            _transport.getInputStream().close();
+            _transport.getOutputStream().close();
         }
         _transport = transport;
         if( null != _transport )
