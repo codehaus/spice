@@ -9,6 +9,7 @@ package org.realityforge.loggerstore;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Log4JLoggerStoreFactory is an implementation of LoggerStoreFactory
@@ -22,11 +23,11 @@ public class Log4JLoggerStoreFactory
     /**
      * Creates a LoggerStore from a given set of configuration parameters.
      * The configuration Map must contain:
-     * <ol> 
+     * <ol>
      * <li> <code>InputStream</code> object keyed on <code>LoggerStoreFactory.CONFIGURATION</code>
      * encoding the configuration resource</li>
      * <li> a <code>LoggerStoreFactory.CONFIGURATION_TYPE</code>
-     * containing  the configuration type - either <code>LoggerStoreFactory.PROPERTIES</code> 
+     * containing  the configuration type - either <code>LoggerStoreFactory.PROPERTIES</code>
      * or <code>LoggerStoreFactory.XML</code></li>
      * </ol>
      * @param config the Map of parameters for the configuration of the store
@@ -44,7 +45,9 @@ public class Log4JLoggerStoreFactory
             {
                 if( type.equals( LoggerStoreFactory.PROPERTIES ) )
                 {
-                    return new Log4JLoggerStore( Configurator.buildProperties( resource ) );
+                    final Properties properties = new Properties();
+                    properties.load( resource );
+                    return new Log4JLoggerStore( properties );
                 }
                 else if( type.equals( LoggerStoreFactory.XML ) )
                 {
