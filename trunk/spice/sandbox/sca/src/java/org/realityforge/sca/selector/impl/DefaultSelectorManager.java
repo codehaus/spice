@@ -21,7 +21,7 @@ import org.realityforge.sca.selector.SelectorManager;
  * events on selection.
  * 
  * @author Peter Donald
- * @version $Revision: 1.7 $ $Date: 2003-12-16 03:39:53 $
+ * @version $Revision: 1.8 $ $Date: 2003-12-16 04:26:35 $
  */
 public class DefaultSelectorManager
     implements SelectorManager, Runnable
@@ -287,7 +287,7 @@ public class DefaultSelectorManager
      * 
      * @param selector the selector associated with reactor.
      */
-    protected void setSelector( final Selector selector )
+    public void setSelector( final Selector selector )
     {
         synchronized( getSelectorLock() )
         {
