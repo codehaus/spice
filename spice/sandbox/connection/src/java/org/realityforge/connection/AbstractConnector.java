@@ -1,5 +1,8 @@
 package org.realityforge.connection;
 
+/**
+ * @mx.component
+ */
 public abstract class AbstractConnector
 {
    /**
@@ -76,6 +79,7 @@ public abstract class AbstractConnector
     * Return the time at which last transmission occured.
     *
     * @return the time at which last transmission occured.
+    * @mx.attribute
     */
    public long getLastTxTime()
    {
@@ -86,6 +90,7 @@ public abstract class AbstractConnector
     * Return the last message transmitted.
     *
     * @return the last message transmitted.
+    * @mx.attribute
     */
    public Object getLastTxMessage()
    {
@@ -96,6 +101,7 @@ public abstract class AbstractConnector
     * Return the time at which last receive occured.
     *
     * @return the time at which last receive occured.
+    * @mx.attribute
     */
    public long getLastRxTime()
    {
@@ -106,6 +112,7 @@ public abstract class AbstractConnector
     * Return the last message received.
     *
     * @return the last message received.
+    * @mx.attribute
     */
    public Object getLastRxMessage()
    {
@@ -116,6 +123,7 @@ public abstract class AbstractConnector
     * Return true if connector is active.
     *
     * @return true if connector is active.
+    * @mx.attribute
     */
    public boolean isActive()
    {
@@ -126,6 +134,7 @@ public abstract class AbstractConnector
     * Set the flag to indicate if the connector is active or inactive.
     *
     * @param active the flag to indicate if the connector is active or inactive.
+    * @mx.attribute
     */
    public void setActive( final boolean active )
    {
@@ -136,6 +145,7 @@ public abstract class AbstractConnector
     * Return true if Connector connected.
     *
     * @return true if Connector connected.
+    * @mx.attribute
     */
    public boolean isConnected()
    {
