@@ -1,4 +1,4 @@
-    $Id: Attributes.txt,v 1.4 2002-12-01 04:08:08 donaldp Exp $
+    $Id: Attributes.txt,v 1.5 2003-01-07 08:56:50 donaldp Exp $
 
                  Metadata for Avalon Framework
 
@@ -88,12 +88,14 @@ Richer metadata frameworks could be used but the vast majority are general purpo
 metadata systems and thus overly complex for our needs.
 
 However there is currently a lot of work being done on this in the wider community.
-In par5ticular XDoclet2 is bringing together a lot of this and working with 
+In particular XDoclet2 is bringing together a lot of this and working with 
 jakarta-commons and qdox peeps to get the best of the best. I suggest we don't 
 actually implement runtime extraction of these attributes but instead wait to see 
-what they come up with.
+what they come up with. It seems that they have all gone to adopting 
+commons-attributes as their baseline so thats a path.
 
 If our needs aren't satisfied when we start to actually require this stuff then we 
 can rewrite it but until there is a real need we can just keep it on hold. However
 our higher level component model should take into account this representation format
 and use a similar format even if they are different classes.
+
