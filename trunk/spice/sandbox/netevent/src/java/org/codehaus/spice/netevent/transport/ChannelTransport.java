@@ -22,7 +22,7 @@ import org.codehaus.spice.netevent.selector.SocketEventSource;
  * An underlying transport layer that uses TCP/IP.
  * 
  * @author Peter Donald
- * @version $Revision: 1.5 $ $Date: 2004-01-13 00:33:57 $
+ * @version $Revision: 1.6 $ $Date: 2004-01-13 03:13:00 $
  */
 public class ChannelTransport
 {
@@ -65,7 +65,9 @@ public class ChannelTransport
         }
         m_channel = channel;
         m_transmitBuffer = transmitBuffer;
-        m_inputStream = new MultiBufferInputStream( bufferManager );
+        m_inputStream = new MultiBufferInputStream( bufferManager,
+                                                    this,
+                                                    sink );
         m_outputStream = new TransportOutputStream( bufferManager,
                                                     this,
                                                     sink,
@@ -80,6 +82,17 @@ public class ChannelTransport
     public SelectionKey getKey()
     {
         return m_key;
+    }
+
+    /**
+     * Return true if attribute set.
+     * 
+     * @param key the attributes key
+     * @return true if attribute set.
+     */
+    public boolean isAttribute( final String key )
+    {
+        return _attributes.containsKey( key );
     }
 
     /**

@@ -5,7 +5,9 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Iterator;
 import java.util.LinkedList;
+import org.codehaus.spice.event.EventSink;
 import org.codehaus.spice.netevent.buffers.BufferManager;
+import org.codehaus.spice.netevent.events.CloseChannelRequestEvent;
 
 /**
  * This input stream will read data out of multiple ByteBuffer objects. The
@@ -14,13 +16,19 @@ import org.codehaus.spice.netevent.buffers.BufferManager;
  * specified in the constructor.
  * 
  * @author Peter Donald
- * @version $Revision: 1.2 $ $Date: 2004-01-12 02:32:41 $
+ * @version $Revision: 1.3 $ $Date: 2004-01-13 03:13:01 $
  */
 public class MultiBufferInputStream
     extends InputStream
 {
     /** The BufferManager to return Buffers to after they have been read. */
     private final BufferManager _bufferManager;
+
+    /** The underlying transport that this stream is linked to. */
+    private final ChannelTransport _transport;
+
+    /** The sink ythat write requests are sent to. */
+    private final EventSink _sink;
 
     /** thye list of ByteBuffers. */
     private final LinkedList _buffers = new LinkedList();
@@ -43,18 +51,33 @@ public class MultiBufferInputStream
     /** Flag set to true when close occurs after last buffer is cleared. */
     private boolean _closePending;
 
+    /** Flag set to true when stream actually closed. */
+    private boolean _closed;
+
     /**
      * Create Stream that returns buffers to specified manager.
      * 
      * @param bufferManager the BufferManager
      */
-    public MultiBufferInputStream( final BufferManager bufferManager )
+    public MultiBufferInputStream( final BufferManager bufferManager,
+                                   final ChannelTransport transport,
+                                   final EventSink sink )
     {
         if( null == bufferManager )
         {
             throw new NullPointerException( "bufferManager" );
         }
+        if( null == transport )
+        {
+            throw new NullPointerException( "transport" );
+        }
+        if( null == sink )
+        {
+            throw new NullPointerException( "sink" );
+        }
         _bufferManager = bufferManager;
+        _transport = transport;
+        _sink = sink;
     }
 
     /**
@@ -64,6 +87,10 @@ public class MultiBufferInputStream
      */
     public synchronized void addBuffer( final ByteBuffer buffer )
     {
+        if( _closed )
+        {
+            return;
+        }
         _buffers.addLast( buffer );
         if( -1 == _currentBuffer )
         {
@@ -87,8 +114,20 @@ public class MultiBufferInputStream
     public synchronized void close()
         throws IOException
     {
-        _buffers.clear();
+        setClosedState();
+        _sink.addEvent( new CloseChannelRequestEvent( _transport ) );
         setClosePending();
+    }
+
+    /**
+     * Set up state for closed stream.
+     */
+    private void setClosedState()
+    {
+        _closed = true;
+        _buffers.clear();
+        _markBufferIndex = -1;
+        _currentBuffer = -1;
     }
 
     /**
@@ -105,8 +144,13 @@ public class MultiBufferInputStream
 
         while( true )
         {
-            if( -1 == _currentBuffer && _closePending )
+            if( _closed )
             {
+                return -1;
+            }
+            else if( -1 == _currentBuffer && _closePending )
+            {
+                setClosedState();
                 return -1;
             }
             else if( -1 != _currentBuffer )
