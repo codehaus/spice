@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project>
     <extend>${basedir}/../../tools/maven/project.xml</extend>
-    <name>MetaClass</name>
+    <name>MetaClass JMX</name>
     <id>spice-metaclass-jmx</id>
     <currentVersion>1.0</currentVersion>
     <gumpRepositoryId>sandbox</gumpRepositoryId>
