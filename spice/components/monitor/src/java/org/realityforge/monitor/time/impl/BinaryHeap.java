@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 
 final class BinaryHeap
 {
-    protected final static int DEFAULT_CAPACITY = 13;
+    private static final int DEFAULT_CAPACITY = 13;
 
     private int m_size;
     private Comparable[] m_elements;
@@ -137,7 +137,7 @@ final class BinaryHeap
      *
      * @param element the element
      */
-    protected void percolateDownMinHeap( final int index )
+    private void percolateDownMinHeap( final int index )
     {
         final Comparable element = m_elements[ index ];
 
@@ -174,7 +174,7 @@ final class BinaryHeap
      *
      * @param element the element
      */
-    protected void percolateDownMaxHeap( final int index )
+    private void percolateDownMaxHeap( final int index )
     {
         final Comparable element = m_elements[ index ];
 
@@ -211,7 +211,7 @@ final class BinaryHeap
      *
      * @param element the element
      */
-    protected void percolateUpMinHeap( final Comparable element )
+    private void percolateUpMinHeap( final Comparable element )
     {
         int hole = ++m_size;
 
@@ -236,7 +236,7 @@ final class BinaryHeap
      *
      * @param element the element
      */
-    protected void percolateUpMaxHeap( final Comparable element )
+    private void percolateUpMaxHeap( final Comparable element )
     {
         int hole = ++m_size;
 
@@ -253,7 +253,7 @@ final class BinaryHeap
         m_elements[ hole ] = element;
     }
 
-    protected void grow()
+    private void grow()
     {
         final Comparable[] elements =
             new Comparable[ m_elements.length * 2 ];
