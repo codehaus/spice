@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
-import org.realityforge.metaclass.io.DefaultMetaClassAccessor;
+import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.tools.qdox.DefaultQDoxAttributeInterceptor;
@@ -25,7 +25,7 @@ import org.realityforge.metaclass.tools.qdox.DeletingAttributeInterceptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-08-31 08:35:44 $
+ * @version $Revision: 1.13 $ $Date: 2003-10-04 00:47:49 $
  */
 public class MetaGenerateTaskTestCase
     extends TestCase

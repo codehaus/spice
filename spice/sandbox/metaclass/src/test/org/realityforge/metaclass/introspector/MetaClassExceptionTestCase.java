@@ -5,14 +5,14 @@
  * Software License version 1.1, a copy of which has been included
  * with this distribution in the LICENSE.txt file.
  */
-package org.realityforge.metaclass;
+package org.realityforge.metaclass.introspector;
 
 import junit.framework.TestCase;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-09-28 04:30:49 $
+ * @version $Revision: 1.1 $ $Date: 2003-10-04 00:47:49 $
  */
 public class MetaClassExceptionTestCase
     extends TestCase

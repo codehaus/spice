@@ -7,23 +7,23 @@
  */
 package org.realityforge.metaclass.io;
 
-import java.io.InputStream;
-import java.io.DataInputStream;
 import java.io.ByteArrayInputStream;
-import java.util.Map;
+import java.io.DataInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-22 03:51:42 $
+ * @version $Revision: 1.2 $ $Date: 2003-10-04 00:47:49 $
  */
-class MockClassLoader
+public class MockClassLoader
     extends ClassLoader
 {
     private final Map m_resources = new HashMap();
 
-    void bindResource( final String name, final byte[] data )
+    public void bindResource( final String name, final byte[] data )
     {
         m_resources.put( name, data );
     }

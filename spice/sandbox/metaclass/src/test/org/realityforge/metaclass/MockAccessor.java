@@ -7,15 +7,16 @@
  */
 package org.realityforge.metaclass;
 
-import org.realityforge.metaclass.io.MetaClassAccessor;
+import org.realityforge.metaclass.introspector.MetaClassAccessor;
+import org.realityforge.metaclass.introspector.MetaClassException;
 import org.realityforge.metaclass.model.ClassDescriptor;
 
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.2 $ $Date: 2003-09-28 03:58:01 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-04 00:47:49 $
  */
-class MockAccessor
+public class MockAccessor
     implements MetaClassAccessor
 {
     private final ClassDescriptor m_classDescriptor;

@@ -19,7 +19,7 @@ import java.util.List;
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
-import org.realityforge.metaclass.io.DefaultMetaClassAccessor;
+import org.realityforge.metaclass.introspector.DefaultMetaClassAccessor;
 import org.realityforge.metaclass.io.MetaClassIO;
 import org.realityforge.metaclass.io.MetaClassIOBinary;
 import org.realityforge.metaclass.model.ClassDescriptor;
@@ -31,7 +31,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.2 $ $Date: 2003-10-03 13:38:14 $
+ * @version $Revision: 1.3 $ $Date: 2003-10-04 00:47:48 $
  */
 public class GenerateClassDescriptorsTask
     extends AbstractQdoxTask

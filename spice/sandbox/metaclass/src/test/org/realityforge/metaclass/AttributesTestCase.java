@@ -7,10 +7,12 @@
  */
 package org.realityforge.metaclass;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Constructor;
 import junit.framework.TestCase;
+import org.realityforge.metaclass.introspector.MetaClassException;
+import org.realityforge.metaclass.introspector.MetaClassIntrospector;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
@@ -20,7 +22,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.12 $ $Date: 2003-10-04 00:31:10 $
+ * @version $Revision: 1.13 $ $Date: 2003-10-04 00:47:48 $
  */
 public class AttributesTestCase
     extends TestCase

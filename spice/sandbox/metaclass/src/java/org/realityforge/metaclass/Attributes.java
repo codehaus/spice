@@ -11,6 +11,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import org.realityforge.metaclass.introspector.MetaClassException;
+import org.realityforge.metaclass.introspector.MetaClassIntrospector;
 import org.realityforge.metaclass.model.Attribute;
 import org.realityforge.metaclass.model.ClassDescriptor;
 import org.realityforge.metaclass.model.FieldDescriptor;
@@ -44,7 +46,7 @@ import org.realityforge.metaclass.model.ParameterDescriptor;
  * ClassDescriptor for class) then either an empty array
  * or a null will be returned depending on the method.</p>
  *
- * @version $Revision: 1.8 $ $Date: 2003-09-28 05:43:38 $
+ * @version $Revision: 1.9 $ $Date: 2003-10-04 00:47:48 $
  */
 public class Attributes
 {
@@ -355,7 +357,7 @@ public class Attributes
      *
      * @param field the field
      * @return the FieldDescriptor
-     * @throws MetaClassException if unable to locate FieldDescriptor for Field
+     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to locate FieldDescriptor for Field
      */
     public static FieldDescriptor getField( final Field field )
         throws MetaClassException
@@ -378,7 +380,7 @@ public class Attributes
      *
      * @param method the method
      * @return the MethodDescriptor
-     * @throws MetaClassException if unable to locate MethodDescriptor for Method
+     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to locate MethodDescriptor for Method
      */
     public static MethodDescriptor getMethod( final Method method )
         throws MetaClassException
@@ -419,7 +421,7 @@ public class Attributes
      *
      * @param constructor the Constructor
      * @return the MethodDescriptor
-     * @throws MetaClassException if unable to locate MethodDescriptor for Constructor
+     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to locate MethodDescriptor for Constructor
      */
     public static MethodDescriptor getConstructor( final Constructor constructor )
         throws MetaClassException
@@ -465,7 +467,7 @@ public class Attributes
      *
      * @param clazz the class
      * @return the ClassDescriptor
-     * @throws MetaClassException if unable to get ClassDescriptor
+     * @throws org.realityforge.metaclass.introspector.MetaClassException if unable to get ClassDescriptor
      */
     private static ClassDescriptor getClassInfo( final Class clazz )
         throws MetaClassException
