@@ -21,9 +21,16 @@ import org.realityforge.netserve.connection.ConnectionManager;
 import org.realityforge.threadpool.ThreadPool;
 
 /**
- * This is the service through which ConnectionManagement occurs.
+ * This component is used to manage serverside network acceptors.
+ * To establish a connection the service is provided with a
+ * ServerSocket and a ConnectionHandlerManager. The service will start
+ * accepting connections to ServerSocket and then pass the accepted socket
+ * to ConnectionHandler instances to handle the connection.
  *
  * @author <a href="mailto:donaldp@apache.org">Peter Donald</a>
+ * @version $Revision: 1.2 $ $Date: 2003-04-23 04:18:24 $
+ * @phoenix.component
+ * @phoenix.service type="ConnectionManager"
  */
 public class DefaultConnectionManager
     extends AbstractLogEnabled
@@ -32,6 +39,13 @@ public class DefaultConnectionManager
     private final Map m_connections = new HashMap();
     private ThreadPool m_threadpool;
 
+    /**
+     * Get ThreadPool service if present.
+     *
+     * @param manager the manager to retrieve services from
+     * @throws ServiceException if unable to aquire ThreadPool
+     * @phoenix.service type="ThreadPool" optional="true"
+     */
     public void service( final ServiceManager manager )
         throws ServiceException
     {
@@ -135,19 +149,33 @@ public class DefaultConnectionManager
 
     private void doConnect( final String name,
                             final ServerSocket socket,
-                            final ConnectionHandlerManager handlerFactory,
+                            final ConnectionHandlerManager handlerManager,
                             final ThreadPool threadPool )
         throws SocketException
     {
+        if( null == name )
+        {
+            throw new NullPointerException( "name" );
+        }
+        if( null == socket )
+        {
+            throw new NullPointerException( "socket" );
+        }
+        if( null == handlerManager )
+        {
+            throw new NullPointerException( "handlerManager" );
+        }
+
         if( null != m_connections.get( name ) )
         {
-            throw new IllegalArgumentException( "Connection already exists with name " +
-                                                name );
+            final String message =
+                "Connection already exists with name " + name;
+            throw new IllegalArgumentException( message );
         }
 
         socket.setSoTimeout( 500 );
 
-        final ConnectionAcceptor runner = new ConnectionAcceptor( name, socket, handlerFactory, threadPool );
+        final ConnectionAcceptor runner = new ConnectionAcceptor( name, socket, handlerManager, threadPool );
         setupLogger( runner );
         m_connections.put( name, runner );
 
