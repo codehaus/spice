@@ -31,7 +31,7 @@ import org.realityforge.metaclass.tools.qdox.QDoxDescriptorParser;
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
  * @author <a href="mailto:doug at doug@stocksoftware.com.au">Doug Hagan</a>
- * @version $Revision: 1.4 $ $Date: 2003-10-04 01:56:47 $
+ * @version $Revision: 1.5 $ $Date: 2003-10-04 02:01:40 $
  */
 public class GenerateClassDescriptorsTask
     extends AbstractQdoxTask
@@ -85,6 +85,11 @@ public class GenerateClassDescriptorsTask
      * Internal list of interceptor elements added by user.
      */
     private final List m_elements = new ArrayList();
+
+    /**
+     * Flag set to true if writing a descriptor fails.
+     */
+    private boolean m_failed;
 
     /**
      * Add an filter definition that will create filter to process metadata.
@@ -258,16 +263,14 @@ public class GenerateClassDescriptorsTask
              " classes and writing as " + getOutputDescription() + "." );
 
         final List descriptors = buildClassDescriptors( classes );
+        writeClassDescriptors( descriptors );
 
-        try
+        if( m_failed )
         {
-            writeClassDescriptors( descriptors );
-        }
-        catch( final IOException ioe )
-        {
-            final String message = "IOException " + ioe.getMessage();
+            final String message =
+                "Failed to create descriptors for all classes.";
             log( message );
-            throw new BuildException( message, ioe );
+            throw new BuildException( message );
         }
     }
 
@@ -295,10 +298,8 @@ public class GenerateClassDescriptorsTask
      * Output the specified ClassDescriptors.
      *
      * @param classes the list containing ClassDescriptor objects.
-     * @throws IOException If there is a problem writing output
      */
     private void writeClassDescriptors( final List classes )
-        throws IOException
     {
         final Iterator iterator = classes.iterator();
         while( iterator.hasNext() )
@@ -359,22 +360,22 @@ public class GenerateClassDescriptorsTask
      * Write ClassDescriptor out into a file.
      *
      * @param descriptor the ClassDescriptor object
-     * @throws IOException if unable to write descriptor out
      */
     private void writeClassDescriptor( final ClassDescriptor descriptor )
-        throws IOException
     {
         final String fqn = descriptor.getName();
-        final File file = getOutputFileForClass( fqn );
-        file.getParentFile().mkdirs();
-        final OutputStream outputStream = new FileOutputStream( file );
+        OutputStream outputStream = null;
         try
         {
+            final File file = getOutputFileForClass( fqn );
+            file.getParentFile().mkdirs();
+            outputStream = new FileOutputStream( file );
             getMetaClassIO().serializeClass( outputStream, descriptor );
         }
         catch( final Exception e )
         {
-            log( "Error writing " + file + ". Cause: " + e );
+            log( "Error writing " + fqn + ". Cause: " + e );
+            m_failed = true;
         }
         finally
         {
