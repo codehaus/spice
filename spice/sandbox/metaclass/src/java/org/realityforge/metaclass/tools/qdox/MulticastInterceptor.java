@@ -19,9 +19,9 @@ import com.thoughtworks.qdox.model.JavaMethod;
  * returns null.
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.1 $ $Date: 2003-08-31 07:49:51 $
+ * @version $Revision: 1.2 $ $Date: 2003-08-31 08:08:48 $
  */
-public class MulticastInterceptor
+class MulticastInterceptor
     implements QDoxAttributeInterceptor
 {
     /**
