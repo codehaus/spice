@@ -21,7 +21,7 @@ import org.w3c.dom.NodeList;
 /**
  *
  * @author <a href="mailto:peter at realityforge.org">Peter Donald</a>
- * @version $Revision: 1.3 $ $Date: 2003-10-29 10:34:12 $
+ * @version $Revision: 1.4 $ $Date: 2003-10-31 23:34:26 $
  */
 public class DOMMetaClassDeserializer
 {
@@ -107,7 +107,7 @@ public class DOMMetaClassDeserializer
             if( nodeType == Node.ELEMENT_NODE )
             {
                 final Element child = (Element)node;
-                    final String childName = child.getNodeName();
+                final String childName = child.getNodeName();
                 if( childName.equals( MetaClassIOXml.PARAMETERS_ELEMENT ) )
                 {
                     parameters = buildParameters( child );
@@ -322,7 +322,11 @@ public class DOMMetaClassDeserializer
         Element element = cause;
         while( true )
         {
-            sb.insert( 0, element.getNodeName() + "/" );
+            if( sb.length() > 0 )
+            {
+                sb.insert( 0, "/" );
+            }
+            sb.insert( 0, element.getNodeName() );
             final Node parentNode = element.getParentNode();
             if( parentNode instanceof Element )
             {
