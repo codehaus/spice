@@ -8,6 +8,8 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import org.codehaus.spice.event.EventHandler;
 import org.codehaus.spice.event.impl.DefaultEventQueue;
 import org.codehaus.spice.event.impl.EventPump;
@@ -22,7 +24,7 @@ import org.realityforge.packet.session.Session;
 
 /**
  * @author Peter Donald
- * @version $Revision: 1.8 $ $Date: 2004-02-03 06:34:04 $
+ * @version $Revision: 1.9 $ $Date: 2004-02-05 05:57:28 $
  */
 public class TestServer
 {
@@ -54,29 +56,59 @@ public class TestServer
         final Thread thread = new Thread( runnable );
         thread.start();
 
-        int count = 1;
-        final Session session = new Session();
-        session.setUserData( new SessionData( session, true ) );
-        makeClientConnection( session );
-        int loop = 0;
+        final HashSet set = new HashSet();
+        final HashSet reconnect = new HashSet();
+        for( int i = 0; i < 1; i++ )
+        {
+            set.add( new Session() );
+        }
+
+        boolean started = false;
         while( !c_done )
         {
-            loop++;
-            if( count < 20 )
+
+            final Iterator iterator = set.iterator();
+            while( iterator.hasNext() )
             {
-                //makeClientConnection( new Session() );
-                count++;
+                final Session session = (Session)iterator.next();
+                final int status = session.getStatus();
+                if( Session.STATUS_LOST == status ||
+                    Session.STATUS_NOT_CONNECTED == status )
+                {
+                    if( !reconnect.contains( session ) )
+                    {
+                        if( Session.STATUS_LOST == status )
+                        {
+                            System.out.println( "Re-establish " +
+                                                session.getSessionID() );
+                        }
+                        reconnect.add( session );
+                        makeClientConnection( session );
+                    }
+                }
+                else if( Session.STATUS_DISCONNECTED == status )
+                {
+                    iterator.remove();
+                    reconnect.remove( session );
+                }
+                else
+                {
+                    if( reconnect.contains( session ) )
+                    {
+                        System.out.println(
+                            "Connected " + session.getSessionID() );
+                        reconnect.remove( session );
+                    }
+                }
             }
-            if( Session.STATUS_LOST == session.getStatus() &&
-                null == session.getTransport() )
-            {
-                System.out.println( "Attempting to re-establish a " +
-                                    "connection in " + loop );
-                makeClientConnection( session );
-            }
+
             Thread.sleep( 20 );
-            if( Session.STATUS_DISCONNECTED == session.getStatus() &&
-                0 == SESSION_MANAGER.getSessionCount() )
+
+            if( SESSION_MANAGER.getSessionCount() > 0 )
+            {
+                started = true;
+            }
+            if( started && 0 == SESSION_MANAGER.getSessionCount() )
             {
                 c_done = true;
             }
@@ -125,7 +157,7 @@ public class TestServer
                                                       BUFFER_MANAGER ) );
 
         final EventHandler handler2 =
-            new EchoHandler( "PACK SV",
+            new EchoHandler( null, //"PACK SV",
                              new PacketIOEventHandler( source2,
                                                        queue2,
                                                        queue3,
@@ -190,7 +222,7 @@ public class TestServer
                                                       BUFFER_MANAGER ) );
 
         final EventHandler handler2 =
-            new EchoHandler( "PACK CL",
+            new EchoHandler( null, //"PACK CL",
                              new PacketIOEventHandler( source2,
                                                        queue2,
                                                        queue3,
