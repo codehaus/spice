@@ -27,7 +27,7 @@ import javax.naming.Referenceable;
  * on the same machine.
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractLocalContext
     extends AbstractContext
@@ -311,6 +311,8 @@ public abstract class AbstractLocalContext
                 {
                     throw new NamingException( "Could not resolve reference" );
                 }
+            } else if (obj instanceof AbstractLocalContext) {
+                return ((AbstractLocalContext) obj).cloneContext();
             }
 
             return obj;
@@ -318,6 +320,7 @@ public abstract class AbstractLocalContext
         else
         {
             final Context context = lookupSubContext( getPathName( name ) );
+
             return context.lookup( getLeafName( name ) );
         }
     }
