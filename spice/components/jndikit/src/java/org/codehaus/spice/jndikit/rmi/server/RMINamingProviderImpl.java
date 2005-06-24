@@ -24,7 +24,7 @@ import org.codehaus.spice.jndikit.rmi.RMINamingProvider;
  * The RMI implementation of provider.
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class RMINamingProviderImpl
     implements Serializable, RMINamingProvider
@@ -135,7 +135,9 @@ public class RMINamingProviderImpl
             {
                 //must be a context
                 className = RemoteContext.class.getName();
-                object = new RemoteContext( null, name );
+                final Name bindingName = getNameParser().parse(binding.getName());
+                final Name baseName = m_root.composeName(bindingName, name);
+                object = new RemoteContext( null, baseName);
             }
             else
             {
@@ -163,7 +165,7 @@ public class RMINamingProviderImpl
         else if( object instanceof Context )
         {
             //must be a context
-            object = new RemoteContext( null, name.getPrefix( name.size() - 1 ) );
+            object = new RemoteContext( null, name);
         }
 
         return object;

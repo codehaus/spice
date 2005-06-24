@@ -29,7 +29,7 @@ import javax.naming.Referenceable;
  * Context that hooks up to a remote source.
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class RemoteContext
     extends AbstractContext
@@ -220,6 +220,8 @@ public class RemoteContext
                 if( object instanceof Context )
                 {
                     fillInContext( (Context)object );
+                } else if (object instanceof MarshalledObject) {
+                    result[i].setObject(( (MarshalledObject)object ).get());
                 }
             }
 
