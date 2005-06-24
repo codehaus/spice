@@ -14,9 +14,9 @@
     <url>http://spice.codehaus.org/</url>
     <logo>/images/spice.gif</logo>
     <siteAddress>spice.codehaus.org</siteAddress>
-    <siteDirectory>/www/spice.codehaus.org/</siteDirectory>
+    <siteDirectory>/home/projects/spice/public_html</siteDirectory>
     <distributionSite>spice.codehaus.org</distributionSite>
-    <distributionDirectory>/www/dist.codehaus.org</distributionDirectory>
+    <distributionDirectory>/dist/</distributionDirectory>
     <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10140</issueTrackingUrl>
 
     <repository>
@@ -34,21 +34,21 @@
     <mailingLists>
         <mailingList>
             <name>Spice Users List</name>
-            <subscribe>spice-user-request@lists.codehaus.org</subscribe>
-            <unsubscribe>spice-user-request@lists.codehaus.org</unsubscribe>
-            <archive>http://lists.codehaus.org/pipermail/spice-user/</archive>
+            <subscribe>user-subscribe@spice.codehaus.org</subscribe>
+            <unsubscribe>user-unsubscribe@spice.codehaus.org</unsubscribe>
+            <archive>http://news.gmane.org/gmane.comp.java.spice.user</archive>
         </mailingList>
         <mailingList>
             <name>Spice Developers List</name>
-            <subscribe>spice-dev-request@lists.codehaus.org</subscribe>
-            <unsubscribe>spice-dev-request@lists.codehaus.org</unsubscribe>
-            <archive>http://lists.codehaus.org/pipermail/spice-dev/</archive>
+            <subscribe>dev-subscribe@spice.codehaus.org</subscribe>
+            <unsubscribe>dev-unsubscribe@spice.codehaus.org</unsubscribe>
+            <archive>http://news.gmane.org/gmane.comp.java.spice.devel</archive>
         </mailingList>
         <mailingList>
             <name>Spice CVS Commits List</name>
-            <subscribe>spice-scm-request@lists.codehaus.org</subscribe>
-            <unsubscribe>spice-scm-request@lists.codehaus.org</unsubscribe>
-            <archive>http://lists.codehaus.org/pipermail/spice-scm/</archive>
+            <subscribe>scm-subscribe@spice.codehaus.org</subscribe>
+            <unsubscribe>scm-unsubscribe@spice.codehaus.org</unsubscribe>
+            <archive>http://news.gmane.org/gmane.comp.java.spice.cvs</archive>
         </mailingList>
     </mailingLists>
     
