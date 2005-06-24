@@ -38,11 +38,12 @@
     	 <artifactId>commons-jelly-tags-velocity</artifactId>
       	 <version>20030303.205659</version>
       </dependency>
-	  <dependency>
-    	 <id>velocity</id>
-    	 <version>1.3</version>
-   	  </dependency>
-	</dependencies>
+        <dependency>
+         <groupId>velocity</groupId>
+         <artifactId>velocity</artifactId>
+         <version>1.4-dev</version>
+      </dependency>
+    </dependencies>
 
     <licenses>
         <license
@@ -54,21 +55,21 @@
     <mailingLists>
         <mailingList>
             <name>Spice Users List</name>
-            <subscribe>spice-user-request@lists.codehaus.org</subscribe>
-            <unsubscribe>spice-user-request@lists.codehaus.org</unsubscribe>
-            <archive>http://lists.codehaus.org/pipermail/spice-user/</archive>
+            <subscribe>user-subscribe@spice.codehaus.org</subscribe>
+            <unsubscribe>user-unsubscribe@spice.codehaus.org</unsubscribe>
+            <archive>http://news.gmane.org/gmane.comp.java.spice.user</archive>
         </mailingList>
         <mailingList>
             <name>Spice Developers List</name>
-            <subscribe>spice-dev-request@lists.codehaus.org</subscribe>
-            <unsubscribe>spice-dev-request@lists.codehaus.org</unsubscribe>
-            <archive>http://lists.codehaus.org/pipermail/spice-dev/</archive>
+            <subscribe>dev-subscribe@spice.codehaus.org</subscribe>
+            <unsubscribe>dev-unsubscribe@spice.codehaus.org</unsubscribe>
+            <archive>http://news.gmane.org/gmane.comp.java.spice.devel</archive>
         </mailingList>
         <mailingList>
             <name>Spice CVS Commits List</name>
-            <subscribe>spice-scm-request@lists.codehaus.org</subscribe>
-            <unsubscribe>spice-scm-request@lists.codehaus.org</unsubscribe>
-            <archive>http://lists.codehaus.org/pipermail/spice-scm/</archive>
+            <subscribe>scm-subscribe@spice.codehaus.org</subscribe>
+            <unsubscribe>scm-unsubscribe@spice.codehaus.org</unsubscribe>
+            <archive>http://news.gmane.org/gmane.comp.java.spice.cvs</archive>
         </mailingList>
     </mailingLists>
     
@@ -126,7 +127,7 @@
     </developers>
 
     <build>
-        <nagEmailAddress>spice-dev@lists.codehaus.org</nagEmailAddress>
+        <nagEmailAddress>dev@spice.codehaus.org</nagEmailAddress>
         <sourceDirectory>src/java</sourceDirectory>
         <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
 
