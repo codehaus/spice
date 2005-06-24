@@ -8,8 +8,16 @@
 package org.codehaus.spice.jndikit.test;
 
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import javax.naming.Binding;
 import javax.naming.Context;
+import javax.naming.NameClassPair;
 import javax.naming.NameNotFoundException;
+import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -18,7 +26,7 @@ import junit.framework.TestCase;
  * Unit testing for JNDI system
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractContextTestCase
     extends TestCase
@@ -527,6 +535,191 @@ public abstract class AbstractContextTestCase
         }
         catch( final NamingException ne )
         {
+        }
+    }
+
+    /**
+     * Create a subcontext, bind to it, and verify that the objects
+     * can be looked up from it
+     */
+    public void testSubcontextBindAndLookup() throws AssertionFailedError {
+        try {
+            m_context.createSubcontext("x");
+            Context context = (Context) m_context.lookup("x");
+            
+            context.bind("o1", O1);
+            
+            assertTrue("Make sure lookup o1 returns correct object",
+                       context.lookup("o1").equals(O1));
+            assertTrue("Make sure lookup o1 from root returns correct object",
+                        m_context.lookup("x/o1").equals(O1));
+        } catch (final NamingException ne) {
+            throw new AssertionFailedError( ne.toString());
+        }
+    }
+
+    /**
+     * Create a subcontext, bind to it, and verify that:
+     * <ul>
+     *   <li>can list the binding names from the root context</li>
+     *   <li>can list the binding names from the subcontext</li>
+     * </ul> 
+     */
+    public void testSubcontextBindAndList1() throws AssertionFailedError {
+        Map map = new HashMap();
+        map.put("o1", O1);
+        map.put("o2", O2);
+        map.put("o3", O3);
+        Set names;
+
+        try {
+            m_context.createSubcontext("x");
+            Context context = (Context) m_context.lookup("x");
+            
+            Iterator entries = map.entrySet().iterator();
+            while (entries.hasNext()) {
+                Map.Entry entry = (Map.Entry) entries.next();
+                context.bind((String) entry.getKey(), entry.getValue());
+            }
+            names = listNames(m_context, "x");
+            assertEquals("Make sure can list subcontext names from root",
+                         map.keySet(), names);
+
+            names = listNames(context, "");
+            assertEquals("Make sure can list subcontext names",
+                         map.keySet(), names);
+        } catch (final NamingException ne) {
+            throw new AssertionFailedError( ne.toString());
+        }
+    }
+
+    /**
+     * Create a subcontext, bind to it via the root context, and verify that:
+     * <ul>
+     *   <li>can list the binding names from the root context</li>
+     *   <li>can list the binding names from the subcontext</li>
+     * </ul>
+     */
+    public void testSubcontextBindAndList2() throws AssertionFailedError {
+        Map map = new HashMap();
+        map.put("o1", O1);
+        map.put("o2", O2);
+        map.put("o3", O3);
+        Set names;
+
+        try {
+            m_context.createSubcontext("x");
+
+            Iterator entries = map.entrySet().iterator();
+            while (entries.hasNext()) {
+                Map.Entry entry = (Map.Entry) entries.next();
+                String name = "x/" + entry.getKey();
+                m_context.bind(name, entry.getValue());
+            }
+            names = listNames(m_context, "x");
+            assertEquals("Make sure can list subcontext names from root",
+                         map.keySet(), names);
+            
+            Context context = (Context) m_context.lookup("x");
+            names = listNames(context, "");
+            assertEquals("Make sure can list subcontext names",
+                         map.keySet(), names);
+        } catch (final NamingException ne) {
+            throw new AssertionFailedError( ne.toString());
+        }
+    }
+
+    public void testSubcontextListBindings() throws AssertionFailedError {
+        Map map = new HashMap();
+        map.put("o1", O1);
+        map.put("o2", O2);
+        map.put("o3", O3);
+        Set names = new HashSet();
+
+        try {
+            m_context.createSubcontext( "x" );
+            Context context = (Context) m_context.lookup("x");
+            Iterator entries = map.entrySet().iterator();
+            while (entries.hasNext()) {
+                Map.Entry entry = (Map.Entry) entries.next();
+                context.bind((String) entry.getKey(), entry.getValue());
+            }
+            NamingEnumeration bindings = context.listBindings("");
+            while (bindings.hasMore()) {
+                Binding binding = (Binding) bindings.next();
+                String name = binding.getName();
+                Object expected = map.get(name);
+                if (expected == null) {
+                    throw new AssertionFailedError(
+                        "Invalid binding: name=" + name + ", classname="
+                        + binding.getClassName() + ", object="
+                        + binding.getObject());
+                }
+                assertEquals(expected, binding.getObject());
+                names.add(name);
+            }
+        } catch (final NamingException ne) {
+            throw new AssertionFailedError( ne.toString());
+        }
+
+        assertEquals(map.keySet(), names);
+    }
+
+    /**
+     * Bind a tree of subcontexts, and ensure they can be listed
+     * @throws AssertionFailedError
+     */
+    public void testRecursiveListBindings() throws AssertionFailedError {
+        Map expected = new HashMap();
+        expected.put("o1", O1);
+        expected.put("o2", O2);
+        expected.put("x/o3", O3);
+        expected.put("x/o4", O4);
+        expected.put("x/y/o5", O5);
+        Map result = new HashMap();
+
+        try {
+            m_context.bind("o1", O1);
+            m_context.bind("o2", O2);
+            m_context.createSubcontext( "x" );
+            Context context = (Context) m_context.lookup("x");
+            context.bind("o3", O3);
+            context.bind("o4", O4);
+            m_context.createSubcontext( "x/y" );
+            context = (Context) m_context.lookup("x/y");
+            context.bind("o5", O5);
+
+            listRecursive("", m_context, result);
+        } catch (final NamingException ne) {
+            throw new AssertionFailedError( ne.toString());
+        }
+
+        assertEquals(expected, result);
+    }
+
+    private Set listNames(Context context, String name)
+        throws NamingException {
+        Set result = new HashSet();
+        NamingEnumeration names = context.list(name);
+        while (names.hasMore()) {
+            NameClassPair pair = (NameClassPair) names.next();
+            result.add(pair.getName());
+        }
+        return result;
+    }
+
+    private void listRecursive(String name, Context context, Map result) throws NamingException {
+        NamingEnumeration bindings = context.listBindings("");
+        while (bindings.hasMore()) {
+            Binding binding = (Binding) bindings.next();
+            Object object = binding.getObject();
+            String subName = (name.length() == 0) ? binding.getName() :
+                    name + "/" + binding.getName();
+            if (object instanceof Context) {
+                listRecursive(subName, (Context) object, result);
+            } else {
+                result.put(subName, object);
+            }
         }
     }
 
