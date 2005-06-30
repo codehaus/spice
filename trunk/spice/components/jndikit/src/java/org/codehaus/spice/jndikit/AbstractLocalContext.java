@@ -18,7 +18,6 @@ import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.NotContextException;
 import javax.naming.OperationNotSupportedException;
-import javax.naming.Reference;
 import javax.naming.Referenceable;
 
 /**
@@ -27,7 +26,7 @@ import javax.naming.Referenceable;
  * on the same machine.
  *
  * @author Peter Donald
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractLocalContext
     extends AbstractContext
@@ -106,7 +105,6 @@ public abstract class AbstractLocalContext
             }
             else
             {
-                //Should this occur here or in the factories ???
                 if( object instanceof Referenceable )
                 {
                     object = ( (Referenceable)object ).getReference();
@@ -301,17 +299,8 @@ public abstract class AbstractLocalContext
         if( 1 == name.size() )
         {
             Object obj = localLookup( name );
-            if( obj instanceof Reference )
+            if (obj instanceof AbstractLocalContext)
             {
-                try
-                {
-                    obj = m_namespace.getObjectInstance( obj, name, this, this.getEnvironment() );
-                }
-                catch( Exception e )
-                {
-                    throw new NamingException( "Could not resolve reference" );
-                }
-            } else if (obj instanceof AbstractLocalContext) {
                 return ((AbstractLocalContext) obj).cloneContext();
             }
 
