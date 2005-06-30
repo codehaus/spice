@@ -8,10 +8,10 @@
 package org.codehaus.spice.jndikit.rmi.server;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.rmi.MarshalledObject;
 import java.rmi.Remote;
 import java.rmi.server.UnicastRemoteObject;
@@ -24,7 +24,7 @@ import org.codehaus.spice.jndikit.memory.MemoryContext;
  * production system.
  *
  * @author Peter Donald
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Main
     implements Runnable
@@ -153,7 +153,7 @@ public class Main
 
                 socket.close();
             }
-            catch( final SocketTimeoutException ste )
+            catch( final InterruptedIOException iioe )
             {
                 continue;
             }
