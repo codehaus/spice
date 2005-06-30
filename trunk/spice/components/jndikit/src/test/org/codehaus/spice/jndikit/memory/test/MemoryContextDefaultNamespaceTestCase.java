@@ -7,35 +7,30 @@
  */
 package org.codehaus.spice.jndikit.memory.test;
 
-import java.util.Hashtable;
 import javax.naming.Context;
 
 import org.codehaus.spice.jndikit.DefaultNameParser;
-import org.codehaus.spice.jndikit.Namespace;
-import org.codehaus.spice.jndikit.StandardNamespace;
+import org.codehaus.spice.jndikit.DefaultNamespace;
 import org.codehaus.spice.jndikit.memory.MemoryContext;
+import org.codehaus.spice.jndikit.test.TestObjectFactory;
 import org.codehaus.spice.jndikit.test.TestStateFactory;
 
 /**
- * Unit test for Memory context, using the {@link StandardNamespace}. ,
+ * Unit test for Memory context, using the {@link DefaultNamespace}.
  *
- * @author Peter Donald
  * @author Tim Anderson
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  */
-public class MemoryContextTestCase
+public class MemoryContextDefaultNamespaceTestCase
     extends AbstractMemoryContextTestCase
 {
 
     protected Context getRoot() throws Exception
     {
         final DefaultNameParser parser = new DefaultNameParser();
-        final Namespace namespace = new StandardNamespace( parser );
-
-        Hashtable environment = new Hashtable();
-        environment.put( Context.STATE_FACTORIES,
-                         TestStateFactory.class.getName() );
-
-        return new MemoryContext( namespace, environment, null );
+        final DefaultNamespace namespace = new DefaultNamespace( parser );
+        namespace.addObjectFactory( new TestObjectFactory() );
+        namespace.addStateFactory( new TestStateFactory() );
+        return new MemoryContext( namespace, null, null );
     }
 }
