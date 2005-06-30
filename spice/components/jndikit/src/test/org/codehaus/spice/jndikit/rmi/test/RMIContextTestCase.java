@@ -8,75 +8,67 @@
 package org.codehaus.spice.jndikit.rmi.test;
 
 import java.util.Hashtable;
-import java.util.Random;
 import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.ServiceUnavailableException;
+
+import org.codehaus.spice.jndikit.Namespace;
+import org.codehaus.spice.jndikit.NamingProvider;
+import org.codehaus.spice.jndikit.RemoteContext;
+import org.codehaus.spice.jndikit.StandardNamespace;
 import org.codehaus.spice.jndikit.rmi.RMIInitialContextFactory;
-import org.codehaus.spice.jndikit.rmi.server.Main;
-import org.codehaus.spice.jndikit.test.AbstractContextTestCase;
+import org.codehaus.spice.jndikit.test.TestStateFactory;
 
 /**
- * Unit test for RMI context
+ * Unit test for RMI context.
  *
- * @author Peter Donald
- * @version $Revision: 1.1 $
+ * @author Tim Anderson
+ * @version $Revision: 1.2 $
  */
 public class RMIContextTestCase
-    extends AbstractContextTestCase
+    extends AbstractRMIContextTestCase
 {
-    private static int c_id = 0;
-    private Main m_server;
-    private Thread m_serverThread;
-    private static final Random RANDOM = new Random();
-    private int m_port;
-
-    public void setUp()
-        throws Exception
+    public RMIContextTestCase()
     {
-        m_port = 1500 + Math.abs( RANDOM.nextInt() % 1000 );
-
-        startServer();
-
-        final RMIInitialContextFactory factory = new RMIInitialContextFactory();
-        final Hashtable environment = new Hashtable();
-        environment.put( Context.PROVIDER_URL, "rmi://localhost:" + m_port );
-        final Context root = factory.getInitialContext( environment );
-        setRoot( root );
-
-        setContext( root.createSubcontext( "test" + c_id++ ) );
+        super( new StandardNamespaceICF() );
     }
 
-    public void tearDown()
-        throws Exception
+    static class StandardNamespaceICF extends RMIInitialContextFactory
     {
-        try
-        {
-            stopServer();
-        }
-        catch( Exception e )
-        {
-            e.printStackTrace();
-        }
-    }
 
-    private void startServer()
-        throws Exception
-    {
-        m_server = new Main( true, m_port );
-        m_server.start();
-
-        m_serverThread = new Thread( m_server );
-        m_serverThread.start();
-        while( !m_server.isRunning() )
+        public Context getInitialContext( Hashtable environment )
+            throws NamingException
         {
-            Thread.yield();
+            environment.put( Context.STATE_FACTORIES,
+                             TestStateFactory.class.getName() );
+            return super.getInitialContext( environment );
         }
-    }
 
-    private void stopServer()
-        throws Exception
-    {
-        m_server.stop();
-        m_server.dispose();
-        m_serverThread.interrupt();
+        protected Namespace newNamespace( final Hashtable environment )
+            throws NamingException
+        {
+            try
+            {
+                final NamingProvider provider =
+                    ( NamingProvider ) environment.get(
+                        RemoteContext.NAMING_PROVIDER );
+
+                return new StandardNamespace( provider.getNameParser() );
+            }
+            catch( final Exception e )
+            {
+                if( e instanceof NamingException )
+                {
+                    throw ( NamingException ) e;
+                }
+                else
+                {
+                    final ServiceUnavailableException sue =
+                        new ServiceUnavailableException( e.getMessage() );
+                    sue.setRootCause( e );
+                    throw sue;
+                }
+            }
+        }
     }
 }
