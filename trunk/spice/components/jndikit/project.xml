@@ -4,7 +4,7 @@
     <name>Spice JNDIKit</name>
     <id>spice-jndikit</id>
     <inceptionYear>1999</inceptionYear>
-    <currentVersion>1.1</currentVersion>
+    <currentVersion>1.2</currentVersion>
     <package>org.codehaus.spice.jndikit</package>
 
     <shortDescription>A toolkit for building JNDI providers</shortDescription>
@@ -23,14 +23,13 @@
                 <role>Developer</role>
             </roles>
         </developer>
+        <developer>
+            <name>Tim Anderson</name>
+            <id>tanderson</id>
+            <email>tanderson at codehaus.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>            
     </developers>
-
-    <reports>
-        <report>maven-jdepend-plugin</report>
-        <report>maven-checkstyle-plugin</report>
-        <report>maven-javadoc-plugin</report>
-        <report>maven-jxr-plugin</report>
-        <report>maven-junit-report-plugin</report>
-        <report>maven-license-plugin</report>
-    </reports>
 </project>
