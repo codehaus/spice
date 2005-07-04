@@ -101,6 +101,14 @@
                 <role>Developer</role>
             </roles>
         </developer>
+        <developer>
+            <name>Tim Anderson</name>
+            <id>tanderson</id>
+            <email>tanderson at codehaus.org</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>            
     </developers>
 
     <build>
