@@ -16,6 +16,9 @@ package org.codehaus.spice.jervlet;
  */
 public interface ListenerMonitor
 {
+    /** Role, used in some component frameworks */
+    String ROLE = ListenerMonitor.class.getName();
+
     /**
      * Notify that an Exception was thrown when adding a Listener.
      *

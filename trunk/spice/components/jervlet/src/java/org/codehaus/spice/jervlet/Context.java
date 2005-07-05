@@ -19,7 +19,7 @@ import java.net.URL;
  */
 public interface Context
 {
-    /** Role, used by some component frameworks */
+    /** Role, used in some component frameworks */
     String ROLE = Context.class.getName();
 
     /**

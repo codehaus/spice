@@ -30,6 +30,7 @@ package org.codehaus.spice.jervlet;
  */
 public interface Container
 {
+   /** Role, used in some component frameworks */
     String ROLE = Container.class.getName();
 
     /**                                    

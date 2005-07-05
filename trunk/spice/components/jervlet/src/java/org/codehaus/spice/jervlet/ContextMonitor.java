@@ -16,6 +16,9 @@ package org.codehaus.spice.jervlet;
  */
 public interface ContextMonitor
 {
+    /** Role, used in some component frameworks */
+    String ROLE = ContextMonitor.class.getName();
+
     /**
      * Report that an Exception was thrown when adding a Context
      *

@@ -20,7 +20,7 @@ package org.codehaus.spice.jervlet;
  */
 public interface Instantiator
 {
-    /** Role, used by some component frameworks */
+    /** Role, used in some component frameworks */
     String ROLE = Instantiator.class.getName();
 
     /**
