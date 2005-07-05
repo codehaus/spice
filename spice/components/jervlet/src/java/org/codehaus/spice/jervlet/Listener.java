@@ -17,7 +17,7 @@ package org.codehaus.spice.jervlet;
  */
 public interface Listener
 {
-    /** Role, used by some component frameworks */
+    /** Role, used in some component frameworks */
     String ROLE = Listener.class.getName();
 
     /** HTTP listener */

@@ -19,7 +19,7 @@ import java.util.List;
  */
 public interface ContextHandler
 {
-    /** Role, used by some component frameworks */
+    /** Role, used in some component frameworks */
     String ROLE = ContextHandler.class.getName();
 
     /**
