@@ -27,18 +27,18 @@
                 The Components are designed to support deployment in different
                 containers or frameworks.
             </p>
-            <subsection name="JContainer DNA">
+            <subsection name="DNA">
                 <p>
-                    <a href="http://dna.jcontainer.org">JContainer DNA</a> is
+                    <a href="http://dna.codehaus.org">DNA</a> is
                     a framework supporting IoC.
                 </p>
             </subsection>
-            <subsection name="JContainer Loom">
+            <subsection name="Loom">
                 <p>
-                    <a href="http://loom.jcontainer.org">JContainer Loom</a>
+                    <a href="http://loom.codehaus.org">Loom</a>
                     is a container designed and implemented on top of the
                     DNA framework, which also supports applications 
-                    written in the <a href="http://avalon.apache.org">Avalon</a> framework.
+                    written in the <a href="http://excalibur.apache.org/framework">Avalon</a> framework.
                 </p>
             </subsection>
             <subsection name="PicoContainer">

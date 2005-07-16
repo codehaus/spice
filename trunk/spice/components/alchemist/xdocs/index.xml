@@ -11,7 +11,7 @@
 		usually performing equivalent or similar roles.
 		</p>
 		<p>Currently provides transformation methods between the
-		<a href="http://dna.jcontainer.org">DNA</a> and
+		<a href="http://dna.codehaus.org">DNA</a> and
 		<a href="http://avalon.apache.org">Avalon</a> frameworks.
 		</p>		
      </section>				

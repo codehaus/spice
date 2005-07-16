@@ -14,7 +14,7 @@
             <subsection name="ClassMan">
                 <p>
                     The ClassMan component was migrated to the
-                    <a href="http://loom.jcontainer.org/">Loom</a> project as
+                    <a href="http://loom.codehaus.org/">Loom</a> project as
                     that is the only consumer of the component.
                 </p>
             </subsection>
@@ -43,14 +43,14 @@
             <subsection name="Extension">
                 <p>
                     The Extension component was migrated to the
-                    <a href="http://loom.jcontainer.org/">Loom</a> project as
+                    <a href="http://loom.codehaus.org/">Loom</a> project as
                     that is the only consumer of the component.
                 </p>
             </subsection>
             <subsection name="XML Policy">
                 <p>
                     The XML Policy component was migrated to the
-                    <a href="http://loom.jcontainer.org/">Loom</a> project as
+                    <a href="http://loom.codehaus.org/">Loom</a> project as
                     that is the only consumer of the component.
                 </p>
             </subsection>
