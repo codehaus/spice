@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<project>
+    <extend>${basedir}/../../project.xml</extend>
+    <name>Spice Jervlet</name>
+    <id>spice-jervlet</id>    
+    <package>org.codehaus.spice.jervlet</package>
+    <currentVersion>2.0-SNAPSHOT</currentVersion>
+    <inceptionYear>2003</inceptionYear>
+
+    <shortDescription>
+	  An IoC wrapper for Jetty
+    </shortDescription>
+
+    <description>
+    </description>
+
+    <versions>
+    </versions>
+
+    <dependencies>
+        <dependency>
+            <groupId>avalon</groupId>
+            <artifactId>avalon-framework</artifactId>
+            <version>4.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>dna</groupId>
+            <artifactId>dna-api</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>dna</groupId>
+            <artifactId>dna-impl</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <id>picocontainer</id>
+            <version>1.2-SNAPSHOT</version>
+            <url>http://www.picocontainer.org/</url>
+        </dependency>
+        <dependency>
+            <groupId>jetty</groupId>
+            <artifactId>org.mortbay.jetty</artifactId>
+            <version>5.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <id>commons-logging</id>
+            <version>1.0.4</version>
+            <url>http://jakarta.apache.org/commons/logging.html</url>
+        </dependency>
+
+    </dependencies>
+
+    <developers>
+        <developer>
+            <name>Mauro Talevi</name>
+            <id>mauro</id>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Peter Donald</name>
+            <id>donaldp</id>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <build>
+        <sourceDirectory>${basedir}/src/java</sourceDirectory>
+
+        <!-- Resources that are packaged up inside the JAR file -->
+        <resources>
+            <resource>
+                <directory>${basedir}/src/java</directory>
+                <includes>
+                    <include>**/*.dtd</include>
+                    <include>**/*.xsd</include>
+                    <include>**/*.xhtml</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.png</include>
+                    <include>**/*.jpg</include>
+                    <include>**/*.gif</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <unitTestSourceDirectory>${basedir}/src/test</unitTestSourceDirectory>
+        <unitTest>
+            <includes>
+                <include>**/*Test.*</include>
+                <include>**/*TestCase.*</include>
+            </includes>
+            <excludes>
+                <exclude>**/Abstract*.*</exclude>
+            </excludes>
+            <resources>
+                <resource>
+                    <directory>${basedir}/src/test</directory>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                </resource>
+            </resources>
+        </unitTest>
+    </build>
+
+</project>
