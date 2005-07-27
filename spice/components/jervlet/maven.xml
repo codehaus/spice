@@ -1,0 +1,31 @@
+<project default="jar:install"
+         xmlns:j="jelly:core"
+         xmlns:util="jelly:util"
+         xmlns:ant="jelly:ant">
+
+    <goal name="run-groovyc" prereqs="java:compile,test:compile">
+
+        <path id="groovy.classpath">
+            <pathelement path="${maven.build.dest}"/>
+            <pathelement path="target/classes"/>
+            <pathelement path="target/test-classes"/>
+            <path refid="maven.dependency.classpath"/>
+        </path>
+
+        <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">
+            <classpath refid="groovy.classpath"/>
+        </taskdef>
+
+        <groovyc destdir="${basedir}/target/test-classes" srcdir="${basedir}/src/test"
+                 listfiles="true">
+            <classpath refid="groovy.classpath"/>
+        </groovyc>
+
+    </goal>
+
+    <goal name="test">
+        <attainGoal name="run-groovyc"/>
+        <attainGoal name="test:test"/>
+    </goal>
+
+</project>

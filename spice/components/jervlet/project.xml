@@ -54,6 +54,32 @@
             <url>http://jakarta.apache.org/commons/logging.html</url>
         </dependency>
 
+        <!-- optional for Groovy/NanoContainer -->
+
+        <dependency>
+            <id>groovy</id>
+            <version>1.0-beta-10</version>
+        </dependency>
+        <dependency>
+            <id>antlr</id>
+            <version>2.7.5</version>
+        </dependency>
+        <dependency>
+            <id>asm</id>
+            <version>1.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm-util</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>nanocontainer</groupId>
+            <artifactId>nanocontainer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+
     </dependencies>
 
     <developers>
