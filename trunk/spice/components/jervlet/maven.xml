@@ -3,6 +3,7 @@
          xmlns:util="jelly:util"
          xmlns:ant="jelly:ant">
 
+    <!--
     <goal name="run-groovyc" prereqs="java:compile,test:compile">
 
         <path id="groovy.classpath">
@@ -27,5 +28,6 @@
         <attainGoal name="run-groovyc"/>
         <attainGoal name="test:test"/>
     </goal>
+    -->
 
 </project>
