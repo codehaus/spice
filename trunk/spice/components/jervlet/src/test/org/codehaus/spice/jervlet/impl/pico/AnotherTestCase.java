@@ -13,6 +13,7 @@ import groovy.lang.Script;
 import junit.framework.TestCase;
 import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.runtime.InvokerHelper;
+import org.codehaus.spice.jervlet.ContextHandler;
 import org.nanocontainer.script.groovy.GroovyContainerBuilder;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.defaults.DefaultPicoContainer;
@@ -24,9 +25,8 @@ public class AnotherTestCase extends TestCase
     public void testJervletNanoContainerBuilderDecorationDelegate() throws Exception
     {
         final InputStream script = getClass().getResourceAsStream( "delegate.groovy" );
-
-        createContainer( new InputStreamReader( script ) );
-        assertEquals( "", "" );
+        final PicoContainer pico = createContainer( new InputStreamReader( script ) );
+        assertNotNull("expected ContextHandler in picocontainer", pico.getComponentInstance( ContextHandler.class));
     }
 
     protected PicoContainer createContainer( final Reader reader ) throws CompilationFailedException
@@ -71,17 +71,17 @@ public class AnotherTestCase extends TestCase
         assertEquals( "", "" );
     }
 
-    protected void doGroovy( InputStream is ) throws CompilationFailedException
+    protected void doGroovy( final InputStream is ) throws CompilationFailedException
     {
-        Script groovyScript = null;
-        GroovyClassLoader loader = new GroovyClassLoader( getClass().getClassLoader() );
-        GroovyCodeSource groovyCodeSource = new GroovyCodeSource( is,
+        Script groovyScript;
+        final GroovyClassLoader loader = new GroovyClassLoader( getClass().getClassLoader() );
+        final GroovyCodeSource groovyCodeSource = new GroovyCodeSource( is,
                                                                   "nanocontainer.groovy",
                                                                   "groovyGeneratedForNanoContainer" );
-        Class scriptClass = loader.parseClass( groovyCodeSource );
+        final Class scriptClass = loader.parseClass( groovyCodeSource );
         groovyScript = InvokerHelper.createScript( scriptClass, null );
-        Binding binding = new Binding();
+        final Binding binding = new Binding();
         groovyScript.setBinding( binding );
-        Object result = groovyScript.run();
+        groovyScript.run();
     }
 }
