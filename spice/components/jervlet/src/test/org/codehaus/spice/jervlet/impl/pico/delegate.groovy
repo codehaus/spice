@@ -6,5 +6,5 @@ builder = new NanoContainerBuilder( new JervletNanoContainerBuilderDecorationDel
 pico = builder.container {
      webserver()
      webapp( context : "foo/", warPath : "foo.war" )
-     component( A )
+     component( StringBuffer )
 }
