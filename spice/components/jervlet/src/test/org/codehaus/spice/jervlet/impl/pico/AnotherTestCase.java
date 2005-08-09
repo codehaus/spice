@@ -26,7 +26,7 @@ public class AnotherTestCase extends TestCase
     {
         final InputStream script = getClass().getResourceAsStream( "delegate.groovy" );
         final PicoContainer pico = createContainer( new InputStreamReader( script ) );
-        assertNotNull("expected ContextHandler in picocontainer", pico.getComponentInstance( ContextHandler.class));
+        assertNotNull("expected ContextHandler in picocontainer", pico.getComponentInstanceOfType( ContextHandler.class));
     }
 
     protected PicoContainer createContainer( final Reader reader ) throws CompilationFailedException
