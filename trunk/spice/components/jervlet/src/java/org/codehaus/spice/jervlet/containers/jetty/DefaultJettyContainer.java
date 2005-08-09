@@ -142,7 +142,7 @@ public class DefaultJettyContainer implements JettyContainer
     {
         if( !m_jettyServer.isServerStarted() )
         {
-            m_jettyServer.startServer();
+            m_jettyServer.start();
             m_defaultContextHandler = m_jettyServer.createContextHandler();
         }
     }
@@ -156,7 +156,7 @@ public class DefaultJettyContainer implements JettyContainer
     {
         if( m_jettyServer.isServerStarted() )
         {
-            m_jettyServer.stopServer();
+            m_jettyServer.stop();
         }
     }
 
