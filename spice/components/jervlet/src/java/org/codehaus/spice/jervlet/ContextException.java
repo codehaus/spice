@@ -12,7 +12,7 @@ package org.codehaus.spice.jervlet;
  * 
  * @author Johan Sjoberg
  */
-public class ContextException extends Exception
+public class ContextException extends RuntimeException
 {
     /** The original <code>Throwable</code> */
     private final Throwable m_throwable;

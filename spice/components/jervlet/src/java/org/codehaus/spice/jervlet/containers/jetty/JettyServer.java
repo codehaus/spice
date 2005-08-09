@@ -158,7 +158,7 @@ public class JettyServer implements Container, ListenerHandler
      *
      * @throws Exception if Jetty's <code>Server</code> threw one
      */
-    public void startServer() throws Exception
+    public void start() throws Exception
     {
         m_server.start();
     }
@@ -168,7 +168,7 @@ public class JettyServer implements Container, ListenerHandler
      *
      * @throws InterruptedException if Jetty's server threw one
      */
-    public void stopServer() throws InterruptedException
+    public void stop() throws InterruptedException
     {
         m_server.stop();
     }
