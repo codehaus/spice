@@ -278,7 +278,7 @@ public class AvalonJettyContainer
      */
     public ContextHandler createContextHandler()
     {
-        return m_container;
+        return m_container.createContextHandler();
     }
 
     /**
