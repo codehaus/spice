@@ -11,6 +11,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
+import java.util.List;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.activity.Startable;
@@ -24,7 +25,12 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
+import org.codehaus.spice.jervlet.Container;
+import org.codehaus.spice.jervlet.ContextHandler;
 import org.codehaus.spice.jervlet.ContextMonitor;
+import org.codehaus.spice.jervlet.Listener;
+import org.codehaus.spice.jervlet.ListenerException;
+import org.codehaus.spice.jervlet.ListenerHandler;
 import org.codehaus.spice.jervlet.ListenerMonitor;
 import org.codehaus.spice.jervlet.containers.jetty.DefaultJettyContainer;
 import org.codehaus.spice.jervlet.containers.jetty.JettyContainer;
@@ -37,7 +43,8 @@ import org.codehaus.spice.jervlet.containers.jetty.ShieldingJettyContainer;
  * @dna.component
  */
 public class AvalonJettyContainer
-    implements LogEnabled, Configurable, Serviceable, Initializable, Startable
+    implements Container, ListenerHandler, LogEnabled,
+      Configurable, Serviceable, Initializable, Startable
 {
     private Logger m_logger;
     private JettyContainer m_container;
@@ -262,5 +269,81 @@ public class AvalonJettyContainer
             return urlConfiguration;
         }
         return null;
+    }
+
+    /**
+     * Create a new context handler.
+     *
+     * @return A new ContextHandler.
+     */
+    public ContextHandler createContextHandler()
+    {
+        return m_container;
+    }
+
+    /**
+     * Destroy a context handler. If the given context
+     * handler still has contexts, they will be stopped
+     * and removed before destruction.
+     *
+     * @param contextHandler The ContextHandler to destroy
+     */
+    public void destroyContextHandler( ContextHandler contextHandler )
+    {
+        m_container.destroyContextHandler( contextHandler );
+    }
+
+    /**
+     * Add a <code>Listener</code> the container.
+     */
+    public void addListener( Listener listener ) throws ListenerException
+    {
+        m_container.addListener( listener );
+    }
+
+    /**
+     * Remove a <code>Listener</code> from the container.
+     */
+    public void removeListener( Listener listener ) throws ListenerException
+    {
+        m_container.removeListener( listener );
+    }
+
+    /**
+     * Start a <code>Listener</code>.
+     */
+    public void startListener( Listener listener ) throws ListenerException
+    {
+        m_container.startListener( listener );
+    }
+
+    /**
+     * Stop a <code>Listener</code>.
+     */
+    public void stopListener( Listener listener ) throws ListenerException
+    {
+        m_container.stopListener( listener );
+    }
+
+    /**
+     * Fetch a list of all current <code>Listener</code>s. If there are
+     * no listener the returned list can be empty.
+     *
+     * @return All new list all current listeners.
+     */
+    public List getListeners()
+    {
+        return m_container.getListeners();
+    }
+
+    /**
+     * Check if a <code>Listener</code> is started or not.
+     *
+     * @param listener The listener
+     * @return True if the listener is started, else false.
+     */
+    public boolean isStarted( Listener listener )
+    {
+        return m_container.isStarted( listener );
     }
 }
