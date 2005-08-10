@@ -16,7 +16,7 @@ import java.util.Properties;
 import java.util.Enumeration;
 
 /**
- * TestCase for JettyContainerComponent
+ * TestCase for AvalonJettyContainer
  *
  * @author Johan Sjoberg
  */
