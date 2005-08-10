@@ -24,14 +24,31 @@ import org.codehaus.spice.jervlet.containers.jetty.JettyContainer;
 import org.codehaus.spice.jervlet.containers.jetty.ShieldingJettyContainer;
 
 /**
- * Pico component wrapping a Jetty Server
+ * Pico style component wrapping a Jetty Server
+ * <br/><br/>
+ * This Jetty container implementation handles the creation and
+ * lifecycle of the underlaying Jetty Server. This component also
+ * serves as a <code>ListenerHandler</code> and <code>Container</code>
+ * using the wrapped <code>JettyContainer</code>. See ListenerHandler's
+ * and Container's documentation about how to deploy webapps and start
+ * listeners.
  *
  * @author Johan Sjoberg
  */
 public class PicoJettyContainer implements Container, ListenerHandler, Startable
 {
+    /** Wrapped Jetty container */
     private JettyContainer m_container;
 
+    /**
+     * Create a new Pico style JettyContainer.
+     *
+     * @param configuration optional configuration data for the Jetty server
+     * @param contextMonitor optional context monitor.
+     *        null will result in a NOOP implementation
+     * @param listenerMonitor optional listener monitor.
+     *        null will result in a NOOP implementation.
+     */
     public PicoJettyContainer( JettyContainerConfiguration configuration,
                                ContextMonitor contextMonitor,
                                ListenerMonitor listenerMonitor )
