@@ -31,6 +31,8 @@ public class DefaultJettyContainerConfiguration
      * Flag indication whether the Jetty instance should be shielded
      * or not. If not, no Jetty properties can be used.
      *
+     * @see org.codehaus.spice.jervlet.containers.jetty.ShieldingJettyContainer for more
+     *      information about how shielding is done
      * @return true if Jetty should be shielded, else false
      */
     public boolean shieldJetty()
@@ -41,11 +43,12 @@ public class DefaultJettyContainerConfiguration
     /**
      * Jetty properties can be used to set any so called system
      * parameter Jetty understands. Note, if shielding of Jetty
-     * is not turned on any possible parameters here will not
+     * is not turned on, any possible parameters here will not
      * be used.
      *
-     * @return A properties object with system parameters for Jetty,
-     *         or null
+     * @see org.codehaus.spice.jervlet.containers.jetty.ShieldingJettyContainer
+     *      for more information about how parameters are handled.
+     * @return A properties object with system parameters for Jetty, or null
      */
     public Properties getProperties()
     {
@@ -70,6 +73,8 @@ public class DefaultJettyContainerConfiguration
      * Set Jetty's properties
      *
      * @param properties the properties to add to Jetty
+     * @see org.codehaus.spice.jervlet.containers.jetty.ShieldingJettyContainer for
+     *      more information about how parameters are handled and some examples.
      */
     public void setProperties( final Properties properties )
     {
