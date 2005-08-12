@@ -83,6 +83,10 @@ public class PicoJettyContainer implements Container, ListenerHandler, Startable
 
     /**
      * Start the Jetty container
+     * <br/><br/>
+     * Note, the container must be started before any
+     * <code>Listener</code>s or <code>Context</code>s
+     * can be handled.
      *
      * @throws RuntimeException on all errors
      */
