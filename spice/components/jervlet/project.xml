@@ -8,7 +8,7 @@
     <inceptionYear>2003</inceptionYear>
 
     <shortDescription>
-	  An IoC wrapper for Jetty
+	  An IoC wrapper for servlet engines
     </shortDescription>
 
     <description>
@@ -35,18 +35,34 @@
         </dependency>
         <dependency>
             <id>picocontainer</id>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.2-beta-1</version>
             <url>http://www.picocontainer.org/</url>
         </dependency>
+
         <dependency>
             <groupId>jetty</groupId>
             <artifactId>org.mortbay.jetty</artifactId>
             <version>5.1.4</version>
         </dependency>
         <dependency>
+            <groupId>jetty</groupId>
+            <artifactId>jasper-runtime</artifactId>
+            <version>4.2.20RC0</version>
+        </dependency>
+        <dependency>
+            <groupId>jetty</groupId>
+            <artifactId>jasper-compiler</artifactId>
+            <version>4.2.20RC0</version>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <id>commons-logging</id>
@@ -93,6 +109,27 @@
         <developer>
             <name>Peter Donald</name>
             <id>donaldp</id>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Peter Royal</name>
+            <id>proyal</id>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Paul Hammant</name>
+            <id>paul</id>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Johan Sjoberg</name>
+            <id>sjoberg</id>
             <roles>
                 <role>Developer</role>
             </roles>
