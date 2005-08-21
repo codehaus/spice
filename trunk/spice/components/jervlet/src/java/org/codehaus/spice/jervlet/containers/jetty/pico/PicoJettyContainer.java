@@ -43,6 +43,21 @@ public class PicoJettyContainer implements Container, ListenerHandler, Startable
     /**
      * Create a new Pico style JettyContainer.
      *
+     * @param contextMonitor optional context monitor.
+     *        null will result in a NOOP implementation
+     * @param listenerMonitor optional listener monitor.
+     *        null will result in a NOOP implementation.
+     */
+    public PicoJettyContainer( ContextMonitor contextMonitor,
+                               ListenerMonitor listenerMonitor )
+
+    {
+        this( null, contextMonitor, listenerMonitor );
+    }
+
+    /**
+     * Create a new Pico style JettyContainer.
+     *
      * @param configuration optional configuration data for the Jetty server
      * @param contextMonitor optional context monitor.
      *        null will result in a NOOP implementation
@@ -144,7 +159,7 @@ public class PicoJettyContainer implements Container, ListenerHandler, Startable
         if( configuration.getConfiguration() instanceof String )
         {
             String configurationString = (String)configuration.getConfiguration();
-            configurationString.trim();
+            configurationString = configurationString.trim();
             if( configurationString.startsWith( "<" ) )
             {
                 if( configurationString.indexOf( "?>" ) > 0 )
