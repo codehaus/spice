@@ -7,24 +7,24 @@
  */
 package org.codehaus.spice.jervlet.impl.pico;
 
-import java.net.URL;
-
-import org.picocontainer.Startable;
 import org.codehaus.spice.jervlet.ContextHandler;
 import org.codehaus.spice.jervlet.Instantiator;
 import org.codehaus.spice.jervlet.impl.DefaultContext;
+import org.picocontainer.Startable;
+
+import java.net.URL;
 
 /**
  * @author <a href="mailto:peter.royal@pobox.com">peter royal</a>
  */
 public class PicoContext extends DefaultContext implements Startable
 {
-    private ContextHandler m_contextHandler;
+    private final ContextHandler m_contextHandler;
 
-    public PicoContext( final ContextHandler contextHandler,
-                        final String context,
-                        final URL resource,
-                        final Instantiator instantiator )
+    public PicoContext( ContextHandler contextHandler,
+                        String context,
+                        URL resource,
+                        Instantiator instantiator )
     {
         super(context, null, resource, false, instantiator);
 

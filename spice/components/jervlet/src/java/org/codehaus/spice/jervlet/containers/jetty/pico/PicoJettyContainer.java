@@ -7,21 +7,14 @@
  */
 package org.codehaus.spice.jervlet.containers.jetty.pico;
 
-import java.io.File;
-import java.util.List;
-
-import org.picocontainer.Startable;
-
-import org.codehaus.spice.jervlet.Container;
-import org.codehaus.spice.jervlet.ContextHandler;
-import org.codehaus.spice.jervlet.ContextMonitor;
-import org.codehaus.spice.jervlet.Listener;
-import org.codehaus.spice.jervlet.ListenerException;
-import org.codehaus.spice.jervlet.ListenerHandler;
-import org.codehaus.spice.jervlet.ListenerMonitor;
+import org.codehaus.spice.jervlet.*;
 import org.codehaus.spice.jervlet.containers.jetty.DefaultJettyContainer;
 import org.codehaus.spice.jervlet.containers.jetty.JettyContainer;
 import org.codehaus.spice.jervlet.containers.jetty.ShieldingJettyContainer;
+import org.picocontainer.Startable;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * Pico style component wrapping a Jetty Server
@@ -39,6 +32,16 @@ public class PicoJettyContainer implements Container, ListenerHandler, Startable
 {
     /** Wrapped Jetty container */
     private JettyContainer m_container;
+
+    /**
+     * Create a new Pico style JettyContainer will NOOP monitors
+     *
+     * todo can these monitors be hooked into pico's {@link org.picocontainer.ComponentMonitor} support?
+     */
+    public PicoJettyContainer()
+    {
+        this( null, null );
+    }
 
     /**
      * Create a new Pico style JettyContainer.
@@ -71,7 +74,7 @@ public class PicoJettyContainer implements Container, ListenerHandler, Startable
     {
         if( null != configuration && configuration.shieldJetty() )
         {
-            final ShieldingJettyContainer shieldingJettyContainer =
+            ShieldingJettyContainer shieldingJettyContainer =
               new ShieldingJettyContainer();
             shieldingJettyContainer.addJettyProperties(
               configuration.getProperties() );
@@ -95,6 +98,7 @@ public class PicoJettyContainer implements Container, ListenerHandler, Startable
             m_container.setListenerMonitor( listenerMonitor );
         }
     }
+
 
     /**
      * Start the Jetty container

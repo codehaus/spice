@@ -1,11 +1,5 @@
 package org.codehaus.spice.jervlet.impl.pico;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
-
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyCodeSource;
@@ -20,21 +14,23 @@ import org.picocontainer.defaults.DefaultPicoContainer;
 import org.picocontainer.defaults.ObjectReference;
 import org.picocontainer.defaults.SimpleReference;
 
+import java.io.*;
+
 public class AnotherTestCase extends TestCase
 {
     public void testJervletNanoContainerBuilderDecorationDelegate() throws Exception
     {
-        final InputStream script = getClass().getResourceAsStream( "delegate.groovy" );
-        final PicoContainer pico = createContainer( new InputStreamReader( script ) );
+        InputStream script = getClass().getResourceAsStream( "delegate.groovy" );
+        PicoContainer pico = createContainer( new InputStreamReader( script ) );
         assertNotNull("expected ContextHandler in picocontainer", pico.getComponentInstanceOfType( ContextHandler.class));
     }
 
-    protected PicoContainer createContainer( final Reader reader ) throws CompilationFailedException
+    protected PicoContainer createContainer( Reader reader ) throws CompilationFailedException
     {
-        final ObjectReference containerRef = new SimpleReference();
-        final ObjectReference parentContainerRef = new SimpleReference();
-        final PicoContainer parent = new DefaultPicoContainer();
-        final GroovyContainerBuilder builder = new GroovyContainerBuilder( reader, getClass().getClassLoader() );
+        ObjectReference containerRef = new SimpleReference();
+        ObjectReference parentContainerRef = new SimpleReference();
+        PicoContainer parent = new DefaultPicoContainer();
+        GroovyContainerBuilder builder = new GroovyContainerBuilder( reader, getClass().getClassLoader() );
 
         parentContainerRef.set( parent );
         builder.buildContainer( containerRef, parentContainerRef, "SOME_SCOPE", true );
@@ -71,16 +67,16 @@ public class AnotherTestCase extends TestCase
         assertEquals( "", "" );
     }
 
-    protected void doGroovy( final InputStream is ) throws CompilationFailedException
+    protected void doGroovy( InputStream is ) throws CompilationFailedException
     {
-        Script groovyScript;
-        final GroovyClassLoader loader = new GroovyClassLoader( getClass().getClassLoader() );
-        final GroovyCodeSource groovyCodeSource = new GroovyCodeSource( is,
+        GroovyClassLoader loader = new GroovyClassLoader( getClass().getClassLoader() );
+
+        GroovyCodeSource groovyCodeSource = new GroovyCodeSource( is,
                                                                   "nanocontainer.groovy",
                                                                   "groovyGeneratedForNanoContainer" );
-        final Class scriptClass = loader.parseClass( groovyCodeSource );
-        groovyScript = InvokerHelper.createScript( scriptClass, null );
-        final Binding binding = new Binding();
+        Class scriptClass = loader.parseClass( groovyCodeSource );
+        Script groovyScript = InvokerHelper.createScript( scriptClass, null );
+        Binding binding = new Binding();
         groovyScript.setBinding( binding );
         groovyScript.run();
     }

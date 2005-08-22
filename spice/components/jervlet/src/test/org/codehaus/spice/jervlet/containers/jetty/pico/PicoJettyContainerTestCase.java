@@ -8,21 +8,19 @@
 package org.codehaus.spice.jervlet.containers.jetty.pico;
 
 import junit.framework.TestCase;
-
-import java.util.Properties;
-import java.io.File;
-import java.net.URL;
-import java.net.MalformedURLException;
-
-import org.codehaus.spice.jervlet.impl.*;
-import org.codehaus.spice.jervlet.impl.pico.PicoInstantiator;
-import org.codehaus.spice.jervlet.ContextHandler;
 import org.codehaus.spice.jervlet.Context;
+import org.codehaus.spice.jervlet.ContextHandler;
 import org.codehaus.spice.jervlet.Instantiator;
 import org.codehaus.spice.jervlet.Listener;
-
+import org.codehaus.spice.jervlet.impl.*;
+import org.codehaus.spice.jervlet.impl.pico.PicoInstantiator;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.defaults.DefaultPicoContainer;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Properties;
 
 /**
  * TestCase for PicoJettyContainer
@@ -47,7 +45,7 @@ public class PicoJettyContainerTestCase extends TestCase
      */
     public void testEmpty() throws Exception
     {
-        PicoJettyContainer container = new PicoJettyContainer( null, null, null );
+        PicoJettyContainer container = new PicoJettyContainer();
         container.start();
         container.stop();
     }
@@ -183,7 +181,7 @@ public class PicoJettyContainerTestCase extends TestCase
      * Create a basic context, using the standard servlet
      * instantiator.
      */
-    private Context getStandardContext( final String filePath )
+    private Context getStandardContext( String filePath )
         throws MalformedURLException
     {
         String path = "context" + m_count++;
@@ -192,23 +190,22 @@ public class PicoJettyContainerTestCase extends TestCase
         boolean extractWAR = false;
         Instantiator instantiator = new StandardServletInstantiator();
 
-        DefaultContext context = new DefaultContext( path,
-                                                     virtualHosts,
-                                                     resource,
-                                                     extractWAR,
-                                                     instantiator );
-        return context;
+        return new DefaultContext( path,
+                                   virtualHosts,
+                                   resource,
+                                   extractWAR,
+                                   instantiator );
     }
 
     /**
      * Create a Pico context, using <code>PicoInstantiator</code>.
      *
-     * @filePath path to the web resource
-     * @pico a pico container for this context
+     * @param filePath path to the web resource
+     * @param pico container for this context
      *       (used when instantiation servlets)
      */
-    private Context getPicoContext( final String filePath,
-                                    final MutablePicoContainer pico )
+    private Context getPicoContext( String filePath,
+                                    MutablePicoContainer pico )
         throws MalformedURLException
     {
         String path = "context" + m_count++;
@@ -217,11 +214,10 @@ public class PicoJettyContainerTestCase extends TestCase
         boolean extractWAR = false;
         Instantiator instantiator = new PicoInstantiator( pico );
 
-        DefaultContext context = new DefaultContext( path,
-                                                     virtualHosts,
-                                                     resource,
-                                                     extractWAR,
-                                                     instantiator );
-        return context;
+        return new DefaultContext( path,
+                                   virtualHosts,
+                                   resource,
+                                   extractWAR,
+                                   instantiator );
     }
 }
