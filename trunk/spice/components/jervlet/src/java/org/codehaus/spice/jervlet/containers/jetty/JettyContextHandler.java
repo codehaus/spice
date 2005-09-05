@@ -136,8 +136,7 @@ public class JettyContextHandler implements ContextHandler
      */
     public List getContexts()
     {
-        ArrayList contextList = new ArrayList( m_contextMap.values() );
-        return (List)contextList;
+        return new ArrayList( m_contextMap.values() );
     }
 
     /**
@@ -236,9 +235,7 @@ public class JettyContextHandler implements ContextHandler
     {
         if( isLegalContext( context ) )
         {
-            WebApplicationContext webApplicationContext =
-              (WebApplicationContext)m_contextMap.get( context );
-            return webApplicationContext;
+            return (WebApplicationContext)m_contextMap.get( context );
         }
         return null;
     }
