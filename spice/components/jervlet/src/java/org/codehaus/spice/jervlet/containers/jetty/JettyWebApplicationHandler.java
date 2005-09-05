@@ -106,13 +106,14 @@ public class JettyWebApplicationHandler extends WebApplicationHandler
     {
         if( _nameMap.containsKey( name ) )
         {
-            throw new IllegalArgumentException( "Name already exists: " + name );
+            throw new IllegalArgumentException( "Servletname ["
+              + name + "]  exists already." );
         }
         else
         {
             ServletHolder holder = new JettyServletHolder(
               m_instantiator, this, name, servletClassName, forcedPath );
-            _nameMap.put( holder.getName(), holder );
+            addServletHolder( holder );
             return holder;
         }
     }
@@ -126,22 +127,13 @@ public class JettyWebApplicationHandler extends WebApplicationHandler
      *
      * @param name Name of the servlet
      * @param filterClassName Class name, e.g.
-     *        com.biz.project.impl.MyServlet
+     *        com.biz.project.impl.MyFilter
      * @return A new FilterHolder creating the Filter with a given
      *         Instantiator
      */
-    public FilterHolder newFilterHolder( String name, String filterClassName )
+    public FilterHolder newFilterHolder( String name,
+                                         String filterClassName )
     {
-        if( _nameMap.containsKey( name ) )
-        {
-            throw new IllegalArgumentException( "Name already exists: " + name );
-        }
-        else
-        {
-            FilterHolder holder = new JettyFilterHolder(
-              m_instantiator, this, name, filterClassName );
-            _nameMap.put( holder.getName(), holder );
-            return holder;
-        }
+        return new JettyFilterHolder( m_instantiator, this, name, filterClassName );
     }
 }
