@@ -23,7 +23,7 @@ import java.util.Enumeration;
 public class AvalonJettyContainerTestCase extends TestCase
 {
     private static final String m_defaultConfiguration =
-      "./testdata/jetty/jetty.xml";
+      "../../testdata/jetty/jetty.xml";
 
     /**
      * Create an empty container and start/stop it.
