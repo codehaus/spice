@@ -425,7 +425,8 @@ public class JettyServer implements Container, ListenerHandler
                 for( int i = 0; i < listeners.length; i++ )
                 {
                     if( listener.getPort() == listeners[i].getPort() &&
-                        listener.getHost().equals( listeners[i].getHost() ) )
+                        ( listener.getHost() == listeners[i].getHost() ||
+                        listener.getHost().equals( listeners[i].getHost() ) ) )
                     {
                         return listeners[i];
                     }
