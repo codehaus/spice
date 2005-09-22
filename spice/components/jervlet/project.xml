@@ -5,14 +5,9 @@
     <id>spice-jervlet</id>    
     <package>org.codehaus.spice.jervlet</package>
     <currentVersion>2.0-SNAPSHOT</currentVersion>
-    <inceptionYear>2003</inceptionYear>
+    <inceptionYear>2005</inceptionYear>
 
-    <shortDescription>
-	  An IoC wrapper for servlet engines
-    </shortDescription>
-
-    <description>
-    </description>
+    <shortDescription>An IoC wrapper for servlet engines</shortDescription>
 
     <versions>
     </versions>
@@ -35,7 +30,7 @@
         </dependency>
         <dependency>
             <id>picocontainer</id>
-            <version>1.2-beta-1</version>
+            <version>1.2-RC-1</version>
             <url>http://www.picocontainer.org/</url>
         </dependency>
 
@@ -74,7 +69,7 @@
 
         <dependency>
             <id>groovy</id>
-            <version>1.0-jsr-03-SNAPSHOT</version>
+            <version>1.0-jsr-03</version>
         </dependency>
         <dependency>
             <id>antlr</id>
@@ -92,9 +87,14 @@
         <dependency>
             <groupId>nanocontainer</groupId>
             <artifactId>nanocontainer</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0-RC-2</version>
         </dependency>
 
+         <dependency>
+            <groupId>httpunit</groupId>
+            <artifactId>httpunit</artifactId>
+            <version>1.6</version>
+         </dependency>
 
     </dependencies>
 
