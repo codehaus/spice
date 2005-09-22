@@ -12,7 +12,12 @@ import org.codehaus.spice.jervlet.Context;
 import org.codehaus.spice.jervlet.ContextHandler;
 import org.codehaus.spice.jervlet.Instantiator;
 import org.codehaus.spice.jervlet.Listener;
-import org.codehaus.spice.jervlet.impl.*;
+import org.codehaus.spice.jervlet.impl.NoopContextMonitor;
+import org.codehaus.spice.jervlet.impl.NoopListenerMonitor;
+import org.codehaus.spice.jervlet.impl.DefaultListener;
+import org.codehaus.spice.jervlet.impl.StandardServletInstantiator;
+import org.codehaus.spice.jervlet.impl.DefaultContext;
+import org.codehaus.spice.jervlet.impl.Pinger;
 import org.codehaus.spice.jervlet.impl.pico.PicoInstantiator;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.defaults.DefaultPicoContainer;
@@ -22,6 +27,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
+import com.meterware.httpunit.WebConversation;
+import com.meterware.httpunit.WebResponse;
+import com.meterware.httpunit.WebRequest;
+import com.meterware.httpunit.GetMethodWebRequest;
+
 /**
  * TestCase for PicoJettyContainer
  *
@@ -30,11 +40,13 @@ import java.util.Properties;
 public class PicoJettyContainerTestCase extends TestCase
 {
     private static final String m_defaultConfiguration =
-      "./testdata/jetty/jetty.xml";
+      "../../testdata/jetty/jetty.xml";
     private static final String m_webapp1 =
-      "../../testdata/webapps/template";
+      "../../testdata/webapps/plain";
     private static final String m_webapp2 =
-      "../../testdata/webapps/template2.war";
+      "../../testdata/webapps/plain.war";
+    private static final String m_webapp3 =
+      "../../testdata/webapps/pico";
 
     private int m_count = 1;
 
@@ -81,6 +93,24 @@ public class PicoJettyContainerTestCase extends TestCase
                                                                null,
                                                                null );
         container.start();
+
+        WebConversation conversation = new WebConversation();
+        WebRequest request = new GetMethodWebRequest( "http://localhost:10080/plain/message.txt" );
+        WebResponse response = conversation.getResponse( request );
+        String responseBody = response.getText();
+        assertEquals(  "plain", responseBody );
+
+        request = new GetMethodWebRequest( "http://localhost:10080/plain/plain-servlet" );
+        response = conversation.getResponse( request );
+        responseBody = response.getText();
+        assertEquals(  "org.codehaus.spice.jervlet.impl.PlainTestServlet", responseBody );
+
+        request = new GetMethodWebRequest( "http://localhost:10080/plain/plain-filter-servlet" );
+        response = conversation.getResponse( request );
+        responseBody = response.getText();
+        assertEquals(  "org.codehaus.spice.jervlet.impl.PlainTestFilter "
+          + "org.codehaus.spice.jervlet.impl.PlainTestServlet", responseBody );
+
         container.stop();
     }
 
@@ -93,36 +123,55 @@ public class PicoJettyContainerTestCase extends TestCase
     public void testProperties() throws Exception
     {
         Properties properties = new Properties();
-        properties.setProperty( "jetty.port", "8421" );
+        properties.setProperty( "jetty.port", "16842" );
 
         DefaultJettyContainerConfiguration configuration =
           new DefaultJettyContainerConfiguration();
-        configuration.setConfiguration( m_defaultConfiguration );
+        configuration.setConfiguration( (new File( m_defaultConfiguration )).toURL() );
         configuration.setProperties( properties );
 
         PicoJettyContainer container = new PicoJettyContainer( configuration,
                                                                new NoopContextMonitor(),
                                                                new NoopListenerMonitor() );
         container.start();
+
+        WebConversation conversation = new WebConversation();
+        WebRequest request = new GetMethodWebRequest( "http://localhost:16842/plain/plain-servlet" );
+        WebResponse response = conversation.getResponse( request );
+        String responseBody = response.getText();
+        assertEquals(  "org.codehaus.spice.jervlet.impl.PlainTestServlet", responseBody );
+
+        request = new GetMethodWebRequest( "http://localhost:16842/plain/message.txt" );
+        response = conversation.getResponse( request );
+        responseBody = response.getText();
+        assertEquals(  "plain", responseBody );
+
+        request = new GetMethodWebRequest( "http://localhost:16842/plain/plain-filter-servlet" );
+        response = conversation.getResponse( request );
+        responseBody = response.getText();
+        assertEquals(  "org.codehaus.spice.jervlet.impl.PlainTestFilter "
+          + "org.codehaus.spice.jervlet.impl.PlainTestServlet", responseBody );
+
         container.stop();
     }
 
     /**
-     * Create an empty container and start, deploy a
-     * webapp and stop. Also test that the context
+     * Create an empty container and start, deploy
+     * and stop some webapps. Also test that the context
      * are added and removed correctly.
      *
      * @throws Exception
      */
     public void testEmptyWithWebapps() throws Exception
     {
-        Context context1 = getStandardContext( m_webapp1 );
-        Context context2 = getStandardContext( m_webapp2 );
 
         PicoJettyContainer container = new PicoJettyContainer( null, null, null );
         container.start();
 
         ContextHandler contextHandler = container.createContextHandler();
+
+        Context context1 = getStandardContext( m_webapp1 );
+        Context context2 = getStandardContext( m_webapp2 );
 
         contextHandler.addContext( context1 );
         contextHandler.addContext( context2 );
@@ -132,6 +181,19 @@ public class PicoJettyContainerTestCase extends TestCase
         contextHandler.startContext( context2 );
         assertTrue( contextHandler.isStarted( context1 ) );
         assertTrue( contextHandler.isStarted( context2 ) );
+
+        Listener listener = new DefaultListener( "localhost", 16842, Listener.HTTP );
+        container.addListener( listener );
+        container.startListener( listener );
+
+        WebConversation conversation = new WebConversation();
+        WebRequest request = new GetMethodWebRequest(
+          "http://localhost:16842/context1/plain-servlet" );
+        WebResponse response = conversation.getResponse( request );
+        String responseBody = response.getText();
+        assertEquals(  "org.codehaus.spice.jervlet.impl.PlainTestServlet", responseBody );
+
+        container.stopListener( listener );
 
         contextHandler.stopContext( context1 );
         assertFalse( contextHandler.isStarted( context1 ) );
@@ -149,32 +211,90 @@ public class PicoJettyContainerTestCase extends TestCase
     }
 
     /**
-     * Test that a pico-servlet component gets instantiated
+     * Test if pico-servlet components gets instantiated
      *
-     * --------------- UNDER CONSTRUCTION! ---------------
-     *
-     * @throws Exception
+     * @throws Exception on all errors
      */
-    public void testEmptyWithPicoInstantiator() throws Exception
+    public void testPicoInstantiator_AJP() throws Exception
     {
         DefaultPicoContainer pico = new DefaultPicoContainer();
-        Context context = getPicoContext( m_webapp1, pico );
+        Pinger pinger = new Pinger();
+        String message = Long.toString( System.currentTimeMillis() );
+        pinger.ping( message );
+        pico.registerComponentInstance( pinger );
+        Context context = getPicoContext( m_webapp3, pico );
 
         PicoJettyContainer container = new PicoJettyContainer( null, null, null );
         container.start();
 
-        Listener listener = new DefaultListener( "localhost", 8421, Listener.HTTP );
+        Listener listener = new DefaultListener( "localhost", 16842, Listener.AJP13 );
         container.addListener( listener );
         container.startListener( listener );
 
         ContextHandler contextHandler = container.createContextHandler();
         contextHandler.addContext( context );
         contextHandler.startContext( context );
+
+        assertEquals( "org.codehaus.spice.jervlet.impl.pico.PicoTestFilter "
+          + message, pinger.getMessages().get( 1 ) );
+        assertEquals( "org.codehaus.spice.jervlet.impl.pico.PicoTestServlet "
+          + message, pinger.getMessages().get( 2 ) );
+
         contextHandler.stopContext( context );
         contextHandler.removeContext( context );
 
         container.stopListener( listener );
         container.stop();
+    }
+
+    /**
+     * Test if pico-servlet components gets instantiated
+     *
+     * @throws Exception on all errors
+     */
+    public void testPicoInstantiator_HTTP() throws Exception
+    {
+        DefaultPicoContainer pico = new DefaultPicoContainer();
+        Pinger pinger = new Pinger();
+        String message = Long.toString( System.currentTimeMillis() );
+        pinger.ping( message );
+        pico.registerComponentInstance(  pinger );
+        Context context = getPicoContext( m_webapp3, pico, "test" );
+
+        PicoJettyContainer container = new PicoJettyContainer();
+        container.start();
+
+        Listener listener = new DefaultListener( "localhost", 16842, Listener.HTTP );
+        container.addListener( listener );
+        container.startListener( listener );
+
+        ContextHandler contextHandler = container.createContextHandler();
+        contextHandler.addContext( context );
+        contextHandler.startContext( context );
+
+        WebConversation conversation = new WebConversation();
+        WebRequest request = new GetMethodWebRequest( "http://localhost:16842/test/pico-servlet" );
+        WebResponse response = conversation.getResponse( request );
+        String responseBody = response.getText();
+
+        assertEquals(  "org.codehaus.spice.jervlet.impl.pico.PicoTestServlet "
+          + message, responseBody );
+
+        conversation = new WebConversation();
+        request = new GetMethodWebRequest( "http://localhost:16842/test/pico-filter-servlet" );
+        response = conversation.getResponse( request );
+        responseBody = response.getText();
+
+        assertEquals(  "org.codehaus.spice.jervlet.impl.pico.PicoTestFilter "
+          + message +  " org.codehaus.spice.jervlet.impl.pico.PicoTestServlet "
+          + message, responseBody );
+
+        container.stop();
+
+        assertEquals( "org.codehaus.spice.jervlet.impl.pico.PicoTestFilter "
+          + message, pinger.getMessages().get( 1 ) );
+        assertEquals( "org.codehaus.spice.jervlet.impl.pico.PicoTestServlet "
+          + message, pinger.getMessages().get( 2 ) );
     }
 
     /**
@@ -200,7 +320,7 @@ public class PicoJettyContainerTestCase extends TestCase
     /**
      * Create a Pico context, using <code>PicoInstantiator</code>.
      *
-     * @param filePath path to the web resource
+     * @param filePath path to the web resource   )
      * @param pico container for this context
      *       (used when instantiation servlets)
      */
@@ -208,7 +328,22 @@ public class PicoJettyContainerTestCase extends TestCase
                                     MutablePicoContainer pico )
         throws MalformedURLException
     {
-        String path = "context" + m_count++;
+        return  getPicoContext( filePath, pico, "context" + m_count++ );
+    }
+
+    /**
+     * Create a Pico context, using <code>PicoInstantiator</code>.
+     *
+     * @param filePath path to the web resource
+     * @param pico container for this context
+     *       (used when instantiation servlets)
+     * @param path the context's path
+     */
+    private Context getPicoContext( String filePath,
+                                    MutablePicoContainer pico,
+                                    String path )
+        throws MalformedURLException
+    {
         String[] virtualHosts = null;
         URL resource = (new File( filePath )).toURL();
         boolean extractWAR = false;

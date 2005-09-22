@@ -18,7 +18,7 @@ import java.util.Properties;
  */
 public class ShieldingJettyContainerTestCase extends TestCase
 {
-    private static final String DEFAULT_CONFIGURATION = "./testdata/jetty/jetty.xml";
+    private static final String DEFAULT_CONFIGURATION = "../../testdata/jetty/jetty.xml";
 
     /**
      * Test a dafault plain Jetty, no conf but with the
