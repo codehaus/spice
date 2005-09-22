@@ -11,21 +11,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: sjoberg
- * Date: 04-Sep-2005
- * Time: 23:50:51
- * To change this template use File | Settings | File Templates.
+ * Pinger class to be used in testcases
+ *
+ * @author Johan Sjoberg
  */
 public class Pinger
 {
+    /** List of messages */
     ArrayList m_messages = new ArrayList();
 
+    /**
+     * Ping
+     *
+     * @param message a message
+     */
     public void ping( String message )
     {
         m_messages.add( message );
     }
 
+    /**
+     * Fetch current ping messages
+     *
+     * @return a list of ping messages
+     */
     public List getMessages()
     {
         return m_messages;
