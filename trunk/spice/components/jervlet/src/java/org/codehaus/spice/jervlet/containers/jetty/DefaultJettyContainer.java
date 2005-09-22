@@ -107,8 +107,12 @@ public class DefaultJettyContainer implements JettyContainer
      */
     public void initialize() throws Exception
     {
-        final Server jettyServer;
         if( null != m_jettyServer )
+        {
+            return;
+        }
+        final Server jettyServer;
+        if( null != m_jettyConfiguration )
         {
             if( m_jettyConfiguration instanceof String )
             {
