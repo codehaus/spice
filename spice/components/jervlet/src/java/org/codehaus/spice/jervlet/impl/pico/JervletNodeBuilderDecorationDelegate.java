@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * @author <a href="mailto:peter.royal@pobox.com">peter royal</a>
  */
-public class JervletNanoContainerBuilderDecorationDelegate extends NullNodeBuilderDecorationDelegate
+public class JervletNodeBuilderDecorationDelegate extends NullNodeBuilderDecorationDelegate
 {
     public Object createNode( Object name, Map attributes, Object parent )
     {
