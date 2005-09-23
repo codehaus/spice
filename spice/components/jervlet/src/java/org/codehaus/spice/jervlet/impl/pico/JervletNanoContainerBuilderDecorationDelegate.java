@@ -10,7 +10,7 @@ package org.codehaus.spice.jervlet.impl.pico;
 import org.codehaus.spice.jervlet.containers.jetty.pico.PicoJettyContainer;
 import org.nanocontainer.NanoContainer;
 import org.nanocontainer.script.NanoContainerMarkupException;
-import org.nanocontainer.script.NullNanoContainerBuilderDecorationDelegate;
+import org.nanocontainer.script.NullNodeBuilderDecorationDelegate;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
 import org.picocontainer.defaults.ComponentParameter;
@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * @author <a href="mailto:peter.royal@pobox.com">peter royal</a>
  */
-public class JervletNanoContainerBuilderDecorationDelegate extends NullNanoContainerBuilderDecorationDelegate
+public class JervletNanoContainerBuilderDecorationDelegate extends NullNodeBuilderDecorationDelegate
 {
     public Object createNode( Object name, Map attributes, Object parent )
     {
