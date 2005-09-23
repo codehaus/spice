@@ -41,11 +41,11 @@ public class PicoJettyContainerTestCase extends TestCase
 {
     private static final String m_defaultConfiguration =
       "../../testdata/jetty/jetty.xml";
-    private static final String m_webapp1 =
+    private static final String m_plainWebapp =
       "../../testdata/webapps/plain";
-    private static final String m_webapp2 =
+    private static final String m_plainWebappWAR =
       "../../testdata/webapps/plain.war";
-    private static final String m_webapp3 =
+    private static final String m_picoWebapp =
       "../../testdata/webapps/pico";
 
     private int m_count = 1;
@@ -170,8 +170,8 @@ public class PicoJettyContainerTestCase extends TestCase
 
         ContextHandler contextHandler = container.createContextHandler();
 
-        Context context1 = getStandardContext( m_webapp1 );
-        Context context2 = getStandardContext( m_webapp2 );
+        Context context1 = getStandardContext( m_plainWebapp );
+        Context context2 = getStandardContext( m_plainWebappWAR );
 
         contextHandler.addContext( context1 );
         contextHandler.addContext( context2 );
@@ -222,7 +222,7 @@ public class PicoJettyContainerTestCase extends TestCase
         String message = Long.toString( System.currentTimeMillis() );
         pinger.ping( message );
         pico.registerComponentInstance( pinger );
-        Context context = getPicoContext( m_webapp3, pico );
+        Context context = getPicoContext( m_picoWebapp, pico );
 
         PicoJettyContainer container = new PicoJettyContainer( null, null, null );
         container.start();
@@ -259,7 +259,7 @@ public class PicoJettyContainerTestCase extends TestCase
         String message = Long.toString( System.currentTimeMillis() );
         pinger.ping( message );
         pico.registerComponentInstance(  pinger );
-        Context context = getPicoContext( m_webapp3, pico, "test" );
+        Context context = getPicoContext( m_picoWebapp, pico, "test" );
 
         PicoJettyContainer container = new PicoJettyContainer();
         container.start();
