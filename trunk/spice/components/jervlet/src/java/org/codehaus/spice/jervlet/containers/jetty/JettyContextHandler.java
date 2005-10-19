@@ -155,6 +155,7 @@ public class JettyContextHandler implements ContextHandler
                 try
                 {
                     webApplicationContext.start();
+                    //TODO: This notification will not be called if Jetty starts the contexts.
                     m_contextMonitor.startContextNotification( this.getClass(), context );
                 }
                 catch( Exception e )
@@ -181,6 +182,7 @@ public class JettyContextHandler implements ContextHandler
                 try
                 {
                     webApplicationContext.stop();
+                    //TODO: This notification will not be called if Jetty stops the contexts.
                     m_contextMonitor.stopContextNotification( this.getClass(), context );
                 }
                 catch( InterruptedException ie )
