@@ -102,10 +102,41 @@ public class DefaultContext implements Context
     }
 
     /**
-     * Fetch the class instantiator.
+     * Fetch the class instantiator
+     *
+     * @return the instantiator for this context
      */
     public Instantiator getInstantiator()
     {
         return m_instantiator;
+    }
+
+    /**
+     * Form a string representation
+     *
+     * @return a string representation of this context
+     */
+    public String toString()
+    {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append( "Path:'" ).append( m_path ).append( "' Resource:" )
+          .append( m_resource == null ? "" : m_resource.toExternalForm() )
+          .append( "' Extract WAR:'").append( m_extractWebArchive )
+          .append( "' Virtual Hosts:'");
+        if( null == m_virtualHosts || m_virtualHosts.length == 0 )
+        {
+            buffer.append( "" );
+        }
+        else
+        {
+            buffer.append( m_virtualHosts[0] );
+            for( int i = 1; i < m_virtualHosts.length; i++ )
+            {
+                buffer.append( ", " ).append( m_virtualHosts[i] );
+            }
+        }
+        buffer.append( "' Instantiator:'" ).append( m_instantiator == null ?
+          "" : m_instantiator.getClass().getName() ).append( "'" );
+        return buffer.toString();
     }
 }
