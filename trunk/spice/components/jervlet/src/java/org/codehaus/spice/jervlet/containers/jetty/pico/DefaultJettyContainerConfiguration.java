@@ -78,14 +78,7 @@ public class DefaultJettyContainerConfiguration
      */
     public void setProperties( final Properties properties )
     {
-        if( null == properties )
-        {
-            m_shieldJetty = false;
-        }
-        else
-        {
-            m_shieldJetty = true;
-        }
+        m_shieldJetty = null != properties;
         m_jettyProperties = properties;
     }
 
