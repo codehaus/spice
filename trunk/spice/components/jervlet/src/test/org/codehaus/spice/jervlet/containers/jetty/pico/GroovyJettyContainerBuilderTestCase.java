@@ -82,7 +82,7 @@ public class GroovyJettyContainerBuilderTestCase extends TestCase
                                           "warPath:'" + m_picoWebapp + "',\n" +
                                           "extractWar:false,\n" +
                                           "instantiator:instantiator,\n" +
-                                          "hosts:'localhost, 127.0.0.1' )\n" +
+                                          "hosts:'0.0.0.0, localhost' )\n" +
           "contextHandler.addContext( context2 )\n" +
 
           "webServer.start()\n" +
