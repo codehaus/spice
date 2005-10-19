@@ -39,7 +39,7 @@ import com.meterware.httpunit.GetMethodWebRequest;
  */
 public class PicoJettyContainerTestCase extends TestCase
 {
-    private static final String m_defaultConfiguration =
+    private static final String m_jettyConfiguration =
       "../../testdata/jetty/jetty.xml";
     private static final String m_plainWebapp =
       "../../testdata/webapps/plain";
@@ -79,8 +79,8 @@ public class PicoJettyContainerTestCase extends TestCase
     }
 
     /**
-     * Create a container with the default configuration file
-     * that comes with Jetty, and start/stop the container.
+     * Create a container with a Jetty configuration file
+     * and start/stop the it.
      *
      * @throws Exception
      */
@@ -88,7 +88,7 @@ public class PicoJettyContainerTestCase extends TestCase
     {
         DefaultJettyContainerConfiguration configuration =
           new DefaultJettyContainerConfiguration();
-        configuration.setConfiguration( m_defaultConfiguration );
+        configuration.setConfiguration( m_jettyConfiguration );
         PicoJettyContainer container = new PicoJettyContainer( configuration,
                                                                null,
                                                                null );
@@ -116,7 +116,7 @@ public class PicoJettyContainerTestCase extends TestCase
 
     /**
      * Create a container with one property (jetty.port) and
-     * start/stop it using the default configuration.
+     * start/stop it using a Jetty configuration file.
      *
      * @throws Exception
      */
@@ -127,7 +127,7 @@ public class PicoJettyContainerTestCase extends TestCase
 
         DefaultJettyContainerConfiguration configuration =
           new DefaultJettyContainerConfiguration();
-        configuration.setConfiguration( (new File( m_defaultConfiguration )).toURL() );
+        configuration.setConfiguration( (new File( m_jettyConfiguration )).toURL() );
         configuration.setProperties( properties );
 
         PicoJettyContainer container = new PicoJettyContainer( configuration,
