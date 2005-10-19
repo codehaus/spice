@@ -56,7 +56,7 @@ public class DefaultJettyContainer implements JettyContainer
     }
 
     /**
-     * Give the component a context monitor. If none is goven, a
+     * Give the component a context monitor. If none is given, a
      * <code>NoopContextMonitor</code> will be used.
      *
      * @param contextMonitor the context monitor
@@ -71,7 +71,7 @@ public class DefaultJettyContainer implements JettyContainer
     }
 
     /**
-     * Give the component a listener monitor. If none is goven, a
+     * Give the component a listener monitor. If none is given, a
      * <code>NoopListenerMonitor</code> will be used.
      *
      * @param listenerMonitor the listener monitor
