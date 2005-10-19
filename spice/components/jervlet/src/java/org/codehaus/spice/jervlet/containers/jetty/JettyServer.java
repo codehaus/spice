@@ -124,7 +124,7 @@ public class JettyServer implements Container, ListenerHandler
      */
     public void setContextMonitor( final ContextMonitor contextMonitor )
     {
-        if( null == m_contextMonitor )
+        if( null == contextMonitor )
         {
             m_contextMonitor = new NoopContextMonitor();
         }
@@ -143,7 +143,7 @@ public class JettyServer implements Container, ListenerHandler
      */
     public void setListenerMonitor( final ListenerMonitor listenerMonitor )
     {
-        if( null == m_listenerMonitor )
+        if( null == listenerMonitor )
         {
             m_listenerMonitor = new NoopListenerMonitor();
         }
