@@ -96,6 +96,7 @@ public class PicoInstantiator implements Instantiator
     {
         MutablePicoContainer picoContainer =
           m_parentContainer.makeChildContainer();
+        picoContainer.registerComponentImplementation( clazz );
         Object object = picoContainer.getComponentInstanceOfType( clazz );
         if( null == object )
         {
