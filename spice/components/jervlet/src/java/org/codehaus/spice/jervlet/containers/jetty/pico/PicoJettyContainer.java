@@ -7,10 +7,17 @@
  */
 package org.codehaus.spice.jervlet.containers.jetty.pico;
 
-import org.codehaus.spice.jervlet.*;
+import org.codehaus.spice.jervlet.Container;
+import org.codehaus.spice.jervlet.ContextHandler;
+import org.codehaus.spice.jervlet.ContextMonitor;
+import org.codehaus.spice.jervlet.Listener;
+import org.codehaus.spice.jervlet.ListenerException;
+import org.codehaus.spice.jervlet.ListenerHandler;
+import org.codehaus.spice.jervlet.ListenerMonitor;
 import org.codehaus.spice.jervlet.containers.jetty.DefaultJettyContainer;
 import org.codehaus.spice.jervlet.containers.jetty.JettyContainer;
 import org.codehaus.spice.jervlet.containers.jetty.ShieldingJettyContainer;
+
 import org.picocontainer.Startable;
 
 import java.io.File;
@@ -33,10 +40,22 @@ public class PicoJettyContainer implements Container, ListenerHandler, Startable
     /** Wrapped Jetty container */
     private JettyContainer m_container;
 
+    /** Optional configuration for the (wrapped) Jetty container */
+    private JettyContainerConfiguration m_configuration;
+
+    /** Optional Context Monitor */
+    private ContextMonitor m_contextMonitor;
+
+    /** Optional Listener Monitor */
+    private ListenerMonitor m_listenerMonitor;
+
+    /** Flag indicating if <code>m_container</code> has been initialized */
+    private boolean m_isInitialized = false;
+
     /**
      * Create a new Pico style JettyContainer will NOOP monitors
      *
-     * todo can these monitors be hooked into pico's {@link org.picocontainer.ComponentMonitor} support?
+     * TODO: Note by Peter R; Can these monitors be hooked into pico's {@link org.picocontainer.ComponentMonitor} support?
      */
     public PicoJettyContainer()
     {
@@ -72,33 +91,73 @@ public class PicoJettyContainer implements Container, ListenerHandler, Startable
                                ListenerMonitor listenerMonitor )
 
     {
-        if( null != configuration && configuration.shieldJetty() )
+        m_configuration = configuration;
+        m_contextMonitor = contextMonitor;
+        m_listenerMonitor = listenerMonitor;
+    }
+
+    /**
+     * Set the configuration. This has no effect if
+     * the container has been started or initialized.
+     *
+     * @param configuration the configuratin or null to clear
+     */
+    public void setConfiguration( JettyContainerConfiguration configuration )
+    {
+        if( !m_isInitialized )
+        {
+            m_configuration = configuration;
+        }
+    }
+
+    /**
+     * Create and initialize the underlaying Jetty container
+     *
+     * @throws RuntimeException on all errors
+     */
+    public void initialize()
+    {
+        if( m_isInitialized )
+        {
+            return;
+        }
+        if( null != m_configuration && m_configuration.shieldJetty() )
         {
             ShieldingJettyContainer shieldingJettyContainer =
               new ShieldingJettyContainer();
             shieldingJettyContainer.addJettyProperties(
-              configuration.getProperties() );
+              m_configuration.getProperties() );
             m_container = shieldingJettyContainer;
         }
         else
         {
             m_container = new DefaultJettyContainer();
         }
-        Object jettyConfiguration = getJettyConfiguration( configuration );
+
+        Object jettyConfiguration = getJettyConfiguration( m_configuration );
         if( null != jettyConfiguration )
         {
             m_container.setJettyConfiguration( jettyConfiguration );
         }
-        if( null != contextMonitor )
+        if( null != m_contextMonitor )
         {
-            m_container.setContextMonitor( contextMonitor );
+            m_container.setContextMonitor( m_contextMonitor );
         }
-        if( null != listenerMonitor )
+        if( null != m_listenerMonitor )
         {
-            m_container.setListenerMonitor( listenerMonitor );
+            m_container.setListenerMonitor( m_listenerMonitor );
         }
-    }
 
+        try
+        {
+            m_container.initialize();
+        }
+        catch( Exception e )
+        {
+            throw new RuntimeException( e );
+        }
+        m_isInitialized = true;
+    }
 
     /**
      * Start the Jetty container
@@ -111,9 +170,9 @@ public class PicoJettyContainer implements Container, ListenerHandler, Startable
      */
     public void start()
     {
+        initialize();
         try
         {
-            m_container.initialize();
             m_container.start();
         }
         catch( Exception e )
