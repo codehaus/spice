@@ -27,6 +27,13 @@ public class DefaultListener implements Listener
     /** Listener type */
     final int m_type;
 
+    /**
+     * Create a new instance
+     *
+     * @param host the host
+     * @param port the port
+     * @param type listener type
+     */
     public DefaultListener( String host, int port, int type )
     {
         m_host = host;
