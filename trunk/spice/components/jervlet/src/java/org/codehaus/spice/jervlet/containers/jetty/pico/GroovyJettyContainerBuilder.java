@@ -57,7 +57,7 @@ public class GroovyJettyContainerBuilder extends BuilderSupport
      * handler using a <code>PicoJettyContainer</code> and deploy contexts
      * directly to it.
      *
-     * TODO: Sould PicoJettyContainer also implement ContextHandler for a default and open ContextHandler?
+     * TODO: Should PicoJettyContainer also implement ContextHandler for a default and open ContextHandler?
      *
      * @param object the parent
      * @param object1 the child
@@ -287,7 +287,6 @@ public class GroovyJettyContainerBuilder extends BuilderSupport
      */
     private Listener getListener( Map map )
     {
-        //System.out.println( "getListener [" + map + "]" );
         if( !map.containsKey( "port" ) || !map.containsKey( "type" ) )
         {
             throw new IllegalArgumentException( "Missing argument. "
@@ -378,7 +377,6 @@ public class GroovyJettyContainerBuilder extends BuilderSupport
         for( int i = 0; i < hosts.length; i++ )
         {
             hosts[i] = hosts[i].trim();
-            System.out.println( hosts[i] );
         }
         return hosts;
     }
