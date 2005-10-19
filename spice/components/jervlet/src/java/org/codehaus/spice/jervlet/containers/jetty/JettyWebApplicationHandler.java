@@ -106,8 +106,8 @@ public class JettyWebApplicationHandler extends WebApplicationHandler
     {
         if( _nameMap.containsKey( name ) )
         {
-            throw new IllegalArgumentException( "Servletname ["
-              + name + "]  exists already." );
+            throw new IllegalArgumentException( "Servlet name ["
+              + name + "]  already exists." );
         }
         else
         {
