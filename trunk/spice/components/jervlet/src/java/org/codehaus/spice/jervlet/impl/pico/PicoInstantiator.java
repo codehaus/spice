@@ -58,7 +58,6 @@ Apache Software Foundation, please see <http://www.apache.org/>.
 package org.codehaus.spice.jervlet.impl.pico;
 
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.ComponentAdapter;
 import org.codehaus.spice.jervlet.Instantiator;
 
 /**

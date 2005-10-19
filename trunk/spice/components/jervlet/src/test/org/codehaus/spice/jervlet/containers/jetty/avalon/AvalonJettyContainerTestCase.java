@@ -22,8 +22,14 @@ import java.util.Enumeration;
  */
 public class AvalonJettyContainerTestCase extends TestCase
 {
-    private static final String m_defaultConfiguration =
+    private static final String m_jettyConfiguration =
       "../../testdata/jetty/jetty.xml";
+    private static final String m_plainWebapp =
+      "../../testdata/webapps/plain";
+    private static final String m_plainWebappWAR =
+      "../../testdata/webapps/plain.war";
+    private static final String m_avalonWebapp =
+      "../../testdata/webapps/avalon";
 
     /**
      * Create an empty container and start/stop it.
@@ -47,7 +53,7 @@ public class AvalonJettyContainerTestCase extends TestCase
     public void testDefaultConfigurationFile() throws Exception
     {
         AvalonJettyContainer container =
-          getContainer( getStringConfiguration( m_defaultConfiguration ) );
+          getContainer( getStringConfiguration( m_jettyConfiguration ) );
         container.start();
         container.stop();
     }
@@ -63,7 +69,7 @@ public class AvalonJettyContainerTestCase extends TestCase
         Properties properties = new Properties();
         properties.setProperty( "jetty.port", "8421" );
         AvalonJettyContainer container =
-          getContainer( getPropertiesConfiguration( m_defaultConfiguration, properties ) );
+          getContainer( getPropertiesConfiguration( m_jettyConfiguration, properties ) );
         container.start();
         container.stop();
     }

@@ -183,9 +183,8 @@ public class ShieldingJettyContainerTestCase extends TestCase
         container.stop();
     }
 
-
     /**
-     * Test if pico-servlet components gets instantiated
+     * Test if pico-servlet components get instantiated
      *
      * @throws Exception on all errors
      */
