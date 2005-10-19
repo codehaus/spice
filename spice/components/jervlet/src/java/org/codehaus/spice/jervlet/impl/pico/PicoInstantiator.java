@@ -58,8 +58,7 @@ Apache Software Foundation, please see <http://www.apache.org/>.
 package org.codehaus.spice.jervlet.impl.pico;
 
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.defaults.DefaultPicoContainer;
-
+import org.picocontainer.ComponentAdapter;
 import org.codehaus.spice.jervlet.Instantiator;
 
 /**
@@ -97,8 +96,13 @@ public class PicoInstantiator implements Instantiator
         throws InstantiationException, IllegalAccessException
     {
         MutablePicoContainer picoContainer =
-          new DefaultPicoContainer( m_parentContainer );
-        picoContainer.registerComponentImplementation( clazz );
-        return picoContainer.getComponentInstance( clazz );
+          m_parentContainer.makeChildContainer();
+        Object object = picoContainer.getComponentInstanceOfType( clazz );
+        if( null == object )
+        {
+            throw new InstantiationException( "Couldn't instantiate class ["
+              + clazz.getName() + "]. Picocontainer returned null." );
+        }
+        return object;
     }
 }
