@@ -149,7 +149,7 @@ public class AvalonContextMonitor implements ContextMonitor, LogEnabled
      */
     public void addContextNotification( Class reportingClass, Context context )
     {
-        final String message = "\"Adding context\" "
+        final String message = "\"Added context\" "
           + getNotification( reportingClass, context );
         m_logger.info( message );
     }
@@ -161,7 +161,7 @@ public class AvalonContextMonitor implements ContextMonitor, LogEnabled
      */
     public void removeContextNotification( Class reportingClass, Context context )
     {
-        final String message = "\"Removing context\" "
+        final String message = "\"Removed context\" "
           + getNotification( reportingClass, context );
         m_logger.info( message );
     }
@@ -173,7 +173,7 @@ public class AvalonContextMonitor implements ContextMonitor, LogEnabled
      */
     public void startContextNotification( Class reportingClass, Context context )
     {
-        final String message = "\"Starting context\" "
+        final String message = "\"Started context\" "
           + getNotification( reportingClass, context );
         m_logger.info( message );
     }
@@ -185,7 +185,7 @@ public class AvalonContextMonitor implements ContextMonitor, LogEnabled
      */
     public void stopContextNotification( Class reportingClass, Context context )
     {
-        final String message = "\"Stopping context\" "
+        final String message = "\"Stopped context\" "
           + getNotification( reportingClass, context );
         m_logger.info( message );
     }
@@ -210,9 +210,7 @@ public class AvalonContextMonitor implements ContextMonitor, LogEnabled
     private void throwContextException( Exception e )
         throws ContextException
     {
-        ContextException contextException =
-          new ContextException( e.getMessage(), e.getCause() );
-        throw contextException;
+        throw new ContextException( e.getMessage(), e.getCause() );
     }
 
     /**
