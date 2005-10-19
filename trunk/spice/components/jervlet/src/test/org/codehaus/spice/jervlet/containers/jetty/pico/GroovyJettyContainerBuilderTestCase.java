@@ -73,8 +73,8 @@ public class GroovyJettyContainerBuilderTestCase extends TestCase
                   "parameter( key:'jetty.port', value:'16842' )\n" +
               "}\n" +
               "listener( port:'16843', type:'http' )\n" +
-              "listener( port:'16844', type:'ajp13' )\n" +
-              "context( webPath:'pico1', warPath:'" + m_picoWebapp + "', extractWar:false, instantiator:instantiator, hosts:'localhost' )\n" +
+              "listener( port:'16844', type:'ajp13', host:'localhost' )\n" +
+              "context( webPath:'pico1', warPath:'" + m_picoWebapp + "', instantiator:instantiator, hosts:'localhost' )\n" +
           "}\n" +
 
           "def contextHandler = webServer.createContextHandler()\n" +
