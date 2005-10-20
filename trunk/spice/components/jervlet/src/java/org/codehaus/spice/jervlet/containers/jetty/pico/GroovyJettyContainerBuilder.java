@@ -145,11 +145,11 @@ public class GroovyJettyContainerBuilder extends BuilderSupport
      * <br/><br/>
      * Possible commands are:
      * <ul>
-     *  <li>picoJettyContainer</li>
-     *  <li>configuration</li>
-     *  <li>parameter</li>
-     *  <li>listener</li>
-     *  <li>context</li>
+     *  <li>picoJettyContainer - create a PicoJettyContainer</li>
+     *  <li>configuration - create a configuration (Jetty's own format)</li>
+     *  <li>parameter - add a parameter to Jetty</li>
+     *  <li>listener - create a listener</li>
+     *  <li>context - create a context</li>
      * </ul>
      *
      * @param object the command
@@ -175,6 +175,21 @@ public class GroovyJettyContainerBuilder extends BuilderSupport
             }
             else if( "listener".equals( command ) )
             {
+                return getListener( map );
+            }
+            else if( "httpListener".equals( command ) )
+            {
+                map.put( "type", "http" );
+                return getListener( map );
+            }
+            else if( "ajp13Listener".equals( command ) )
+            {
+                map.put( "type", "ajp13" );
+                return getListener( map );
+            }
+            else if( "tlsListener".equals( command ) )
+            {
+                map.put( "type", "tls" );
                 return getListener( map );
             }
             else if( "context".equals( command ) )
@@ -298,9 +313,9 @@ public class GroovyJettyContainerBuilder extends BuilderSupport
         {
             type = Listener.HTTP;
         }
-        else if( typeString.equalsIgnoreCase( "tsl") || typeString.equalsIgnoreCase( "ssl" ) )
+        else if( typeString.equalsIgnoreCase( "tls") || typeString.equalsIgnoreCase( "ssl" ) )
         {
-            type = Listener.TSL;
+            type = Listener.TLS;
         }
         else if( typeString.equalsIgnoreCase( "ajp13" ) )
         {

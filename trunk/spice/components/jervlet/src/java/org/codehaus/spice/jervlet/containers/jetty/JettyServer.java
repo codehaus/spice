@@ -259,7 +259,7 @@ public class JettyServer implements Container, ListenerHandler
         {
             case Listener.AJP13: return new AJP13Listener();
             case Listener.HTTP: return new SocketListener();
-            case Listener.TSL: return new SunJsseListener();
+            case Listener.TLS: return new SunJsseListener();
             default:
                 throw new IllegalArgumentException( "Unknown listener type: "
                   + listener.getType() );
@@ -453,7 +453,7 @@ public class JettyServer implements Container, ListenerHandler
         }
         else if( httpListener instanceof SunJsseListener )
         {
-            type = Listener.TSL;
+            type = Listener.TLS;
         }
         else if( httpListener instanceof SocketListener )
         {
