@@ -16,9 +16,9 @@ import org.codehaus.spice.jervlet.ContextHandler;
 import org.codehaus.spice.jervlet.Instantiator;
 
 /**
- * Basic helper class bo be extended by "deployment" compoents.
+ * Basic helper class to be extended by "deployment" compoents.
  * It includes common functionality to set and get resources
- * plus methods to help deploy and undeploy applications.
+ * plus methods to help deployment and undeployment of applications.
  * 
  * @author Johan Sjoberg
  */

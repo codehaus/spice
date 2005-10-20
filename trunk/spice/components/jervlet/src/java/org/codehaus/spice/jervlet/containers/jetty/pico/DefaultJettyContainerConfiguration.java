@@ -87,7 +87,10 @@ public class DefaultJettyContainerConfiguration
      * to configure Jetty, with a String holding the path to
      * Jetty's XML configuration file, a String that IS the
      * XML configuration itself or with a URL also pointing
-     * at the configuration file.
+     * at the configuration file. Note, this configuration
+     * is in Jetty's own format defined by the Jetty project.
+     * Different versions of Jetty might need different types
+     * of configuration files.
      *
      * @param configuration a String, a URL or null to reset
      */

@@ -6,7 +6,7 @@ import org.codehaus.spice.jervlet.Context;
 
 /**
  * Context monitor doing absolutely nothing,
- * but throwing exceptions.
+ * but throwing exceptions when asked to.
  *
  * @author Johan Sjoberg
  */

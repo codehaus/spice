@@ -15,32 +15,74 @@ import org.picocontainer.Startable;
 import java.net.URL;
 
 /**
- * @author <a href="mailto:peter.royal@pobox.com">peter royal</a>
+ * Pico component wrapping a Context.
+ *
+ * @author Peter Royal
+ * @author Johan Sjoberg
  */
 public class PicoContext extends DefaultContext implements Startable
 {
+    /** Context handler */
     private final ContextHandler m_contextHandler;
 
+    /**
+     * Construct a new PicoContext
+     *
+     * @param contextHandler Context Handler to deploy/start/stop/undeploy
+     *        the context with
+     * @param path The web path
+     * @param virtualHosts List of virtual hosts to deploy the
+     *        contest to (optional), set to null for all hosts
+     * @param resource Application resource, meaning a pointer
+     *        to the web archive
+     * @param extractWar If the resource points at a .war file,
+     *        should it be exploded
+     * @param instantiator The instantiator reponsible for creating
+     *        new servlet or filter classes
+     */
     public PicoContext( ContextHandler contextHandler,
-                        String context,
+                        String path,
+                        String[] virtualHosts,
+                        URL resource,
+                        boolean extractWar,
+                        Instantiator instantiator )
+    {
+        super(path, virtualHosts, resource, extractWar, instantiator);
+        m_contextHandler = contextHandler;
+    }
+
+    /**
+     * Construct a new PicoContext
+     *
+     * @param contextHandler Context Handler to deploy/start/stop/undeploy
+     *        the context with
+     * @param path The web path
+     * @param resource Application resource, meaning a pointer
+     *        to the web archive
+     * @param instantiator The instantiator reponsible for creating
+     *        new servlet or filter classes
+     */
+    public PicoContext( ContextHandler contextHandler,
+                        String path,
                         URL resource,
                         Instantiator instantiator )
     {
-        super(context, null, resource, false, instantiator);
-
+        super(path, null, resource, false, instantiator);
         m_contextHandler = contextHandler;
-
-        System.out.println( "Created Context - " + this );
     }
 
+    /**
+     * Deploy and start the context
+     */
     public void start()
     {
-        System.out.println( "Starting Context - " + this );
-
         m_contextHandler.addContext( this );
         m_contextHandler.startContext( this );
     }
 
+    /**
+     * Undeploy and stop the context
+     */
     public void stop()
     {
         m_contextHandler.stopContext( this );
