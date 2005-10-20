@@ -35,7 +35,7 @@ import org.mortbay.jetty.Server;
  * many situations. Some functions of the Jetty server can be
  * parametrized through System parameters, but for most cases where
  * more advanced setups are needed it is best to feed the Constructor
- * an already configurated Jetty Server and use this class for
+ * an already configured Jetty Server and use this class for
  * deploying web applications. Note, this class is not intended
  * to be used as a component, but rather be used as a tool by
  * compnents.
@@ -93,8 +93,8 @@ public class JettyServer implements Container, ListenerHandler
      * Set the Jetty server. It can only be set once. Still a server
      * must be set before the class will work, either in the
      * constructor or here. <code>null</code> is an accepted value,
-     * and if given a new empty Server an unconfigured instance will
-     * be created.
+     * and if given, a new empty and unconfigured <code>Server</code>
+     * instance will be created.
      *
      * @param jettyServer a jetty Server instance, or null. If
      *        <code>null</code> is given a new unconfigured intance
@@ -118,7 +118,8 @@ public class JettyServer implements Container, ListenerHandler
     /**
      * Set the context monitor. A context monitor must be set before
      * the class will work, and can be set anytime again while the
-     * system is running.
+     * system is running. Null is an accepted value and will result
+     * in no monitor events.
      *
      * @param contextMonitor the context monitor, or null for NoOp
      */
@@ -137,7 +138,8 @@ public class JettyServer implements Container, ListenerHandler
     /**
      * Set the listener monitor. A listener monitor must be set
      * before the class will work, and can be set anytime again while
-     * the system is running.
+     * the system is running. Null is an accepted value and will result
+     * in no monitor events.
      *
      * @param listenerMonitor the listener monitor, or null for NoOp
      */

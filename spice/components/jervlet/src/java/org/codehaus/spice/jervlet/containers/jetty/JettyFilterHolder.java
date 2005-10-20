@@ -55,7 +55,7 @@ import org.mortbay.jetty.servlet.WebApplicationHandler;
 import org.codehaus.spice.jervlet.Instantiator;
 
 /**
- * Override for Jetty's FilterHolder allow custom
+ * Override for Jetty's FilterHolder to allow custom
  * filter handling.
  *
  * @author Paul Hammant

@@ -25,7 +25,7 @@ import org.codehaus.spice.jervlet.tools.isolate.SysPropertiesRedirector;
  * configuration or with an URL. This component can also let you set
  * system properties affecting <b>only this</b> instance of Jetty.
  * This means no real system properties are used, but Jetty will
- * believe so. Some of Jettys low level behavior can only be changed
+ * believe so. Some of Jetty's low level behavior can only be changed
  * like this. If you need to configure the Jetty Server with the
  * default configuration, you will probably want to at least set
  * <code>jetty.home</code> and such parameters. It is highly

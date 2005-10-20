@@ -149,6 +149,9 @@ public class GroovyJettyContainerBuilder extends BuilderSupport
      *  <li>configuration - create a configuration (Jetty's own format)</li>
      *  <li>parameter - add a parameter to Jetty</li>
      *  <li>listener - create a listener</li>
+     *  <li>httpListener - create an HTTP listener</li>
+     *  <li>ajp13Listener - create an AJP 1.3 listener</li>
+     *  <li>tlsListener - create an SSL/TLS listener</li>
      *  <li>context - create a context</li>
      * </ul>
      *
