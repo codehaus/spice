@@ -40,12 +40,63 @@ public class GroovyJettyContainerBuilderTestCase extends TestCase
       "../../testdata/webapps/pico";
 
     /**
+     * A simple test
+     *
+     * @throws CompilationFailedException if the groovy script couldn't be compiled
+     */
+    public void testSimple() throws CompilationFailedException
+    {
+        System.out.println( "\n----- testSimple() -----\n" );
+        final Reader script = new StringReader(
+          "package org.codehaus.spice.jervlet.containers.jetty.pico\n" +
+          "import org.picocontainer.defaults.DefaultPicoContainer\n" +
+          "import org.codehaus.spice.jervlet.containers.jetty.pico.GroovyJettyContainerBuilder\n" +
+          "import org.codehaus.spice.jervlet.containers.jetty.pico.PicoJettyContainer\n" +
+          "import org.codehaus.spice.jervlet.impl.pico.PicoInstantiator\n" +
+          "import org.codehaus.spice.jervlet.impl.StandardServletInstantiator\n" +
+          "import org.codehaus.spice.jervlet.impl.Pinger\n" +
+
+          "def pico = new DefaultPicoContainer()\n" +
+          "def pinger = new Pinger()\n" +
+          "pinger.ping( '' +  System.currentTimeMillis() )\n" +
+          "pico.registerComponentInstance( pinger )\n" +
+
+          "def builder = new GroovyJettyContainerBuilder()\n" +
+          "def instantiator = new PicoInstantiator( pico )\n" +
+          "def webServer = builder.picoJettyContainer()\n" +
+          "{\n" +
+              "httpListener( port:'16842' )\n" +
+
+              "context( webPath:'pico',\n" +
+                       "warPath:'" + m_picoWebapp + "',\n" +
+                       "instantiator:instantiator )\n" +
+
+              "context( webPath:'plain',\n" +
+                       "warPath:'" + m_plainWebapp + "',\n" +
+                       "instantiator: new StandardServletInstantiator() )\n" +
+          "}\n" +
+
+          "webServer.start()\n" +
+          "webServer.stop()" );
+
+        doGroovy( new InputStream()
+                      {
+                          public int read() throws IOException
+                          {
+                             return script.read();
+                          }
+                      } );
+        assertEquals( "", "" );
+    }
+
+    /**
      * Test various parts of <code>GroovyJettyContainerBuilder</code>
      *
      * @throws CompilationFailedException if the groovy script couldn't be compiled
      */
     public void testContainerBuilder() throws CompilationFailedException
     {
+        System.out.println( "\n----- testContainerBuilder() -----\n" );
         final Reader script = new StringReader(
           "package org.codehaus.spice.jervlet.containers.jetty.pico\n" +
           "import org.picocontainer.defaults.DefaultPicoContainer\n" +
