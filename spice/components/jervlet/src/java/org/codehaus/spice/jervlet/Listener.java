@@ -23,8 +23,8 @@ public interface Listener
     /** HTTP listener */
     static final int HTTP = 1;
 
-    /** SSL and TSL listener */
-    static final int TSL = 2;
+    /** SSL and TLS listener */
+    static final int TLS = 2;
 
     /** AJP 1.3 listener */
     static final int AJP13 = 3;
