@@ -47,7 +47,7 @@ public interface Listener
     /**
      *  Fetch the connection type.
      *
-     * @return The type id if this connection.
+     * @return The type id of this connection.
      */
     int getType();
 }

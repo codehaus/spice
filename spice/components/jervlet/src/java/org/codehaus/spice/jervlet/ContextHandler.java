@@ -53,16 +53,16 @@ public interface ContextHandler
     void stopContext( Context context ) throws ContextException;
 
     /**
-     * List the <code>Context</code>s that this <code>ContextHandler</code>
-     * can manage.
+     * List the <code>Context</code>s this <code>ContextHandler</code>
+     * manages.
      *
-     * @return A new list of contexts holding all JervletContexts
+     * @return A new list of Contexts
      */
     List getContexts();
 
     /**
-     * Check if <code>Context</context> owned by this handler
-     * is started on not.
+     * Check if a <code>Context</code> is started on not. The given
+     * context must be managed by the asked context handler.
      *
      * @param context The context to check
      * @return true if the given context is started, else false

@@ -26,7 +26,7 @@ public interface Instantiator
     /**
      * Instantiate a servlet or filter class.
      *
-     * @param clazz The servlet of filter class to instantiate
+     * @param clazz The servlet or filter class to instantiate
      * @return The instatiated class
      * @throws InstantiationException
      * @throws IllegalAccessException

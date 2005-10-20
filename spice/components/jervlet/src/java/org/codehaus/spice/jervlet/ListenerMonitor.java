@@ -62,7 +62,7 @@ public interface ListenerMonitor
     void removeListenerWarning( Class reportingClass, Listener listener, String message );
 
     /**
-     * Report that a listener has been added
+     * Report that a listener was added
      *
      * @param reportingClass The class reporting the listener start event
      * @param listener The listener that was started
@@ -70,7 +70,7 @@ public interface ListenerMonitor
     void addListenerNotification( Class reportingClass, Listener listener );
 
     /**
-     * Report that a listner has been removed
+     * Report that a listner was removed
      *
      * @param reportingClass  The class reporting the listener stop event
      * @param listener The listener that was stopped
@@ -120,7 +120,7 @@ public interface ListenerMonitor
     void stopListenerWarning( Class reportingClass, Listener listener, String message );
 
     /**
-     * Report that a listener has been started
+     * Report that a listener was started
      *
      * @param reportingClass The class reporting the listener start event
      * @param listener The listener that was started
@@ -128,7 +128,7 @@ public interface ListenerMonitor
     void startListenerNotification( Class reportingClass, Listener listener );
 
     /**
-     * Report that a listner has been stopped
+     * Report that a listner was stopped
      *
      * @param reportingClass  The class reporting the listener stop event
      * @param listener The listener that was stopped
