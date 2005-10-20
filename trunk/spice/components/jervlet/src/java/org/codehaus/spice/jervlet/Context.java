@@ -13,6 +13,9 @@ import java.net.URL;
  * The <code>Context</code> interface represents a web context. A web
  * context holds information about a web application. This includes
  * e.g. the path, possible virtual hosts and a pointer to the resource.
+ * In Jervlet, contexts also hold a reference to an
+ * <code>Instantiator</code>. The instantiator is used to create new
+ * instances of servlets or servlet filters.
  *
  * @author Johan Sjoberg
  * @author Peter Royal
@@ -31,10 +34,10 @@ public interface Context
 
     /**
      * Fetch possible virtual hosts defined for this context. As
-     * virtual hosts are optional for web contexts the returned list
-     * can be empty.
+     * virtual hosts are optional for web contexts the returned
+     * array can be empty or null.
      *
-     * @return A new list of the virtual hosts for this context.
+     * @return An array of virtual hosts for this context, or null.
      */
     String[] getVirtualHosts();
 
@@ -48,15 +51,15 @@ public interface Context
     URL getResource();
 
     /**
-     * If the resource is a Web Archive, should it be extracted?
+     * If the resource is a WAR file, should it be extracted?
      *
-     * @return true if the Container should extract the resource, else false
+     * @return true if the container should extract the resource, else false
      */
     boolean extractWebArchive();
 
     /**
      * Fetch the <code>Instantiator</code> that should be used to instantiate
-     * the servlet classes in this context.
+     * the servlet and filter classes in this context.
      *
      * @return A reference to this context's instantiator implementation.
      */

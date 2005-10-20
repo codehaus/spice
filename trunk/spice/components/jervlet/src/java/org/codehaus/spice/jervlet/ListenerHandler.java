@@ -42,14 +42,14 @@ public interface ListenerHandler
 
     /**
      * Fetch a list of all current <code>Listener</code>s. If there are
-     * no listener the returned list can be empty.
+     * no listeners the returned list can be empty, but not null.
      *
-     * @return All new list all current listeners.
+     * @return All current listeners.
      */
     List getListeners();
 
     /**
-     * Check if a <code>Listener</code> is started or not.
+     * Check if a <code>Listener</code> is started.
      *
      * @param listener The listener
      * @return True if the listener is started, else false.
