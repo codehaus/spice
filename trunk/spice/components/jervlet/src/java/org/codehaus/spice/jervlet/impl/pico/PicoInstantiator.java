@@ -61,9 +61,14 @@ import org.picocontainer.MutablePicoContainer;
 import org.codehaus.spice.jervlet.Instantiator;
 
 /**
- * Instantiator for Pico style servlet/filter components. Note, these
- * slightly break the servlet specification by unsing a non empty
- * constructor.
+ * Instantiator for Pico style servlet/filter components.
+ * <br/><br/>
+ * Picocomponents as servlets slightly break the servlet
+ * specification by unsing a non empty constructor. Note
+ * that this instantiator only instantiates the classes.
+ * No lifecycle is supported. Each class will be put in a
+ * new child container to the <code>MutablePicoContainer</code>
+ * the <code>PicoInstantiator<code> got in its constructor.
  *
  * @author Paul Hammant
  * @author Johan Sjoberg
@@ -74,9 +79,10 @@ public class PicoInstantiator implements Instantiator
     private final MutablePicoContainer m_parentContainer;
 
    /**
-    * Create a new instance.
+    * Create a new PicoInstantiator instance.
     * 
-    * @param mutablePicoContainer The parent container
+    * @param mutablePicoContainer The parent container to all
+    *        new containers created by this instantiator
     */
    public PicoInstantiator( MutablePicoContainer mutablePicoContainer )
    {
