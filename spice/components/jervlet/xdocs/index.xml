@@ -3,11 +3,28 @@
     <properties>
         <title>Overview</title>
         <author>Johan Sjoberg</author>
+        <author>Peter Royal</author>
     </properties>
     <body>
         <section name="Introduction">
-            <p>Jervlet is a component wrapper for servlet engines. Currently
-     Jetty is supported.
+            <p>
+                Jervlet is a component wrapper for servlet containers. It allows you to treat your
+                favorite servlet engine as a component in your container of choice, as well as treat
+                your servlets as components too.
+            </p>
+            <p>
+                Jervlet currently supports the Jetty servlet container, and provides integration
+                with Avalon, DNA and Picocontainer frameworks. The architecture follows the
+                Inversion of Control (IoC) pattern and allows easy extension and adaptability to
+                other frameworks.
+            </p>
+            <p>
+                Jervlet's target audience is developers that want to simplify the integration of
+                servlets into their systems, and allow servlets to participate in the dependency
+                resolution and lifecycle that your component framework provides.
+            </p>
+            <p>
+                Jervlet is licensed under a business-friendly BSD style license.
             </p>
         </section>
     </body>
