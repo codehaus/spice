@@ -1,6 +1,0 @@
-RedirectMatch ^/classman(.*) http://spice.codehaus.org/deprecated.html
-RedirectMatch ^/cli(.*) http://spice.codehaus.org/deprecated.html
-RedirectMatch ^/converter(.*) http://spice.codehaus.org/deprecated.html
-RedirectMatch ^/extension(.*) http://spice.codehaus.org/deprecated.html
-RedirectMatch ^/xmlpolicy(.*) http://spice.codehaus.org/deprecated.html
-
