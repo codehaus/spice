@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<document>
+  <properties>
+    <title>Changes</title>
+  </properties>
+  <body>
+
+    <release version="1.2" date="2006-01-14" description="Fixes">
+      <action dev="tanderson" type="fix" issue="SPICE-47">
+        Fixed subcontext handling.
+      </action>              
+    </release>
+  </body>
+</document>

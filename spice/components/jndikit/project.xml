@@ -14,6 +14,14 @@
      and RMI-based contexts.
     </description>
 
+    <versions>
+        <version>
+            <id>1.2</id>
+            <name>1.2</name>
+            <tag>JNDIKIT_1_2</tag>
+        </version>
+    </versions>
+
     <developers>
         <developer>
             <name>Peter Donald</name>
